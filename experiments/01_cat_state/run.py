@@ -27,7 +27,9 @@ cat = CatState(alpha=ALPHA, parity=+1)
 data = cat.sample_homodyne(ANGLES, SHOTS, rng=42)
 print(f"generated {len(ANGLES)} angles x {SHOTS} shots")
 
-mix = fit(data, K=K, iters=600, seed=0,
+# past ~700 iters the fit starts tracking histogram shot noise and the
+# Wigner-grid L2 degrades, so stop inside the 640-700 plateau
+mix = fit(data, K=K, iters=680, seed=0,
           callback=lambda t, l: print(f"  iter {t:4d}  loss {l:.3e}"))
 
 # --- report ---
