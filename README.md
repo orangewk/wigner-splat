@@ -37,9 +37,11 @@ Wigner 負性表現([Kenfack et al. 2004](https://arxiv.org/abs/physics/0304029)
 wigner_splat/
   states.py    # 参照状態(猫状態): Wigner 関数・homodyne 分布・サンプラー
   forward.py   # 符号付きガウス混合の Radon 投影(閉形式)= 微分可能フォワードモデル
-  fit.py       # v0 再構成器: ヒストグラム損失 + 負性ペナルティ + Adam(解析勾配)
+  fit.py       # 再構成器: ヒストグラム損失 + 負性ペナルティ + Adam(解析勾配)
+               #   + densification(勾配ノルム分裂・剪定・重み勾配場による符号付き誕生)
 experiments/
-  01_cat_state/  # 最初の実験: 猫状態のシミュレーション再構成
+  01_cat_state/       # 最初の実験: 猫状態のシミュレーション再構成(固定 K=8)
+  02_densification/   # K=4 から適応成長させる再構成(固定 K=8 を上回る)
 tests/           # フォワードモデルと物理の整合性テスト
 docs/
   prior-art-survey.md  # 先行研究サーベイ(2026-07-06)
@@ -60,7 +62,10 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
 - [x] v0 フィッタ(固定 K、数値勾配+Adam、負性ペナルティ)
 - [x] 猫状態(α=1.5)で Wigner 負性の回復を確認(min −0.194 vs 真値 −0.190、相対L2 13%)
 - [x] 解析勾配化(閉形式チェインルール。実験 01 が ~29s → ~1.6s、相対L2 12.5%、負性回復を維持)
-- [ ] densification / pruning(勾配ノルム駆動の分裂・剪定)
+- [x] densification / pruning(勾配ノルム分裂・剪定 + **重み勾配場による符号付き誕生**。
+      K=4→9 で相対L2 7.1%、固定 K=8 の 12.5% を上回る。分裂だけでは全正の局所解から
+      負性が生まれない → 仮想スプラットの重み勾配 ∂L/∂w(μ)(=残差の逆投影)の極値に
+      降下方向の符号で新スプラットを誕生させることで解決)
 - [ ] 検出効率・ガウスノイズのモデル化(Bernoulli 損失 → 一般化)
 - [ ] iterative MLE ベースラインとの比較(fidelity / ショット数効率 / 実行時間)
 - [ ] 物理制約(正定値性)の厳密な扱い — Kenfack 型の閉形式制約 vs ペナルティ
