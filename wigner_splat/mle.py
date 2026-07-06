@@ -48,7 +48,17 @@ def mle_reconstruct(centers, targets, n_max=20, max_iters=2000, tol=1e-10,
         rho /= np.real(np.trace(rho))
         if callback and it % 50 == 0:
             callback(it, ll)
-        if ll - prev_ll < tol * max(1.0, abs(ll)) and it > 10:
-            return rho, it
+        if it > 10:
+            delta = ll - prev_ll
+            scale = max(1.0, abs(ll))
+            # R rho R ascends the likelihood monotonically; a real decrease
+            # means broken operators or truncation, not convergence
+            if delta < -100 * tol * scale:
+                raise RuntimeError(
+                    f"R rho R likelihood decreased at iteration {it} "
+                    f"(delta={delta:.3e}); monotonic ascent violated"
+                )
+            if abs(delta) < tol * scale:
+                return rho, it
         prev_ll = ll
     return rho, max_iters
