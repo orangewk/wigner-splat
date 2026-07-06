@@ -155,3 +155,47 @@ def test_densified_fit_from_small_K_recovers_negativity():
     l2 = np.sqrt(np.mean((w_true - w_fit) ** 2)) / np.sqrt(np.mean(w_true ** 2))
     assert l2 <= 0.13
     assert w_fit.min() < -0.1  # true minimum is -0.19
+
+
+def test_fock_module_matches_reference_state():
+    """Fock-basis cat (density matrix) must reproduce states.py closed forms:
+    homodyne pdf at several angles and the Wigner function on a grid."""
+    from wigner_splat.fock import cat_fock, marginal_from_rho, wigner_from_rho
+
+    cat = CatState(alpha=1.5, parity=+1)
+    c = cat_fock(1.5, +1, n_max=30)
+    rho = np.outer(c, c.conj())
+    xs = np.linspace(-6, 6, 121)
+    for theta in [0.0, 0.7, np.pi / 2]:
+        np.testing.assert_allclose(
+            marginal_from_rho(rho, xs, theta), cat.homodyne_pdf(xs, theta), atol=1e-9
+        )
+    g = np.linspace(-4, 4, 41)
+    X, P = np.meshgrid(g, g)
+    np.testing.assert_allclose(wigner_from_rho(rho, X, P), cat.wigner(X, P), atol=1e-9)
+
+
+def test_wigner_overlap_matches_analytic_fidelity():
+    from wigner_splat.fock import wigner_overlap
+
+    a = 1.5
+    cat = CatState(alpha=a, parity=+1)
+    xs = np.linspace(-6, 6, 301)
+    X, P = np.meshgrid(xs, xs)
+    vac = SplatMixture(w=[1.0], mu=[[0, 0]], s=[[np.log(np.sqrt(0.5))] * 2], phi=[0.0])
+    overlap = wigner_overlap(vac.wigner(X, P), cat.wigner(X, P), xs)
+    exact = (np.exp(-a ** 2 / 2) * 2) ** 2 / (2 * (1 + np.exp(-2 * a ** 2)))
+    assert overlap == pytest.approx(exact, abs=1e-9)
+
+
+def test_mle_recovers_cat():
+    from wigner_splat.fit import histogram_targets
+    from wigner_splat.fock import cat_fock, fidelity_pure
+    from wigner_splat.mle import mle_reconstruct
+
+    cat = CatState(alpha=1.5, parity=+1)
+    data = cat.sample_homodyne(np.linspace(0, np.pi, 12, endpoint=False), 4000, rng=42)
+    centers, targets = histogram_targets(data)
+    rho, iters = mle_reconstruct(centers, targets, n_max=20)
+    assert fidelity_pure(cat_fock(1.5, +1, 20), rho) > 0.97
+    assert iters < 2000  # converged, did not hit the cap
