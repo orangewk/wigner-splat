@@ -55,3 +55,30 @@ def test_cat_state_is_representable_by_signed_splats():
     p = np.linspace(-3, 3, 601)
     w = cat.wigner(np.zeros_like(p), p)
     assert w.min() < -1e-3  # nonclassicality is present in the target
+
+
+def test_analytic_gradient_matches_central_difference():
+    """loss_and_grad must agree with central differences on the same loss."""
+    from wigner_splat.fit import _pack, _unpack, histogram_targets, loss, loss_and_grad
+
+    cat = CatState(alpha=1.5, parity=+1)
+    data = cat.sample_homodyne(np.linspace(0, np.pi, 5, endpoint=False), 500, rng=7)
+    centers, targets = histogram_targets(data, bins=40)
+    K = 4
+    mix = SplatMixture.random_init(K, rng=3)
+    mix.w += np.linspace(-0.3, 0.3, K)  # break symmetry, include negative weight
+    v = _pack(mix)
+
+    _, grad = loss_and_grad(_unpack(v, K), centers, targets)
+
+    eps = 1e-6
+    numeric = np.empty_like(v)
+    for i in range(len(v)):
+        vp, vm = v.copy(), v.copy()
+        vp[i] += eps
+        vm[i] -= eps
+        numeric[i] = (
+            loss(_unpack(vp, K), centers, targets)
+            - loss(_unpack(vm, K), centers, targets)
+        ) / (2 * eps)
+    np.testing.assert_allclose(grad, numeric, rtol=1e-5, atol=1e-7)

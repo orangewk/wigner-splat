@@ -59,7 +59,7 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
 - [x] 符号付きガウス混合の閉形式 Radon フォワードモデル
 - [x] v0 フィッタ(固定 K、数値勾配+Adam、負性ペナルティ)
 - [x] 猫状態(α=1.5)で Wigner 負性の回復を確認(min −0.194 vs 真値 −0.190、相対L2 13%)
-- [ ] 解析勾配化(閉形式なので straightforward)
+- [x] 解析勾配化(閉形式チェインルール。実験 01 が ~29s → ~1.6s、相対L2 12.5%、負性回復を維持)
 - [ ] densification / pruning(勾配ノルム駆動の分裂・剪定)
 - [ ] 検出効率・ガウスノイズのモデル化(Bernoulli 損失 → 一般化)
 - [ ] iterative MLE ベースラインとの比較(fidelity / ショット数効率 / 実行時間)
