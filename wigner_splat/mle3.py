@@ -34,7 +34,9 @@ Differences from mle2.mle2_reconstruct (all documented, deliberate):
   library committing to one cadence. elapsed_s is measured from the start of
   the iteration loop, i.e. it EXCLUDES the one-off V build.
 * Memory-aware V assembly: the concatenated measurement matrix V is
-  (M, n_max**3) complex128 -- ~0.4 GB at n_max=8, ~0.8 GB at n_max=10. It is
+  (M, n_max**3) complex128. At the official budget (27 triples x 2000 shots,
+  bins=24) only ~656 cells/triple are nonzero, so M ~ 17.7k and V is ~0.15 GB
+  at n_max=8, ~0.28 GB at n_max=10 -- denser data scales this linearly. It is
   built per-triple and concatenated only if the estimate (plus one working copy
   for V.conj() @ rho) fits comfortably in RAM; otherwise the per-triple blocks
   are kept in a list and p / R are accumulated block by block. Either way the

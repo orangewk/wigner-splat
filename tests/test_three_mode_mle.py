@@ -130,10 +130,15 @@ def test_mle3_recovery_within_budget():
     """Recovery under a 15-minute soft wall budget (SLOW). Prints the fidelity
     trajectory, iterations, converged flag, and time -- the scientific output.
 
-    At n_max=8 (~0.7 s/iter) the official problem converges inside the budget in
-    the same 400-700 iteration band as the two-mode MLE, so the guard here is a
-    genuine floor the run clears (fidelity above 0.5, monotone loglik), not a
-    tight fidelity bar. Ceiling at n_max=8 is 0.99321. (~5-8 min)
+    Measured on the dev box (~0.9 s/iter): the run does NOT converge inside the
+    budget -- it returns at ~935 iterations with converged=False and F ~ 0.70
+    against the 0.99321 ceiling. The loglik plateaus within ~40 iterations while
+    the fidelity keeps creeping (0.49 at it=20, 0.70 at it=920): with only
+    M ~ 17.7k measurement rows against 512**2 density-matrix parameters the
+    problem is badly underdetermined and the R rho R fixed point drifts slowly
+    along near-flat likelihood directions. That DNF trajectory is the
+    deliverable; the asserts are floors the run genuinely clears (fidelity
+    above 0.5, monotone loglik), not a tight fidelity bar. (~15 min)
     """
     alpha, n_max = 1.5, 8
     centers, targets = _official_problem(n_max)
