@@ -1,0 +1,27 @@
+================================================================================================
+EXPERIMENT 06 -- three-mode final verdict of the scaling campaign
+================================================================================================
+three-mode cat |a,a,a>+parity|-a,-a,-a>  alpha=1.5 parity=+1
+official budget: 27 triples (3x3x3 over [0,pi)^3), 2000 shots/triple, bins=24
+splat fit3f: seeds [42, 1, 2] (deterministic ~15 s each)
+MLE mle3: seed 42 ONLY, n_max=8 (512 dims), 900 s soft wall  (budget dictates single-seed)
+MLE truncation ceiling (Fock n_max=8): 0.993214
+BLAS threads pinned to 1 (OMP/OPENBLAS/MKL/NUMEXPR) -- faster here than multithreaded
+
+[validate] Wigner-slice helper vs states3.ThreeModeCat.wigner (faithful n_max=12 rho): allclose(atol=1e-4) = True  (max |dev| = 4.42e-05)
+
+[splat seed=42] sampling 27 triples x 2000 shots ...
+[splat seed=42] fitting fit3f (bins=24) ...
+[splat seed=42] F=0.7562  wall=15.5s  K=16  Wmin=-0.0150
+
+[splat seed=1] sampling 27 triples x 2000 shots ...
+[splat seed=1] fitting fit3f (bins=24) ...
+[splat seed=1] F=0.7414  wall=15.6s  K=18  Wmin=-0.0142
+
+[splat seed=2] sampling 27 triples x 2000 shots ...
+[splat seed=2] fitting fit3f (bins=24) ...
+[splat seed=2] F=0.6237  wall=15.3s  K=15  Wmin=-0.0099
+
+[MLE seed=42] sampling + binning (same data rule) ...
+[MLE seed=42] running mle3_reconstruct (n_max=8, budget=900s) ...
+[MLE]  it=   1  ll=-8.36260  F=0.09393  elapsed=   1.8s  (1.806 s/it)
