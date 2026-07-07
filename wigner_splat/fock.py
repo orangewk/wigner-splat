@@ -153,3 +153,48 @@ def cat2_truncation_fidelity(alpha, parity=+1, n_max=12):
     C = np.outer(cp, cp) + parity * np.outer(cm, cm)
     full_norm2 = 2 * (1 + parity * np.exp(-4 * alpha ** 2))
     return float(np.sum(np.abs(C) ** 2) / full_norm2)
+
+
+def cat3_fock(alpha, parity=+1, n_max=8):
+    """Normalized product-Fock coefficients of the three-mode entangled cat.
+
+    |a, a, a> + parity |-a, -a, -a| (real alpha) in the product basis
+    |m>|n>|q>, returned as a FLAT vector of length n_max**3 with index
+    (m*n_max + n)*n_max + q:
+
+        c_{mnq} proportional to (c_+)_m (c_+)_n (c_+)_q
+                              + parity (c_-)_m (c_-)_n (c_-)_q,
+
+    where c_+ = <.|alpha> and c_- = <.|-alpha> = (-1)^. c_+ are the 1D
+    coherent coefficients. Follows the cat2_fock pattern exactly.
+    """
+    cp = _coherent_coeffs(alpha, n_max)
+    cm = cp * (-1.0) ** np.arange(n_max)
+    C = (
+        cp[:, None, None] * cp[None, :, None] * cp[None, None, :]
+        + parity * cm[:, None, None] * cm[None, :, None] * cm[None, None, :]
+    )
+    C = C / np.linalg.norm(C)
+    return C.reshape(-1)
+
+
+def cat3_truncation_fidelity(alpha, parity=+1, n_max=8):
+    """Fidelity of the exact three-mode cat with its Fock truncation at n_max.
+
+    This is the MLE ceiling: no density matrix on the n_max**3 product basis
+    can exceed it. Equals the fraction of the exact (unnormalized) coefficient
+    norm retained by the truncation,
+
+        ||C_trunc||^2 / (2 (1 + parity e^{-6 a^2})),
+
+    since the exact single-mode coherent norm is 1 and <alpha|-alpha> =
+    e^{-2 a^2}, giving the full norm 2(1 + parity e^{-6 a^2}).
+    """
+    cp = _coherent_coeffs(alpha, n_max)
+    cm = cp * (-1.0) ** np.arange(n_max)
+    C = (
+        cp[:, None, None] * cp[None, :, None] * cp[None, None, :]
+        + parity * cm[:, None, None] * cm[None, :, None] * cm[None, None, :]
+    )
+    full_norm2 = 2 * (1 + parity * np.exp(-6 * alpha ** 2))
+    return float(np.sum(np.abs(C) ** 2) / full_norm2)
