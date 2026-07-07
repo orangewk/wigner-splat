@@ -1,45 +1,48 @@
 # handoff - Next session work order
 
-1. Read `README.md` (especially the falsification verdict) and `docs/prior-art-survey.md`.
-2. Set up the environment: `pip install numpy matplotlib pytest`, then run `python -m pytest tests/ -q` and confirm 11 tests pass.
-3. Main task: two-mode extension — the scaling hypothesis is now the ONLY remaining
-   claim (see below). Extend forward.py to 4D phase space (two-mode splats, Radon
-   projection along a chosen quadrature pair), states.py to a two-mode entangled cat
-   (e.g. |a,a> + |-a,-a>), and compare against two-mode Fock MLE (n_max^2 dimension:
-   400x400 density matrix at n_max=20). Acceptance: an experiments/04 run showing
-   fidelity AND wall-clock for both methods; if splat loses both again, the README
-   says we abandon the approach — do it.
-4. Secondary: the splat fitter spends its time in a pure-Python loop over angles;
-   before the two-mode comparison, vectorizing loss_and_grad over angles is fair game
-   (MLE is already fully vectorized numpy).
-5. When quoting numbers, remember issue #4: fit trajectories are BLAS-order sensitive
-   across environments (MLE is not); quote ranges over seeds, not single values.
+1. Read `README.md` (both falsification verdicts) and `docs/two-mode-plan.md`.
+2. Setup: `pip install numpy matplotlib pytest`; `python -m pytest tests/ -q` → 40 passed, 1 xfailed
+   (the xfail is a RECORDED negative result — separable splats cannot represent entanglement —
+   do not "fix" it).
+3. Main task: 3-mode extension — the decisive scaling point. Fock MLE needs a 12^3 = 1728-dim
+   density matrix (R rho R becomes ~minutes-hours); full-covariance splats stay O(K) with
+   6x6 Cholesky (21 cov params + 6 mu + 1 w = 28/splat). Extend states2 (three-mode cat
+   |a,a,a> + parity |-a,-a,-a>, fringe cos(2 sqrt2 a (p1+p2+p3))), forward2f/fit2f
+   (dimension-generic already in spirit — the overlap closed form is dimension-agnostic),
+   mle3 only if tractable (it may simply time out: THAT is a result — record wall-clock).
+4. Secondary tasks, either order:
+   - More seeds at 2 modes to resolve the fidelity statistical tie (exp04: gap 0.003-0.006
+     vs seed noise 0.015-0.018; ~20 seeds would decide).
+   - Physical constraints (rho positivity) — the splat output is not guaranteed physical.
+5. When quoting numbers: seed ranges, not single runs (issue #4).
 
-## Repository state at handoff (2026-07-07)
+## Where the program stands (2026-07-07)
 
-- main: v0 + analytic gradients (PR #1) + densification/birth + MLE baseline (PR #2).
-- PR #3 (open, ready for review, review says no blocker): docstring fix, hardened
-  MLE stop condition (likelihood decrease now raises instead of "converging"),
-  split-children Adam-moment policy documented (inherit, measured better than zero).
-- Issue #4 (open, low priority): cross-environment reproducibility note.
-- No CI configured; reviews so far ran pytest locally. A minimal GitHub Actions
-  workflow (numpy + pytest, ~30 s) was offered and would remove that friction.
+Single mode (exp 03): splat wins fidelity, MLE wins speed 2x -> no computational gain at
+one mode (recorded). Two modes (exp 04): ROLES FLIP — splat wins speed 6-11x (~4 s vs
+27-45 s), fidelity statistical tie (0.921±0.011 vs 0.926±0.007), both at the same
+finite-shot ceiling; falsification NOT triggered. The scaling hypothesis is confirmed in
+direction; 3 modes makes it decisive.
 
-## Done in previous sessions
+Key scientific findings so far:
+- Signed birth via the weight-gradient field (1D): split alone cannot create negativity.
+- Entanglement <-> tilted covariance: separable (block-diagonal) splats fail at F=0.50
+  (the fringe cos(2 sqrt2 a (p1+p2)) is constant along p1-p2 — needs ~80 axis-aligned
+  splats vs ~10 tilted ones). Full 4x4 covariance is NOT an optimization, it is the
+  representation of entanglement. Recorded as xfail with analysis in test_two_mode_fit.py.
+- The MSE-histogram loss minimum caps fidelity at ~0.85 for separable splats but NOT for
+  full covariance (hand-built F=0.99 mixture has lower loss than the blob solution).
+- fit2f pipeline: blob envelope (variance-init, no true-state knowledge) -> convex
+  matched-filter over a thin-stripe basis (fringe is LINEAR in stripe weights; one LS
+  solve replaces unstable incremental births) -> Adam polish -> convex weight cleanup.
+- MLE implementation traps (regression-tested): R operator orientation (transposed outer
+  product silently stalls at F~0.35); probability conjugation (broke monotone ascent —
+  the hardened stop condition caught it at iteration 11).
 
-- v0 scaffold: cat simulator, closed-form signed-splat Radon model, histogram fitter.
-- Analytic gradients: loss_and_grad(), exp 01 ~29s -> ~1.6s, rel. L2 0.125.
-  Overfits histogram shot noise past ~700 Adam iters; exp 01 stops at 680.
-- Densification: adapt() (relative-median split thresholds; absolute ones fail near
-  convergence) + signed BIRTH at the extremum of the weight-gradient field
-  (birth_field(); split alone can never create negativity from an all-positive
-  minimum). Exp 02: K=4 -> 9, rel. L2 0.071 vs 0.125 fixed-K=8. Split children
-  inherit parent Adam moments (zeroing degrades 2/5 seeds to L2 ~ 0.4).
-- MLE baseline: fock.py (truncated Fock tools, conventions validated to 1e-12
-  against states.py) + mle.py (Lvovsky R rho R on the same binned histograms).
-  The R operator must be sum (f/p) |v><v| with |v>_i = <i|x_theta> — the transposed
-  outer product silently stalls at F ~ 0.35 (regression-tested).
-- Exp 03 verdict, recorded in README: splat wins fidelity at every budget
-  (0.980 vs 0.969 at 250 shots/angle — real shot-efficiency advantage), MLE wins
-  speed ~2x at single-mode scale. Falsification condition NOT met at one mode;
-  the scaling claim must be tested at two modes.
+## Module map
+
+states.py/states2.py (reference states) · forward.py/fit.py (1D splats, analytic grads,
+adapt/birth) · forward2.py/fit2.py (separable 2-mode — kept as the recorded negative
+result) · forward2f.py/fit2f.py (full-covariance 2-mode — the winner) · fock.py (validated
+Fock tools + cat2) · mle.py/mle2.py (R rho R baselines) · data2.py (shared 2D binning) ·
+experiments/01-04 (each README-linked) · docs/two-mode-plan.md (spec and fairness rules).
