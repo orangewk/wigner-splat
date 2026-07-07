@@ -102,3 +102,54 @@ def wigner_overlap(Wa, Wb, xs):
     """
     d = xs[1] - xs[0]
     return float(2 * np.pi * np.sum(Wa * Wb) * d * d)
+
+
+def _coherent_coeffs(alpha, n_max):
+    """Fock coefficients <m|alpha> = e^{-a^2/2} a^m / sqrt(m!), m = 0..n_max-1.
+
+    Same construction (and 1e-12-validated convention) as cat_fock and the
+    product-Fock cat matrix in tests/test_two_mode_state.py.
+    """
+    m = np.arange(n_max)
+    log_fact = np.concatenate([[0.0], np.cumsum(np.log(np.arange(1, n_max)))])
+    coh = np.exp(-(alpha ** 2) / 2 + m * np.log(np.abs(alpha) + 1e-300) - log_fact / 2)
+    coh *= np.sign(alpha) ** m
+    return coh
+
+
+def cat2_fock(alpha, parity=+1, n_max=12):
+    """Normalized product-Fock coefficients of the two-mode entangled cat.
+
+    |a, a> + parity |-a, -a| (real alpha) in the product basis |m>|n>,
+    returned as a FLAT vector of length n_max**2 with index m*n_max + n:
+
+        c_{mn} proportional to (c_+)_m (c_+)_n + parity (c_-)_m (c_-)_n,
+
+    where c_+ = <.|alpha> and c_- = <.|-alpha> = (-1)^. c_+ are the 1D
+    coherent coefficients. Cross-validated against
+    states2.TwoModeCat.homodyne_pdf in tests/test_two_mode_mle.py.
+    """
+    cp = _coherent_coeffs(alpha, n_max)
+    cm = cp * (-1.0) ** np.arange(n_max)
+    C = np.outer(cp, cp) + parity * np.outer(cm, cm)
+    C = C / np.linalg.norm(C)
+    return C.reshape(-1)
+
+
+def cat2_truncation_fidelity(alpha, parity=+1, n_max=12):
+    """Fidelity of the exact two-mode cat with its Fock truncation at n_max.
+
+    This is the MLE ceiling: no density matrix on the n_max x n_max product
+    basis can exceed it. Equals the fraction of the exact (unnormalized)
+    coefficient norm retained by the truncation,
+
+        ||C_trunc||^2 / (2 (1 + parity e^{-4 a^2})),
+
+    since the exact single-mode coherent norm is 1 and <alpha|-alpha> =
+    e^{-2 a^2}, giving the full norm 2(1 + parity e^{-4 a^2}).
+    """
+    cp = _coherent_coeffs(alpha, n_max)
+    cm = cp * (-1.0) ** np.arange(n_max)
+    C = np.outer(cp, cp) + parity * np.outer(cm, cm)
+    full_norm2 = 2 * (1 + parity * np.exp(-4 * alpha ** 2))
+    return float(np.sum(np.abs(C) ** 2) / full_norm2)
