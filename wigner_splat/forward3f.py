@@ -88,17 +88,27 @@ class SplatMixture3F:
         C = np.einsum("ar,kab,bs->krs", U, Sigma, U)      # (K, 3, 3)
         return m, C
 
-    def radon3(self, x1, x2, x3, theta1, theta2, theta3, chunk=None):
+    def radon3(self, x1, x2, x3, theta1, theta2, theta3, chunk=None,
+               cell_var=0.0):
         """Joint quadrature density on the (x1, x2, x3) grid.
 
         Returns array of shape (len(x1), len(x2), len(x3)). The correlated 3D
         Gaussian N(x; m, C) summed over splats. To bound memory the (Bx, K)
         moment tensor is chunked over the outer x1 axis when ``chunk`` is set.
+
+        ``cell_var`` (= bin_width^2 / 12) inflates the projected covariance
+        diagonal so the returned value is the model's cell-AVERAGE density
+        rather than its point value at the bin center -- the exact-to-O(h^4)
+        forward model for a density=True histogram (a box of width h has
+        variance h^2/12; convolving the Gaussian with it matches the second
+        moment). Leave at 0 for a point evaluation of the true marginal.
         """
         x1 = np.atleast_1d(x1)
         x2 = np.atleast_1d(x2)
         x3 = np.atleast_1d(x3)
         m, C = self.projected(theta1, theta2, theta3)
+        if cell_var:
+            C = C + cell_var * np.eye(3)
         P = np.linalg.inv(C)                              # (K, 3, 3)
         det = np.linalg.det(C)                            # (K,)
         d2 = x2[:, None] - m[:, 1]                        # (By, K)
