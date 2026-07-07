@@ -9,8 +9,12 @@ the loss gradient is closed-form too: for each angle theta with direction
 u = (cos theta, sin theta), each splat contributes w_k N(x; m_k, var_k)
 with m_k = mu_k . u and var_k = e^{2 s1} cos^2(phi - theta)
 + e^{2 s2} sin^2(phi - theta), and the chain rule through (m_k, var_k)
-gives every parameter gradient in one vectorized pass per angle. K stays
-fixed; gradient-norm-driven densification/pruning is the next milestone.
+gives every parameter gradient in one vectorized pass per angle.
+
+The mixture can also grow and shrink during the fit (fit(densify_every=...)):
+adapt() prunes negligible-weight splats and splits splats with large
+accumulated positional-gradient norm, and birth_field() places signed
+newborn splats at the extremum of the weight-gradient field.
 """
 
 import numpy as np
@@ -102,8 +106,11 @@ def adapt(mixture, m1, m2, gnorm, K_max, prune_weight=5e-3, split_rel=2.0,
     ratios keep pointing at under-resolved splats). A split replaces the
     parent with two children at half weight, offset by split_offset sigma
     along the major axis, with that axis shrunk by split_factor. Adam moment
-    vectors (m1, m2, packed like _pack) follow the same row bookkeeping so
-    the optimizer state survives the change of K.
+    vectors (m1, m2, packed like _pack) follow the same row selection, and
+    split children deliberately INHERIT the parent's moment rows unchanged
+    as a warm start: zeroing them instead lets the near-empty second moment
+    produce large uncontrolled steps right after the split (measured on the
+    cat-state experiment: 2 of 5 seeds degrade from L2 ~ 0.07 to ~ 0.4).
 
     Returns (mixture, m1, m2).
     """
