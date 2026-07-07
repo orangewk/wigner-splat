@@ -267,7 +267,6 @@ def test_acceptance_beats_mle_on_fidelity_speed_and_negativity():
     data = cat.sample_homodyne(pairs, 3000, rng=42)
     centers, targets = histogram_targets2(data, bins=40)
 
-    start = fit2f(data, polish_iters=0) if False else None  # (no-op placeholder)
     t0 = time.time()
     mix = fit2f(data)
     wall = time.time() - t0
