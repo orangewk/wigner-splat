@@ -60,7 +60,56 @@ def loss_and_grad(mixture, centers, targets, lambda_neg=10.0, lambda_sum=1.0):
     """Loss and its analytic gradient w.r.t. (w, mu, s, phi).
 
     Returns (loss, grad) with grad packed in the same layout as _pack.
+
+    Fully vectorized over the angle axis: the per-angle math of
+    _loss_and_grad_looped is broadcast/einsum'd over (A, B, K) so the whole
+    target set is one pass with no Python loop (fair timing vs the vectorized
+    MLE baseline). See _loss_and_grad_looped for the annotated scalar version.
     """
+    K = len(mixture.w)
+    B = len(centers)
+    # Stack the targets once per call (cheap next to the (A, B, K) math).
+    theta = np.array([t for t, _ in targets])            # (A,)
+    hist = np.array([h for _, h in targets])             # (A, B)
+
+    u = np.stack([np.cos(theta), np.sin(theta)], axis=1)  # (A, 2)
+    m = u @ mixture.mu.T                                  # (A, K) = mu_k . u
+    dphi = mixture.phi[None, :] - theta[:, None]          # (A, K)
+    c, s_ = np.cos(dphi), np.sin(dphi)                    # (A, K)
+    e1, e2 = np.exp(2 * mixture.s[:, 0]), np.exp(2 * mixture.s[:, 1])  # (K,)
+    var = e1 * c ** 2 + e2 * s_ ** 2                      # (A, K)
+    d = centers[None, :, None] - m[:, None, :]            # (A, B, K)
+    g = np.exp(-(d ** 2) / (2 * var[:, None, :])) / np.sqrt(
+        2 * np.pi * var[:, None, :]
+    )                                                     # (A, B, K)
+    model = g @ mixture.w                                 # (A, B)
+    resid = model - hist
+    neg = np.minimum(model, 0.0)                          # mask broadcasts over (A, B)
+    total = np.sum(np.mean(resid ** 2, axis=1)) + lambda_neg * np.sum(
+        np.mean(neg ** 2, axis=1)
+    )
+    dL_dmodel = (2.0 / B) * (resid + lambda_neg * neg)    # (A, B)
+
+    gw = np.einsum("ab,abk->k", dL_dmodel, g)             # (K,)
+    # d model / d m_k = w_k g d / var; m_k = mu_k . u
+    dL_dm = np.einsum("ab,abk->ak", dL_dmodel, g * d) * mixture.w / var  # (A, K)
+    gmu = np.einsum("ak,ai->ki", dL_dm, u)               # (K, 2)
+    # d g / d var = g (d^2 / (2 var^2) - 1 / (2 var))
+    dvar_kernel = g * (d ** 2 / (2 * var[:, None, :] ** 2) - 1 / (2 * var[:, None, :]))
+    dL_dvar = np.einsum("ab,abk->ak", dL_dmodel, dvar_kernel) * mixture.w  # (A, K)
+    gs = np.empty((K, 2))
+    gs[:, 0] = 2 * e1 * np.sum(dL_dvar * c ** 2, axis=0)
+    gs[:, 1] = 2 * e2 * np.sum(dL_dvar * s_ ** 2, axis=0)
+    gphi = np.sum(dL_dvar * (e2 - e1) * np.sin(2 * dphi), axis=0)  # (K,)
+
+    wsum = mixture.w.sum() - 1.0
+    total += lambda_sum * wsum ** 2
+    gw += 2 * lambda_sum * wsum
+    return total, np.concatenate([gw, gmu.ravel(), gs.ravel(), gphi])
+
+
+def _loss_and_grad_looped(mixture, centers, targets, lambda_neg=10.0, lambda_sum=1.0):
+    """Reference (pre-vectorization) implementation, kept for equivalence tests."""
     K = len(mixture.w)
     gw = np.zeros(K)
     gmu = np.zeros((K, 2))

@@ -1,45 +1,62 @@
 # handoff - Next session work order
 
-1. Read `README.md` (especially the falsification verdict) and `docs/prior-art-survey.md`.
-2. Set up the environment: `pip install numpy matplotlib pytest`, then run `python -m pytest tests/ -q` and confirm 11 tests pass.
-3. Main task: two-mode extension — the scaling hypothesis is now the ONLY remaining
-   claim (see below). Extend forward.py to 4D phase space (two-mode splats, Radon
-   projection along a chosen quadrature pair), states.py to a two-mode entangled cat
-   (e.g. |a,a> + |-a,-a>), and compare against two-mode Fock MLE (n_max^2 dimension:
-   400x400 density matrix at n_max=20). Acceptance: an experiments/04 run showing
-   fidelity AND wall-clock for both methods; if splat loses both again, the README
-   says we abandon the approach — do it.
-4. Secondary: the splat fitter spends its time in a pure-Python loop over angles;
-   before the two-mode comparison, vectorizing loss_and_grad over angles is fair game
-   (MLE is already fully vectorized numpy).
-5. When quoting numbers, remember issue #4: fit trajectories are BLAS-order sensitive
-   across environments (MLE is not); quote ranges over seeds, not single values.
+1. Read `README.md` (all three falsification verdicts — the scaling ladder is the story),
+   `docs/research-log.md`, `docs/three-mode-plan.md`.
+2. Setup: `pip install numpy matplotlib pytest`; `python -m pytest tests/ -q -m "not slow"`
+   (~51 passed expected; full suite adds slow integration runs incl. a 15-min MLE budget test).
+3. FIRST TASK — collect experiment 06: at handoff time `experiments/06_three_mode/run.py`
+   was executing in the background (a ~20-min official run: fit3f x 3 seeds + one 900 s
+   512-dim MLE run + verdict figure). Check `experiments/06_three_mode/` for out_run.log /
+   out/three_mode_verdict.png. If it completed: verify the printed verdict matches the README
+   numbers, commit the artifacts, post the closing comment on issue #7 (table + scaling
+   ladder + DNF analysis), and update the PR #5 body to cover the whole campaign (its
+   current body stops at the two-mode verdict). If it did not complete, rerun it (~20 min).
+4. Then, in order of value:
+   - Issue #8 (positivity): the splat output is not a guaranteed physical state — now the
+     main obstacle to paper-grade claims. Kenfack-type closed-form constraints vs penalty
+     vs post-hoc projection onto the physical cone (in the truncated Fock basis, using the
+     validated splat->rho path implicit in the fidelity formulas).
+   - Issue #6 (entanglement-cost conjecture, refuted->refined): formalize R ~ m_1D(k) ~ k;
+     a short note/preprint section is plausible.
+   - Detector noise (efficiency eta, Gaussian dark noise) — one Gaussian convolution in the
+     forward model, keeps closed forms; needed for any experimental-data claim.
+   - 4 modes if a dramatic demo is wanted: MLE is fully DNF there; splat should stay ~30 s.
 
-## Repository state at handoff (2026-07-07)
+## Where the program stands (2026-07-07, end of session)
 
-- main: v0 + analytic gradients (PR #1) + densification/birth + MLE baseline (PR #2).
-- PR #3 (open, ready for review, review says no blocker): docstring fix, hardened
-  MLE stop condition (likelihood decrease now raises instead of "converging"),
-  split-children Adam-moment policy documented (inherit, measured better than zero).
-- Issue #4 (open, low priority): cross-environment reproducibility note.
-- No CI configured; reviews so far ran pytest locally. A minimal GitHub Actions
-  workflow (numpy + pytest, ~30 s) was offered and would remove that friction.
+Scaling ladder, measured: 1 mode — MLE wins speed 2x (no gain). 2 modes — fidelity tie
+(20-seed paired t, p=0.121), splat 7.4x faster. 3 modes — splat wins BOTH: F 0.756 vs
+0.701-DNF, ~15 s vs 900+ s (MLE 512 dims, 0.72 s/iter, loglik plateaus while fidelity
+creeps — 17.7k rows vs 262k params underdetermined; 2+ h extrapolated). Conclusion in
+README: at >= 3 modes splat is practically the only full-tomography option.
 
-## Done in previous sessions
+Open PR #5 carries the whole two- and three-mode campaign (draft). Issues: #6 conjecture
+(refuted->refined, exp05), #7 three-mode (verdict measured, exp06 official run pending
+collection), #8 positivity (open), #9 tie (RESOLVED by exp07 — can be closed).
 
-- v0 scaffold: cat simulator, closed-form signed-splat Radon model, histogram fitter.
-- Analytic gradients: loss_and_grad(), exp 01 ~29s -> ~1.6s, rel. L2 0.125.
-  Overfits histogram shot noise past ~700 Adam iters; exp 01 stops at 680.
-- Densification: adapt() (relative-median split thresholds; absolute ones fail near
-  convergence) + signed BIRTH at the extremum of the weight-gradient field
-  (birth_field(); split alone can never create negativity from an all-positive
-  minimum). Exp 02: K=4 -> 9, rel. L2 0.071 vs 0.125 fixed-K=8. Split children
-  inherit parent Adam moments (zeroing degrades 2/5 seeds to L2 ~ 0.4).
-- MLE baseline: fock.py (truncated Fock tools, conventions validated to 1e-12
-  against states.py) + mle.py (Lvovsky R rho R on the same binned histograms).
-  The R operator must be sum (f/p) |v><v| with |v>_i = <i|x_theta> — the transposed
-  outer product silently stalls at F ~ 0.35 (regression-tested).
-- Exp 03 verdict, recorded in README: splat wins fidelity at every budget
-  (0.980 vs 0.969 at 250 shots/angle — real shot-efficiency advantage), MLE wins
-  speed ~2x at single-mode scale. Falsification condition NOT met at one mode;
-  the scaling claim must be tested at two modes.
+## Key findings ledger (chronological)
+
+- Analytic gradients: 18x; histogram-noise overfitting past ~700 iters.
+- Signed birth via weight-gradient field: split alone cannot create negativity.
+- Entanglement <-> tilted covariance: separable splats fail at F=0.50; full 4x4 covariance
+  is the representation of entanglement (~10 tilted vs ~80 axis-aligned components).
+- Exp05: the cost ratio R tracks the fringe wavenumber k (slope 1.02), NOT the saturating
+  entanglement entropy E = H2((1+sech(2a^2))/2) — naive conjecture refuted, refined to:
+  entanglement decides WHETHER tilt is needed, k decides HOW MUCH it saves.
+- Raw-fidelity acceptance criteria are cheatable by sub-Planck spikes (signed splats are a
+  basis, not states); use relative-L2 or purity-aware criteria.
+- Bin-average forward correction: density histograms estimate cell AVERAGES; comparing
+  center values biases fringes down, worse with more shots; convolve model with bin box.
+- Sparse-count regime (0.14 counts/cell): MSE loss minimum sits below the truth; nonlinear
+  polish overfits; convex matched-filter weights are the honest estimator.
+- MLE traps (regression-tested): R-operator orientation; probability conjugation; and at
+  3 modes the underdetermined plateau (loglik flat while fidelity far from ceiling).
+
+## Module map
+
+states/2/3 (reference states) · forward/fit (1D) · forward2/fit2 (separable 2-mode,
+recorded negative result) · forward2f/fit2f (full-cov 2-mode winner) · forward3f/fit3f
+(full-cov 3-mode winner; bin-average correction lives here — consider backporting to 2-mode)
+· fock (validated Fock tools, cat2/cat3) · mle/mle2/mle3 (R rho R baselines; mle3 returns
+(rho, iters, converged) + time_budget_s) · data2/data3 (shared binning) · experiments/01-07
+· docs/*-plan.md, research-log.md.

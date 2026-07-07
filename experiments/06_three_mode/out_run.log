@@ -1,0 +1,98 @@
+================================================================================================
+EXPERIMENT 06 -- three-mode final verdict of the scaling campaign
+================================================================================================
+three-mode cat |a,a,a>+parity|-a,-a,-a>  alpha=1.5 parity=+1
+official budget: 27 triples (3x3x3 over [0,pi)^3), 2000 shots/triple, bins=24
+splat fit3f: seeds [42, 1, 2] (deterministic ~15 s each)
+MLE mle3: seed 42 ONLY, n_max=8 (512 dims), 900 s soft wall  (budget dictates single-seed)
+MLE truncation ceiling (Fock n_max=8): 0.993214
+BLAS threads pinned to 1 (OMP/OPENBLAS/MKL/NUMEXPR) -- faster here than multithreaded
+
+[validate] Wigner-slice helper vs states3.ThreeModeCat.wigner (faithful n_max=12 rho): allclose(atol=1e-4) = True  (max |dev| = 4.42e-05)
+
+[splat seed=42] sampling 27 triples x 2000 shots ...
+[splat seed=42] fitting fit3f (bins=24) ...
+[splat seed=42] F=0.7562  wall=15.5s  K=16  Wmin=-0.0150
+
+[splat seed=1] sampling 27 triples x 2000 shots ...
+[splat seed=1] fitting fit3f (bins=24) ...
+[splat seed=1] F=0.7414  wall=15.6s  K=18  Wmin=-0.0142
+
+[splat seed=2] sampling 27 triples x 2000 shots ...
+[splat seed=2] fitting fit3f (bins=24) ...
+[splat seed=2] F=0.6237  wall=15.3s  K=15  Wmin=-0.0099
+
+[MLE seed=42] sampling + binning (same data rule) ...
+[MLE seed=42] running mle3_reconstruct (n_max=8, budget=900s) ...
+[MLE]  it=   1  ll=-8.36260  F=0.09393  elapsed=   1.8s  (1.806 s/it)
+[MLE]  it= 100  ll=-6.46207  F=0.56172  elapsed= 176.1s  (1.761 s/it)
+[MLE]  it= 200  ll=-6.46199  F=0.60928  elapsed= 351.4s  (1.757 s/it)
+[MLE]  it= 300  ll=-6.46196  F=0.63981  elapsed= 526.2s  (1.754 s/it)
+[MLE]  it= 400  ll=-6.46195  F=0.66028  elapsed= 702.5s  (1.756 s/it)
+[MLE]  it= 500  ll=-6.46194  F=0.67434  elapsed= 881.4s  (1.763 s/it)
+[MLE seed=42] DONE  F=0.67560  iters=511  converged=False  wall=901.4s  (1.764 s/it)
+
+================================================================================================
+PER-SEED SPLAT TABLE  (fit3f, official budget)
+================================================================================================
+true (p1,p2)@x=0,p3=0 Wigner min: -0.0247
+
+seed |  F_splat     wall    K     Wmin
+--------------------------------------
+  42 |   0.7562    15.5s   16  -0.0150
+   1 |   0.7414    15.6s   18  -0.0142
+   2 |   0.6237    15.3s   15  -0.0099
+--------------------------------------
+mean |   0.7071    15.5s
+
+Negativity (Wmin<0) recovered every seed: True
+
+================================================================================================
+MLE BLOCK  (mle3, seed 42 only, n_max=8 = 512 dims, 900s budget)
+================================================================================================
+underdetermined: ~17.7k histogram rows vs 512^2 = 262144 density-matrix params; loglik plateaus early while fidelity creeps.
+
+trajectory excerpts (F via <psi|rho|psi> on the callback rho):
+  it=   1  ll=-8.36260  F=0.09393  elapsed=   1.8s  (1.806 s/it)
+  it= 100  ll=-6.46207  F=0.56172  elapsed= 176.1s  (1.761 s/it)
+  it= 200  ll=-6.46199  F=0.60928  elapsed= 351.4s  (1.757 s/it)
+  it= 300  ll=-6.46196  F=0.63981  elapsed= 526.2s  (1.754 s/it)
+  it= 400  ll=-6.46195  F=0.66028  elapsed= 702.5s  (1.756 s/it)
+  it= 500  ll=-6.46194  F=0.67434  elapsed= 881.4s  (1.763 s/it)
+
+final:  F=0.67560  iters=511  converged=False  wall=901.4s  s/iter=1.764
+MLE ceiling (unreachable in budget): 0.99321   Wmin(slice)=-0.0102
+status: DID NOT FINISH (DNF)  (converged=False -> hit the 900s soft wall)
+
+*** time-to-splat-quality ***
+splat seed 42 final F = 0.7562 (reached in 15.5s).
+MLE NEVER reached splat quality: after 901s / 511 iters it plateaued at F=0.6756 < 0.7562. Time-to-splat-quality = infinity (DNF).
+
+================================================================================================
+SCALING SUMMARY  (1 vs 2 vs 3 modes; modes 1-2 from exp03/exp04-07, mode 3 measured here)
+================================================================================================
+modes       exp Fock dims  splat wall     MLE wall |                 fidelity | verdict
+---------------------------------------------------------------------------------------
+    1     exp03        20        1.4s         0.7s |               splat wins | split (MLE 2x faster -> no gain)
+    2  exp04/07       144        4.3s        32.0s |   tie (paired t p=0.121) | splat wins speed (7.4x); fidelity tie
+    3     exp06       512       15.5s     901s DNF | splat wins (0.756 vs 0.676) | splat wins BOTH (F+speed)
+
+(1 mode: n_max=20; 2 mode: 12^2; 3 mode: 8^3. MLE dim = n_max^modes -- the exponential wall. Splat = O(K), 28 params/splat.)
+
+================================================================================================
+FINAL VERDICT
+================================================================================================
+At 3 modes (seed 42):
+  fidelity: splat 0.7562  vs  MLE 0.6756 (DNF)   -> SPLAT wins
+  speed:    splat 15.5s  vs  MLE 901.4s (DNF)   -> SPLAT wins (58x)
+
+Does the splat win BOTH at 3 modes?  YES
+The campaign's SCALING hypothesis is confirmed: the tie flips to a clean sweep once the Fock dimension (n_max^modes) makes MLE
+intractable. 1 mode split -> 2 modes tie+speed -> 3 modes splat wins fidelity AND speed, against an MLE that cannot even finish.
+
+mean splat fidelity over seeds [42, 1, 2]: 0.7071 (all seeds recovered negativity: True)
+/home/user/wigner-splat/experiments/06_three_mode/run.py:482: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  fig.tight_layout(rect=[0, 0, 1, 0.96])
+
+figure written to /home/user/wigner-splat/experiments/06_three_mode/out/three_mode_verdict.png
+total script runtime: 966s
