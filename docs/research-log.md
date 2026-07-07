@@ -317,3 +317,34 @@ factorization saving m^2 -> m on the fringe, so R ~ m_1D(k) ~ k. Entanglement de
 WHETHER tilted components are needed at all (the qualitative separable failure);
 the interference scale decides HOW MUCH they save (the quantitative ratio).
 Recorded in issue #6.
+
+## 2026-07-07 (evening) — Three-mode campaign: the first both-axes win
+
+Waves: reference state (states3: fringe cos(2 sqrt2 a (p1+p2+p3)), prefactor
+exactly 2, ceilings 0.9932/0.9996/0.99999 at n_max 8/10/12) -> full-covariance
+fitter fit3f (6x6 Cholesky, 28 params/splat, ridge DETECTED from data) + MLE
+tractability (mle3, 512 dims).
+
+Happened (official budget: 27 triples x 2000 shots, bins=24, 0.14 counts/cell):
+- splat: F 0.756/0.741/0.624 over seeds 42/1/2, negativity recovered on every
+  seed, wall ~15 s single-threaded.
+- MLE: 0.715 s/iter clean; 900 s budget -> 935 iters, F 0.701, converged=False
+  (DNF). Loglik plateaus in ~40 iters while fidelity creeps at 6e-5/iter:
+  17.7k measurement rows vs 262k density-matrix parameters (underdetermined).
+  Honest extrapolation: 2+ hours to approach the 0.993 ceiling, if the ML
+  fixed point of this dataset even sits there. n_max=10 costs x2.8.
+- Two findings: (1) bin-average forward correction — density histograms are
+  CELL-AVERAGE estimators; comparing model center values attenuates the fringe
+  as a bias that grows with shots; radon3 convolves with the bin box
+  (+width^2/12). (2) At 0.14 counts/cell the MSE loss minimum sits below the
+  truth; nonlinear polish overfits; the convex matched filter is the honest
+  estimator (polish off by default).
+- Experiment 07 (20 seeds, two modes): paired t(19)=+1.62, p=0.121 — the
+  fidelity tie is CONFIRMED; splat matches MLE at 7.4x less compute.
+
+Learned: the scaling ladder is now measured end to end — 1 mode: MLE wins
+speed 2x; 2 modes: tie at 7.4x less compute; 3 modes: splat wins BOTH
+(F 0.756 vs 0.701-DNF, 15 s vs 900+ s). At >= 3 modes the splat reconstructor
+is, practically, the only full-tomography option. Experiment 06 formalizes
+this as the official run (in flight at the time of writing; its printed
+verdict and figure land in experiments/06_three_mode/).

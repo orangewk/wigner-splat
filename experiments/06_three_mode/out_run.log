@@ -25,3 +25,7 @@ BLAS threads pinned to 1 (OMP/OPENBLAS/MKL/NUMEXPR) -- faster here than multithr
 [MLE seed=42] sampling + binning (same data rule) ...
 [MLE seed=42] running mle3_reconstruct (n_max=8, budget=900s) ...
 [MLE]  it=   1  ll=-8.36260  F=0.09393  elapsed=   1.8s  (1.806 s/it)
+[MLE]  it= 100  ll=-6.46207  F=0.56172  elapsed= 176.1s  (1.761 s/it)
+[MLE]  it= 200  ll=-6.46199  F=0.60928  elapsed= 351.4s  (1.757 s/it)
+[MLE]  it= 300  ll=-6.46196  F=0.63981  elapsed= 526.2s  (1.754 s/it)
+[MLE]  it= 400  ll=-6.46195  F=0.66028  elapsed= 702.5s  (1.756 s/it)
