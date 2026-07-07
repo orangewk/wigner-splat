@@ -295,3 +295,25 @@ and should become impractical while the splat stays O(K).
 5. **Detector-noise modeling.** Current data are ideal-detector homodyne
    samples. Generalize the forward model to detection efficiency and Gaussian
    noise (Bernoulli loss → generalized), which the roadmap flags as unfinished.
+
+## 2026-07-07 (later) — Experiment 05: the entanglement-cost conjecture, refuted and refined
+
+Tried: measure R(alpha) = K_axis / K_tilted (minimal signed-Gaussian components,
+axis-aligned vs tilted, to reach F_th = 0.99 against the exact two-mode cat Wigner)
+across alpha in [0.75, 2.5], with a spike-proof relative-L2 criterion (raw fidelity
+is cheatable by sub-Planck spikes: signed splats are a basis, not states), greedy
+matching pursuit over validated closed-form Gram/overlap matrices, dictionary-width
+robustness checks.
+
+Happened: entanglement entropy E(alpha) = H2((1 + sech(2 alpha^2))/2) saturates at
+1 ebit by alpha ~ 1.25, but R keeps climbing across the saturated tail (6.15 at 1.5
+-> 8.68-9.62 at 2.0-2.5). log R vs log k has slope 1.02 (corr 0.956), k = 2 sqrt2
+alpha; K_axis grows 28 -> 165 while K_tilted grows 10 -> 19. Same trend at F_th = 0.95.
+
+Learned: the NAIVE conjecture ("representation cost ratio tracks entanglement") is
+REFUTED — R tracks the nonclassical interference scale k, which grows without bound,
+not the 1-ebit-saturating entanglement. Refined statement: tilt buys the
+factorization saving m^2 -> m on the fringe, so R ~ m_1D(k) ~ k. Entanglement decides
+WHETHER tilted components are needed at all (the qualitative separable failure);
+the interference scale decides HOW MUCH they save (the quantitative ratio).
+Recorded in issue #6.
