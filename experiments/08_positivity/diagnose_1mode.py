@@ -96,8 +96,23 @@ def main():
     W_splat = mix.wigner(X, P)
     rho_splat = rho_from_wigner(W_splat, basis, xs)
     f = wigner_overlap(W_splat, W_cat, xs)
-    print(f"splat: K={len(mix.w)}  fidelity_vs_cat={f:.4f}")
-    report("rho_splat", rho_splat)
+    print(f"splat: K={len(mix.w)}  fidelity_vs_cat(Wigner overlap)={f:.4f}")
+    report("rho_splat (raw)", rho_splat)
+    f_raw = np.real(psi_cat.conj() @ rho_splat @ psi_cat)
+    print(f"        <cat|rho_splat|cat> = {f_raw:.4f}")
+
+    # --- candidate fix (c): post-hoc projection onto the PSD cone ---
+    # clip negative eigenvalues to 0, renormalize trace to 1.
+    print("\n=== (C) POST-HOC PSD PROJECTION of rho_splat ===")
+    rho_h = (rho_splat + rho_splat.conj().T) / 2
+    ev, U = np.linalg.eigh(rho_h)
+    ev_clip = np.clip(ev, 0.0, None)
+    rho_proj = (U * ev_clip) @ U.conj().T
+    rho_proj = rho_proj / np.real(np.trace(rho_proj))  # renormalize
+    report("rho_proj", rho_proj)
+    f_proj = np.real(psi_cat.conj() @ rho_proj @ psi_cat)
+    print(f"        <cat|rho_proj|cat> = {f_proj:.4f}   "
+          f"dF vs raw overlap = {f_proj - f:+.4f}")
 
 
 if __name__ == "__main__":
