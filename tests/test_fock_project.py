@@ -62,6 +62,7 @@ from wigner_splat.fock import (
 from wigner_splat.fock_project import (
     psd_penalty,
     psd_report,
+    rho_component,
     rho_from_components,
     rho_from_splat,
 )
@@ -329,6 +330,23 @@ def test_psd_penalty_zero_for_pure_state():
 def test_psd_penalty_matches_sum_of_squared_negative_eigenvalues():
     rho = np.diag([1.5, -0.5, -0.25, 0.0]).astype(complex)
     assert psd_penalty(rho) == pytest.approx(0.5 ** 2 + 0.25 ** 2)
+
+
+def test_rho_component_sums_to_rho_from_splat():
+    """rho_component(mixture, k, n_max) is rho_from_splat's per-splat term:
+    summing all k must reproduce rho_from_splat exactly (this is the identity
+    wigner_splat.fit._psd_penalty_grad_fd's caching relies on -- see its and
+    rho_component's docstrings)."""
+    mix = SplatMixture(
+        w=[0.7, 0.5, -0.2],
+        mu=[[1.0, 0.5], [-1.5, 0.0], [0.0, 0.0]],
+        s=np.log([[0.5, 1.2], [0.8, 0.8], [0.4, 0.9]]),
+        phi=[0.3, 0.0, 1.1],
+    )
+    n_max = 10
+    rho = rho_from_splat(mix, n_max)
+    summed = sum(rho_component(mix, k, n_max) for k in range(len(mix.w)))
+    np.testing.assert_allclose(summed, rho, atol=1e-10)
 
 
 def test_rho_from_splat_is_hermitian_by_construction():
