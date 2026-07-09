@@ -21,7 +21,16 @@ from wigner_splat.fit import (
     fit,
     fit_psd,
 )
-from wigner_splat.fit3f import fit3f, fit3f_psd, loss3f
+from wigner_splat.fit3f import (
+    apply_shape_knobs,
+    fit3f,
+    fit3f_psd,
+    fit3f_shape_psd,
+    identify_stripes,
+    loss3f,
+    _cov_to_chol,
+    _probe_cov,
+)
 from wigner_splat.fock_project import psd_penalty, psd_report, rho_from_splat
 from wigner_splat.forward import SplatMixture
 from wigner_splat.states import CatState
@@ -169,5 +178,122 @@ def test_fit3f_psd_reduces_min_eig():
     mix1 = fit3f_psd(data, lambda_psd=5.0, n_max_psd=8,
                       psd_polish_iters=15, psd_polish_lr=0.02)
     min_eig1 = psd_report(rho_from_splat(mix1, n_max=8))["min_eig"]
+
+    assert min_eig1 > min_eig0 + 0.01
+
+
+# ---------------------------------------------------------------------------
+# fit3f_shape_psd (3-mode, JOINT weight + 3 global fringe-shape knobs polish,
+# issue #8 follow-up to the weight-only polish above -- see its docstring).
+# A small, cheap 3-triple/300-shot dataset (not exp06's official 27x2000
+# condition) keeps identify_stripes/apply_shape_knobs mechanics tests fast;
+# the actual falsification-condition numbers live in
+# experiments/08_positivity/shape_polish_3mode.py, run separately.
+
+def _small3f_data():
+    cat = ThreeModeCat(ALPHA, parity=PARITY)
+    angles = [(0.0, 0.0, 0.0), (1.0, 0.5, 0.2), (0.3, 1.2, 0.7)]
+    return cat.sample_homodyne(angles, 300, rng=1)
+
+
+def _fit3f_with_direction(data, **kwargs):
+    box = {}
+
+    def cb(name, mix, *rest):
+        if name == "stripes":
+            box["direction"] = rest[-1]
+
+    mix = fit3f(data, callback=cb, **kwargs)
+    return mix, box["direction"]
+
+
+def test_identify_stripes_partitions_all_components():
+    data = _small3f_data()
+    mix, direction = _fit3f_with_direction(data, bins=12)
+    ld0, lo0 = _cov_to_chol(_probe_cov(direction, 0.03))
+    is_stripe = identify_stripes(mix, ld0, lo0)
+
+    K = len(mix.w)
+    assert is_stripe.shape == (K,)
+    # both groups present for this data (a blob envelope AND matched-filter
+    # fringe stripes both survive weight_ls pruning at the default threshold)
+    assert 0 < is_stripe.sum() < K
+    # every stripe row's own (ld, lo) exactly reproduces the shared template
+    n_stripe = int(is_stripe.sum())
+    np.testing.assert_allclose(mix.ld[is_stripe], np.tile(ld0, (n_stripe, 1)),
+                               atol=1e-9)
+    np.testing.assert_allclose(mix.lo[is_stripe], np.tile(lo0, (n_stripe, 1)),
+                               atol=1e-9)
+    # no blob row accidentally matches the stripe template
+    assert not np.any(
+        np.all(np.isclose(mix.ld[~is_stripe], ld0, atol=1e-9), axis=1)
+        & np.all(np.isclose(mix.lo[~is_stripe], lo0, atol=1e-9), axis=1)
+    )
+
+
+def test_apply_shape_knobs_identity_is_noop():
+    data = _small3f_data()
+    mix, direction = _fit3f_with_direction(data, bins=12)
+    ld0, lo0 = _cov_to_chol(_probe_cov(direction, 0.03))
+    is_stripe = identify_stripes(mix, ld0, lo0)
+
+    identity = apply_shape_knobs(mix, is_stripe, direction, thin=0.03)
+    np.testing.assert_array_equal(identity.mu, mix.mu)
+    np.testing.assert_array_equal(identity.ld, mix.ld)
+    np.testing.assert_array_equal(identity.lo, mix.lo)
+    np.testing.assert_array_equal(identity.w, mix.w)
+
+
+def test_apply_shape_knobs_touches_only_stripe_rows():
+    data = _small3f_data()
+    mix, direction = _fit3f_with_direction(data, bins=12)
+    ld0, lo0 = _cov_to_chol(_probe_cov(direction, 0.03))
+    is_stripe = identify_stripes(mix, ld0, lo0)
+
+    scaled = apply_shape_knobs(mix, is_stripe, direction, thin=0.03,
+                               thin_mult=2.0, base_mult=1.5,
+                               center_scale=0.7)
+    # blob rows (mu, ld, lo) are bit-for-bit unchanged
+    np.testing.assert_array_equal(scaled.mu[~is_stripe], mix.mu[~is_stripe])
+    np.testing.assert_array_equal(scaled.ld[~is_stripe], mix.ld[~is_stripe])
+    np.testing.assert_array_equal(scaled.lo[~is_stripe], mix.lo[~is_stripe])
+    # stripe rows moved
+    assert not np.allclose(scaled.ld[is_stripe], mix.ld[is_stripe])
+    assert not np.allclose(scaled.mu[is_stripe], mix.mu[is_stripe])
+    # weights untouched by shape knobs
+    np.testing.assert_array_equal(scaled.w, mix.w)
+
+
+def test_fit3f_shape_psd_lambda_zero_matches_fit3f_exactly():
+    data = _small3f_data()
+    mix_fit = fit3f(data, bins=12)
+    mix_shape = fit3f_shape_psd(data, lambda_psd=0.0, bins=12)
+    np.testing.assert_array_equal(mix_fit.w, mix_shape.w)
+    np.testing.assert_array_equal(mix_fit.mu, mix_shape.mu)
+    np.testing.assert_array_equal(mix_fit.ld, mix_shape.ld)
+    np.testing.assert_array_equal(mix_fit.lo, mix_shape.lo)
+
+
+def test_fit3f_shape_psd_zero_iters_matches_fit3f_exactly():
+    data = _small3f_data()
+    mix_fit = fit3f(data, bins=12)
+    mix_shape = fit3f_shape_psd(data, lambda_psd=5.0, shape_polish_iters=0,
+                                bins=12)
+    np.testing.assert_array_equal(mix_fit.w, mix_shape.w)
+
+
+@pytest.mark.slow
+def test_fit3f_shape_psd_reduces_min_eig():
+    # n_max_psd=4 (not the official 8) keeps this mechanics test's rho
+    # rebuilds (dominant cost, ~(1+2*3)*S per iteration -- see
+    # fit3f_shape_psd's docstring) fast; the official n_max_psd=8 numbers are
+    # measured separately in experiments/08_positivity/shape_polish_3mode.py.
+    data = _small3f_data()
+    mix0 = fit3f(data, bins=12)
+    min_eig0 = psd_report(rho_from_splat(mix0, n_max=4))["min_eig"]
+
+    mix1 = fit3f_shape_psd(data, lambda_psd=5.0, n_max_psd=4,
+                           shape_polish_iters=4, bins=12)
+    min_eig1 = psd_report(rho_from_splat(mix1, n_max=4))["min_eig"]
 
     assert min_eig1 > min_eig0 + 0.01

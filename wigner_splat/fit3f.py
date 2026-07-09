@@ -440,3 +440,203 @@ def fit3f_psd(data, lambda_psd=1.0, n_max_psd=8, psd_polish_iters=100,
         )
 
     return SplatMixture3F(w, mix.mu, mix.ld, mix.lo)
+
+
+# ----------------------------------------------------------------------------
+# Issue #8 follow-up: does giving the fringe stripes' SHAPE a few degrees of
+# freedom (not just weight) let a PSD polish shed 3-mode negativity without
+# collapsing fidelity? fit3f_psd (weight-only) measured that it cannot
+# (experiments/08_positivity/penalty_then_project_3mode.py); full per-splat
+# shape polish (28 params/splat) is FD-computationally infeasible. This
+# section adds the middle ground the issue brief calls out: a HANDFUL of
+# GLOBAL fringe-shape scalars, FD-polished jointly with the weights.
+
+def identify_stripes(mixture, ld0, lo0, atol=1e-9):
+    """Boolean mask (K,) marking `mixture`'s fringe-stripe components.
+
+    matched_stripes() (see its docstring) gives every stripe splat the SAME
+    covariance Cholesky factor (ld0, lo0) -- only each stripe's mean differs
+    (a point on the ridge line). This checks each component's OWN (ld, lo)
+    against that shared template, so it stays correct no matter how many
+    weight_ls prune passes ran between construction and the mixture handed in
+    (fit3f() runs two: one right after matched_stripes, one in its final
+    cleanup step) -- pruning only drops rows or reweights, it never touches a
+    surviving row's own (ld, lo).
+    """
+    ld_match = np.all(np.isclose(mixture.ld, ld0, atol=atol), axis=1)
+    lo_match = np.all(np.isclose(mixture.lo, lo0, atol=atol), axis=1)
+    return ld_match & lo_match
+
+
+def apply_shape_knobs(mixture, is_stripe, direction, thin=0.03, base=0.5,
+                      thin_mult=1.0, base_mult=1.0, center_scale=1.0):
+    """Reparameterize `mixture`'s fringe-stripe components by 3 GLOBAL shape
+    scalars, holding blob components (and all weights) fixed.
+
+    matched_stripes() builds every stripe splat from the SAME
+    `_probe_cov(direction, thin, base)` (variance `thin` along the ridge,
+    `base` across it) with a mean on the ridge line (mus[i] = t_i *
+    direction); `is_stripe` marks those rows (identify_stripes). This
+    rescales that one shared covariance by (thin_mult, base_mult) and each
+    stripe mean's distance along the ridge by center_scale -- the "3-6 global
+    fringe-shape parameters" the issue brief asks for, not a full per-splat
+    re-optimization. `thin`/`base` must match the values fit3f()/
+    matched_stripes() actually used to build `mixture` (matched_stripes()
+    always calls `_probe_cov(d, thin)`, i.e. base is ALWAYS its default 0.5
+    unless matched_stripes() itself is changed -- kept as this function's
+    default too).
+
+    at (thin_mult, base_mult, center_scale) == (1, 1, 1) this is a no-op
+    (identity reparameterization): new_ld/new_lo reproduce (ld0, lo0) exactly
+    and mu is unchanged.
+    """
+    mu = mixture.mu.copy()
+    ld = mixture.ld.copy()
+    lo = mixture.lo.copy()
+    if np.any(is_stripe):
+        new_ld, new_lo = _cov_to_chol(
+            _probe_cov(direction, thin * thin_mult, base * base_mult))
+        ld[is_stripe] = new_ld
+        lo[is_stripe] = new_lo
+        mu[is_stripe] = mu[is_stripe] * center_scale
+    return SplatMixture3F(mixture.w, mu, ld, lo)
+
+
+def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
+                    shape_polish_lr=0.05, weight_polish_lr=0.02,
+                    stripe_thin=0.03, lambda_neg=10.0, lambda_sum=1.0,
+                    bins=24, fd_eps=1e-3, **fit3f_kwargs):
+    """fit3f() followed by a JOINT {weights + 3 global fringe-shape knobs}
+    finite-difference PSD polish (issue #8 follow-up to fit3f_psd's
+    weight-only polish).
+
+    fit3f_psd showed that killing negativity by weight alone collapses
+    3-mode fidelity (0.75 -> ~0.4, all tried lambda_psd -- see its docstring
+    and experiments/08_positivity/penalty_then_project_3mode.py). This tests
+    whether the missing degree of freedom is SHAPE: apply_shape_knobs's 3
+    scalars (thin_mult, base_mult, center_scale) rescale the ONE shared
+    covariance/mean-line every fringe-stripe splat shares (identify_stripes
+    picks them out of fit3f()'s own output; blob components are untouched).
+
+    Weights get the SAME analytic-data-loss + FD-psd-loss gradient fit3f_psd
+    uses (the linear-in-weight trick: each component's unweighted rho is
+    built once per iteration, psd_penalty's weight-gradient is then a cheap
+    finite difference over K precomputed matrices). The 3 knobs get a plain
+    central-difference FD gradient on the psd penalty only -- there is no
+    analytic (or even cheap-FD) data-loss gradient for them here, so the knob
+    step follows the positivity penalty alone, not the histogram fit; this is
+    why callers should always re-measure fidelity on the ACTUAL polished
+    mixture rather than assume the gradient sign implies it improved.
+
+    Cost: rebuilding a stripe splat's rho_component (the expensive step, ~1 s
+    at n_max_psd=8) happens (1 + 2*3) * S times per iteration -- once for the
+    current knobs (feeds the weight-FD, reused via the same linear trick) and
+    twice per knob for its central difference (S = number of stripe splats).
+    Blob components never change shape, so their unit-weight rho is built
+    ONCE outside the loop. Even with S in the low teens this is tens of
+    seconds PER ITERATION at n_max_psd=8 -- keep shape_polish_iters small
+    (the default 25 is already minutes, not seconds) or use a coarser
+    n_max_psd when only mechanics (not the reported falsification numbers)
+    are being exercised.
+
+    fit3f()'s own recipe is untouched -- this calls it unmodified and ADDS a
+    polish stage on its output (no regression to fit3f()). lambda_psd=0 or
+    shape_polish_iters=0 returns fit3f()'s output unchanged.
+    """
+    direction_box = {}
+
+    def _capture(name, mix, *rest):
+        if name == "stripes":
+            direction_box["direction"] = rest[-1]
+
+    mix = fit3f(data, bins=bins, stripe_thin=stripe_thin, callback=_capture,
+               **fit3f_kwargs)
+    if shape_polish_iters == 0 or lambda_psd == 0.0:
+        return mix
+
+    direction = direction_box["direction"]
+    ld0, lo0 = _cov_to_chol(_probe_cov(direction, stripe_thin))
+    is_stripe = identify_stripes(mix, ld0, lo0)
+    stripe_idx = np.flatnonzero(is_stripe)
+    blob_idx = np.flatnonzero(~is_stripe)
+    K = len(mix.w)
+
+    centers, targets = histogram_targets3(data, bins=bins)
+    cvar = cell_var(centers)
+
+    # blob components never change shape under knob updates -- unit-weight
+    # rho built once, reused every iteration (mirrors fit3f_psd's unit_comps).
+    blob_unit = {
+        k: rho_component(mix, k, n_max_psd) / mix.w[k] for k in blob_idx
+    }
+
+    def stripe_unit_comps(w, knobs):
+        shaped = apply_shape_knobs(
+            SplatMixture3F(w, mix.mu, mix.ld, mix.lo), is_stripe, direction,
+            thin=stripe_thin, thin_mult=knobs[0], base_mult=knobs[1],
+            center_scale=knobs[2])
+        return {
+            k: rho_component(shaped, k, n_max_psd) / w[k] for k in stripe_idx
+        }
+
+    def blob_rho(w):
+        dim = n_max_psd ** 3
+        total = np.zeros((dim, dim), dtype=complex)
+        for k in blob_idx:
+            total = total + w[k] * blob_unit[k]
+        return total
+
+    w = mix.w.copy()
+    knobs = np.ones(3)
+    m1w, m2w = np.zeros_like(w), np.zeros_like(w)
+    m1k, m2k = np.zeros_like(knobs), np.zeros_like(knobs)
+
+    for t in range(1, shape_polish_iters + 1):
+        cur = SplatMixture3F(w, mix.mu, mix.ld, mix.lo)
+        _, g_full = loss_and_grad3f(cur, centers, targets,
+                                    lambda_neg=lambda_neg,
+                                    lambda_sum=lambda_sum, cvar=cvar)
+        g_loss_w = g_full[:K]
+
+        s_unit = stripe_unit_comps(w, knobs)
+        b_rho = blob_rho(w)
+        s_rho = sum((w[k] * s_unit[k] for k in stripe_idx), np.zeros_like(b_rho))
+        total = b_rho + s_rho
+
+        g_psd_w = np.empty(K)
+        for k in range(K):
+            unit_k = blob_unit[k] if k in blob_unit else s_unit[k]
+            pen_p = psd_penalty(total + fd_eps * unit_k)
+            pen_m = psd_penalty(total - fd_eps * unit_k)
+            g_psd_w[k] = (pen_p - pen_m) / (2 * fd_eps)
+
+        g_psd_k = np.empty(3)
+        for i in range(3):
+            kp, km = knobs.copy(), knobs.copy()
+            kp[i] += fd_eps
+            km[i] -= fd_eps
+            s_p = stripe_unit_comps(w, kp)
+            s_m = stripe_unit_comps(w, km)
+            rho_p = b_rho + sum((w[k] * s_p[k] for k in stripe_idx), np.zeros_like(b_rho))
+            rho_m = b_rho + sum((w[k] * s_m[k] for k in stripe_idx), np.zeros_like(b_rho))
+            g_psd_k[i] = (psd_penalty(rho_p) - psd_penalty(rho_m)) / (2 * fd_eps)
+
+        gw = g_loss_w + lambda_psd * g_psd_w
+        gk = lambda_psd * g_psd_k
+
+        m1w = 0.9 * m1w + 0.1 * gw
+        m2w = 0.999 * m2w + 0.001 * gw ** 2
+        w = w - weight_polish_lr * (m1w / (1 - 0.9 ** t)) / (
+            np.sqrt(m2w / (1 - 0.999 ** t)) + 1e-8
+        )
+
+        m1k = 0.9 * m1k + 0.1 * gk
+        m2k = 0.999 * m2k + 0.001 * gk ** 2
+        knobs = knobs - shape_polish_lr * (m1k / (1 - 0.9 ** t)) / (
+            np.sqrt(m2k / (1 - 0.999 ** t)) + 1e-8
+        )
+
+    return apply_shape_knobs(
+        SplatMixture3F(w, mix.mu, mix.ld, mix.lo), is_stripe, direction,
+        thin=stripe_thin, thin_mult=knobs[0], base_mult=knobs[1],
+        center_scale=knobs[2])
