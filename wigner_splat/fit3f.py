@@ -23,6 +23,7 @@ rtol 1e-5.
 import numpy as np
 
 from .data3 import histogram_targets3
+from .fock_project import psd_penalty, rho_component
 from .forward3f import SplatMixture3F, _U, _TRIL_I, _TRIL_J, _DIAG
 
 
@@ -374,3 +375,68 @@ def fit3f(data, bins=24, blob_iters=250, blob_lr=0.05, blob_prune=0.08,
     if callback:
         callback("polished", mix, len(mix.w))
     return mix
+
+
+def fit3f_psd(data, lambda_psd=1.0, n_max_psd=8, psd_polish_iters=100,
+              psd_polish_lr=0.02, lambda_neg=10.0, lambda_sum=1.0, bins=24,
+              **fit3f_kwargs):
+    """fit3f() followed by a WEIGHT-ONLY PSD-polish stage (issue #8).
+
+    Unlike fit_psd (1-mode: full-parameter finite-difference polish over
+    weight, mean, AND shape), this touches only each splat's WEIGHT and holds
+    mu/covariance FIXED at fit3f()'s matched-filter shapes. Measured cost of
+    ONE fock_project.rho_component call at n_max=8, M=3 (this experiment's
+    Fock cutoff) is ~1 s; with fit3f()'s typical K~16 splats and 28 shape
+    params each, fit_psd's approach (finite-difference every packed entry)
+    would cost tens of minutes PER ITERATION here. Holding shapes fixed makes
+    rho LINEAR in the free variables: each component's (unweighted) rho is
+    built ONCE up front (K rho_component calls -- the same cost as a single
+    rho_from_splat call), and every polish iteration after that is just a
+    weighted sum of K precomputed (n_max**3, n_max**3) matrices plus one
+    eigvalsh -- the same convex-refit idea fit3f's own weight_ls step already
+    uses (see its docstring), extended with the psd_penalty term. The
+    original histogram-loss weight-gradient (loss_and_grad3f's first K packed
+    entries) is analytic and combined as-is.
+
+    fit3f()'s own recipe is untouched -- this calls it unmodified and ADDS a
+    weight-only polish stage on its output (no regression to fit3f()).
+    lambda_psd=0 or psd_polish_iters=0 returns fit3f()'s output unchanged.
+    """
+    mix = fit3f(data, bins=bins, **fit3f_kwargs)
+    if psd_polish_iters == 0 or lambda_psd == 0.0:
+        return mix
+
+    K = len(mix.w)
+    # unit_comps[k]: rho_component_k with weight 1 (rho_component bakes w_k
+    # in, so divide it back out) -- rho(w) = sum_k w[k] * unit_comps[k].
+    unit_comps = [
+        rho_component(mix, k, n_max_psd) / mix.w[k] for k in range(K)
+    ]
+
+    centers, targets = histogram_targets3(data, bins=bins)
+    cvar = cell_var(centers)
+    w = mix.w.copy()
+    m1, m2 = np.zeros_like(w), np.zeros_like(w)
+    eps = 1e-3
+    for t in range(1, psd_polish_iters + 1):
+        cur = SplatMixture3F(w, mix.mu, mix.ld, mix.lo)
+        _, g_full = loss_and_grad3f(cur, centers, targets,
+                                     lambda_neg=lambda_neg,
+                                     lambda_sum=lambda_sum, cvar=cvar)
+        g_loss_w = g_full[:K]  # weight block is _pack3f's first K entries
+
+        total = sum(w[k] * unit_comps[k] for k in range(K))
+        g_psd_w = np.empty(K)
+        for k in range(K):
+            pen_p = psd_penalty(total + eps * unit_comps[k])
+            pen_m = psd_penalty(total - eps * unit_comps[k])
+            g_psd_w[k] = (pen_p - pen_m) / (2 * eps)
+
+        g = g_loss_w + lambda_psd * g_psd_w
+        m1 = 0.9 * m1 + 0.1 * g
+        m2 = 0.999 * m2 + 0.001 * g ** 2
+        w = w - psd_polish_lr * (m1 / (1 - 0.9 ** t)) / (
+            np.sqrt(m2 / (1 - 0.999 ** t)) + 1e-8
+        )
+
+    return SplatMixture3F(w, mix.mu, mix.ld, mix.lo)
