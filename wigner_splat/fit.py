@@ -20,6 +20,7 @@ newborn splats at the extremum of the weight-gradient field.
 import numpy as np
 
 from .forward import SplatMixture
+from .fock_project import psd_penalty, rho_component
 
 
 def _pack(m):
@@ -294,4 +295,95 @@ def fit(data, K=8, iters=800, lr=0.05, seed=0, bins=80, callback=None,
             gnorm = np.zeros(K)
         if callback and t % 100 == 0:
             callback(t, loss(_unpack(v, K), centers, targets))
+    return _unpack(v, K)
+
+
+def _pack_splat_index(i, K):
+    """Splat index k that packed-vector entry i belongs to (see _pack's
+    layout: w (K,), mu.ravel() (2K,), s.ravel() (2K,), phi (K,))."""
+    if i < K:
+        return i
+    if i < 3 * K:
+        return (i - K) // 2
+    if i < 5 * K:
+        return (i - 3 * K) // 2
+    return i - 5 * K
+
+
+def _psd_penalty_grad_fd(v, K, n_max, eps=1e-4):
+    """Central-difference gradient of fock_project.psd_penalty(rho_from_splat)
+    w.r.t. the packed parameter vector v.
+
+    Perturbing packed index i changes exactly ONE splat's (w_k, mu_k, Sigma_k)
+    (see _pack_splat_index), so rho only needs its k-th term rebuilt per
+    perturbation, not the whole K-term sum: cache all K components once, then
+    for each index re-add just fock_project.rho_component(., k, n_max) on top
+    of the cached sum of the OTHER K-1 components. This turns an O(K) rho
+    rebuild per finite-difference evaluation into O(1) -- see the module-level
+    docstring of fock_project.rho_component for why that matters (K rho
+    rebuilds already cost tens of seconds at the three-mode n_max=8 cutoff).
+    """
+    mix = _unpack(v, K)
+    comps = [rho_component(mix, k, n_max) for k in range(K)]
+    total = sum(comps)
+
+    g = np.zeros_like(v)
+    for i in range(len(v)):
+        k = _pack_splat_index(i, K)
+        rest = total - comps[k]
+
+        vp = v.copy()
+        vp[i] += eps
+        pen_p = psd_penalty(rest + rho_component(_unpack(vp, K), k, n_max))
+
+        vm = v.copy()
+        vm[i] -= eps
+        pen_m = psd_penalty(rest + rho_component(_unpack(vm, K), k, n_max))
+
+        g[i] = (pen_p - pen_m) / (2 * eps)
+    return g
+
+
+def fit_psd(data, lambda_psd=1.0, n_max_psd=28, psd_polish_iters=200,
+            psd_polish_lr=0.01, psd_grad_eps=1e-4, lambda_neg=10.0,
+            lambda_sum=1.0, bins=80, **fit_kwargs):
+    """fit() followed by a PSD-polish stage (issue #8): extra Adam iterations
+    on (original histogram loss) + lambda_psd * fock_project.psd_penalty(
+    rho_from_splat(mixture, n_max_psd)), the latter's gradient by finite
+    differences (see _psd_penalty_grad_fd) since fock_project has no analytic
+    drho/dtheta.
+
+    fit()'s own recipe (init/densify/histogram-loss) is untouched -- this
+    function calls it unmodified and ADDS a second stage on its output, so
+    fit()'s existing behavior and callers are unaffected (no regression).
+
+    lambda_psd=0 or psd_polish_iters=0 returns fit()'s output unchanged (the
+    polish stage is purely additive, never re-runs or re-weights the first).
+
+    n_max_psd defaults to 28: experiments/08_positivity/diagnose_1mode.py's
+    fitted-cat splat's rho eigenvalues are converged by n_max~28 (see that
+    module and tests/test_fock_project.py).
+
+    See experiments/08_positivity/penalty_sweep_1mode.py for the fidelity-vs-
+    min_eig sweep this was built to measure (issue #8's falsification test).
+    """
+    mix = fit(data, bins=bins, **fit_kwargs)
+    if psd_polish_iters == 0 or lambda_psd == 0.0:
+        return mix
+
+    centers, targets = histogram_targets(data, bins=bins)
+    K = len(mix.w)
+    v = _pack(mix)
+    m1, m2 = np.zeros_like(v), np.zeros_like(v)
+    for t in range(1, psd_polish_iters + 1):
+        _, g_loss = loss_and_grad(_unpack(v, K), centers, targets,
+                                   lambda_neg=lambda_neg, lambda_sum=lambda_sum)
+        g_psd = _psd_penalty_grad_fd(v, K, n_max_psd, psd_grad_eps)
+        g = g_loss + lambda_psd * g_psd
+        m1 = 0.9 * m1 + 0.1 * g
+        m2 = 0.999 * m2 + 0.001 * g ** 2
+        step = psd_polish_lr * (m1 / (1 - 0.9 ** t)) / (
+            np.sqrt(m2 / (1 - 0.999 ** t)) + 1e-8
+        )
+        v = v - step
     return _unpack(v, K)

@@ -218,6 +218,24 @@ def rho_from_splat(mixture, n_max):
     return rho_from_components(zip(w, mu, Sigma), n_max, M)
 
 
+def rho_component(mixture, k, n_max):
+    """The k-th splat's WEIGHTED contribution w_k * rho_component_k to
+    rho_from_splat(mixture, n_max), i.e. rho_from_splat(mixture, n_max) ==
+    sum(rho_component(mixture, k, n_max) for k in range(len(mixture.w))).
+
+    Lets a caller that perturbs only ONE splat's parameters -- e.g. the
+    finite-difference psd_penalty gradient used by a fit's PSD-polish stage
+    (wigner_splat.fit.fit_psd, wigner_splat.fit3f.fit3f_psd) -- recompute just
+    that one term and add it to a cached sum of the other K-1 components,
+    instead of rebuilding the whole O(K) sum per perturbation. _rho_component
+    is the expensive step (a size-n_max**(2M) Hermite recurrence); caching it
+    per-component turns an O(K) rebuild into O(1) per finite-difference call.
+    """
+    w, mu, Sigma = _mixture_arrays(mixture)
+    M = mu.shape[1] // 2
+    return w[k] * _rho_component(mu[k], Sigma[k], n_max, M)
+
+
 def psd_penalty(rho):
     """Sum of squared NEGATIVE eigenvalues of the Hermitian part of rho.
     Chosen over a bare min-eigenvalue penalty because it does not go flat /
