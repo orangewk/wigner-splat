@@ -518,15 +518,15 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
     covariance/mean-line every fringe-stripe splat shares (identify_stripes
     picks them out of fit3f()'s own output; blob components are untouched).
 
-    Weights get the SAME analytic-data-loss + FD-psd-loss gradient fit3f_psd
-    uses (the linear-in-weight trick: each component's unweighted rho is
-    built once per iteration, psd_penalty's weight-gradient is then a cheap
-    finite difference over K precomputed matrices). The 3 knobs get a plain
-    central-difference FD gradient on the psd penalty only -- there is no
-    analytic (or even cheap-FD) data-loss gradient for them here, so the knob
-    step follows the positivity penalty alone, not the histogram fit; this is
-    why callers should always re-measure fidelity on the ACTUAL polished
-    mixture rather than assume the gradient sign implies it improved.
+    Both the weights AND the 3 knobs descend the SAME combined objective
+    (histogram data loss + lambda_psd * psd_penalty), so this is a fair test
+    of "can shape freedom keep the fit AND fix positivity", not just "can
+    shape kill negativity". Weights use fit3f_psd's gradient (analytic data
+    loss + the linear-in-weight FD psd trick: each component's unweighted rho
+    is built once per iteration). The knobs use central-difference FD on BOTH
+    terms -- FD psd via rebuilt stripe rho, FD data loss via loss3f on the
+    shaped mixture. Fidelity is still re-measured on the ACTUAL polished
+    mixture (FD gradients only approximate the descent direction).
 
     Cost: rebuilding a stripe splat's rho_component (the expensive step, ~1 s
     at n_max_psd=8) happens (1 + 2*3) * S times per iteration -- once for the
@@ -611,6 +611,7 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
             g_psd_w[k] = (pen_p - pen_m) / (2 * fd_eps)
 
         g_psd_k = np.empty(3)
+        g_loss_k = np.empty(3)
         for i in range(3):
             kp, km = knobs.copy(), knobs.copy()
             kp[i] += fd_eps
@@ -620,9 +621,26 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
             rho_p = b_rho + sum((w[k] * s_p[k] for k in stripe_idx), np.zeros_like(b_rho))
             rho_m = b_rho + sum((w[k] * s_m[k] for k in stripe_idx), np.zeros_like(b_rho))
             g_psd_k[i] = (psd_penalty(rho_p) - psd_penalty(rho_m)) / (2 * fd_eps)
+            # data-loss FD on the knob. Without it the knobs chase POSITIVITY
+            # alone and fidelity trivially collapses -- that would not test "can
+            # shape freedom keep the histogram fit AND fix positivity", only
+            # "can shape kill negativity". Mirror the weights, which get both.
+            mix_p = apply_shape_knobs(
+                SplatMixture3F(w, mix.mu, mix.ld, mix.lo), is_stripe, direction,
+                thin=stripe_thin, thin_mult=kp[0], base_mult=kp[1],
+                center_scale=kp[2])
+            mix_m = apply_shape_knobs(
+                SplatMixture3F(w, mix.mu, mix.ld, mix.lo), is_stripe, direction,
+                thin=stripe_thin, thin_mult=km[0], base_mult=km[1],
+                center_scale=km[2])
+            lp = loss3f(mix_p, centers, targets, lambda_neg=lambda_neg,
+                        lambda_sum=lambda_sum, cvar=cvar)
+            lm = loss3f(mix_m, centers, targets, lambda_neg=lambda_neg,
+                        lambda_sum=lambda_sum, cvar=cvar)
+            g_loss_k[i] = (lp - lm) / (2 * fd_eps)
 
         gw = g_loss_w + lambda_psd * g_psd_w
-        gk = lambda_psd * g_psd_k
+        gk = g_loss_k + lambda_psd * g_psd_k
 
         m1w = 0.9 * m1w + 0.1 * gw
         m2w = 0.999 * m2w + 0.001 * gw ** 2
