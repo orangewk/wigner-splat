@@ -1,7 +1,13 @@
 """Pytest process defaults for numerical tests.
 
-Keep BLAS/OpenMP-backed libraries from oversubscribing CPU threads when pytest
-runs overlap on Windows. Use setdefault so an explicit caller setting wins.
+Pin BLAS/OpenMP thread counts to 1 for numerical reproducibility and to avoid
+CPU oversubscription when several pytest processes run at once. setdefault lets
+an explicit caller (e.g. experiments/06_three_mode/run.py) override.
+
+NOTE: this is NOT a fix for the 2026-07-09 pytest hang. That hang was two
+sessions running pytest on the same shared checkout; the fix is worktree
+separation + the AGENTS.md no-double-launch rule, not this pin (the BLAS
+oversubscription hypothesis did not reproduce).
 """
 
 import os

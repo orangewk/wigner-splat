@@ -135,9 +135,12 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
         - *3モード(exp06 seed42、weight-only polish)*: 非物理 negativity を削ると fidelity が
           0.753→~0.4 に崩壊(全 λ で ΔF ≤ −0.32)。反証条件を満たせず **weight-only 物理化は棄却**。
           → **現行の3モード fidelity 優位と PSD 物理性は強い tension にあり、その勝ちは少なくとも
-          一部が非物理な Wigner-overlap score に支えられている**。ただし full-param 3モード polish は
-          FD 勾配だと計算非現実的で**未検証**であり、signed splat 表現自体の不可能性までは結論しない
-          (follow-up: 少数 shape パラメータのみの PSD polish で confound を安く突く)。
+          一部が非物理な Wigner-overlap score に支えられている**。
+        - *3モード(shape+weight polish)*: 少数の global shape パラメータ(3ノブ: stripe thin幅・base幅・
+          center scale)を重みと同時に polish しても tension は解消せず(ΔF −0.26。weight-only の −0.37 より
+          マシだが反証条件 −0.03 の桁違い手前) → **tension は weight-only polish の交絡でなく robust に
+          本質的**。full 28-param/splat FD は依然計算非現実的で**未検証**だが、weight-only→3-shape が
+          どちらも大きく失敗する趨勢から、signed splat 表現が3モードで物理性と品質を両立する見込みは薄い。
         - 含意: 構成的に物理な **ρ=BB† 型(displaced squeezed ket 重ね合わせ)** への再パラメータ化が
           長期の本筋(penalty/projection 不要で PSD 保証)。
 - [x] 2モード拡張(実験04・07。分離可能スプラットは F=0.50 で失敗 → 完全 4×4 共分散で
