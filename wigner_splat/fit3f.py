@@ -486,6 +486,9 @@ def apply_shape_knobs(mixture, is_stripe, direction, thin=0.03, base=0.5,
     unless matched_stripes() itself is changed -- kept as this function's
     default too).
 
+    All three multipliers must be positive. fit3f_shape_psd parameterizes them
+    in log-space so its finite-difference probes stay inside the SPD domain.
+
     at (thin_mult, base_mult, center_scale) == (1, 1, 1) this is a no-op
     (identity reparameterization): new_ld/new_lo reproduce (ld0, lo0) exactly
     and mu is unchanged.
@@ -493,6 +496,8 @@ def apply_shape_knobs(mixture, is_stripe, direction, thin=0.03, base=0.5,
     mu = mixture.mu.copy()
     ld = mixture.ld.copy()
     lo = mixture.lo.copy()
+    if thin <= 0 or base <= 0 or thin_mult <= 0 or base_mult <= 0 or center_scale <= 0:
+        raise ValueError("shape-knob scales must be positive")
     if np.any(is_stripe):
         new_ld, new_lo = _cov_to_chol(
             _probe_cov(direction, thin * thin_mult, base * base_mult))
@@ -541,8 +546,15 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
 
     fit3f()'s own recipe is untouched -- this calls it unmodified and ADDS a
     polish stage on its output (no regression to fit3f()). lambda_psd=0 or
-    shape_polish_iters=0 returns fit3f()'s output unchanged.
+    shape_polish_iters=0 returns fit3f()'s output unchanged. Because the
+    stripe identity is carried by the matched-filter template, the wrapped
+    fit3f() nonlinear shape polish must remain disabled (`polish_iters=0`;
+    the default); a nonzero value is rejected rather than silently disabling
+    this stage.
     """
+    if fit3f_kwargs.get("polish_iters", 0) != 0:
+        raise ValueError("fit3f_shape_psd requires polish_iters=0")
+
     direction_box = {}
 
     def _capture(name, mix, *rest):
@@ -570,11 +582,14 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
         k: rho_component(mix, k, n_max_psd) / mix.w[k] for k in blob_idx
     }
 
-    def stripe_unit_comps(w, knobs):
-        shaped = apply_shape_knobs(
+    def shaped_mix(w, knobs):
+        return apply_shape_knobs(
             SplatMixture3F(w, mix.mu, mix.ld, mix.lo), is_stripe, direction,
             thin=stripe_thin, thin_mult=knobs[0], base_mult=knobs[1],
             center_scale=knobs[2])
+
+    def stripe_unit_comps(w, knobs):
+        shaped = shaped_mix(w, knobs)
         return {
             k: rho_component(shaped, k, n_max_psd) / w[k] for k in stripe_idx
         }
@@ -587,12 +602,15 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
         return total
 
     w = mix.w.copy()
-    knobs = np.ones(3)
+    shape_raw = np.zeros(3)
+    knobs = np.exp(shape_raw)
     m1w, m2w = np.zeros_like(w), np.zeros_like(w)
     m1k, m2k = np.zeros_like(knobs), np.zeros_like(knobs)
 
     for t in range(1, shape_polish_iters + 1):
-        cur = SplatMixture3F(w, mix.mu, mix.ld, mix.lo)
+        # The weight gradient must be evaluated at the same shaped mixture
+        # used by the PSD and knob gradients below.
+        cur = shaped_mix(w, knobs)
         _, g_full = loss_and_grad3f(cur, centers, targets,
                                     lambda_neg=lambda_neg,
                                     lambda_sum=lambda_sum, cvar=cvar)
@@ -614,8 +632,10 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
         g_loss_k = np.empty(3)
         for i in range(3):
             kp, km = knobs.copy(), knobs.copy()
-            kp[i] += fd_eps
-            km[i] -= fd_eps
+            # Work in log-space: this keeps all scales positive and makes the
+            # FD gradient a derivative with respect to shape_raw.
+            kp[i] *= np.exp(fd_eps)
+            km[i] *= np.exp(-fd_eps)
             s_p = stripe_unit_comps(w, kp)
             s_m = stripe_unit_comps(w, km)
             rho_p = b_rho + sum((w[k] * s_p[k] for k in stripe_idx), np.zeros_like(b_rho))
@@ -625,14 +645,8 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
             # alone and fidelity trivially collapses -- that would not test "can
             # shape freedom keep the histogram fit AND fix positivity", only
             # "can shape kill negativity". Mirror the weights, which get both.
-            mix_p = apply_shape_knobs(
-                SplatMixture3F(w, mix.mu, mix.ld, mix.lo), is_stripe, direction,
-                thin=stripe_thin, thin_mult=kp[0], base_mult=kp[1],
-                center_scale=kp[2])
-            mix_m = apply_shape_knobs(
-                SplatMixture3F(w, mix.mu, mix.ld, mix.lo), is_stripe, direction,
-                thin=stripe_thin, thin_mult=km[0], base_mult=km[1],
-                center_scale=km[2])
+            mix_p = shaped_mix(w, kp)
+            mix_m = shaped_mix(w, km)
             lp = loss3f(mix_p, centers, targets, lambda_neg=lambda_neg,
                         lambda_sum=lambda_sum, cvar=cvar)
             lm = loss3f(mix_m, centers, targets, lambda_neg=lambda_neg,
@@ -650,11 +664,9 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
 
         m1k = 0.9 * m1k + 0.1 * gk
         m2k = 0.999 * m2k + 0.001 * gk ** 2
-        knobs = knobs - shape_polish_lr * (m1k / (1 - 0.9 ** t)) / (
+        shape_raw = shape_raw - shape_polish_lr * (m1k / (1 - 0.9 ** t)) / (
             np.sqrt(m2k / (1 - 0.999 ** t)) + 1e-8
         )
+        knobs = np.exp(shape_raw)
 
-    return apply_shape_knobs(
-        SplatMixture3F(w, mix.mu, mix.ld, mix.lo), is_stripe, direction,
-        thin=stripe_thin, thin_mult=knobs[0], base_mult=knobs[1],
-        center_scale=knobs[2])
+    return shaped_mix(w, knobs)

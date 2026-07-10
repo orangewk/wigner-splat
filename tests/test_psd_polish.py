@@ -282,6 +282,23 @@ def test_fit3f_shape_psd_zero_iters_matches_fit3f_exactly():
     np.testing.assert_array_equal(mix_fit.w, mix_shape.w)
 
 
+def test_apply_shape_knobs_rejects_nonpositive_scales():
+    data = _small3f_data()
+    mix, direction = _fit3f_with_direction(data, bins=12)
+    ld0, lo0 = _cov_to_chol(_probe_cov(direction, 0.03))
+    is_stripe = identify_stripes(mix, ld0, lo0)
+
+    with pytest.raises(ValueError, match="positive"):
+        apply_shape_knobs(mix, is_stripe, direction, thin_mult=0.0)
+
+
+def test_fit3f_shape_psd_rejects_nonlinear_polish():
+    with pytest.raises(ValueError, match="polish_iters=0"):
+        fit3f_shape_psd(
+            _small3f_data(), bins=12, polish_iters=1, shape_polish_iters=1
+        )
+
+
 @pytest.mark.slow
 def test_fit3f_shape_psd_reduces_min_eig():
     # n_max_psd=4 (not the official 8) keeps this mechanics test's rho
