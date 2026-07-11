@@ -7,8 +7,8 @@ Renders historical reported values for the synthetic three-mode cat:
 BB^dagger contains the target family and uses per-sample NLL; the signed splat
 is a different representation trained with histogram L2. The figure therefore
 shows an existence result, not a physicalization of the existing splat.
-BB^dagger/projection raw logs and fit parameters were not retained. Phase B will
-replace these hard-coded historical reports with a machine-readable artifact.
+BB^dagger/projection raw logs and fit parameters were not retained; the result
+registry marks those values as historical reports rather than raw evidence.
 """
 import pathlib
 
@@ -16,21 +16,19 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
+from result_io import get_figure_series, load_results  # noqa: E402
 
 OUT = pathlib.Path(__file__).resolve().parent / "issue8_resolution.png"
 
-# Historical reports for exp06 seed-42 data. Phase B replaces these constants
-# with a machine-readable artifact and explicit evidence levels.
-LABELS = [
-    "signed splat\n(overlap score)",
-    "splat\nPSD-projected",
-    "BB†  K=4\n(target-aligned)",
-    "BB†  K=8\n(target-aligned)",
+SERIES = get_figure_series(load_results())
+LABELS = [item["label"] for item in SERIES]
+WALL_LABELS = [item["wall_label"] for item in SERIES]
+F = [item["value"] for item in SERIES]
+PHYSICAL = [item["physical"] for item in SERIES]
+WALL = [
+    np.nan if item["wall_s"] is None else item["wall_s"] for item in SERIES
 ]
-F = [0.7562, 0.48, 0.9501, 0.9507]
-PHYSICAL = [False, True, True, True]
-WALL = [15.5, np.nan, 527, 1647]  # projection wall time was not retained
-EVIDENCE_MARK = ["", "*", "*", "*"]
+EVIDENCE_MARK = [item["evidence_mark"] for item in SERIES]
 TRUE_F = 1.0
 
 
@@ -68,7 +66,7 @@ def main():
             edgecolor="black", width=0.62)
     axw.set_yscale("log")
     axw.set_xticks(x)
-    axw.set_xticklabels(["splat", "proj", "K=4", "K=8"], fontsize=9)
+    axw.set_xticklabels(WALL_LABELS, fontsize=9)
     axw.set_ylabel("wall clock (s, log)", fontsize=10)
     axw.set_title("historical cost reports:\nFD optimizer is slow", fontsize=10)
     for xi, w, mark in zip(x, WALL, EVIDENCE_MARK):

@@ -60,6 +60,9 @@ def test_figure_primary_and_evidence_marks():
     registry = result_io.load_results(RESULTS_PATH)
     figure = result_io.get_figure_series(registry)
     assert [item["id"] for item in figure] == registry["figure"]["figure_order"]
+    assert [item["wall_label"] for item in figure] == [
+        "splat", "proj", "K=4", "K=8",
+    ]
     assert [item["evidence_mark"] for item in figure] == ["", "*", "*", "*"]
 
     primary = next(item for item in figure if item["id"] == "bbdag_k4")

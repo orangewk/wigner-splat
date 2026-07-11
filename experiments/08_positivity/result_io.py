@@ -155,15 +155,18 @@ def validate_results(registry):
         _require(
             series,
             {
-                "id", "label", "physical", "selector", "primary_record_id",
+                "id", "label", "wall_label", "physical", "selector",
+                "primary_record_id",
                 "primary_selection_reason",
             },
             where,
         )
         if not _text(series["id"]) or series["id"] in series_by_id:
             raise ResultRegistryError(f"{where}.id must be unique and non-empty")
-        if not _text(series["label"]) or not _text(
-            series["primary_selection_reason"]
+        if (
+            not _text(series["label"])
+            or not _text(series["wall_label"])
+            or not _text(series["primary_selection_reason"])
         ):
             raise ResultRegistryError(f"{where} text fields must be non-empty")
         if type(series["physical"]) is not bool:

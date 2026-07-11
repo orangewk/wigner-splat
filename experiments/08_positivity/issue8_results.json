@@ -38,6 +38,7 @@
       {
         "id": "signed_splat",
         "label": "signed splat\n(overlap score)",
+        "wall_label": "splat",
         "physical": false,
         "selector": {
           "method": "signed_splat_fit3f",
@@ -50,6 +51,7 @@
       {
         "id": "signed_splat_psd_projection",
         "label": "splat\nPSD-projected",
+        "wall_label": "proj",
         "physical": true,
         "selector": {
           "method": "signed_splat_psd_projection",
@@ -62,6 +64,7 @@
       {
         "id": "bbdag_k4",
         "label": "BB†  K=4\n(target-aligned)",
+        "wall_label": "K=4",
         "physical": true,
         "selector": {
           "method": "bbdag_coherent_product",
@@ -76,6 +79,7 @@
       {
         "id": "bbdag_k8",
         "label": "BB†  K=8\n(target-aligned)",
+        "wall_label": "K=8",
         "physical": true,
         "selector": {
           "method": "bbdag_coherent_product",
