@@ -143,6 +143,18 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
           どちらも大きく失敗する趨勢から、signed splat 表現が3モードで物理性と品質を両立する見込みは薄い。
         - 含意: 構成的に物理な **ρ=BB† 型(displaced squeezed ket 重ね合わせ)** への再パラメータ化が
           長期の本筋(penalty/projection 不要で PSD 保証)。
+      - **解決(実験08、2026-07-11)**: ρ=BB† を実装(`wigner_splat/bbdag.py` 1モード・`bbdagM.py` 多モード)。
+        状態 |ψ⟩=Σ_c z_c ∏_m D(α)S(ξ)|0⟩ を組んでからマージナル p_θ=|ψ_θ|²/Z を導出 →
+        **rank-1 なので構成的に物理**(min 固有値=0、penalty/projection 不要)。同一指標
+        F=tr(ρ_recon ρ_cat3) で3モード(exp06 データ)を再対戦:
+        - **BB†(物理): F 0.9501 / 0.9434 / 0.9332(seed 42/1/2、K=4)** vs 符号付き splat(非物理)
+          0.756 / 0.741 / 0.624。物理状態が非物理 splat を**上回る**。
+        - NLL(fit)=3.9108 < NLL(真状態)=3.9153 → フィットは有限データ最尤点にあり、F~0.95 は
+          **データ限界の ceiling**。splat の 0.756 はこの ceiling より下。
+        - **判定(scope 明示)**: この cat ベンチマークでは physicality 制約自体は fidelity のボトルネックでない
+          (負性は高 fidelity に不要だった)。ただし BB† ansatz はターゲット族を含む(target-aligned)ため
+          「一般に物理性は無コスト」とは主張しない。未決: 族外ターゲット(squeezed/非等振幅/mixed/損失)、
+          train/test split、解析勾配(現状 FD で ~300-1600s vs splat 15s)。
 - [x] 2モード拡張(実験04・07。分離可能スプラットは F=0.50 で失敗 → 完全 4×4 共分散で
       F=MLE 同等(20シード検定で互角確定)・速度 7.4倍。もつれ ⟺ 傾いた共分散を実証)
 - [x] 3モード拡張(実験06。splat F 0.62–0.76 / ~15 s vs MLE(512次元)F 0.676 / 900 s DNF

@@ -348,3 +348,42 @@ speed 2x; 2 modes: tie at 7.4x less compute; 3 modes: splat wins BOTH
 is, practically, the only full-tomography option. Experiment 06 formalizes
 this as the official run (in flight at the time of writing; its printed
 verdict and figure land in experiments/06_three_mode/).
+
+## 2026-07-11 — Issue #8 resolved (this benchmark): rho=BB† physical fit beats the splat
+
+Waves: constructively-physical reparameterization (dream #1). Instead of placing
+signed Gaussians in phase space (forward.py, no PSD guarantee), build a STATE and
+derive its marginals. Pure ansatz |psi> = sum_c z_c prod_m D(alpha_c^m) S(xi_c^m)|0>,
+p_theta(x) = |psi_theta(x)|^2 / Z -> physical (rank-1 PSD) by construction, and
+|.|^2/Z needs no nonnegativity/sum penalty. Modules: bbdag.py (1-mode, squeeze),
+bbdagM.py (multimode coherent-product kets, all quantities closed form via the
+coherent overlap <a|b> = exp(-|a|^2/2 - |b|^2/2 + a* b)). oracle de-risked the
+displaced-squeezed wavefunction + LO-phase rotation (alpha->alpha e^{-i theta},
+xi->xi e^{-2 i theta}); it reduces to states.coherent_wavefunction at xi=0 (diff 0).
+
+Happened:
+- 1-mode gate (prototype): cat recovered at F=0.9999 with K=2 (a cat IS two
+  coherent kets). Machinery validated.
+- 3-mode decider, exp06 seed-42 data (27 triples x 2000 shots), SAME metric
+  F = tr(rho_recon rho_cat3) = (2pi)^3 int W W as forward3f.fidelity_vs_cat3:
+    signed splat (generic, ~15 s):   F 0.756 / 0.741 / 0.624 (seeds 42/1/2), UNphysical.
+    splat PSD-projected:             F 0.48, physical but degraded.
+    BB† K=4 (physical, ~300-530 s):  F 0.9501 / 0.9434 / 0.9332 (seeds 42/1/2).
+    BB† K=8:                         F 0.9507 (seed 42).
+- Diagnostic: NLL(fit)=3.9108 < NLL(true)=3.9153 on seed-42 data -> the fit sits
+  at/below the finite-data ML optimum; F~0.95 is the DATA-LIMITED ceiling (ML
+  overfits sampling noise slightly below the truth), and the splat's 0.756 sits
+  below that ceiling.
+
+Learned (scoped per oracle fairness review): FOR THIS 3-mode cat benchmark,
+physicality is NOT the fidelity bottleneck -- a physical, cat-family-capable ML
+ansatz reaches the finite-data fidelity ceiling ~0.95 on the identical metric,
+so the signed splat's non-PSD negativity was NOT necessary for high fidelity
+here. Honest scope: (a) the BB† ansatz CONTAINS the target family (two coherent
+product kets), so this is target-aligned physical ML vs generic unphysical splat,
+not generic-vs-generic; (b) "negativity was noise-fitting" is NOT yet claimable
+(splat optimizes histogram-L2, not likelihood) -- needs a train/test held-out
+comparison; (c) the FD optimizer is far slower than the splat (300-1600 s vs 15 s).
+Open follow-ups to firm the claim: out-of-ansatz-family target (squeezed cat,
+unequal amplitudes, mixed cat, loss channel), train/test split, analytic
+gradients, and multimode squeeze. Figure: experiments/08_positivity/issue8_resolution.png.
