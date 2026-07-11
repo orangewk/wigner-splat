@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata from this file."
+title: wigner-splat
+type: software
+authors:
+  - name: orangewk
+repository-code: "https://github.com/orangewk/wigner-splat"
+license: MIT

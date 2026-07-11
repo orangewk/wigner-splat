@@ -1,3 +1,20 @@
+# Python
 __pycache__/
 *.pyc
+.venv/
+venv/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Private keys and credentials
+*.key
+*.pem
+*.p12
+*.pfx
+serviceAccountKey.json
+
+# Experiment outputs
 experiments/*/out/
