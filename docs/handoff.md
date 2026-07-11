@@ -33,8 +33,25 @@ splat 出力の ρ は PSD 保証がない（Wigner 負性=正しい、固有値
 - **3モード（shape+weight polish、3 global ノブ）**: weight-only より改善（proj F 0.49 vs 0.38）だが ΔF −0.26 で桁違い不合格。
 - **判定**: 3モードでは **fidelity 優位と PSD 物理性が robust な tension**。weight-only の交絡でなく本質的（shape 自由度でも救えず）。exp06 の3モード勝ちは**少なくとも一部が非物理な Wigner-overlap score 由来**。ただし **full 28-param/splat FD は計算非現実的で未検証**（趨勢から救済見込みは薄い）。
 
+### issue #8 続報 — target-aligned ρ=BB† の存在結果（2026-07-11）
+`wigner_splat/bbdag.py`（1モード）/`bbdagM.py`（多モード coherent-product ket）を実装。状態を組んで
+マージナルを導出（p_θ=|ψ_θ|²/Z）するため構成的に物理。過去の実行報告では BB† の exact state
+fidelity が 0.9501/0.9434/0.9332(seed 42/1/2)、非PSD signed splat の target Wigner-overlap
+score が 0.756/0.741/0.624。BB† はターゲット族を含み、per-sample NLL を使う別表現・別学習損失なので、
+これは物理 ansatz がこの合成 benchmark で高 fidelity を達成できたという存在結果に限る。現行 splat の
+負固有成分の必要性や、既存 splat の物理化 tension が解消したことは示さない。
+
+training NLL 3.9108(fit) / 3.9153(true state) は historical reported observations。この大小関係は
+global optimum や fidelity 上限の証拠ではない。BB† の raw stdout log・fit parameters はリポジトリに
+残っていないため、再計算可能な result artifact/evidence bundle は別途追加する。
+図: `experiments/08_positivity/issue8_resolution.png`。実験: `bbdag_prototype_1mode.py`/`bbdag_3mode.py`/
+`bbdag_3mode_robustness.py`/`figure_issue8.py`。
+
 ### 次にやる価値（優先順）
-1. **ρ=BB†（displaced squeezed ket 重ね合わせ）への再パラメータ化** — 構成的に PSD 保証、penalty/projection 不要。#8 の長期本筋（Fable dream #1）。ただし別 optimizer の大がかりな実装。1モードで prototype → 多モードへ。
+1. **BB† 存在結果の firm-up** — (a) raw samples・fit parameters・trace を伴う再現可能な artifact、
+   (b) 族外ターゲット（squeezed cat・非等振幅・mixed・損失チャネル）、(c) matched-objective と
+   train/test held-out 比較、(d) **解析勾配**（現状 FD で ~300-1600s、splat 15s に対し大幅に遅い）、
+   (e) 多モード squeeze の一般化。
 2. **#6 もつれコスト予想の理論化**（exp05: R ~ k、Gabor フレーム理論で下界 → 短い note/preprint）。
 3. **#4 実データ**（検出効率 eta + ガウス暗ノイズ = フォワードモデルへの1回のガウス畳み込み。公開 homodyne データで MLE と再対戦）。
 4. follow-up（小）: 3モード shape polish を full-param 近くまで広げられれば #8 の最後の caveat が閉じる（現状 3ノブ止まり、計算コスト大）。
