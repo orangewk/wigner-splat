@@ -24,6 +24,12 @@ vs forward.SplatMixture:
   * dividing by Z normalizes the marginal    -> no lambda_sum constraint needed.
 Physicality (rho = |psi><psi|/Z is rank-1 PSD, min_eig = 0) comes for free.
 
+The prototype evaluates Z by finite-grid quadrature rather than a closed-form
+overlap. Normalization is therefore approximate. norm_sq() rejects malformed
+grids, invalid Z, and material density remaining at the grid boundaries. This
+boundary diagnostic catches ordinary tail truncation without another integral,
+but is not a formal convergence proof.
+
 Single-mode only for now (prototype). Multimode is the follow-up.
 
 Wavefunction convention (states.py / fock.py): dimensionless quadratures,
@@ -61,12 +67,24 @@ def sq_coherent_wavefunction(x, alpha, xi):
     return pref * np.exp(-(q / 2) * (x - x0) ** 2 + 1j * p0 * x - 1j * ar * ai)
 
 
+def _validated_norm(Z):
+    """Return scalar Z after rejecting invalid normalization factors."""
+    value = np.asarray(Z)
+    if value.ndim != 0 or not np.isrealobj(value):
+        raise ValueError("state norm Z must be a real scalar")
+    value = float(value)
+    if not np.isfinite(value) or value <= 0.0:
+        raise ValueError(f"state norm Z must be finite and strictly positive, got {value!r}")
+    return value
+
+
 class PureKetState:
     """Pure state |psi> = sum_c z_c D(alpha_c) S(xi_c) |0> (single mode).
 
     z, alpha, xi are complex (K,) arrays. All observables are derived from the
     position wavefunction, so the represented density operator rho = |psi><psi|
-    is physical by construction.
+    is physical by construction. Numerical marginal normalization uses the
+    finite-grid quadrature returned by norm_sq().
     """
 
     def __init__(self, z, alpha, xi):
@@ -94,17 +112,47 @@ class PureKetState:
             out += self.z[c] * sq_coherent_wavefunction(x, a[c], xr[c])
         return out
 
-    def norm_sq(self, grid=None):
-        """Z = <psi|psi> = integral |psi(x)|^2 dx (theta-independent)."""
+    def norm_sq(self, grid=None, tail_rtol=1e-8):
+        """Finite-grid trapezoidal estimate of the theta-independent norm Z.
+
+        The default grid is [-12, 12]. A dimensionless boundary-density
+        indicator rejects grids whose wavefunction tails have not decayed.
+        """
         if grid is None:
             grid = np.linspace(-12.0, 12.0, 2048)
+        grid = np.asarray(grid)
+        if grid.ndim != 1 or grid.size < 3 or not np.isrealobj(grid):
+            raise ValueError("norm grid must be a one-dimensional real array with >= 3 points")
+        grid = grid.astype(float, copy=False)
+        if not np.all(np.isfinite(grid)) or not np.all(np.diff(grid) > 0.0):
+            raise ValueError("norm grid must contain finite, strictly increasing points")
+        if not np.isfinite(tail_rtol) or tail_rtol <= 0.0:
+            raise ValueError("tail_rtol must be finite and strictly positive")
+
         psi = self.psi(grid, 0.0)
-        return np.trapezoid(np.abs(psi) ** 2, grid)
+        density = np.abs(psi) ** 2
+        Z = _validated_norm(np.trapezoid(density, grid))
+
+        # Inspect a small boundary window so an accidental zero at one endpoint
+        # cannot hide a still-rising tail. No expanded-grid reintegration.
+        edge_count = min(8, max(2, grid.size // 100))
+        edge_density = float(max(
+            np.max(density[:edge_count]),
+            np.max(density[-edge_count:]),
+        ))
+        tail_indicator = edge_density * float(grid[-1] - grid[0]) / Z
+        if not np.isfinite(tail_indicator) or tail_indicator > tail_rtol:
+            raise ValueError(
+                "norm grid appears to truncate wavefunction tails: "
+                f"boundary indicator {tail_indicator:.3e} > {tail_rtol:.3e}"
+            )
+        return Z
 
     def radon(self, x, theta, Z=None):
-        """Normalized homodyne marginal p_theta(x) = |psi_theta(x)|^2 / Z."""
+        """Homodyne marginal normalized by a validated finite-grid estimate Z."""
         if Z is None:
             Z = self.norm_sq()
+        Z = _validated_norm(Z)
         return np.abs(self.psi(x, theta)) ** 2 / Z
 
 
@@ -126,7 +174,7 @@ def _unpack(v, K):
 
 def loss(state, centers, targets, norm_grid=None):
     """L2 histogram match. No nonnegativity/sum penalty: |psi|^2/Z handles both."""
-    Z = state.norm_sq(norm_grid)
+    Z = _validated_norm(state.norm_sq(norm_grid))
     total = 0.0
     for theta, hist in targets:
         model = state.radon(centers, theta, Z=Z)

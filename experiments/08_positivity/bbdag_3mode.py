@@ -1,21 +1,15 @@
-"""Experiment 08 (positivity) -- rho=BB^dagger, THREE modes (issue #8 decider).
+"""Experiment 08 -- target-aligned physical rho=BB^dagger, three modes.
 
-The falsification test declared in the handoff. On exp06 seed42's data (the
-point where the SIGNED splat wins fidelity 0.756 but its rho is UNphysical,
-physicalized F_proj=0.48), ask whether a CONSTRUCTIVELY-PHYSICAL reconstructor
-can match it:
-
-    PASS (tension RESOLVED): BB^dagger reaches F >= 0.70 AND is physical
-        (automatic for |psi><psi|)  -> the negativity was NOT load-bearing.
-    FAIL (negative result): BB^dagger stalls below F ~ 0.55 within budget
-        -> physicality genuinely costs fidelity here, OR the ansatz/optimizer
-        is too weak.
+On exp06 seed-42 homodyne samples, measure whether a constructively physical
+coherent-product ansatz can attain high exact state fidelity. This is an
+existence probe: the ansatz contains the target cat family.
 
 Same data as exp06: alpha=1.5, parity=+1, 3x3x3=27 angle triples over [0,pi)^3,
 2000 shots/triple, seed 42. Fairness note: BB^dagger uses per-sample NLL, not
-the shared histogram; both consume the SAME homodyne samples. Fidelity is the
-exact pure-state overlap |<psi_fit|cat3>|^2 (closed form), comparable to the
-splat's Wigner-overlap fidelity but not identical -- reported as such.
+the splat's histogram-L2 objective. BB^dagger reports the exact pure-state
+fidelity |<psi_fit|cat3>|^2; the historical non-PSD splat number is a Wigner
+overlap score. This run does not determine whether negative-eigenvalue
+components of the existing splat fit are necessary for that fit's score.
 """
 import itertools
 import pathlib
@@ -69,8 +63,9 @@ def main():
           flush=True)
     data = cat.sample_homodyne(GRID, SHOTS, rng=SEED)
 
-    print(f"\n=== BB-dagger 3-mode fit (compare: signed splat F=0.756 unphysical, "
-          f"F_proj=0.48) ===")
+    print("\n=== BB-dagger 3-mode target-aligned existence probe ===")
+    print("historical reports: signed-splat overlap=0.756 (non-PSD), "
+          "PSD-projected fidelity=0.48")
     for K in [4, 8]:
         t0 = time.time()
         state = fit_bbdagM(data, K=K, M=3, iters=200, lr=0.05, seed=0,
@@ -78,9 +73,13 @@ def main():
                                                         flush=True))
         wall = time.time() - t0
         F = fidelity_vs_cat3(state, ALPHA, PARITY)
-        verdict = "PASS" if F >= 0.70 else ("FAIL" if F < 0.55 else "GRAY")
+        observation = (
+            "HIGH-F TARGET-ALIGNED FIT"
+            if F >= 0.70
+            else "BELOW HISTORICAL PROBE THRESHOLD"
+        )
         print(f"  K={K}: F={F:.4f}  wall={wall:.1f}s  physical=YES(by construction)  "
-              f"[{verdict}]")
+              f"[{observation}]")
 
 
 if __name__ == "__main__":

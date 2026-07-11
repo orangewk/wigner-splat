@@ -1,9 +1,15 @@
 """Issue #8 -- BB^dagger 3-mode robustness across the exp06 data seeds.
 
-Confirms the seed-42 result is not seed-specific: fit the physical coherent-ket
-reconstructor on each of exp06's three data seeds and report fidelity. Measured:
+Fit the target-aligned physical coherent-ket reconstructor on each of exp06's
+three data seeds. The historical branch report lists:
     seed 42: F=0.9501   seed 1: F=0.9434   seed 2: F=0.9332   (K=4, iters=120)
-vs the signed splat's 0.756 / 0.741 / 0.624 on the same seeds.
+versus signed-splat target Wigner-overlap scores 0.756 / 0.741 / 0.624.
+
+The BB^dagger stdout logs and fit parameters for those historical numbers were
+not retained. A fresh invocation produces new measurements; it does not recover
+the missing historical evidence. BB^dagger also uses a different representation
+and per-sample NLL rather than the splat's histogram-L2 objective, so this is an
+existence/robustness probe rather than a physicalization of the signed splat.
 """
 import itertools
 import pathlib
@@ -25,12 +31,12 @@ GRID = [t for t in itertools.product(
     np.linspace(0, np.pi, 3, endpoint=False),
     np.linspace(0, np.pi, 3, endpoint=False),
 )]
-SPLAT_F = {42: 0.756, 1: 0.741, 2: 0.624}  # exp06 signed-splat baseline (unphysical)
+SPLAT_F = {42: 0.756, 1: 0.741, 2: 0.624}  # exp06 non-PSD overlap-score baseline
 
 
 def main():
     cat = ThreeModeCat(ALPHA, parity=PARITY)
-    print("seed | BB† F (physical) | splat F (unphysical)")
+    print("seed | BB† exact F (physical) | splat overlap score (non-PSD)")
     for seed in [42, 1, 2]:
         data = cat.sample_homodyne(GRID, SHOTS, rng=seed)
         t0 = time.time()

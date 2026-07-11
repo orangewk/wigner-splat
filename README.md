@@ -143,17 +143,19 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
           どちらも大きく失敗する趨勢から、signed splat 表現が3モードで物理性と品質を両立する見込みは薄い。
         - 含意: 構成的に物理な **ρ=BB† 型(displaced squeezed ket 重ね合わせ)** への再パラメータ化が
           長期の本筋(penalty/projection 不要で PSD 保証)。
-      - **解決(実験08、2026-07-11)**: ρ=BB† を実装(`wigner_splat/bbdag.py` 1モード・`bbdagM.py` 多モード)。
-        状態 |ψ⟩=Σ_c z_c ∏_m D(α)S(ξ)|0⟩ を組んでからマージナル p_θ=|ψ_θ|²/Z を導出 →
-        **rank-1 なので構成的に物理**(min 固有値=0、penalty/projection 不要)。同一指標
-        F=tr(ρ_recon ρ_cat3) で3モード(exp06 データ)を再対戦:
-        - **BB†(物理): F 0.9501 / 0.9434 / 0.9332(seed 42/1/2、K=4)** vs 符号付き splat(非物理)
-          0.756 / 0.741 / 0.624。物理状態が非物理 splat を**上回る**。
-        - NLL(fit)=3.9108 < NLL(真状態)=3.9153 → フィットは有限データ最尤点にあり、F~0.95 は
-          **データ限界の ceiling**。splat の 0.756 はこの ceiling より下。
-        - **判定(scope 明示)**: この cat ベンチマークでは physicality 制約自体は fidelity のボトルネックでない
-          (負性は高 fidelity に不要だった)。ただし BB† ansatz はターゲット族を含む(target-aligned)ため
-          「一般に物理性は無コスト」とは主張しない。未決: 族外ターゲット(squeezed/非等振幅/mixed/損失)、
+      - **存在結果(実験08、2026-07-11)**: 構成的に物理な ρ=BB† を実装
+        (`wigner_splat/bbdag.py` は1モード displaced-squeezed ket、`bbdagM.py` は多モード
+        coherent-product ket)。多モード ansatz は3モード cat のターゲット族を含む(target-aligned)。
+        過去の実行報告では BB† の exact state fidelity は K=4 で
+        0.9501 / 0.9434 / 0.9332(seed 42/1/2)、K=8 seed42 で 0.9507。exp06 の非PSD signed
+        splat は同じ target に対する Wigner-overlap score 0.756 / 0.741 / 0.624 だった。
+        - training NLL 3.9108(fit) / 3.9153(true state) も過去の報告値。この大小関係だけでは
+          global ML optimum や fidelity 上限を特定できない。BB† の raw stdout log・fit parameters は
+          保存されておらず、再計算可能な evidence bundle は今後追加する。
+        - **scope**: これは「ターゲット族を含む物理 ansatz が、この合成 benchmark で高 fidelity を
+          達成できた」という存在結果。signed splat の物理化ではなく、表現も学習損失も異なる
+          (BB†: per-sample NLL、splat: histogram L2)。したがって現行 splat 内の負固有成分の必要性は
+          判定しない。未決: 族外ターゲット(squeezed/非等振幅/mixed/損失)、matched-objective 比較、
           train/test split、解析勾配(現状 FD で ~300-1600s vs splat 15s)。
 - [x] 2モード拡張(実験04・07。分離可能スプラットは F=0.50 で失敗 → 完全 4×4 共分散で
       F=MLE 同等(20シード検定で互角確定)・速度 7.4倍。もつれ ⟺ 傾いた共分散を実証)
