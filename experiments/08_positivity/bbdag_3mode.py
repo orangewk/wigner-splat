@@ -10,6 +10,8 @@ the splat's histogram-L2 objective. BB^dagger reports the exact pure-state
 fidelity |<psi_fit|cat3>|^2; the historical non-PSD splat number is a Wigner
 overlap score. This run does not determine whether negative-eigenvalue
 components of the existing splat fit are necessary for that fit's score.
+Fresh runs save raw samples, optimizer trace, fitted parameters, metadata, and
+the source commit under the ignored ``out/`` directory.
 """
 import itertools
 import pathlib
@@ -20,15 +22,25 @@ import numpy as np
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
 
+from bbdag_bundle import (  # noqa: E402
+    git_source_state, timestamped_bundle_path, write_bbdag_bundle,
+)
 from wigner_splat.bbdagM import (  # noqa: E402
-    CoherentKetState, fit_bbdagM, fidelity_vs_cat3,
+    CoherentKetState, fit_bbdagM, fidelity_vs_cat3, nll,
 )
 from wigner_splat.states3 import ThreeModeCat  # noqa: E402
 
 ALPHA = 1.5
 PARITY = +1
+MODES = 3
 SHOTS = 2000
 SEED = 42
+K_VALUES = (4, 8)
+ITERS = 200
+LEARNING_RATE = 0.05
+INIT_SEED = 0
+GRAD_EPS = 1e-5
+OUT_ROOT = pathlib.Path(__file__).resolve().parent / "out"
 GRID = [t for t in itertools.product(
     np.linspace(0, np.pi, 3, endpoint=False),
     np.linspace(0, np.pi, 3, endpoint=False),
@@ -59,6 +71,7 @@ def sanity():
 def main():
     sanity()
     cat = ThreeModeCat(ALPHA, parity=PARITY)
+    source = git_source_state()
     print(f"\nsampling {len(GRID)} triples x {SHOTS} shots, seed={SEED} ...",
           flush=True)
     data = cat.sample_homodyne(GRID, SHOTS, rng=SEED)
@@ -66,13 +79,26 @@ def main():
     print("\n=== BB-dagger 3-mode target-aligned existence probe ===")
     print("historical reports: signed-splat overlap=0.756 (non-PSD), "
           "PSD-projected fidelity=0.48")
-    for K in [4, 8]:
-        t0 = time.time()
-        state = fit_bbdagM(data, K=K, M=3, iters=200, lr=0.05, seed=0,
-                           callback=lambda t, l: print(f"    K={K} it{t}: NLL={l:.4f}",
-                                                        flush=True))
-        wall = time.time() - t0
+    for K in K_VALUES:
+        trace = []
+
+        def record_trace(iteration, loss):
+            trace.append((int(iteration), float(loss)))
+            print(f"    K={K} it{iteration}: NLL={loss:.4f}", flush=True)
+
+        t0 = time.perf_counter()
+        state = fit_bbdagM(
+            data, K=K, M=MODES, iters=ITERS, lr=LEARNING_RATE,
+            seed=INIT_SEED, callback=record_trace, grad_eps=GRAD_EPS,
+        )
+        wall = time.perf_counter() - t0
         F = fidelity_vs_cat3(state, ALPHA, PARITY)
+        final_nll = nll(state, data)
+        final_trace = (ITERS, float(final_nll))
+        if trace and trace[-1][0] == ITERS:
+            trace[-1] = final_trace
+        else:
+            trace.append(final_trace)
         observation = (
             "HIGH-F TARGET-ALIGNED FIT"
             if F >= 0.70
@@ -80,6 +106,37 @@ def main():
         )
         print(f"  K={K}: F={F:.4f}  wall={wall:.1f}s  physical=YES(by construction)  "
               f"[{observation}]")
+        bundle = write_bbdag_bundle(
+            timestamped_bundle_path(OUT_ROOT, f"bbdag-3mode-seed{SEED}-k{K}"),
+            data=data,
+            state=state,
+            trace=trace,
+            metadata={
+                "entrypoint": "experiments/08_positivity/bbdag_3mode.py",
+                "target": {
+                    "family": "three_mode_cat", "modes": MODES,
+                    "alpha": ALPHA, "parity": PARITY,
+                },
+                "data": {
+                    "seed": SEED, "shots_per_grid_point": SHOTS,
+                    "grid_points": len(GRID), "grid_interval": "[0, pi)",
+                    "grid_endpoint": False,
+                },
+                "optimizer": {
+                    "K": K, "iters": ITERS, "init_seed": INIT_SEED,
+                    "learning_rate": LEARNING_RATE, "grad_eps": GRAD_EPS,
+                    "loss": "per_sample_nll", "gradient": "finite_difference",
+                },
+                "result": {
+                    "exact_state_fidelity": float(F),
+                    "final_training_per_sample_nll": float(final_nll),
+                    "fit_wall_s": float(wall),
+                    "physical_by_construction": True,
+                },
+                "source": source,
+            },
+        )
+        print(f"  evidence bundle: {bundle}")
 
 
 if __name__ == "__main__":
