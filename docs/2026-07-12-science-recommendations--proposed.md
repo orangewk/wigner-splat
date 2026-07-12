@@ -3,6 +3,8 @@
 状態: proposed(これは**提案であり決定ではない**。採否・着手順は orange が判断する)
 出所: orange 依頼のリポ全体レビュー(2026-07-12、Claude Fable セッション)。配布キャンペーン([docs/2026-07-12-outreach-campaign--wip.md](2026-07-12-outreach-campaign--wip.md)、issues #18–#23)とは独立の「本務」= 科学ロードマップへの提言。
 
+> **追記 (2026-07-13)**: 下の「前提となる現在地」の *existence result を手法に昇格* という枠組みは、その後 issue #29 の先行研究サーベイ([docs/prior-art-survey.md](prior-art-survey.md) §5) で更新された。**BB† の単独 novelty は当初想定より低い**(表現＝stellar/coherent 分解系、「物理 model-based が generic MLE に勝つ」＝Tiunov 2020 で既知、Fock-free スケーリング＝Fedotova 2022)。生き残る貢献はアルゴリズム/実証に限られ、しかも #27/#28 が既存手法に勝つ領域を実証して初めて論拠が立つ(contingent)。着手順の refine と併せ、本 PR のコメントも参照。以下の提言本文は当時の記録として保持する。
+
 ## 前提となる現在地(1段落)
 
 スケーリング梯子は実測で確定(1モード: MLE 2倍速勝ち / 2モード: 互角・splat 7.4倍速 / 3モード: splat 両勝ち)。ただし issue #8 で 3モードの splat 優位は一部が非物理な Wigner-overlap score に支えられることが判明し、PR #15 の ρ=BB† 再パラメータ化が物理保証つき F 0.93–0.95 の **existence result** を出した。次の焦点は「existence result を手法に昇格させる」こと、およびその過程で主張の公正さを保つこと。
