@@ -388,3 +388,21 @@ its fitted overlap score. Open follow-ups: evidence-bundle capture, matched-obje
 and held-out comparisons, out-of-family targets (squeezed cat, unequal amplitudes,
 mixed cat, loss channel), analytic gradients, and multimode squeeze. Figure:
 experiments/08_positivity/issue8_resolution.png.
+
+## 2026-07-12 — Issue #6 entanglement-cost: one theorem + a sharp open problem
+
+Turned experiment 05's empirical law R = K_axis/K_tilted ~ k (re-measured: log-log
+slope 1.02, corr 0.956; m_1D common-width fit 1.70 k + 2.27, linear) into precise
+statements (docs/2026-07-12-entanglement-cost-theory-note.md), oracle-de-risked.
+- THEOREM: common-width translated real Gaussians need Theta(k) atoms to approximate
+  cos(kp)e^{-p^2} (lower Omega(k) via Schoenberg total positivity / variation-diminishing:
+  n translates -> <= n-1 sign changes, target oscillates Omega(k) times; upper O(k) by
+  construction). This covers exactly the measured m_1D.
+- THEOREM: K_tilted = O(k) by the rotate-to-(p1+p2)-and-elongate construction.
+- OPEN (crux): K_axis = Omega(m_1D^2) -> R = Omega(k). Rank fails (function is rank-2
+  separable u_c u_c - u_s u_s); sign-matrix fails ((-1)^{i+j} is rank-1). Needs a
+  product-Gaussian-dictionary sparsity bound, not tensor rank. Also open: width-free
+  m_1D = Omega(k) (adaptive widths defeat total positivity; empirically still linear).
+- Reading: entanglement decides WHETHER a tilt is needed (separable F=0.50, saturates
+  with E); interference scale k = sub-Planck fineness decides HOW MUCH it saves (R~k).
+  Stellar rank (cat = infinite) is NOT the right complexity measure here; k is.
