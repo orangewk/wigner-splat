@@ -153,8 +153,37 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
         - **scope**: これは「ターゲット族を含む物理 ansatz が、この合成 benchmark で高 fidelity を
           達成できた」という存在結果。signed splat の物理化ではなく、表現も学習損失も異なる
           (BB†: per-sample NLL、splat: histogram L2)。したがって現行 splat 内の負固有成分の必要性は
-          判定しない。未決: 族外ターゲット(squeezed/非等振幅/mixed/損失)、matched-objective 比較、
-          train/test split、解析勾配(現状 FD で ~300-1600s vs splat 15s)。
+          判定しない。
+        - **フェアベースライン(issue #27、2026-07-13 実測)**: 同じ純粋制約・同じ per-sample NLL・
+          同じ Adam +解析勾配で、表現だけ違う対照(`purefock3.py`: 一般 Fock ket 512 複素パラメータ)を
+          追加(train 1600 / test 400 の held-out 付き、実験09)。結果(3シード平均): **fidelity は
+          generic が上(0.979 vs 0.959)**、計算は BB† が 11倍速(13.8 s vs 156 s)、held-out NLL は
+          BB† が真の状態水準(3.919 ≈ true 3.923)で generic は過適合(3.933)。→ フルランク MLE
+          (0.676 DNF)に対する fidelity 差の主因は**純粋制約 + サンプル勾配 ML** であり coherent
+          ansatz ではない(「ansatz の fidelity 優位」は主張しない)。ansatz が買うのは **11倍速・
+          1/32 の実パラメータ数(32 vs 1024)・過適合しない held-out 尤度**。R ρ R の 0.676 は部分的に
+          アルゴリズム(ビン化データへの固定点反復)の問題でもあった(同じ 512 次元空間の勾配 ML は
+          0.98 に届く)。
+        - **out-of-family + rank>1(issue #28、2026-07-13 実測)**: 族外ターゲット 2 種を実装
+          (`states3x.py`: 損失チャネル後の猫 = 混合 rank-2、squeezed 猫 = coherent 族外の純粋状態)。
+          rank-R 拡張(`MixedCoherentKetState`、ρ=BB† のまま PSD)+ coherent span 上の**厳密 Uhlmann
+          fidelity**。結果(実験10): 損失猫(η=0.8)で rank-1 は F≈0.53 で頭打ち(K を増やしても不変
+          = ボトルネックは rank。span 内の rank-1 理論上限 0.5336 と整合)、**rank-2 は F=0.9947 で
+          回復**。squeezed 猫(r=0.4)は K=2/4/8 で F 0.79→0.81→0.82 と単調改善するが、generic 対照
+          (purefock 0.961)に大差 → 次の表現拡張は**多モード squeezed-product ket**(1モード機構は
+          bbdag.py に既存)。**#28 の反証条件(各ターゲットで splat / MLE との 3者比較)は未実施のため
+          判定保留 = 部分完了**。rank-2 回復と K 単調性は支持的証拠に留まる。
+          残スコープ: 新ターゲットでの splat・フルランク MLE 側の 3者比較、複数シード。
+        - **解析勾配化(issue #25、2026-07-13 解決)**: NLL 勾配を閉形式化(`bbdagM.nll_and_grad`。
+          Z=z†Gz は coherent overlap の Gram、サンプル項は LO 回転の chain rule。central-diff と
+          1e-9〜1e-8 級一致をテストで固定)。3モード K=4 が **527 s → 10.6–16.6 s(32–50×、コンテナ間
+          変動あり)**、K=8 が 1647 s → 17.6–28.0 s(59–94×)。seed 42 は FD 報告値を 4桁一致で再現
+          (K=4 F=0.9501、K=8 F=0.9507、NLL 3.9108)、seeds 1/2 は FD ノイズ消失で改善
+          (0.9434→0.9593、0.9332→0.9566)。raw log と **fit パラメータ**をコミット
+          (`experiments/08_positivity/out_bbdag_3mode_analytic.log`、
+          `evidence/bbdag_analytic_fits.json` — 保存パラメータから F/NLL が再計算できることを
+          テストで固定)し、BB† の provenance 欠如を解消(registry primary を committed_raw_log 化)。
+          → 「物理保証つき・かつ速い」が単一手法で成立し、splat(15 s)と同スケールに。
 - [x] 2モード拡張(実験04・07。分離可能スプラットは F=0.50 で失敗 → 完全 4×4 共分散で
       F=MLE 同等(20シード検定で互角確定)・速度 7.4倍。もつれ ⟺ 傾いた共分散を実証)
 - [x] 3モード拡張(実験06。splat F 0.62–0.76 / ~15 s vs MLE(512次元)F 0.676 / 900 s DNF

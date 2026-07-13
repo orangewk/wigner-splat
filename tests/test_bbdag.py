@@ -8,7 +8,10 @@ import numpy as np
 import pytest
 
 from wigner_splat.bbdag import PureKetState, loss, sq_coherent_wavefunction
-from wigner_splat.bbdagM import CoherentKetState, coherent_overlap, fidelity_vs_cat3
+from wigner_splat.bbdagM import (
+    CoherentKetState, _nll_grad_fd, _pack, coherent_overlap, fidelity_vs_cat3,
+    fit_bbdagM, nll, nll_and_grad,
+)
 from wigner_splat.states import coherent_wavefunction
 from wigner_splat.states3 import ThreeModeCat
 
@@ -135,6 +138,57 @@ def test_norm_sq_rejects_malformed_grids():
     for grid in invalid_grids:
         with pytest.raises(ValueError, match="norm grid"):
             state.norm_sq(grid)
+
+
+def _random_nll_problem(K, M, groups=3, samples=40, seed=20260713):
+    """A generic (non-symmetric) state + synthetic data for gradient checks."""
+    rng = np.random.default_rng(seed)
+    state = CoherentKetState(
+        z=rng.normal(size=K) + 1j * rng.normal(size=K),
+        alpha=rng.normal(size=(K, M)) + 1j * rng.normal(size=(K, M)),
+    )
+    data = [
+        (rng.uniform(0.0, np.pi, M), rng.normal(scale=1.5, size=(samples, M)))
+        for _ in range(groups)
+    ]
+    return state, data
+
+
+@pytest.mark.parametrize("K,M", [(1, 1), (3, 2), (4, 3)])
+def test_nll_and_grad_value_matches_nll(K, M):
+    state, data = _random_nll_problem(K, M)
+    value, _ = nll_and_grad(state, data)
+    assert value == pytest.approx(nll(state, data), rel=1e-12)
+
+
+@pytest.mark.parametrize("K,M", [(1, 1), (3, 2), (4, 3)])
+def test_nll_analytic_grad_matches_central_difference(K, M):
+    state, data = _random_nll_problem(K, M)
+    _, g = nll_and_grad(state, data)
+    g_fd = _nll_grad_fd(_pack(state), K, M, data, eps=1e-6)
+    scale = np.maximum(np.abs(g_fd), 1e-3 * np.max(np.abs(g_fd)))
+    assert np.max(np.abs(g - g_fd) / scale) < 1e-7
+
+
+def test_fit_bbdagM_analytic_tracks_fd_reference():
+    """Same init, same data: analytic and FD Adam land on the same state."""
+    rng = np.random.default_rng(11)
+    M = 2
+    theta_grid = [
+        np.array([0.0, 0.0]), np.array([0.7, 1.9]), np.array([2.4, 0.3]),
+    ]
+    data = [(t, rng.normal(scale=1.2, size=(60, M))) for t in theta_grid]
+    kw = dict(K=2, M=M, iters=30, lr=0.05, seed=5)
+    st_an = fit_bbdagM(data, gradient="analytic", **kw)
+    st_fd = fit_bbdagM(data, gradient="fd", grad_eps=1e-6, **kw)
+    assert np.allclose(st_an.z, st_fd.z, rtol=1e-4, atol=1e-6)
+    assert np.allclose(st_an.alpha, st_fd.alpha, rtol=1e-4, atol=1e-6)
+    assert nll(st_an, data) == pytest.approx(nll(st_fd, data), rel=1e-6)
+
+
+def test_fit_bbdagM_rejects_unknown_gradient_mode():
+    with pytest.raises(ValueError, match="gradient"):
+        fit_bbdagM([(np.zeros(1), np.zeros((4, 1)))], K=1, M=1, gradient="typo")
 
 
 def test_pure_ket_marginal_is_normalized_and_nonnegative():

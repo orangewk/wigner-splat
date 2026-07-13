@@ -48,7 +48,10 @@ def test_committed_registry_validates():
     assert {record["data_seed"] for record in raw} == {42, 1, 2}
     assert {
         record["provenance"]["source_commit"] for record in raw
-    } == {"4259cab45f89b84bfc86bece38eeeb56378cd3cc"}
+    } == {
+        "4259cab45f89b84bfc86bece38eeeb56378cd3cc",  # exp06 signed-splat log
+        "1e49e00a24cb1302de69f2577a064a701878a32e",  # bbdag analytic clean run
+    }
     for record in raw:
         provenance = record["provenance"]
         artifact = ROOT / provenance["artifact_path"]
@@ -63,20 +66,62 @@ def test_figure_primary_and_evidence_marks():
     assert [item["wall_label"] for item in figure] == [
         "splat", "proj", "K=4", "K=8",
     ]
-    assert [item["evidence_mark"] for item in figure] == ["", "*", "*", "*"]
+    assert [item["evidence_mark"] for item in figure] == ["", "*", "", ""]
 
     primary = next(item for item in figure if item["id"] == "bbdag_k4")
     assert primary["primary_record_id"] == (
-        "bbdag.main.k4.seed42.exact_state_fidelity"
+        "bbdag.analytic.k4.seed42.exact_state_fidelity"
     )
     assert primary["record"]["iters"] == 200
-    assert primary["wall_s"] == 527
+    assert primary["record"]["gradient"] == "analytic"
+    assert primary["wall_s"] < 60  # issue #25: analytic gradient, not FD's 527 s
+
+    historical = _record(registry, "bbdag.main.k4.seed42.exact_state_fidelity")
+    assert historical["evidence_level"] == "historical_report_only"
+    assert historical["value"] == primary["value"]  # FD fidelity reproduced
 
     robustness = _record(
         registry, "bbdag.robustness.k4.seed42.exact_state_fidelity"
     )
     assert robustness["iters"] == 120
     assert robustness["id"] != primary["primary_record_id"]
+
+
+def test_analytic_fit_parameters_recompute_reported_fidelity():
+    """The committed portable evidence (issue #25) is durable: the fitted
+    parameters recompute the registry's fidelity without any bundle files."""
+    import json
+
+    import numpy as np
+
+    from wigner_splat.bbdagM import CoherentKetState, fidelity_vs_cat3
+
+    registry = result_io.load_results(RESULTS_PATH)
+    evidence = json.loads(
+        (ROOT / "experiments/08_positivity/evidence/bbdag_analytic_fits.json")
+        .read_text(encoding="utf-8")
+    )
+    runs = {(r["data_seed"], r["K"]): r for r in evidence["runs"]}
+    assert set(runs) == {(42, 4), (1, 4), (2, 4), (42, 8)}
+
+    checked = 0
+    for record in registry["records"]:
+        if not record["id"].startswith("bbdag.analytic."):
+            continue
+        provenance = record["provenance"]
+        assert provenance["fit_parameters_retained"] is True
+        assert (ROOT / provenance["fit_parameters_path"]).is_file()
+        run = runs[(record["data_seed"], record["K"])]
+        assert run["source_commit"] == provenance["source_commit"]
+        state = CoherentKetState(
+            z=np.array(run["z_re"]) + 1j * np.array(run["z_im"]),
+            alpha=np.array(run["alpha_re"]) + 1j * np.array(run["alpha_im"]),
+        )
+        F = fidelity_vs_cat3(state, 1.5, +1)
+        assert abs(F - record["value"]) < 5e-5
+        assert abs(F - run["exact_state_fidelity"]) < 1e-9
+        checked += 1
+    assert checked == 4
 
 
 @pytest.mark.parametrize(
