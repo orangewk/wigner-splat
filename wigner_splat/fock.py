@@ -178,6 +178,34 @@ def cat3_fock(alpha, parity=+1, n_max=8):
     return C.reshape(-1)
 
 
+def lossy_cat3_fock(alpha, parity=+1, eta=0.8, n_max=8):
+    """Truncated Fock density matrix of the three-mode cat after per-mode loss.
+
+    The loss channel maps coherent dyads to coherent dyads,
+    E(|a><b|) = <b|a>^{1-eta} |sqrt(eta)a><sqrt(eta)b|, so the lossy cat is
+    rank 2 on the span of A' = |sqrt(eta)a>^{x3}, B' = |-sqrt(eta)a>^{x3}:
+
+        rho = [ A'A'^dag + B'B'^dag + parity c' (A'B'^dag + B'A'^dag) ] / norm
+
+    with c' = e^{-6 a^2 (1-eta)} and norm = 2(1 + parity e^{-6 a^2}) (trace
+    preserving; the truncated trace is < 1 by the truncation deficit, the MLE
+    ceiling analog). Flat index layout matches cat3_fock. At eta = 1 this is
+    the pure-cat projector.
+    """
+    a_out = np.sqrt(eta) * float(alpha)
+    cp = _coherent_coeffs(a_out, n_max)
+    cm = cp * (-1.0) ** np.arange(n_max)
+    A = (cp[:, None, None] * cp[None, :, None] * cp[None, None, :]).reshape(-1)
+    B = (cm[:, None, None] * cm[None, :, None] * cm[None, None, :]).reshape(-1)
+    cross = parity * np.exp(-6.0 * alpha ** 2 * (1.0 - eta))
+    norm = 2 * (1 + parity * np.exp(-6 * alpha ** 2))
+    rho = (
+        np.outer(A, A) + np.outer(B, B)
+        + cross * (np.outer(A, B) + np.outer(B, A))
+    ) / norm
+    return rho
+
+
 def cat3_truncation_fidelity(alpha, parity=+1, n_max=8):
     """Fidelity of the exact three-mode cat with its Fock truncation at n_max.
 

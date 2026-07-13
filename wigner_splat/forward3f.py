@@ -213,3 +213,79 @@ def fidelity_vs_cat3(mixture, alpha, parity=+1):
 
     per_k = O_ppp + O_mmm + parity * 2.0 * np.exp(-3 * r2a ** 2) * O_f.real
     return float(8.0 / norm * np.sum(mixture.w * per_k))
+
+
+def _cat3_overlap_sum(w, mu, Sigma, r2a, parity, cross_scale, norm):
+    """Shared core of the cat-family overlaps: blobs at +-r2a, damped fringe.
+
+    tr(rho_mix rho_target) for a target of the exact cat form whose Wigner is
+    [blob(+r2a) + blob(-r2a) + parity * cross_scale * 2 cos(2 r2a sum p)
+    e^{-|z|^2}] / (pi^3 norm). cross_scale = 1 is the pure cat
+    (fidelity_vs_cat3); a lossy cat damps the fringe coefficient only.
+    """
+    c_ppp = np.array([r2a, 0.0, r2a, 0.0, r2a, 0.0])
+    c_f = np.array([0.0, 1j * r2a, 0.0, 1j * r2a, 0.0, 1j * r2a])
+    O_ppp = _gaussian_overlap(mu, Sigma, c_ppp).real
+    O_mmm = _gaussian_overlap(mu, Sigma, -c_ppp).real
+    O_f = _gaussian_overlap(mu, Sigma, c_f)
+    per_k = (
+        O_ppp + O_mmm
+        + parity * cross_scale * 2.0 * np.exp(-3 * r2a ** 2) * O_f.real
+    )
+    return float(8.0 / norm * np.sum(w * per_k))
+
+
+def overlap_vs_lossy_cat3(mixture, alpha, parity=+1, eta=0.8):
+    """tr(rho_mix rho_lossy), closed form (issue #28 three-way scoring).
+
+    The per-mode loss channel maps coherent dyads to coherent dyads
+    (E(|a><b|) = <b|a>^{1-eta} |sqrt(eta)a><sqrt(eta)b|), so the lossy-cat
+    Wigner keeps the exact cat form with amplitude sqrt(eta) alpha and fringe
+    coefficient damped by e^{-6 alpha^2 (1-eta)}; the norm is the input cat's
+    (trace preserved). NOTE: the target is MIXED, so a perfect reconstruction
+    scores the target purity tr(rho_lossy^2) (lossy_cat3_purity), not 1.
+    """
+    a = float(alpha)
+    r2a = np.sqrt(2.0) * np.sqrt(eta) * a
+    cross = np.exp(-6.0 * a ** 2 * (1.0 - eta))
+    norm = 2 * (1 + parity * np.exp(-6 * a ** 2))
+    return _cat3_overlap_sum(
+        mixture.w, mixture.mu, mixture.Sigma(), r2a, parity, cross, norm
+    )
+
+
+def lossy_cat3_purity(alpha, parity=+1, eta=0.8):
+    """tr(rho_lossy^2) -- the overlap score a PERFECT reconstruction attains.
+
+    Computed exactly on the 2-ket coherent span: rho = P M P^dag with
+    M = [[1, pc], [pc, 1]]/norm, Gram S = [[1, g], [g, 1]],
+    g = <A'|B'> = e^{-6 eta a^2}, pc = parity e^{-6 a^2 (1-eta)};
+    tr(rho^2) = tr((M S)^2).
+    """
+    a = float(alpha)
+    g = np.exp(-6.0 * eta * a ** 2)
+    pc = parity * np.exp(-6.0 * a ** 2 * (1.0 - eta))
+    norm = 2 * (1 + parity * np.exp(-6 * a ** 2))
+    M = np.array([[1.0, pc], [pc, 1.0]]) / norm
+    S = np.array([[1.0, g], [g, 1.0]])
+    return float(np.trace(M @ S @ M @ S))
+
+
+def overlap_vs_squeezed_cat3(mixture, alpha, parity=+1, r=0.0):
+    """tr(rho_mix rho_sqcat), closed form via the symplectic squeeze map.
+
+    D(a)S(r)|0> = S(r)D(a e^r)|0> for real a, r (x-variance e^{-2r}/2
+    convention), so rho_sqcat = S(r)^{x3} rho_cat(a e^r) S(r)^{x3 dag}
+    EXACTLY. Wigner transforms by the symplectic coordinate map
+    (x, p) -> (e^r x, e^{-r} p) per mode (det 1), so
+    tr(rho_mix rho_sqcat) = tr(rho_mix' rho_cat(a e^r)) with the mixture
+    components mapped mu -> S mu, Sigma -> S Sigma S^T. Reuses the exact
+    pure-cat overlap; the target is PURE, so a perfect score is 1.
+    """
+    a_eff = float(alpha) * np.exp(r)
+    r2a = np.sqrt(2.0) * a_eff
+    norm = 2 * (1 + parity * np.exp(-6 * a_eff ** 2))
+    s = np.tile([np.exp(r), np.exp(-r)], 3)          # diag symplectic map, 6D
+    mu = mixture.mu * s[None, :]
+    Sigma = mixture.Sigma() * s[None, :, None] * s[None, None, :]
+    return _cat3_overlap_sum(mixture.w, mu, Sigma, r2a, parity, 1.0, norm)
