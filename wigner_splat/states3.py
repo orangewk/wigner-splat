@@ -96,79 +96,94 @@ class ThreeModeCat:
     def sample_homodyne(
         self, angle_triples, shots_per_triple, rng=None, x_max=None, grid=161
     ):
-        """Simulate joint homodyne data, one 3D inverse-CDF draw per triple.
-
-        Chain conditional inverse-CDF sampling on a grid**3 lattice: draw x1
-        from the x1-marginal, then x2 from the conditional given x1, then x3
-        from the conditional given (x1, x2). Conditional CDFs are interpolated
-        across the grid (linear in x1 for the x2 step, bilinear in (x1, x2) for
-        the x3 step). Only one triple's grid is held at a time. Deterministic
-        given rng. Returns [((theta1, theta2, theta3), samples (shots, 3))].
-        """
-        rng = np.random.default_rng(rng)
+        """Simulate joint homodyne data via the shared grid sampler below."""
         x_max = x_max or (np.sqrt(2) * abs(self.alpha) + 5.0)
-        xs = np.linspace(-x_max, x_max, grid)
-        dx = xs[1] - xs[0]
-        rows = np.arange(shots_per_triple)
-        data = []
-        for theta1, theta2, theta3 in angle_triples:
-            # sparse broadcasting keeps intermediates cheap; P is (grid,)*3
-            P = self.homodyne_pdf(
-                xs[:, None, None],
-                xs[None, :, None],
-                xs[None, None, :],
-                theta1,
-                theta2,
-                theta3,
-            )
+        return sample_homodyne_pdf3(
+            self.homodyne_pdf, angle_triples, shots_per_triple,
+            rng=rng, x_max=x_max, grid=grid,
+        )
 
-            # --- x1 from the marginal ---
-            m1 = P.sum(axis=(1, 2))
-            cdf1 = np.cumsum(m1)
-            cdf1 /= cdf1[-1]
-            u1 = rng.uniform(size=shots_per_triple)
-            x1s = np.interp(u1, cdf1, xs)
-            pos1 = np.clip((x1s - xs[0]) / dx, 0.0, grid - 1.0)
-            i1 = np.clip(np.floor(pos1).astype(int), 0, grid - 2)
-            f1 = pos1 - i1
 
-            # --- x2 | x1 ---
-            P12 = P.sum(axis=2)  # (grid, grid) joint (x1, x2)
-            C2 = np.cumsum(P12, axis=1)
-            C2 = C2 / np.where(C2[:, -1:] > 0, C2[:, -1:], 1.0)
-            # linear interpolation of the conditional CDF in x1
-            Cq2 = (1 - f1)[:, None] * C2[i1] + f1[:, None] * C2[i1 + 1]
-            u2 = rng.uniform(size=shots_per_triple)
-            idx2 = np.clip((Cq2 < u2[:, None]).sum(axis=1), 1, grid - 1)
-            lo2, hi2 = Cq2[rows, idx2 - 1], Cq2[rows, idx2]
-            frac2 = np.where(hi2 > lo2, (u2 - lo2) / (hi2 - lo2), 0.0)
-            x2s = xs[idx2 - 1] + frac2 * (xs[idx2] - xs[idx2 - 1])
-            pos2 = np.clip((x2s - xs[0]) / dx, 0.0, grid - 1.0)
-            i2 = np.clip(np.floor(pos2).astype(int), 0, grid - 2)
-            f2 = pos2 - i2
+def sample_homodyne_pdf3(
+    pdf, angle_triples, shots_per_triple, rng=None, x_max=7.0, grid=161
+):
+    """Joint homodyne sampler for ANY three-mode pdf(x1, x2, x3, th1, th2, th3).
 
-            # --- x3 | x1, x2 ---
-            C3 = np.cumsum(P, axis=2)  # (grid, grid, grid) over x3
-            C3 = C3 / np.where(C3[:, :, -1:] > 0, C3[:, :, -1:], 1.0)
-            # bilinear interpolation of the conditional CDF over (x1, x2)
-            w00 = ((1 - f1) * (1 - f2))[:, None]
-            w01 = ((1 - f1) * f2)[:, None]
-            w10 = (f1 * (1 - f2))[:, None]
-            w11 = (f1 * f2)[:, None]
-            Cq3 = (
-                w00 * C3[i1, i2]
-                + w01 * C3[i1, i2 + 1]
-                + w10 * C3[i1 + 1, i2]
-                + w11 * C3[i1 + 1, i2 + 1]
-            )
-            u3 = rng.uniform(size=shots_per_triple)
-            idx3 = np.clip((Cq3 < u3[:, None]).sum(axis=1), 1, grid - 1)
-            lo3, hi3 = Cq3[rows, idx3 - 1], Cq3[rows, idx3]
-            frac3 = np.where(hi3 > lo3, (u3 - lo3) / (hi3 - lo3), 0.0)
-            x3s = xs[idx3 - 1] + frac3 * (xs[idx3] - xs[idx3 - 1])
+    One 3D inverse-CDF draw per triple: chain conditional inverse-CDF sampling
+    on a grid**3 lattice -- draw x1 from the x1-marginal, then x2 from the
+    conditional given x1, then x3 from the conditional given (x1, x2).
+    Conditional CDFs are interpolated across the grid (linear in x1 for the x2
+    step, bilinear in (x1, x2) for the x3 step). Only one triple's grid is held
+    at a time. Deterministic given rng.
+    Returns [((theta1, theta2, theta3), samples (shots, 3))].
 
-            samples = np.stack([x1s, x2s, x3s], axis=1)
-            data.append(
-                ((float(theta1), float(theta2), float(theta3)), samples)
-            )
-        return data
+    Factored out of ThreeModeCat.sample_homodyne (which delegates here) so
+    out-of-family targets (states3x) reuse the identical, already-tested
+    sampling path.
+    """
+    rng = np.random.default_rng(rng)
+    xs = np.linspace(-x_max, x_max, grid)
+    dx = xs[1] - xs[0]
+    rows = np.arange(shots_per_triple)
+    data = []
+    for theta1, theta2, theta3 in angle_triples:
+        # sparse broadcasting keeps intermediates cheap; P is (grid,)*3
+        P = pdf(
+            xs[:, None, None],
+            xs[None, :, None],
+            xs[None, None, :],
+            theta1,
+            theta2,
+            theta3,
+        )
+
+        # --- x1 from the marginal ---
+        m1 = P.sum(axis=(1, 2))
+        cdf1 = np.cumsum(m1)
+        cdf1 /= cdf1[-1]
+        u1 = rng.uniform(size=shots_per_triple)
+        x1s = np.interp(u1, cdf1, xs)
+        pos1 = np.clip((x1s - xs[0]) / dx, 0.0, grid - 1.0)
+        i1 = np.clip(np.floor(pos1).astype(int), 0, grid - 2)
+        f1 = pos1 - i1
+
+        # --- x2 | x1 ---
+        P12 = P.sum(axis=2)  # (grid, grid) joint (x1, x2)
+        C2 = np.cumsum(P12, axis=1)
+        C2 = C2 / np.where(C2[:, -1:] > 0, C2[:, -1:], 1.0)
+        # linear interpolation of the conditional CDF in x1
+        Cq2 = (1 - f1)[:, None] * C2[i1] + f1[:, None] * C2[i1 + 1]
+        u2 = rng.uniform(size=shots_per_triple)
+        idx2 = np.clip((Cq2 < u2[:, None]).sum(axis=1), 1, grid - 1)
+        lo2, hi2 = Cq2[rows, idx2 - 1], Cq2[rows, idx2]
+        frac2 = np.where(hi2 > lo2, (u2 - lo2) / (hi2 - lo2), 0.0)
+        x2s = xs[idx2 - 1] + frac2 * (xs[idx2] - xs[idx2 - 1])
+        pos2 = np.clip((x2s - xs[0]) / dx, 0.0, grid - 1.0)
+        i2 = np.clip(np.floor(pos2).astype(int), 0, grid - 2)
+        f2 = pos2 - i2
+
+        # --- x3 | x1, x2 ---
+        C3 = np.cumsum(P, axis=2)  # (grid, grid, grid) over x3
+        C3 = C3 / np.where(C3[:, :, -1:] > 0, C3[:, :, -1:], 1.0)
+        # bilinear interpolation of the conditional CDF over (x1, x2)
+        w00 = ((1 - f1) * (1 - f2))[:, None]
+        w01 = ((1 - f1) * f2)[:, None]
+        w10 = (f1 * (1 - f2))[:, None]
+        w11 = (f1 * f2)[:, None]
+        Cq3 = (
+            w00 * C3[i1, i2]
+            + w01 * C3[i1, i2 + 1]
+            + w10 * C3[i1 + 1, i2]
+            + w11 * C3[i1 + 1, i2 + 1]
+        )
+        u3 = rng.uniform(size=shots_per_triple)
+        idx3 = np.clip((Cq3 < u3[:, None]).sum(axis=1), 1, grid - 1)
+        lo3, hi3 = Cq3[rows, idx3 - 1], Cq3[rows, idx3]
+        frac3 = np.where(hi3 > lo3, (u3 - lo3) / (hi3 - lo3), 0.0)
+        x3s = xs[idx3 - 1] + frac3 * (xs[idx3] - xs[idx3 - 1])
+
+        samples = np.stack([x1s, x2s, x3s], axis=1)
+        data.append(
+            ((float(theta1), float(theta2), float(theta3)), samples)
+        )
+    return data

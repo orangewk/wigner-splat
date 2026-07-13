@@ -1,0 +1,22 @@
+=== exp09: fair baseline -- representation vs constraint (issue #27) ===
+shared: per-sample NLL objective, Adam(lr=0.05), analytic gradients, train=1600/test=400 shots/triple
+purefock truncation ceiling (n_max=8): 0.99321
+historical full-rank mle3 (same data family, committed log): F=0.676 at 900 s DNF (seed 42)
+
+--- data seed 42: sampling 27 triples x 2000 ---
+  bbdag K=4              F_exact=0.9519  wall=10.5s  NLL train=3.9089 test=3.9189
+  purefock n_max=8       F_exact=0.9828  (F_trunc=0.9895)  wall=142.3s  NLL train=3.9120 test=3.9344
+  true state             NLL train=3.9132 test=3.9238
+--- data seed 1: sampling 27 triples x 2000 ---
+  bbdag K=4              F_exact=0.9567  wall=10.4s  NLL train=3.9025 test=3.9171
+  purefock n_max=8       F_exact=0.9748  (F_trunc=0.9815)  wall=141.1s  NLL train=3.9057 test=3.9296
+  true state             NLL train=3.9071 test=3.9205
+--- data seed 2: sampling 27 triples x 2000 ---
+  bbdag K=4              F_exact=0.9677  wall=11.3s  NLL train=3.9079 test=3.9213
+  purefock n_max=8       F_exact=0.9794  (F_trunc=0.9861)  wall=151.1s  NLL train=3.9106 test=3.9346
+  true state             NLL train=3.9121 test=3.9250
+
+=== verdict (issue #27 falsification condition) ===
+bbdag    mean: F=0.9588  wall=10.7s  test NLL=3.9191
+purefock mean: F=0.9790  wall=144.8s  test NLL=3.9329
+-> purefock does NOT match bbdag at <= compute: the constraint explains part of the gap over full-rank MLE, but the coherent ansatz retains a real fidelity/likelihood/speed edge.

@@ -1,0 +1,18 @@
+=== exp10: out-of-family targets + rank>1 BB-dagger (issue #28) ===
+alpha=1.5 parity=1, 27 triples x 2000 shots, data seed 42, Adam(lr=0.05, iters=200)
+
+--- lossy cat: eta=0.8 (mixed, rank 2; cross damping 0.0672) ---
+  bbdag rank1 K=2    Uhlmann F=0.5214  NLL=3.9094  wall=8.6s
+  bbdag rank1 K=4    Uhlmann F=0.5307  NLL=3.9101  wall=12.1s
+  bbdag rank2 K=2    Uhlmann F=0.9947  NLL=3.9062  wall=16.2s
+  bbdag rank2 K=4    Uhlmann F=0.9945  NLL=3.9061  wall=24.6s
+
+--- squeezed cat: r=0.4 (pure, coherent-dictionary out-of-family) ---
+  bbdag rank1 K=2:  F=0.7865  NLL=4.3962  wall=8.7s
+  bbdag rank1 K=4:  F=0.8070  NLL=4.3331  wall=12.4s
+  bbdag rank1 K=8:  F=0.8228  NLL=4.2492  wall=20.6s
+  purefock n_max=8:  F=0.9611  NLL=4.0679  wall=173.6s
+
+=== verdict (issue #28 falsification framing) ===
+lossy: best rank1 F=0.5307 vs best rank2 F=0.9947 -> rank-2 extension RECOVERS the mixed target
+squeezed: F(K=2,4,8) = [0.7865194915424418, 0.8069515708702893, 0.8228077514841378] -> fidelity improves with K (graceful out-of-family degradation)

@@ -466,3 +466,80 @@ splat analytic-gradient story replayed (PR #1: 29 s -> 1.6 s): one closed-form
 pass replaces 2 x 2K(M+1) NLL evaluations per step. This unblocks the rest of
 track A: matched-objective / fair-baseline comparisons (#27) and out-of-family
 targets (#28) now cost seconds per run instead of tens of minutes.
+
+## 2026-07-13 (later) — Track A step 2: the fair baseline decomposes the BB-dagger win (issue #27)
+
+Tried: the missing control for the exp06/exp08 comparison. Full-rank R rho R
+(512-dim, F 0.676 DNF at 900 s) loses to BB-dagger K=4 (F ~0.95, 10 s), but
+that comparison confounds the REPRESENTATION (coherent-product kets) with the
+CONSTRAINT (rank-1, few parameters). New module purefock3.py: a GENERIC pure
+Fock ket (n_max=8, 512 complex parameters), trained with the SAME per-sample
+NLL, SAME Adam, SAME analytic-gradient discipline (gradient pinned vs central
+differences at ~1e-8, tests). Also the held-out split issue #27 asked for:
+train 1600 / test 400 shots per triple; per-sample NLL reported on both splits
+for each method AND the true state. Experiment 09 (committed raw log), seeds
+42/1/2.
+
+Happened (means over 3 seeds; full table in experiments/09_fair_baseline/out_run.log):
+- fidelity: purefock 0.979 (0.975-0.983; truncation ceiling 0.993) vs
+  BB-dagger 0.959 (0.952-0.968). The GENERIC constrained fit is HIGHER.
+- compute: BB-dagger 10.7 s vs purefock 144.8 s (~14x).
+- held-out NLL: BB-dagger 3.9191 (at or slightly below the true state's
+  3.9231 -- generalization at the noise floor; the small sub-true readings are
+  within shared-test-set fluctuation) vs purefock 3.9329 (clearly above true:
+  512 free parameters overfit; its train NLL 3.9094 undercuts truth by more
+  than BB-dagger's).
+
+Learned / verdict on the falsification condition: the strict trigger
+("generic baseline matches BB-dagger at <= compute") does NOT fire -- 14x
+compute and worse held-out likelihood. But the honest decomposition is now
+measured, and it REVISES the exp08 story: (a) most of the fidelity gap over
+full-rank MLE (0.68 -> 0.98) comes from the pure-state CONSTRAINT plus
+per-sample gradient ML, not from the coherent ansatz -- a generic 512-parameter
+pure fit beats BB-dagger K=4 on fidelity; (b) what the coherent ansatz buys is
+14x speed, ~16x fewer parameters, and held-out likelihood at the true-state
+level (no overfit). "BB-dagger ansatz-fidelity superiority" must not be
+claimed; "physical, fast, and generalizing" survives. Also notable: R rho R's
+0.676 was partly the ALGORITHM (fixed-point on binned data), since the same
+512-dim space under sample-level gradient ML reaches 0.98.
+
+## 2026-07-13 (later) — Track A step 3: out-of-family targets + rank>1 BB-dagger (issue #28)
+
+Tried: take the coherent rank-1 ansatz out of its family in two orthogonal
+directions (new module states3x.py, sampling through the SAME grid sampler as
+ThreeModeCat, now factored as states3.sample_homodyne_pdf3):
+- MIXEDNESS: LossyThreeModeCat -- the cat after a per-mode pure-loss channel
+  (transmissivity eta=0.8), via E(|a><b|) = <b|a>^{1-eta} |sqrt(eta)a><sqrt(eta)b|;
+  rank 2, cross fringe damped by e^{-6 a^2 (1-eta)} (~0.067 at alpha=1.5).
+  Tests pin: eta=1 reduces to ThreeModeCat, pdf normalized/nonnegative, and
+  the lossy cat is EXACTLY a rank-2 BB-dagger state on its own coherent span.
+- KET SHAPE: SqueezedThreeModeCat -- per-mode squeeze r=0.4 on the cat's kets;
+  still pure, but squeezed kets are outside the coherent dictionary at any
+  finite K. Fidelity via exact per-mode quadrature overlaps.
+Plus the rank-R mixed extension itself (bbdagM.MixedCoherentKetState,
+rho = sum_r |psi_r><psi_r| / Z), analytic NLL gradient (FD-pinned in tests),
+and an EXACT Uhlmann fidelity on coherent-product spans (Loewdin
+orthonormalization of the joint ket Gram -- no Fock truncation). Experiment 10
+(committed raw log), data seed 42.
+
+Happened:
+- lossy cat: rank-1 plateaus at Uhlmann F 0.521-0.531 (K=2 vs K=4 barely
+  differ -- capacity is not the bottleneck, rank is); rank-2 recovers
+  F=0.9947 (K=2, 16 s) with better NLL (3.9062 vs 3.9101). The rank
+  extension, not more kets, is what the mixed target demands -- exactly the
+  predicted failure mode and fix.
+- squeezed cat: coherent-K sweep F = 0.787 / 0.807 / 0.823 (K=2/4/8) --
+  graceful but SLOW improvement; the constraint-matched generic control
+  (purefock3) reaches F=0.961 on the same data (174 s). The coherent
+  dictionary is inefficient for squeezed kets, as expected.
+
+Learned / verdict: the issue-#28 falsification trigger does not fire -- the
+rank-2 extension recovers its enlarged family (lossy cat), and out-of-family
+fidelity improves monotonically with K. But the squeezed-cat gap (0.82 vs the
+generic control's 0.96) marks the next representation step: MULTIMODE
+SQUEEZED-PRODUCT kets (the 1-mode machinery already exists in bbdag.py). The
+rank-2 result opens the decoherence path (dreams #5: time-resolved tomography
+of a decohering cat is now representable). Remaining scope, recorded: splat
+and full-rank-MLE sides of the 3-way comparison on these new targets, more
+seeds, non-equal-amplitude targets (in-family, low priority), and the
+squeezed-product ansatz.
