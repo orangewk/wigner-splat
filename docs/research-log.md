@@ -423,3 +423,46 @@ criterion measures). (b) The slice lower bound is upgraded to theorem-grade
 K_axis = Ω(m_1D) (common width) via even/odd orthogonality:
 ||(I-P_U)F||^2 = ||(I-P_U)C||^2||C||^2 + ||(I-P_U)S||^2||S||^2. (c) Ω(m_1D^2) at
 bounded norm stays open. Note corrected accordingly; pivoting to track A next.
+
+## 2026-07-13 — Track A step 1: analytic BB-dagger gradients (issue #25 resolved)
+
+Tried: replace the finite-difference NLL gradient in fit_bbdagM (the priority
+bottleneck named by the science recommendations: FD made 3-mode BB-dagger fits
+cost 300-1600 s vs splat's 15 s) with the exact closed-form gradient. Both
+pieces are Gaussian-overlap calculus: (a) Z = z^dag G z with G the
+coherent-overlap Gram matrix, so dZ/d(z, alpha) differentiates log<a|b> =
+-|a|^2/2 - |b|^2/2 + conj(a)b; (b) the sample term differentiates
+log|psi|^2 through the coherent wavefunction, d log f/d(Re beta, Im beta) =
+(sqrt2(x - sqrt2 Re beta) - i Im beta, i(sqrt2 x - Re beta)), pulled back
+through the LO rotation beta = alpha e^{-i theta}. FD path retained as the
+independent reference (fit_bbdagM(gradient="fd")).
+
+Happened (exp06 data, 27 triples x 2000 shots, K=4 iters=200, committed raw
+log experiments/08_positivity/out_bbdag_3mode_analytic.log, source commit
+12ba509):
+- verification: analytic vs central-diff max relative error 8e-10 / 7e-9 /
+  2e-8 at (K,M) = (1,1)/(3,2)/(4,3), pinned in tests; same-init analytic and
+  FD Adam trajectories land on the same state (rtol 1e-4).
+- seed 42 K=4: F=0.9501 wall=10.6 s -- reproduces the historical FD report
+  (0.9501, 527 s) to 4 decimals at 50x speed; training NLL 3.9108 also matches
+  the historical report.
+- seed 42 K=8: F=0.9507 wall=17.6 s (FD: 0.9507, 1647 s -- 94x).
+- seeds 1/2 K=4: F=0.9593 / 0.9566 (FD reports were 0.9434 / 0.9332) -- the
+  exact gradient removes FD truncation noise (eps=1e-5) and lands higher; the
+  seed-42 agreement shows this is the same optimum basin, not a different
+  algorithm.
+- provenance: the four analytic runs replace the historical_report_only
+  BB-dagger primaries in the issue-8 registry with committed_raw_log records
+  (figure regenerated); evidence bundles (samples, trace, fitted parameters)
+  under the ignored out/ as before. The acceptance criteria of issue #25
+  (central-diff match, O(10 s) 3-mode fit, evidence-backed reproduction of the
+  reported fidelities) are all met.
+
+Learned: "physical AND fast" now holds in a single method -- the BB-dagger
+reconstructor sits at the splat's timescale (10-18 s vs 15 s) while keeping
+PSD by construction, at F 0.95-0.96 vs the splat's non-physical 0.62-0.76
+overlap score on the same data. The iteration-cost argument was exactly the
+splat analytic-gradient story replayed (PR #1: 29 s -> 1.6 s): one closed-form
+pass replaces 2 x 2K(M+1) NLL evaluations per step. This unblocks the rest of
+track A: matched-objective / fair-baseline comparisons (#27) and out-of-family
+targets (#28) now cost seconds per run instead of tens of minutes.

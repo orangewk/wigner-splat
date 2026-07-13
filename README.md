@@ -154,7 +154,15 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
           達成できた」という存在結果。signed splat の物理化ではなく、表現も学習損失も異なる
           (BB†: per-sample NLL、splat: histogram L2)。したがって現行 splat 内の負固有成分の必要性は
           判定しない。未決: 族外ターゲット(squeezed/非等振幅/mixed/損失)、matched-objective 比較、
-          train/test split、解析勾配(現状 FD で ~300-1600s vs splat 15s)。
+          train/test split。
+        - **解析勾配化(issue #25、2026-07-13 解決)**: NLL 勾配を閉形式化(`bbdagM.nll_and_grad`。
+          Z=z†Gz は coherent overlap の Gram、サンプル項は LO 回転の chain rule。central-diff と
+          1e-9〜1e-8 級一致をテストで固定)。3モード K=4 が **527 s → 10.6 s(50×)**、K=8 が
+          1647 s → 17.6 s(94×)。seed 42 は FD 報告値を 4桁一致で再現(K=4 F=0.9501、K=8 F=0.9507、
+          NLL 3.9108)、seeds 1/2 は FD ノイズ消失で改善(0.9434→0.9593、0.9332→0.9566)。
+          raw log をコミット(`experiments/08_positivity/out_bbdag_3mode_analytic.log`)し、
+          BB† の provenance 欠如を解消(registry の primary を committed_raw_log に置換)。
+          → 「物理保証つき・かつ速い」が単一手法で成立し、splat(15 s)と同スケールに。
 - [x] 2モード拡張(実験04・07。分離可能スプラットは F=0.50 で失敗 → 完全 4×4 共分散で
       F=MLE 同等(20シード検定で互角確定)・速度 7.4倍。もつれ ⟺ 傾いた共分散を実証)
 - [x] 3モード拡張(実験06。splat F 0.62–0.76 / ~15 s vs MLE(512次元)F 0.676 / 900 s DNF

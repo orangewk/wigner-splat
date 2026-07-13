@@ -48,7 +48,10 @@ def test_committed_registry_validates():
     assert {record["data_seed"] for record in raw} == {42, 1, 2}
     assert {
         record["provenance"]["source_commit"] for record in raw
-    } == {"4259cab45f89b84bfc86bece38eeeb56378cd3cc"}
+    } == {
+        "4259cab45f89b84bfc86bece38eeeb56378cd3cc",  # exp06 signed-splat log
+        "12ba509cb94af4ee950282aa6d71843b25501bb3",  # bbdag analytic-gradient log
+    }
     for record in raw:
         provenance = record["provenance"]
         artifact = ROOT / provenance["artifact_path"]
@@ -63,14 +66,19 @@ def test_figure_primary_and_evidence_marks():
     assert [item["wall_label"] for item in figure] == [
         "splat", "proj", "K=4", "K=8",
     ]
-    assert [item["evidence_mark"] for item in figure] == ["", "*", "*", "*"]
+    assert [item["evidence_mark"] for item in figure] == ["", "*", "", ""]
 
     primary = next(item for item in figure if item["id"] == "bbdag_k4")
     assert primary["primary_record_id"] == (
-        "bbdag.main.k4.seed42.exact_state_fidelity"
+        "bbdag.analytic.k4.seed42.exact_state_fidelity"
     )
     assert primary["record"]["iters"] == 200
-    assert primary["wall_s"] == 527
+    assert primary["record"]["gradient"] == "analytic"
+    assert primary["wall_s"] < 60  # issue #25: analytic gradient, not FD's 527 s
+
+    historical = _record(registry, "bbdag.main.k4.seed42.exact_state_fidelity")
+    assert historical["evidence_level"] == "historical_report_only"
+    assert historical["value"] == primary["value"]  # FD fidelity reproduced
 
     robustness = _record(
         registry, "bbdag.robustness.k4.seed42.exact_state_fidelity"

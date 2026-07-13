@@ -7,8 +7,9 @@ Renders historical reported values for the synthetic three-mode cat:
 BB^dagger contains the target family and uses per-sample NLL; the signed splat
 is a different representation trained with histogram L2. The figure therefore
 shows an existence result, not a physicalization of the existing splat.
-BB^dagger/projection raw logs and fit parameters were not retained; the result
-registry marks those values as historical reports rather than raw evidence.
+The BB^dagger primaries are the analytic-gradient runs (issue #25) with a
+committed raw log; the PSD-projection value remains a historical report
+(no retained raw log), marked * by the registry.
 """
 import pathlib
 

@@ -1,0 +1,52 @@
+=== sanity: exact cat3 as CoherentKetState -> F should be 1 ===
+  F(exact cat3) = 1.000000  (expect 1.0)
+  Z closed-form=2.328949  Z grid=2.328949  diff=4.44e-16
+
+=== BB-dagger 3-mode target-aligned existence probe ===
+historical reports (FD gradients): K=4 F=0.9501/0.9434/0.9332 (seeds 42/1/2), K=8 seed42 F=0.9507; signed-splat overlap=0.756 (non-PSD), PSD-projected fidelity=0.48
+
+sampling 27 triples x 2000 shots, seed=42 ...
+    seed=42 K=4 it25: NLL=4.2079
+    seed=42 K=4 it50: NLL=3.9213
+    seed=42 K=4 it75: NLL=3.9129
+    seed=42 K=4 it100: NLL=3.9110
+    seed=42 K=4 it125: NLL=3.9108
+    seed=42 K=4 it150: NLL=3.9108
+    seed=42 K=4 it175: NLL=3.9108
+    seed=42 K=4 it200: NLL=3.9108
+  seed=42 K=4: F=0.9501  wall=10.6s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
+  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T012631.796545Z-bbdag-3mode-seed42-k4
+
+sampling 27 triples x 2000 shots, seed=1 ...
+    seed=1 K=4 it25: NLL=4.2072
+    seed=1 K=4 it50: NLL=3.9157
+    seed=1 K=4 it75: NLL=3.9076
+    seed=1 K=4 it100: NLL=3.9056
+    seed=1 K=4 it125: NLL=3.9054
+    seed=1 K=4 it150: NLL=3.9054
+    seed=1 K=4 it175: NLL=3.9054
+    seed=1 K=4 it200: NLL=3.9054
+  seed=1 K=4: F=0.9593  wall=10.4s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
+  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T012646.687936Z-bbdag-3mode-seed1-k4
+
+sampling 27 triples x 2000 shots, seed=2 ...
+    seed=2 K=4 it25: NLL=4.2089
+    seed=2 K=4 it50: NLL=3.9210
+    seed=2 K=4 it75: NLL=3.9128
+    seed=2 K=4 it100: NLL=3.9108
+    seed=2 K=4 it125: NLL=3.9106
+    seed=2 K=4 it150: NLL=3.9106
+    seed=2 K=4 it175: NLL=3.9106
+    seed=2 K=4 it200: NLL=3.9106
+  seed=2 K=4: F=0.9566  wall=10.5s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
+  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T012700.938595Z-bbdag-3mode-seed2-k4
+    seed=42 K=8 it25: NLL=3.9648
+    seed=42 K=8 it50: NLL=3.9189
+    seed=42 K=8 it75: NLL=3.9117
+    seed=42 K=8 it100: NLL=3.9109
+    seed=42 K=8 it125: NLL=3.9108
+    seed=42 K=8 it150: NLL=3.9108
+    seed=42 K=8 it175: NLL=3.9108
+    seed=42 K=8 it200: NLL=3.9108
+  seed=42 K=8: F=0.9507  wall=17.6s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
+  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T012718.594571Z-bbdag-3mode-seed42-k8

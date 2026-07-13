@@ -63,7 +63,7 @@
       },
       {
         "id": "bbdag_k4",
-        "label": "BB†  K=4\n(target-aligned)",
+        "label": "BB\u2020  K=4\n(target-aligned)",
         "wall_label": "K=4",
         "physical": true,
         "selector": {
@@ -71,14 +71,15 @@
           "metric": "exact_state_fidelity",
           "data_seed": 42,
           "K": 4,
-          "iters": 200
+          "iters": 200,
+          "gradient": "analytic"
         },
-        "primary_record_id": "bbdag.main.k4.seed42.exact_state_fidelity",
-        "primary_selection_reason": "Use the seed-42 main 200-iteration report because it is paired with the reported 527 s wall time; retain the separate 120-iteration robustness observation as non-primary."
+        "primary_record_id": "bbdag.analytic.k4.seed42.exact_state_fidelity",
+        "primary_selection_reason": "Use the analytic-gradient seed-42 run (issue #25): it carries a committed raw log and reproduces the historical FD fidelity 0.9501; the FD reports remain as non-primary historical records."
       },
       {
         "id": "bbdag_k8",
-        "label": "BB†  K=8\n(target-aligned)",
+        "label": "BB\u2020  K=8\n(target-aligned)",
         "wall_label": "K=8",
         "physical": true,
         "selector": {
@@ -86,10 +87,11 @@
           "metric": "exact_state_fidelity",
           "data_seed": 42,
           "K": 8,
-          "iters": 200
+          "iters": 200,
+          "gradient": "analytic"
         },
-        "primary_record_id": "bbdag.main.k8.seed42.exact_state_fidelity",
-        "primary_selection_reason": "This is the only retained K=8 seed-42 report and is paired with the reported 1647 s wall time."
+        "primary_record_id": "bbdag.analytic.k8.seed42.exact_state_fidelity",
+        "primary_selection_reason": "Use the analytic-gradient seed-42 run (issue #25): it carries a committed raw log and reproduces the historical FD fidelity 0.9507; the FD report remains as a non-primary historical record."
       }
     ]
   },
@@ -404,6 +406,106 @@
         "raw_log_retained": false,
         "fit_parameters_retained": false,
         "absence_note": "No raw NLL stdout log is committed; fitted parameters do not apply to the fixed true-state evaluation."
+      }
+    },
+    {
+      "id": "bbdag.analytic.k4.seed42.exact_state_fidelity",
+      "method": "bbdag_coherent_product",
+      "metric": "exact_state_fidelity",
+      "value": 0.9501,
+      "data_seed": 42,
+      "optimizer_init_seed": 0,
+      "K": 4,
+      "iters": 200,
+      "shots": 2000,
+      "grid": "exp06-theta-3x3x3",
+      "wall_s": 10.6,
+      "gradient": "analytic",
+      "reason": {},
+      "evidence_level": "committed_raw_log",
+      "provenance": {
+        "kind": "committed_raw_log",
+        "source_commit": "12ba509cb94af4ee950282aa6d71843b25501bb3",
+        "artifact_path": "experiments/08_positivity/out_bbdag_3mode_analytic.log",
+        "locator": "seed=42 K=4: F=0.9501  wall=10.6s",
+        "raw_log_retained": true,
+        "fit_parameters_retained": false,
+        "absence_note": "The committed raw log retains the full optimizer trace and summary; fitted state parameters live in the uncommitted evidence bundle referenced by the log."
+      }
+    },
+    {
+      "id": "bbdag.analytic.k4.seed1.exact_state_fidelity",
+      "method": "bbdag_coherent_product",
+      "metric": "exact_state_fidelity",
+      "value": 0.9593,
+      "data_seed": 1,
+      "optimizer_init_seed": 0,
+      "K": 4,
+      "iters": 200,
+      "shots": 2000,
+      "grid": "exp06-theta-3x3x3",
+      "wall_s": 10.4,
+      "gradient": "analytic",
+      "reason": {},
+      "evidence_level": "committed_raw_log",
+      "provenance": {
+        "kind": "committed_raw_log",
+        "source_commit": "12ba509cb94af4ee950282aa6d71843b25501bb3",
+        "artifact_path": "experiments/08_positivity/out_bbdag_3mode_analytic.log",
+        "locator": "seed=1 K=4: F=0.9593  wall=10.4s",
+        "raw_log_retained": true,
+        "fit_parameters_retained": false,
+        "absence_note": "The committed raw log retains the full optimizer trace and summary; fitted state parameters live in the uncommitted evidence bundle referenced by the log."
+      }
+    },
+    {
+      "id": "bbdag.analytic.k4.seed2.exact_state_fidelity",
+      "method": "bbdag_coherent_product",
+      "metric": "exact_state_fidelity",
+      "value": 0.9566,
+      "data_seed": 2,
+      "optimizer_init_seed": 0,
+      "K": 4,
+      "iters": 200,
+      "shots": 2000,
+      "grid": "exp06-theta-3x3x3",
+      "wall_s": 10.5,
+      "gradient": "analytic",
+      "reason": {},
+      "evidence_level": "committed_raw_log",
+      "provenance": {
+        "kind": "committed_raw_log",
+        "source_commit": "12ba509cb94af4ee950282aa6d71843b25501bb3",
+        "artifact_path": "experiments/08_positivity/out_bbdag_3mode_analytic.log",
+        "locator": "seed=2 K=4: F=0.9566  wall=10.5s",
+        "raw_log_retained": true,
+        "fit_parameters_retained": false,
+        "absence_note": "The committed raw log retains the full optimizer trace and summary; fitted state parameters live in the uncommitted evidence bundle referenced by the log."
+      }
+    },
+    {
+      "id": "bbdag.analytic.k8.seed42.exact_state_fidelity",
+      "method": "bbdag_coherent_product",
+      "metric": "exact_state_fidelity",
+      "value": 0.9507,
+      "data_seed": 42,
+      "optimizer_init_seed": 0,
+      "K": 8,
+      "iters": 200,
+      "shots": 2000,
+      "grid": "exp06-theta-3x3x3",
+      "wall_s": 17.6,
+      "gradient": "analytic",
+      "reason": {},
+      "evidence_level": "committed_raw_log",
+      "provenance": {
+        "kind": "committed_raw_log",
+        "source_commit": "12ba509cb94af4ee950282aa6d71843b25501bb3",
+        "artifact_path": "experiments/08_positivity/out_bbdag_3mode_analytic.log",
+        "locator": "seed=42 K=8: F=0.9507  wall=17.6s",
+        "raw_log_retained": true,
+        "fit_parameters_retained": false,
+        "absence_note": "The committed raw log retains the full optimizer trace and summary; fitted state parameters live in the uncommitted evidence bundle referenced by the log."
       }
     }
   ]
