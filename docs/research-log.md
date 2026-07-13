@@ -463,7 +463,8 @@ log experiments/08_positivity/out_bbdag_3mode_analytic.log, source commit
   reproduction of the reported fidelities) are met with durable artifacts.
 
 Learned: "physical AND fast" now holds in a single method -- the BB-dagger
-reconstructor sits at the splat's timescale (10-18 s vs 15 s) while keeping
+reconstructor sits at the splat's timescale (K=4: 10.6-16.6 s, K=8:
+17.6-28.0 s across container reruns, vs the splat's ~15 s) while keeping
 PSD by construction, at F 0.95-0.96 vs the splat's non-physical 0.62-0.76
 overlap score on the same data. The iteration-cost argument was exactly the
 splat analytic-gradient story replayed (PR #1: 29 s -> 1.6 s): one closed-form
