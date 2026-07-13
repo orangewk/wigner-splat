@@ -406,3 +406,20 @@ statements (docs/2026-07-12-entanglement-cost-theory-note.md), oracle-de-risked.
 - Reading: entanglement decides WHETHER a tilt is needed (separable F=0.50, saturates
   with E); interference scale k = sub-Planck fineness decides HOW MUCH it saves (R~k).
   Stellar rank (cat = infinite) is NOT the right complexity measure here; k is.
+
+## 2026-07-12 (later) — C2 timebox: conjecture re-scoped (bounded atomic norm) + Ω(m_1D) upgraded
+
+Timeboxed attempt on the C2 crux (K_axis = Ω(m_1D²)). A Sol/gpt-5.5 probe proposed a
+counterexample: common-width product Gaussians with equal x/y width are ISOTROPIC
+(rotation invariant), so a diagonal construction resolves the rotated fringe
+e^{-u^2-v^2}cos(sqrt2 k u) in 1D → O(m_1D). VERIFIED NUMERICALLY
+(experiments/08_positivity/c2_isotropic_escape.py) that this escape needs
+EXPONENTIAL weights: bounded-coeff (|c|<=50) diagonal-isotropic never reaches
+rel-L2<=0.14 for k=4,6,8; near-fits have max|c|=5.5e5 / 5.7e8 / 3.8e9. A narrow
+isotropic atom (bounded weights) is narrow in v too → must tile 2D → back to m^2.
+Outcome: (a) C2 as originally stated (unconstrained coefficients) is FALSE — fixed
+by adding a BOUNDED-ATOMIC-NORM hypothesis (the regime exp05's spike-proof
+criterion measures). (b) The slice lower bound is upgraded to theorem-grade
+K_axis = Ω(m_1D) (common width) via even/odd orthogonality:
+||(I-P_U)F||^2 = ||(I-P_U)C||^2||C||^2 + ||(I-P_U)S||^2||S||^2. (c) Ω(m_1D^2) at
+bounded norm stays open. Note corrected accordingly; pivoting to track A next.

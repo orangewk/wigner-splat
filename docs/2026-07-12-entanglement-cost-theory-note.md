@@ -63,12 +63,15 @@ The empirical R = Ω(k) is **not yet a theorem**. Two gaps, stated sharply:
 
 **(C1) Width-free 1D lower bound.** With per-atom adaptive widths, the variation-diminishing argument fails (total positivity is a *fixed-kernel* statement; a sum of *different-width* Gaussians can have more sign changes than n − 1). So m_1D^{free}(k, ε) ≥ C(ε)k is **conjectural**, even though empirically the adaptive-width fit is still linear in k (experiment 05's line-search never beats the common-width slope). Closing C1 needs a scale-robust lower bound (atomic-norm / bounded condition number, or a Fourier–Ingham argument on the ±k spectral mass built from frequency-0-centred atoms).
 
-**(C2) The axis penalty — the mathematical heart of "entanglement cost."** To reach **R = Ω(k)** (a constant separation R ≥ c is not even unconditionally proven; see the slice caveat below) we need
-> **K_axis = Ω(m_1D²)**, i.e. the separable dictionary pays the *square* of the 1D cost.
-This is where the naive arguments **leak** (oracle-confirmed):
+**(C2) The axis penalty — the mathematical heart of "entanglement cost."** To reach **R = Ω(k)** we need
+> **K_axis = Ω(m_1D²)** *under a bounded-coefficient (atomic-norm / bounded-purity) constraint*, i.e. the separable dictionary pays the *square* of the 1D cost.
+The naive arguments **leak**:
 - *Rank fails.* e^{−p₁²−p₂²}cos(k(p₁+p₂)) = u_c(p₁)u_c(p₂) − u_s(p₁)u_s(p₂) is a **rank-2** separable function, so a tensor-rank bound gives O(1), not m².
 - *Sign-matrix fails.* On a grid the sign pattern (−1)^{i+j} = (−1)^i(−1)^j is **rank-1**; checkerboard sign complexity alone does not force m².
-A slice argument (restrict to p₂ = const, read off a 1D fit in p₁) *plausibly* gives K_axis = Ω(m_1D), but not for free: slicing a product Gaussian yields a 1D Gaussian whose width varies **per atom**, so the slice bound needs the width-free 1D lower bound (C1, itself open) — or the common-width-dictionary assumption of experiment 05's axis pool — plus a Fubini step (2D-L2-small ⟹ most slices are 1D-L2-small). So even K_axis = Ω(m_1D) is conditional. The Ω(m_1D²) lower bound — that a product-Gaussian dictionary *cannot* exploit the diagonal ridge and must tile the full 2D grid — requires a genuinely new mechanism (product-dictionary sparsity, not tensor rank). **This is the open problem that would make "entanglement representation cost" a theorem.**
+
+**Why the constraint is not optional (an oracle-found, numerically-verified counterexample).** *Without* a coefficient/conditioning bound the Ω(m_1D²) claim is **false**: a common-width product Gaussian with equal x- and y-width is an **isotropic**, hence rotation-invariant, blob. Rotating to u = (p₁+p₂)/√2, F_k = e^{−u²−v²}cos(√2 k u); an isotropic construction on the diagonal (v = 0) formally gives O(m_1D) atoms. **But this construction needs exponentially large weights**: to resolve the √2k oscillation with isotropic (not-narrow-in-u) atoms, a width-1 Gaussian must synthesize frequency √2k, and its transform there is ~e^{−k²}, so coefficients blow up like e^{k²}. Measured (this note, `experiments/08_positivity`-style diagonal LS fit): the bounded-coefficient (|c| ≤ 50) diagonal-isotropic fit **never** reaches rel-L2 ≤ 0.14 for k = 4, 6, 8; where it approaches, max|c| = 5.5×10⁵, 5.7×10⁸, 3.8×10⁹ respectively. A *narrow* isotropic atom (which would resolve the fringe with bounded weights) is narrow in v too, so it cannot elongate along the ridge and must tile the 2D envelope → back to Θ(m²). So the escape is **only** the ill-conditioned regime; experiment 05's spike-proof relative-L2 criterion (purity ≈ 1, |w| ≲ 0.5) sits squarely in the bounded regime where R ~ k is measured.
+
+So the sharpened open problem is: **K_axis = Ω(m_1D²) for signed product-Gaussian mixtures of bounded atomic norm.** The slice argument gives a rigorous **lower bound K_axis = Ω(m_1D)** for the common-width dictionary — with the clean orthogonality accounting (C even, S odd ⟹ ‖(I−P_U)F‖² = ‖(I−P_U)C‖²‖C‖² + ‖(I−P_U)S‖²‖S‖², so the x-atom span U must approximate both C and S, forcing dim U ≥ Ω(m_1D)). The gap from Ω(m_1D) to Ω(m_1D²) — that a bounded-norm product dictionary cannot collapse the diagonal ridge — is the genuinely new mechanism still needed. **This (with the bounded-norm hypothesis) is the open problem that would make "entanglement representation cost" a theorem.**
 
 Honest status table:
 
@@ -76,8 +79,9 @@ Honest status table:
 |---|---|
 | m_1D^{common}(k) = Θ(k) | **theorem** (§2, §3) |
 | K_tilted(k) = O(k) | **theorem** (construction, §3) |
+| K_axis(k) = Ω(m_1D) (common width) | **theorem-grade** (slice + even/odd orthogonality) |
 | m_1D^{free}(k) = Ω(k) | conjecture (C1); strong empirical support |
-| K_axis(k) = Ω(m_1D²) ⟹ R = Ω(k) | **conjecture (C2)** — the crux; empirical slope 1.02 |
+| K_axis(k) = Ω(m_1D²) **at bounded atomic norm** ⟹ R = Ω(k) | **conjecture (C2)** — the crux; empirical slope 1.02. *Without* the norm bound it is **false** (isotropic-diagonal escape, needs weights ~e^{k²}, verified) |
 
 ---
 
@@ -94,7 +98,7 @@ The division of labour that survives the analysis:
 
 ## 6. What to do next
 
-1. **C2 is the prize.** A product-Gaussian-dictionary sparsity lower bound K_axis = Ω(m_1D²) would make R = Ω(k) a theorem and is a self-contained approximation-theory problem (no quantum input). Attack via: (a) a 2D variation-diminishing / total-positivity statement for product kernels along the anti-diagonal; (b) an incoherence/atomic-norm bound on the separable dictionary restricted to the ridge.
+1. **C2 is the prize — but it must carry the bounded-atomic-norm hypothesis** (a timebox attempt showed the unconstrained version is false: the isotropic-diagonal escape, `c2_isotropic_escape.py`). The right target is a product-Gaussian sparsity lower bound K_axis = Ω(m_1D²) *at bounded atomic norm / bounded condition number*, which would make R = Ω(k) a theorem (self-contained approximation theory, no quantum input). Attack via: (a) an atomic-norm / incoherence bound forcing narrow (fringe-resolving) atoms, which are isotropic-narrow and thus tile 2D; (b) a 2D variation-diminishing statement for the anti-diagonal restricted to bounded-norm combinations. The intermediate **K_axis = Ω(m_1D)** (common width, via the even/odd orthogonality of §4) is already theorem-grade and worth writing up cleanly.
 2. **C1** is likely easier and worth a Fourier–Ingham attempt (frequency-0-centred atoms building ±k spectral mass).
 3. This note is intentionally a **standalone artifact** — provable lemma + sharp open problem — independent of whether the splat/BB† reconstructors win benchmarks. It can seed a short preprint or an outreach thread (the C2 problem is quotable to approximation theorists).
 
