@@ -1,0 +1,22 @@
+=== exp11: issue #28 formal ruling -- BB-dagger vs splat vs MLE, out-of-family ===
+alpha=1.5 parity=1, 27 triples x 2000 shots, data seed 42; binned methods use bins=24, Fock methods n_max=8, MLE budget 900s
+
+--- target: lossy cat eta=0.8 (mixed; purity=0.5023 = perfect overlap score) ---
+  [mle3 lossy] 514 iters, converged=False, wall=902s
+  bbdag rank2 K=2      Uhlmann F      0.9947  wall=13s  NLL=3.9062
+  splat fit3f          overlap score  0.4960  wall=15s  (perfect=0.5023, non-PSD)
+  mle3 full-rank       Uhlmann F      0.9552  wall=902s  converged=False, target trunc trace=0.9983
+  purefock rank-1      Uhlmann F      0.5169  wall=143s  NLL=3.9066 (wrong-rank control)
+
+--- target: squeezed cat r=0.4 (pure; perfect score = 1) ---
+  [mle3 squeezed] 526 iters, converged=False, wall=902s
+  bbdag squeezed K=4   exact F        0.9700  wall=37s  NLL=4.0667
+  splat fit3f          overlap score  1.7674  wall=15s  (non-PSD)
+  mle3 full-rank       exact F        0.7141  wall=902s  converged=False, trunc ceiling=0.9944
+  purefock rank-1      exact F        0.9611  wall=141s  NLL=4.0679
+
+=== ruling (issue #28 falsification condition) ===
+lossy: bbdag=0.9947 vs splat=0.4960 (overlap score) vs mle=0.9552 -> bbdag does NOT lose to both
+squeezed: bbdag=0.9700 vs splat=1.7674 (overlap score) vs mle=0.7141 -> bbdag does NOT lose to both
+NOTE: the splat column is a Wigner-overlap score of a non-PSD reconstruction (perfect = target purity on the mixed target), the other columns are state fidelities of physical states -- the cross-method comparison is therefore score-vs-fidelity, as in exp06/exp08, and is quoted with that caveat.
+-> falsification condition does NOT fire: BB-dagger (with its rank-2 / squeezed-ket extensions) is not consistently beaten by splat and MLE out of family. Single data seed; see log for per-target detail.

@@ -170,10 +170,19 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
           fidelity**。結果(実験10): 損失猫(η=0.8)で rank-1 は F≈0.53 で頭打ち(K を増やしても不変
           = ボトルネックは rank。span 内の rank-1 理論上限 0.5336 と整合)、**rank-2 は F=0.9947 で
           回復**。squeezed 猫(r=0.4)は K=2/4/8 で F 0.79→0.81→0.82 と単調改善するが、generic 対照
-          (purefock 0.961)に大差 → 次の表現拡張は**多モード squeezed-product ket**(1モード機構は
-          bbdag.py に既存)。**#28 の反証条件(各ターゲットで splat / MLE との 3者比較)は未実施のため
-          判定保留 = 部分完了**。rank-2 回復と K 単調性は支持的証拠に留まる。
-          残スコープ: 新ターゲットでの splat・フルランク MLE 側の 3者比較、複数シード。
+          (purefock 0.961)に大差 → 次の表現拡張は**多モード squeezed-product ket**。
+        - **squeezed-product ansatz + #28 正式判定(実験11、2026-07-13 実測)**: 多モード
+          displaced-squeezed-product ket(`bbdagS.py`)を実装 — 全パラメータ閉形式解析勾配
+          (ペア重なり=複素ガウス積分、∂log f は x の 2 次多項式なので norm 勾配はモーメント比
+          R₁=B/2A、R₂=R₁²+1/2A に帰着。ξ=0 特異点は ν=ξ sinh|ξ|/|ξ| で除去。central-diff 一致を
+          テストで固定)。squeezed 猫(r=0.4)で **F=0.970 / ~37 s**(coherent K=8 の 0.823、
+          generic 対照 0.961 を超える。K=2 は初期値鋭敏 — 過剰パラメータ化 K=4 が頑健)。
+          **3者比較(BB† vs splat vs フルランク MLE、両族外ターゲット)で反証条件は不発動と正式判定**
+          (単一データシード注記付き): 損失猫 = BB† rank-2 **0.9947**/13 s vs MLE 0.9552/902 s DNF、
+          splat overlap 0.4960(純度上限 0.5023 の 98.7%)/ squeezed 猫 = BB† **0.970**/37 s vs
+          MLE 0.714/902 s DNF、purefock 0.961/141 s。**splat の score 1.7674 (>1) は非物理性の
+          直接証明**(純粋ターゲットとの tr(ρσ)≤1 は物理状態のみ)— issue #8 の tension が
+          ヘッドライン数値に露出した形。残: 複数シード再現、rank-R × squeezed 複合 ansatz。
         - **解析勾配化(issue #25、2026-07-13 解決)**: NLL 勾配を閉形式化(`bbdagM.nll_and_grad`。
           Z=z†Gz は coherent overlap の Gram、サンプル項は LO 回転の chain rule。central-diff と
           1e-9〜1e-8 級一致をテストで固定)。3モード K=4 が **527 s → 10.6–16.6 s(32–50×、コンテナ間
