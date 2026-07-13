@@ -157,20 +157,22 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
         - **フェアベースライン(issue #27、2026-07-13 実測)**: 同じ純粋制約・同じ per-sample NLL・
           同じ Adam +解析勾配で、表現だけ違う対照(`purefock3.py`: 一般 Fock ket 512 複素パラメータ)を
           追加(train 1600 / test 400 の held-out 付き、実験09)。結果(3シード平均): **fidelity は
-          generic が上(0.979 vs 0.959)**、計算は BB† が 14倍速(10.7 s vs 145 s)、held-out NLL は
+          generic が上(0.979 vs 0.959)**、計算は BB† が 11倍速(13.8 s vs 156 s)、held-out NLL は
           BB† が真の状態水準(3.919 ≈ true 3.923)で generic は過適合(3.933)。→ フルランク MLE
           (0.676 DNF)に対する fidelity 差の主因は**純粋制約 + サンプル勾配 ML** であり coherent
-          ansatz ではない(「ansatz の fidelity 優位」は主張しない)。ansatz が買うのは **14倍速・
-          1/16 のパラメータ・過適合しない held-out 尤度**。R ρ R の 0.676 は部分的に
+          ansatz ではない(「ansatz の fidelity 優位」は主張しない)。ansatz が買うのは **11倍速・
+          1/32 の実パラメータ数(32 vs 1024)・過適合しない held-out 尤度**。R ρ R の 0.676 は部分的に
           アルゴリズム(ビン化データへの固定点反復)の問題でもあった(同じ 512 次元空間の勾配 ML は
           0.98 に届く)。
         - **out-of-family + rank>1(issue #28、2026-07-13 実測)**: 族外ターゲット 2 種を実装
           (`states3x.py`: 損失チャネル後の猫 = 混合 rank-2、squeezed 猫 = coherent 族外の純粋状態)。
           rank-R 拡張(`MixedCoherentKetState`、ρ=BB† のまま PSD)+ coherent span 上の**厳密 Uhlmann
           fidelity**。結果(実験10): 損失猫(η=0.8)で rank-1 は F≈0.53 で頭打ち(K を増やしても不変
-          = ボトルネックは rank)、**rank-2 は F=0.9947 で回復**。squeezed 猫(r=0.4)は K=2/4/8 で
-          F 0.79→0.81→0.82 と単調改善するが、generic 対照(purefock 0.961)に大差 → 次の表現拡張は
-          **多モード squeezed-product ket**(1モード機構は bbdag.py に既存)。反証条件は不発動。
+          = ボトルネックは rank。span 内の rank-1 理論上限 0.5336 と整合)、**rank-2 は F=0.9947 で
+          回復**。squeezed 猫(r=0.4)は K=2/4/8 で F 0.79→0.81→0.82 と単調改善するが、generic 対照
+          (purefock 0.961)に大差 → 次の表現拡張は**多モード squeezed-product ket**(1モード機構は
+          bbdag.py に既存)。**#28 の反証条件(各ターゲットで splat / MLE との 3者比較)は未実施のため
+          判定保留 = 部分完了**。rank-2 回復と K 単調性は支持的証拠に留まる。
           残スコープ: 新ターゲットでの splat・フルランク MLE 側の 3者比較、複数シード。
         - **解析勾配化(issue #25、2026-07-13 解決)**: NLL 勾配を閉形式化(`bbdagM.nll_and_grad`。
           Z=z†Gz は coherent overlap の Gram、サンプル項は LO 回転の chain rule。central-diff と

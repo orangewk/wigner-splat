@@ -483,25 +483,31 @@ for each method AND the true state. Experiment 09 (committed raw log), seeds
 Happened (means over 3 seeds; full table in experiments/09_fair_baseline/out_run.log):
 - fidelity: purefock 0.979 (0.975-0.983; truncation ceiling 0.993) vs
   BB-dagger 0.959 (0.952-0.968). The GENERIC constrained fit is HIGHER.
-- compute: BB-dagger 10.7 s vs purefock 144.8 s (~14x).
+- compute: BB-dagger 13.8 s vs purefock 155.6 s (~11x).
 - held-out NLL: BB-dagger 3.9191 (at or slightly below the true state's
   3.9231 -- generalization at the noise floor; the small sub-true readings are
   within shared-test-set fluctuation) vs purefock 3.9329 (clearly above true:
-  512 free parameters overfit; its train NLL 3.9094 undercuts truth by more
-  than BB-dagger's).
+  512 free parameters overfit). On TRAIN, BB-dagger undercuts the true state
+  by MORE (~-0.0044 vs purefock's ~-0.0014) yet still generalizes at the true
+  level, while purefock's smaller train undercut costs it ~+0.010 on test --
+  the generic fit loses far more generalization per unit of train-likelihood
+  gain.
 
-Learned / verdict on the falsification condition: the strict trigger
-("generic baseline matches BB-dagger at <= compute") does NOT fire -- 14x
-compute and worse held-out likelihood. But the honest decomposition is now
-measured, and it REVISES the exp08 story: (a) most of the fidelity gap over
-full-rank MLE (0.68 -> 0.98) comes from the pure-state CONSTRAINT plus
-per-sample gradient ML, not from the coherent ansatz -- a generic 512-parameter
-pure fit beats BB-dagger K=4 on fidelity; (b) what the coherent ansatz buys is
-14x speed, ~16x fewer parameters, and held-out likelihood at the true-state
-level (no overfit). "BB-dagger ansatz-fidelity superiority" must not be
-claimed; "physical, fast, and generalizing" survives. Also notable: R rho R's
-0.676 was partly the ALGORITHM (fixed-point on binned data), since the same
-512-dim space under sample-level gradient ML reaches 0.98.
+Learned / verdict on the falsification condition (per axis -- the strict
+conjunctive trigger "generic matches BB-dagger at <= compute" does not fire
+because of the ~11x compute, but the axes SPLIT and must be reported as such):
+- fidelity axis: PUREFOCK wins (0.979 vs 0.959) -- most of the fidelity gap
+  over full-rank MLE (0.68 -> 0.98) comes from the pure-state CONSTRAINT plus
+  per-sample gradient ML, not from the coherent ansatz. An ansatz fidelity
+  advantage must NOT be claimed.
+- compute axis: BB-dagger wins (13.8 s vs 155.6 s, ~11x), with ~32x fewer
+  real parameters (32 vs 1024).
+- held-out likelihood axis: BB-dagger wins (test NLL 3.9191 ~= true 3.9231 vs
+  purefock 3.9329).
+"Physical, fast, and generalizing" survives; "highest-fidelity" does not.
+Also notable: R rho R's 0.676 was partly the ALGORITHM (fixed-point on binned
+data), since the same 512-dim space under sample-level gradient ML reaches
+0.98.
 
 ## 2026-07-13 (later) — Track A step 3: out-of-family targets + rank>1 BB-dagger (issue #28)
 
@@ -533,13 +539,18 @@ Happened:
   (purefock3) reaches F=0.961 on the same data (174 s). The coherent
   dictionary is inefficient for squeezed kets, as expected.
 
-Learned / verdict: the issue-#28 falsification trigger does not fire -- the
-rank-2 extension recovers its enlarged family (lossy cat), and out-of-family
-fidelity improves monotonically with K. But the squeezed-cat gap (0.82 vs the
-generic control's 0.96) marks the next representation step: MULTIMODE
+Learned / status: PARTIAL COMPLETION -- the issue-#28 falsification condition
+compares BB-dagger against the SPLAT and MLE reconstructors on each
+out-of-family target, and neither side has a pipeline for these targets yet,
+so the condition is UNDECIDED (not "does not fire"). What IS established as
+supporting evidence: the rank-2 extension recovers its enlarged family (lossy
+cat: 0.53 -> 0.9947; an independent in-span bound puts the best rank-1 at
+0.5336, matching the measured 0.5307 plateau), and out-of-family fidelity
+improves monotonically with K. The squeezed-cat gap (0.82 vs the generic
+control's 0.96) marks the next representation step: MULTIMODE
 SQUEEZED-PRODUCT kets (the 1-mode machinery already exists in bbdag.py). The
 rank-2 result opens the decoherence path (dreams #5: time-resolved tomography
-of a decohering cat is now representable). Remaining scope, recorded: splat
-and full-rank-MLE sides of the 3-way comparison on these new targets, more
-seeds, non-equal-amplitude targets (in-family, low priority), and the
-squeezed-product ansatz.
+of a decohering cat is now representable). Remaining scope for the actual
+ruling: splat and full-rank-MLE sides of the 3-way comparison on these new
+targets, more seeds, non-equal-amplitude targets (in-family, low priority),
+and the squeezed-product ansatz.

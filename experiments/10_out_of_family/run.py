@@ -144,7 +144,7 @@ def main():
     lossy = lossy_block()
     squeezed = squeezed_block()
 
-    print("\n=== verdict (issue #28 falsification framing) ===")
+    print("\n=== partial verdict (issue #28 -- NOT a falsification ruling) ===")
     r1 = max(F for label, F in lossy if "rank1" in label)
     r2 = max(F for label, F in lossy if "rank2" in label)
     print(f"lossy: best rank1 F={r1:.4f} vs best rank2 F={r2:.4f} -> "
@@ -155,6 +155,12 @@ def main():
           + ("fidelity improves with K (graceful out-of-family degradation)"
              if ks == sorted(ks) and ks[-1] > ks[0] else
              "no monotone improvement with K"))
+    print("issue #28's falsification condition compares BB-dagger against the "
+          "SPLAT and MLE reconstructors on each target; neither runs here "
+          "(no splat/full-rank pipeline for these targets yet), so the "
+          "condition is UNDECIDED -- status: partial completion, pending the "
+          "3-way comparison. The rank-2 recovery and K-monotonicity above are "
+          "supporting evidence only.")
 
 
 if __name__ == "__main__":

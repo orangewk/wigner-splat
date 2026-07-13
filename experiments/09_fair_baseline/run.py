@@ -126,20 +126,29 @@ def main():
     bb_rows = [r for r in rows if r["method"].startswith("bbdag")]
     pf_rows = [r for r in rows if r["method"].startswith("purefock")]
     mean = lambda key, rs: float(np.mean([r[key] for r in rs]))
-    print("\n=== verdict (issue #27 falsification condition) ===")
-    print(f"bbdag    mean: F={mean('F', bb_rows):.4f}  wall={mean('wall', bb_rows):.1f}s  "
-          f"test NLL={mean('nll_test', bb_rows):.4f}")
-    print(f"purefock mean: F={mean('F', pf_rows):.4f}  wall={mean('wall', pf_rows):.1f}s  "
-          f"test NLL={mean('nll_test', pf_rows):.4f}")
-    matched = (mean('F', pf_rows) >= mean('F', bb_rows) - 1e-3
-               and mean('wall', pf_rows) <= mean('wall', bb_rows))
-    if matched:
-        print("-> purefock MATCHES bbdag at <= compute: withdraw the ansatz-"
-              "advantage claim (win source = parameter-count constraint).")
+    f_bb, f_pf = mean('F', bb_rows), mean('F', pf_rows)
+    w_bb, w_pf = mean('wall', bb_rows), mean('wall', pf_rows)
+    t_bb, t_pf = mean('nll_test', bb_rows), mean('nll_test', pf_rows)
+    print("\n=== verdict (issue #27, per axis) ===")
+    print(f"bbdag    mean: F={f_bb:.4f}  wall={w_bb:.1f}s  test NLL={t_bb:.4f}")
+    print(f"purefock mean: F={f_pf:.4f}  wall={w_pf:.1f}s  test NLL={t_pf:.4f}")
+    print(f"axis fidelity:     {'purefock' if f_pf > f_bb else 'bbdag'} wins "
+          f"({f_pf:.4f} vs {f_bb:.4f})")
+    print(f"axis compute:      {'bbdag' if w_bb < w_pf else 'purefock'} wins "
+          f"({w_bb:.1f}s vs {w_pf:.1f}s, {w_pf / w_bb:.0f}x)")
+    print(f"axis held-out NLL: {'bbdag' if t_bb < t_pf else 'purefock'} wins "
+          f"({t_bb:.4f} vs {t_pf:.4f})")
+    strict = f_pf >= f_bb - 1e-3 and w_pf <= w_bb
+    if strict:
+        print("-> strict trigger FIRES (purefock matches at <= compute): "
+              "withdraw the ansatz-advantage claim entirely.")
     else:
-        print("-> purefock does NOT match bbdag at <= compute: the constraint "
-              "explains part of the gap over full-rank MLE, but the coherent "
-              "ansatz retains a real fidelity/likelihood/speed edge.")
+        print("-> strict trigger (match at <= compute) does not fire, BUT the "
+              "fidelity axis goes to the generic constrained fit: most of the "
+              "fidelity gap over full-rank MLE is the pure-state constraint + "
+              "gradient ML, not the coherent ansatz. Do NOT claim an ansatz "
+              "fidelity advantage; bbdag's measured edge is compute, "
+              "parameter count, and held-out likelihood.")
 
 
 if __name__ == "__main__":
