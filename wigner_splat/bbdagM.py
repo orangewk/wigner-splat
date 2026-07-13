@@ -126,14 +126,105 @@ def _nll_grad_fd(v, K, M, data, eps=1e-5):
     return g
 
 
+def nll_and_grad(state, data):
+    """Mean NLL and its closed-form gradient w.r.t. the packed real parameters.
+
+    NLL = log Z - (1/N) sum_s log |psi_s|^2 with everything analytic (issue #25):
+
+      * Z = z^dag G z with G[c,d] = prod_m <alpha_c^m|alpha_d^m>, so
+        dZ/d(Re z, Im z) = 2(Re, Im)(G z) and, from
+        d log<a|b>/d(Re a, Im a) = (b - Re a, -Im a - i b) plus the Hermitian
+        mirror term (its conjugate), dZ/dalpha is a weighted overlap sum.
+      * psi_s = sum_c z_c P_sc, P_sc = prod_m f(x_sm; beta_cm),
+        beta = alpha e^{-i theta}. With
+        d log f/d(Re beta) = sqrt2 (x - sqrt2 Re beta) - i Im beta and
+        d log f/d(Im beta) = i (sqrt2 x - Re beta), the LO rotation gives
+        d/d(Re alpha) = cos(theta) d/d(Re beta) - sin(theta) d/d(Im beta) and
+        d/d(Im alpha) = sin(theta) d/d(Re beta) + cos(theta) d/d(Im beta).
+
+    Returns (nll_value, grad) with grad ordered like _pack: Re z, Im z,
+    Re alpha (K*M), Im alpha (K*M). Samples clamped at p = 1e-300 in nll() are
+    astronomically far from any fit trajectory and are not special-cased.
+    """
+    z, alpha = state.z, state.alpha
+    K, M = state.K, state.M
+
+    # --- normalization Z and its closed-form gradient ---
+    ov = coherent_overlap(alpha[:, None, :], alpha[None, :, :])  # (K,K,M)
+    G = np.prod(ov, axis=2)                                      # (K,K) Hermitian
+    Gz = G @ z
+    Z = float(np.real(np.conj(z) @ Gz))
+    dZ_zr = 2.0 * np.real(Gz)
+    dZ_zi = 2.0 * np.imag(Gz)
+    W = np.conj(z)[:, None] * z[None, :] * G                     # (K,K)
+    S1 = W @ alpha                                               # (K,M)
+    S0 = np.sum(W, axis=1)[:, None]                              # (K,1)
+    dZ_ar = 2.0 * np.real(S1 - S0 * np.real(alpha))
+    dZ_ai = 2.0 * np.real(-S0 * np.imag(alpha) - 1j * S1)
+
+    # --- sample term: -(1/N) sum log |psi|^2 ---
+    g_zr = np.zeros(K)
+    g_zi = np.zeros(K)
+    g_ar = np.zeros((K, M))
+    g_ai = np.zeros((K, M))
+    logpsi_sum = 0.0
+    n = 0
+    sqrt2 = np.sqrt(2.0)
+    for theta, X in data:
+        theta = np.asarray(theta, float)
+        X = np.asarray(X, float)
+        rot = alpha * np.exp(-1j * theta)[None, :]               # (K,M) beta
+        prod = np.ones((X.shape[0], K), complex)
+        for m in range(M):
+            prod *= coherent_wavefunction(X[:, m][:, None], rot[None, :, m])
+        psi = prod @ z                                           # (S,)
+        absq = np.abs(psi) ** 2
+        logpsi_sum += np.sum(np.log(np.maximum(absq, 1e-300)))
+        n += X.shape[0]
+        # d(-log|psi|^2)/dt = -2 Re(conj(psi) dpsi/dt) / |psi|^2
+        r = np.conj(psi) / np.maximum(absq, 1e-300)              # (S,)
+        T = r[:, None] * prod                                    # (S,K): r * dpsi/dz_c
+        g_zr += -2.0 * np.sum(np.real(T), axis=0)
+        g_zi += 2.0 * np.sum(np.imag(T), axis=0)                 # Re(i T) = -Im(T)
+        A = T * z[None, :]                                       # (S,K): r * z_c * P_sc
+        for m in range(M):
+            br = np.real(rot[:, m])[None, :]
+            bi = np.imag(rot[:, m])[None, :]
+            xm = X[:, m][:, None]
+            gr = sqrt2 * (xm - sqrt2 * br) - 1j * bi             # d log f / d Re beta
+            gi = 1j * (sqrt2 * xm - br)                          # d log f / d Im beta
+            c, s = np.cos(theta[m]), np.sin(theta[m])
+            g_ar[:, m] += -2.0 * np.sum(np.real(A * (c * gr - s * gi)), axis=0)
+            g_ai[:, m] += -2.0 * np.sum(np.real(A * (s * gr + c * gi)), axis=0)
+
+    value = np.log(Z) - logpsi_sum / n
+    grad = np.concatenate([
+        g_zr / n + dZ_zr / Z,
+        g_zi / n + dZ_zi / Z,
+        (g_ar / n + dZ_ar / Z).ravel(),
+        (g_ai / n + dZ_ai / Z).ravel(),
+    ])
+    return value, grad
+
+
 def fit_bbdagM(data, K=8, M=3, iters=200, lr=0.05, seed=0, callback=None,
-               grad_eps=1e-5):
-    """Adam on the FD NLL gradient. Returns a physical CoherentKetState."""
+               grad_eps=1e-5, gradient="analytic"):
+    """Adam on the NLL gradient. Returns a physical CoherentKetState.
+
+    gradient="analytic" (default) uses the closed-form nll_and_grad;
+    gradient="fd" keeps the original central-difference path (grad_eps),
+    retained as the independent reference the analytic path is tested against.
+    """
+    if gradient not in ("analytic", "fd"):
+        raise ValueError(f"gradient must be 'analytic' or 'fd', got {gradient!r}")
     state = CoherentKetState.random_init(K, M, rng=seed)
     v = _pack(state)
     m1, m2 = np.zeros_like(v), np.zeros_like(v)
     for t in range(1, iters + 1):
-        g = _nll_grad_fd(v, K, M, data, eps=grad_eps)
+        if gradient == "analytic":
+            val, g = nll_and_grad(_unpack(v, K, M), data)
+        else:
+            g = _nll_grad_fd(v, K, M, data, eps=grad_eps)
         m1 = 0.9 * m1 + 0.1 * g
         m2 = 0.999 * m2 + 0.001 * g ** 2
         step = lr * (m1 / (1 - 0.9 ** t)) / (np.sqrt(m2 / (1 - 0.999 ** t)) + 1e-8)
