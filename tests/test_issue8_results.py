@@ -50,7 +50,7 @@ def test_committed_registry_validates():
         record["provenance"]["source_commit"] for record in raw
     } == {
         "4259cab45f89b84bfc86bece38eeeb56378cd3cc",  # exp06 signed-splat log
-        "12ba509cb94af4ee950282aa6d71843b25501bb3",  # bbdag analytic-gradient log
+        "1e49e00a24cb1302de69f2577a064a701878a32e",  # bbdag analytic clean run
     }
     for record in raw:
         provenance = record["provenance"]
@@ -85,6 +85,43 @@ def test_figure_primary_and_evidence_marks():
     )
     assert robustness["iters"] == 120
     assert robustness["id"] != primary["primary_record_id"]
+
+
+def test_analytic_fit_parameters_recompute_reported_fidelity():
+    """The committed portable evidence (issue #25) is durable: the fitted
+    parameters recompute the registry's fidelity without any bundle files."""
+    import json
+
+    import numpy as np
+
+    from wigner_splat.bbdagM import CoherentKetState, fidelity_vs_cat3
+
+    registry = result_io.load_results(RESULTS_PATH)
+    evidence = json.loads(
+        (ROOT / "experiments/08_positivity/evidence/bbdag_analytic_fits.json")
+        .read_text(encoding="utf-8")
+    )
+    runs = {(r["data_seed"], r["K"]): r for r in evidence["runs"]}
+    assert set(runs) == {(42, 4), (1, 4), (2, 4), (42, 8)}
+
+    checked = 0
+    for record in registry["records"]:
+        if not record["id"].startswith("bbdag.analytic."):
+            continue
+        provenance = record["provenance"]
+        assert provenance["fit_parameters_retained"] is True
+        assert (ROOT / provenance["fit_parameters_path"]).is_file()
+        run = runs[(record["data_seed"], record["K"])]
+        assert run["source_commit"] == provenance["source_commit"]
+        state = CoherentKetState(
+            z=np.array(run["z_re"]) + 1j * np.array(run["z_im"]),
+            alpha=np.array(run["alpha_re"]) + 1j * np.array(run["alpha_im"]),
+        )
+        F = fidelity_vs_cat3(state, 1.5, +1)
+        assert abs(F - record["value"]) < 5e-5
+        assert abs(F - run["exact_state_fidelity"]) < 1e-9
+        checked += 1
+    assert checked == 4
 
 
 @pytest.mark.parametrize(

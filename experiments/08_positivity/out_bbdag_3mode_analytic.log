@@ -14,8 +14,8 @@ sampling 27 triples x 2000 shots, seed=42 ...
     seed=42 K=4 it150: NLL=3.9108
     seed=42 K=4 it175: NLL=3.9108
     seed=42 K=4 it200: NLL=3.9108
-  seed=42 K=4: F=0.9501  wall=10.6s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
-  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T012631.796545Z-bbdag-3mode-seed42-k4
+  seed=42 K=4: F=0.9501  wall=16.6s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
+  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T123751.578923Z-bbdag-3mode-seed42-k4
 
 sampling 27 triples x 2000 shots, seed=1 ...
     seed=1 K=4 it25: NLL=4.2072
@@ -26,8 +26,8 @@ sampling 27 triples x 2000 shots, seed=1 ...
     seed=1 K=4 it150: NLL=3.9054
     seed=1 K=4 it175: NLL=3.9054
     seed=1 K=4 it200: NLL=3.9054
-  seed=1 K=4: F=0.9593  wall=10.4s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
-  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T012646.687936Z-bbdag-3mode-seed1-k4
+  seed=1 K=4: F=0.9593  wall=16.5s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
+  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T123813.851585Z-bbdag-3mode-seed1-k4
 
 sampling 27 triples x 2000 shots, seed=2 ...
     seed=2 K=4 it25: NLL=4.2089
@@ -38,8 +38,8 @@ sampling 27 triples x 2000 shots, seed=2 ...
     seed=2 K=4 it150: NLL=3.9106
     seed=2 K=4 it175: NLL=3.9106
     seed=2 K=4 it200: NLL=3.9106
-  seed=2 K=4: F=0.9566  wall=10.5s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
-  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T012700.938595Z-bbdag-3mode-seed2-k4
+  seed=2 K=4: F=0.9566  wall=17.1s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
+  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T123837.036870Z-bbdag-3mode-seed2-k4
     seed=42 K=8 it25: NLL=3.9648
     seed=42 K=8 it50: NLL=3.9189
     seed=42 K=8 it75: NLL=3.9117
@@ -48,5 +48,5 @@ sampling 27 triples x 2000 shots, seed=2 ...
     seed=42 K=8 it150: NLL=3.9108
     seed=42 K=8 it175: NLL=3.9108
     seed=42 K=8 it200: NLL=3.9108
-  seed=42 K=8: F=0.9507  wall=17.6s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
-  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T012718.594571Z-bbdag-3mode-seed42-k8
+  seed=42 K=8: F=0.9507  wall=28.0s  physical=YES(by construction)  [HIGH-F TARGET-ALIGNED FIT]
+  evidence bundle: /home/user/wigner-splat/experiments/08_positivity/out/20260713T123905.160501Z-bbdag-3mode-seed42-k8

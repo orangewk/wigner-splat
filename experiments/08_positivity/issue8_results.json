@@ -419,18 +419,19 @@
       "iters": 200,
       "shots": 2000,
       "grid": "exp06-theta-3x3x3",
-      "wall_s": 10.6,
+      "wall_s": 16.6,
       "gradient": "analytic",
       "reason": {},
       "evidence_level": "committed_raw_log",
       "provenance": {
         "kind": "committed_raw_log",
-        "source_commit": "12ba509cb94af4ee950282aa6d71843b25501bb3",
+        "source_commit": "1e49e00a24cb1302de69f2577a064a701878a32e",
         "artifact_path": "experiments/08_positivity/out_bbdag_3mode_analytic.log",
-        "locator": "seed=42 K=4: F=0.9501  wall=10.6s",
+        "locator": "seed=42 K=4: F=0.9501  wall=16.6s",
         "raw_log_retained": true,
-        "fit_parameters_retained": false,
-        "absence_note": "The committed raw log retains the full optimizer trace and summary; fitted state parameters live in the uncommitted evidence bundle referenced by the log."
+        "fit_parameters_retained": true,
+        "absence_note": "Raw per-shot samples are not committed; they regenerate deterministically from the recorded data seed at source_commit. Fitted parameters and the optimizer trace are committed in fit_parameters_path and recompute the reported fidelity and NLL.",
+        "fit_parameters_path": "experiments/08_positivity/evidence/bbdag_analytic_fits.json"
       }
     },
     {
@@ -444,18 +445,19 @@
       "iters": 200,
       "shots": 2000,
       "grid": "exp06-theta-3x3x3",
-      "wall_s": 10.4,
+      "wall_s": 16.5,
       "gradient": "analytic",
       "reason": {},
       "evidence_level": "committed_raw_log",
       "provenance": {
         "kind": "committed_raw_log",
-        "source_commit": "12ba509cb94af4ee950282aa6d71843b25501bb3",
+        "source_commit": "1e49e00a24cb1302de69f2577a064a701878a32e",
         "artifact_path": "experiments/08_positivity/out_bbdag_3mode_analytic.log",
-        "locator": "seed=1 K=4: F=0.9593  wall=10.4s",
+        "locator": "seed=1 K=4: F=0.9593  wall=16.5s",
         "raw_log_retained": true,
-        "fit_parameters_retained": false,
-        "absence_note": "The committed raw log retains the full optimizer trace and summary; fitted state parameters live in the uncommitted evidence bundle referenced by the log."
+        "fit_parameters_retained": true,
+        "absence_note": "Raw per-shot samples are not committed; they regenerate deterministically from the recorded data seed at source_commit. Fitted parameters and the optimizer trace are committed in fit_parameters_path and recompute the reported fidelity and NLL.",
+        "fit_parameters_path": "experiments/08_positivity/evidence/bbdag_analytic_fits.json"
       }
     },
     {
@@ -469,18 +471,19 @@
       "iters": 200,
       "shots": 2000,
       "grid": "exp06-theta-3x3x3",
-      "wall_s": 10.5,
+      "wall_s": 17.1,
       "gradient": "analytic",
       "reason": {},
       "evidence_level": "committed_raw_log",
       "provenance": {
         "kind": "committed_raw_log",
-        "source_commit": "12ba509cb94af4ee950282aa6d71843b25501bb3",
+        "source_commit": "1e49e00a24cb1302de69f2577a064a701878a32e",
         "artifact_path": "experiments/08_positivity/out_bbdag_3mode_analytic.log",
-        "locator": "seed=2 K=4: F=0.9566  wall=10.5s",
+        "locator": "seed=2 K=4: F=0.9566  wall=17.1s",
         "raw_log_retained": true,
-        "fit_parameters_retained": false,
-        "absence_note": "The committed raw log retains the full optimizer trace and summary; fitted state parameters live in the uncommitted evidence bundle referenced by the log."
+        "fit_parameters_retained": true,
+        "absence_note": "Raw per-shot samples are not committed; they regenerate deterministically from the recorded data seed at source_commit. Fitted parameters and the optimizer trace are committed in fit_parameters_path and recompute the reported fidelity and NLL.",
+        "fit_parameters_path": "experiments/08_positivity/evidence/bbdag_analytic_fits.json"
       }
     },
     {
@@ -494,18 +497,19 @@
       "iters": 200,
       "shots": 2000,
       "grid": "exp06-theta-3x3x3",
-      "wall_s": 17.6,
+      "wall_s": 28.0,
       "gradient": "analytic",
       "reason": {},
       "evidence_level": "committed_raw_log",
       "provenance": {
         "kind": "committed_raw_log",
-        "source_commit": "12ba509cb94af4ee950282aa6d71843b25501bb3",
+        "source_commit": "1e49e00a24cb1302de69f2577a064a701878a32e",
         "artifact_path": "experiments/08_positivity/out_bbdag_3mode_analytic.log",
-        "locator": "seed=42 K=8: F=0.9507  wall=17.6s",
+        "locator": "seed=42 K=8: F=0.9507  wall=28.0s",
         "raw_log_retained": true,
-        "fit_parameters_retained": false,
-        "absence_note": "The committed raw log retains the full optimizer trace and summary; fitted state parameters live in the uncommitted evidence bundle referenced by the log."
+        "fit_parameters_retained": true,
+        "absence_note": "Raw per-shot samples are not committed; they regenerate deterministically from the recorded data seed at source_commit. Fitted parameters and the optimizer trace are committed in fit_parameters_path and recompute the reported fidelity and NLL.",
+        "fit_parameters_path": "experiments/08_positivity/evidence/bbdag_analytic_fits.json"
       }
     }
   ]

@@ -443,20 +443,24 @@ log experiments/08_positivity/out_bbdag_3mode_analytic.log, source commit
 - verification: analytic vs central-diff max relative error 8e-10 / 7e-9 /
   2e-8 at (K,M) = (1,1)/(3,2)/(4,3), pinned in tests; same-init analytic and
   FD Adam trajectories land on the same state (rtol 1e-4).
-- seed 42 K=4: F=0.9501 wall=10.6 s -- reproduces the historical FD report
-  (0.9501, 527 s) to 4 decimals at 50x speed; training NLL 3.9108 also matches
-  the historical report.
-- seed 42 K=8: F=0.9507 wall=17.6 s (FD: 0.9507, 1647 s -- 94x).
+- seed 42 K=4: F=0.9501 wall=10.6-16.6 s across container reruns --
+  reproduces the historical FD report (0.9501, 527 s) to 4 decimals at
+  32-50x speed; training NLL 3.9108 also matches the historical report.
+- seed 42 K=8: F=0.9507 wall=17.6-28.0 s (FD: 0.9507, 1647 s -- 59-94x).
 - seeds 1/2 K=4: F=0.9593 / 0.9566 (FD reports were 0.9434 / 0.9332) -- the
   exact gradient removes FD truncation noise (eps=1e-5) and lands higher; the
   seed-42 agreement shows this is the same optimum basin, not a different
   algorithm.
 - provenance: the four analytic runs replace the historical_report_only
   BB-dagger primaries in the issue-8 registry with committed_raw_log records
-  (figure regenerated); evidence bundles (samples, trace, fitted parameters)
-  under the ignored out/ as before. The acceptance criteria of issue #25
-  (central-diff match, O(10 s) 3-mode fit, evidence-backed reproduction of the
-  reported fidelities) are all met.
+  (figure regenerated). After PR-35 review, the evidence was made PORTABLE:
+  the fitted parameters and optimizer trace are committed
+  (experiments/08_positivity/evidence/bbdag_analytic_fits.json, from a
+  clean-tree run at the recorded source commit), and a regression test pins
+  that they recompute the registry fidelities; raw samples regenerate
+  deterministically from the recorded data seeds. The acceptance criteria of
+  issue #25 (central-diff match, O(10 s)-scale 3-mode fit, evidence-backed
+  reproduction of the reported fidelities) are met with durable artifacts.
 
 Learned: "physical AND fast" now holds in a single method -- the BB-dagger
 reconstructor sits at the splat's timescale (10-18 s vs 15 s) while keeping

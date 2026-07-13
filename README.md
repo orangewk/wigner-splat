@@ -176,11 +176,13 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
           残スコープ: 新ターゲットでの splat・フルランク MLE 側の 3者比較、複数シード。
         - **解析勾配化(issue #25、2026-07-13 解決)**: NLL 勾配を閉形式化(`bbdagM.nll_and_grad`。
           Z=z†Gz は coherent overlap の Gram、サンプル項は LO 回転の chain rule。central-diff と
-          1e-9〜1e-8 級一致をテストで固定)。3モード K=4 が **527 s → 10.6 s(50×)**、K=8 が
-          1647 s → 17.6 s(94×)。seed 42 は FD 報告値を 4桁一致で再現(K=4 F=0.9501、K=8 F=0.9507、
-          NLL 3.9108)、seeds 1/2 は FD ノイズ消失で改善(0.9434→0.9593、0.9332→0.9566)。
-          raw log をコミット(`experiments/08_positivity/out_bbdag_3mode_analytic.log`)し、
-          BB† の provenance 欠如を解消(registry の primary を committed_raw_log に置換)。
+          1e-9〜1e-8 級一致をテストで固定)。3モード K=4 が **527 s → 10.6–16.6 s(32–50×、コンテナ間
+          変動あり)**、K=8 が 1647 s → 17.6–28.0 s(59–94×)。seed 42 は FD 報告値を 4桁一致で再現
+          (K=4 F=0.9501、K=8 F=0.9507、NLL 3.9108)、seeds 1/2 は FD ノイズ消失で改善
+          (0.9434→0.9593、0.9332→0.9566)。raw log と **fit パラメータ**をコミット
+          (`experiments/08_positivity/out_bbdag_3mode_analytic.log`、
+          `evidence/bbdag_analytic_fits.json` — 保存パラメータから F/NLL が再計算できることを
+          テストで固定)し、BB† の provenance 欠如を解消(registry primary を committed_raw_log 化)。
           → 「物理保証つき・かつ速い」が単一手法で成立し、splat(15 s)と同スケールに。
 - [x] 2モード拡張(実験04・07。分離可能スプラットは F=0.50 で失敗 → 完全 4×4 共分散で
       F=MLE 同等(20シード検定で互角確定)・速度 7.4倍。もつれ ⟺ 傾いた共分散を実証)
