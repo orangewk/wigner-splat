@@ -694,36 +694,68 @@ tests is physics fidelity of the forward model, and mixedness is the first
 missing piece. GKP itself is the dreams-#7 native-fit target: the fitted
 squeezes (r ~ 0.4-1.0) confirm the ansatz reaches for the comb structure.
 
-## 2026-07-14 — GKP rematch: the loss forward model closes 98% of the gap (experiment 13, issue #42)
+CORRECTION (2026-07-14, owner review of PR #37): the claim "more kets do
+not help -- K=6 overfits within the wrong manifold" was wrong. K=6 was
+worse than K=4 on TRAIN NLL too, which a nested family cannot be at a
+well-optimized solution -- that is an optimization failure, not
+overfitting. The exp13 multi-seed retest (best-of-3 by train) confirms:
+pure K=6 still trains worse than pure K=4 (1.75386 vs 1.74336), so at this
+budget OPTIMIZATION, not the family, is the limit, and no overfitting
+claim is supported either way.
 
-Tried: the minimal physical fix that exp12's diagnosis called for. bbdagS
-gained a detection-efficiency forward model: the measured pdf is the pure
-ansatz pdf convolved with the loss Gaussian (variance (1-eta)/2 + optional
-electronic noise), which is EXACTLY the homodyne marginal of
-loss_eta(|psi><psi|/Z) -- PSD by construction, closed form throughout (the
-pair-overlap Gaussians just get tilted: A -> A + eta/(2 sigma^2),
-B -> B + (sqrt(eta)/sigma^2) x; the d log f polynomial trick then gives the
-analytic gradient via the tilted moment ratios). eta is fitted jointly
-(logit + scalar central difference). Pinned by 11 tests, including exact
-agreement with the Fock-basis loss channel (a fully independent route) and
-eta recovery on synthetic lossy-cat samples.
+## 2026-07-14 — GKP rematch: the loss forward model, under the corrected protocol (experiment 13, issue #42 partial)
 
-Happened (exp13, committed log + overlay figure; same 80/20 split as exp12):
-- bbdagS + loss K=4 (25 real params): held-out NLL 1.6331, eta = 0.639.
-- bbdagS + loss K=6 (37 real params): held-out NLL 1.6322, eta = 0.640.
-- full-rank MLE (625 real params): held-out NLL 1.6299 (unchanged).
-- The single eta knob closed 98% of the pure-vs-MLE gap (1.7670 -> 1.6322
-  against 1.6299). The overlay's over-deep dips are gone; the fitted
-  effective efficiency ~0.64 is a physically sensible number for
-  propagating non-Gaussian light, and the fitted |psi> is a loss-corrected
-  pure GKP estimate (something the raw MLE does not provide).
+(This entry replaces a first version whose protocol the owner review of
+PR #37 correctly rejected: it selected K on the test set, attributed the
+eta effect across unequal configs, compared parameter counts against one
+arbitrary MLE cutoff, and reused the exp12 split for every decision. The
+rerun below pre-declares: primary config FIXED at lossy K=4; init seeds
+{0,1,2} selected by TRAIN NLL with convergence flags; same-K same-budget
+eta ablation; MLE as an n_max dof frontier with the headline going to its
+best point; paired bootstrap 95% CIs; and a confirmation split (seed 1)
+untouched by any prior decision.)
 
-Learned: the exp12 mixedness-by-loss diagnosis was RIGHT -- one physical
-parameter did almost all the work. The strict headline claim ("match
-full-rank MLE on real data") is still a LOSS, recorded as declared: MLE
-keeps a residual 0.0023-nat edge, i.e. real decoherence is not exactly a
-single Gaussian loss channel. That residual is now the sharpest possible
-benchmark for issue #40 (rank-R x squeezed): beat 1.6299 with rank
-flexibility on top of eta. Two-loss ledger so far on real data, but the gap
-went from 0.137 nats to 0.0023 with 17x fewer parameters -- the
-physical-forward-model program is working.
+Tried: bbdagS gained a detection-efficiency forward model: the measured
+pdf is the pure ansatz pdf convolved with the loss Gaussian (variance
+(1-eta)/2 + optional electronic noise), which is EXACTLY the homodyne
+marginal of loss_eta(|psi><psi|/Z) -- PSD by construction, closed form
+throughout (the pair-overlap Gaussians get tilted: A -> A + eta/(2 s^2),
+B -> B + (sqrt(eta)/s^2) x; the d log f polynomial trick then gives the
+analytic gradient via tilted moment ratios). eta is fitted jointly (logit
++ scalar central difference), with range validation. Pinned by 12 tests,
+including exact agreement with the Fock-basis loss channel (a fully
+independent route) and eta recovery on synthetic lossy-cat samples.
+
+Happened (exp13 committed log, overlay + NLL-dof frontier figures;
+held-out per-sample NLL):
+- Same-K eta ablation, primary split: K=4 pure 1.75542 -> lossy 1.63304
+  (97.5% of the gap to the MLE frontier best 1.62984); K=6 98.2%;
+  confirmation split 97.8%. The single physical knob does almost all the
+  work in every like-for-like comparison; fitted eta is stable at
+  0.638-0.643 across K, seeds, and splits.
+- Headline "matches full-rank MLE on real data": LOSS, recorded. Paired
+  bootstrap 95% CI of (lossy K=4 - frontier-best MLE) mean test NLL:
+  [+0.0022, +0.0041] primary, [+0.0016, +0.0034] confirmation -- both
+  strictly above zero. The MLE keeps a small but real edge; real
+  decoherence is not exactly a single Gaussian loss channel.
+- Parameter efficiency survives only in Pareto form (the "1/17 of the
+  parameters" framing was wrong -- the MLE frontier is flat above
+  n_max ~ 8, dof 63): at comparable dof the physical model wins, lossy
+  K=4 (23 dof) 1.63304 vs MLE n_max=6 (35 dof) 1.63534, and the frontier
+  figure shows the red points below the MLE curve in their dof band.
+- exp12 correction confirmed (see the corrected exp12 entry): pure K=6
+  still TRAINS worse than K=4 under best-of-3 seeds, an optimization
+  artifact, not overfitting.
+
+Learned: the exp12 mixedness-by-loss diagnosis was right, and now
+robustly so (97.5-98.2% closure under identical-condition ablations on
+two splits). The honest headline is narrower than the first draft's:
+"a 23-dof constructively-physical model with one loss parameter is
+Pareto-better than the MLE at comparable dof and sits 0.002-0.004 nats
+behind its asymptotic frontier; the residual is statistically real
+(bootstrap CIs exclude zero on both splits) and is now the benchmark for
+issue #40 (rank-R x squeezed on top of eta)." Two-loss ledger on real
+data -- and both losses productively sharpened the next target. #42
+itself stays OPEN: this is the bbdagS vertical slice; the issue's full
+scope (known-eta deployment across bbdagM / purefock3 / splat +
+controlled comparisons) remains.

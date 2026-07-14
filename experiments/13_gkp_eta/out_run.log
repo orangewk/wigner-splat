@@ -1,21 +1,71 @@
-=== exp13: GKP rematch -- pure squeezed BB-dagger + fitted loss eta ===
-benchmark from exp12 (committed): pure K=4 test NLL 1.767, full-rank MLE test NLL 1.6299
-    iter  100  train NLL=1.6318  eta=0.6532
-    iter  200  train NLL=1.6299  eta=0.6412
-    iter  300  train NLL=1.6298  eta=0.6391
-    iter  400  train NLL=1.6297  eta=0.6391
-    iter  500  train NLL=1.6297  eta=0.6392
-  bbdagS+loss K=4: train NLL=1.6297  test NLL=1.6331  eta=0.6392  wall=451s  squeezes r=[0.76 0.65 0.78 1.06]
-    iter  100  train NLL=1.6294  eta=0.6402
-    iter  200  train NLL=1.6290  eta=0.6404
-    iter  300  train NLL=1.6289  eta=0.6405
-    iter  400  train NLL=1.6289  eta=0.6405
-    iter  500  train NLL=1.6289  eta=0.6404
-  bbdagS+loss K=6: train NLL=1.6289  test NLL=1.6322  eta=0.6404  wall=1012s  squeezes r=[0.65 0.88 0.57 0.64 0.63 0.65]
-  mle n_max=25 (full rank, 349 iters): train NLL=1.6266  test NLL=1.6299  wall=0s
-  figure: /home/user/wigner-splat/experiments/13_gkp_eta/gkp_eta_marginals.png
+=== exp13: GKP rematch -- squeezed BB-dagger + fitted loss eta ===
+(protocol and falsification conditions pre-declared in docstring)
 
-=== rematch verdict (falsification condition in docstring) ===
-held-out per-sample NLL: BB-dagger+loss (K=6, 37 real params) 1.6322 vs full-rank MLE (625 real params) 1.6299
-pure->MLE gap closed by the single eta knob: 98%
--> mixedness diagnosis CONFIRMED (most of the gap was loss) but MLE keeps a residual edge: the leftover is structure a single Gaussian loss channel cannot express -> issue #40 (rank-R x squeezed) takes the remaining deficit. Recorded as a loss on the headline claim.
+--- split 'primary (exp12 split, reused for comparability)' (seed 0) ---
+    pure  K=4 seed=0: train NLL=1.7562  final-100-iter drop=+0.00025  eta=1.0000  wall=36s
+    pure  K=4 seed=1: train NLL=1.7479  final-100-iter drop=+0.00006  eta=1.0000  wall=35s
+    pure  K=4 seed=2: train NLL=1.7434  final-100-iter drop=+0.00037  eta=1.0000  wall=35s
+    -> pure  K=4: best-by-TRAIN seed=2  train NLL=1.7434
+    pure  K=4: test NLL=1.75542  (dof 22)
+    lossy K=4 seed=0: train NLL=1.6297  final-100-iter drop=+0.00004  eta=0.6392  wall=209s
+    lossy K=4 seed=1: train NLL=1.6296  final-100-iter drop=+0.00012  eta=0.6427  wall=209s
+    lossy K=4 seed=2: train NLL=1.6294  final-100-iter drop=+0.00002  eta=0.6434  wall=210s
+    -> lossy K=4: best-by-TRAIN seed=2  train NLL=1.6294
+    lossy K=4: test NLL=1.63304  (dof 23)
+    pure  K=6 seed=0: train NLL=1.7703  final-100-iter drop=+0.00213  [NOT CONVERGED]  eta=1.0000  wall=45s
+    pure  K=6 seed=1: train NLL=1.7544  final-100-iter drop=+0.00015  eta=1.0000  wall=46s
+    pure  K=6 seed=2: train NLL=1.7539  final-100-iter drop=+0.00012  eta=1.0000  wall=45s
+    -> pure  K=6: best-by-TRAIN seed=2  train NLL=1.7539
+    pure  K=6: test NLL=1.76221  (dof 34)
+    lossy K=6 seed=0: train NLL=1.6289  final-100-iter drop=+0.00002  eta=0.6404  wall=470s
+    lossy K=6 seed=1: train NLL=1.6290  final-100-iter drop=+0.00004  eta=0.6401  wall=474s
+    lossy K=6 seed=2: train NLL=1.6291  final-100-iter drop=+0.00008  eta=0.6422  wall=473s
+    -> lossy K=6: best-by-TRAIN seed=0  train NLL=1.6289
+    lossy K=6: test NLL=1.63220  (dof 35)
+  MLE dof frontier:
+    mle n_max= 4 (dof  15, 237 iters): test NLL=1.67764
+    mle n_max= 6 (dof  35, 142 iters): test NLL=1.63534
+    mle n_max= 8 (dof  63, 318 iters): test NLL=1.63036
+    mle n_max=10 (dof  99, 393 iters): test NLL=1.62999
+    mle n_max=12 (dof 143, 354 iters): test NLL=1.62988
+    mle n_max=16 (dof 255, 347 iters): test NLL=1.62984
+    mle n_max=20 (dof 399, 344 iters): test NLL=1.62987
+    mle n_max=25 (dof 624, 349 iters): test NLL=1.62986
+    -> frontier best (favors MLE): n_max=16 test NLL=1.62984
+  same-K eta ablation K=4: pure 1.75542 -> lossy 1.63304 vs MLE 1.62984: gap closed 97.5%
+  same-K eta ablation K=6: pure 1.76221 -> lossy 1.63220 vs MLE 1.62984: gap closed 98.2%
+
+  paired bootstrap 95% CI of (lossy K=4 - best MLE) mean test NLL diff: [+0.00224, +0.00411] (point +0.00320)
+  exp12 claim retest: pure train NLL best-of-3: K=4 1.74336 vs K=6 1.75386 -> K=6 still trains worse: optimization, not the family, is the limit
+
+--- split 'confirmation (frozen protocol, untouched seed)' (seed 1) ---
+    pure  K=4 seed=0: train NLL=1.7587  final-100-iter drop=+0.00020  eta=1.0000  wall=33s
+    pure  K=4 seed=1: train NLL=1.7499  final-100-iter drop=+0.00005  eta=1.0000  wall=33s
+    pure  K=4 seed=2: train NLL=1.7457  final-100-iter drop=+0.00058  eta=1.0000  wall=33s
+    -> pure  K=4: best-by-TRAIN seed=2  train NLL=1.7457
+    pure  K=4: test NLL=1.74271  (dof 22)
+    lossy K=4 seed=0: train NLL=1.6304  final-100-iter drop=+0.00002  eta=0.6378  wall=197s
+    lossy K=4 seed=1: train NLL=1.6304  final-100-iter drop=+0.00011  eta=0.6418  wall=198s
+    lossy K=4 seed=2: train NLL=1.6302  final-100-iter drop=+0.00001  eta=0.6426  wall=198s
+    -> lossy K=4: best-by-TRAIN seed=2  train NLL=1.6302
+    lossy K=4: test NLL=1.62975  (dof 23)
+  MLE dof frontier:
+    mle n_max= 4 (dof  15, 247 iters): test NLL=1.67778
+    mle n_max= 6 (dof  35, 134 iters): test NLL=1.63335
+    mle n_max= 8 (dof  63, 280 iters): test NLL=1.62782
+    mle n_max=10 (dof  99, 347 iters): test NLL=1.62723
+    mle n_max=12 (dof 143, 300 iters): test NLL=1.62723
+    mle n_max=16 (dof 255, 298 iters): test NLL=1.62722
+    mle n_max=20 (dof 399, 296 iters): test NLL=1.62729
+    mle n_max=25 (dof 624, 304 iters): test NLL=1.62735
+    -> frontier best (favors MLE): n_max=16 test NLL=1.62722
+  same-K eta ablation K=4: pure 1.74271 -> lossy 1.62975 vs MLE 1.62722: gap closed 97.8%
+
+  confirmation CI (lossy K=4 - best MLE): [+0.00161, +0.00341] (point +0.00254)
+  figures: /home/user/wigner-splat/experiments/13_gkp_eta/gkp_eta_marginals.png, /home/user/wigner-splat/experiments/13_gkp_eta/gkp_eta_frontier.png
+
+=== verdicts (conditions 1-4 in docstring) ===
+1. same-K (K=4) gap closure 97.5% -> mixedness-by-loss diagnosis CONFIRMED
+2. headline: LOSS, recorded: MLE keeps a real edge (both CIs above 0); the residual passes to issue #40 (rank beyond a single Gaussian loss channel)
+3. Pareto claim (dof 23 vs MLE n_max=6 dof 35: 1.63304 vs 1.63534): SUPPORTED
+4. see 'exp12 claim retest' line above; confirmation split test NLLs: lossy K=4 1.62975 vs best MLE 1.62722
