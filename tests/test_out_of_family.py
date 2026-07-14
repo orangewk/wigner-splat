@@ -120,6 +120,67 @@ def test_squeezed_fidelity_helper_recovers_exact_cat_at_zero_squeeze():
     )
 
 
+# --------------------------------------------- splat-side closed-form scoring
+
+def test_lossy_overlap_reduces_to_pure_cat_overlap_at_eta_one():
+    from wigner_splat.fit3f import fit3f
+    from wigner_splat.forward3f import (
+        fidelity_vs_cat3, overlap_vs_lossy_cat3,
+    )
+    from wigner_splat.states3 import ThreeModeCat
+
+    grid = [(0.0, 0.5, 1.0), (1.2, 2.1, 0.3)]
+    data = ThreeModeCat(1.2, +1).sample_homodyne(grid, 400, rng=7)
+    mix = fit3f(data, bins=16)
+    a = fidelity_vs_cat3(mix, 1.2, +1)
+    b = overlap_vs_lossy_cat3(mix, 1.2, +1, eta=1.0)
+    assert b == pytest.approx(a, rel=1e-12)
+
+
+def test_squeezed_overlap_reduces_to_pure_cat_overlap_at_zero_squeeze():
+    from wigner_splat.fit3f import fit3f
+    from wigner_splat.forward3f import (
+        fidelity_vs_cat3, overlap_vs_squeezed_cat3,
+    )
+    from wigner_splat.states3 import ThreeModeCat
+
+    grid = [(0.0, 0.5, 1.0), (1.2, 2.1, 0.3)]
+    data = ThreeModeCat(1.2, +1).sample_homodyne(grid, 400, rng=7)
+    mix = fit3f(data, bins=16)
+    a = fidelity_vs_cat3(mix, 1.2, +1)
+    b = overlap_vs_squeezed_cat3(mix, 1.2, +1, r=0.0)
+    assert b == pytest.approx(a, rel=1e-12)
+
+
+def test_lossy_purity_limits():
+    from wigner_splat.forward3f import lossy_cat3_purity
+    # eta = 1: pure state, purity 1
+    assert lossy_cat3_purity(1.5, +1, eta=1.0) == pytest.approx(1.0, abs=1e-12)
+    # strong loss on a big cat: approaches an equal mixture of two coherent
+    # states, purity -> 1/2
+    assert lossy_cat3_purity(2.5, +1, eta=0.5) == pytest.approx(0.5, abs=1e-3)
+
+
+def test_lossy_cat3_fock_matches_span_quantities():
+    from wigner_splat.fock import cat3_fock, lossy_cat3_fock
+    from wigner_splat.forward3f import lossy_cat3_purity
+
+    # eta = 1 reduces to the pure-cat projector
+    rho1 = lossy_cat3_fock(1.2, +1, eta=1.0, n_max=10)
+    c = cat3_fock(1.2, +1, n_max=10)
+    # cat3_fock is normalized on the truncated space; rho1's trace is the
+    # truncation retention t, and rho1/t should equal the projector
+    t = np.real(np.trace(rho1))
+    assert np.allclose(rho1 / t, np.outer(c, c), atol=1e-10)
+
+    # eta < 1: trace ~= 1 (truncation deficit only) and purity matches the
+    # exact span value
+    rho = lossy_cat3_fock(1.5, +1, eta=0.8, n_max=12)
+    assert np.real(np.trace(rho)) == pytest.approx(1.0, abs=2e-3)
+    purity = np.real(np.trace(rho @ rho))
+    assert purity == pytest.approx(lossy_cat3_purity(1.5, +1, 0.8), abs=5e-3)
+
+
 # ------------------------------------------------------ rank-R NLL machinery
 
 def test_rank1_mixed_nll_equals_pure_nll():

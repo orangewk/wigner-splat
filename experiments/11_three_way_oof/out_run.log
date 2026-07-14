@@ -1,0 +1,23 @@
+=== exp11: issue #28 scoped ruling -- BB-dagger family adaptability ===
+alpha=1.5 parity=1, 27 triples x 2000 shots, data seed 42; binned methods use bins=24, Fock methods n_max=8, MLE budget 900s
+
+--- target: lossy cat eta=0.8 (mixed; purity=0.5023 = perfect overlap score) ---
+  [mle3 lossy] 431 iters, converged=False, wall=901s
+  bbdag rank2 K=2      Uhlmann F      0.9947  wall=21s  NLL=3.9062
+  splat fit3f          overlap score  0.4960  wall=20s  (perfect=0.5023, non-PSD)
+  mle3 full-rank       Uhlmann F      0.9554  wall=901s  converged=False, target trunc trace=0.9983
+  purefock rank-1      Uhlmann F      0.5169  wall=186s  NLL=3.9066 (wrong-rank control)
+
+--- target: squeezed cat r=0.4 (pure; perfect score = 1) ---
+  [mle3 squeezed] 462 iters, converged=False, wall=901s
+  bbdag squeezed K=4   exact F        0.9700  wall=54s  NLL=4.0667
+  splat fit3f          overlap score  1.7674  wall=20s  (non-PSD)
+  mle3 full-rank       exact F        0.7132  wall=901s  converged=False, trunc ceiling=0.9944
+  purefock rank-1      exact F        0.9611  wall=183s  NLL=4.0679
+
+=== ruling (issue #28 falsification condition, scoped) ===
+Scale note: splat's Wigner-overlap score is NOT commensurable with the fidelity columns (its perfect value is the target PURITY on the mixed target, and it is unbounded for a non-PSD fit), so the Boolean ruling below compares LIKE metrics only -- BB-dagger vs MLE state fidelity; the splat score is reported as a separate axis with its own ceiling.
+lossy: fidelity axis bbdag=0.9947 vs mle=0.9554 -> bbdag does not lose; splat axis (overlap score): 0.4960
+squeezed: fidelity axis bbdag=0.9700 vs mle=0.7132 -> bbdag does not lose; splat axis (overlap score): 1.7674
+-> falsification condition does NOT fire in this run (single data seed, single init seed).
+SCOPE of what this run decides: both targets are OUT-OF-FAMILY for the original rank-1 coherent ansatz but IN-FAMILY for the extensions fitted here (the lossy cat is exactly rank-2 coherent; the squeezed cat is exactly a squeezed-product ket). The ruling therefore establishes that the BB-dagger FAMILY can be extended to cover these failure directions and then wins the like-metric comparison -- it does NOT yet establish blind generalization to targets outside the extended family. That gate needs a held-out full-rank target no finite-rank ket mixture contains (e.g. a thermal-noise lossy cat), recorded as remaining work.

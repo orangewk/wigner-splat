@@ -544,7 +544,8 @@ Happened:
   (purefock3) reaches F=0.961 on the same data (174 s). The coherent
   dictionary is inefficient for squeezed kets, as expected.
 
-Learned / status: PARTIAL COMPLETION -- the issue-#28 falsification condition
+Learned / status (superseded 2026-07-13 later: experiment 11 below decides
+the ruling): PARTIAL COMPLETION -- the issue-#28 falsification condition
 compares BB-dagger against the SPLAT and MLE reconstructors on each
 out-of-family target, and neither side has a pipeline for these targets yet,
 so the condition is UNDECIDED (not "does not fire"). What IS established as
@@ -559,3 +560,99 @@ of a decohering cat is now representable). Remaining scope for the actual
 ruling: splat and full-rank-MLE sides of the 3-way comparison on these new
 targets, more seeds, non-equal-amplitude targets (in-family, low priority),
 and the squeezed-product ansatz.
+
+## 2026-07-13 (later) — Track A step 4: squeezed-product ansatz + issue #28 scoped family-adaptability ruling (experiment 11)
+
+Tried, part 1 — the representation upgrade exp10 pointed to: MULTIMODE
+SQUEEZED-PRODUCT kets (bbdagS.py), |psi> = sum_c z_c prod_m D(alpha) S(xi) |0>,
+with a fully closed-form analytic NLL gradient. The machinery is Gaussian
+calculus end to end: pair overlaps <g_c|g_d> are complex Gaussian integrals
+(A, B, C from the two kets' q, x0, p0), and every d log f/d(parameter) is a
+degree-<=2 polynomial in x, so the norm gradient reduces to the overlap moment
+ratios R1 = B/(2A), R2 = R1^2 + 1/(2A) — no quadrature anywhere. The xi = 0
+phase singularity of (r, phi) is removed by nu = xi sinh|xi|/|xi|. Reduces
+exactly to bbdagM at xi = 0; gradient pinned vs central differences (2e-7
+with FD eps 1e-5, incl. through xi = 0 and both LO-rotation chains); the exact
+squeezed cat scores F = 1 in closed form.
+
+Happened, part 1 (exp10 squeezed-cat data, r=0.4, seed 42): K=4 reaches
+F = 0.9695-0.9702 in ~20-40 s — above the generic Fock control (0.9611,
+~150 s) and far above coherent K=8 (0.8228). Honesty note: K=2 (the exact
+family size) is init-sensitive — init seeds 1/2 fall into bad local minima
+(F ~ 0.00, 0.15) at 200 iters and seed 0 needs 400 iters to reach 0.9702;
+K=4's redundancy makes the landscape benign. Overparameterize.
+
+Tried, part 2 — the three-way scoring the ruling needs:
+- splat side: closed-form target overlaps in forward3f. The lossy cat keeps
+  the exact cat Wigner form (amplitude sqrt(eta) a, fringe damped by
+  e^{-6a^2(1-eta)}); the squeezed cat maps symplectically onto the pure cat
+  at amplitude a e^r via D(a)S(r)|0> = S(r)D(a e^r)|0>, so both reuse the
+  validated Gaussian-overlap core. lossy_cat3_purity = the mixed target's
+  perfect-score ceiling (0.5023 at eta=0.8, alpha=1.5).
+- MLE side: fock.lossy_cat3_fock (truncated rank-2 target, trace 0.9983 at
+  n_max=8) and a quadrature-projected squeezed-cat Fock ket (retention
+  0.9944); Uhlmann / pure fidelity vs the mle3 reconstruction.
+
+Happened, part 2 — experiment 11 (committed raw log; data seed 42, exp06
+budget, mle3 at 900 s):
+
+  lossy cat (eta=0.8, mixed; perfect overlap score = purity 0.5023):
+    bbdag rank2 K=2   Uhlmann F 0.9947   21 s
+    splat fit3f       overlap 0.4960     20 s  (98.7% of the purity ceiling)
+    mle3 full-rank    Uhlmann F 0.9554   901 s DNF (431 iters)
+    purefock rank-1   Uhlmann F 0.5169   186 s (wrong-rank control; in-span
+                                                rank-1 ceiling is 0.5336)
+  squeezed cat (r=0.4, pure):
+    bbdag squeezed K=4  exact F 0.9700   54 s
+    splat fit3f         overlap 1.7674   20 s  (see below)
+    mle3 full-rank      exact F 0.7132   901 s DNF (462 iters)
+    purefock rank-1     exact F 0.9611   183 s
+
+RULING (issue #28, scoped per PR-36 review): the Boolean ruling compares
+LIKE metrics only — BB-dagger vs MLE state fidelity — because the splat
+overlap score is not commensurable (its perfect value is the target PURITY
+0.5023 on the mixed target, and it is unbounded for a non-PSD fit); the
+splat score is a separate axis. On the fidelity axis BB-dagger does not
+lose on either target in THIS RUN (single data seed 42, single init seed;
+squeezed-target margin over the purefock control is only +0.0089), so the
+falsification condition does not fire. With its two extensions BB-dagger
+attains the highest physical fidelity IN THIS RUN on both targets at
+21-54 s, while full-rank MLE is DNF at 900 s on both.
+
+SCOPE CORRECTION (PR-36 review, accepted): both targets are out-of-family
+only relative to the ORIGINAL rank-1 coherent ansatz — for the extensions
+actually fitted here they are exactly IN-family (the lossy cat is rank-2
+coherent by construction; the squeezed cat is a squeezed-product ket by
+construction). What experiment 11 therefore establishes is the FAMILY'S
+ADAPTABILITY: identify the failure direction, extend the ansatz to cover
+it, win the like-metric comparison. It does NOT yet establish blind
+generalization to targets outside the extended family. That gate needs a
+held-out target no finite-rank ket mixture contains — e.g. a thermal-noise
+lossy cat (full-rank rho; its per-mode Gaussian-convolution pdf is exactly
+the detector-noise machinery already on the roadmap) — recorded as the
+remaining gate before any "generalizing method" claim.
+
+Bonus finding — the splat score of 1.7674 (> 1) on the PURE squeezed target
+is a certificate of non-physicality: tr(rho sigma) <= 1 for any physical
+sigma against a pure rho, so a score above 1 is only reachable by a non-PSD
+reconstruction. The issue-#8 tension, previously inferred via Fock
+projection, here shows up directly in the headline score. (On the lossy
+target the splat score 0.4960 vs ceiling 0.5023 shows the splat DOES
+reconstruct the damped-fringe Wigner well — the pathology is target- and
+fit-dependent, not universal.)
+
+Learned: Track A's three steps are all implemented and ruled AS SCOPED —
+#25 (analytic gradients), #27 (fair-baseline decomposition), #28
+(original-family out-of-family question + family adaptability; the
+extended-family blind-generalization gate remains open, see the scope
+correction above). The BB-dagger family now covers mixedness and squeezed
+ket shape with closed-form gradients throughout, and the program's honest
+headline is: "a physical, fast reconstructor family whose extensions
+recover their enlarged families; fidelity leadership belongs to constraint
++ gradient ML, not to any particular ansatz; the signed-splat
+representation remains the fast screener whose scores must be read as
+overlap scores, not fidelities." Remaining (recorded): the held-out
+full-rank target (thermal-noise lossy cat = detector-noise machinery),
+multi-seed replication of exp11, and the mixed+squeezed combined ansatz
+(rank-R over squeezed kets); then the public-data hunt (2026-07-13
+position doc).
