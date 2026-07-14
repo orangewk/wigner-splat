@@ -766,3 +766,56 @@ rank-R x squeezed as one hypothesis rather than receiving a confirmed rank
 diagnosis. #42 itself stays OPEN: this is the bbdagS vertical slice; the
 issue's full scope (known-eta deployment across bbdagM / purefock3 / splat +
 controlled comparisons) remains.
+
+## 2026-07-14 — Rank freedom on real data: exploratory rank-hypothesis test (experiment 14, issue #40)
+
+Tried: exp13 left a descriptive residual (+0.002..+0.004 nats vs the
+test-selected MLE frontier) with its cause explicitly unidentified --
+optimization, ket capacity, and loss-channel misspecification all open.
+Exp14 tests the RANK hypothesis: bbdagS gained MixedSqueezedKetState
+(rho = B B^dagger over R independent squeezed-ket columns, composed with
+the #42 loss channel; PSD by construction, closed form, analytic
+gradients = the rank-1 pair-density machinery summed over columns).
+Pinned by 10 tests including an exact rank-2 B B^dagger factorization of
+the lossy cat against the Fock-basis loss channel. Same exploratory
+framing as exp13 (dataset and prior results already inspected; split
+seeds 0/1 are the same reshuffles; MLE opponent is the test-selected
+frontier best; bootstrap intervals are conditional on the fitted models).
+Primary config pre-fixed at lossy R=2 K=4 against a same-budget rank-1
+baseline; R=3 K=4 as a never-test-selected saturation probe.
+
+Happened (committed log, overlay + frontier figures; held-out per-sample
+NLL, conditional paired-bootstrap 95% CIs):
+- Rank freedom HELPS on real data, descriptively, on both reshuffles:
+  CI(R=2 - rank1) = [-0.00296, -0.00143] primary and [-0.00283,
+  -0.00124] alternate. Part of exp13's residual really was rank
+  structure beyond a single Gaussian loss channel.
+- The frontier gap SHRANK but REMAINS for these fits: CI(R=2 - best MLE)
+  = [+0.00055, +0.00149] primary (point +0.00100, down from exp13's
+  +0.00320) and [+0.00002, +0.00093] alternate (point +0.00048 --
+  borderline at CI resolution). Recorded as another descriptive loss,
+  the third on real data, now by half a millinat.
+- The Pareto band WIDENED: R=2 (46 dof) 1.63084 and R=3 (69 dof) 1.63009
+  sit below the observed MLE curve in their dof bands (n_max=6/35 dof
+  1.63534, n_max=8/63 dof 1.63036); on the alternate reshuffle R=2 at
+  46 dof (1.62770) is below the MLE curve until ~99 dof. Train NLL
+  improves monotonically R=1 -> 2 -> 3 (1.62938, 1.62761, 1.62688) at
+  matched budget: rank has not saturated by R=3.
+- eta-rank identifiability drifted as pre-declared: fitted eta 0.643 ->
+  0.701 -> 0.875 for R=1/2/3. Rank absorbs mixedness that the loss knob
+  no longer must carry; fitted eta is a model parameter here, NOT a
+  calibrated detection efficiency.
+
+Learned: the rank hypothesis has descriptive support -- it bought
+~2/3 of exp13's residual on the primary reshuffle -- while the remaining
+half-millinat stays unexplained (deeper rank, non-Gaussian noise,
+optimization, and ket capacity all still open; R=3's train trend says
+rank itself is not exhausted). The program's honest position after three
+real-data rounds: constructively physical BB-dagger extensions now trace
+the MLE's NLL-dof frontier from below through dof ~69 and lose the
+asymptote by ~0.0005-0.0010 nats on these reshuffles. Every deficit so
+far has been a physics term the model lacked, found by declaring the
+loss and diagnosing it -- the loop (declare -> lose -> diagnose ->
+extend) is doing exactly what it was built to do. #40 stays open for
+the saturation question (R >= 4, warm starts, K interplay); #42's
+known-eta deployment across the other reconstructors is unchanged.
