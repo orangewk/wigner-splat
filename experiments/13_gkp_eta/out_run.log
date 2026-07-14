@@ -1,3 +1,14 @@
+INTERPRETATION NOTE (post-review; numeric output below is retained unchanged):
+- Interpretation labels in the historical output are superseded by run.py and
+  docs/research-log.md. "Pre-declared" means declared only before the rerun,
+  after first-run results were inspected; this is exploratory reanalysis.
+- "confirmation" / "untouched" below refers to an alternate reshuffle of
+  the same observations, not an independent holdout.
+- "frontier best" is selected by test NLL. The bootstrap intervals condition
+  on that selected MLE and do not establish confirmatory significance.
+- Physical channel or rank explanations remain hypotheses; this log establishes
+  only the descriptive gap between the fitted models on these two reshuffles.
+
 === exp13: GKP rematch -- squeezed BB-dagger + fitted loss eta ===
 (protocol and falsification conditions pre-declared in docstring)
 

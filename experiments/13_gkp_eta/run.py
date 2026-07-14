@@ -10,10 +10,12 @@ which is exactly the homodyne marginal of loss_eta(|psi><psi|/Z) -- PSD by
 construction, closed form throughout (bbdagS lossy section), and |psi>
 doubles as a loss-corrected pure estimate.
 
-PROTOCOL (pre-declared; revised after owner review of the first run, which
-had selected K on the test set, attributed the eta effect across unequal
-configs, compared against a single arbitrary MLE cutoff, and reused the
-exp12 test split for every decision):
+REANALYSIS PROTOCOL (declared before this rerun, but revised after owner
+review of the first run, which had selected K on the test set, attributed
+the eta effect across unequal configs, compared against a single arbitrary
+MLE cutoff, and reused the exp12 test split for every decision). Because the
+dataset and first-run results were already inspected, this is an exploratory
+reanalysis rather than a preregistered confirmation:
 
   * PRIMARY model config is PRE-FIXED: lossy K=4. K=6 is reported as a
     secondary observation and is never selected by test NLL.
@@ -23,21 +25,22 @@ exp12 test split for every decision):
   * eta ablation at IDENTICAL conditions: pure vs lossy at the same K,
     same seed set, same iters and lr. Gap closure is computed per K.
   * The MLE baseline is a degrees-of-freedom FRONTIER: n_max in
-    N_MAX_GRID, dof = n_max^2 - 1; the opponent's headline number is the
-    BEST test NLL over the grid (choice favorable to the MLE).
-  * Match/loss on the headline is decided by a PAIRED BOOTSTRAP (B = 2000)
-    95% CI on the mean per-sample test NLL difference (primary BB-dagger
-    minus frontier-best MLE), not by comparing point values.
-  * CONFIRMATION SPLIT: split seed 1 (untouched by exp12/13 decisions)
-    reruns the frozen primary protocol once -- pure/lossy K=4 and the MLE
-    frontier -- as the guard against test-set reuse on split seed 0.
+    N_MAX_GRID, dof = n_max^2 - 1. The reported opponent is the EMPIRICAL
+    best test NLL over that grid: a descriptive, test-selected oracle that
+    favors the MLE, not a baseline selected independently of test data.
+  * A CONDITIONAL paired bootstrap (B = 2000) describes test-sample
+    variation for the already fitted BB-dagger and test-selected MLE. It
+    does not account for n_max selection and is not confirmatory inference.
+  * ALTERNATE-SPLIT SENSITIVITY CHECK: split seed 1 reshuffles the SAME
+    observations and reruns the fixed BB config plus MLE frontier. It is a
+    repeated-split robustness check, not an untouched or independent holdout.
 
-Falsification conditions (declared before the run):
-  1. Mixedness-by-loss diagnosis: the same-K eta ablation must close >= 50%
-     of that K's pure-vs-MLE gap, else exp12's diagnosis was wrong.
-  2. Headline "matches full-rank MLE on real data": the bootstrap CI of the
-     NLL difference must include or fall below 0; a CI strictly above 0 is
-     a LOSS, recorded.
+Exploratory decision checks for this rerun:
+  1. Mixedness-by-loss diagnosis: primary same-K eta closure >= 50% is
+     treated as descriptive support for that split, not confirmation.
+  2. Headline "matches full-rank MLE on real data": a conditional bootstrap
+     CI strictly above 0 is recorded as a descriptive LOSS for these fitted
+     models, without a confirmatory significance or physical-cause claim.
   3. Parameter-efficiency claim: allowed only in Pareto form -- lossy K=4
      (dof 6K-2+1 = 23) must beat the MLE at comparable dof (n_max = 4 or
      6); no "1/N of the parameters" rhetoric against an arbitrary cutoff.
@@ -71,7 +74,7 @@ OUT_FRONTIER = pathlib.Path(__file__).resolve().parent / "gkp_eta_frontier.png"
 DEGS = (0, 30, 60, -30, -60, -90)
 TRAIN_FRACTION = 0.8
 PRIMARY_SPLIT_SEED = 0      # the exp12 split: kept for comparability
-CONFIRM_SPLIT_SEED = 1      # untouched by any prior decision
+ALT_SPLIT_SEED = 1          # same observations, alternate reshuffle only
 N_MAX_GRID = (4, 6, 8, 10, 12, 16, 20, 25)
 BINS = 80
 PRIMARY_K = 4               # pre-fixed; K=6 is secondary, never test-selected
@@ -170,8 +173,8 @@ def mle_frontier(train, test):
         print(f"    mle n_max={n_max:2d} (dof {n_max ** 2 - 1:3d}, "
               f"{iters} iters): test NLL={te:.5f}", flush=True)
     best = min(rows, key=lambda r: r[2])
-    print(f"    -> frontier best (favors MLE): n_max={best[0]} "
-          f"test NLL={best[2]:.5f}")
+    print(f"    -> empirical test-selected frontier best (descriptive, favors "
+          f"MLE): n_max={best[0]} test NLL={best[2]:.5f}")
     return rows, best
 
 
@@ -211,7 +214,7 @@ def run_split(name, split_seed, ks):
 
 def main():
     print("=== exp13: GKP rematch -- squeezed BB-dagger + fitted loss eta ===")
-    print("(protocol and falsification conditions pre-declared in docstring)")
+    print("(post-review exploratory reanalysis protocol; see docstring)")
 
     data, train_raw, test_raw, fits, rows, best_mle = run_split(
         "primary (exp12 split, reused for comparability)",
@@ -219,13 +222,13 @@ def main():
     )
     st, eta, _, te_bb = fits[(PRIMARY_K, True)]
 
-    # paired bootstrap on the PRE-FIXED primary config vs frontier-best MLE
+    # Conditional bootstrap: BB config is fixed, but MLE n_max is test-selected.
     d_bb = per_sample_nll_bb(st, eta, test_raw)
     d_mle = per_sample_nll_mle(best_mle[3], test_raw)
     lo, hi = paired_bootstrap_ci(d_bb - d_mle, BOOTSTRAP_B, BOOTSTRAP_SEED)
-    print(f"\n  paired bootstrap 95% CI of (lossy K={PRIMARY_K} - best MLE) "
-          f"mean test NLL diff: [{lo:+.5f}, {hi:+.5f}] "
-          f"(point {np.mean(d_bb - d_mle):+.5f})")
+    print(f"\n  conditional paired bootstrap 95% interval "
+          f"(lossy K={PRIMARY_K} - test-selected best MLE): "
+          f"[{lo:+.5f}, {hi:+.5f}] (point {np.mean(d_bb - d_mle):+.5f})")
 
     # exp12 K=6-overfit claim retest (pure, train NLL, best over seeds)
     tr_p4 = fits[(PRIMARY_K, False)][2]
@@ -239,17 +242,21 @@ def main():
     print(f"  exp12 claim retest: pure train NLL best-of-{len(INIT_SEEDS)}: "
           f"K=4 {tr_p4:.5f} vs K=6 {tr_p6:.5f} -> {retest}")
 
-    # confirmation split: frozen primary protocol on untouched seed
-    _, _, test_c, fits_c, rows_c, best_mle_c = run_split(
-        "confirmation (frozen protocol, untouched seed)",
-        CONFIRM_SPLIT_SEED, ks=(PRIMARY_K,),
+    # Alternate reshuffle of the same observations: sensitivity check only.
+    _, _, test_alt, fits_alt, _, best_mle_alt = run_split(
+        "alternate-split sensitivity check (same observations)",
+        ALT_SPLIT_SEED, ks=(PRIMARY_K,),
     )
-    st_c, eta_c, _, te_bb_c = fits_c[(PRIMARY_K, True)]
-    d_c = (per_sample_nll_bb(st_c, eta_c, test_c)
-           - per_sample_nll_mle(best_mle_c[3], test_c))
-    lo_c, hi_c = paired_bootstrap_ci(d_c, BOOTSTRAP_B, BOOTSTRAP_SEED)
-    print(f"\n  confirmation CI (lossy K={PRIMARY_K} - best MLE): "
-          f"[{lo_c:+.5f}, {hi_c:+.5f}] (point {np.mean(d_c):+.5f})")
+    st_alt, eta_alt, _, te_bb_alt = fits_alt[(PRIMARY_K, True)]
+    d_alt = (per_sample_nll_bb(st_alt, eta_alt, test_alt)
+             - per_sample_nll_mle(best_mle_alt[3], test_alt))
+    lo_alt, hi_alt = paired_bootstrap_ci(
+        d_alt, BOOTSTRAP_B, BOOTSTRAP_SEED,
+    )
+    print(f"\n  alternate-split conditional interval "
+          f"(lossy K={PRIMARY_K} - test-selected best MLE): "
+          f"[{lo_alt:+.5f}, {hi_alt:+.5f}] "
+          f"(point {np.mean(d_alt):+.5f})")
 
     # figures: marginal overlay (primary fit) + NLL-dof frontier
     fig, axes = plt.subplots(2, 3, figsize=(15, 7))
@@ -280,31 +287,32 @@ def main():
     plt.savefig(OUT_FRONTIER, dpi=100)
     print(f"  figures: {OUT_FIG}, {OUT_FRONTIER}")
 
-    # verdicts against the pre-declared falsification conditions
-    print("\n=== verdicts (conditions 1-4 in docstring) ===")
+    # Descriptive checks against the exploratory rules in the docstring.
+    print("\n=== exploratory checks (conditions 1-4 in docstring) ===")
     te_p = fits[(PRIMARY_K, False)][3]
     closed = (te_p - te_bb) / (te_p - best_mle[2])
     print(f"1. same-K (K={PRIMARY_K}) gap closure {100 * closed:.1f}% -> "
           f"mixedness-by-loss diagnosis "
-          f"{'CONFIRMED' if closed >= 0.5 else 'FALSIFIED'}")
-    if hi < 0 and hi_c < 0:
-        v2 = "BB-dagger+loss BEATS the MLE frontier (both CIs below 0)"
-    elif lo > 0 and lo_c > 0:
-        v2 = ("LOSS, recorded: MLE keeps a real edge (both CIs above 0); "
-              "the residual passes to issue #40 (rank beyond a single "
-              "Gaussian loss channel)")
+          f"{'SUPPORTED ON PRIMARY SPLIT' if closed >= 0.5 else 'NOT SUPPORTED'}")
+    if hi < 0 and hi_alt < 0:
+        v2 = ("DESCRIPTIVE WIN for these fitted models (both conditional "
+              "intervals below 0)")
+    elif lo > 0 and lo_alt > 0:
+        v2 = ("DESCRIPTIVE LOSS for these fitted/test-selected models "
+              "(both conditional intervals above 0); physical cause remains "
+              "an open hypothesis for issue #40")
     else:
-        v2 = ("STATISTICAL TIE on at least one split (CI includes 0): "
-              "'matches full-rank MLE on real data' stands at CI resolution")
+        v2 = ("DESCRIPTIVE TIE on at least one reshuffle (conditional "
+              "interval includes 0)")
     print(f"2. headline: {v2}")
     mle_at_dof = {r[0]: r[2] for r in rows}
     pareto = te_bb < mle_at_dof[6] and bb_dof(PRIMARY_K, True) < 35
     print(f"3. Pareto claim (dof {bb_dof(PRIMARY_K, True)} vs MLE n_max=6 "
           f"dof 35: {te_bb:.5f} vs {mle_at_dof[6]:.5f}): "
           f"{'SUPPORTED' if pareto else 'NOT SUPPORTED'}")
-    print(f"4. see 'exp12 claim retest' line above; confirmation split "
-          f"test NLLs: lossy K={PRIMARY_K} {te_bb_c:.5f} vs best MLE "
-          f"{best_mle_c[2]:.5f}")
+    print(f"4. see 'exp12 claim retest' line above; alternate-split test "
+          f"NLLs: lossy K={PRIMARY_K} {te_bb_alt:.5f} vs test-selected "
+          f"best MLE {best_mle_alt[2]:.5f}")
 
 
 if __name__ == "__main__":

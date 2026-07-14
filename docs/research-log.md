@@ -703,17 +703,20 @@ pure K=6 still trains worse than pure K=4 (1.75386 vs 1.74336), so at this
 budget OPTIMIZATION, not the family, is the limit, and no overfitting
 claim is supported either way.
 
-## 2026-07-14 — GKP rematch: the loss forward model, under the corrected protocol (experiment 13, issue #42 partial)
+## 2026-07-14 — GKP rematch: exploratory loss-model reanalysis (experiment 13, issue #42 partial)
 
 (This entry replaces a first version whose protocol the owner review of
 PR #37 correctly rejected: it selected K on the test set, attributed the
 eta effect across unequal configs, compared parameter counts against one
 arbitrary MLE cutoff, and reused the exp12 split for every decision. The
-rerun below pre-declares: primary config FIXED at lossy K=4; init seeds
-{0,1,2} selected by TRAIN NLL with convergence flags; same-K same-budget
-eta ablation; MLE as an n_max dof frontier with the headline going to its
-best point; paired bootstrap 95% CIs; and a confirmation split (seed 1)
-untouched by any prior decision.)
+post-review protocol was declared before the rerun, but only after the
+dataset and first-run results had been inspected; this is therefore an
+exploratory reanalysis, not preregistered confirmation. It fixes the primary
+config at lossy K=4, selects init seeds {0,1,2} by TRAIN NLL with convergence
+flags, uses same-K same-budget eta ablations, and reports an n_max dof
+frontier. Its best MLE point is selected on test data and its paired bootstrap
+intervals are conditional on that selection. Split seed 1 reshuffles the same
+observations as a sensitivity check, not as an independent holdout.)
 
 Tried: bbdagS gained a detection-efficiency forward model: the measured
 pdf is the pure ansatz pdf convolved with the loss Gaussian (variance
@@ -727,35 +730,39 @@ including exact agreement with the Fock-basis loss channel (a fully
 independent route) and eta recovery on synthetic lossy-cat samples.
 
 Happened (exp13 committed log, overlay + NLL-dof frontier figures;
-held-out per-sample NLL):
+held-out per-sample NLL within each split):
 - Same-K eta ablation, primary split: K=4 pure 1.75542 -> lossy 1.63304
-  (97.5% of the gap to the MLE frontier best 1.62984); K=6 98.2%;
-  confirmation split 97.8%. The single physical knob does almost all the
-  work in every like-for-like comparison; fitted eta is stable at
-  0.638-0.643 across K, seeds, and splits.
-- Headline "matches full-rank MLE on real data": LOSS, recorded. Paired
-  bootstrap 95% CI of (lossy K=4 - frontier-best MLE) mean test NLL:
-  [+0.0022, +0.0041] primary, [+0.0016, +0.0034] confirmation -- both
-  strictly above zero. The MLE keeps a small but real edge; real
-  decoherence is not exactly a single Gaussian loss channel.
-- Parameter efficiency survives only in Pareto form (the "1/17 of the
-  parameters" framing was wrong -- the MLE frontier is flat above
-  n_max ~ 8, dof 63): at comparable dof the physical model wins, lossy
-  K=4 (23 dof) 1.63304 vs MLE n_max=6 (35 dof) 1.63534, and the frontier
-  figure shows the red points below the MLE curve in their dof band.
+  (97.5% of the gap to the empirical MLE frontier best 1.62984); K=6 98.2%;
+  alternate-split reshuffle 97.8%. Adding one physical parameter accounts
+  for most of the observed improvement in every like-for-like comparison;
+  fitted eta is stable at 0.638-0.643 across K, seeds, and splits.
+- Headline "matches full-rank MLE on real data": DESCRIPTIVE LOSS for these
+  fitted models. The empirical, test-selected best MLE stays below lossy
+  K=4 on both reshuffles. Conditional paired-bootstrap intervals are
+  [+0.0022, +0.0041] on the primary split and [+0.0016, +0.0034] on the
+  alternate split, both above zero. These intervals condition on the
+  fitted models and test-selected n_max; they do not account for model
+  selection and therefore do not establish confirmatory significance.
+- Parameter efficiency has an observed Pareto comparison (the "1/17"
+  framing was wrong -- the MLE frontier is flat above n_max ~ 8, dof 63):
+  at comparable dof, lossy K=4 (23 dof) has NLL 1.63304 versus MLE n_max=6
+  (35 dof) at 1.63534. The frontier figure shows the red points below the
+  observed MLE curve in their dof band.
 - exp12 correction confirmed (see the corrected exp12 entry): pure K=6
   still TRAINS worse than K=4 under best-of-3 seeds, an optimization
   artifact, not overfitting.
 
-Learned: the exp12 mixedness-by-loss diagnosis was right, and now
-robustly so (97.5-98.2% closure under identical-condition ablations on
-two splits). The honest headline is narrower than the first draft's:
-"a 23-dof constructively-physical model with one loss parameter is
-Pareto-better than the MLE at comparable dof and sits 0.002-0.004 nats
-behind its asymptotic frontier; the residual is statistically real
-(bootstrap CIs exclude zero on both splits) and is now the benchmark for
-issue #40 (rank-R x squeezed on top of eta)." Two-loss ledger on real
-data -- and both losses productively sharpened the next target. #42
-itself stays OPEN: this is the bbdagS vertical slice; the issue's full
-scope (known-eta deployment across bbdagM / purefock3 / splat +
+Learned: the same-K ablations support mixedness-by-loss as a useful
+working diagnosis, with 97.5-98.2% observed gap closure across primary and
+alternate reshuffles. They are a repeated-split sensitivity result, not
+independent confirmation, because both partitions reuse the same
+observations. The honest current summary is that a 23-dof constructively
+physical model with one loss parameter has an observed Pareto relation at
+comparable dof and sits 0.002-0.004 nats behind the empirical, test-selected
+MLE frontier for these fits. The residual's physical cause is not identified:
+optimization, finite-K or pure-state capacity, and misspecification of a
+single Gaussian loss channel remain open alternatives. Issue #40 tests
+rank-R x squeezed as one hypothesis rather than receiving a confirmed rank
+diagnosis. #42 itself stays OPEN: this is the bbdagS vertical slice; the
+issue's full scope (known-eta deployment across bbdagM / purefock3 / splat +
 controlled comparisons) remains.
