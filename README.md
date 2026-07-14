@@ -171,7 +171,7 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
           = ボトルネックは rank。span 内の rank-1 理論上限 0.5336 と整合)、**rank-2 は F=0.9947 で
           回復**。squeezed 猫(r=0.4)は K=2/4/8 で F 0.79→0.81→0.82 と単調改善するが、generic 対照
           (purefock 0.961)に大差 → 次の表現拡張は**多モード squeezed-product ket**。
-        - **squeezed-product ansatz + #28 正式判定(実験11、2026-07-13 実測)**: 多モード
+        - **squeezed-product ansatz + #28 スコープ判定(族の適応力、実験11、2026-07-13 実測)**: 多モード
           displaced-squeezed-product ket(`bbdagS.py`)を実装 — 全パラメータ閉形式解析勾配
           (ペア重なり=複素ガウス積分、∂log f は x の 2 次多項式なので norm 勾配はモーメント比
           R₁=B/2A、R₂=R₁²+1/2A に帰着。ξ=0 特異点は ν=ξ sinh|ξ|/|ξ| で除去。central-diff 一致を

@@ -1,10 +1,12 @@
-"""Experiment 11 -- issue #28 FORMAL RULING: BB-dagger vs splat vs MLE
-on out-of-family targets.
+"""Experiment 11 -- issue #28 scoped ruling: BB-dagger family adaptability.
 
 Experiment 10 established the supporting evidence (rank-2 recovers the lossy
 cat; coherent-K fidelity improves monotonically on the squeezed cat) but left
-the falsification condition UNDECIDED because the splat and MLE sides had no
-pipeline for the new targets. This experiment closes that gap:
+the comparison UNDECIDED because the splat and MLE sides had no pipeline for
+the new targets. This experiment tests two failure directions. Both targets
+are out-of-family for the original rank-1 coherent ansatz but in-family for
+the extensions fitted here, so the result establishes family adaptability,
+not blind generalization beyond the extended family:
 
 targets (data seed 42, 3x3x3 triples x 2000 shots, exp06/exp10 conventions):
   * lossy cat    (eta = 0.8; MIXED, rank 2)  -- decoherence direction
@@ -25,10 +27,11 @@ methods and metrics (each method uses its established best practice):
     with the truncation ceiling quoted.
   * purefock (rank-1 Fock gradient ML, issue #27 control) -- for context.
 
-Falsification condition (issue #28, now decidable): if BB-dagger's fidelity
-is consistently below BOTH the splat score and the MLE fidelity on the
-out-of-family targets, record "BB-dagger is target-aligned only" and split
-off ansatz strengthening as its own workstream.
+Scoped falsification condition (issue #28, refined after PR #36 review): the
+Boolean ruling compares BB-dagger and MLE state fidelity only. The splat
+Wigner-overlap score is reported on a separate axis because its scale is not
+commensurable. If BB-dagger's fidelity is below MLE on every target, the
+adaptation fails on this benchmark. This does not test blind generalization.
 """
 import itertools
 import pathlib
@@ -209,8 +212,8 @@ def show(rows):
 
 
 def main():
-    print("=== exp11: issue #28 formal ruling -- BB-dagger vs splat vs MLE, "
-          "out-of-family ===")
+    print("=== exp11: issue #28 scoped ruling -- BB-dagger family "
+          "adaptability ===")
     print(f"alpha={ALPHA} parity={PARITY}, {len(GRID)} triples x {SHOTS} "
           f"shots, data seed {DATA_SEED}; binned methods use bins={BINS}, "
           f"Fock methods n_max={N_MAX}, MLE budget {MLE_BUDGET_S:.0f}s\n",

@@ -561,7 +561,7 @@ ruling: splat and full-rank-MLE sides of the 3-way comparison on these new
 targets, more seeds, non-equal-amplitude targets (in-family, low priority),
 and the squeezed-product ansatz.
 
-## 2026-07-13 (later) — Track A step 4: squeezed-product ansatz + the issue #28 formal ruling (experiment 11)
+## 2026-07-13 (later) — Track A step 4: squeezed-product ansatz + issue #28 scoped family-adaptability ruling (experiment 11)
 
 Tried, part 1 — the representation upgrade exp10 pointed to: MULTIMODE
 SQUEEZED-PRODUCT kets (bbdagS.py), |psi> = sum_c z_c prod_m D(alpha) S(xi) |0>,
