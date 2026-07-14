@@ -786,10 +786,15 @@ baseline; R=3 K=4 as a never-test-selected saturation probe.
 
 Happened (committed log, overlay + frontier figures; held-out per-sample
 NLL, conditional paired-bootstrap 95% CIs):
-- Rank freedom HELPS on real data, descriptively, on both reshuffles:
-  CI(R=2 - rank1) = [-0.00296, -0.00143] primary and [-0.00283,
-  -0.00124] alternate. Part of exp13's residual really was rank
-  structure beyond a single Gaussian loss channel.
+- The R2K4 parameterization adds descriptive predictive capacity on both
+  reshuffles: CI(R=2 - rank1) = [-0.00296, -0.00143] primary and
+  [-0.00283, -0.00124] alternate. ATTRIBUTION CAVEAT (owner review of
+  PR #44): this comparison changes the ket primitive count (4 -> 8), the
+  dof (23 -> 46), and the compute per iteration together with the rank,
+  so whether the gain comes from physical rank or from the accompanying
+  ket/parameter capacity is UNRESOLVED here -- the matched-dof control
+  (R=1,K=8 = 47 dof vs R=2,K=4 = 46 dof, control_k8.py) addresses it
+  below.
 - The frontier gap SHRANK but REMAINS for these fits: CI(R=2 - best MLE)
   = [+0.00055, +0.00149] primary (point +0.00100, down from exp13's
   +0.00320) and [+0.00002, +0.00093] alternate (point +0.00048 --
@@ -800,22 +805,26 @@ NLL, conditional paired-bootstrap 95% CIs):
   1.63534, n_max=8/63 dof 1.63036); on the alternate reshuffle R=2 at
   46 dof (1.62770) is below the MLE curve until ~99 dof. Train NLL
   improves monotonically R=1 -> 2 -> 3 (1.62938, 1.62761, 1.62688) at
-  matched budget: rank has not saturated by R=3.
+  the same optimizer schedule -- but capacity and compute grow with R,
+  so the supported statement is only that the train objective had not
+  plateaued under this R/K schedule, not that "rank is unsaturated".
 - eta-rank identifiability drifted as pre-declared: fitted eta 0.643 ->
   0.701 -> 0.875 for R=1/2/3. Rank absorbs mixedness that the loss knob
   no longer must carry; fitted eta is a model parameter here, NOT a
   calibrated detection efficiency.
 
-Learned: the rank hypothesis has descriptive support -- it bought
-~2/3 of exp13's residual on the primary reshuffle -- while the remaining
+Learned (amended per the PR #44 owner review, which flagged the original
+rank attribution as confounded): the R2K4 extension improved descriptive
+predictive performance on both reshuffles, cutting ~2/3 of exp13's
+residual on the primary one -- but whether that gain comes from physical
+rank or from the accompanying increase in ket/parameter capacity is
+unresolved without a matched-dof control, and the remaining
 half-millinat stays unexplained (deeper rank, non-Gaussian noise,
-optimization, and ket capacity all still open; R=3's train trend says
-rank itself is not exhausted). The program's honest position after three
-real-data rounds: constructively physical BB-dagger extensions now trace
-the MLE's NLL-dof frontier from below through dof ~69 and lose the
-asymptote by ~0.0005-0.0010 nats on these reshuffles. Every deficit so
-far has been a physics term the model lacked, found by declaring the
-loss and diagnosing it -- the loop (declare -> lose -> diagnose ->
-extend) is doing exactly what it was built to do. #40 stays open for
-the saturation question (R >= 4, warm starts, K interplay); #42's
-known-eta deployment across the other reconstructors is unchanged.
+optimization, and ket capacity all open). The program's honest position
+after three real-data rounds: constructively physical BB-dagger
+extensions now trace the MLE's NLL-dof frontier from below through dof
+~69 and lose the asymptote by ~0.0005-0.0010 nats on these reshuffles;
+each round's deficit produced a concrete next hypothesis, though no
+round has yet identified its residual's cause. #40 stays open (matched-
+dof control, deeper R, warm starts, K interplay); #42's known-eta
+deployment across the other reconstructors is unchanged.
