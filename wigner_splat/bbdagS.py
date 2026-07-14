@@ -78,13 +78,10 @@ def sq_wavefunction(x, beta, zeta):
     return pref * np.exp(-(q / 2) * (x - x0) ** 2 + 1j * p0 * x - 1j * br * bi)
 
 
-def _pair_moments(params_c, params_d):
-    """Overlap O = <g_c|g_d> and moment ratios R1 = <x>, R2 = <x^2>.
+def _pair_ABCP(params_c, params_d):
+    """Exponent parameters of conj(f_c) f_d = P exp(-A x^2 + B x + C).
 
     params_* = (mu, nu, q, x0, p0, pref) arrays; broadcasting c against d.
-    conj(f_c) f_d = P exp(-A x^2 + B x + C) integrates to
-    O = P sqrt(pi/A) exp(B^2/(4A) + C); the x-moment ratios follow from the
-    same complex Gaussian: R1 = B/(2A), R2 = R1^2 + 1/(2A).
     """
     _, _, qc, x0c, p0c, prefc = params_c
     _, _, qd, x0d, p0d, prefd = params_d
@@ -98,6 +95,17 @@ def _pair_moments(params_c, params_d):
         + 1j * (x0c * p0c - x0d * p0d) / 2.0
     )
     P = np.conj(prefc) * prefd
+    return A, B, C, P
+
+
+def _pair_moments(params_c, params_d):
+    """Overlap O = <g_c|g_d> and moment ratios R1 = <x>, R2 = <x^2>.
+
+    conj(f_c) f_d = P exp(-A x^2 + B x + C) integrates to
+    O = P sqrt(pi/A) exp(B^2/(4A) + C); the x-moment ratios follow from the
+    same complex Gaussian: R1 = B/(2A), R2 = R1^2 + 1/(2A).
+    """
+    A, B, C, P = _pair_ABCP(params_c, params_d)
     O = P * np.sqrt(np.pi / A) * np.exp(B ** 2 / (4.0 * A) + C)
     R1 = B / (2.0 * A)
     R2 = R1 ** 2 + 1.0 / (2.0 * A)
@@ -268,20 +276,17 @@ def _nll_grad_fd(v, K, M, data, eps=1e-6):
     return g
 
 
-def nll_and_grad(state, data):
-    """Mean NLL and closed-form gradient w.r.t. the packed real parameters.
+def _z_block(state):
+    """Z = <psi|psi> and its closed-form gradient (rotation invariant).
 
-    Sample term: bbdagM pattern with the squeezed d log f (evaluated at the
-    sample x), pulled back through the LO rotations (angle theta for alpha,
-    2 theta for xi). Z term: dZ/d(ket e param) = 2 Re sum_d W[e,d]
+    Returns (Z, dZ_zr, dZ_zi, dZ) with dZ a dict over ("ar", "ai", "xr",
+    "xi") of (K, M) arrays: dZ/d(ket e param) = 2 Re sum_d W[e,d]
     (conj(a_e) + conj(b_e) R1_m[e,d] + conj(c_e) R2_m[e,d]) with
-    W = conj(z) z^T * G -- the overlap-moment identity described in the
-    module docstring, at theta = 0 (Z is rotation invariant).
+    W = conj(z) z^T * G -- the overlap-moment identity of the module
+    docstring. Shared by the pure and lossy NLL gradients.
     """
     z, alpha, xi = state.z, state.alpha, state.xi
     K, M = state.K, state.M
-
-    # --- Z, its Gram, and its closed-form gradient ---
     mode_gram = state._mode_gram()
     G = np.ones((K, K), complex)
     for O, _, _ in mode_gram:
@@ -302,6 +307,23 @@ def nll_and_grad(state, data):
                 + np.conj(c)[:, None] * R2
             )
             dZ[p_out][:, m] = 2.0 * np.real(np.sum(W * term, axis=1))
+    return Z, dZ_zr, dZ_zi, dZ
+
+
+def nll_and_grad(state, data):
+    """Mean NLL and closed-form gradient w.r.t. the packed real parameters.
+
+    Sample term: bbdagM pattern with the squeezed d log f (evaluated at the
+    sample x), pulled back through the LO rotations (angle theta for alpha,
+    2 theta for xi). Z term: dZ/d(ket e param) = 2 Re sum_d W[e,d]
+    (conj(a_e) + conj(b_e) R1_m[e,d] + conj(c_e) R2_m[e,d]) with
+    W = conj(z) z^T * G -- the overlap-moment identity described in the
+    module docstring, at theta = 0 (Z is rotation invariant).
+    """
+    z, alpha, xi = state.z, state.alpha, state.xi
+    K, M = state.K, state.M
+
+    Z, dZ_zr, dZ_zi, dZ = _z_block(state)
 
     # --- sample term ---
     g_zr = np.zeros(K)
@@ -370,6 +392,224 @@ def fit_bbdagS(data, K=4, M=3, iters=200, lr=0.05, seed=0, callback=None):
         if callback and t % 25 == 0:
             callback(t, nll(_unpack(v, K, M), data))
     return _unpack(v, K, M)
+
+
+# ---------------------------------------------------------------------------
+# Detection-efficiency (loss) forward model -- issue #42.
+#
+# Homodyne detection with efficiency eta measures X_meas = sqrt(eta) X +
+# sqrt(1 - eta) X_vac (X_vac ~ N(0, 1/2) in this repo's vacuum-variance-1/2
+# convention), optionally plus electronic noise of variance extra_noise_var.
+# The measured pdf is therefore the pure-model pdf convolved with a Gaussian:
+#
+#   p_eta(x) = int p(y) N(x - sqrt(eta) y; sigma2) dy,
+#   sigma2 = (1 - eta)/2 + extra_noise_var,
+#
+# which is EXACTLY the homodyne marginal of the state after a transmissivity-
+# eta loss channel. Everything stays closed form: per pair (c, d) of kets,
+# conj(f_c) f_d = P exp(-A y^2 + B y + C), and the convolution just tilts the
+# Gaussian --
+#
+#   A' = A + eta/(2 sigma2),   B'(x) = B + (sqrt(eta)/sigma2) x,
+#   O_cd(x) = P / sqrt(2 pi sigma2) * sqrt(pi/A')
+#             * exp(B'^2/(4A') + C - x^2/(2 sigma2)),
+#
+# so p_eta(x) = sum_cd conj(z_c) z_d prod_m O_cd^m(x_m) / Z with Z unchanged
+# (loss is trace preserving; integrating O_cd over x recovers the pure
+# overlap). Gradients reuse the d log f polynomial trick with the TILTED
+# moment ratios R1' = B'/(2A'), R2' = R1'^2 + 1/(2A') -- the same identity
+# that powers the pure Z gradient, now applied per sample per pair.
+# The model rho = loss_eta(|psi><psi|/Z) is PSD by construction (a CPTP map
+# of a PSD state); the fitted |psi> is the loss-corrected pure estimate.
+# ---------------------------------------------------------------------------
+
+
+def _lossy_mode_pair_density(params, x, eta, sigma2):
+    """Per-mode pair densities O(x) and tilted moments R1, R2, all (S, K, K).
+
+    params = (mu, nu, q, x0, p0, pref) arrays of shape (K,) for one mode
+    (already LO rotated); x is the (S,) measured quadratures of that mode.
+    """
+    pc = tuple(np.asarray(v)[:, None] for v in params)
+    pd = tuple(np.asarray(v)[None, :] for v in params)
+    A, B, C, P = _pair_ABCP(pc, pd)
+    Ap = A + eta / (2.0 * sigma2)
+    x = np.asarray(x, float)[:, None, None]
+    Bp = B[None, :, :] + (np.sqrt(eta) / sigma2) * x
+    expo = Bp ** 2 / (4.0 * Ap[None, :, :]) + C[None, :, :] - x ** 2 / (2.0 * sigma2)
+    O = (
+        P[None, :, :] / np.sqrt(2.0 * np.pi * sigma2)
+        * np.sqrt(np.pi / Ap)[None, :, :] * np.exp(expo)
+    )
+    R1 = Bp / (2.0 * Ap[None, :, :])
+    R2 = R1 ** 2 + 1.0 / (2.0 * Ap[None, :, :])
+    return O, R1, R2
+
+
+def _rot_coeff_triples(alpha_rot_m, xi_rot_m, theta_m):
+    """d log f coefficient triples in LAB-frame params (ar, ai, xr, xi).
+
+    Combines _dlogf_poly_coeffs (evaluated at the rotated ket params) with
+    the LO rotation chain (theta for alpha, 2 theta for xi) at the triple
+    level -- the rotation is linear, so it commutes with evaluating at x.
+    """
+    coeffs = _dlogf_poly_coeffs(alpha_rot_m, xi_rot_m)
+    ca, sa = np.cos(theta_m), np.sin(theta_m)
+    c2, s2 = np.cos(2.0 * theta_m), np.sin(2.0 * theta_m)
+
+    def comb(u, v, cu, cv):
+        return tuple(cu * a + cv * b for a, b in zip(coeffs[u], coeffs[v]))
+
+    return {
+        "ar": comb("br", "bi", ca, -sa),
+        "ai": comb("br", "bi", sa, ca),
+        "xr": comb("zr", "zi", c2, -s2),
+        "xi": comb("zr", "zi", s2, c2),
+    }
+
+
+def lossy_pdf(state, X, theta, eta, extra_noise_var=0.0):
+    """Measured pdf p_eta(X) (S,) under detection efficiency eta + noise."""
+    sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
+    Z = state.norm_sq()
+    X = np.asarray(X, float)
+    theta = np.asarray(theta, float)
+    if sigma2 <= 1e-14:
+        return np.abs(state.psi_at(X, theta)) ** 2 / Z
+    rot_a = state.alpha * np.exp(-1j * theta)[None, :]
+    rot_x = state.xi * np.exp(-2j * theta)[None, :]
+    Q = np.ones((X.shape[0], state.K, state.K), complex)
+    for m in range(state.M):
+        O, _, _ = _lossy_mode_pair_density(
+            _gauss_params(rot_a[:, m], rot_x[:, m]), X[:, m], eta, sigma2
+        )
+        Q *= O
+    num = np.real(np.einsum("c,scd,d->s", np.conj(state.z), Q, state.z))
+    return np.maximum(num, 0.0) / Z
+
+
+def nll_lossy(state, data, eta, extra_noise_var=0.0):
+    """Mean per-sample NLL of the measured (lossy) pdf."""
+    tot, n = 0.0, 0
+    for theta, X in data:
+        p = lossy_pdf(state, X, theta, eta, extra_noise_var)
+        tot += -np.sum(np.log(np.maximum(p, 1e-300)))
+        n += len(np.asarray(X))
+    return tot / n
+
+
+def nll_and_grad_lossy(state, data, eta, extra_noise_var=0.0, chunk=8192):
+    """Mean lossy NLL and closed-form gradient w.r.t. the packed state params.
+
+    Same packing as nll_and_grad; eta is NOT part of the gradient (fit it in
+    fit_bbdagS_lossy via a cheap scalar finite difference). Structure: the Z
+    term is shared with the pure case (_z_block); the sample term is the
+    pure pattern lifted from per-ket to per-PAIR, with the tilted moment
+    ratios R1', R2' replacing the pointwise polynomial evaluation. Samples
+    are processed in chunks to bound the (S, K, K) intermediates.
+    """
+    sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
+    if sigma2 <= 1e-14:
+        return nll_and_grad(state, data)
+    z, alpha, xi = state.z, state.alpha, state.xi
+    K, M = state.K, state.M
+    Z, dZ_zr, dZ_zi, dZ = _z_block(state)
+    zz = np.conj(z)[:, None] * z[None, :]
+
+    g_zr = np.zeros(K)
+    g_zi = np.zeros(K)
+    g = {p: np.zeros((K, M)) for p in ("ar", "ai", "xr", "xi")}
+    lognum_sum, n = 0.0, 0
+    for theta, X in data:
+        theta = np.asarray(theta, float)
+        X = np.asarray(X, float)
+        rot_a = alpha * np.exp(-1j * theta)[None, :]
+        rot_x = xi * np.exp(-2j * theta)[None, :]
+        mode_params = [
+            _gauss_params(rot_a[:, m], rot_x[:, m]) for m in range(M)
+        ]
+        mode_triples = [
+            _rot_coeff_triples(rot_a[:, m], rot_x[:, m], theta[m])
+            for m in range(M)
+        ]
+        n += X.shape[0]
+        for s0 in range(0, X.shape[0], chunk):
+            Xc = X[s0:s0 + chunk]
+            per_mode = [
+                _lossy_mode_pair_density(mode_params[m], Xc[:, m], eta, sigma2)
+                for m in range(M)
+            ]
+            Q = np.ones((Xc.shape[0], K, K), complex)
+            for O, _, _ in per_mode:
+                Q *= O
+            num = np.maximum(
+                np.real(np.einsum("c,scd,d->s", np.conj(z), Q, z)), 1e-300
+            )
+            lognum_sum += np.sum(np.log(num))
+            inv = 1.0 / num
+            Qz = np.einsum("scd,d->sc", Q, z)
+            g_zr += -2.0 * np.sum(np.real(Qz) * inv[:, None], axis=0)
+            g_zi += -2.0 * np.sum(np.imag(Qz) * inv[:, None], axis=0)
+            Wn = zz[None, :, :] * Q * inv[:, None, None]
+            for m in range(M):
+                _, R1, R2 = per_mode[m]
+                for p, (a, b, c) in mode_triples[m].items():
+                    E = (
+                        np.conj(a)[None, :, None]
+                        + np.conj(b)[None, :, None] * R1
+                        + np.conj(c)[None, :, None] * R2
+                    )
+                    g[p][:, m] += -2.0 * np.sum(np.real(Wn * E), axis=(0, 2))
+
+    value = np.log(Z) - lognum_sum / n
+    grad = np.concatenate([
+        g_zr / n + dZ_zr / Z,
+        g_zi / n + dZ_zi / Z,
+        (g["ar"] / n + dZ["ar"] / Z).ravel(),
+        (g["ai"] / n + dZ["ai"] / Z).ravel(),
+        (g["xr"] / n + dZ["xr"] / Z).ravel(),
+        (g["xi"] / n + dZ["xi"] / Z).ravel(),
+    ])
+    return value, grad
+
+
+def fit_bbdagS_lossy(data, K=4, M=1, eta0=0.8, fit_eta=True,
+                     extra_noise_var=0.0, iters=300, lr=0.05, seed=0,
+                     callback=None):
+    """Adam on the lossy NLL; returns (state, eta). Physical by construction.
+
+    eta is optimized (when fit_eta) through a logit reparameterization
+    t -> 1/(1 + e^{-t}) so it stays in (0, 1), with a central finite
+    difference in t (a single scalar -- two extra forward passes per
+    iteration; the state gradient stays fully analytic).
+    """
+    state = SqueezedKetState.random_init(K, M, rng=seed)
+    v = _pack(state)
+    t = float(np.log(eta0 / (1.0 - eta0)))
+    m1, m2 = np.zeros(len(v) + 1), np.zeros(len(v) + 1)
+    h = 1e-4
+    for it in range(1, iters + 1):
+        st = _unpack(v, K, M)
+        eta = 1.0 / (1.0 + np.exp(-t))
+        val, grd = nll_and_grad_lossy(st, data, eta, extra_noise_var)
+        if fit_eta:
+            ep = 1.0 / (1.0 + np.exp(-(t + h)))
+            em = 1.0 / (1.0 + np.exp(-(t - h)))
+            g_t = (nll_lossy(st, data, ep, extra_noise_var)
+                   - nll_lossy(st, data, em, extra_noise_var)) / (2.0 * h)
+        else:
+            g_t = 0.0
+        grd = np.concatenate([grd, [g_t]])
+        m1 = 0.9 * m1 + 0.1 * grd
+        m2 = 0.999 * m2 + 0.001 * grd ** 2
+        step = lr * (m1 / (1 - 0.9 ** it)) / (np.sqrt(m2 / (1 - 0.999 ** it)) + 1e-8)
+        v -= step[:-1]
+        t -= step[-1]
+        if callback and it % 25 == 0:
+            eta_now = 1.0 / (1.0 + np.exp(-t))
+            callback(it, nll_lossy(_unpack(v, K, M), data, eta_now,
+                                   extra_noise_var), eta_now)
+    return _unpack(v, K, M), 1.0 / (1.0 + np.exp(-t))
 
 
 def fidelity_vs_squeezed_cat3(state, alpha, parity=+1, r=0.0):
