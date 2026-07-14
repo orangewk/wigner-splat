@@ -656,3 +656,40 @@ full-rank target (thermal-noise lossy cat = detector-noise machinery),
 multi-seed replication of exp11, and the mixed+squeezed combined ansatz
 (rank-R over squeezed kets); then the public-data hunt (2026-07-13
 position doc).
+
+## 2026-07-14 — First real data: Furusawa-group GKP states (experiment 12, issue #41)
+
+Tried: the program's first non-synthetic data. orange downloaded the Dryad
+dataset of Konno et al., Science 383, 289 (2024) (propagating-light GKP
+states; doi:10.5061/dryad.t76hdr86j, CC0) -- raw homodyne quadrature values
+at six LO phases (0/+-30/+-60/-90 deg, ~20k shots each; found by the
+public-data survey, docs/2026-07-14-public-data-survey--recorded.md, as the
+ONLY confirmed open raw-homodyne dataset). Redistributed under
+experiments/12_gkp_data/data/ with the original Dryad README. Convention
+check from the data itself: 0-deg peak spacing ~1.69 ~ sqrt(pi) matches the
+repo's vacuum-variance-1/2 units (no rescaling); a phase-INDEPENDENT mean
+offset ~ -0.26 across 150 deg of LO phase is instrumental, not a coherent
+displacement (which would rotate) -- fitted as-is, no subtraction.
+
+Happened (exp12, committed log + marginal-overlay figure; held-out 20%):
+- mle (R rho R, n_max=25, the paper's own method class): held-out
+  per-sample NLL 1.6299, sub-second fit, marginals visually excellent.
+- bbdagS pure squeezed-product (K=4/6, analytic gradients, ~30-40 s):
+  held-out NLL 1.7670/1.7819 -- LOSES decisively. The overlay shows the
+  signature failure: over-deep interference dips and over-tall peaks. A
+  PURE state cannot wash out fringe contrast; the real (lossy) GKP state
+  is MIXED. More kets do not help (K=6 is worse than K=4 on held-out --
+  overfitting within the wrong manifold).
+
+Learned -- first real-data verdict, recorded as promised: on real data the
+current physical reconstructor loses to the textbook full-rank MLE at one
+mode, because the deficit is RANK (mixedness) and detection efficiency, not
+ket shape. This is precisely the gap the already-filed extensions target:
+rank-R x squeezed ansatz (issue #40) and the efficiency/noise forward model
+(issue #42) now have a concrete real-data benchmark (beat NLL 1.6299 on
+this dataset while staying constructively physical and O(K)-parametric).
+Note the scale caveat: at ONE mode the MLE matrix is tiny (25x25) and
+sub-second -- the program's scaling argument is untouched; what real data
+tests is physics fidelity of the forward model, and mixedness is the first
+missing piece. GKP itself is the dreams-#7 native-fit target: the fitted
+squeezes (r ~ 0.4-1.0) confirm the ansatz reaches for the comb structure.
