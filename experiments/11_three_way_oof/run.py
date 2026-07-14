@@ -220,31 +220,38 @@ def main():
     squeezed = squeezed_block()
     show(squeezed)
 
-    print("\n=== ruling (issue #28 falsification condition) ===")
+    print("\n=== ruling (issue #28 falsification condition, scoped) ===")
+    print("Scale note: splat's Wigner-overlap score is NOT commensurable with "
+          "the fidelity columns (its perfect value is the target PURITY on "
+          "the mixed target, and it is unbounded for a non-PSD fit), so the "
+          "Boolean ruling below compares LIKE metrics only -- BB-dagger vs "
+          "MLE state fidelity; the splat score is reported as a separate "
+          "axis with its own ceiling.")
     verdicts = []
     for label, rows in (("lossy", lossy), ("squeezed", squeezed)):
         bb = next(v for n, _, v, _, _ in rows if n.startswith("bbdag"))
         splat = next(v for n, _, v, _, _ in rows if n.startswith("splat"))
         mle = next(v for n, _, v, _, _ in rows if n.startswith("mle3"))
-        loses_both = bb < splat and bb < mle
-        verdicts.append(loses_both)
-        print(f"{label}: bbdag={bb:.4f} vs splat={splat:.4f} (overlap score) "
-              f"vs mle={mle:.4f} -> bbdag "
-              + ("LOSES to both" if loses_both else "does NOT lose to both"))
-    print("NOTE: the splat column is a Wigner-overlap score of a non-PSD "
-          "reconstruction (perfect = target purity on the mixed target), the "
-          "other columns are state fidelities of physical states -- the "
-          "cross-method comparison is therefore score-vs-fidelity, as in "
-          "exp06/exp08, and is quoted with that caveat.")
+        loses = bb < mle
+        verdicts.append(loses)
+        print(f"{label}: fidelity axis bbdag={bb:.4f} vs mle={mle:.4f} -> "
+              f"bbdag {'LOSES' if loses else 'does not lose'}; "
+              f"splat axis (overlap score): {splat:.4f}")
     if all(verdicts):
-        print("-> falsification condition FIRES on every target: record "
-              "'BB-dagger is target-aligned only' and split off ansatz "
-              "strengthening.")
+        print("-> falsification condition FIRES on every target.")
     else:
-        print("-> falsification condition does NOT fire: BB-dagger (with its "
-              "rank-2 / squeezed-ket extensions) is not consistently beaten "
-              "by splat and MLE out of family. Single data seed; see log for "
-              "per-target detail.")
+        print("-> falsification condition does NOT fire in this run "
+              "(single data seed, single init seed).")
+    print("SCOPE of what this run decides: both targets are OUT-OF-FAMILY "
+          "for the original rank-1 coherent ansatz but IN-FAMILY for the "
+          "extensions fitted here (the lossy cat is exactly rank-2 coherent; "
+          "the squeezed cat is exactly a squeezed-product ket). The ruling "
+          "therefore establishes that the BB-dagger FAMILY can be extended "
+          "to cover these failure directions and then wins the like-metric "
+          "comparison -- it does NOT yet establish blind generalization to "
+          "targets outside the extended family. That gate needs a held-out "
+          "full-rank target no finite-rank ket mixture contains (e.g. a "
+          "thermal-noise lossy cat), recorded as remaining work.")
 
 
 if __name__ == "__main__":
