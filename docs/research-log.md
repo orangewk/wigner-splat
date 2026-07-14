@@ -813,6 +813,24 @@ NLL, conditional paired-bootstrap 95% CIs):
   no longer must carry; fitted eta is a model parameter here, NOT a
   calibrated detection efficiency.
 
+CONTROL RESULT (control_k8.py, committed log; run after the amendment
+above): the matched-dof comparison the review asked for -- R=1,K=8
+(47 dof) vs R=2,K=4 (46 dof), identical schedule, both reshuffles. The
+nested under-optimization check PASSED (R1K8 best-of-3 train NLL 1.62882
+/ 1.62952 is below the R1K4 floor 1.62938 / 1.63019, so K=8 was not the
+exp13-style optimization casualty). At matched dof the rank
+parameterization wins held-out on both reshuffles: test NLL 1.63084 vs
+1.63216 (primary) and 1.62770 vs 1.62936 (alternate), conditional paired
+CI(R2K4 - R1K8) = [-0.00194, -0.00067] and [-0.00230, -0.00100]. A
+consistent side observation: the pure-column R1K8 fit keeps eta pinned
+at 0.640 (all mixedness must go through the loss knob) while R2K4 sits
+at 0.70. Reading, per the pre-declared branches: capacity-matched
+DESCRIPTIVE support for the rank hypothesis -- the exp14 gain is not
+attributable to ket/parameter capacity alone. Still exploratory (same
+reshuffles, conditional intervals); "physical rank identified" remains
+too strong, but "capacity alone explains it" is now descriptively
+disfavored.
+
 Learned (amended per the PR #44 owner review, which flagged the original
 rank attribution as confounded): the R2K4 extension improved descriptive
 predictive performance on both reshuffles, cutting ~2/3 of exp13's
