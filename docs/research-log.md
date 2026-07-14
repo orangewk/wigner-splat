@@ -781,7 +781,7 @@ the lossy cat against the Fock-basis loss channel. Same exploratory
 framing as exp13 (dataset and prior results already inspected; split
 seeds 0/1 are the same reshuffles; MLE opponent is the test-selected
 frontier best; bootstrap intervals are conditional on the fitted models).
-Primary config pre-fixed at lossy R=2 K=4 against a same-budget rank-1
+Primary config pre-fixed at lossy R=2 K=4 against a same-schedule rank-1
 baseline; R=3 K=4 as a never-test-selected saturation probe.
 
 Happened (committed log, overlay + frontier figures; held-out per-sample
@@ -835,14 +835,16 @@ Learned (amended per the PR #44 owner review, which flagged the original
 rank attribution as confounded): the R2K4 extension improved descriptive
 predictive performance on both reshuffles, cutting ~2/3 of exp13's
 residual on the primary one -- but whether that gain comes from physical
-rank or from the accompanying increase in ket/parameter capacity is
-unresolved without a matched-dof control, and the remaining
-half-millinat stays unexplained (deeper rank, non-Gaussian noise,
-optimization, and ket capacity all open). The program's honest position
-after three real-data rounds: constructively physical BB-dagger
-extensions now trace the MLE's NLL-dof frontier from below through dof
-~69 and lose the asymptote by ~0.0005-0.0010 nats on these reshuffles;
-each round's deficit produced a concrete next hypothesis, though no
-round has yet identified its residual's cause. #40 stays open (matched-
-dof control, deeper R, warm starts, K interplay); #42's known-eta
-deployment across the other reconstructors is unchanged.
+rank or from the accompanying increase in ket/parameter capacity was
+initially unresolved; the matched-dof control above then made the
+capacity-only explanation descriptively DISFAVORED, while still not
+identifying physical rank (same-data reshuffles, conditional
+intervals). The remaining half-millinat stays unexplained (deeper rank,
+non-Gaussian noise, optimization all open). The program's honest
+position after three real-data rounds: constructively physical
+BB-dagger extensions now trace the MLE's NLL-dof frontier from below
+through dof ~69 and lose the asymptote by ~0.0005-0.0010 nats on these
+reshuffles; each round's deficit produced a concrete next hypothesis,
+though no round has yet identified its residual's cause. #40 stays open
+(deeper R, warm starts, K interplay); #42's known-eta deployment across
+the other reconstructors is unchanged.
