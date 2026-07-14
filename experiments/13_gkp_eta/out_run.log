@@ -1,0 +1,21 @@
+=== exp13: GKP rematch -- pure squeezed BB-dagger + fitted loss eta ===
+benchmark from exp12 (committed): pure K=4 test NLL 1.767, full-rank MLE test NLL 1.6299
+    iter  100  train NLL=1.6318  eta=0.6532
+    iter  200  train NLL=1.6299  eta=0.6412
+    iter  300  train NLL=1.6298  eta=0.6391
+    iter  400  train NLL=1.6297  eta=0.6391
+    iter  500  train NLL=1.6297  eta=0.6392
+  bbdagS+loss K=4: train NLL=1.6297  test NLL=1.6331  eta=0.6392  wall=451s  squeezes r=[0.76 0.65 0.78 1.06]
+    iter  100  train NLL=1.6294  eta=0.6402
+    iter  200  train NLL=1.6290  eta=0.6404
+    iter  300  train NLL=1.6289  eta=0.6405
+    iter  400  train NLL=1.6289  eta=0.6405
+    iter  500  train NLL=1.6289  eta=0.6404
+  bbdagS+loss K=6: train NLL=1.6289  test NLL=1.6322  eta=0.6404  wall=1012s  squeezes r=[0.65 0.88 0.57 0.64 0.63 0.65]
+  mle n_max=25 (full rank, 349 iters): train NLL=1.6266  test NLL=1.6299  wall=0s
+  figure: /home/user/wigner-splat/experiments/13_gkp_eta/gkp_eta_marginals.png
+
+=== rematch verdict (falsification condition in docstring) ===
+held-out per-sample NLL: BB-dagger+loss (K=6, 37 real params) 1.6322 vs full-rank MLE (625 real params) 1.6299
+pure->MLE gap closed by the single eta knob: 98%
+-> mixedness diagnosis CONFIRMED (most of the gap was loss) but MLE keeps a residual edge: the leftover is structure a single Gaussian loss channel cannot express -> issue #40 (rank-R x squeezed) takes the remaining deficit. Recorded as a loss on the headline claim.
