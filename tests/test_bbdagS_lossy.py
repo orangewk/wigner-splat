@@ -132,6 +132,22 @@ def test_lossy_grad_matches_central_difference(K, M, squeeze):
     assert np.max(np.abs(g - g_fd) / scale) < 2e-7
 
 
+def test_loss_params_are_validated():
+    state, data = _random_problem(K=1, M=1)
+    xs = np.linspace(-1, 1, 5)[:, None]
+    th = np.array([0.0])
+    for bad_eta in (1.2, -0.1):
+        with pytest.raises(ValueError):
+            lossy_pdf(state, xs, th, eta=bad_eta)
+        with pytest.raises(ValueError):
+            nll_and_grad_lossy(state, data, eta=bad_eta)
+    with pytest.raises(ValueError):
+        lossy_pdf(state, xs, th, eta=0.8, extra_noise_var=-0.1)
+    for bad_eta0 in (0.0, 1.0, 1.3):
+        with pytest.raises(ValueError):
+            fit_bbdagS_lossy(data, K=1, M=1, eta0=bad_eta0, iters=1)
+
+
 @pytest.mark.slow
 def test_fit_recovers_eta_on_lossy_cat_samples():
     """Samples drawn from the Fock-route lossy-cat pdf; fit must find eta."""

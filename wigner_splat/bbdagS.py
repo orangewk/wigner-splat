@@ -424,6 +424,18 @@ def fit_bbdagS(data, K=4, M=3, iters=200, lr=0.05, seed=0, callback=None):
 # ---------------------------------------------------------------------------
 
 
+def _check_loss_params(eta, extra_noise_var):
+    """0 <= eta <= 1 and extra_noise_var >= 0, else ValueError.
+
+    Without this, eta > 1 makes sigma2 negative and silently falls into the
+    sigma2 ~ 0 pure-model branch, and eta < 0 NaNs through sqrt(eta).
+    """
+    if not (0.0 <= eta <= 1.0):
+        raise ValueError(f"eta must be in [0, 1], got {eta}")
+    if extra_noise_var < 0.0:
+        raise ValueError(f"extra_noise_var must be >= 0, got {extra_noise_var}")
+
+
 def _lossy_mode_pair_density(params, x, eta, sigma2):
     """Per-mode pair densities O(x) and tilted moments R1, R2, all (S, K, K).
 
@@ -470,6 +482,7 @@ def _rot_coeff_triples(alpha_rot_m, xi_rot_m, theta_m):
 
 def lossy_pdf(state, X, theta, eta, extra_noise_var=0.0):
     """Measured pdf p_eta(X) (S,) under detection efficiency eta + noise."""
+    _check_loss_params(eta, extra_noise_var)
     sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
     Z = state.norm_sq()
     X = np.asarray(X, float)
@@ -508,6 +521,7 @@ def nll_and_grad_lossy(state, data, eta, extra_noise_var=0.0, chunk=8192):
     ratios R1', R2' replacing the pointwise polynomial evaluation. Samples
     are processed in chunks to bound the (S, K, K) intermediates.
     """
+    _check_loss_params(eta, extra_noise_var)
     sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
     if sigma2 <= 1e-14:
         return nll_and_grad(state, data)
@@ -583,6 +597,9 @@ def fit_bbdagS_lossy(data, K=4, M=1, eta0=0.8, fit_eta=True,
     difference in t (a single scalar -- two extra forward passes per
     iteration; the state gradient stays fully analytic).
     """
+    if not (0.0 < eta0 < 1.0):
+        raise ValueError(f"eta0 must be in (0, 1) for the logit, got {eta0}")
+    _check_loss_params(eta0, extra_noise_var)
     state = SqueezedKetState.random_init(K, M, rng=seed)
     v = _pack(state)
     t = float(np.log(eta0 / (1.0 - eta0)))

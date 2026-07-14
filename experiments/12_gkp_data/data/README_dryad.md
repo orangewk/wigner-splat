@@ -9,7 +9,7 @@ The data are the processed quadrature values of the generated states. The Wigner
 1.  quad_0deg.npy
 2.  quad_30deg.npy
 3.  quad_60deg.npy
-4.  quad_-30deg.npy	
+4.  quad_-30deg.npy
 5.  quad_-60deg.npy
 6.  quad_-90deg.npy
 
