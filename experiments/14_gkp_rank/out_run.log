@@ -1,0 +1,67 @@
+=== exp14: rank-R x squeezed x loss on real GKP data ===
+(post-review exploratory reanalysis protocol; see docstring)
+
+--- split 'primary (exp12/13 split, reused for comparability)' (seed 0) ---
+    lossy R=1 K=4 seed=0: train NLL=1.62968  final-100-iter drop=+0.00004  eta=0.6392  wall=253s
+    lossy R=1 K=4 seed=1: train NLL=1.62963  final-100-iter drop=+0.00012  eta=0.6427  wall=255s
+    lossy R=1 K=4 seed=2: train NLL=1.62938  final-100-iter drop=+0.00002  eta=0.6434  wall=255s
+    -> lossy R=1 K=4: best-by-TRAIN seed=2  train NLL=1.62938
+    lossy R=1 K=4: test NLL=1.63304  (dof 23)
+    lossy R=2 K=4 seed=0: train NLL=1.62798  final-100-iter drop=+0.00002  eta=0.6726  wall=493s
+    lossy R=2 K=4 seed=1: train NLL=1.62761  final-100-iter drop=+0.00003  eta=0.7012  wall=494s
+    lossy R=2 K=4 seed=2: train NLL=1.62778  final-100-iter drop=+0.00006  eta=0.7008  wall=494s
+    -> lossy R=2 K=4: best-by-TRAIN seed=1  train NLL=1.62761
+    lossy R=2 K=4: test NLL=1.63084  (dof 46)
+    lossy R=3 K=4 seed=0: train NLL=1.62693  final-100-iter drop=+0.00003  eta=0.8598  wall=737s
+    lossy R=3 K=4 seed=1: train NLL=1.62688  final-100-iter drop=+0.00002  eta=0.8749  wall=740s
+    lossy R=3 K=4 seed=2: train NLL=1.62689  final-100-iter drop=+0.00004  eta=0.8651  wall=758s
+    -> lossy R=3 K=4: best-by-TRAIN seed=1  train NLL=1.62688
+    lossy R=3 K=4: test NLL=1.63009  (dof 69)
+  MLE dof frontier:
+    mle n_max= 4 (dof  15, 237 iters): test NLL=1.67764
+    mle n_max= 6 (dof  35, 142 iters): test NLL=1.63534
+    mle n_max= 8 (dof  63, 318 iters): test NLL=1.63036
+    mle n_max=10 (dof  99, 393 iters): test NLL=1.62999
+    mle n_max=12 (dof 143, 354 iters): test NLL=1.62988
+    mle n_max=16 (dof 255, 347 iters): test NLL=1.62984
+    mle n_max=20 (dof 399, 344 iters): test NLL=1.62987
+    mle n_max=25 (dof 624, 349 iters): test NLL=1.62986
+    -> empirical test-selected frontier best (descriptive): n_max=16 test NLL=1.62984
+
+  conditional paired bootstrap 95% CIs (primary split):
+    mixed R=2 - rank1:    [-0.00296, -0.00143]  (point -0.00220)
+    mixed R=2 - best MLE: [+0.00055, +0.00149]  (point +0.00100)
+  rank saturation (train NLL, matched budget): R=1 1.62938, R=2 1.62761, R=3 1.62688
+  fitted eta by R (identifiability, not calibration): R=1 0.6434, R=2 0.7012, R=3 0.8749
+
+--- split 'alternate reshuffle (sensitivity check)' (seed 1) ---
+    lossy R=1 K=4 seed=0: train NLL=1.63040  final-100-iter drop=+0.00002  eta=0.6378  wall=264s
+    lossy R=1 K=4 seed=1: train NLL=1.63040  final-100-iter drop=+0.00011  eta=0.6418  wall=262s
+    lossy R=1 K=4 seed=2: train NLL=1.63019  final-100-iter drop=+0.00001  eta=0.6426  wall=261s
+    -> lossy R=1 K=4: best-by-TRAIN seed=2  train NLL=1.63019
+    lossy R=1 K=4: test NLL=1.62975  (dof 23)
+    lossy R=2 K=4 seed=0: train NLL=1.62864  final-100-iter drop=+0.00005  eta=0.6709  wall=504s
+    lossy R=2 K=4 seed=1: train NLL=1.62838  final-100-iter drop=+0.00004  eta=0.6977  wall=501s
+    lossy R=2 K=4 seed=2: train NLL=1.62856  final-100-iter drop=+0.00009  eta=0.6960  wall=503s
+    -> lossy R=2 K=4: best-by-TRAIN seed=1  train NLL=1.62838
+    lossy R=2 K=4: test NLL=1.62770  (dof 46)
+  MLE dof frontier:
+    mle n_max= 4 (dof  15, 247 iters): test NLL=1.67778
+    mle n_max= 6 (dof  35, 134 iters): test NLL=1.63335
+    mle n_max= 8 (dof  63, 280 iters): test NLL=1.62782
+    mle n_max=10 (dof  99, 347 iters): test NLL=1.62723
+    mle n_max=12 (dof 143, 300 iters): test NLL=1.62723
+    mle n_max=16 (dof 255, 298 iters): test NLL=1.62722
+    mle n_max=20 (dof 399, 296 iters): test NLL=1.62729
+    mle n_max=25 (dof 624, 304 iters): test NLL=1.62735
+    -> empirical test-selected frontier best (descriptive): n_max=16 test NLL=1.62722
+
+  conditional CIs (alternate reshuffle):
+    mixed R=2 - rank1:    [-0.00283, -0.00124]  (point -0.00205)
+    mixed R=2 - best MLE: [+0.00002, +0.00093]  (point +0.00048)
+  figures: /home/user/wigner-splat/experiments/14_gkp_rank/gkp_rank_marginals.png, /home/user/wigner-splat/experiments/14_gkp_rank/gkp_rank_frontier.png
+
+=== exploratory decision checks (see docstring) ===
+1. rank effect: rank freedom DESCRIPTIVELY HELPS on both reshuffles (CIs below 0)
+2. vs MLE frontier: frontier gap REMAINS for these fits (both CIs above 0) -- recorded as another descriptive loss
+3. rank saturation and 4. fitted-eta drift: see lines above.

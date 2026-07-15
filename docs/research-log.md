@@ -766,3 +766,85 @@ rank-R x squeezed as one hypothesis rather than receiving a confirmed rank
 diagnosis. #42 itself stays OPEN: this is the bbdagS vertical slice; the
 issue's full scope (known-eta deployment across bbdagM / purefock3 / splat +
 controlled comparisons) remains.
+
+## 2026-07-14 — Rank freedom on real data: exploratory rank-hypothesis test (experiment 14, issue #40)
+
+Tried: exp13 left a descriptive residual (+0.002..+0.004 nats vs the
+test-selected MLE frontier) with its cause explicitly unidentified --
+optimization, ket capacity, and loss-channel misspecification all open.
+Exp14 tests the RANK hypothesis: bbdagS gained MixedSqueezedKetState
+(rho = B B^dagger over R independent squeezed-ket columns, composed with
+the #42 loss channel; PSD by construction, closed form, analytic
+gradients = the rank-1 pair-density machinery summed over columns).
+Pinned by 10 tests including an exact rank-2 B B^dagger factorization of
+the lossy cat against the Fock-basis loss channel. Same exploratory
+framing as exp13 (dataset and prior results already inspected; split
+seeds 0/1 are the same reshuffles; MLE opponent is the test-selected
+frontier best; bootstrap intervals are conditional on the fitted models).
+Primary config pre-fixed at lossy R=2 K=4 against a same-schedule rank-1
+baseline; R=3 K=4 as a never-test-selected saturation probe.
+
+Happened (committed log, overlay + frontier figures; held-out per-sample
+NLL, conditional paired-bootstrap 95% CIs):
+- The R2K4 parameterization adds descriptive predictive capacity on both
+  reshuffles: CI(R=2 - rank1) = [-0.00296, -0.00143] primary and
+  [-0.00283, -0.00124] alternate. ATTRIBUTION CAVEAT (owner review of
+  PR #44): this comparison changes the ket primitive count (4 -> 8), the
+  dof (23 -> 46), and the compute per iteration together with the rank,
+  so whether the gain comes from physical rank or from the accompanying
+  ket/parameter capacity is UNRESOLVED here -- the matched-dof control
+  (R=1,K=8 = 47 dof vs R=2,K=4 = 46 dof, control_k8.py) addresses it
+  below.
+- The frontier gap SHRANK but REMAINS for these fits: CI(R=2 - best MLE)
+  = [+0.00055, +0.00149] primary (point +0.00100, down from exp13's
+  +0.00320) and [+0.00002, +0.00093] alternate (point +0.00048 --
+  borderline at CI resolution). Recorded as another descriptive loss,
+  the third on real data, now by half a millinat.
+- The Pareto band WIDENED: R=2 (46 dof) 1.63084 and R=3 (69 dof) 1.63009
+  sit below the observed MLE curve in their dof bands (n_max=6/35 dof
+  1.63534, n_max=8/63 dof 1.63036); on the alternate reshuffle R=2 at
+  46 dof (1.62770) is below the MLE curve until ~99 dof. Train NLL
+  improves monotonically R=1 -> 2 -> 3 (1.62938, 1.62761, 1.62688) at
+  the same optimizer schedule -- but capacity and compute grow with R,
+  so the supported statement is only that the train objective had not
+  plateaued under this R/K schedule, not that "rank is unsaturated".
+- eta-rank identifiability drifted as pre-declared: fitted eta 0.643 ->
+  0.701 -> 0.875 for R=1/2/3. Rank absorbs mixedness that the loss knob
+  no longer must carry; fitted eta is a model parameter here, NOT a
+  calibrated detection efficiency.
+
+CONTROL RESULT (control_k8.py, committed log; run after the amendment
+above): the matched-dof comparison the review asked for -- R=1,K=8
+(47 dof) vs R=2,K=4 (46 dof), identical schedule, both reshuffles. The
+nested under-optimization check PASSED (R1K8 best-of-3 train NLL 1.62882
+/ 1.62952 is below the R1K4 floor 1.62938 / 1.63019, so K=8 was not the
+exp13-style optimization casualty). At matched dof the rank
+parameterization wins held-out on both reshuffles: test NLL 1.63084 vs
+1.63216 (primary) and 1.62770 vs 1.62936 (alternate), conditional paired
+CI(R2K4 - R1K8) = [-0.00194, -0.00067] and [-0.00230, -0.00100]. A
+consistent side observation: the pure-column R1K8 fit keeps eta pinned
+at 0.640 (all mixedness must go through the loss knob) while R2K4 sits
+at 0.70. Reading, per the pre-declared branches: capacity-matched
+DESCRIPTIVE support for the rank hypothesis -- the exp14 gain is not
+attributable to ket/parameter capacity alone. Still exploratory (same
+reshuffles, conditional intervals); "physical rank identified" remains
+too strong, but "capacity alone explains it" is now descriptively
+disfavored.
+
+Learned (amended per the PR #44 owner review, which flagged the original
+rank attribution as confounded): the R2K4 extension improved descriptive
+predictive performance on both reshuffles, cutting ~2/3 of exp13's
+residual on the primary one -- but whether that gain comes from physical
+rank or from the accompanying increase in ket/parameter capacity was
+initially unresolved; the matched-dof control above then made the
+capacity-only explanation descriptively DISFAVORED, while still not
+identifying physical rank (same-data reshuffles, conditional
+intervals). The remaining half-millinat stays unexplained (deeper rank,
+non-Gaussian noise, optimization all open). The program's honest
+position after three real-data rounds: constructively physical
+BB-dagger extensions now trace the MLE's NLL-dof frontier from below
+through dof ~69 and lose the asymptote by ~0.0005-0.0010 nats on these
+reshuffles; each round's deficit produced a concrete next hypothesis,
+though no round has yet identified its residual's cause. #40 stays open
+(deeper R, warm starts, K interplay); #42's known-eta deployment across
+the other reconstructors is unchanged.

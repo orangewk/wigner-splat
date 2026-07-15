@@ -1,0 +1,29 @@
+=== exp14 control: matched-dof R=1,K=8 (47 dof) vs R=2,K=4 (46 dof) ===
+(exploratory; caveats and pre-declared readings in docstring)
+
+--- reshuffle seed 0 ---
+    lossy R=1 K=8 seed=0: train NLL=1.62898  eta=0.6404  wall=1443s
+    lossy R=1 K=8 seed=1: train NLL=1.62883  eta=0.6404  wall=1423s
+    lossy R=1 K=8 seed=2: train NLL=1.62882  eta=0.6403  wall=1351s
+    -> lossy R=1 K=8: best-by-TRAIN seed=2  train NLL=1.62882
+    lossy R=2 K=4 seed=0: train NLL=1.62798  eta=0.6726  wall=489s
+    lossy R=2 K=4 seed=1: train NLL=1.62761  eta=0.7012  wall=498s
+    lossy R=2 K=4 seed=2: train NLL=1.62778  eta=0.7008  wall=500s
+    -> lossy R=2 K=4: best-by-TRAIN seed=1  train NLL=1.62761
+    test NLL: R1K8 1.63216 (dof 47)  vs  R2K4 1.63084 (dof 46)
+    conditional paired CI (R2K4 - R1K8): [-0.00194, -0.00067]  (point -0.00131)
+
+--- reshuffle seed 1 ---
+    lossy R=1 K=8 seed=0: train NLL=1.62972  eta=0.6392  wall=1419s
+    lossy R=1 K=8 seed=1: train NLL=1.62952  eta=0.6390  wall=1430s
+    lossy R=1 K=8 seed=2: train NLL=1.62952  eta=0.6391  wall=1388s
+    -> lossy R=1 K=8: best-by-TRAIN seed=2  train NLL=1.62952
+    lossy R=2 K=4 seed=0: train NLL=1.62864  eta=0.6709  wall=472s
+    lossy R=2 K=4 seed=1: train NLL=1.62838  eta=0.6977  wall=486s
+    lossy R=2 K=4 seed=2: train NLL=1.62856  eta=0.6960  wall=499s
+    -> lossy R=2 K=4: best-by-TRAIN seed=1  train NLL=1.62838
+    test NLL: R1K8 1.62936 (dof 47)  vs  R2K4 1.62770 (dof 46)
+    conditional paired CI (R2K4 - R1K8): [-0.00230, -0.00100]  (point -0.00166)
+
+=== matched-dof reading (pre-declared in docstring) ===
+-> capacity-matched descriptive support for the rank hypothesis (both CIs below 0, no under-optimization flag).

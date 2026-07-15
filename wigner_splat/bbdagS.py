@@ -629,6 +629,256 @@ def fit_bbdagS_lossy(data, K=4, M=1, eta0=0.8, fit_eta=True,
     return _unpack(v, K, M), 1.0 / (1.0 + np.exp(-t))
 
 
+# ---------------------------------------------------------------------------
+# Rank-R x squeezed x loss -- issue #40.
+#
+# The rank-R lift of SqueezedKetState, mirroring bbdagM.MixedCoherentKetState:
+# rho = sum_r |psi_r><psi_r| / Z with each COLUMN an independent
+# squeezed-product ket combination, so rho = B B^dagger is PSD with
+# rank <= R by construction. Composed with the loss channel of the section
+# above (loss is CPTP, so loss_eta(rho) stays PSD), the measured pdf is
+#
+#   p(x) = sum_r z_r^dag Q_r(x) z_r / Z,   Z = sum_r <psi_r|psi_r>,
+#
+# with Q_r the lossy pair-density matrix among column r's own kets -- the
+# whole thing is the rank-1 lossy machinery summed over columns, and the
+# gradient only changes by weighting each column's sample term with the
+# TOTAL 1/p(x) instead of its own. Gradients require sigma2 > 0 (eta < 1 or
+# extra noise); for the pure mixed model use nll_mixed (evaluation only) or
+# bbdagM for the coherent case.
+# ---------------------------------------------------------------------------
+
+
+class MixedSqueezedKetState:
+    """rho = sum_r |psi_r><psi_r| / Z, columns are squeezed-product kets.
+
+    z: (R, K) complex. alpha, xi: (R, K, M) complex. R = 1 reproduces
+    SqueezedKetState exactly (pinned in tests).
+    """
+
+    def __init__(self, z, alpha, xi):
+        self.z = np.asarray(z, complex)
+        self.alpha = np.asarray(alpha, complex)
+        self.xi = np.asarray(xi, complex)
+
+    @property
+    def R(self):
+        return self.z.shape[0]
+
+    @property
+    def K(self):
+        return self.z.shape[1]
+
+    @property
+    def M(self):
+        return self.alpha.shape[2]
+
+    @classmethod
+    def random_init(cls, R, K, M, scale=1.5, rng=None):
+        rng = np.random.default_rng(rng)
+        a = rng.uniform(-scale, scale, (R, K, M)) \
+            + 1j * rng.uniform(-scale, scale, (R, K, M))
+        return cls(
+            z=np.ones((R, K), complex) / np.sqrt(R * K),
+            alpha=a,
+            xi=np.zeros((R, K, M), complex),
+        )
+
+    def columns(self):
+        return [SqueezedKetState(self.z[r], self.alpha[r], self.xi[r])
+                for r in range(self.R)]
+
+    def norm_sq(self):
+        return sum(col.norm_sq() for col in self.columns())
+
+
+def _pack_mixed(state):
+    return np.concatenate([
+        np.real(state.z).ravel(), np.imag(state.z).ravel(),
+        np.real(state.alpha).ravel(), np.imag(state.alpha).ravel(),
+        np.real(state.xi).ravel(), np.imag(state.xi).ravel(),
+    ])
+
+
+def _unpack_mixed(v, R, K, M):
+    n = R * K
+    z = (v[0:n] + 1j * v[n:2 * n]).reshape(R, K)
+    blocks = []
+    for b in range(4):
+        lo = 2 * n + b * n * M
+        blocks.append(v[lo:lo + n * M].reshape(R, K, M))
+    ar, ai, xr, xi_ = blocks
+    return MixedSqueezedKetState(z=z, alpha=ar + 1j * ai, xi=xr + 1j * xi_)
+
+
+def nll_mixed(state, data):
+    """Mean per-sample NLL of the PURE-detection mixed model (evaluation)."""
+    Z = state.norm_sq()
+    cols = state.columns()
+    tot, n = 0.0, 0
+    for theta, X in data:
+        X = np.asarray(X, float)
+        p = sum(np.abs(c.psi_at(X, theta)) ** 2 for c in cols) / Z
+        tot += -np.sum(np.log(np.maximum(p, 1e-300)))
+        n += len(X)
+    return tot / n
+
+
+def lossy_pdf_mixed(state, X, theta, eta, extra_noise_var=0.0):
+    """Measured pdf of loss_eta(rank-R rho), (S,)."""
+    _check_loss_params(eta, extra_noise_var)
+    sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
+    if sigma2 <= 1e-14:
+        Z = state.norm_sq()
+        X = np.asarray(X, float)
+        return sum(
+            np.abs(c.psi_at(X, np.asarray(theta, float))) ** 2
+            for c in state.columns()
+        ) / Z
+    return sum(
+        lossy_pdf(c, X, theta, eta, extra_noise_var) * c.norm_sq()
+        for c in state.columns()
+    ) / state.norm_sq()
+
+
+def nll_lossy_mixed(state, data, eta, extra_noise_var=0.0):
+    tot, n = 0.0, 0
+    for theta, X in data:
+        p = lossy_pdf_mixed(state, X, theta, eta, extra_noise_var)
+        tot += -np.sum(np.log(np.maximum(p, 1e-300)))
+        n += len(np.asarray(X))
+    return tot / n
+
+
+def nll_and_grad_lossy_mixed(state, data, eta, extra_noise_var=0.0,
+                             chunk=8192):
+    """Mean lossy NLL and closed-form gradient, rank-R (packed as
+    _pack_mixed). Requires sigma2 > 0 -- the pure mixed gradient is not
+    implemented here (use bbdagM for coherent mixed, or eta < 1)."""
+    _check_loss_params(eta, extra_noise_var)
+    sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
+    if sigma2 <= 1e-14:
+        raise NotImplementedError(
+            "rank-R gradient needs sigma2 > 0 (eta < 1 or extra noise)")
+    R, K, M = state.R, state.K, state.M
+    cols = state.columns()
+
+    Z = 0.0
+    dZ_zr = np.zeros((R, K))
+    dZ_zi = np.zeros((R, K))
+    dZ = {p: np.zeros((R, K, M)) for p in ("ar", "ai", "xr", "xi")}
+    for r, col in enumerate(cols):
+        Zr, dzr, dzi, dz = _z_block(col)
+        Z += Zr
+        dZ_zr[r], dZ_zi[r] = dzr, dzi
+        for p in dZ:
+            dZ[p][r] = dz[p]
+
+    g_zr = np.zeros((R, K))
+    g_zi = np.zeros((R, K))
+    g = {p: np.zeros((R, K, M)) for p in ("ar", "ai", "xr", "xi")}
+    lognum_sum, n = 0.0, 0
+    for theta, X in data:
+        theta = np.asarray(theta, float)
+        X = np.asarray(X, float)
+        col_ctx = []
+        for col in cols:
+            rot_a = col.alpha * np.exp(-1j * theta)[None, :]
+            rot_x = col.xi * np.exp(-2j * theta)[None, :]
+            mode_params = [_gauss_params(rot_a[:, m], rot_x[:, m])
+                           for m in range(M)]
+            mode_triples = [_rot_coeff_triples(rot_a[:, m], rot_x[:, m],
+                                               theta[m]) for m in range(M)]
+            col_ctx.append((mode_params, mode_triples))
+        n += X.shape[0]
+        for s0 in range(0, X.shape[0], chunk):
+            Xc = X[s0:s0 + chunk]
+            per_col = []
+            num = np.zeros(Xc.shape[0])
+            for r, col in enumerate(cols):
+                mode_params, _ = col_ctx[r]
+                per_mode = [
+                    _lossy_mode_pair_density(mode_params[m], Xc[:, m], eta,
+                                             sigma2)
+                    for m in range(M)
+                ]
+                Q = np.ones((Xc.shape[0], K, K), complex)
+                for O, _, _ in per_mode:
+                    Q *= O
+                num += np.real(
+                    np.einsum("c,scd,d->s", np.conj(col.z), Q, col.z))
+                per_col.append((per_mode, Q))
+            num = np.maximum(num, 1e-300)
+            lognum_sum += np.sum(np.log(num))
+            inv = 1.0 / num
+            for r, col in enumerate(cols):
+                per_mode, Q = per_col[r]
+                _, mode_triples = col_ctx[r]
+                Qz = np.einsum("scd,d->sc", Q, col.z)
+                g_zr[r] += -2.0 * np.sum(np.real(Qz) * inv[:, None], axis=0)
+                g_zi[r] += -2.0 * np.sum(np.imag(Qz) * inv[:, None], axis=0)
+                zz = np.conj(col.z)[:, None] * col.z[None, :]
+                Wn = zz[None, :, :] * Q * inv[:, None, None]
+                for m in range(M):
+                    _, R1, R2 = per_mode[m]
+                    for p, (a, b, c) in mode_triples[m].items():
+                        E = (
+                            np.conj(a)[None, :, None]
+                            + np.conj(b)[None, :, None] * R1
+                            + np.conj(c)[None, :, None] * R2
+                        )
+                        g[p][r, :, m] += -2.0 * np.sum(np.real(Wn * E),
+                                                       axis=(0, 2))
+
+    value = np.log(Z) - lognum_sum / n
+    grad = np.concatenate([
+        (g_zr / n + dZ_zr / Z).ravel(),
+        (g_zi / n + dZ_zi / Z).ravel(),
+        (g["ar"] / n + dZ["ar"] / Z).ravel(),
+        (g["ai"] / n + dZ["ai"] / Z).ravel(),
+        (g["xr"] / n + dZ["xr"] / Z).ravel(),
+        (g["xi"] / n + dZ["xi"] / Z).ravel(),
+    ])
+    return value, grad
+
+
+def fit_bbdagS_lossy_mixed(data, R=2, K=4, M=1, eta0=0.8, fit_eta=True,
+                           extra_noise_var=0.0, iters=300, lr=0.05, seed=0,
+                           callback=None):
+    """Adam on the rank-R lossy NLL; returns (state, eta). PSD by
+    construction (B B^dagger through a CPTP loss channel)."""
+    if not (0.0 < eta0 < 1.0):
+        raise ValueError(f"eta0 must be in (0, 1) for the logit, got {eta0}")
+    _check_loss_params(eta0, extra_noise_var)
+    state = MixedSqueezedKetState.random_init(R, K, M, rng=seed)
+    v = _pack_mixed(state)
+    t = float(np.log(eta0 / (1.0 - eta0)))
+    m1, m2 = np.zeros(len(v) + 1), np.zeros(len(v) + 1)
+    h = 1e-4
+    for it in range(1, iters + 1):
+        st = _unpack_mixed(v, R, K, M)
+        eta = 1.0 / (1.0 + np.exp(-t))
+        val, grd = nll_and_grad_lossy_mixed(st, data, eta, extra_noise_var)
+        if fit_eta:
+            ep = 1.0 / (1.0 + np.exp(-(t + h)))
+            em = 1.0 / (1.0 + np.exp(-(t - h)))
+            g_t = (nll_lossy_mixed(st, data, ep, extra_noise_var)
+                   - nll_lossy_mixed(st, data, em, extra_noise_var)) / (2.0 * h)
+        else:
+            g_t = 0.0
+        grd = np.concatenate([grd, [g_t]])
+        m1 = 0.9 * m1 + 0.1 * grd
+        m2 = 0.999 * m2 + 0.001 * grd ** 2
+        step = lr * (m1 / (1 - 0.9 ** it)) / (np.sqrt(m2 / (1 - 0.999 ** it)) + 1e-8)
+        v -= step[:-1]
+        t -= step[-1]
+        if callback and it % 25 == 0:
+            eta_now = 1.0 / (1.0 + np.exp(-t))
+            callback(it, nll_lossy_mixed(_unpack_mixed(v, R, K, M), data,
+                                         eta_now, extra_noise_var), eta_now)
+    return _unpack_mixed(v, R, K, M), 1.0 / (1.0 + np.exp(-t))
+
+
 def fidelity_vs_squeezed_cat3(state, alpha, parity=+1, r=0.0):
     """Exact |<psi|target>|^2/(Z Z_t) vs the squeezed cat, all closed form.
 
