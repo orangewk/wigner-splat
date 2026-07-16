@@ -54,13 +54,15 @@ The physical $BB^\dagger$ track resolves the PSD issue by construction. Its
 early synthetic high-fidelity results were **in-family existence results**, and
 a fair Fock-ket comparison showed that its main demonstrated advantage is
 compactness and speed, not a general fidelity advantage. A held-out full-rank
-gate (experiment 19) later recorded **one blind out-of-family generalization**:
-on a thermal-noise lossy cat that no finite-rank ket mixture contains, the
-loss-channel-composed rank-2 model reached fidelity 0.923, above the converged
-full-rank MLE's 0.897, with roughly 110 real parameters — while the
+gate (experiment 19) later recorded **blind held-out performance above a
+converged full-rank MLE**: on a thermal-noise lossy cat that no finite-rank
+ket mixture contains, the loss-channel-composed rank-2 model reached fidelity
+0.923 against the MLE's 0.898 with roughly 110 real parameters — while the
 pure-detection ket mixtures landed almost exactly on their rank-capacity
-ceilings. Single seed and a single target class; universal claims remain
-unwarranted. See the
+ceilings. This is not proven out-of-family generalization: the winning model
+is itself a full-rank family (a loss channel of a ket mixture), and whether
+the target lies outside it is unresolved. Single seed and a single target
+class; universal claims remain unwarranted. See the
 [research log](docs/research-log.md) and [prior-art survey](docs/prior-art-survey.md)
 for the evidence and comparisons.
 

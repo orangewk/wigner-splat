@@ -148,49 +148,75 @@ def _noise_quadrature(sigma_add, n_max, n_r, n_phi):
     return betas.ravel(), weights.ravel()
 
 
-def gaussian_noise_channel_1mode(rho, sigma_add, n_r=32, n_phi=None):
-    """N_sigma(rho) for a single-mode Fock density matrix (numeric, tested
-    against the closed-form pdf convolution). sigma_add <= 0 is identity."""
-    if sigma_add <= 0.0:
-        return rho.copy()
-    n_max = len(rho)
+def _check_sigma_add(sigma_add):
+    if sigma_add < 0.0:
+        raise ValueError(f"sigma_add must be >= 0, got {sigma_add}")
+
+
+def _noise_superop(sigma_add, n_max, n_r, n_phi):
+    """The single-mode channel as an (n^2, n^2) matrix acting on vec(rho).
+
+    S[(j, k), (m, n)] = sum_nodes w D[j, m] conj(D)[k, n] -- one kron per
+    displacement node, so wide cutoffs stay cheap and every mode
+    application is a single matmul.
+    """
     betas, weights = _noise_quadrature(sigma_add, n_max, n_r, n_phi)
-    out = np.zeros_like(rho, dtype=complex)
+    S = np.zeros((n_max ** 2, n_max ** 2), complex)
     for b, w in zip(betas, weights):
         D = displacement_matrix(b, n_max)
-        out += w * (D @ rho @ D.conj().T)
-    return out
+        S += w * np.kron(D, D.conj())
+    return S
+
+
+def gaussian_noise_channel_1mode(rho, sigma_add, n_r=32, n_phi=None):
+    """N_sigma(rho) for a single-mode Fock density matrix (numeric, tested
+    against the closed-form pdf convolution). sigma_add = 0 is identity."""
+    _check_sigma_add(sigma_add)
+    if sigma_add == 0.0:
+        return rho.copy()
+    n_max = len(rho)
+    S = _noise_superop(sigma_add, n_max, n_r, n_phi)
+    return (S @ np.asarray(rho, complex).reshape(-1)).reshape(n_max, n_max)
 
 
 def gaussian_noise_channel_3mode(rho, sigma_add, n_max, n_r=32, n_phi=None):
     """Per-mode N_sigma applied to a flat (n_max^3, n_max^3) 3-mode rho."""
-    if sigma_add <= 0.0:
+    _check_sigma_add(sigma_add)
+    if sigma_add == 0.0:
         return rho.copy()
-    betas, weights = _noise_quadrature(sigma_add, n_max, n_r, n_phi)
-    Ds = [displacement_matrix(b, n_max) for b in betas]
-    shape6 = (n_max,) * 6
-    out = np.asarray(rho, complex).reshape(shape6)
+    S = _noise_superop(sigma_add, n_max, n_r, n_phi)
+    out = np.asarray(rho, complex).reshape((n_max,) * 6)
     for mode in range(3):
-        acc = np.zeros(shape6, complex)
-        for D, w in zip(Ds, weights):
-            t = np.tensordot(D, out, axes=([1], [mode]))
-            t = np.moveaxis(t, 0, mode)
-            t = np.tensordot(t, D.conj(), axes=([mode + 3], [1]))
-            acc += w * np.moveaxis(t, -1, mode + 3)
-        out = acc
+        # bring this mode's (ket, bra) pair to the front as one n^2 axis
+        t = np.moveaxis(out, (mode, mode + 3), (0, 1))
+        rest = t.shape[2:]
+        t = (S @ t.reshape(n_max ** 2, -1)).reshape((n_max, n_max) + rest)
+        out = np.moveaxis(t, (0, 1), (mode, mode + 3))
     return out.reshape(n_max ** 3, n_max ** 3)
 
 
 def thermal_lossy_cat3_fock(alpha, parity=+1, eta=0.8, sigma_add=0.1,
-                            n_max=8, n_r=32, n_phi=None):
+                            n_max=8, n_r=32, n_phi=None, n_build=None):
     """Truncated Fock rho of the thermal-noise lossy cat (issue #38 target).
 
-    gaussian_noise_channel_3mode applied to lossy_cat3_fock. FULL RANK for
-    sigma_add > 0. Truncation: the noise channel moves population upward,
-    so quote np.trace as the ceiling analog (it is < the lossy cat's).
+    Built WIDE and cropped: the displacement channel moves population in
+    BOTH directions, so applying it to a lossy cat already truncated at
+    n_max loses the contributions that scatter back into the n_max block
+    from above (the target-side analog of the pre-channel cutoff artifact
+    documented in experiments/19_thermal_gate). The channel therefore runs
+    at n_build (default n_max + 8) and the result is cropped to the n_max
+    scoring block. FULL RANK for sigma_add > 0; quote np.trace as the
+    ceiling analog.
     """
-    rho = lossy_cat3_fock(alpha, parity, eta, n_max)
-    return gaussian_noise_channel_3mode(rho, sigma_add, n_max, n_r, n_phi)
+    _check_sigma_add(sigma_add)
+    n_build = n_build or (n_max + 8)
+    if n_build < n_max:
+        raise ValueError(f"n_build {n_build} < n_max {n_max}")
+    rho = lossy_cat3_fock(alpha, parity, eta, n_build)
+    rho = gaussian_noise_channel_3mode(rho, sigma_add, n_build, n_r, n_phi)
+    rho6 = rho.reshape((n_build,) * 6)
+    crop = rho6[:n_max, :n_max, :n_max, :n_max, :n_max, :n_max]
+    return crop.reshape(n_max ** 3, n_max ** 3)
 
 
 def _coherent_coeffs(alpha, n_max):

@@ -166,3 +166,35 @@ def test_thermal_overlap_reduces_and_matches_fock_projection():
     s_fock = float(np.real(np.trace(rho_mix @ rho_th)))
     s_cf = overlap_vs_thermal_lossy_cat3(mix, a, +1, eta, sig)
     assert s_cf == pytest.approx(s_fock, rel=2e-3, abs=1e-6)
+
+def test_negative_sigma_rejected_everywhere():
+    """PR-61 review P2: sigma_add < 0 must be a ValueError on every public
+    path, not a silent identity or a NaN."""
+    rho1 = np.eye(4) / 4.0
+    rho3 = np.eye(27) / 27.0
+    mix = SplatMixture3F([1.0], [np.zeros(6)], [np.zeros(6)],
+                         [np.zeros(15)])
+    with pytest.raises(ValueError):
+        ThermalLossyThreeModeCat(ALPHA, PARITY, ETA, sigma_add=-0.1)
+    with pytest.raises(ValueError):
+        gaussian_noise_channel_1mode(rho1, -0.1)
+    with pytest.raises(ValueError):
+        gaussian_noise_channel_3mode(rho3, -0.1, 3)
+    with pytest.raises(ValueError):
+        thermal_lossy_cat3_fock(ALPHA, PARITY, ETA, -0.1, 4)
+    with pytest.raises(ValueError):
+        overlap_vs_thermal_lossy_cat3(mix, ALPHA, PARITY, ETA, -0.6)
+
+
+def test_fock_target_build_cutoff_converged_at_experiment_amplitude():
+    """PR-61 review P1: the displacement channel scatters population BOTH
+    ways, so the target must be built wide and cropped. At the experiment
+    amplitude (1.5) the cropped n_max=8 block must be converged in the
+    build cutoff, and the old build-at-8 construction must differ (the
+    artifact this regression pins)."""
+    a, eta, sig, n8 = 1.5, 0.8, 0.1, 8
+    t16 = thermal_lossy_cat3_fock(a, +1, eta, sig, n8, n_r=8, n_build=16)
+    t20 = thermal_lossy_cat3_fock(a, +1, eta, sig, n8, n_r=8, n_build=20)
+    assert np.max(np.abs(t16 - t20)) < 5e-6
+    t8 = thermal_lossy_cat3_fock(a, +1, eta, sig, n8, n_r=8, n_build=8)
+    assert np.max(np.abs(t16 - t8)) > 1e-4

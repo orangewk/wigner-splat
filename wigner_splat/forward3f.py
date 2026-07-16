@@ -286,6 +286,8 @@ def overlap_vs_thermal_lossy_cat3(mixture, alpha, parity=+1, eta=0.8,
     NOTE: the target is full rank; a perfect reconstruction scores the
     target purity (numeric; see fock.thermal_lossy_cat3_fock), not 1.
     """
+    if sigma_add < 0.0:
+        raise ValueError(f"sigma_add must be >= 0, got {sigma_add}")
     a = float(alpha)
     u = 1.0 + 2.0 * float(sigma_add)
     r2a = np.sqrt(2.0) * np.sqrt(eta) * a

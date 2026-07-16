@@ -364,10 +364,15 @@ def main():
               "barred.")
     else:
         print(f"-> falsification condition does NOT fire: best fixed-family "
-              f"fit {best_name} F={best_F:.4f} (gap to its rank ceiling "
-              f"{best_gap:.4f}; MLE {F_mle:.4f}). Single data seed; the "
-              f"blind-generalization gate is recorded as PASSED FOR THIS "
-              f"TARGET, not as a universal claim.")
+              f"fit {best_name} F={best_F:.4f} (gap to its ceiling "
+              f"{best_gap:.4f}; MLE {F_mle:.4f}). FAMILY-BOUNDARY NOTE "
+              f"(PR-61 review): the target lies outside every finite-rank "
+              f"ket mixture, but the winning member is the CHANNEL-COMPOSED "
+              f"model, itself a full-rank family with a free eta -- whether "
+              f"the target lies outside THAT family is not established. "
+              f"What this run records is therefore BLIND HELD-OUT "
+              f"PERFORMANCE on one synthetic full-rank target (single data "
+              f"seed), not proven out-of-family generalization.")
 
 
 if __name__ == "__main__":
