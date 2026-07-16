@@ -1,5 +1,7 @@
 # wigner-splat
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21387212.svg)](https://doi.org/10.5281/zenodo.21387212)
+
 **Constructively physical Gaussian representations for continuous-variable quantum-state tomography.**
 
 `wigner-splat` is a reproducible research prototype for fitting homodyne
@@ -127,8 +129,11 @@ boundaries and their remaining risks.
 ## Citation and license
 
 If this software or its research record is useful, please cite it using
-[`CITATION.cff`](CITATION.cff). A versioned Zenodo archive will be added after
-the first public release. The code is released under the [MIT License](LICENSE).
+[`CITATION.cff`](CITATION.cff). The exact archived `v0.1.0` release is
+[DOI: 10.5281/zenodo.21387212](https://doi.org/10.5281/zenodo.21387212).
+The [concept DOI](https://doi.org/10.5281/zenodo.21387211) always resolves to
+the latest archived version and is not the citation for this fixed release.
+The code is released under the [MIT License](LICENSE).
 
 Small support for compute and agent time will be welcome once a sponsorship link
 is configured; citations and careful technical feedback are already valuable.
