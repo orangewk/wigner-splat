@@ -1,0 +1,26 @@
+=== birth-field demo: cat Wigner as an image target ===
+target: alpha=2.0 even cat, 96x96, negative fraction 0.07
+bench budget: 1000 updates per run
+  split      seed=0: loss@end=3.634e-03  K=10  negatives=2  wall=3s
+  split      seed=1: loss@end=1.334e-04  K=10  negatives=5  wall=3s
+  split      seed=2: loss@end=3.558e-04  K=10  negatives=5  wall=3s
+  birth      seed=0: loss@end=4.736e-06  K=10  negatives=2  wall=3s
+  birth      seed=1: loss@end=7.301e-06  K=10  negatives=2  wall=3s
+  birth      seed=2: loss@end=7.211e-07  K=10  negatives=4  wall=3s
+  birth_pos  seed=0: loss@end=4.698e-06  K=10  negatives=2  wall=3s
+  birth_pos  seed=1: loss@end=7.401e-06  K=10  negatives=2  wall=3s
+  birth_pos  seed=2: loss@end=6.681e-07  K=10  negatives=4  wall=3s
+  birth_zero seed=0: loss@end=6.637e-07  K=10  negatives=4  wall=3s
+  birth_zero seed=1: loss@end=6.148e-06  K=10  negatives=2  wall=3s
+  birth_zero seed=2: loss@end=6.208e-07  K=10  negatives=4  wall=3s
+  GIF run: mode=birth seed=0 (pre-fixed), 4000 updates -- illustration only
+  assets: /home/user/wigner-splat/demos/birthfield_image/birthfield_demo.gif, /home/user/wigner-splat/demos/birthfield_image/comparison.png
+
+=== verdicts vs declared expectations (docstring) ===
+1. HEADLINE, fixed shared budget of 1000 updates, per-seed PAIRED split/birth loss ratios: ['767x', '18x', '493x']
+   -> the composite birth growth rule beats this split baseline by >=10x on every seed at the shared budget.
+   note: split runs acquire negative weights over long runs (the optimizer can drag a weight through zero); splitting itself never flips a sign (tested directly).
+2. attribution ablation, PAIRED per seed (only the newborn's initial weight differs; placement/scale/method shared with 'birth'):
+   at 1000 updates: birth_pos/birth per seed ['0.992', '1.014', '0.926']  paired median 0.992x
+   at 1000 updates: birth_zero/birth per seed ['0.140', '0.842', '0.861']  paired median 0.842x
+   -> sign injection is NOT a main factor: forced-positive and zero-init newborns land within small factors of signed ones (paired medians above). What these data support: the COMPOSITE birth rule (placement + initial scale + generation method) beats this split baseline; attributing the gain to placement ALONE would need a separate scale/position ablation, not run here.
