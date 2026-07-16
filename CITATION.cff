@@ -12,6 +12,8 @@ keywords:
   - Gaussian representations
   - quantum optics
 version: "0.1.0"
+date-released: "2026-07-16"
+doi: "10.5281/zenodo.21387212"
 repository-code: "https://github.com/orangewk/wigner-splat"
 url: "https://github.com/orangewk/wigner-splat"
 license: MIT
