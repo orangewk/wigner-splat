@@ -1,0 +1,20 @@
+=== exp16 / issue #48 Phase 1 round 2: real video, compositing ===
+
+precondition (train PSNR >= 18.0 dB on the primary blur-on fit, all seeds): ['18.08', '18.16', '18.21']
+  seed=0: rho(sigma_pred)=+0.029  declared controls: amp=-0.239  jn=+0.256  dg=+0.049  [aux centered amp=+0.239]
+  seed=1: rho(sigma_pred)=+0.026  declared controls: amp=-0.282  jn=+0.274  dg=+0.044  [aux centered amp=+0.282]
+  seed=2: rho(sigma_pred)=+0.026  declared controls: amp=-0.244  jn=+0.281  dg=+0.056  [aux centered amp=+0.244]
+figure: /home/user/wigner-splat/experiments/16_real_video/heldout_certificate.png
+
+=== verdicts vs declared gates (issue #48) ===
+Gate B (pooled held-out Spearman >= 0.3, all seeds): ['+0.029', '+0.026', '+0.026']
+   -> GATE B NOT PASSED -- recorded; per the declared falsification this sends the work back to the renderer, not the score.
+  seed=0: sigma_pred +0.029 vs best declared control +0.256 (jn)
+  seed=1: sigma_pred +0.026 vs best declared control +0.274 (jn)
+  seed=2: sigma_pred +0.026 vs best declared control +0.281 (jn)
+   -> Gate B2 NOT PASSED: the certificate does not separate from amplitude/support tracking on this data -- recorded.
+blur ablation (held-out MSE, paired per seed, identical budgets):
+  seed=0: on 1.9546e-02 vs off 1.9405e-02 (ratio 1.007), sigma_blur=0.33px
+  seed=1: on 1.9450e-02 vs off 1.9290e-02 (ratio 1.008), sigma_blur=0.47px
+  seed=2: on 1.9233e-02 vs off 1.9319e-02 (ratio 0.996), sigma_blur=0.38px
+   -> blur knob does NOT meet the declared bar on at least one seed -- recorded.

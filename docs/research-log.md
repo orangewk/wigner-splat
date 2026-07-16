@@ -1010,3 +1010,61 @@ downsampling already dominates whatever motion blur the walk produced,
 so the knob had nothing to absorb (sigma_blur ~ half a pixel). Round 2
 = sorted alpha compositing in the renderer (the falsification path
 named in the declaration), then the SAME untouched protocol.
+
+## 2026-07-16 (night) — Phase 1 round 2: precondition met, Gate B falsified (experiment 16, issue #48)
+
+Round 2 replaced the additive renderer with sorted alpha compositing
+(composite.py: a_k = alpha_k A_k G_k, T_k = prod(1 - a_j), background
+composited last; analytic gradients throughout incl.
+dI/da_k = c_k T_k - S_k/(1-a_k); five pins in tests/test_composite.py
+including the occlusion test and the small-alpha additive limit with
+effective weights (c-b)alpha). Protocol and gates were re-declared on
+the issue BEFORE running; identical continuation budgets for the
+blur-on/off branches from a shared checkpoint per seed.
+
+Result 1 — the round-1 diagnosis was CONFIRMED: at the same K=250 and
+comparable budgets where the additive renderer asymptoted at 17.85 dB,
+compositing cleared the declared floor on all three seeds (train PSNR
+18.08 / 18.16 / 18.21 dB, blur-on primary). Occlusion was the round-1
+ceiling. Precondition met; the held-out frames were opened for the
+first time in this experiment.
+
+Result 2 — Gate B FAILED, decisively and identically on every seed:
+pooled held-out Spearman(sigma_pred, |residual|) = +0.029 / +0.026 /
++0.026 against the declared bar 0.3. Gate B2 also failed: the
+row-norm control ||J|| beats the certificate on every seed (+0.256 /
++0.274 / +0.281 — itself below the bar), and the raw-amplitude control
+is negative. The blur ablation missed its bar too (held-out MSE
+ratios on/off = 1.007 / 1.008 / 0.996; sigma_blur 0.33-0.47 px — same
+story as round 1, at 96x54 the downsampling dominates).
+
+Per the pre-declared falsification: "the certificate does not survive
+occlusion + model mismatch on real video — back to the renderer, not
+the score." Recorded as such. The figure (heldout_certificate.png)
+says why in one glance: the held-out residual concentrates on
+high-frequency structure — poles, horse silhouettes, edges — that 250
+isotropic Gaussians at 18 dB simply cannot represent, while sigma_pred
+is a smooth field of splat-footprint blobs. At this fit quality the
+residual is BIAS-dominated (model mismatch), and the delta-method
+certificate quantifies VARIANCE (parameter uncertainty propagated
+through H^{-1}). They are different quantities, and on a
+bias-dominated residual a variance certificate has nothing to
+correlate with. Phase 0 never saw this because the inverse-crime
+synthetic had zero model mismatch — bias ~ 0, variance was the whole
+residual. That is precisely the gap Phase 1 existed to expose, and it
+did.
+
+Learned: (1) occlusion diagnosis confirmed — compositing is worth
++0.35 dB at equal capacity and is now the baseline renderer; (2) the
+Phase 0 certificate, as built, does NOT transfer to real video, and
+the honest statement is sharp: a variance-only certificate cannot
+rank residuals wherever bias dominates, i.e. anywhere short of a
+near-perfect fit; (3) even the support-tracking control tops out at
++0.28 — the residual field here is mostly unexplained structure, not
+anything any per-pixel score derived from this model can see. Any
+round 3 must either close the bias gap (anisotropic splats / higher K
+/ higher resolution until variance is a visible fraction of the
+residual) or change what is being certified (a certificate that
+models bias, not just variance) — and either way the gates get
+re-declared on the issue before running. No post-hoc rescoping of
+this round: it failed as declared.
