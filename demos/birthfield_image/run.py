@@ -19,16 +19,20 @@ PR #49 review):
     this objective -- gradient descent can drag a weight through zero;
     splitting itself preserves the parent's sign (tested directly), so
     split-only runs must grow negatives by that slow route.
-  * headline bar: at the SAME iteration and splat budget, the composite
-    birth rule reaches >= 10x lower loss than the split baseline, mid-run
-    (iter 1000) and final, across seeds. If not, the narrative is
-    unsupported and recorded as such.
-  * ATTRIBUTION ablation (review item 2): the birth rule changes
-    placement, initial scale, AND initial sign at once vs split. Variants
-    differing only in the newborn's initial weight -- signed / forced
-    positive / zero -- isolate the sign-injection component. Whatever the
-    ablation shows is reported as measured; the narrative claims only
-    what the variants support.
+  * HEADLINE (fixed shared budget, per the re-review): at 1000 updates
+    (all modes at K = 10), the composite birth growth rule reaches >= 10x
+    lower loss than the split baseline on every seed (paired, same seed).
+    The 4000-iter results are kept as a one-off auxiliary record; the GIF
+    is a fixed-seed completion illustration, not comparison evidence.
+  * ATTRIBUTION ablation, PAIRED: variants differing only in the
+    newborn's initial weight -- signed / forced positive / zero --
+    isolate ONLY the sign-injection component (placement, initial scale,
+    and generation method remain shared with 'birth' but different from
+    'split'). Aggregation is per-seed paired ratios with their median --
+    NOT medians of separate pools. The supported conclusion shape is
+    therefore "sign injection is/is not a main factor" and "the COMPOSITE
+    birth rule beats this split baseline"; placement-only claims would
+    need a separate scale/position ablation and are NOT made here.
 """
 import pathlib
 import sys
@@ -143,6 +147,9 @@ def main():
             axes[0].semilogy(results[(mode, seed)]["loss"], color=color,
                              alpha=0.6, lw=1.2,
                              label=mode if seed == SEEDS[0] else None)
+    axes[0].axvline(1000, color="k", ls=":", lw=1.0)
+    axes[0].text(1050, axes[0].get_ylim()[0] * 2, "headline budget",
+                 fontsize=7, rotation=90, va="bottom")
     axes[0].legend(fontsize=8)
     axes[0].set_title("loss: split vs birth variants (3 seeds)")
     axes[0].set_xlabel("iteration")
@@ -167,46 +174,49 @@ def main():
     print(f"  assets: {HERE / 'birthfield_demo.gif'}, "
           f"{HERE / 'comparison.png'}")
 
-    gaps_mid = [results[("split", sd)]["loss"][1000]
-                / results[("birth", sd)]["loss"][1000] for sd in SEEDS]
-    gaps_fin = [results[("split", sd)]["loss"][-1]
-                / results[("birth", sd)]["loss"][-1] for sd in SEEDS]
     print("\n=== verdicts vs declared expectations (docstring) ===")
-    print(f"1. composite rule: loss ratio split/birth at iter 1000 "
-          f"{[f'{g:.0f}x' for g in gaps_mid]}, final "
-          f"{[f'{g:.0f}x' for g in gaps_fin]}")
-    if min(gaps_mid) >= 10 and min(gaps_fin) >= 10:
-        print("   -> the composite birth rule beats this split baseline by "
-              ">=10x on every seed, mid-run and final.")
+    gaps_1k = [results[("split", sd)]["loss"][1000]
+               / results[("birth", sd)]["loss"][1000] for sd in SEEDS]
+    print("1. HEADLINE, fixed shared budget of 1000 updates (all modes at "
+          "K=10), per-seed PAIRED split/birth loss ratios: "
+          f"{[f'{g:.0f}x' for g in gaps_1k]}")
+    if min(gaps_1k) >= 10:
+        print("   -> the composite birth growth rule beats this split "
+              "baseline by >=10x on every seed at the shared budget.")
     else:
         print("   -> NOT SUPPORTED at the declared 10x bar on at least one "
               "seed -- recorded; do not publish the narrative.")
+    gaps_fin = [results[("split", sd)]["loss"][-1]
+                / results[("birth", sd)]["loss"][-1] for sd in SEEDS]
+    print(f"   auxiliary (one-off, 4000 iters): final ratios "
+          f"{[f'{g:.0f}x' for g in gaps_fin]}")
     print("   note: split runs DO end with negative weights (the optimizer "
           "drags weights through zero); splitting itself never flips a "
           "sign (tested directly).")
-    print("2. attribution ablation (same placement and scale; only the "
-          "newborn's initial weight differs):")
-    for stage, idx in (("iter 1000", 1000), ("final", -1)):
-        med = {m: float(np.median([results[(m, sd)]["loss"][idx]
-                                   for sd in SEEDS]))
-               for m in ("birth", "birth_pos", "birth_zero")}
-        print(f"   {stage}: median loss birth {med['birth']:.3e}, "
-              f"birth_pos {med['birth_pos']:.3e}, "
-              f"birth_zero {med['birth_zero']:.3e}  "
-              f"(pos/signed {med['birth_pos'] / med['birth']:.1f}x, "
-              f"zero/signed {med['birth_zero'] / med['birth']:.1f}x)")
-    med_f = {m: float(np.median([results[(m, sd)]["loss"][-1]
-                                 for sd in SEEDS]))
-             for m in ("birth", "birth_pos", "birth_zero")}
-    if med_f["birth_pos"] >= 3.0 * med_f["birth"]:
+    print("2. attribution ablation, PAIRED per seed (only the newborn's "
+          "initial weight differs; placement/scale/method shared with "
+          "'birth'):")
+    for stage, idx in (("iter 1000", 1000), ("final (auxiliary)", -1)):
+        for variant in ("birth_pos", "birth_zero"):
+            ratios = [results[(variant, sd)]["loss"][idx]
+                      / results[("birth", sd)]["loss"][idx] for sd in SEEDS]
+            print(f"   {stage}: {variant}/birth per seed "
+                  f"{[f'{r:.3f}' for r in ratios]}  "
+                  f"paired median {np.median(ratios):.3f}x")
+    pos_1k = np.median([results[("birth_pos", sd)]["loss"][1000]
+                        / results[("birth", sd)]["loss"][1000]
+                        for sd in SEEDS])
+    if pos_1k >= 3.0:
         print("   -> sign injection carries a real share of the gain "
-              "(forced-positive newborns are >=3x worse).")
+              "(forced-positive newborns >=3x worse, paired median).")
     else:
-        print("   -> PLACEMENT dominates: newborns recover from a wrong or "
-              "zero initial sign quickly (a newborn's weight sits at zero "
-              "scale, so the optimizer flips it cheaply -- unlike a grown "
-              "splat's). The narrative must credit the birth LOCATION, "
-              "not the sign injection.")
+        print("   -> sign injection is NOT a main factor: forced-positive "
+              "and zero-init newborns land within small factors of signed "
+              "ones (paired medians above). What these data support: the "
+              "COMPOSITE birth rule (placement + initial scale + "
+              "generation method) beats this split baseline; attributing "
+              "the gain to placement ALONE would need a separate "
+              "scale/position ablation, not run here.")
 
 
 if __name__ == "__main__":

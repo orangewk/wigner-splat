@@ -27,7 +27,9 @@ python demos/birthfield_image/run.py   # リポジトリのルートから、~15
 ## 主張のスコープ(正直コーナー)
 
 - 「split では負が永遠に得られない」は**この目的関数では偽**(最適化は重みをゼロ通過できる)。成り立つのは「分裂そのものは符号を保存する」まで
-- birth 規則は配置・スケール・符号を同時に変えるため、速度差の**帰属**は ablation(`birth_pos`/`birth_zero`)の実測が決める — 判定文は `out_run.log` 参照
+- **headline は 1000 updates の共通固定予算時点**(全方式 K=10)の paired(同一 seed)比。4000 iter の結果は一度きりの補助記録、GIF は固定 seed の完成イメージ(比較証拠ではない)
+- ablation が分離したのは**初期符号のみ**(配置・初期スケール・生成方式は birth 変種間で共通、split とは異なる)。支持される結論は「符号注入は主因ではない」+「**複合** birth 規則がこの split baseline に勝つ」まで — 配置**単独**への帰属は別の scale/position ablation が必要で、ここでは主張しない
+- 集計は paired(同一 seed 比の中央値)。プール別中央値の比は使わない
 - ここで示すのは 2D 画像フィッティング上の原理可視化であり、本物の 3D パイプラインでの新規視点合成品質の改善は**主張しない**(それは issue #48 のスコープ)
 
 検証: `python -m pytest tests/test_birthfield2d.py`(FD 勾配一致、birth field = 解析的 dL/dw、符号保存、負スプラット birth の実証)

@@ -851,42 +851,51 @@ the other reconstructors is unchanged.
 
 ## 2026-07-15 — Outreach demo: the birth field, exported to plain image fitting (demos/birthfield_image, #46 idea 4)
 
-(Entry rewritten after the PR #49 review, which caught an Adam-moment
-inconsistency at growth events, an attribution confound, an untested sign
-invariant, and asset/state mismatches -- all fixed; the numbers below are
-from the corrected rerun.)
+(Entry rewritten twice under the PR #49 review: round one caught an
+Adam-moment inconsistency at growth events, an attribution confound, an
+untested sign invariant, and asset/state mismatches; round two caught an
+UNPAIRED aggregation that overstated the ablation effect and an
+over-broad "placement dominates" attribution. Numbers below are from the
+corrected rerun with paired aggregation.)
 
 Tried: the first deliverable of the applications track (#46) -- a
 self-contained demo (core fitter numpy-only) restating exp02's
 densification lesson on an audience-friendly target: the cat Wigner
 function fitted AS AN IMAGE by signed 2D Gaussian splats. Growth rules
-under identical budgets: split (parent-sign-preserving baseline; the
-invariant is tested directly on split_one) vs birth-field placement, plus
-the review-demanded ABLATION isolating the newborn's initial weight:
-signed by the field / forced positive / zero.
+under a shared budget: split (parent-sign-preserving baseline; invariant
+tested directly on split_one) vs birth-field placement, plus the ablation
+isolating ONLY the newborn's initial weight: signed / forced positive /
+zero.
 
-Happened (committed log, 3 seeds per mode):
-- Honesty corrections first: "split can never obtain negatives" is wrong
-  for this objective (the optimizer drags weights through zero; split
-  runs end with 11-19 negatives). And the first run's headline ratios (up
-  to 25496x) were partly an Adam bookkeeping artifact -- growth events
-  zero-padded new moment rows while resetting the bias-correction clock
-  for everyone; with moments and clock reset together, the true gaps are
-  smaller and still decisive: split/birth 18-767x at iteration 1000,
-  52-85x final, across seeds (declared bar 10x -- passed).
-- The ablation OVERTURNED the sign-injection story: forced-positive
-  newborns match signed ones (1.0-1.3x), and zero-weight newborns are the
-  BEST variant (about 10x better than signed at both checkpoints). A
-  newborn's weight sits at zero scale, so the optimizer flips its sign
-  cheaply -- unlike a grown splat's. What the birth field actually
-  contributes is the LOCATION (argmax |dL/dw| of a hypothetical splat, in
-  closed form).
+Happened (committed log, 3 seeds per mode; HEADLINE at the fixed shared
+budget of 1000 updates, all modes at K = 10; 4000-iter numbers kept as a
+one-off auxiliary record; the GIF is a fixed-seed illustration, not
+comparison evidence):
+- Honesty corrections: (a) "split can never obtain negatives" is wrong
+  for this objective -- the optimizer drags weights through zero; split
+  runs end with 11-19 negatives; what holds is that splitting itself
+  preserves sign. (b) The first run's ratios (up to 25496x) carried an
+  Adam bookkeeping artifact (moments zero-padded while the
+  bias-correction clock reset); fixed by resetting both together.
+  (c) The second run's "zero-init ~10x better" was an UNPAIRED-median
+  artifact; paired per-seed ratios tell the honest story.
+- HEADLINE: per-seed paired split/birth loss ratios at 1000 updates =
+  767x / 18x / 493x (declared bar 10x -- passed on every seed).
+  Auxiliary final ratios 52-85x.
+- Ablation, paired per seed: birth_pos/birth median 0.99x at 1000
+  (1.46x final), birth_zero/birth median 0.84x at 1000 (0.53x final).
+  So SIGN INJECTION IS NOT A MAIN FACTOR (forced-positive matches
+  signed; zero-init is comparable-to-better on these seeds). What the
+  data support: the COMPOSITE birth rule (placement + initial scale +
+  generation method) beats this split baseline. Placement-ALONE
+  attribution would need a separate scale/position ablation, not run.
 
-Learned: two of this demo's own narratives died on contact with the
-data, and what survived is sharper and more actionable for the 3DGS
-audience: "spawn new Gaussians at the birth-field argmax with ZERO
-initial weight" beats both gradient-norm splitting (by 1-3 orders at
-matched budget on this signed target) and any attempt to be clever about
-the newborn's sign. The demo is the applications-track template in both
-senses: small and self-contained, and its claims were cut down to
-exactly what the ablation supports before publishing.
+Learned: three of this demo's own narratives died under review-driven
+measurement (never-negative, the inflated ratios, the sign-injection
+story), and the survivor is still a strong, simple recommendation for
+the 3DGS audience: spawning new Gaussians at the closed-form
+birth-field argmax -- with the sign left to the optimizer -- beats
+gradient-norm splitting by 1-3 orders of magnitude at a matched budget
+on this signed target. The applications-track template in both senses:
+small and self-contained, with claims cut to exactly what paired
+measurements support.
