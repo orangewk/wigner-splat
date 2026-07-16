@@ -419,6 +419,62 @@ def test_loss_params_validated_everywhere():
             apply_detection_noise(data, eta=bad)
 
 
+def _tiny_cat_data(shots=150, seed=7):
+    from wigner_splat.states3 import ThreeModeCat
+    grid = [(0.0, 0.0, 0.0), (np.pi / 2, np.pi / 2, np.pi / 2),
+            (0.3, 1.1, 2.0), (2.0, 0.3, 1.1)]
+    return ThreeModeCat(1.5, +1).sample_homodyne(grid, shots, rng=seed)
+
+
+def test_psd_wrappers_thread_noise_into_polish(monkeypatch):
+    """Regression (PR-58 review P1): fit3f_psd / fit3f_shape_psd must pass
+    eta / extra_noise_var into every polish-stage histogram-loss call, not
+    only into the wrapped fit3f."""
+    import wigner_splat.fit3f as f3
+    eta, extra = 0.9, 0.01
+    data = _tiny_cat_data()
+    seen = {"grad": [], "loss": []}
+    real_grad, real_loss = f3.loss_and_grad3f, f3.loss3f
+
+    def spy_grad(*a, **kw):
+        seen["grad"].append((kw.get("eta", 1.0),
+                             kw.get("extra_noise_var", 0.0)))
+        return real_grad(*a, **kw)
+
+    def spy_loss(*a, **kw):
+        seen["loss"].append((kw.get("eta", 1.0),
+                             kw.get("extra_noise_var", 0.0)))
+        return real_loss(*a, **kw)
+
+    monkeypatch.setattr(f3, "loss_and_grad3f", spy_grad)
+    monkeypatch.setattr(f3, "loss3f", spy_loss)
+
+    seen["grad"].clear()
+    f3.fit3f_psd(data, bins=8, n_max_psd=3, psd_polish_iters=1,
+                 eta=eta, extra_noise_var=extra)
+    assert seen["grad"], "psd polish never evaluated the histogram loss"
+    assert all(v == (eta, extra) for v in seen["grad"])
+
+    seen["grad"].clear()
+    seen["loss"].clear()
+    f3.fit3f_shape_psd(data, bins=8, n_max_psd=3, shape_polish_iters=1,
+                       eta=eta, extra_noise_var=extra)
+    assert seen["grad"] and seen["loss"]
+    assert all(v == (eta, extra) for v in seen["grad"])
+    assert all(v == (eta, extra) for v in seen["loss"])
+
+
+def test_fit3f_rejects_eta_zero():
+    """Regression (PR-58 review P2): the pre-loss state is unidentifiable
+    at eta = 0 -- explicit ValueError instead of a divide-by-zero inf."""
+    from wigner_splat.fit3f import fit3f
+    data = _tiny_cat_data(shots=20)
+    with pytest.raises(ValueError):
+        fit3f(data, bins=8, eta=0.0)
+    with pytest.raises(ValueError):
+        blob_span(data, eta=0.0)
+
+
 # --------------------------------------------------------------- sampler ----
 
 

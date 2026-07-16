@@ -319,6 +319,10 @@ def blob_span(data, eta=1.0, extra_noise_var=0.0):
     so the PRE-loss span the noise-aware model needs is recovered by
     inverting that map (identity at eta = 1, sigma2 = 0).
     """
+    if not eta > 0.0:
+        raise ValueError(
+            f"eta must be > 0 (the pre-loss state is unidentifiable at "
+            f"eta = 0), got {eta}")
     sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
     v = max(np.var(s[:, j]) for _, s in data for j in range(3))
     return float(np.sqrt(max((v - sigma2) / eta - 0.5, 0.25)))
@@ -352,8 +356,14 @@ def fit3f(data, bins=24, blob_iters=250, blob_lr=0.05, blob_prune=0.08,
     electronic noise of the data. Every stage then fits through the measured
     forward model (radon3's loss map), so the returned mixture estimates the
     PRE-loss Wigner function. Defaults reproduce the ideal-detector fit
-    exactly.
+    exactly. eta = 0 is rejected: the measured data then carry no signal
+    about the pre-loss state (the forward map is constant in the mixture
+    means and the variance inversion divides by eta).
     """
+    if not eta > 0.0:
+        raise ValueError(
+            f"fit3f requires eta > 0 (the pre-loss state is unidentifiable "
+            f"at eta = 0), got {eta}")
     centers, targets = histogram_targets3(data, bins=bins)
     hist_stack = np.concatenate([h.ravel() for _, h in targets])
     cvar = cell_var(centers)
@@ -440,6 +450,12 @@ def fit3f_psd(data, lambda_psd=1.0, n_max_psd=8, psd_polish_iters=100,
     if psd_polish_iters == 0 or lambda_psd == 0.0:
         return mix
 
+    # the polish stage must descend the SAME measured forward model fit3f
+    # used -- dropping the detector model here would silently revert the
+    # histogram loss to an ideal detector (issue #42, PR-58 review).
+    noise = dict(eta=fit3f_kwargs.get("eta", 1.0),
+                 extra_noise_var=fit3f_kwargs.get("extra_noise_var", 0.0))
+
     K = len(mix.w)
     # unit_comps[k]: rho_component_k with weight 1 (rho_component bakes w_k
     # in, so divide it back out) -- rho(w) = sum_k w[k] * unit_comps[k].
@@ -456,7 +472,8 @@ def fit3f_psd(data, lambda_psd=1.0, n_max_psd=8, psd_polish_iters=100,
         cur = SplatMixture3F(w, mix.mu, mix.ld, mix.lo)
         _, g_full = loss_and_grad3f(cur, centers, targets,
                                      lambda_neg=lambda_neg,
-                                     lambda_sum=lambda_sum, cvar=cvar)
+                                     lambda_sum=lambda_sum, cvar=cvar,
+                                     **noise)
         g_loss_w = g_full[:K]  # weight block is _pack3f's first K entries
 
         total = sum(w[k] * unit_comps[k] for k in range(K))
@@ -607,6 +624,11 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
     blob_idx = np.flatnonzero(~is_stripe)
     K = len(mix.w)
 
+    # same detector model as the wrapped fit3f (issue #42, PR-58 review) --
+    # both the weight gradient and the knob FD probes below must see it.
+    noise = dict(eta=fit3f_kwargs.get("eta", 1.0),
+                 extra_noise_var=fit3f_kwargs.get("extra_noise_var", 0.0))
+
     centers, targets = histogram_targets3(data, bins=bins)
     cvar = cell_var(centers)
 
@@ -647,7 +669,8 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
         cur = shaped_mix(w, knobs)
         _, g_full = loss_and_grad3f(cur, centers, targets,
                                     lambda_neg=lambda_neg,
-                                    lambda_sum=lambda_sum, cvar=cvar)
+                                    lambda_sum=lambda_sum, cvar=cvar,
+                                    **noise)
         g_loss_w = g_full[:K]
 
         s_unit = stripe_unit_comps(w, knobs)
@@ -682,9 +705,9 @@ def fit3f_shape_psd(data, lambda_psd=1.0, n_max_psd=8, shape_polish_iters=25,
             mix_p = shaped_mix(w, kp)
             mix_m = shaped_mix(w, km)
             lp = loss3f(mix_p, centers, targets, lambda_neg=lambda_neg,
-                        lambda_sum=lambda_sum, cvar=cvar)
+                        lambda_sum=lambda_sum, cvar=cvar, **noise)
             lm = loss3f(mix_m, centers, targets, lambda_neg=lambda_neg,
-                        lambda_sum=lambda_sum, cvar=cvar)
+                        lambda_sum=lambda_sum, cvar=cvar, **noise)
             g_loss_k[i] = (lp - lm) / (2 * fd_eps)
 
         gw = g_loss_w + lambda_psd * g_psd_w
