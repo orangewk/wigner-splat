@@ -1,0 +1,13 @@
+=== exp15 / issue #48 Phase 0: geometry-only confidence vs true error ===
+trajectory: 24 frames, baseline 0.8 at depth 6 (parallax ~0.133 rad); noise sigma 0.02; declared gate: covered-region Spearman >= 0.3 on all seeds (0, 1, 2)
+eval grid: 2016 points, covered 1600
+confidence field (camera geometry ONLY -- no data, no truth): 8s, lambda_min range [5.030e-13, 3.003e+01]
+  seed=0: fit loss 7.183e-02 -> 4.029e-04 (212s, 24 splats, 13 negative); Spearman covered=-0.101 all=-0.226 support=+0.139
+  seed=1: fit loss 7.785e-02 -> 4.032e-04 (170s, 24 splats, 14 negative); Spearman covered=+0.096 all=-0.182 support=+0.362
+  seed=2: fit loss 7.419e-02 -> 4.477e-04 (164s, 24 splats, 5 negative); Spearman covered=-0.200 all=-0.324 support=+0.187
+figure: /home/user/wigner-splat/experiments/15_video_conf/conf_vs_error.png
+
+=== verdict vs declared Gate A ===
+primary (covered-region Spearman, gate >= 0.3 on all seeds): ['-0.101', '+0.096', '-0.200']
+   -> GATE A NOT PASSED on at least one seed -- recorded; per the declared falsification, return to score design before any Phase 1 work.
+auxiliary (descriptive, not the gate): all-points ['-0.226', '-0.182', '-0.324'], model-support ['+0.139', '+0.362', '+0.187']

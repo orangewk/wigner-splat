@@ -899,3 +899,67 @@ gradient-norm splitting by 1-3 orders of magnitude at a matched budget
 on this signed target. The applications-track template in both senses:
 small and self-contained, with claims cut to exactly what paired
 measurements support.
+
+## 2026-07-16 — Application mainline declared + Phase 0 gate: confidence certificate for few-view 3D (experiment 15, issue #48)
+
+Owner decision: issue #48 is the applications-track MAINLINE, re-scoped
+to "6-second video (or few images) -> confidence-annotated 4DGS", with
+the staged gates kept (static 3DGS + confidence must pass Gates A/B
+before the dynamic extension). The quantum core line (#42 remainder,
+#40 follow-up, #39) continues in parallel — this track is the outward
+face, not a replacement.
+
+Phase 0 setup (all declared on the issue before running): no
+GPU/torch/gsplat in the environment, so a numpy-only minimal renderer —
+isotropic signed 3D Gaussians, ADDITIVE emission imaging (no occlusion,
+no alpha compositing), pinhole projection with paraxial footprints
+(sigma_img = f sigma / z). The physics that survives the simplification
+is the monocular size-distance degeneracy, broken only by parallax.
+Synthetic scene of 10 signed splats, "6 seconds" = 24 frames with total
+baseline 0.8 at depth ~6 (parallax ~0.13 rad), pixel noise 0.02,
+inverse crime accepted deliberately (the question is
+information-vs-error, not model mismatch). Gate A: covered-region
+Spearman between the certificate and the TRUE density error >= 0.3 on
+all 3 seeds.
+
+Round 1 — FAILED, recorded (out_round1.log): the pure-geometry score
+(lambda_min of a unit probe splat's Gauss-Newton information; sees
+camera geometry only, never pixels) landed at rho = -0.101 / +0.096 /
+-0.200. The all-points correlation was NEGATIVE: true error
+concentrates on structure in the well-covered center (fit
+imperfection), while information-starved empty regions are cheap to
+get right. A score decoupled from model amplitude measures "where you
+COULD be wrong", not "where you ARE wrong".
+
+Round 2 — PASSED (out_run.log; score re-declared on the issue before
+running, same gate numbers): delta-method predicted uncertainty
+sigma_pred(x)^2 = J_rho(x)^T (H + eps I)^{-1} J_rho(x), H = the fitted
+model's Gauss-Newton matrix over all frames, eps = 1e-9 tr(H)/P fixed
+in advance. Sees the video (through the fit) and the model — never the
+truth. Covered-region Spearman = +0.909 / +0.863 / +0.763 (bar 0.3,
+every seed). Auxiliaries: all-points +0.910 / +0.919 / +0.798,
+model-support-restricted +0.827 / +0.823 / +0.415; the round-1 score
+kept for comparison stays near zero.
+
+Controls (added per the PR #54 review — sigma_pred contains J_rho, so
+it could track fitted amplitude/support rather than information): on
+the same seeds and masks, |rho_fit| reaches covered Spearman +0.889 /
++0.835 / +0.911, ||J_rho|| (the H = I score) +0.851 / +0.619 / +0.903,
+diagonal-H +0.796 / +0.533 / +0.812. sigma_pred leads on seeds 0/1 and
+on the support mask there, but on seed 2 the plain fitted-amplitude
+control BEATS it on both masks — no consistent uplift.
+
+Learned (narrowed under review): what these data support is that THIS
+fitted-model-dependent score passed the declared toy Phase 0 gate;
+attributing the gain to information propagated through H^{-1} is NOT
+supported — simple amplitude/support tracking explains most of the
+correlation, and beats the certificate outright on one seed. What
+survives of the causal story is round 1's negative half: information
+ALONE (never coupled to the model) certifies nothing here. Whether the
+H^{-1} propagation adds anything beyond amplitude tracking becomes a
+declared gate candidate for Phase 1, where occlusion and model mismatch
+should separate the two. Scope: additive-emission inverse-crime
+synthetic Phase 0 only; nothing here claims occlusion handling or
+real-video performance. Pins: tests/test_gauss3d.py (9 tests — FD
+gradients, probe/Jacobian brute-force matches, parallax raises
+lambda_min, predicted sigma falls with baseline).

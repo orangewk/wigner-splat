@@ -1,0 +1,22 @@
+=== exp15 / issue #48 Phase 0 round 2: predicted uncertainty vs true error ===
+trajectory: 24 frames, baseline 0.8 at depth 6 (parallax ~0.133 rad); noise sigma 0.02; declared gate: covered-region Spearman (sigma_pred vs |error|) >= 0.3 on all seeds (0, 1, 2)
+eval grid: 2016 points, covered 1600
+round-1 score kept as auxiliary (geometry-only lambda_min, 8s)
+  seed=0: fit loss 7.183e-02 -> 4.029e-04 (202s, 24 splats, 13 negative); Spearman v2 covered=+0.909 all=+0.910 support=+0.827 | v1 covered=-0.101
+           controls (covered / support): abs_rho_fit=+0.889/+0.232  norm_Jrho=+0.851/+0.067  diag_H=+0.796/+0.185
+  seed=1: fit loss 7.785e-02 -> 4.032e-04 (77s, 24 splats, 14 negative); Spearman v2 covered=+0.863 all=+0.919 support=+0.823 | v1 covered=+0.096
+           controls (covered / support): abs_rho_fit=+0.835/+0.485  norm_Jrho=+0.619/+0.173  diag_H=+0.533/+0.298
+  seed=2: fit loss 7.419e-02 -> 4.477e-04 (74s, 24 splats, 5 negative); Spearman v2 covered=+0.763 all=+0.798 support=+0.415 | v1 covered=-0.200
+           controls (covered / support): abs_rho_fit=+0.911/+0.829  norm_Jrho=+0.903/+0.638  diag_H=+0.812/+0.216
+figure: /home/user/wigner-splat/experiments/15_video_conf/conf_vs_error.png
+
+=== verdict vs declared Gate A (round 2) ===
+primary (covered-region Spearman, gate >= 0.3 on all seeds): ['+0.909', '+0.863', '+0.763']
+   -> GATE A PASSED: the delta-method certificate ranks true error above the declared bar on every seed.
+auxiliary (descriptive, not the gate): all-points ['+0.910', '+0.919', '+0.798'], model-support ['+0.827', '+0.823', '+0.415'], round-1 score ['-0.101', '+0.096', '-0.200']
+
+=== controls: does sigma_pred add anything over the fitted model itself? ===
+  seed=0: covered sigma_pred +0.909 vs best control +0.889; support +0.827 vs +0.232
+  seed=1: covered sigma_pred +0.863 vs best control +0.835; support +0.823 vs +0.485
+  seed=2: covered sigma_pred +0.763 vs best control +0.911; support +0.415 vs +0.829
+   -> NO consistent uplift over the simple controls. Supported conclusion: this fitted-model-dependent score passed the declared toy Phase 0 gate; attributing the gain to information propagated through H^{-1} is NOT supported by these data. Control-beating becomes a Phase 1 gate candidate.
