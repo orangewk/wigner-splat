@@ -104,6 +104,95 @@ def wigner_overlap(Wa, Wb, xs):
     return float(2 * np.pi * np.sum(Wa * Wb) * d * d)
 
 
+def displacement_matrix(beta, n_max):
+    """<m|D(beta)|n> for scalar complex beta, (n_max, n_max) complex.
+
+    Closed form <m|D(b)|n> = sqrt(n!/m!) b^{m-n} e^{-|b|^2/2} L_n^{(m-n)}(|b|^2)
+    for m >= n, and <m|D(b)|n> = conj(<n|D(-b)|m>) below the diagonal --
+    the same matrix elements wigner_from_rho uses, materialized as a matrix.
+    """
+    beta = complex(beta)
+    y = np.abs(beta) ** 2
+    log_fact = np.concatenate([[0.0], np.cumsum(np.log(np.arange(1, n_max)))])
+    D = np.zeros((n_max, n_max), complex)
+    env = np.exp(-y / 2.0)
+    yarr = np.array([y])
+    for d in range(n_max):
+        L = _genlaguerre(n_max - d, d, yarr)[:, 0]     # L_n^{(d)}(y)
+        for n in range(n_max - d):
+            m = n + d
+            amp = np.exp((log_fact[n] - log_fact[m]) / 2.0)
+            D[m, n] = amp * beta ** d * env * L[n]
+            if d > 0:
+                D[n, m] = amp * (-np.conj(beta)) ** d * env * L[n]
+    return D
+
+
+def _noise_quadrature(sigma_add, n_max, n_r, n_phi):
+    """Displacement nodes and weights of the random-displacement channel.
+
+    N_sigma(rho) = integral d^2beta P(beta) D(beta) rho D(beta)^dag with
+    P a symmetric Gaussian of variance sigma_add/2 per real component
+    (a displacement beta shifts x by sqrt2 Re beta, so this adds sigma_add
+    to every quadrature variance). Radial: Gauss-Laguerre in t = |beta|^2 /
+    sigma_add (the P weight becomes e^{-t} exactly); angular: a uniform
+    grid, exact for the e^{i k phi} harmonics (|k| <= 2 n_max - 2) once
+    n_phi > 4 n_max.
+    """
+    n_phi = n_phi or (4 * n_max + 2)
+    t, wt = np.polynomial.laguerre.laggauss(n_r)
+    r = np.sqrt(sigma_add * t)
+    phi = 2.0 * np.pi * np.arange(n_phi) / n_phi
+    betas = r[:, None] * np.exp(1j * phi)[None, :]
+    weights = (wt / n_phi)[:, None] * np.ones(n_phi)[None, :]
+    return betas.ravel(), weights.ravel()
+
+
+def gaussian_noise_channel_1mode(rho, sigma_add, n_r=32, n_phi=None):
+    """N_sigma(rho) for a single-mode Fock density matrix (numeric, tested
+    against the closed-form pdf convolution). sigma_add <= 0 is identity."""
+    if sigma_add <= 0.0:
+        return rho.copy()
+    n_max = len(rho)
+    betas, weights = _noise_quadrature(sigma_add, n_max, n_r, n_phi)
+    out = np.zeros_like(rho, dtype=complex)
+    for b, w in zip(betas, weights):
+        D = displacement_matrix(b, n_max)
+        out += w * (D @ rho @ D.conj().T)
+    return out
+
+
+def gaussian_noise_channel_3mode(rho, sigma_add, n_max, n_r=32, n_phi=None):
+    """Per-mode N_sigma applied to a flat (n_max^3, n_max^3) 3-mode rho."""
+    if sigma_add <= 0.0:
+        return rho.copy()
+    betas, weights = _noise_quadrature(sigma_add, n_max, n_r, n_phi)
+    Ds = [displacement_matrix(b, n_max) for b in betas]
+    shape6 = (n_max,) * 6
+    out = np.asarray(rho, complex).reshape(shape6)
+    for mode in range(3):
+        acc = np.zeros(shape6, complex)
+        for D, w in zip(Ds, weights):
+            t = np.tensordot(D, out, axes=([1], [mode]))
+            t = np.moveaxis(t, 0, mode)
+            t = np.tensordot(t, D.conj(), axes=([mode + 3], [1]))
+            acc += w * np.moveaxis(t, -1, mode + 3)
+        out = acc
+    return out.reshape(n_max ** 3, n_max ** 3)
+
+
+def thermal_lossy_cat3_fock(alpha, parity=+1, eta=0.8, sigma_add=0.1,
+                            n_max=8, n_r=32, n_phi=None):
+    """Truncated Fock rho of the thermal-noise lossy cat (issue #38 target).
+
+    gaussian_noise_channel_3mode applied to lossy_cat3_fock. FULL RANK for
+    sigma_add > 0. Truncation: the noise channel moves population upward,
+    so quote np.trace as the ceiling analog (it is < the lossy cat's).
+    """
+    rho = lossy_cat3_fock(alpha, parity, eta, n_max)
+    return gaussian_noise_channel_3mode(rho, sigma_add, n_max, n_r, n_phi)
+
+
 def _coherent_coeffs(alpha, n_max):
     """Fock coefficients <m|alpha> = e^{-a^2/2} a^m / sqrt(m!), m = 0..n_max-1.
 
