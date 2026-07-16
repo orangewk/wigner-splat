@@ -980,20 +980,31 @@ gradients (translation dL/dc = -sum g_mu by symmetry; rotation
 dL/dd = sum p x gp), driving a MonoGS-style incremental joint
 pose+splat fit — no COLMAP exists in this environment.
 
-Happened: the declared precondition (mean train PSNR >= 18 dB) was NOT
-reached. Train-only tuning trajectory (committed log): K=150 17.24 dB;
-K=250 + stepped lr 17.68; + pose polish and 1000 more iterations 17.82;
-+ blur knob 17.85 (sigma_blur -> 0.60 px, +0.03 dB only). The deficit
-concentrates on mid-window frames where a close horse crosses the
-scene: an ADDITIVE no-occlusion renderer cannot dim what is behind an
-occluder, so foreground and background compete for the same pixels.
-Recorded as DNF per the declaration; Gate B/B2/ablation were NOT
-evaluated, and the held-out frames were never touched — the protocol
-survives intact for round 2.
+Happened: the declared precondition (train PSNR >= 18 dB, defined as
+PSNR of the pooled per-frame MSE) was NOT reached. Train-only tuning
+trajectory (reproducible from committed code via tune.py, which — like
+the hard stop now enforced in run.py before load_holdout() — never
+loads the held-out frames): K=150 17.24 dB; K=250 + stepped lr 17.68;
++ pose polish and 1000 more iterations 17.82; + blur knob 17.85
+(sigma_blur -> 0.60 px, +0.03 dB only). Recorded as DNF per the
+declaration; Gate B/B2/ablation were NOT evaluated, and the held-out
+frames were never touched — the protocol survives intact for round 2.
+
+Working diagnosis (narrowed under the PR #59 review — a diagnosis, not
+an established cause): per-frame PSNR is weakest on the mid-window
+frames where a close horse crosses the scene, which is where an
+additive no-occlusion renderer must pay — it cannot dim what is behind
+an occluder, so foreground and background compete for the same pixels.
+Occlusion is the LEADING candidate for the ceiling, but capacity was
+not exhausted (K 150 -> 250 still bought +0.44 dB), so the claim stays
+a working hypothesis that round 2's sorted alpha compositing will
+test: if occlusion is the ceiling, compositing should clear the floor
+at comparable K; if it does not, the diagnosis was wrong and that gets
+recorded too.
 
 Learned: the declared-precondition discipline did its job — it stopped
-us from grading a certificate on a fit that fails for a KNOWN physical
-reason (occlusion), which would have produced uninterpretable gate
+us from grading a certificate on a fit that fails for a plausibly
+structural reason, which would have produced uninterpretable gate
 numbers. The blur knob's honest non-result also matters: at 96x54 the
 downsampling already dominates whatever motion blur the walk produced,
 so the knob had nothing to absorb (sigma_blur ~ half a pixel). Round 2

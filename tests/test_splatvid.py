@@ -163,6 +163,34 @@ def test_frame_jacobian_matches_render_fd():
             1e-6, np.max(np.abs(col_fd)))
 
 
+def test_precondition_hard_stop_never_loads_holdout(monkeypatch, capsys):
+    """PR #59 review item 1: a DNF run must return BEFORE the held-out
+    frames are loaded. fit_video is faked (fast, terrible PSNR) and
+    load_holdout is booby-trapped."""
+    run = _load("run16", _here / "experiments" / "16_real_video"
+                / "run.py")
+    assert run.precondition_met([18.0, 18.5, 19.0])
+    assert not run.precondition_met([18.5, 17.9, 19.0])
+    assert not run.precondition_met([])
+
+    def fake_fit(frames, shape, f0, K=1, seed=0, use_blur=False, **kw):
+        st = {"mu": np.array([[0.0, 0.0, 5.0]]), "s": np.array([-1.0]),
+              "w": np.array([0.0]), "b": 0.0, "logf": float(np.log(f0)),
+              "s_blur": float(np.log(0.8)) if use_blur else None}
+        poses = [(np.eye(3), np.zeros(3)) for _ in frames]
+        return st, poses, {"stage": [], "loss": []}
+
+    def trapped_holdout():
+        raise AssertionError("held-out frames were loaded on a DNF run")
+
+    monkeypatch.setattr(run, "fit_video", fake_fit)
+    monkeypatch.setattr(run, "load_holdout", trapped_holdout)
+    run.main()  # must return at the precondition stop, silently OK
+    out = capsys.readouterr().out
+    assert "PRECONDITION NOT MET" in out
+    assert "Gate B" not in out.split("PRECONDITION NOT MET")[1]
+
+
 def test_rot_exp_is_rotation():
     d = np.array([0.3, -0.2, 0.5])
     R = sv.rot_exp(d)

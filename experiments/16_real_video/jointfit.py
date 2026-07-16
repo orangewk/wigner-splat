@@ -63,16 +63,27 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
               iters_a=300, iters_pose=60, iters_win=60, window=5,
               final_schedule=((600, 0.02),), lr_splat=0.02,
               lr_pose_c=0.02, lr_pose_r=0.01, lr_glob=0.005,
-              log_every=None):
+              lr_blur=None, resume=None, log_every=None):
     """frames: (F, H*W) flattened train frames in order. Returns (state,
-    poses, history)."""
+    poses, history).
+
+    resume: optional (state, poses) from a previous fit_video call --
+    stages A and B are skipped and only the stage-C final_schedule runs
+    (the continuation path used by the committed tuning trajectory;
+    Adam moments restart fresh, as in the original runs).
+    """
     F = len(frames)
     H, W = shape
     vs, us = np.meshgrid(np.arange(H, dtype=float),
                          np.arange(W, dtype=float), indexing="ij")
     U, V = us.ravel(), vs.ravel()
-    st = init_state(frames[0], shape, f0, K, seed)
-    poses = [(np.eye(3), np.zeros(3))]
+    if resume is None:
+        st = init_state(frames[0], shape, f0, K, seed)
+        poses = [(np.eye(3), np.zeros(3))]
+    else:
+        st = dict(resume[0])
+        poses = [(R.copy(), c.copy()) for R, c in resume[1]]
+        assert len(poses) == F
     history = {"stage": [], "loss": []}
 
     def cams(f_idx):
@@ -85,7 +96,8 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
         if opt_glob:
             ad["logf"] = _Adam((), lr_glob)
             if st["s_blur"] is not None:
-                ad["s_blur"] = _Adam((), lr_glob)
+                ad["s_blur"] = _Adam((), lr_blur if lr_blur is not None
+                                     else lr_glob)
         pad = {i: (_Adam(3, lr_pose_r), _Adam(3, lr_pose_c))
                for i in idxs if i != 0 and opt_pose}
         for it in range(n_iter):
@@ -111,20 +123,21 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
                 print(f"    [{tag}] iter {it + 1}/{n_iter} "
                       f"loss={loss:.4e}", flush=True)
 
-    # stage A: frame 0 alone, pose fixed
-    joint_pass([0], iters_a, opt_pose=False, opt_glob=False, tag="A")
+    if resume is None:
+        # stage A: frame 0 alone, pose fixed
+        joint_pass([0], iters_a, opt_pose=False, opt_glob=False, tag="A")
 
-    # stage B: incremental frames
-    for f_idx in range(1, F):
-        poses.append((poses[-1][0].copy(), poses[-1][1].copy()))
-        fit_pose(st, poses, f_idx, frames[f_idx], shape, U, V,
-                 iters_pose, lr_pose_r, lr_pose_c)
-        lo = max(0, f_idx - window + 1)
-        joint_pass(list(range(lo, f_idx + 1)), iters_win, opt_pose=True,
-                   opt_glob=False, tag=f"B{f_idx}")
+        # stage B: incremental frames
+        for f_idx in range(1, F):
+            poses.append((poses[-1][0].copy(), poses[-1][1].copy()))
+            fit_pose(st, poses, f_idx, frames[f_idx], shape, U, V,
+                     iters_pose, lr_pose_r, lr_pose_c)
+            lo = max(0, f_idx - window + 1)
+            joint_pass(list(range(lo, f_idx + 1)), iters_win,
+                       opt_pose=True, opt_glob=False, tag=f"B{f_idx}")
 
     # stage C: global joint passes (optionally with stepped-down lr)
-    if use_blur:
+    if use_blur and st["s_blur"] is None:
         st["s_blur"] = float(np.log(0.8))
     for ci, (n_iter, lr) in enumerate(final_schedule):
         joint_pass(list(range(F)), n_iter, opt_pose=True, opt_glob=True,

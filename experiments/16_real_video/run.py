@@ -9,18 +9,25 @@ implementation) in short:
   * joint pose+splat fit (jointfit.py); held-out poses are optimized with
     the splats FROZEN against the held-out frame (standard NVS practice,
     declared).
-  * PRECONDITION: mean train PSNR >= 18 dB on all 3 seeds, else DNF.
+  * PRECONDITION -- a HARD STOP in code (PR #59 review item 1): every
+    seed's PRIMARY (blur-on) fit must reach mean train PSNR >= 18 dB
+    (PSNR of the POOLED per-frame MSE, the aggregation fixed in
+    tune.py), or main() returns before the held-out frames are even
+    loaded. tune.py reproduces the round-1 tuning trajectory from
+    committed code and never loads held-out frames either.
   * GATE B (primary): Spearman(sigma_pred, |residual|) pooled over the
     held-out frames' pixels, >= 0.3 on all 3 seeds. sigma_pred is the
     exp15 round-2 delta-method score with H built from TRAIN frames only
     (splat parameters + background; poses and global knobs fixed,
     eps = 1e-9 tr(H)/P).
   * GATE B2 (the candidate promoted from the exp15 review): sigma_pred
-    must show a CONSISTENT uplift over the three controls -- |render - b|
-    (amplitude), row-norm of J (the H = I score), diagonal-H -- on every
-    seed. B passing with B2 failing reads "the certificate still does not
-    separate from amplitude tracking on real video" and is recorded as
-    such.
+    must show a CONSISTENT uplift over the three DECLARED controls --
+    |rendered| (amplitude, exactly as worded on the issue), row-norm of
+    J (the H = I score), diagonal-H -- on every seed. The centered
+    variant |render - b| is reported as an auxiliary (PR #59 review
+    item 4) but does not enter the verdict. B passing with B2 failing
+    reads "the certificate still does not separate from amplitude
+    tracking on real video" and is recorded as such.
   * BLUR ABLATION: held-out MSE with the closed-form blur knob <= without,
     paired per seed; fitted sigma_blur reported.
   * Gates B/B2 are evaluated on the blur-ON fit (the declared Phase 1
@@ -61,9 +68,18 @@ GATE_RHO = 0.3
 EPS_FRAC = 1e-9
 
 
-def load_frames():
+def load_train():
+    """Train frames ONLY. tune.py and the pre-gate phase of run.py use
+    this loader; the held-out frames live behind load_holdout(), which
+    is called only after the precondition gate passes."""
     d = np.load(HERE / "data" / "carousel_frames.npz")
-    return d["fit"].astype(float), d["fig"].astype(float)
+    return [d["fit"][i].ravel().astype(float) for i in range(24)
+            if i not in HELD_OUT]
+
+
+def load_holdout():
+    d = np.load(HERE / "data" / "carousel_frames.npz")
+    return [d["fit"][i].ravel().astype(float) for i in HELD_OUT]
 
 
 def pixel_grid(shape):
@@ -102,23 +118,32 @@ def evaluate(st, poses, train_frames, ho_frames, ho_prev_pos, U, V):
                            s_blur=st["s_blur"])
         X = np.linalg.solve(Hreg, J.T)
         sig = np.sqrt(np.maximum(np.sum(J.T * X, axis=0), 0.0))
-        ctrl_amp = np.abs(img - st["b"])
+        # amplitude controls: 'amp' = |rendered| is the DECLARED primary
+        # control (issue #48 wording); 'ampc' = |render - b| (centered,
+        # foreground amplitude) is reported as an auxiliary variant.
+        ctrl_amp = np.abs(img)
+        ctrl_ampc = np.abs(img - st["b"])
         ctrl_jn = np.linalg.norm(J, axis=1)
         ctrl_dg = np.sqrt(np.sum(J ** 2 / (np.diag(Hgn) + eps)[None, :],
                                  axis=1))
         out.append({"img": img, "res": res, "sig": sig, "amp": ctrl_amp,
-                    "jn": ctrl_jn, "dg": ctrl_dg,
+                    "ampc": ctrl_ampc, "jn": ctrl_jn, "dg": ctrl_dg,
                     "mse": float(np.mean((img - frame) ** 2))})
     return out
 
 
+def precondition_met(tr_psnrs, floor=PSNR_FLOOR):
+    """The declared hard gate: gate evaluation is meaningless (DNF) unless
+    the PRIMARY (blur-on) fit reaches the floor on every seed. Pure
+    function so tests can pin the stop."""
+    return len(tr_psnrs) > 0 and min(tr_psnrs) >= floor
+
+
 def main():
-    fit_imgs, _ = load_frames()
+    train_frames = load_train()
     train_idx = [i for i in range(24) if i not in HELD_OUT]
     pos_of = {orig: pos for pos, orig in enumerate(train_idx)}
     ho_prev_pos = [pos_of[i - 1] for i in HELD_OUT]
-    train_frames = [fit_imgs[i].ravel() for i in train_idx]
-    ho_frames = [fit_imgs[i].ravel() for i in HELD_OUT]
     U, V = pixel_grid(SHAPE)
 
     print("=== exp16 / issue #48 Phase 1: real video (carousel) ===")
@@ -128,8 +153,9 @@ def main():
           f"(all seeds), Gate B2 = consistent uplift over controls, "
           f"blur ablation paired")
 
-    rows = []
-    keep0 = None
+    # ---- phase 1: TRAIN-ONLY fits for every seed; the held-out frames
+    # are not even loaded until the precondition gate passes ----
+    fits_by_seed = {}
     for seed in SEEDS:
         fits = {}
         for use_blur in (True, False):
@@ -145,33 +171,55 @@ def main():
                                     s_blur=st["s_blur"]) - fr) ** 2)
                     for i, fr in enumerate(train_frames)]
             tr_psnr = psnr(float(np.mean(mses)))
-            ev = evaluate(st, poses, train_frames, ho_frames, ho_prev_pos,
-                          U, V)
-            ho_mse = float(np.mean([e["mse"] for e in ev]))
             sb = (float(np.exp(st["s_blur"]))
                   if st["s_blur"] is not None else None)
-            fits[use_blur] = (st, poses, hist, ev, tr_psnr, ho_mse)
+            fits[use_blur] = (st, poses, hist, tr_psnr)
             print(f"  seed={seed} blur={'on ' if use_blur else 'off'}: "
-                  f"train PSNR {tr_psnr:.2f} dB, held-out MSE "
-                  f"{ho_mse:.4e}, f={f:.1f}"
+                  f"train PSNR {tr_psnr:.2f} dB, f={f:.1f}"
                   + (f", sigma_blur={sb:.2f}px" if sb else "")
                   + f"  ({time.perf_counter() - t0:.0f}s)", flush=True)
+        fits_by_seed[seed] = fits
 
-        st, poses, hist, ev, tr_psnr, ho_mse = fits[True]
+    pre = [fits_by_seed[seed][True][3] for seed in SEEDS]
+    print(f"\nprecondition (train PSNR >= {PSNR_FLOOR} dB on the primary "
+          f"blur-on fit, all seeds): {[f'{p:.2f}' for p in pre]}")
+    if not precondition_met(pre):
+        print("   -> PRECONDITION NOT MET: DNF recorded. STOPPING before "
+              "the held-out frames are loaded or evaluated (declared "
+              "hard stop; the protocol stays intact for a later round).")
+        return
+
+    # ---- phase 2: held-out evaluation (only reachable past the gate) ----
+    ho_frames = load_holdout()
+    rows = []
+    keep0 = None
+    for seed in SEEDS:
+        fits = fits_by_seed[seed]
+        evs = {}
+        for use_blur in (True, False):
+            st, poses, hist, tr_psnr = fits[use_blur]
+            evs[use_blur] = evaluate(st, poses, train_frames, ho_frames,
+                                     ho_prev_pos, U, V)
+        st, poses, hist, tr_psnr = fits[True]
+        ev = evs[True]
+        ho_mse = float(np.mean([e["mse"] for e in ev]))
+        ho_mse_off = float(np.mean([e["mse"] for e in evs[False]]))
         res = np.concatenate([e["res"] for e in ev])
         sig = np.concatenate([e["sig"] for e in ev])
         r_sig = spearman(sig, res)
         r_ctrl = {name: spearman(np.concatenate([e[name] for e in ev]), res)
                   for name in ("amp", "jn", "dg")}
+        r_ampc = spearman(np.concatenate([e["ampc"] for e in ev]), res)
         rows.append({"seed": seed, "tr_psnr": tr_psnr, "rho": r_sig,
-                     "ctrl": r_ctrl, "mse_on": ho_mse,
-                     "mse_off": fits[False][5],
+                     "ctrl": r_ctrl, "ampc": r_ampc, "mse_on": ho_mse,
+                     "mse_off": ho_mse_off,
                      "sblur": float(np.exp(st["s_blur"]))})
-        print(f"    gate scores: rho(sigma_pred)={r_sig:+.3f}  controls: "
-              + "  ".join(f"{k}={v:+.3f}" for k, v in r_ctrl.items()),
-              flush=True)
+        print(f"    seed={seed} gate scores: rho(sigma_pred)={r_sig:+.3f}"
+              "  declared controls: "
+              + "  ".join(f"{k}={v:+.3f}" for k, v in r_ctrl.items())
+              + f"  [aux centered amp={r_ampc:+.3f}]", flush=True)
         if seed == SEEDS[0]:
-            keep0 = (fits[True], ho_frames)
+            keep0 = ((st, poses, hist, ev, tr_psnr, ho_mse), ho_frames)
 
     # ---- figure: held-out frames, seed 0, blur-on model ----
     (st, poses, hist, ev, _, _), ho_fr = keep0
@@ -195,14 +243,9 @@ def main():
     fig.savefig(HERE / "heldout_certificate.png", dpi=110)
     print(f"figure: {HERE / 'heldout_certificate.png'}")
 
-    # ---- verdicts vs the declared gates ----
+    # ---- verdicts vs the declared gates (only reachable past the
+    # precondition hard stop above) ----
     print("\n=== verdicts vs declared gates (issue #48) ===")
-    pre = [r["tr_psnr"] for r in rows]
-    print(f"precondition (train PSNR >= {PSNR_FLOOR} dB, all seeds): "
-          f"{[f'{p:.2f}' for p in pre]}")
-    if min(pre) < PSNR_FLOOR:
-        print("   -> PRECONDITION NOT MET: gate evaluation below is "
-              "recorded as DNF context, not evidence.")
     rhos = [r["rho"] for r in rows]
     print(f"Gate B (pooled held-out Spearman >= {GATE_RHO}, all seeds): "
           f"{[f'{r:+.3f}' for r in rhos]}")
