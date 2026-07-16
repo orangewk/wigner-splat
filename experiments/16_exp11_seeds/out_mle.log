@@ -1,0 +1,11 @@
+=== exp15 optional MLE arm (issue #39): data-seed axis ===
+exp11 MLE config unchanged: n_max=8, bins=24, budget 900s
+  mle3 lossy    data=42 F=0.9550 converged=True (879 iters)
+  mle3 lossy    data= 1 F=0.9580 converged=True (851 iters)
+  mle3 lossy    data= 2 F=0.9580 converged=True (915 iters)
+  mle3 squeezed data=42 F=0.7157 converged=True (1030 iters)
+  mle3 squeezed data= 1 F=0.7007 converged=True (891 iters)
+  mle3 squeezed data= 2 F=0.6767 converged=True (937 iters)
+raw results -> C:\dev\wigner-splat-exp15\experiments\15_exp11_seeds\results_mle.json
+
+BB-dagger best-init-by-NLL per data seed, from the main run: lossy rank-2 {42: 0.9947, 1: 0.9524, 2: 0.9948}; squeezed K=4 {42: 0.9700, 1: 0.9690, 2: 0.9761}

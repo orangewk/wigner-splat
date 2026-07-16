@@ -1,4 +1,4 @@
-"""Experiment 15 -- issue #39: multi-seed replication of experiment 11.
+"""Experiment 16 -- issue #39: multi-seed replication of experiment 11.
 
 Experiment 11's ruling (BB-dagger family adaptability, issue #28) rests on a
 single run: data seed 42, init seed 0. On the squeezed target the margin over
@@ -147,7 +147,7 @@ def main():
                     help="also run MLE once per (target, data seed)")
     args = ap.parse_args()
 
-    print("=== exp15: issue #39 -- multi-seed replication of exp11 ===")
+    print("=== exp16: issue #39 -- multi-seed replication of exp11 ===")
     print(f"data seeds {DATA_SEEDS} x init seeds {INIT_SEEDS}, exp11 configs "
           f"unchanged; alpha={ALPHA} parity={PARITY}, {len(GRID)} triples x "
           f"{SHOTS} shots; K=2 success threshold F>={K2_SUCCESS_F}",
