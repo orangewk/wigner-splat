@@ -4,8 +4,9 @@ A fully known synthetic 3D scene (signed isotropic Gaussians) is imaged by
 a short low-parallax camera trajectory ("6 seconds": 24 frames, total
 baseline 0.8 world units at ~6 units depth), reconstructed by gradient
 descent, and the question is whether a CLOSED-FORM confidence score --
-computed WITHOUT ever seeing the ground truth or even the pixel data --
-predicts where the reconstruction is actually wrong.
+computed without ever seeing the ground truth (the round-1 score was
+additionally blind to the pixel data; the round-2 score sees the video
+through the fit) -- predicts where the reconstruction is actually wrong.
 
 ROUND 1 (recorded, out_round1.log): the pure-geometry score -- lambda_min
 of a unit probe splat's Gauss-Newton information at each grid point --
@@ -36,6 +37,16 @@ DECLARED PROTOCOL (identical numbers to round 1):
     grid points, over covered points restricted to model support
     (|rho_fit| > 0.05 max), and the round-1 lambda_min score kept for
     comparison.
+  * SIMPLE CONTROLS (added per the PR #54 review, same seeds and masks):
+    sigma_pred contains J_rho, so it could correlate with the error
+    merely by tracking fitted amplitude/support. Controls: |rho_fit|
+    (fitted amplitude), ||J_rho|| (the H = I score), and the
+    diagonal-H score sqrt(sum J_rho_i^2 / (H_ii + eps)). Unless
+    sigma_pred shows a CONSISTENT uplift over these on every seed, the
+    supported conclusion is only "this fitted-model-dependent score
+    passed the declared toy Phase 0 gate" -- the attribution of the
+    gain to information propagated through H^{-1} is NOT claimed here;
+    control-beating is a Phase 1 gate candidate.
   * Pixel noise sigma = 0.02 on the rendered frames (without noise the
     degenerate directions would only carry init error).
   * INVERSE CRIME accepted deliberately at Phase 0: frames are rendered
@@ -60,8 +71,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 from gauss3d import (  # noqa: E402
-    density3d, fit, make_camera, predicted_sigma, probe_information,
-    render, spearman,
+    density3d, density_grad, fit, make_camera, model_gn, predicted_sigma,
+    probe_information, render, spearman,
 )
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -151,14 +162,26 @@ def main():
                              seed=seed)
         rho_fit = density3d(pts, params["mu"], params["s"], params["w"])
         err = np.abs(rho_fit - density3d(pts, mu_t, s_t, w_t))
-        sig_pred = predicted_sigma(pts, params, cams)
+        H = model_gn(params, cams)
+        sig_pred = predicted_sigma(pts, params, cams, H=H)
+        # simple controls (PR #54 review): same fitted model, no H^{-1}
+        Jr = density_grad(pts, params["mu"], params["s"], params["w"])
+        c_amp = np.abs(rho_fit)                       # fitted amplitude
+        c_jn = np.linalg.norm(Jr, axis=1)             # the H = I score
+        eps = 1e-9 * np.trace(H) / H.shape[0]
+        c_diag = np.sqrt(np.sum(Jr ** 2 / (np.diag(H) + eps)[None, :],
+                                axis=1))
         support = cov & (np.abs(rho_fit)
                          > SUPPORT_FRAC * np.max(np.abs(rho_fit)))
         r_cov = spearman(sig_pred[cov], err[cov])
         r_all = spearman(sig_pred, err)
         r_sup = spearman(sig_pred[support], err[support])
         r_v1 = spearman(-conf1[cov], err[cov])
-        rows.append((seed, r_cov, r_all, r_sup, r_v1))
+        ctrl = {name: (spearman(c[cov], err[cov]),
+                       spearman(c[support], err[support]))
+                for name, c in (("abs_rho_fit", c_amp), ("norm_Jrho", c_jn),
+                                ("diag_H", c_diag))}
+        rows.append((seed, r_cov, r_all, r_sup, r_v1, ctrl))
         if seed == SEEDS[0]:
             err0, sp0 = err, sig_pred
         print(f"  seed={seed}: fit loss {losses[0]:.3e} -> {losses[-1]:.3e} "
@@ -166,6 +189,9 @@ def main():
               f"{int(np.sum(params['w'] < 0))} negative); "
               f"Spearman v2 covered={r_cov:+.3f} all={r_all:+.3f} "
               f"support={r_sup:+.3f} | v1 covered={r_v1:+.3f}", flush=True)
+        print("           controls (covered / support): "
+              + "  ".join(f"{k}={v[0]:+.3f}/{v[1]:+.3f}"
+                          for k, v in ctrl.items()), flush=True)
 
     # figure: predicted sigma vs error slices (seed 0) + scatter
     nz = len(GRID_Z)
@@ -211,6 +237,25 @@ def main():
           f"all-points {[f'{r[2]:+.3f}' for r in rows]}, "
           f"model-support {[f'{r[3]:+.3f}' for r in rows]}, "
           f"round-1 score {[f'{r[4]:+.3f}' for r in rows]}")
+    print("\n=== controls: does sigma_pred add anything over the fitted "
+          "model itself? ===")
+    uplift_cov = all(r[1] > max(v[0] for v in r[5].values()) for r in rows)
+    uplift_sup = all(r[3] > max(v[1] for v in r[5].values()) for r in rows)
+    for r in rows:
+        best_c = max(v[0] for v in r[5].values())
+        best_s = max(v[1] for v in r[5].values())
+        print(f"  seed={r[0]}: covered sigma_pred {r[1]:+.3f} vs best "
+              f"control {best_c:+.3f}; support {r[3]:+.3f} vs {best_s:+.3f}")
+    if uplift_cov and uplift_sup:
+        print("   -> consistent uplift over all controls on every seed and "
+              "both masks.")
+    else:
+        print("   -> NO consistent uplift over the simple controls. "
+              "Supported conclusion: this fitted-model-dependent score "
+              "passed the declared toy Phase 0 gate; attributing the gain "
+              "to information propagated through H^{-1} is NOT supported "
+              "by these data. Control-beating becomes a Phase 1 gate "
+              "candidate.")
 
 
 if __name__ == "__main__":

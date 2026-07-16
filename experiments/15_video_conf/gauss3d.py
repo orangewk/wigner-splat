@@ -228,7 +228,7 @@ def density_grad(pts, mu, s, w):
     return out
 
 
-def predicted_sigma(pts, params, cams, eps_frac=1e-9):
+def predicted_sigma(pts, params, cams, eps_frac=1e-9, H=None):
     """Score v2 (issue #48 round 2, declared before running): delta-method
     predicted uncertainty of the fitted density,
 
@@ -239,7 +239,8 @@ def predicted_sigma(pts, params, cams, eps_frac=1e-9):
     Degenerate parameter directions blow sigma_pred up through H's null
     space; coupling to model amplitude enters through J_rho.
     """
-    H = model_gn(params, cams)
+    if H is None:
+        H = model_gn(params, cams)
     P = H.shape[0]
     eps = eps_frac * np.trace(H) / P
     Jr = density_grad(pts, params["mu"], params["s"], params["w"])
