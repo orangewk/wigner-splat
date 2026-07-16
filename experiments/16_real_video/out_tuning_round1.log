@@ -1,28 +1,11 @@
-=== exp16 Phase 1 round 1: TRAIN-ONLY tuning trajectory (held-out frames never touched) ===
-Declared precondition: mean train PSNR >= 18 dB on all seeds, else DNF.
-All runs: seed 0, 20 train frames (96x54 gray), joint pose+splat fit.
+tune 1 (K=150): PSNR_pool=17.24 dB  PSNR_pool(excl. suspect frames)=17.45 dB  f=82.4  (wall 598s)
+  per-frame PSNR: 18.9 19.3 18.9 18.3 17.2 16.2 16.6 16.4 17.1 17.7 17.8 17.8 17.6 17.1 16.7 16.5 16.7 17.0 16.5 16.3
+tune 2 (K=250, stepped lr): PSNR_pool=17.68 dB  PSNR_pool(excl. suspect frames)=17.90 dB  f=85.2  (wall 1945s)
+  per-frame PSNR: 20.2 20.1 19.7 19.0 17.6 16.9 16.5 16.7 17.7 17.9 18.1 18.3 17.9 17.5 17.1 16.4 17.1 17.6 17.0 16.8
+tune 3 (pose polish + continuation): PSNR_pool=17.82 dB  PSNR_pool(excl. suspect frames)=18.09 dB  f=84.1  (wall 1417s)
+  per-frame PSNR: 20.2 20.2 19.8 19.0 17.6 16.9 16.6 16.8 17.7 18.1 18.3 18.4 18.1 17.6 17.2 16.8 17.3 17.9 17.3 17.0
+tune 4 (blur knob ON): PSNR_pool=17.85 dB  PSNR_pool(excl. suspect frames)=18.12 dB  f=83.8, sigma_blur=0.60px  (wall 943s)
+  per-frame PSNR: 20.3 20.2 19.8 19.0 17.6 17.0 16.7 16.8 17.7 18.1 18.3 18.5 18.2 17.7 17.3 16.8 17.4 17.9 17.3 17.1
+figure: /home/user/wigner-splat/experiments/16_real_video/tuning_residuals.png
 
-tune 1: K=150, final schedule (600, 0.02)
-        -> mean train PSNR 17.24 dB, f fitted 82.4  (wall 617 s)
-tune 2: K=250, final schedule (600, 0.02), (400, 0.006)
-        -> mean train PSNR 17.68 dB, f fitted 85.2  (wall 1536 s)
-tune 3: continuation of tune 2 + per-frame pose polish (80 it/frame)
-        + (600, 0.006), (400, 0.002)
-        -> mean train PSNR 17.82 dB, f fitted 84.1  (wall 1875 s)
-tune 4: continuation of tune 3 with the blur knob ON,
-        (500, 0.006), (300, 0.002)
-        -> sigma_blur -> 0.60 px, mean train PSNR 17.85 dB (wall 1381 s)
-
-Diagnosis: the trajectory asymptotes at ~17.8-17.9 dB, below the declared
-18 dB floor. Capacity (K 150->250: +0.44 dB), schedule (+0.14 dB), pose
-polish (included above), and the blur knob (+0.03 dB) are all exhausted
-levers; per-frame PSNR shows the deficit concentrated on the mid-window
-frames where a close horse crosses in front of the scene -- exactly where
-an ADDITIVE no-occlusion renderer must pay: it cannot dim what is behind
-an occluder, so foreground/background compete for the same pixels.
-
-VERDICT: precondition DNF, recorded as declared. Gate B/B2/ablation were
-NOT evaluated; the held-out frames remain untouched, so the declared
-protocol stays intact for round 2 after the renderer gains occlusion
-(sorted alpha compositing) -- the falsification path named in the
-declaration ("back to the renderer, not the score").
+VERDICT: declared precondition is PSNR_pool >= 18 dB. Final tuned value 17.85 dB -> NOT met: DNF, held-out frames never loaded by this script (run.py enforces the same stop before evaluation).
