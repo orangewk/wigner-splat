@@ -17,13 +17,16 @@ Declared expectations (corrected after a first exploratory run and the
 PR #49 review):
   * the naive "split can NEVER obtain negatives" reading is wrong for
     this objective -- gradient descent can drag a weight through zero;
-    splitting itself preserves the parent's sign (tested directly), so
-    split-only runs must grow negatives by that slow route.
-  * HEADLINE (fixed shared budget, per the re-review): at 1000 updates
-    (all modes at K = 10), the composite birth growth rule reaches >= 10x
-    lower loss than the split baseline on every seed (paired, same seed).
-    The 4000-iter results are kept as a one-off auxiliary record; the GIF
-    is a fixed-seed completion illustration, not comparison evidence.
+    what holds (and is tested directly) is that splitting itself
+    preserves the parent's sign.
+  * HEADLINE (fixed shared budget, per the re-review): the comparison
+    BENCH runs every mode x seed to exactly 1000 updates (all modes at
+    K = 10); the composite birth growth rule must reach >= 10x lower loss
+    than the split baseline on every seed (paired, same seed). A 4000-
+    update sweep exists only behind --full (one-off auxiliary; the
+    committed record of it lives in the research log). The GIF comes from
+    a separate PRE-FIXED run (mode 'birth', seed GIF_SEED) to 4000
+    updates -- a completion illustration, never comparison evidence.
   * ATTRIBUTION ablation, PAIRED: variants differing only in the
     newborn's initial weight -- signed / forced positive / zero --
     isolate ONLY the sign-injection component (placement, initial scale,
@@ -56,7 +59,9 @@ ALPHA = 2.0
 EXTENT = 4.0
 GRID = 96
 SEEDS = (0, 1, 2)
-ITERS = 4000
+ITERS_BENCH = 1000   # the shared comparison budget (all modes at K=10)
+ITERS_FULL = 4000    # --full auxiliary sweep / the fixed GIF run
+GIF_SEED = 0         # pre-fixed BEFORE running; never selected post hoc
 GROW_EVERY = 150
 K0, K_MAX = 4, 40
 
@@ -106,7 +111,7 @@ def make_gif(target, hist, path):
         for ev_it, kind, _, _ in hist["events"]:
             if ev_it <= it and kind == "birth":
                 axes[4].axvline(ev_it, color="tab:red", alpha=0.25, lw=0.8)
-        axes[4].set_xlim(0, ITERS)
+        axes[4].set_xlim(0, len(losses))
         axes[4].set_title("loss (red lines: births)", fontsize=10)
         fig.tight_layout()
         fig.canvas.draw()
@@ -123,19 +128,22 @@ def main():
     print(f"target: alpha={ALPHA} even cat, {GRID}x{GRID}, "
           f"negative fraction {np.mean(target < -0.02):.2f}")
 
+    full = "--full" in sys.argv
+    iters = ITERS_FULL if full else ITERS_BENCH
+    print(f"bench budget: {iters} updates per run"
+          + (" (--full auxiliary sweep)" if full else ""))
     results = {}
     for mode in ("split", "birth", "birth_pos", "birth_zero"):
         for seed in SEEDS:
             t0 = time.perf_counter()
             hist = fit(target, EXTENT, mode, K0=K0, K_max=K_MAX,
-                       iters=ITERS, grow_every=GROW_EVERY, seed=seed,
-                       snapshot_every=80)
+                       iters=iters, grow_every=GROW_EVERY, seed=seed,
+                       snapshot_every=10 ** 9)
             wall = time.perf_counter() - t0
             wfin = hist["final"][0]["w"]
-            print(f"  {mode:10s} seed={seed}: loss@1000={hist['loss'][1000]:.3e}"
-                  f"  final={hist['loss'][-1]:.3e}  K={len(wfin)}  "
-                  f"negatives={int(np.sum(wfin < 0))}  wall={wall:.0f}s",
-                  flush=True)
+            print(f"  {mode:10s} seed={seed}: loss@end={hist['loss'][-1]:.3e}"
+                  f"  K={len(wfin)}  negatives={int(np.sum(wfin < 0))}  "
+                  f"wall={wall:.0f}s", flush=True)
             results[(mode, seed)] = hist
 
     # comparison figure
@@ -147,21 +155,16 @@ def main():
             axes[0].semilogy(results[(mode, seed)]["loss"], color=color,
                              alpha=0.6, lw=1.2,
                              label=mode if seed == SEEDS[0] else None)
-    axes[0].axvline(1000, color="k", ls=":", lw=1.0)
-    axes[0].text(1050, axes[0].get_ylim()[0] * 2, "headline budget",
-                 fontsize=7, rotation=90, va="bottom")
     axes[0].legend(fontsize=8)
-    axes[0].set_title("loss: split vs birth variants (3 seeds)")
+    axes[0].set_title(f"loss to the shared budget ({iters} updates, 3 seeds)")
     axes[0].set_xlabel("iteration")
-    best = {m: min(SEEDS, key=lambda sd: results[(m, sd)]["loss"][-1])
-            for m in ("split", "birth")}
     panels = [(target, "target"),
-              (results[("split", best["split"])]["final"][1],
-               f"split-only best (loss "
-               f"{results[('split', best['split'])]['loss'][-1]:.1e})"),
-              (results[("birth", best["birth"])]["final"][1],
-               f"birth best (loss "
-               f"{results[('birth', best['birth'])]['loss'][-1]:.1e})")]
+              (results[("split", GIF_SEED)]["final"][1],
+               f"split, seed {GIF_SEED} (loss "
+               f"{results[('split', GIF_SEED)]['loss'][-1]:.1e})"),
+              (results[("birth", GIF_SEED)]["final"][1],
+               f"birth, seed {GIF_SEED} (loss "
+               f"{results[('birth', GIF_SEED)]['loss'][-1]:.1e})")]
     for ax, (img, title) in zip(axes[1:], panels):
         ax.imshow(img, cmap="RdBu_r", vmin=-1, vmax=1, origin="lower")
         ax.set_title(title, fontsize=10)
@@ -169,16 +172,20 @@ def main():
     fig.tight_layout()
     fig.savefig(HERE / "comparison.png", dpi=100)
 
-    make_gif(target, results[("birth", best["birth"])],
-             HERE / "birthfield_demo.gif")
+    print(f"  GIF run: mode=birth seed={GIF_SEED} (pre-fixed), "
+          f"{ITERS_FULL} updates -- illustration only", flush=True)
+    gif_hist = fit(target, EXTENT, "birth", K0=K0, K_max=K_MAX,
+                   iters=ITERS_FULL, grow_every=GROW_EVERY, seed=GIF_SEED,
+                   snapshot_every=80)
+    make_gif(target, gif_hist, HERE / "birthfield_demo.gif")
     print(f"  assets: {HERE / 'birthfield_demo.gif'}, "
           f"{HERE / 'comparison.png'}")
 
     print("\n=== verdicts vs declared expectations (docstring) ===")
-    gaps_1k = [results[("split", sd)]["loss"][1000]
-               / results[("birth", sd)]["loss"][1000] for sd in SEEDS]
-    print("1. HEADLINE, fixed shared budget of 1000 updates (all modes at "
-          "K=10), per-seed PAIRED split/birth loss ratios: "
+    gaps_1k = [results[("split", sd)]["loss"][-1]
+               / results[("birth", sd)]["loss"][-1] for sd in SEEDS]
+    print(f"1. HEADLINE, fixed shared budget of {iters} updates, per-seed "
+          "PAIRED split/birth loss ratios: "
           f"{[f'{g:.0f}x' for g in gaps_1k]}")
     if min(gaps_1k) >= 10:
         print("   -> the composite birth growth rule beats this split "
@@ -186,25 +193,20 @@ def main():
     else:
         print("   -> NOT SUPPORTED at the declared 10x bar on at least one "
               "seed -- recorded; do not publish the narrative.")
-    gaps_fin = [results[("split", sd)]["loss"][-1]
-                / results[("birth", sd)]["loss"][-1] for sd in SEEDS]
-    print(f"   auxiliary (one-off, 4000 iters): final ratios "
-          f"{[f'{g:.0f}x' for g in gaps_fin]}")
-    print("   note: split runs DO end with negative weights (the optimizer "
-          "drags weights through zero); splitting itself never flips a "
-          "sign (tested directly).")
+    print("   note: split runs acquire negative weights over long runs "
+          "(the optimizer can drag a weight through zero); splitting "
+          "itself never flips a sign (tested directly).")
     print("2. attribution ablation, PAIRED per seed (only the newborn's "
           "initial weight differs; placement/scale/method shared with "
           "'birth'):")
-    for stage, idx in (("iter 1000", 1000), ("final (auxiliary)", -1)):
-        for variant in ("birth_pos", "birth_zero"):
-            ratios = [results[(variant, sd)]["loss"][idx]
-                      / results[("birth", sd)]["loss"][idx] for sd in SEEDS]
-            print(f"   {stage}: {variant}/birth per seed "
-                  f"{[f'{r:.3f}' for r in ratios]}  "
-                  f"paired median {np.median(ratios):.3f}x")
-    pos_1k = np.median([results[("birth_pos", sd)]["loss"][1000]
-                        / results[("birth", sd)]["loss"][1000]
+    for variant in ("birth_pos", "birth_zero"):
+        ratios = [results[(variant, sd)]["loss"][-1]
+                  / results[("birth", sd)]["loss"][-1] for sd in SEEDS]
+        print(f"   at {iters} updates: {variant}/birth per seed "
+              f"{[f'{r:.3f}' for r in ratios]}  "
+              f"paired median {np.median(ratios):.3f}x")
+    pos_1k = np.median([results[("birth_pos", sd)]["loss"][-1]
+                        / results[("birth", sd)]["loss"][-1]
                         for sd in SEEDS])
     if pos_1k >= 3.0:
         print("   -> sign injection carries a real share of the gain "

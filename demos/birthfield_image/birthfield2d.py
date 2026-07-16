@@ -2,12 +2,11 @@
 
 A self-contained demo module (issue #46 idea 4) exporting the repo's exp02
 lesson, in its precise form, to plain image fitting: splitting/cloning
-existing splats PRESERVES each parent's sign, so subtractive (negative)
-structure can only appear via the slow weight-through-zero route of the
-optimizer -- or be injected directly by a "birth", whose place (and sign,
-in the signed variant) are given in closed form by the birth field, the
-loss gradient with respect to the weight of a hypothetical new splat at
-position mu:
+existing splats PRESERVES each parent's sign (the optimizer itself can
+still change a sign by dragging a weight through zero). New splats can
+instead be injected by a "birth", whose place (and sign, in the signed
+variant) are given in closed form by the birth field, the loss gradient
+with respect to the weight of a hypothetical new splat at position mu:
 
     B(mu) = dL/dw|_{w=0, splat at mu} = (2/N) sum_p r(p) exp(-|p-mu|^2/(2 sigma_b^2))
 
