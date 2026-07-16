@@ -844,13 +844,24 @@ def nll_and_grad_lossy_mixed(state, data, eta, extra_noise_var=0.0,
 
 def fit_bbdagS_lossy_mixed(data, R=2, K=4, M=1, eta0=0.8, fit_eta=True,
                            extra_noise_var=0.0, iters=300, lr=0.05, seed=0,
-                           callback=None):
+                           callback=None, init=None):
     """Adam on the rank-R lossy NLL; returns (state, eta). PSD by
-    construction (B B^dagger through a CPTP loss channel)."""
+    construction (B B^dagger through a CPTP loss channel).
+
+    ``init``: optional MixedSqueezedKetState to start from instead of the
+    seeded random init (must match R, K, M) -- the warm-start hook for the
+    issue #40 saturation study. ``seed`` is ignored when ``init`` is given.
+    """
     if not (0.0 < eta0 < 1.0):
         raise ValueError(f"eta0 must be in (0, 1) for the logit, got {eta0}")
     _check_loss_params(eta0, extra_noise_var)
-    state = MixedSqueezedKetState.random_init(R, K, M, rng=seed)
+    if init is not None:
+        if (init.R, init.K, init.M) != (R, K, M):
+            raise ValueError(
+                f"init shape {(init.R, init.K, init.M)} != {(R, K, M)}")
+        state = init
+    else:
+        state = MixedSqueezedKetState.random_init(R, K, M, rng=seed)
     v = _pack_mixed(state)
     t = float(np.log(eta0 / (1.0 - eta0)))
     m1, m2 = np.zeros(len(v) + 1), np.zeros(len(v) + 1)

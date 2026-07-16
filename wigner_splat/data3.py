@@ -27,3 +27,28 @@ def histogram_targets3(data, bins=24, x_max=None):
         )
         targets.append((tuple(angles), hist))
     return centers, targets
+
+
+def apply_detection_noise(data, eta, extra_noise_var=0.0, rng=None):
+    """Detector-side noise on ideal homodyne samples (issue #42 simulator).
+
+    Maps every sample x -> sqrt(eta) x + N(0, sigma2), sigma2 = (1 - eta)/2 +
+    extra_noise_var: efficiency-eta homodyne detection (the vacuum port
+    contributes (1 - eta)/2 in this repo's vacuum-variance-1/2 convention)
+    plus electronic noise. This is exactly the measured-pdf convolution the
+    noise-aware reconstructors model, and it works on samples from ANY
+    target. data: [(theta (M,), X (S, M))]; returns the same structure.
+    """
+    if not (0.0 <= eta <= 1.0):
+        raise ValueError(f"eta must be in [0, 1], got {eta}")
+    if extra_noise_var < 0.0:
+        raise ValueError(f"extra_noise_var must be >= 0, got {extra_noise_var}")
+    rng = np.random.default_rng(rng)
+    sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
+    out = []
+    for theta, X in data:
+        X = np.asarray(X, float)
+        noisy = np.sqrt(eta) * X + rng.normal(scale=np.sqrt(sigma2),
+                                              size=X.shape)
+        out.append((theta, noisy))
+    return out

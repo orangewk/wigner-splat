@@ -618,6 +618,15 @@ squeezed-target margin over the purefock control is only +0.0089), so the
 falsification condition does not fire. With its two extensions BB-dagger
 attains the highest physical fidelity IN THIS RUN on both targets at
 21-54 s, while full-rank MLE is DNF at 900 s on both.
+[MULTI-SEED UPDATE, exp16 2026-07-16 (issue #39): replicated over 3 data
+x 3 init seeds with the optional MLE arm. The squeezed rankings hold on
+every seed (bbdagS K=4 0.9688-0.9761 > purefock 0.9610-0.9694 > MLE
+0.68-0.72) but the margin over purefock is descriptive only (n=3
+sign-consistent, cannot reach significance). The lossy verdict is
+INIT-FRAGILE: rank-2 collapses to F ~ 0.52 on 3/9 inits at dNLL ~ 1e-4,
+and best-by-train-NLL selection lands F = 0.9524 on data seed 1 — BELOW
+the MLE's 0.9580 there — so "does not lose" fails on 1/3 data seeds
+under an honest selection rule. See the exp16 entry.]
 
 SCOPE CORRECTION (PR-36 review, accepted): both targets are out-of-family
 only relative to the ORIGINAL rank-1 coherent ansatz — for the extensions
@@ -963,8 +972,220 @@ synthetic Phase 0 only; nothing here claims occlusion handling or
 real-video performance. Pins: tests/test_gauss3d.py (9 tests — FD
 gradients, probe/Jacobian brute-force matches, parallax raises
 lambda_min, predicted sigma falls with baseline).
+## 2026-07-16 — Multi-seed replication of experiment 11 (experiment 16, issue #39)
 
-## 2026-07-16 (later) — Phase 1 on real video, round 1: precondition DNF (experiment 16, issue #48)
+(Numbering note: this experiment lives in experiments/16_exp11_seeds.
+It ran as "exp15" before the parallel application line's experiment 15
+(15_video_conf, issue #48) merged first, and was renumbered; the
+committed raw log headers still print exp15 and are left untouched.)
+
+Tried: exp11's ruling rested on a single run (data seed 42, init seed 0),
+and its squeezed-target margin over the generic control was only +0.0089.
+Exp15 reran the seed-sensitive fits over data seeds {42, 1, 2} x init
+seeds {0, 1, 2} with the exp11 configs unchanged (45 fits), plus the
+issue's optional MLE arm (deterministic given the data, so data-seed axis
+only: 6 runs at the exp11 MLE config). Declared before the run: init
+selection is best TRAIN NLL per data seed (never fidelity); the K=2
+success threshold is F >= 0.9; and the n=3 paired design bottoms out at a
+sign-test p = 0.125, so it CANNOT certify significance — any consistent
+sign stays descriptive by construction.
+
+Happened (committed logs + results json):
+- All four exp11 single values (0.9947 / 0.5169 / 0.9700 / 0.9611) fall
+  inside their measured 9-cell ranges.
+- SQUEEZED target replicates robustly: bbdagS K=4 spans F 0.9688-0.9761
+  over all 9 cells (spread ~0.007), purefock 0.9610-0.9694, MLE
+  {0.7157, 0.7007, 0.6767}. The bbdagS-vs-purefock margin is
+  sign-consistent — paired best-by-NLL diffs +0.0089/+0.0043/+0.0108,
+  9/9 cells positive — but per the pre-declared rule this is a
+  DESCRIPTIVE advantage only; the honest exp11 rewrite is "BB-dagger and
+  the generic control are statistically indistinguishable on the squeezed
+  target at this design (consistent-sign ~+0.004..+0.011), while both
+  beat the MLE by ~0.25-0.30."
+- LOSSY target: the verdict is INIT-FRAGILE. The rank-2 coherent fit
+  collapses to F ~ 0.52-0.55 (the rank-deficient mode) on 3/9 inits
+  while the train NLL moves by only ~1e-4..3e-3 nats; best-by-NLL per
+  data seed = {0.9947, 0.9524, 0.9948} against a stable MLE
+  {0.9550, 0.9580, 0.9580}. On data seed 1 the NLL-selected BB-dagger
+  fit (0.9524) sits BELOW the MLE (0.9580) even though an F = 0.9947
+  init exists at dNLL ~ 1e-4: the training objective cannot see a
+  0.4-fidelity difference at this budget. exp11's "does not lose"
+  therefore survives 2/3 data seeds and FAILS on the third under the
+  declared selection rule.
+- K=2 vs K=4 init sensitivity (issue item 3): K=2 fails 2/9 (F 0.7754
+  and 0.8414, both at init seed 1); K=4 passes 9/9. The catastrophic
+  K=2 failures recorded in the exp11 entry (F ~ 0.00/0.15) were at a
+  200-iter schedule; at the 400-iter schedule used here the failure mode
+  is milder — consistent with an optimization-schedule artifact on top
+  of a genuinely worse K=2 landscape. Overparameterizing in K remains
+  the cheap, effective fix.
+
+Learned: seed noise was the right thing to fear, but it lives in a
+different place than the issue guessed. The squeezed-target rankings are
+seed-robust and the +0.0089 margin replicates in sign — it just cannot
+be certified at n=3, so it is downgraded to descriptive per the
+acceptance criteria. The genuinely fragile number is the LOSSY-target
+0.9947: the rank-2 landscape has a collapse mode that the likelihood is
+nearly blind to (dNLL ~ 1e-4 vs dF ~ 0.4), so single-init headline
+fidelities on mixed targets should be read as "best observed", not
+"typical". Follow-up recorded, not opened as an issue yet: a
+selection-robust practice for mixed-target BB-dagger fits (more inits,
+or a fidelity-blind diagnostic such as the fitted state's own purity /
+column Gram rank) would close the gap between best-observed and
+NLL-selected.
+## 2026-07-16 — Loss model deployed across all reconstructors + the noise control (experiment 17, issue #42 full scope)
+
+(Numbering note: this experiment lives in experiments/17_loss_control.
+It ran as "exp16" before the parallel application line's experiment 15
+(15_video_conf, issue #48) merged first and shifted the quantum-line
+numbering; the committed raw log headers still print exp16 and are
+left untouched.)
+
+Tried: the remaining #42 scope — take the exp13 loss forward model
+(measured pdf = pure pdf convolved per mode with N(0, sigma2),
+sigma2 = (1 - eta)/2 + electronic noise) out of bbdagS and into every
+other reconstructor, each by the route its representation makes natural:
+  * bbdagM (coherent, rank-1 and rank-R): DELEGATION. A coherent ket is
+    the xi = 0 slice of the squeezed ansatz, so the lossy pdf / NLL /
+    analytic gradient are the bbdagS pair machinery evaluated at xi = 0
+    with the xi gradient block dropped — exact, nothing re-derived.
+    Known-eta and jointly-fitted-eta modes both exposed.
+  * purefock3: per-mode inefficient-homodyne POVM matrices
+    Phi[n,n'](x) = int psi_n(y) psi_n'(y) N(x - sqrt(eta) y; sigma2) dy
+    by a Gauss-Hermite rule that is EXACT (polynomial x Gaussian
+    integrand), so electronic noise is supported with no truncation
+    error; a truncated-Kraus route serves as the independent test
+    cross-check at sigma_el = 0. p = psi^dag (E1 x E2 x E3) psi / Z via
+    three sequential mode contractions; known-eta fitter.
+  * splat (forward3f / fit3f): the measurement map on the projected
+    Gaussians, m -> sqrt(eta) m, C -> eta C + sigma2 I — and because the
+    projection columns are orthonormal (U^T U = I), this equals the
+    PHASE-SPACE loss map mu -> sqrt(eta) mu, Sigma -> eta Sigma +
+    sigma2 I_6 on the mixture itself. The fitted splat therefore
+    estimates the PRE-loss Wigner function and every pure-target overlap
+    score applies unchanged. Threaded through all fit3f stages including
+    the blob_span variance inversion.
+  * data3.apply_detection_noise: detector-side noisy sampler for ANY
+    target's ideal samples.
+Pinned by 22 new tests (eta = 1 exact reduction everywhere; agreement
+with numerical convolution AND the Fock/Kraus channel on independent
+routes; FD gradient checks with the loss on; parameter validation); the
+full suite passes at 181. A latent convention subtlety surfaced:
+purefock3's amplitude (sum psi_n v_n, unconjugated) and
+fock.marginal_from_rho are mutually CONJUGATE phase conventions —
+invisible for real-coefficient states (every state pinned before now),
+visible for random complex ones; documented where the tests hit it.
+
+Happened (experiment 17, pre-declared ignore/known/fitted control on a
+pure cat3 with known detector noise eta = 0.8, sigma_el^2 = 0.02, 27
+triples x 1000 shots, single data seed, descriptive):
+    bbdagM K=2   ignore 0.6188 | known 0.8246 | fitted 0.5085 (eta -> 0.56)
+    purefock3    ignore 0.8925 | known 0.9727
+    splat        ignore 0.4364 | known 0.5009   (overlap-score axis)
+Ignoring the detector costs every reconstructor and the known-eta
+correction recovers most of it (purefock3 to 0.9727 against the ~0.993
+truncation ceiling). The surprise is the FITTED arm: jointly fitted eta
+landed at 0.5635 with F = 0.5085 — worse than ignoring the noise.
+
+Diagnostic (diagnose_eta.py, committed log; discriminator declared
+before running: start sensitivity vs identifiability): refits from
+eta0 = 0.6 AND 0.79, three inits each, ALL land on one train-NLL plateau
+(3.96110-3.96112, with the known-eta reference at 3.96109) while fitted
+eta scatters 0.56-0.77 and fidelity scatters 0.06-0.80. The likelihood
+at this budget is flat to ~1e-5 nats along a (state, eta) direction
+across fits whose fidelity differs by 0.74: a genuine IDENTIFIABILITY
+failure, not under-optimization. Known eta pins the model to the right
+member of the plateau — that is what the calibration knob is for.
+
+Learned: the known-eta deployment holds across every representation with
+the closed-form discipline intact (the only integral anywhere is an
+exact finite Gauss-Hermite rule). And "fit eta jointly" is not a free
+lunch: it was safe on the GKP data (exp13: ~60k single-mode samples,
+fitted eta stable at 0.638-0.643 across seeds and splits) and is UNSAFE
+on a 27k-sample three-mode cat, where eta is unidentifiable and fidelity
+collapses silently while the NLL moves by 1e-5. This is the same
+budget-blindness exp16 (the exp11 multi-seed replication, issue #39)
+exposed on the init axis, seen here on the eta
+axis: at small budgets the training objective cannot see directions
+fidelity cares about. Practical rule going forward: calibrate eta when a
+calibration exists; fit it only with enough per-mode data; read fitted
+eta as a model parameter (exp14's pre-declared stance) always. #42's
+full scope (bbdagM / purefock3 / splat deployment + known-vs-fitted
+control) is complete; #38's thermal-noise held-out target shares this
+Gaussian-convolution machinery as designed.
+
+## 2026-07-16 — Rank saturation on the GKP data: the frontier gap closes (experiment 18, issue #40)
+
+(Numbering note: this experiment lives in experiments/18_gkp_saturation.
+It ran as "exp17" before the quantum-line renumbering triggered by the
+application line's experiment 15; the committed raw log header still
+prints exp17 and is left untouched.)
+
+Tried: exp14 left three threads open -- the rank curve had not plateaued
+at R=3, warm starts were untested, and the rank-vs-K interplay had only
+the 46/47-dof control point -- with the frontier deficit at half a
+millinat. Exp18 runs the pre-declared saturation protocol: cold R=4
+(both reshuffles) and R=5 (primary), a warm-start chain R3 -> 4 -> 5
+(grow the best parent by one small-weight column;
+fit_bbdagS_lossy_mixed gained an init= hook for it), a matched ~70-dof
+K-interplay pair (R3K4 = 69 dof vs R2K6 = 70 dof), and the MLE frontier
+rerun per split. Same exploratory standing caveats as exp13/14/17 (same
+reshuffles, test-selected MLE opponent, conditional intervals). The R=3
+refits reproduced exp14's committed numbers exactly (train 1.62688
+primary), pinning cross-run reproducibility on this machine.
+
+Happened (committed log, results json, frontier figure; conditional
+paired bootstrap 95% CIs):
+- SATURATION (decision check 1): best-by-train deltas delta(4) =
+  +0.00016 < the declared 0.0002 flatness threshold; delta(5) = +0.00000
+  exactly. Held-out follows: R3 1.63009, R4 1.62993, R5 1.62995
+  (primary). The rank curve saturates at R = 4-5 under this schedule.
+- FRONTIER (decision check 2): CI(R4 - test-selected best MLE) =
+  [-0.00002, +0.00020] (point +0.00009) on the primary reshuffle and
+  [-0.00017, +0.00003] (point -0.00007) on the alternate. Both straddle
+  zero: per the pre-declared branches the fits TIE the empirical MLE
+  frontier at CI resolution -- the first real-data round without a
+  descriptive loss, after three straight losses (exp12/13/14). The
+  physical model does it at 92 real dof against the MLE frontier best's
+  255, and the tie is with a test-selected oracle opponent.
+- OPTIMIZATION (decision check 3): warm R=4 beats the cold best by only
+  0.00003 train nats (< the declared 0.0001), so the cold schedule is
+  adequate at R=4 and under-optimization is descriptively disfavored as
+  the residual's cause. The warm chain's endpoint (warm R=5, train
+  1.62663, test 1.62990) is consistent with the same plateau.
+- K INTERPLAY (decision check 4): at matched ~70 dof the rank split wins
+  held-out: CI(R3K4 - R2K6) = [-0.00098, -0.00018]. Together with
+  exp14's 46-dof control, a dof spent on rank beats a dof spent on ket
+  count at both probed frontier points.
+- ETA DRIFT (decision check 5, pre-declared): fitted eta climbs 0.87 ->
+  0.94 -> 0.92 for R = 3/4/5 and reaches 0.9948 on the warm R=5 chain:
+  as rank grows the loss knob is squeezed out entirely, and the model
+  converges toward a pure rank mixture. Fitted eta remains a model
+  parameter, not a calibrated efficiency.
+
+Learned: the exp13 residual is now fully walked down -- loss modeling
+closed 98% of the pure-model gap (exp13), rank-2 cut the remainder by
+two thirds (exp14), and rank-4 closes the rest to a statistical tie
+with the empirical MLE frontier on both reshuffles (this run), with
+matched-dof controls attributing each step to rank rather than
+capacity, and warm starts ruling out under-optimization at the end
+point. The honest headline after four real-data rounds: a
+constructively physical rank-4 x squeezed x loss model with 92 real
+parameters ties the test-selected full-rank MLE frontier on the Konno
+et al. GKP dataset at CI resolution, on the same exploratory reshuffles
+every prior round used. What it does NOT say: no independent holdout
+exists (the splits reuse the same observations), the opponent is
+test-selected (favoring the MLE), and "ties" is a CI statement, not
+preregistered confirmation. #40's saturation question is answered
+(R = 4-5, schedule-adequate); the natural next step on this dataset is
+an INDEPTH preregistered confirmation only if a fresh dataset or a
+held-out session becomes available (#41 scope).
+
+## 2026-07-16 (later) — Phase 1 on real video, round 1: precondition DNF (experiment 16 = 16_real_video, issue #48)
+
+(Numbering note: "experiment 16" collided across the two parallel
+lines; this one lives in experiments/16_real_video, distinct from the
+quantum line's experiments/16_exp11_seeds below/above.)
 
 Real data arrived from the owner: a 10 s hand-held walking video of a
 (stationary — verified by strip-shift analysis) carousel. Extracted a
@@ -1011,7 +1232,7 @@ so the knob had nothing to absorb (sigma_blur ~ half a pixel). Round 2
 = sorted alpha compositing in the renderer (the falsification path
 named in the declaration), then the SAME untouched protocol.
 
-## 2026-07-16 (night) — Phase 1 round 2: precondition met, Gate B falsified (experiment 16, issue #48)
+## 2026-07-16 (night) — Phase 1 round 2: precondition met, Gate B falsified (experiment 16 = 16_real_video, issue #48)
 
 Round 2 replaced the additive renderer with sorted alpha compositing
 (composite.py: a_k = alpha_k A_k G_k, T_k = prod(1 - a_j), background

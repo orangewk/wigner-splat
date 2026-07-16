@@ -1,0 +1,79 @@
+=== exp15: issue #39 -- multi-seed replication of exp11 ===
+data seeds [42, 1, 2] x init seeds [0, 1, 2], exp11 configs unchanged; alpha=1.5 parity=1, 27 triples x 2000 shots; K=2 success threshold F>=0.9
+
+--- data seed 42: lossy cat eta=0.8 ---
+  bbdagM_R2K2    data=42 init=0 F=0.9947 NLL=3.9062 wall=17s
+  bbdagM_R2K2    data=42 init=1 F=0.5186 NLL=3.9095 wall=16s
+  bbdagM_R2K2    data=42 init=2 F=0.9687 NLL=3.9062 wall=16s
+  purefock       data=42 init=0 F=0.5169 NLL=3.9066 wall=175s
+  purefock       data=42 init=1 F=0.5010 NLL=3.9065 wall=159s
+  purefock       data=42 init=2 F=0.5177 NLL=3.9072 wall=153s
+
+--- data seed 1: lossy cat eta=0.8 ---
+  bbdagM_R2K2    data= 1 init=0 F=0.9947 NLL=3.9001 wall=13s
+  bbdagM_R2K2    data= 1 init=1 F=0.5399 NLL=3.9025 wall=13s
+  bbdagM_R2K2    data= 1 init=2 F=0.9524 NLL=3.9000 wall=12s
+  purefock       data= 1 init=0 F=0.5229 NLL=3.9000 wall=145s
+  purefock       data= 1 init=1 F=0.5183 NLL=3.9001 wall=149s
+  purefock       data= 1 init=2 F=0.5212 NLL=3.8995 wall=148s
+
+--- data seed 2: lossy cat eta=0.8 ---
+  bbdagM_R2K2    data= 2 init=0 F=0.9948 NLL=3.9062 wall=12s
+  bbdagM_R2K2    data= 2 init=1 F=0.5466 NLL=3.9091 wall=12s
+  bbdagM_R2K2    data= 2 init=2 F=0.9191 NLL=3.9064 wall=13s
+  purefock       data= 2 init=0 F=0.5257 NLL=3.9058 wall=155s
+  purefock       data= 2 init=1 F=0.5233 NLL=3.9060 wall=144s
+  purefock       data= 2 init=2 F=0.5278 NLL=3.9055 wall=163s
+
+--- data seed 42: squeezed cat r=0.4 ---
+  bbdagS_K4      data=42 init=0 F=0.9700 NLL=4.0667 wall=49s
+  bbdagS_K4      data=42 init=1 F=0.9702 NLL=4.0668 wall=44s
+  bbdagS_K4      data=42 init=2 F=0.9701 NLL=4.0668 wall=42s
+  bbdagS_K2      data=42 init=0 F=0.9702 NLL=4.0668 wall=23s
+  bbdagS_K2      data=42 init=1 F=0.8414 NLL=4.0691 wall=23s
+  bbdagS_K2      data=42 init=2 F=0.9701 NLL=4.0668 wall=24s
+  purefock_sq    data=42 init=0 F=0.9611 NLL=4.0679 wall=154s
+  purefock_sq    data=42 init=1 F=0.9617 NLL=4.0679 wall=150s
+  purefock_sq    data=42 init=2 F=0.9610 NLL=4.0679 wall=150s
+
+--- data seed 1: squeezed cat r=0.4 ---
+  bbdagS_K4      data= 1 init=0 F=0.9690 NLL=4.0600 wall=44s
+  bbdagS_K4      data= 1 init=1 F=0.9688 NLL=4.0600 wall=44s
+  bbdagS_K4      data= 1 init=2 F=0.9689 NLL=4.0600 wall=44s
+  bbdagS_K2      data= 1 init=0 F=0.9690 NLL=4.0600 wall=24s
+  bbdagS_K2      data= 1 init=1 F=0.7754 NLL=4.0633 wall=24s
+  bbdagS_K2      data= 1 init=2 F=0.9690 NLL=4.0600 wall=24s
+  purefock_sq    data= 1 init=0 F=0.9647 NLL=4.0619 wall=153s
+  purefock_sq    data= 1 init=1 F=0.9657 NLL=4.0619 wall=153s
+  purefock_sq    data= 1 init=2 F=0.9674 NLL=4.0619 wall=156s
+
+--- data seed 2: squeezed cat r=0.4 ---
+  bbdagS_K4      data= 2 init=0 F=0.9758 NLL=4.0668 wall=46s
+  bbdagS_K4      data= 2 init=1 F=0.9758 NLL=4.0668 wall=46s
+  bbdagS_K4      data= 2 init=2 F=0.9761 NLL=4.0668 wall=45s
+  bbdagS_K2      data= 2 init=0 F=0.9759 NLL=4.0668 wall=23s
+  bbdagS_K2      data= 2 init=1 F=0.9319 NLL=4.0672 wall=24s
+  bbdagS_K2      data= 2 init=2 F=0.9769 NLL=4.0668 wall=24s
+  purefock_sq    data= 2 init=0 F=0.9653 NLL=4.0691 wall=157s
+  purefock_sq    data= 2 init=1 F=0.9694 NLL=4.0691 wall=157s
+  purefock_sq    data= 2 init=2 F=0.9649 NLL=4.0691 wall=155s
+
+raw results -> C:\dev\wigner-splat-exp15\experiments\15_exp11_seeds\results.json
+
+=== summary (all 9 cells; representative = best train NLL per data seed) ===
+bbdagM_R2K2    all9: mean=0.8255 range=[0.5186, 0.9948]  best-init/seed: 0.9947, 0.9524, 0.9948  exp11=0.9947 (inside range)
+purefock       all9: mean=0.5194 range=[0.5010, 0.5278]  best-init/seed: 0.5010, 0.5212, 0.5278  exp11=0.5169 (inside range)
+bbdagS_K4      all9: mean=0.9717 range=[0.9688, 0.9761]  best-init/seed: 0.9700, 0.9690, 0.9761  exp11=0.9700 (inside range)
+bbdagS_K2      all9: mean=0.9311 range=[0.7754, 0.9769]  best-init/seed: 0.9702, 0.9690, 0.9759
+purefock_sq    all9: mean=0.9646 range=[0.9610, 0.9694]  best-init/seed: 0.9611, 0.9647, 0.9653  exp11=0.9611 (inside range)
+
+=== primary comparison: bbdagS K=4 vs purefock (squeezed), paired per data seed on best-init-by-NLL ===
+  data seed 42: diff = +0.0089
+  data seed  1: diff = +0.0043
+  data seed  2: diff = +0.0108
+  sign-consistent: True (n=3; one-sided sign-test floor p=0.125 -- CANNOT reach 0.05, descriptive only)
+  secondary (9 per-cell diffs, not independent): mean=+0.0071 range=[+0.0015, +0.0112], 9/9 positive
+
+=== issue item 3: bbdagS K=2 vs K=4 init sensitivity (success = F >= 0.9) ===
+  bbdagS_K2: 7/9 success; failures: (data=42,init=1,F=0.8414), (data=1,init=1,F=0.7754)
+  bbdagS_K4: 9/9 success; failures: none

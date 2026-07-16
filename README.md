@@ -66,22 +66,32 @@ channel and rank-two squeezed-ket model improved held-out likelihood and, in a
 matched-degree-of-freedom control, outperformed a rank-one model of comparable
 capacity.
 
-It still does **not** beat the empirical MLE frontier: on two reshuffles the
-rank-two model remains about 0.0005–0.0010 nats per held-out sample behind it.
-Those analyses are exploratory—the splits reuse the same observations and the
-MLE frontier is selected on test data. This loss is recorded rather than hidden.
+A rank-saturation study (experiment 18) then walked the remaining gap down:
+the rank curve saturates at R = 4–5, warm starts rule out under-optimization,
+and matched-degree-of-freedom controls at two frontier points attribute each
+gain to rank rather than parameter count. At rank 4 (92 real parameters) the
+physical model **ties the empirical MLE frontier at confidence-interval
+resolution on both reshuffles** (conditional 95% CIs [−0.00002, +0.00020] and
+[−0.00017, +0.00003] nats per held-out sample against the test-selected
+frontier best at 255 parameters). Earlier rounds' recorded losses
+(experiments 12–14) stand in the log. These analyses remain exploratory—the
+splits reuse the same observations, the MLE opponent is test-selected, and a
+tie at CI resolution is not preregistered confirmation.
 
 <p align="center">
   <img src="experiments/14_gkp_rank/gkp_rank_marginals.png" width="78%" alt="Measured GKP homodyne marginals and reconstructions" />
 </p>
 
 <p align="center">
-  <img src="experiments/14_gkp_rank/gkp_rank_frontier.png" width="78%" alt="Held-out NLL versus degrees of freedom for physical models and MLE" />
+  <img src="experiments/18_gkp_saturation/gkp_saturation_frontier.png" width="78%" alt="Held-out NLL versus degrees of freedom for physical models and MLE, ranks 1 through 5" />
 </p>
 
-The figures and their full protocol are in
-[`experiments/14_gkp_rank`](experiments/14_gkp_rank) and the dated
-[research-log entry](docs/research-log.md#2026-07-14--rank-freedom-on-real-data-exploratory-rank-hypothesis-test-experiment-14-issue-40).
+The figures and their full protocols are in
+[`experiments/14_gkp_rank`](experiments/14_gkp_rank) /
+[`experiments/18_gkp_saturation`](experiments/18_gkp_saturation) and the dated
+research-log entries
+([exp14](docs/research-log.md#2026-07-14--rank-freedom-on-real-data-exploratory-rank-hypothesis-test-experiment-14-issue-40),
+[exp18](docs/research-log.md#2026-07-16--rank-saturation-on-the-gkp-data-the-frontier-gap-closes-experiment-18-issue-40)).
 
 ## Reproduce
 
@@ -103,7 +113,7 @@ its source README and attribution under `experiments/12_gkp_data/data/`.
 wigner_splat/   forward models, fitters, physical Gaussian-ket models, and MLE baselines
 experiments/    reproducible synthetic and public-data experiments
 tests/          numerical and physical-consistency tests
-docs/           research log, surveys, decisions, and outreach material
+docs/           research log, surveys, and reproducibility notes
 ```
 
 ## Prior work and novelty boundary

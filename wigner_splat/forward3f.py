@@ -89,7 +89,7 @@ class SplatMixture3F:
         return m, C
 
     def radon3(self, x1, x2, x3, theta1, theta2, theta3, chunk=None,
-               cell_var=0.0):
+               cell_var=0.0, eta=1.0, extra_noise_var=0.0):
         """Joint quadrature density on the (x1, x2, x3) grid.
 
         Returns array of shape (len(x1), len(x2), len(x3)). The correlated 3D
@@ -102,11 +102,28 @@ class SplatMixture3F:
         forward model for a density=True histogram (a box of width h has
         variance h^2/12; convolving the Gaussian with it matches the second
         moment). Leave at 0 for a point evaluation of the true marginal.
+
+        ``eta`` / ``extra_noise_var`` (issue #42): detection efficiency and
+        electronic noise. The measured quadrature is sqrt(eta) x + N(0,
+        sigma2), sigma2 = (1 - eta)/2 + extra_noise_var, so the projected
+        Gaussians transform as m -> sqrt(eta) m, C -> eta C + sigma2 I --
+        applied BEFORE the cell_var bin smoothing (the histogram bins the
+        measured values). Because the projection columns are orthonormal
+        (U^T U = I), this is EXACTLY the phase-space loss map on the mixture
+        itself, mu -> sqrt(eta) mu, Sigma -> eta Sigma + sigma2 I_6: the
+        fitted splat then represents the PRE-loss Wigner function, and the
+        pure-target overlap scores stay directly applicable to it.
         """
         x1 = np.atleast_1d(x1)
         x2 = np.atleast_1d(x2)
         x3 = np.atleast_1d(x3)
         m, C = self.projected(theta1, theta2, theta3)
+        if eta != 1.0 or extra_noise_var != 0.0:
+            from .bbdagS import _check_loss_params
+            _check_loss_params(eta, extra_noise_var)
+            sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
+            m = np.sqrt(eta) * m
+            C = eta * C + sigma2 * np.eye(3)
         if cell_var:
             C = C + cell_var * np.eye(3)
         P = np.linalg.inv(C)                              # (K, 3, 3)
