@@ -2,7 +2,16 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it using the metadata from this file."
 title: wigner-splat
 type: software
+abstract: "Research prototype for continuous-variable quantum-state tomography with Gaussian representations and homodyne measurements."
 authors:
   - name: orangewk
+keywords:
+  - continuous-variable quantum tomography
+  - homodyne tomography
+  - Wigner function
+  - Gaussian representations
+  - quantum optics
+version: "0.1.0"
 repository-code: "https://github.com/orangewk/wigner-splat"
+url: "https://github.com/orangewk/wigner-splat"
 license: MIT
