@@ -16,7 +16,7 @@ where available.
 
 ## 2026-07-06 — v0 scaffold (fixed K, numerical gradients)
 
-**Tried.** Seeded the repository from the indirect-agent-lab spike: a fixed-K
+**Tried.** Seeded the repository from an earlier exploratory spike: a fixed-K
 signed Gaussian mixture, a closed-form Radon (quadrature-marginal) forward model,
 an Adam fitter with numerical gradients, and a negativity penalty. Target: the
 single-mode cat state |α⟩ + |−α⟩ at α = 1.5.

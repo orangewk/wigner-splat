@@ -3,8 +3,6 @@
 **Gaussian Splatting for Quantum State Tomography** — 符号付き異方性ガウス混合を
 3DGS 流の微分可能最適化で homodyne 測定データにフィットし、Wigner 関数を再構成する。
 
-親プログラム: [indirect-agent-lab / 3DGS × 量子論 ポジションペーパー](https://github.com/orangewk/indirect-agent-lab/blob/main/docs/research/2026-07-06-3dgs-quantum-program--position.md)(テーマA)
-
 ## 主張(2026-07-06 サーベイ通過後の定式化)
 
 3DGS-for-Radon-tomography 機構([R2-Gaussian 2024](https://arxiv.org/abs/2405.20693)、
