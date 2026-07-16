@@ -19,7 +19,8 @@ which are all image-space).
 """
 import numpy as np
 
-from splatvid import render, render_and_grad, rot_exp
+import splatvid
+from splatvid import rot_exp
 
 
 class _Adam:
@@ -63,7 +64,8 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
               iters_a=300, iters_pose=60, iters_win=60, window=5,
               final_schedule=((600, 0.02),), lr_splat=0.02,
               lr_pose_c=0.02, lr_pose_r=0.01, lr_glob=0.005,
-              lr_blur=None, resume=None, log_every=None):
+              lr_blur=None, resume=None, renderer=None,
+              opacity_init=None, log_every=None):
     """frames: (F, H*W) flattened train frames in order. Returns (state,
     poses, history).
 
@@ -71,7 +73,13 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
     stages A and B are skipped and only the stage-C final_schedule runs
     (the continuation path used by the committed tuning trajectory;
     Adam moments restart fresh, as in the original runs).
+
+    renderer: module providing render/render_and_grad (default splatvid;
+    pass composite for the round-2 alpha-compositing model, which adds a
+    per-splat opacity logit "o" to the state, initialized at
+    opacity_init).
     """
+    rd = splatvid if renderer is None else renderer
     F = len(frames)
     H, W = shape
     vs, us = np.meshgrid(np.arange(H, dtype=float),
@@ -79,6 +87,8 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
     U, V = us.ravel(), vs.ravel()
     if resume is None:
         st = init_state(frames[0], shape, f0, K, seed)
+        if opacity_init is not None:
+            st["o"] = np.full(K, float(opacity_init))
         poses = [(np.eye(3), np.zeros(3))]
     else:
         st = dict(resume[0])
@@ -91,8 +101,8 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
         return _cam(poses[f_idx], f, shape, U, V)
 
     def joint_pass(idxs, n_iter, opt_pose, opt_glob, tag, lr=None):
-        ad = {k: _Adam(np.shape(st[k]), lr or lr_splat)
-              for k in ("mu", "s", "w", "b")}
+        keys = ("mu", "s", "w", "b") + (("o",) if "o" in st else ())
+        ad = {k: _Adam(np.shape(st[k]), lr or lr_splat) for k in keys}
         if opt_glob:
             ad["logf"] = _Adam((), lr_glob)
             if st["s_blur"] is not None:
@@ -104,9 +114,10 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
             g = {k: np.zeros(np.shape(st[k])) for k in ad}
             loss = 0.0
             for i in idxs:
-                L, _, gf = render_and_grad(st["mu"], st["s"], st["w"],
-                                           st["b"], cams(i), frames[i],
-                                           s_blur=st["s_blur"])
+                extra = {"o": st["o"]} if "o" in st else {}
+                L, _, gf = rd.render_and_grad(st["mu"], st["s"], st["w"],
+                                              st["b"], cams(i), frames[i],
+                                              s_blur=st["s_blur"], **extra)
                 loss += L / len(idxs)
                 for k in ad:
                     g[k] += np.asarray(gf[k]) / len(idxs)
@@ -131,7 +142,7 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
         for f_idx in range(1, F):
             poses.append((poses[-1][0].copy(), poses[-1][1].copy()))
             fit_pose(st, poses, f_idx, frames[f_idx], shape, U, V,
-                     iters_pose, lr_pose_r, lr_pose_c)
+                     iters_pose, lr_pose_r, lr_pose_c, renderer=rd)
             lo = max(0, f_idx - window + 1)
             joint_pass(list(range(lo, f_idx + 1)), iters_win,
                        opt_pose=True, opt_glob=False, tag=f"B{f_idx}")
@@ -146,16 +157,19 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
 
 
 def fit_pose(st, poses, f_idx, frame, shape, U, V, n_iter,
-             lr_pose_r=0.01, lr_pose_c=0.02):
+             lr_pose_r=0.01, lr_pose_c=0.02, renderer=None):
     """Optimize ONE frame's pose with the splats frozen (also used for
     held-out frames at evaluation time, per the declared protocol)."""
+    rd = splatvid if renderer is None else renderer
     aR, ac = _Adam(3, lr_pose_r), _Adam(3, lr_pose_c)
     f = float(np.exp(st["logf"]))
+    extra = {"o": st["o"]} if "o" in st else {}
     for _ in range(n_iter):
         R, c = poses[f_idx]
         cam = _cam((R, c), f, shape, U, V)
-        _, _, g = render_and_grad(st["mu"], st["s"], st["w"], st["b"],
-                                  cam, frame, s_blur=st["s_blur"])
+        _, _, g = rd.render_and_grad(st["mu"], st["s"], st["w"], st["b"],
+                                     cam, frame, s_blur=st["s_blur"],
+                                     **extra)
         poses[f_idx] = (rot_exp(-aR.step(g["rot"])) @ R,
                         c - ac.step(g["c"]))
 
