@@ -175,7 +175,8 @@ def test_precondition_hard_stop_never_loads_holdout(monkeypatch, capsys):
 
     def fake_fit(frames, shape, f0, K=1, seed=0, use_blur=False, **kw):
         st = {"mu": np.array([[0.0, 0.0, 5.0]]), "s": np.array([-1.0]),
-              "w": np.array([0.0]), "b": 0.0, "logf": float(np.log(f0)),
+              "w": np.array([0.0]), "o": np.array([-2.0]), "b": 0.0,
+              "logf": float(np.log(f0)),
               "s_blur": float(np.log(0.8)) if use_blur else None}
         poses = [(np.eye(3), np.zeros(3)) for _ in frames]
         return st, poses, {"stage": [], "loss": []}
@@ -184,8 +185,9 @@ def test_precondition_hard_stop_never_loads_holdout(monkeypatch, capsys):
         raise AssertionError("held-out frames were loaded on a DNF run")
 
     monkeypatch.setattr(run, "fit_video", fake_fit)
+    monkeypatch.setattr(run, "fit_pose", lambda *a, **k: None)
     monkeypatch.setattr(run, "load_holdout", trapped_holdout)
-    run.main()  # must return at the precondition stop, silently OK
+    run.main([])  # must return at the precondition stop, silently OK
     out = capsys.readouterr().out
     assert "PRECONDITION NOT MET" in out
     assert "Gate B" not in out.split("PRECONDITION NOT MET")[1]
