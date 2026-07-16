@@ -61,8 +61,9 @@ def init_state(frame0, shape, f0, K, seed, z_range=(2.0, 10.0)):
 
 def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
               iters_a=300, iters_pose=60, iters_win=60, window=5,
-              iters_final=600, lr_splat=0.02, lr_pose_c=0.02,
-              lr_pose_r=0.01, lr_glob=0.005, log_every=None):
+              final_schedule=((600, 0.02),), lr_splat=0.02,
+              lr_pose_c=0.02, lr_pose_r=0.01, lr_glob=0.005,
+              log_every=None):
     """frames: (F, H*W) flattened train frames in order. Returns (state,
     poses, history)."""
     F = len(frames)
@@ -78,8 +79,8 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
         f = float(np.exp(st["logf"]))
         return _cam(poses[f_idx], f, shape, U, V)
 
-    def joint_pass(idxs, n_iter, opt_pose, opt_glob, tag):
-        ad = {k: _Adam(np.shape(st[k]), lr_splat)
+    def joint_pass(idxs, n_iter, opt_pose, opt_glob, tag, lr=None):
+        ad = {k: _Adam(np.shape(st[k]), lr or lr_splat)
               for k in ("mu", "s", "w", "b")}
         if opt_glob:
             ad["logf"] = _Adam((), lr_glob)
@@ -122,11 +123,12 @@ def fit_video(frames, shape, f0, K=150, seed=0, use_blur=False,
         joint_pass(list(range(lo, f_idx + 1)), iters_win, opt_pose=True,
                    opt_glob=False, tag=f"B{f_idx}")
 
-    # stage C: global joint pass
+    # stage C: global joint passes (optionally with stepped-down lr)
     if use_blur:
         st["s_blur"] = float(np.log(0.8))
-    joint_pass(list(range(F)), iters_final, opt_pose=True, opt_glob=True,
-               tag="C")
+    for ci, (n_iter, lr) in enumerate(final_schedule):
+        joint_pass(list(range(F)), n_iter, opt_pose=True, opt_glob=True,
+                   tag=f"C{ci}", lr=lr)
     return st, poses, history
 
 
