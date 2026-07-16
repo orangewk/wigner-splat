@@ -163,7 +163,8 @@ def test_frame_jacobian_matches_render_fd():
             1e-6, np.max(np.abs(col_fd)))
 
 
-def test_precondition_hard_stop_never_loads_holdout(monkeypatch, capsys):
+def test_precondition_hard_stop_never_loads_holdout(monkeypatch, capsys,
+                                                    tmp_path):
     """PR #59 review item 1: a DNF run must return BEFORE the held-out
     frames are loaded. fit_video is faked (fast, terrible PSNR) and
     load_holdout is booby-trapped."""
@@ -187,6 +188,7 @@ def test_precondition_hard_stop_never_loads_holdout(monkeypatch, capsys):
     monkeypatch.setattr(run, "fit_video", fake_fit)
     monkeypatch.setattr(run, "fit_pose", lambda *a, **k: None)
     monkeypatch.setattr(run, "load_holdout", trapped_holdout)
+    monkeypatch.setattr(run, "CKPT", tmp_path)  # never real checkpoints
     run.main([])  # must return at the precondition stop, silently OK
     out = capsys.readouterr().out
     assert "PRECONDITION NOT MET" in out
