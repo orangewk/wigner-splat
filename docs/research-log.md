@@ -1113,3 +1113,70 @@ eta as a model parameter (exp14's pre-declared stance) always. #42's
 full scope (bbdagM / purefock3 / splat deployment + known-vs-fitted
 control) is complete; #38's thermal-noise held-out target shares this
 Gaussian-convolution machinery as designed.
+
+## 2026-07-16 — Rank saturation on the GKP data: the frontier gap closes (experiment 18, issue #40)
+
+(Numbering note: this experiment lives in experiments/18_gkp_saturation.
+It ran as "exp17" before the quantum-line renumbering triggered by the
+application line's experiment 15; the committed raw log header still
+prints exp17 and is left untouched.)
+
+Tried: exp14 left three threads open -- the rank curve had not plateaued
+at R=3, warm starts were untested, and the rank-vs-K interplay had only
+the 46/47-dof control point -- with the frontier deficit at half a
+millinat. Exp18 runs the pre-declared saturation protocol: cold R=4
+(both reshuffles) and R=5 (primary), a warm-start chain R3 -> 4 -> 5
+(grow the best parent by one small-weight column;
+fit_bbdagS_lossy_mixed gained an init= hook for it), a matched ~70-dof
+K-interplay pair (R3K4 = 69 dof vs R2K6 = 70 dof), and the MLE frontier
+rerun per split. Same exploratory standing caveats as exp13/14/17 (same
+reshuffles, test-selected MLE opponent, conditional intervals). The R=3
+refits reproduced exp14's committed numbers exactly (train 1.62688
+primary), pinning cross-run reproducibility on this machine.
+
+Happened (committed log, results json, frontier figure; conditional
+paired bootstrap 95% CIs):
+- SATURATION (decision check 1): best-by-train deltas delta(4) =
+  +0.00016 < the declared 0.0002 flatness threshold; delta(5) = +0.00000
+  exactly. Held-out follows: R3 1.63009, R4 1.62993, R5 1.62995
+  (primary). The rank curve saturates at R = 4-5 under this schedule.
+- FRONTIER (decision check 2): CI(R4 - test-selected best MLE) =
+  [-0.00002, +0.00020] (point +0.00009) on the primary reshuffle and
+  [-0.00017, +0.00003] (point -0.00007) on the alternate. Both straddle
+  zero: per the pre-declared branches the fits TIE the empirical MLE
+  frontier at CI resolution -- the first real-data round without a
+  descriptive loss, after three straight losses (exp12/13/14). The
+  physical model does it at 92 real dof against the MLE frontier best's
+  255, and the tie is with a test-selected oracle opponent.
+- OPTIMIZATION (decision check 3): warm R=4 beats the cold best by only
+  0.00003 train nats (< the declared 0.0001), so the cold schedule is
+  adequate at R=4 and under-optimization is descriptively disfavored as
+  the residual's cause. The warm chain's endpoint (warm R=5, train
+  1.62663, test 1.62990) is consistent with the same plateau.
+- K INTERPLAY (decision check 4): at matched ~70 dof the rank split wins
+  held-out: CI(R3K4 - R2K6) = [-0.00098, -0.00018]. Together with
+  exp14's 46-dof control, a dof spent on rank beats a dof spent on ket
+  count at both probed frontier points.
+- ETA DRIFT (decision check 5, pre-declared): fitted eta climbs 0.87 ->
+  0.94 -> 0.92 for R = 3/4/5 and reaches 0.9948 on the warm R=5 chain:
+  as rank grows the loss knob is squeezed out entirely, and the model
+  converges toward a pure rank mixture. Fitted eta remains a model
+  parameter, not a calibrated efficiency.
+
+Learned: the exp13 residual is now fully walked down -- loss modeling
+closed 98% of the pure-model gap (exp13), rank-2 cut the remainder by
+two thirds (exp14), and rank-4 closes the rest to a statistical tie
+with the empirical MLE frontier on both reshuffles (this run), with
+matched-dof controls attributing each step to rank rather than
+capacity, and warm starts ruling out under-optimization at the end
+point. The honest headline after four real-data rounds: a
+constructively physical rank-4 x squeezed x loss model with 92 real
+parameters ties the test-selected full-rank MLE frontier on the Konno
+et al. GKP dataset at CI resolution, on the same exploratory reshuffles
+every prior round used. What it does NOT say: no independent holdout
+exists (the splits reuse the same observations), the opponent is
+test-selected (favoring the MLE), and "ties" is a CI statement, not
+preregistered confirmation. #40's saturation question is answered
+(R = 4-5, schedule-adequate); the natural next step on this dataset is
+an INDEPTH preregistered confirmation only if a fresh dataset or a
+held-out session becomes available (#41 scope).
