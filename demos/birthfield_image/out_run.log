@@ -1,0 +1,15 @@
+=== birth-field demo: cat Wigner as an image target ===
+target: alpha=2.0 even cat, 96x96, negative fraction 0.07
+  split seed=0: final loss=0.00003  K=30  negatives=11  wall=57s
+  split seed=1: final loss=0.00001  K=30  negatives=10  wall=55s
+  split seed=2: final loss=0.00036  K=30  negatives=7  wall=55s
+  birth seed=0: final loss=0.00000  K=30  negatives=11  wall=55s
+  birth seed=1: final loss=0.00000  K=30  negatives=18  wall=56s
+  birth seed=2: final loss=0.00000  K=30  negatives=15  wall=55s
+  assets: /home/user/wigner-splat/demos/birthfield_image/birthfield_demo.gif, /home/user/wigner-splat/demos/birthfield_image/comparison.png
+
+=== verdict vs declared expectation (docstring) ===
+loss ratio split/birth at iter 1000 per seed: ['616x', '77x', '281x']
+loss ratio split/birth at the end per seed:   ['980x', '374x', '25496x']
+note: split-only runs DO end with negative weights -- gradient descent drags weights through zero -- but that route is slow (the plateaus in the blue curves); splitting itself never flips a sign.
+-> CONFIRMED: at matched iteration and splat budget the birth field beats split-only by >=10x on every seed, mid-run and final, by injecting signed splats where the residual demands them.

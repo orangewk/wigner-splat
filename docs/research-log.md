@@ -848,3 +848,34 @@ reshuffles; each round's deficit produced a concrete next hypothesis,
 though no round has yet identified its residual's cause. #40 stays open
 (deeper R, warm starts, K interplay); #42's known-eta deployment across
 the other reconstructors is unchanged.
+
+## 2026-07-15 — Outreach demo: the birth field, exported to plain image fitting (demos/birthfield_image, #46 idea 4)
+
+Tried: the first deliverable of the applications track (#46) -- a
+self-contained, numpy-only demo that restates exp02's densification
+lesson on an audience-friendly target: the cat Wigner function fitted AS
+AN IMAGE by signed 2D Gaussian splats. Two growth modes under identical
+budgets: split-only (the 3DGS-style baseline; a split preserves its
+parent's sign) vs birth (new splats placed and SIGNED by the closed-form
+birth field B(mu) = dL/dw of a hypothetical splat = the residual smoothed
+by the probe kernel -- pinned against the analytic weight gradient to
+1e-5 in tests).
+
+Happened (committed log, 3 seeds per mode, comparison.png +
+birthfield_demo.gif): an honesty correction first -- the naive reading
+"split-only can never obtain negative weights" is WRONG for this
+objective, because Adam drags weights through zero; the split runs do
+end with negatives. The precise, measured claim: that route is slow and
+plateau-prone, while the birth field injects the right sign at the right
+place immediately. Loss ratios split/birth at matched budget: 77-616x at
+iteration 1000, 374-25496x at the end, across all seeds (declared bar
+was 10x). The GIF shows the mechanism: the birth field lights up on the
+un-carved fringe, a negative splat is born there, the loss steps down.
+
+Learned: the exp02 lesson survives export, but only in its precise form
+("splitting preserves sign; sign must otherwise migrate through zero,
+slowly") -- the sloppy form died on contact with a first run, which is
+exactly why the verdict text was corrected before publishing. This demo
+is the template for the applications track: small, self-contained,
+premise declared, and the narrative downgraded to what the numbers
+actually show.
