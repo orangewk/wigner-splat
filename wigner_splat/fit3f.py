@@ -45,12 +45,14 @@ def cell_var(centers):
     return h ** 2 / 12.0
 
 
-def loss3f(mixture, centers, targets, lambda_neg=10.0, lambda_sum=1.0, cvar=None):
+def loss3f(mixture, centers, targets, lambda_neg=10.0, lambda_sum=1.0,
+           cvar=None, eta=1.0, extra_noise_var=0.0):
     cvar = cell_var(centers) if cvar is None else cvar
     total = 0.0
     for (th1, th2, th3), hist in targets:
         model = mixture.radon3(centers, centers, centers, th1, th2, th3,
-                               cell_var=cvar)
+                               cell_var=cvar, eta=eta,
+                               extra_noise_var=extra_noise_var)
         total += np.mean((model - hist) ** 2)
         total += lambda_neg * np.mean(np.minimum(model, 0.0) ** 2)
     total += lambda_sum * (mixture.w.sum() - 1.0) ** 2
@@ -58,7 +60,7 @@ def loss3f(mixture, centers, targets, lambda_neg=10.0, lambda_sum=1.0, cvar=None
 
 
 def loss_and_grad3f(mixture, centers, targets, lambda_neg=10.0, lambda_sum=1.0,
-                    cvar=None):
+                    cvar=None, eta=1.0, extra_noise_var=0.0):
     """Loss and its analytic gradient, packed like _pack3f, chunked over triples.
 
     For a 3D Gaussian N(x; m, C): dN/dm = N P d, dN/dC = (N/2)(P d d^T P - P),
@@ -67,8 +69,18 @@ def loss_and_grad3f(mixture, centers, targets, lambda_neg=10.0, lambda_sum=1.0,
     dL/dL = 2 (dL/dSigma) L (diagonal scaled by exp(ld)). One triple's
     (B,B,B,K) Gaussian tensor is held at a time; its per-axis moment marginals
     are contracted with einsum. Central-difference tested to rtol 1e-5.
+
+    eta / extra_noise_var (issue #42): the measurement map of radon3,
+    m -> sqrt(eta) m, C -> eta C + sigma2 I. The chain rule only scales the
+    back-projected gradients: dL/dmu picks up sqrt(eta), dL/dSigma picks up
+    eta (sigma2 I is parameter free).
     """
     cvar = cell_var(centers) if cvar is None else cvar
+    if eta != 1.0 or extra_noise_var != 0.0:
+        from .bbdagS import _check_loss_params
+        _check_loss_params(eta, extra_noise_var)
+    sqrt_eta = np.sqrt(eta)
+    sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
     K = len(mixture.w)
     B = len(centers)
     w = mixture.w
@@ -83,10 +95,9 @@ def loss_and_grad3f(mixture, centers, targets, lambda_neg=10.0, lambda_sum=1.0,
 
     for (th1, th2, th3), hist in targets:
         U = _U(th1, th2, th3)                             # (6, 3)
-        m = mixture.mu @ U                                # (K, 3)
-        C = np.einsum("ar,kab,bs->krs", U, Sigma, U)      # (K, 3, 3)
-        if cvar:
-            C = C + cvar * np.eye(3)
+        m = sqrt_eta * (mixture.mu @ U)                   # (K, 3)
+        C = eta * np.einsum("ar,kab,bs->krs", U, Sigma, U)  # (K, 3, 3)
+        C = C + (sigma2 + cvar) * np.eye(3) if (sigma2 or cvar) else C
         Prec = np.linalg.inv(C)
         det = np.linalg.det(C)
         pref = 1.0 / ((2 * np.pi) ** 1.5 * np.sqrt(det))  # (K,)
@@ -143,8 +154,8 @@ def loss_and_grad3f(mixture, centers, targets, lambda_neg=10.0, lambda_sum=1.0,
         PMP = np.einsum("kab,kbc,kcd->kad", Prec, Mmat, Prec)
         gC = 0.5 * w[:, None, None] * (PMP - A[:, None, None] * Prec)  # (K,3,3)
 
-        gmu += np.einsum("ar,kr->ka", U, gm)
-        gSigma += np.einsum("ar,krs,bs->kab", U, gC, U)
+        gmu += sqrt_eta * np.einsum("ar,kr->ka", U, gm)
+        gSigma += eta * np.einsum("ar,krs,bs->kab", U, gC, U)
         gw += A
 
     gL = 2 * np.einsum("kab,kbc->kac", gSigma, L)
@@ -201,17 +212,19 @@ def _cov_to_chol(Sigma):
     return np.log(np.diag(L)), L[_TRIL_I, _TRIL_J]
 
 
-def _col(mu0, ld0, lo0, centers, targets, cvar=0.0):
+def _col(mu0, ld0, lo0, centers, targets, cvar=0.0, eta=1.0,
+         extra_noise_var=0.0):
     """Flattened radon3 of a unit-weight splat over all (triple, bin, bin, bin)."""
     sp = SplatMixture3F([1.0], [mu0], [ld0], [lo0])
     return np.concatenate(
-        [sp.radon3(centers, centers, centers, t1, t2, t3, cell_var=cvar).ravel()
+        [sp.radon3(centers, centers, centers, t1, t2, t3, cell_var=cvar,
+                   eta=eta, extra_noise_var=extra_noise_var).ravel()
          for (t1, t2, t3), _ in targets]
     )
 
 
 def weight_ls(mixture, centers, targets, hist_stack=None, reg=1e-5, thr=0.02,
-              cvar=None):
+              cvar=None, eta=1.0, extra_noise_var=0.0):
     """Convex least-squares refit of the weights (shapes fixed), then prune.
 
     Solves min_w || A w - hist ||^2 + reg||w||^2 with A the columns of each
@@ -224,7 +237,7 @@ def weight_ls(mixture, centers, targets, hist_stack=None, reg=1e-5, thr=0.02,
         hist_stack = np.concatenate([h.ravel() for _, h in targets])
     K = len(mixture.w)
     A = np.array([_col(mixture.mu[k], mixture.ld[k], mixture.lo[k], centers,
-                       targets, cvar)
+                       targets, cvar, eta, extra_noise_var)
                   for k in range(K)]).T
     n = A.shape[1]
     lam = reg * np.trace(A.T @ A) / n
@@ -237,7 +250,8 @@ def weight_ls(mixture, centers, targets, hist_stack=None, reg=1e-5, thr=0.02,
 
 
 def matched_stripes(mixture, centers, targets, thin=0.05, T=2.8, M=17,
-                    dirs=STRIPE_DIRS, hist_stack=None, cvar=None):
+                    dirs=STRIPE_DIRS, hist_stack=None, cvar=None, eta=1.0,
+                    extra_noise_var=0.0):
     """Fit the current measurement residual with a thin-stripe line basis.
 
     For each generic candidate direction the stripe centers are a line through
@@ -252,7 +266,8 @@ def matched_stripes(mixture, centers, targets, thin=0.05, T=2.8, M=17,
         hist_stack = np.concatenate([h.ravel() for _, h in targets])
     model = np.concatenate(
         [mixture.radon3(centers, centers, centers, t1, t2, t3,
-                        cell_var=cvar).ravel()
+                        cell_var=cvar, eta=eta,
+                        extra_noise_var=extra_noise_var).ravel()
          for (t1, t2, t3), _ in targets]
     )
     resid = hist_stack - model
@@ -262,7 +277,8 @@ def matched_stripes(mixture, centers, targets, thin=0.05, T=2.8, M=17,
         vh = np.asarray(d, float)
         vh = vh / np.linalg.norm(vh)
         ld0, lo0 = _cov_to_chol(_probe_cov(d, thin))
-        A = np.array([_col(t * vh, ld0, lo0, centers, targets, cvar)
+        A = np.array([_col(t * vh, ld0, lo0, centers, targets, cvar, eta,
+                           extra_noise_var)
                       for t in ts]).T
         lam = 1e-5 * np.trace(A.T @ A) / A.shape[1]
         c = np.linalg.solve(A.T @ A + lam * np.eye(A.shape[1]), A.T @ resid)
@@ -277,35 +293,42 @@ def matched_stripes(mixture, centers, targets, thin=0.05, T=2.8, M=17,
 # ----------------------------------------------------------------------------
 
 def _adam(v, K, centers, targets, iters, lr, lr_late=None, lambda_neg=10.0,
-          lambda_sum=1.0, cvar=None):
+          lambda_sum=1.0, cvar=None, eta=1.0, extra_noise_var=0.0):
     m1, m2 = np.zeros_like(v), np.zeros_like(v)
     half = iters // 2
     for t in range(1, iters + 1):
         step_lr = lr if (lr_late is None or t < half) else lr_late
         _, g = loss_and_grad3f(_unpack3f(v, K), centers, targets,
                                lambda_neg=lambda_neg, lambda_sum=lambda_sum,
-                               cvar=cvar)
+                               cvar=cvar, eta=eta,
+                               extra_noise_var=extra_noise_var)
         m1 = 0.9 * m1 + 0.1 * g
         m2 = 0.999 * m2 + 0.001 * g ** 2
         v = v - step_lr * (m1 / (1 - 0.9 ** t)) / (np.sqrt(m2 / (1 - 0.999 ** t)) + 1e-8)
     return v
 
 
-def blob_span(data):
+def blob_span(data, eta=1.0, extra_noise_var=0.0):
     """Data-driven blob half-separation from the max per-triple x-variance.
 
     Two blobs at +-span (per mode) plus vacuum give Var(x_theta) = span^2 + 1/2
     at the angle measuring their separation axis; the max over triples/modes
     estimates span without any knowledge of the true amplitude. Floored.
+
+    Under detection loss the measured variance is eta (span^2 + 1/2) + sigma2,
+    so the PRE-loss span the noise-aware model needs is recovered by
+    inverting that map (identity at eta = 1, sigma2 = 0).
     """
+    sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
     v = max(np.var(s[:, j]) for _, s in data for j in range(3))
-    return float(np.sqrt(max(v - 0.5, 0.25)))
+    return float(np.sqrt(max((v - sigma2) / eta - 0.5, 0.25)))
 
 
 def fit3f(data, bins=24, blob_iters=250, blob_lr=0.05, blob_prune=0.08,
           stripe_thin=0.03, stripe_T=2.8, stripe_M=17, ls_prune=0.02,
           polish_iters=0, polish_lr=0.02, polish_lr_late=0.008,
-          lambda_neg=10.0, lambda_sum=1.0, callback=None):
+          lambda_neg=10.0, lambda_sum=1.0, callback=None, eta=1.0,
+          extra_noise_var=0.0):
     """Fit a full-covariance signed splat mixture to three-mode homodyne data.
 
     Deterministic given the data (the blob envelope is initialized from the
@@ -324,13 +347,20 @@ def fit3f(data, bins=24, blob_iters=250, blob_lr=0.05, blob_prune=0.08,
     re-enable it for denser data. See tests/test_three_mode_full.py for the
     ceiling analysis (loss-min fidelity ~0.75-0.84; the true state is not the
     loss minimum at this shot budget).
+
+    ``eta`` / ``extra_noise_var`` (issue #42): known detection efficiency and
+    electronic noise of the data. Every stage then fits through the measured
+    forward model (radon3's loss map), so the returned mixture estimates the
+    PRE-loss Wigner function. Defaults reproduce the ideal-detector fit
+    exactly.
     """
     centers, targets = histogram_targets3(data, bins=bins)
     hist_stack = np.concatenate([h.ravel() for _, h in targets])
     cvar = cell_var(centers)
+    noise = dict(eta=eta, extra_noise_var=extra_noise_var)
 
     # 1. positive blob envelope on the (x1,x2,x3) diagonal, data-initialized
-    span = blob_span(data)
+    span = blob_span(data, eta=eta, extra_noise_var=extra_noise_var)
     mix = SplatMixture3F(
         w=np.full(2, 0.5),
         mu=[[span, 0, span, 0, span, 0], [-span, 0, -span, 0, -span, 0]],
@@ -338,18 +368,20 @@ def fit3f(data, bins=24, blob_iters=250, blob_lr=0.05, blob_prune=0.08,
     )
     K = 2
     v = _adam(_pack3f(mix), K, centers, targets, blob_iters, blob_lr,
-              lambda_neg=lambda_neg, lambda_sum=lambda_sum, cvar=cvar)
+              lambda_neg=lambda_neg, lambda_sum=lambda_sum, cvar=cvar,
+              **noise)
     mix = _unpack3f(v, K)
 
     # 2. prune spurious blobs
-    mix = weight_ls(mix, centers, targets, hist_stack, thr=blob_prune, cvar=cvar)
+    mix = weight_ls(mix, centers, targets, hist_stack, thr=blob_prune,
+                    cvar=cvar, **noise)
     if callback:
         callback("blobs", mix, len(mix.w))
 
     # 3-4. matched-filter fringe (ridge detected from data) + convex weight solve
     mus, ld0, lo0, direction = matched_stripes(
         mix, centers, targets, thin=stripe_thin, T=stripe_T, M=stripe_M,
-        hist_stack=hist_stack, cvar=cvar)
+        hist_stack=hist_stack, cvar=cvar, **noise)
     m = len(mus)
     dic = SplatMixture3F(
         np.ones(len(mix.w) + m),
@@ -357,7 +389,8 @@ def fit3f(data, bins=24, blob_iters=250, blob_lr=0.05, blob_prune=0.08,
         np.vstack([mix.ld, np.tile(ld0, (m, 1))]),
         np.vstack([mix.lo, np.tile(lo0, (m, 1))]),
     )
-    mix = weight_ls(dic, centers, targets, hist_stack, thr=ls_prune, cvar=cvar)
+    mix = weight_ls(dic, centers, targets, hist_stack, thr=ls_prune,
+                    cvar=cvar, **noise)
     K = len(mix.w)
     if callback:
         callback("stripes", mix, K, direction)
@@ -367,11 +400,12 @@ def fit3f(data, bins=24, blob_iters=250, blob_lr=0.05, blob_prune=0.08,
     if polish_iters:
         v = _adam(_pack3f(mix), K, centers, targets, polish_iters, polish_lr,
                   lr_late=polish_lr_late, lambda_neg=lambda_neg,
-                  lambda_sum=lambda_sum, cvar=cvar)
+                  lambda_sum=lambda_sum, cvar=cvar, **noise)
         mix = _unpack3f(v, K)
 
     # 6. convex weight cleanup
-    mix = weight_ls(mix, centers, targets, hist_stack, thr=ls_prune, cvar=cvar)
+    mix = weight_ls(mix, centers, targets, hist_stack, thr=ls_prune,
+                    cvar=cvar, **noise)
     if callback:
         callback("polished", mix, len(mix.w))
     return mix

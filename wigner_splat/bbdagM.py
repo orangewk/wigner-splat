@@ -404,6 +404,160 @@ def fit_bbdagM_mixed(data, R=2, K=4, M=3, iters=200, lr=0.05, seed=0,
     return _unpack_mixed(v, R, K, M)
 
 
+# ---------------------------------------------------------------------------
+# Detection-efficiency (loss) forward model -- issue #42 deployment.
+#
+# A coherent-product ket is the xi = 0 slice of the squeezed-product ansatz
+# (pinned in tests/test_bbdagS.py), so the loss machinery is DELEGATED to
+# bbdagS rather than re-derived: embed the state at xi = 0, evaluate the
+# closed-form lossy pdf / NLL / gradient there, and drop the xi gradient
+# block (the partial derivatives w.r.t. z and alpha at fixed xi = 0 are
+# exactly the corresponding components of the squeezed gradient). Same
+# physics as bbdagS: measured pdf = pure pdf convolved per mode with
+# N(0, sigma2), sigma2 = (1 - eta)/2 + extra_noise_var, which is exactly the
+# homodyne marginal of loss_eta(rho) -- PSD by construction.
+# ---------------------------------------------------------------------------
+
+
+def _as_squeezed(state):
+    from .bbdagS import SqueezedKetState
+    return SqueezedKetState(state.z, state.alpha, np.zeros_like(state.alpha))
+
+
+def _as_squeezed_mixed(state):
+    from .bbdagS import MixedSqueezedKetState
+    return MixedSqueezedKetState(state.z, state.alpha,
+                                 np.zeros_like(state.alpha))
+
+
+def lossy_pdf(state, X, theta, eta, extra_noise_var=0.0):
+    """Measured pdf p_eta(X) (S,) of the coherent-ket state under loss."""
+    from .bbdagS import lossy_pdf as _sq
+    return _sq(_as_squeezed(state), X, theta, eta, extra_noise_var)
+
+
+def nll_lossy(state, data, eta, extra_noise_var=0.0):
+    """Mean per-sample NLL of the measured (lossy) pdf."""
+    from .bbdagS import nll_lossy as _sq
+    return _sq(_as_squeezed(state), data, eta, extra_noise_var)
+
+
+def nll_and_grad_lossy(state, data, eta, extra_noise_var=0.0, chunk=8192):
+    """Lossy NLL and closed-form gradient w.r.t. the _pack layout.
+
+    Delegates to bbdagS at xi = 0 and keeps the [Re z, Im z, Re alpha,
+    Im alpha] prefix of its gradient (the packing layouts agree up to the
+    trailing xi block).
+    """
+    from .bbdagS import nll_and_grad_lossy as _sq
+    K, M = state.K, state.M
+    val, g = _sq(_as_squeezed(state), data, eta, extra_noise_var, chunk=chunk)
+    return val, g[:2 * K + 2 * K * M]
+
+
+def lossy_pdf_mixed(state, X, theta, eta, extra_noise_var=0.0):
+    """Measured pdf of loss_eta(rank-R coherent rho), (S,)."""
+    from .bbdagS import lossy_pdf_mixed as _sq
+    return _sq(_as_squeezed_mixed(state), X, theta, eta, extra_noise_var)
+
+
+def nll_lossy_mixed(state, data, eta, extra_noise_var=0.0):
+    from .bbdagS import nll_lossy_mixed as _sq
+    return _sq(_as_squeezed_mixed(state), data, eta, extra_noise_var)
+
+
+def nll_and_grad_lossy_mixed(state, data, eta, extra_noise_var=0.0,
+                             chunk=8192):
+    """Rank-R lossy NLL and gradient (_pack_mixed layout).
+
+    sigma2 ~ 0 falls back to the pure rank-R gradient (nll_and_grad_mixed);
+    otherwise delegates to bbdagS at xi = 0 and slices off the xi block.
+    """
+    sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
+    if 0.0 <= eta <= 1.0 and extra_noise_var >= 0.0 and sigma2 <= 1e-14:
+        return nll_and_grad_mixed(state, data)
+    from .bbdagS import nll_and_grad_lossy_mixed as _sq
+    R, K, M = state.R, state.K, state.M
+    val, g = _sq(_as_squeezed_mixed(state), data, eta, extra_noise_var,
+                 chunk=chunk)
+    return val, g[:2 * R * K + 2 * R * K * M]
+
+
+def fit_bbdagM_lossy(data, K=4, M=3, eta0=0.8, fit_eta=True,
+                     extra_noise_var=0.0, iters=300, lr=0.05, seed=0,
+                     callback=None):
+    """Adam on the lossy coherent-ket NLL; returns (state, eta).
+
+    Same eta handling as bbdagS.fit_bbdagS_lossy: logit reparameterization
+    with a scalar central difference when fit_eta, held fixed at eta0
+    otherwise (the known-eta deployment of issue #42).
+    """
+    if not (0.0 < eta0 < 1.0):
+        raise ValueError(f"eta0 must be in (0, 1) for the logit, got {eta0}")
+    state = CoherentKetState.random_init(K, M, rng=seed)
+    v = _pack(state)
+    t = float(np.log(eta0 / (1.0 - eta0)))
+    m1, m2 = np.zeros(len(v) + 1), np.zeros(len(v) + 1)
+    h = 1e-4
+    for it in range(1, iters + 1):
+        st = _unpack(v, K, M)
+        eta = 1.0 / (1.0 + np.exp(-t))
+        val, grd = nll_and_grad_lossy(st, data, eta, extra_noise_var)
+        if fit_eta:
+            ep = 1.0 / (1.0 + np.exp(-(t + h)))
+            em = 1.0 / (1.0 + np.exp(-(t - h)))
+            g_t = (nll_lossy(st, data, ep, extra_noise_var)
+                   - nll_lossy(st, data, em, extra_noise_var)) / (2.0 * h)
+        else:
+            g_t = 0.0
+        grd = np.concatenate([grd, [g_t]])
+        m1 = 0.9 * m1 + 0.1 * grd
+        m2 = 0.999 * m2 + 0.001 * grd ** 2
+        step = lr * (m1 / (1 - 0.9 ** it)) / (np.sqrt(m2 / (1 - 0.999 ** it)) + 1e-8)
+        v -= step[:-1]
+        t -= step[-1]
+        if callback and it % 25 == 0:
+            eta_now = 1.0 / (1.0 + np.exp(-t))
+            callback(it, nll_lossy(_unpack(v, K, M), data, eta_now,
+                                   extra_noise_var), eta_now)
+    return _unpack(v, K, M), 1.0 / (1.0 + np.exp(-t))
+
+
+def fit_bbdagM_lossy_mixed(data, R=2, K=4, M=3, eta0=0.8, fit_eta=True,
+                           extra_noise_var=0.0, iters=300, lr=0.05, seed=0,
+                           callback=None):
+    """Adam on the rank-R lossy coherent NLL; returns (state, eta)."""
+    if not (0.0 < eta0 < 1.0):
+        raise ValueError(f"eta0 must be in (0, 1) for the logit, got {eta0}")
+    state = MixedCoherentKetState.random_init(R, K, M, rng=seed)
+    v = _pack_mixed(state)
+    t = float(np.log(eta0 / (1.0 - eta0)))
+    m1, m2 = np.zeros(len(v) + 1), np.zeros(len(v) + 1)
+    h = 1e-4
+    for it in range(1, iters + 1):
+        st = _unpack_mixed(v, R, K, M)
+        eta = 1.0 / (1.0 + np.exp(-t))
+        val, grd = nll_and_grad_lossy_mixed(st, data, eta, extra_noise_var)
+        if fit_eta:
+            ep = 1.0 / (1.0 + np.exp(-(t + h)))
+            em = 1.0 / (1.0 + np.exp(-(t - h)))
+            g_t = (nll_lossy_mixed(st, data, ep, extra_noise_var)
+                   - nll_lossy_mixed(st, data, em, extra_noise_var)) / (2.0 * h)
+        else:
+            g_t = 0.0
+        grd = np.concatenate([grd, [g_t]])
+        m1 = 0.9 * m1 + 0.1 * grd
+        m2 = 0.999 * m2 + 0.001 * grd ** 2
+        step = lr * (m1 / (1 - 0.9 ** it)) / (np.sqrt(m2 / (1 - 0.999 ** it)) + 1e-8)
+        v -= step[:-1]
+        t -= step[-1]
+        if callback and it % 25 == 0:
+            eta_now = 1.0 / (1.0 + np.exp(-t))
+            callback(it, nll_lossy_mixed(_unpack_mixed(v, R, K, M), data,
+                                         eta_now, extra_noise_var), eta_now)
+    return _unpack_mixed(v, R, K, M), 1.0 / (1.0 + np.exp(-t))
+
+
 def fidelity_vs_cat3(state, alpha, parity=+1):
     """Exact state fidelity F = |<psi|cat3>|^2 for cat3 = |a,a,a>+parity|-a,-a,-a>.
 
