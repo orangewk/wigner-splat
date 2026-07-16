@@ -143,21 +143,37 @@ def _load_ckpt(path):
 
 def fit_seed(seed, train_frames, U, V):
     """The fixed recipe: shared base + polish, then the paired branches.
-    Returns {True: (st, poses), False: (st, poses)} keyed by use_blur."""
+    Returns {True: (st, poses), False: (st, poses)} keyed by use_blur.
+    The post-polish state is checkpointed (seedN_base.npz) so a killed
+    run resumes at branch granularity instead of losing ~2 h."""
     t0 = time.perf_counter()
-    st, poses, _ = fit_video(train_frames, SHAPE, F0, K=K, seed=seed,
-                             renderer=composite,
-                             opacity_init=OPACITY_INIT, iters_a=ITERS_A,
-                             iters_pose=ITERS_POSE, iters_win=ITERS_WIN,
-                             window=WINDOW, final_schedule=BASE_SCHEDULE)
-    n_it, lr_r, lr_c = POLISH
-    for i in range(1, len(train_frames)):
-        fit_pose(st, poses, i, train_frames[i], SHAPE, U, V, n_it, lr_r,
-                 lr_c, renderer=composite)
-    print(f"  seed={seed} base+polish done "
-          f"({time.perf_counter() - t0:.0f}s)", flush=True)
+    base_ckpt = CKPT / f"seed{seed}_base.npz"
+    if base_ckpt.exists():
+        st, poses = _load_ckpt(base_ckpt)
+        print(f"  seed={seed} base+polish restored from checkpoint",
+              flush=True)
+    else:
+        st, poses, _ = fit_video(train_frames, SHAPE, F0, K=K, seed=seed,
+                                 renderer=composite,
+                                 opacity_init=OPACITY_INIT,
+                                 iters_a=ITERS_A, iters_pose=ITERS_POSE,
+                                 iters_win=ITERS_WIN, window=WINDOW,
+                                 final_schedule=BASE_SCHEDULE)
+        n_it, lr_r, lr_c = POLISH
+        for i in range(1, len(train_frames)):
+            fit_pose(st, poses, i, train_frames[i], SHAPE, U, V, n_it,
+                     lr_r, lr_c, renderer=composite)
+        _save_ckpt(base_ckpt, st, poses)
+        print(f"  seed={seed} base+polish done "
+              f"({time.perf_counter() - t0:.0f}s)", flush=True)
     out = {}
     for use_blur in (False, True):
+        branch_ckpt = CKPT / f"seed{seed}_{'on' if use_blur else 'off'}.npz"
+        if branch_ckpt.exists():
+            out[use_blur] = _load_ckpt(branch_ckpt)
+            print(f"  seed={seed} blur={'on ' if use_blur else 'off'}: "
+                  "restored from checkpoint", flush=True)
+            continue
         t1 = time.perf_counter()
         st2, poses2, _ = fit_video(
             train_frames, SHAPE, F0, K=K, seed=seed, renderer=composite,
@@ -172,6 +188,7 @@ def fit_seed(seed, train_frames, U, V):
         print(f"  seed={seed} blur={'on ' if use_blur else 'off'}: "
               f"train PSNR {tp:.2f} dB, f={np.exp(st2['logf']):.1f}{sb}"
               f"  ({time.perf_counter() - t1:.0f}s)", flush=True)
+        _save_ckpt(branch_ckpt, st2, poses2)
         out[use_blur] = (st2, poses2)
     return out
 
