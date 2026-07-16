@@ -1,0 +1,38 @@
+[
+ {
+  "target": "lossy",
+  "data_seed": 42,
+  "F": 0.9549726785879942,
+  "converged": true
+ },
+ {
+  "target": "lossy",
+  "data_seed": 1,
+  "F": 0.957987976230028,
+  "converged": true
+ },
+ {
+  "target": "lossy",
+  "data_seed": 2,
+  "F": 0.9580447386500023,
+  "converged": true
+ },
+ {
+  "target": "squeezed",
+  "data_seed": 42,
+  "F": 0.7156941653764326,
+  "converged": true
+ },
+ {
+  "target": "squeezed",
+  "data_seed": 1,
+  "F": 0.700659307257755,
+  "converged": true
+ },
+ {
+  "target": "squeezed",
+  "data_seed": 2,
+  "F": 0.6766573198656138,
+  "converged": true
+ }
+]

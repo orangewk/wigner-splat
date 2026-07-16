@@ -618,6 +618,15 @@ squeezed-target margin over the purefock control is only +0.0089), so the
 falsification condition does not fire. With its two extensions BB-dagger
 attains the highest physical fidelity IN THIS RUN on both targets at
 21-54 s, while full-rank MLE is DNF at 900 s on both.
+[MULTI-SEED UPDATE, exp16 2026-07-16 (issue #39): replicated over 3 data
+x 3 init seeds with the optional MLE arm. The squeezed rankings hold on
+every seed (bbdagS K=4 0.9688-0.9761 > purefock 0.9610-0.9694 > MLE
+0.68-0.72) but the margin over purefock is descriptive only (n=3
+sign-consistent, cannot reach significance). The lossy verdict is
+INIT-FRAGILE: rank-2 collapses to F ~ 0.52 on 3/9 inits at dNLL ~ 1e-4,
+and best-by-train-NLL selection lands F = 0.9524 on data seed 1 — BELOW
+the MLE's 0.9580 there — so "does not lose" fails on 1/3 data seeds
+under an honest selection rule. See the exp16 entry.]
 
 SCOPE CORRECTION (PR-36 review, accepted): both targets are out-of-family
 only relative to the ORIGINAL rank-1 coherent ansatz — for the extensions
@@ -963,3 +972,64 @@ synthetic Phase 0 only; nothing here claims occlusion handling or
 real-video performance. Pins: tests/test_gauss3d.py (9 tests — FD
 gradients, probe/Jacobian brute-force matches, parallax raises
 lambda_min, predicted sigma falls with baseline).
+## 2026-07-16 — Multi-seed replication of experiment 11 (experiment 16, issue #39)
+
+(Numbering note: this experiment lives in experiments/16_exp11_seeds.
+It ran as "exp15" before the parallel application line's experiment 15
+(15_video_conf, issue #48) merged first, and was renumbered; the
+committed raw log headers still print exp15 and are left untouched.)
+
+Tried: exp11's ruling rested on a single run (data seed 42, init seed 0),
+and its squeezed-target margin over the generic control was only +0.0089.
+Exp15 reran the seed-sensitive fits over data seeds {42, 1, 2} x init
+seeds {0, 1, 2} with the exp11 configs unchanged (45 fits), plus the
+issue's optional MLE arm (deterministic given the data, so data-seed axis
+only: 6 runs at the exp11 MLE config). Declared before the run: init
+selection is best TRAIN NLL per data seed (never fidelity); the K=2
+success threshold is F >= 0.9; and the n=3 paired design bottoms out at a
+sign-test p = 0.125, so it CANNOT certify significance — any consistent
+sign stays descriptive by construction.
+
+Happened (committed logs + results json):
+- All four exp11 single values (0.9947 / 0.5169 / 0.9700 / 0.9611) fall
+  inside their measured 9-cell ranges.
+- SQUEEZED target replicates robustly: bbdagS K=4 spans F 0.9688-0.9761
+  over all 9 cells (spread ~0.007), purefock 0.9610-0.9694, MLE
+  {0.7157, 0.7007, 0.6767}. The bbdagS-vs-purefock margin is
+  sign-consistent — paired best-by-NLL diffs +0.0089/+0.0043/+0.0108,
+  9/9 cells positive — but per the pre-declared rule this is a
+  DESCRIPTIVE advantage only; the honest exp11 rewrite is "BB-dagger and
+  the generic control are statistically indistinguishable on the squeezed
+  target at this design (consistent-sign ~+0.004..+0.011), while both
+  beat the MLE by ~0.25-0.30."
+- LOSSY target: the verdict is INIT-FRAGILE. The rank-2 coherent fit
+  collapses to F ~ 0.52-0.55 (the rank-deficient mode) on 3/9 inits
+  while the train NLL moves by only ~1e-4..3e-3 nats; best-by-NLL per
+  data seed = {0.9947, 0.9524, 0.9948} against a stable MLE
+  {0.9550, 0.9580, 0.9580}. On data seed 1 the NLL-selected BB-dagger
+  fit (0.9524) sits BELOW the MLE (0.9580) even though an F = 0.9947
+  init exists at dNLL ~ 1e-4: the training objective cannot see a
+  0.4-fidelity difference at this budget. exp11's "does not lose"
+  therefore survives 2/3 data seeds and FAILS on the third under the
+  declared selection rule.
+- K=2 vs K=4 init sensitivity (issue item 3): K=2 fails 2/9 (F 0.7754
+  and 0.8414, both at init seed 1); K=4 passes 9/9. The catastrophic
+  K=2 failures recorded in the exp11 entry (F ~ 0.00/0.15) were at a
+  200-iter schedule; at the 400-iter schedule used here the failure mode
+  is milder — consistent with an optimization-schedule artifact on top
+  of a genuinely worse K=2 landscape. Overparameterizing in K remains
+  the cheap, effective fix.
+
+Learned: seed noise was the right thing to fear, but it lives in a
+different place than the issue guessed. The squeezed-target rankings are
+seed-robust and the +0.0089 margin replicates in sign — it just cannot
+be certified at n=3, so it is downgraded to descriptive per the
+acceptance criteria. The genuinely fragile number is the LOSSY-target
+0.9947: the rank-2 landscape has a collapse mode that the likelihood is
+nearly blind to (dNLL ~ 1e-4 vs dF ~ 0.4), so single-init headline
+fidelities on mixed targets should be read as "best observed", not
+"typical". Follow-up recorded, not opened as an issue yet: a
+selection-robust practice for mixed-target BB-dagger fits (more inits,
+or a fidelity-blind diagnostic such as the fitted state's own purity /
+column Gram rank) would close the gap between best-observed and
+NLL-selected.
