@@ -164,6 +164,89 @@ def density3d(pts, mu, s, w):
     return np.exp(-0.5 * d2 / np.exp(2 * s)[None, :]) @ w
 
 
+def frame_jacobian(mu, s, w, cam):
+    """Per-pixel Jacobian dImage/dtheta, theta = (mu(3), s, w) per splat.
+
+    Returns (H*W, 5K) with parameter order [mu_x, mu_y, mu_z, s, w] blocked
+    by splat. Same projection model as render_and_grad; splats behind the
+    camera contribute zero columns.
+    """
+    K = len(w)
+    p, zs, vis, u0, v0 = _project(mu, cam)
+    f = cam["f"]
+    si = f * np.exp(s) / zs
+    du = cam["U"][None, :] - u0[:, None]
+    dv = cam["V"][None, :] - v0[:, None]
+    rho = (du ** 2 + dv ** 2) / si[:, None] ** 2
+    G = np.exp(-0.5 * rho)
+    G[~vis] = 0.0
+    n = len(cam["U"])
+    J = np.zeros((n, 5 * K))
+    for k in range(K):
+        if not vis[k]:
+            continue
+        dMdu0 = w[k] * G[k] * du[k] / si[k] ** 2
+        dMdv0 = w[k] * G[k] * dv[k] / si[k] ** 2
+        dMdsi = w[k] * G[k] * rho[k] / si[k]
+        Jp = np.stack([
+            f / zs[k] * dMdu0,
+            f / zs[k] * dMdv0,
+            -f / zs[k] ** 2 * (p[k, 0] * dMdu0 + p[k, 1] * dMdv0)
+            - si[k] / zs[k] * dMdsi,
+        ], axis=1)
+        J[:, 5 * k:5 * k + 3] = Jp @ cam["R"]
+        J[:, 5 * k + 3] = dMdsi * si[k]
+        J[:, 5 * k + 4] = G[k]
+    return J
+
+
+def model_gn(params, cams):
+    """Gauss-Newton matrix of the FITTED model over all frames:
+    H = sum_frames J^T J, (5K, 5K)."""
+    K = len(params["w"])
+    H = np.zeros((5 * K, 5 * K))
+    for cam in cams:
+        J = frame_jacobian(params["mu"], params["s"], params["w"], cam)
+        H += J.T @ J
+    return H
+
+
+def density_grad(pts, mu, s, w):
+    """d density3d / d theta at pts (N,3): returns (N, 5K), same parameter
+    order as frame_jacobian."""
+    N, K = len(pts), len(w)
+    d = pts[:, None, :] - mu[None, :, :]           # (N, K, 3)
+    sig2 = np.exp(2 * s)[None, :]
+    d2 = np.sum(d ** 2, axis=2)
+    g = np.exp(-0.5 * d2 / sig2)                   # (N, K)
+    out = np.zeros((N, 5 * K))
+    for k in range(K):
+        out[:, 5 * k:5 * k + 3] = (w[k] * g[:, k] / sig2[0, k])[:, None] \
+            * d[:, k, :]
+        out[:, 5 * k + 3] = w[k] * g[:, k] * d2[:, k] / sig2[0, k]
+        out[:, 5 * k + 4] = g[:, k]
+    return out
+
+
+def predicted_sigma(pts, params, cams, eps_frac=1e-9):
+    """Score v2 (issue #48 round 2, declared before running): delta-method
+    predicted uncertainty of the fitted density,
+
+        sigma_pred(x)^2 = J_rho(x)^T (H + eps I)^{-1} J_rho(x),
+
+    H = model_gn over all frames, eps = eps_frac * tr(H) / P. Sees the
+    video (through the fit and H) and the model -- never the ground truth.
+    Degenerate parameter directions blow sigma_pred up through H's null
+    space; coupling to model amplitude enters through J_rho.
+    """
+    H = model_gn(params, cams)
+    P = H.shape[0]
+    eps = eps_frac * np.trace(H) / P
+    Jr = density_grad(pts, params["mu"], params["s"], params["w"])
+    Hi_Jr = np.linalg.solve(H + eps * np.eye(P), Jr.T)
+    return np.sqrt(np.maximum(np.sum(Jr.T * Hi_Jr, axis=0), 0.0))
+
+
 def fit(frames, cams, K, iters=2000, lr=0.03, seed=0,
         init_box=((-2.5, 2.5), (-2.5, 2.5), (2.5, 9.5)), s_init=None):
     """Adam fit of K splats to the frame stack (list of flattened images).

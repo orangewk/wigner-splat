@@ -117,6 +117,68 @@ def test_fit_recovers_single_splat():
     assert losses[-1] < 1e-4 * max(losses[0], 1e-12) or losses[-1] < 1e-6
 
 
+def test_frame_jacobian_matches_render_fd():
+    mu, s, w, cam, _ = _problem(seed=9, K=2, img=14)
+    J = g3.frame_jacobian(mu, s, w, cam)
+    eps = 1e-6
+    K = len(w)
+    for i in range(5 * K):
+        k, j = divmod(i, 5)
+
+        def img(delta, k=k, j=j):
+            mu2, s2, w2 = mu.copy(), s.copy(), w.copy()
+            if j < 3:
+                mu2[k, j] += delta
+            elif j == 3:
+                s2[k] += delta
+            else:
+                w2[k] += delta
+            return g3.render(mu2, s2, w2, cam)
+        col_fd = (img(eps) - img(-eps)) / (2 * eps)
+        assert np.max(np.abs(J[:, i] - col_fd)) < 1e-5 * max(
+            1e-6, np.max(np.abs(col_fd)))
+
+
+def test_density_grad_matches_fd():
+    rng = np.random.default_rng(2)
+    mu = rng.normal(size=(2, 3))
+    s = rng.uniform(-1, 0, 2)
+    w = rng.normal(size=2)
+    pts = rng.normal(size=(4, 3))
+    Jr = g3.density_grad(pts, mu, s, w)
+    eps = 1e-6
+    for i in range(10):
+        k, j = divmod(i, 5)
+
+        def rho(delta, k=k, j=j):
+            mu2, s2, w2 = mu.copy(), s.copy(), w.copy()
+            if j < 3:
+                mu2[k, j] += delta
+            elif j == 3:
+                s2[k] += delta
+            else:
+                w2[k] += delta
+            return g3.density3d(pts, mu2, s2, w2)
+        col_fd = (rho(eps) - rho(-eps)) / (2 * eps)
+        assert np.max(np.abs(Jr[:, i] - col_fd)) < 1e-6 + 1e-5 * np.max(
+            np.abs(col_fd))
+
+
+def test_predicted_sigma_falls_with_parallax():
+    """Score v2 sanity: the delta-method uncertainty of the density near a
+    splat must shrink when a wide-baseline view breaks the size-distance
+    degeneracy."""
+    params = {"mu": np.array([[0.0, 0.0, 6.0]]),
+              "s": np.array([np.log(0.5)]), "w": np.array([1.0])}
+    pts = np.array([[0.0, 0.0, 6.4]])  # probe just behind the center
+    one = [g3.make_camera((0.0, 0.0, 0.0), (0, 0, 6.0), 64.0, (64, 64))]
+    wide = one + [g3.make_camera((3.0, 0.0, 0.0), (0, 0, 6.0), 64.0,
+                                 (64, 64))]
+    sig_one = g3.predicted_sigma(pts, params, one)[0]
+    sig_wide = g3.predicted_sigma(pts, params, wide)[0]
+    assert sig_wide < 0.5 * sig_one
+
+
 def test_spearman_helper():
     a = np.array([1.0, 2.0, 3.0, 4.0])
     assert g3.spearman(a, a ** 3) == pytest.approx(1.0)

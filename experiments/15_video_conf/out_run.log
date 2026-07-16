@@ -1,0 +1,13 @@
+=== exp15 / issue #48 Phase 0 round 2: predicted uncertainty vs true error ===
+trajectory: 24 frames, baseline 0.8 at depth 6 (parallax ~0.133 rad); noise sigma 0.02; declared gate: covered-region Spearman (sigma_pred vs |error|) >= 0.3 on all seeds (0, 1, 2)
+eval grid: 2016 points, covered 1600
+round-1 score kept as auxiliary (geometry-only lambda_min, 8s)
+  seed=0: fit loss 7.183e-02 -> 4.029e-04 (205s, 24 splats, 13 negative); Spearman v2 covered=+0.909 all=+0.910 support=+0.827 | v1 covered=-0.101
+  seed=1: fit loss 7.785e-02 -> 4.032e-04 (71s, 24 splats, 14 negative); Spearman v2 covered=+0.863 all=+0.919 support=+0.823 | v1 covered=+0.096
+  seed=2: fit loss 7.419e-02 -> 4.477e-04 (77s, 24 splats, 5 negative); Spearman v2 covered=+0.763 all=+0.798 support=+0.415 | v1 covered=-0.200
+figure: /home/user/wigner-splat/experiments/15_video_conf/conf_vs_error.png
+
+=== verdict vs declared Gate A (round 2) ===
+primary (covered-region Spearman, gate >= 0.3 on all seeds): ['+0.909', '+0.863', '+0.763']
+   -> GATE A PASSED: the delta-method certificate ranks true error above the declared bar on every seed.
+auxiliary (descriptive, not the gate): all-points ['+0.910', '+0.919', '+0.798'], model-support ['+0.827', '+0.823', '+0.415'], round-1 score ['-0.101', '+0.096', '-0.200']
