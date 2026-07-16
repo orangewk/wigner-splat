@@ -1,4 +1,4 @@
-"""Experiment 17 -- issue #40 follow-up: rank saturation on the GKP data.
+"""Experiment 18 -- issue #40 follow-up: rank saturation on the GKP data.
 
 Exp14 (PR #44) left three open threads: train NLL was still improving at
 R=3 under the fixed schedule (so the rank curve had not visibly plateaued),
@@ -228,7 +228,7 @@ def report_ci(name, a, b):
 
 
 def main():
-    print("=== exp17: rank saturation / warm starts / K interplay on the "
+    print("=== exp18: rank saturation / warm starts / K interplay on the "
           "GKP data ===")
     print("(exploratory reanalysis protocol; see docstring)")
     results = {}

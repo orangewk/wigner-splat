@@ -1,0 +1,83 @@
+=== exp17: rank saturation / warm starts / K interplay on the GKP data ===
+(exploratory reanalysis protocol; see docstring)
+
+--- primary split (seed 0) ---
+    lossy R=3 K=4 seed=0: train NLL=1.62693  final-100-iter drop=+0.00003  eta=0.8598  wall=813s
+    lossy R=3 K=4 seed=1: train NLL=1.62688  final-100-iter drop=+0.00002  eta=0.8749  wall=899s
+    lossy R=3 K=4 seed=2: train NLL=1.62689  final-100-iter drop=+0.00004  eta=0.8651  wall=1438s
+    -> lossy R=3 K=4: best-by-TRAIN seed=1  train NLL=1.62688
+    lossy R=3 K=4: test NLL=1.63009  (dof 69)
+    lossy R=4 K=4 seed=0: train NLL=1.62674  final-100-iter drop=+0.00003  eta=0.9246  wall=2308s
+    lossy R=4 K=4 seed=1: train NLL=1.62672  final-100-iter drop=+0.00003  eta=0.9410  wall=1384s
+    lossy R=4 K=4 seed=2: train NLL=1.62676  final-100-iter drop=+0.00003  eta=0.9366  wall=1214s
+    -> lossy R=4 K=4: best-by-TRAIN seed=1  train NLL=1.62672
+    lossy R=4 K=4: test NLL=1.62993  (dof 92)
+    lossy R=5 K=4 seed=0: train NLL=1.62678  final-100-iter drop=+0.00003  eta=0.9406  wall=1502s
+    lossy R=5 K=4 seed=1: train NLL=1.62672  final-100-iter drop=+0.00002  eta=0.9389  wall=1424s
+    lossy R=5 K=4 seed=2: train NLL=1.62672  final-100-iter drop=+0.00003  eta=0.9221  wall=1442s
+    -> lossy R=5 K=4: best-by-TRAIN seed=2  train NLL=1.62672
+    lossy R=5 K=4: test NLL=1.62995  (dof 115)
+    lossy R=2 K=6 seed=0: train NLL=1.62761  final-100-iter drop=+0.00003  eta=0.6978  wall=1159s
+    lossy R=2 K=6 seed=1: train NLL=1.62750  final-100-iter drop=+0.00003  eta=0.7007  wall=1134s
+    lossy R=2 K=6 seed=2: train NLL=1.62751  final-100-iter drop=+0.00001  eta=0.6999  wall=1352s
+    -> lossy R=2 K=6: best-by-TRAIN seed=1  train NLL=1.62750
+    lossy R=2 K=6: test NLL=1.63065  (dof 70)
+  warm starts (from the best-by-train parent):
+    warm R=4 K=4 warm: train NLL=1.62669  final-100-iter drop=+0.00001  eta=0.9570  wall=1548s
+    warm R=4: test NLL=1.62994
+    warm R=5 K=4 warm: train NLL=1.62663  final-100-iter drop=+0.00000  eta=0.9948  wall=2333s
+    warm R=5: test NLL=1.62990
+  MLE dof frontier:
+    mle n_max= 4 (dof  15, 237 iters): test NLL=1.67764
+    mle n_max= 6 (dof  35, 142 iters): test NLL=1.63534
+    mle n_max= 8 (dof  63, 318 iters): test NLL=1.63036
+    mle n_max=10 (dof  99, 393 iters): test NLL=1.62999
+    mle n_max=12 (dof 143, 354 iters): test NLL=1.62988
+    mle n_max=16 (dof 255, 347 iters): test NLL=1.62984
+    mle n_max=20 (dof 399, 344 iters): test NLL=1.62987
+    mle n_max=25 (dof 624, 349 iters): test NLL=1.62986
+    -> empirical test-selected frontier best (descriptive): n_max=16 test NLL=1.62984
+
+  conditional paired bootstrap 95% CIs (primary split):
+    R4 - R3: [-0.00031, -0.00001]  (point -0.00016)
+    R5 - R4: [-0.00004, +0.00007]  (point +0.00002)
+    R4 - best MLE: [-0.00002, +0.00020]  (point +0.00009)
+    R5 - best MLE: [+0.00001, +0.00021]  (point +0.00011)
+    warm R4 - best MLE: [-0.00000, +0.00020]  (point +0.00010)
+    warm R5 - best MLE: [-0.00000, +0.00014]  (point +0.00006)
+    R3K4 - R2K6 (matched ~70 dof): [-0.00098, -0.00018]  (point -0.00056)
+
+--- alternate reshuffle (seed 1) ---
+    lossy R=3 K=4 seed=0: train NLL=1.62765  final-100-iter drop=+0.00004  eta=0.8626  wall=1066s
+    lossy R=3 K=4 seed=1: train NLL=1.62761  final-100-iter drop=+0.00004  eta=0.8773  wall=1064s
+    lossy R=3 K=4 seed=2: train NLL=1.62762  final-100-iter drop=+0.00007  eta=0.8669  wall=1515s
+    -> lossy R=3 K=4: best-by-TRAIN seed=1  train NLL=1.62761
+    lossy R=3 K=4: test NLL=1.62717  (dof 69)
+    lossy R=4 K=4 seed=0: train NLL=1.62752  final-100-iter drop=+0.00005  eta=0.9323  wall=1421s
+    lossy R=4 K=4 seed=1: train NLL=1.62741  final-100-iter drop=+0.00003  eta=0.9437  wall=1373s
+    lossy R=4 K=4 seed=2: train NLL=1.62745  final-100-iter drop=+0.00003  eta=0.9402  wall=1384s
+    -> lossy R=4 K=4: best-by-TRAIN seed=1  train NLL=1.62741
+    lossy R=4 K=4: test NLL=1.62715  (dof 92)
+  MLE dof frontier:
+    mle n_max= 4 (dof  15, 247 iters): test NLL=1.67778
+    mle n_max= 6 (dof  35, 134 iters): test NLL=1.63335
+    mle n_max= 8 (dof  63, 280 iters): test NLL=1.62782
+    mle n_max=10 (dof  99, 347 iters): test NLL=1.62723
+    mle n_max=12 (dof 143, 300 iters): test NLL=1.62723
+    mle n_max=16 (dof 255, 298 iters): test NLL=1.62722
+    mle n_max=20 (dof 399, 296 iters): test NLL=1.62729
+    mle n_max=25 (dof 624, 304 iters): test NLL=1.62735
+    -> empirical test-selected frontier best (descriptive): n_max=16 test NLL=1.62722
+
+  conditional CIs (alternate reshuffle):
+    R4 - R3: [-0.00018, +0.00014]  (point -0.00002)
+    R4 - best MLE: [-0.00017, +0.00003]  (point -0.00007)
+  figure: C:\dev\wigner-splat-exp17\experiments\17_gkp_saturation\gkp_saturation_frontier.png
+
+=== pre-declared decision checks (descriptive) ===
+1. saturation: delta(4)=+0.00016, delta(5)=+0.00000 (exp14 delta(3)=+0.00073; flat if < 0.0002)
+   held-out by R (primary): R3 1.63009, R4 1.62993, R5 1.62995
+2. frontier: see CI(R4 - best MLE) on both splits above
+3. optimization: cold-best - warm train NLL = +0.00003 -> cold schedule adequate at R=4 (optimization descriptively disfavored)
+4. K interplay: see CI(R3K4 - R2K6) above
+5. fitted eta by R (primary): R3K4 0.8749, R4K4 0.9410, R5K4 0.9221, R2K6 0.7007; warm4 0.9570, warm5 0.9948
