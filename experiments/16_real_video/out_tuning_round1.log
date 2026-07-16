@@ -1,0 +1,28 @@
+=== exp16 Phase 1 round 1: TRAIN-ONLY tuning trajectory (held-out frames never touched) ===
+Declared precondition: mean train PSNR >= 18 dB on all seeds, else DNF.
+All runs: seed 0, 20 train frames (96x54 gray), joint pose+splat fit.
+
+tune 1: K=150, final schedule (600, 0.02)
+        -> mean train PSNR 17.24 dB, f fitted 82.4  (wall 617 s)
+tune 2: K=250, final schedule (600, 0.02), (400, 0.006)
+        -> mean train PSNR 17.68 dB, f fitted 85.2  (wall 1536 s)
+tune 3: continuation of tune 2 + per-frame pose polish (80 it/frame)
+        + (600, 0.006), (400, 0.002)
+        -> mean train PSNR 17.82 dB, f fitted 84.1  (wall 1875 s)
+tune 4: continuation of tune 3 with the blur knob ON,
+        (500, 0.006), (300, 0.002)
+        -> sigma_blur -> 0.60 px, mean train PSNR 17.85 dB (wall 1381 s)
+
+Diagnosis: the trajectory asymptotes at ~17.8-17.9 dB, below the declared
+18 dB floor. Capacity (K 150->250: +0.44 dB), schedule (+0.14 dB), pose
+polish (included above), and the blur knob (+0.03 dB) are all exhausted
+levers; per-frame PSNR shows the deficit concentrated on the mid-window
+frames where a close horse crosses in front of the scene -- exactly where
+an ADDITIVE no-occlusion renderer must pay: it cannot dim what is behind
+an occluder, so foreground/background compete for the same pixels.
+
+VERDICT: precondition DNF, recorded as declared. Gate B/B2/ablation were
+NOT evaluated; the held-out frames remain untouched, so the declared
+protocol stays intact for round 2 after the renderer gains occlusion
+(sorted alpha compositing) -- the falsification path named in the
+declaration ("back to the renderer, not the score").

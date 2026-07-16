@@ -963,3 +963,39 @@ synthetic Phase 0 only; nothing here claims occlusion handling or
 real-video performance. Pins: tests/test_gauss3d.py (9 tests — FD
 gradients, probe/Jacobian brute-force matches, parallax raises
 lambda_min, predicted sigma falls with baseline).
+
+## 2026-07-16 (later) — Phase 1 on real video, round 1: precondition DNF (experiment 16, issue #48)
+
+Real data arrived from the owner: a 10 s hand-held walking video of a
+(stationary — verified by strip-shift analysis) carousel. Extracted a
+6 s / 24-frame window with provenance; held-out frames 4/10/16/22 and
+all gates declared on the issue BEFORE implementation.
+
+Built for it (all FD-pinned): the exp15 renderer extended with a global
+background, the eta-style blur knob composed in CLOSED FORM
+(si^2 = a^2 + sigma_b^2 with the mass-preserving amplitude factor
+a^2/si^2 — a Gaussian blurred by a Gaussian is a Gaussian, exp13's
+one-knob philosophy exported to graphics), and analytic camera-pose
+gradients (translation dL/dc = -sum g_mu by symmetry; rotation
+dL/dd = sum p x gp), driving a MonoGS-style incremental joint
+pose+splat fit — no COLMAP exists in this environment.
+
+Happened: the declared precondition (mean train PSNR >= 18 dB) was NOT
+reached. Train-only tuning trajectory (committed log): K=150 17.24 dB;
+K=250 + stepped lr 17.68; + pose polish and 1000 more iterations 17.82;
++ blur knob 17.85 (sigma_blur -> 0.60 px, +0.03 dB only). The deficit
+concentrates on mid-window frames where a close horse crosses the
+scene: an ADDITIVE no-occlusion renderer cannot dim what is behind an
+occluder, so foreground and background compete for the same pixels.
+Recorded as DNF per the declaration; Gate B/B2/ablation were NOT
+evaluated, and the held-out frames were never touched — the protocol
+survives intact for round 2.
+
+Learned: the declared-precondition discipline did its job — it stopped
+us from grading a certificate on a fit that fails for a KNOWN physical
+reason (occlusion), which would have produced uninterpretable gate
+numbers. The blur knob's honest non-result also matters: at 96x54 the
+downsampling already dominates whatever motion blur the walk produced,
+so the knob had nothing to absorb (sigma_blur ~ half a pixel). Round 2
+= sorted alpha compositing in the renderer (the falsification path
+named in the declaration), then the SAME untouched protocol.
