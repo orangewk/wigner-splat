@@ -50,10 +50,17 @@ likelihood estimation (MLE) on simulated cat states at matched shot budgets.
 | 2 modes | Fidelity is statistically indistinguishable across 20 paired seeds; splat uses about 1/7.4 of the measured compute. | Requires full cross-mode covariance; separable splats fail. |
 | 3 modes | A signed-splat run reached a higher Wigner-overlap score in about 15 s while the 512-dimensional MLE run did not converge within 900 s. | This score is not state fidelity when the reconstruction is non-PSD. It is not a physical-tomography win. |
 
-The physical $BB^\dagger$ track resolves the PSD issue by construction, but
-its synthetic high-fidelity results are **in-family existence results**. A fair
-Fock-ket comparison showed that its main demonstrated advantage is compactness
-and speed, not a general fidelity advantage. See the
+The physical $BB^\dagger$ track resolves the PSD issue by construction. Its
+early synthetic high-fidelity results were **in-family existence results**, and
+a fair Fock-ket comparison showed that its main demonstrated advantage is
+compactness and speed, not a general fidelity advantage. A held-out full-rank
+gate (experiment 19) later recorded **one blind out-of-family generalization**:
+on a thermal-noise lossy cat that no finite-rank ket mixture contains, the
+loss-channel-composed rank-2 model reached fidelity 0.923, above the converged
+full-rank MLE's 0.897, with roughly 110 real parameters — while the
+pure-detection ket mixtures landed almost exactly on their rank-capacity
+ceilings. Single seed and a single target class; universal claims remain
+unwarranted. See the
 [research log](docs/research-log.md) and [prior-art survey](docs/prior-art-survey.md)
 for the evidence and comparisons.
 

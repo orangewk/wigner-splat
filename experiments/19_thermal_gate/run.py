@@ -87,6 +87,7 @@ BINS = 24
 MLE_BUDGET_S = 900.0
 CEILING_MARGIN = 0.05
 ITERS = dict(bbdagM=200, bbdagS=400, lossy=400, purefock=1000)
+N_INTERMEDIATE = 16
 STABILITY_N = 10
 GRID = [t for t in itertools.product(
     np.linspace(0, np.pi, 3, endpoint=False),
@@ -140,6 +141,42 @@ def bb_state_to_fock_rho(cols_z, cols_alpha, cols_xi, Z):
         col = ket_to_fock(z, a, x)
         rho += np.outer(col, col.conj())
     return rho / Z
+
+
+def ket_to_fock_wide(z, alpha, xi, n_big):
+    """ket_to_fock at an arbitrary cutoff (the lossy-row scoring needs a
+    wide intermediate truncation; see the call site)."""
+    H = hermite_psi(_XGRID, n_big)
+    K, M = alpha.shape
+    out = np.zeros((n_big,) * 3, complex)
+    for c in range(K):
+        v = [np.trapezoid(H * sq_wavefunction(_XGRID, alpha[c, m],
+                                              xi[c, m])[None, :],
+                          _XGRID, axis=1) for m in range(M)]
+        out += z[c] * np.einsum("i,j,k->ijk", v[0], v[1], v[2])
+    return out
+
+
+def apply_loss_channel_wide(rho6, eta, n):
+    """Truncated per-mode loss Kraus on a 6-index tensor (exact downward)."""
+    from math import comb
+    As = []
+    for k in range(n):
+        A = np.zeros((n, n))
+        idx = np.arange(k, n)
+        A[idx - k, idx] = [np.sqrt(comb(m, k) * eta ** (m - k)
+                                   * (1 - eta) ** k) for m in idx]
+        As.append(A)
+    out = rho6
+    for mode in range(3):
+        acc = np.zeros_like(out)
+        for A in As:
+            t = np.tensordot(A, out, axes=([1], [mode]))
+            t = np.moveaxis(t, 0, mode)
+            t = np.tensordot(t, A, axes=([mode + 3], [1]))
+            acc += np.moveaxis(t, -1, mode + 3)
+        out = acc
+    return out
 
 
 def apply_loss_channel_3mode(rho, eta):
@@ -238,10 +275,22 @@ def main():
         fits.append((nll_lossy_mixed(st, data, eta_f),
                      (st, eta_f, time.perf_counter() - t0, s)))
     st, eta_f, wall, s = min(fits, key=lambda t: t[0])[1]
-    rho_pre = bb_state_to_fock_rho(st.z, st.alpha, st.xi, st.norm_sq())
-    rho_f = apply_loss_channel_3mode(rho_pre, eta_f)
+    # the fitted model is loss_eta(B B^dagger): project the PRE-loss kets at
+    # a WIDE cutoff (a low fitted eta scales the pre-loss amplitudes up by
+    # 1/sqrt(eta), which overflows n_max=8 -- the first run's scoring
+    # artifact), apply the channel there, then cut the output back to the
+    # scoring block. The model is FULL RANK by the channel (rank=None: the
+    # finite-rank ceilings do not bound it; its ceiling is the trace).
+    rho_pre6 = np.zeros((N_INTERMEDIATE,) * 6, complex)
+    for z, a, x in zip(st.z, st.alpha, st.xi):
+        col = ket_to_fock_wide(z, a, x, N_INTERMEDIATE)
+        rho_pre6 += np.einsum("ijk,lmn->ijklmn", col, col.conj())
+    rho_pre6 /= st.norm_sq()
+    rho_out6 = apply_loss_channel_wide(rho_pre6, eta_f, N_INTERMEDIATE)
+    rho_f = rho_out6[:N_MAX, :N_MAX, :N_MAX,
+                     :N_MAX, :N_MAX, :N_MAX].reshape(N_MAX ** 3, N_MAX ** 3)
     F = uhlmann(rho_f, rho_t)
-    rows.append(("bbdagS lossy R2K4", 2, F, float(np.trace(rho_f).real),
+    rows.append(("bbdagS lossy R2K4", None, F, float(np.trace(rho_f).real),
                  eta_f, wall, s))
     print(f"  bbdagS lossyR2K4 F={F:.4f} eta={eta_f:.4f} (proj trace "
           f"{np.trace(rho_f).real:.4f}, init {s}, wall={wall:.0f}s)",
@@ -295,13 +344,14 @@ def main():
           f"(margin {CEILING_MARGIN})")
     best_name, best_F, best_gap = None, -1.0, None
     for m, R, v, *_ in rows:
-        if R is None:
+        if m in ("mle3", "splat"):
             continue
-        gap = ceil[R] - v
-        flag = "NEAR CEILING" if gap <= CEILING_MARGIN else \
-            f"short of ceiling by {gap:.4f}"
+        c = ceil[R] if R is not None else trace8   # channel rows: full rank
+        rank_s = f"rank {R}" if R is not None else "full rank (channel)"
+        gap = c - v
+        flag = "NEAR CEILING" if gap <= CEILING_MARGIN else             f"short of ceiling by {gap:.4f}"
         beats = "beats MLE" if v > F_mle else "below MLE"
-        print(f"  {m:18s} rank {R}: F={v:.4f} vs ceiling {ceil[R]:.4f} "
+        print(f"  {m:18s} {rank_s}: F={v:.4f} vs ceiling {c:.4f} "
               f"-> {flag}; {beats}")
         if v > best_F:
             best_name, best_F, best_gap = m, v, gap

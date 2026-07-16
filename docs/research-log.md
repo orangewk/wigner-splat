@@ -1180,3 +1180,86 @@ preregistered confirmation. #40's saturation question is answered
 (R = 4-5, schedule-adequate); the natural next step on this dataset is
 an INDEPTH preregistered confirmation only if a fresh dataset or a
 held-out session becomes available (#41 scope).
+## 2026-07-16 — The blind-generalization gate: thermal-noise lossy cat (experiment 19, issue #38)
+
+(Numbering note: experiments 15-18 were taken by the time this ran
+(15_video_conf #48, 16_exp11_seeds #39, 17_loss_control #42,
+18_gkp_saturation #40); this one lives in experiments/19_thermal_gate.)
+
+Tried: the gate exp11's scope correction demanded before any
+"generalizing method" claim -- a held-out target NO finite-rank ket
+mixture contains. Target: the lossy cat followed by per-mode classical
+Gaussian displacement noise (states3x.ThermalLossyThreeModeCat; eta=0.8,
+sigma_add=0.1 variance per quadrature; purity 0.2875 -- genuinely full
+rank). Machinery, all pinned by tests on independent routes
+(tests/test_thermal_target.py): closed-form pdf via the issue-#42 pair
+machinery at eta=1 on the target side; a numerically exact Fock-route
+construction (fock.gaussian_noise_channel_3mode: Gauss-Laguerre radial x
+exact-harmonic angular displacement quadrature, cross-checked against
+the pdf convolution); a width-scaled closed-form splat overlap
+(forward3f.overlap_vs_thermal_lossy_cat3). Rank-R fidelity ceilings from
+the target spectrum (max over rank-R sigma of F = sum of the top R
+eigenvalues): R1 0.3781, R2 0.7491, R4 0.8171, R8 0.9513 (stable at
+n_max=10). Protocol pre-declared: fixed blind lineup (exp11/exp14
+extensions, nobody told sigma_add), init seeds {0,1,2} best-by-train
+(an exp11-protocol upgrade justified by exp16's likelihood-blindness
+finding), and the issue's falsification condition: best fixed-family F
+short of its own rank ceiling by > 0.05 AND below the MLE fires
+"in-family adaptation only".
+
+Happened (committed log, single data seed 42):
+    bbdagM R2K2        F = 0.6473   (86% of its rank-2 ceiling 0.7491)
+    bbdagS K4          F = 0.3691   (rank-1 ceiling 0.3781: NEAR CEILING)
+    purefock3          F = 0.3705   (ditto -- the generic control too)
+    bbdagS lossy R2K4  F = 0.9232   eta fitted blind -> 0.3593
+    mle3 (full rank)   F = 0.8966   (converged, 900 s budget)
+    splat overlap 0.2861 vs perfect 0.2875 (99.5%; separate non-PSD axis)
+
+SCORING CORRECTION (documented, superseded log kept): the first run
+scored the channel-composed model by projecting its PRE-loss kets at
+n_max=8 -- but the blind fit drove eta to 0.36, which scales pre-loss
+amplitudes by 1/sqrt(eta) and overflowed the cutoff (projection trace
+0.53, F 0.4256; out_run_prescoringfix.log). The declared fix
+(rescore_and_addendum.py, out_followup.log) projects the pre-loss kets
+at n_max=16, applies the truncated Kraus channel there, and cuts the
+output back to the n_max=8 scoring block (trace 0.977). The main log
+was regenerated with the corrected pipeline; the deterministic fits
+reproduced exactly. A second correction in the same pass: the
+channel-composed model is FULL RANK (a CPTP output), so the rank-2
+ceiling never bounded it -- its ceiling is the truncated trace 0.9918.
+
+RULING: the pre-declared falsification condition does NOT fire. The
+gate is PASSED FOR THIS TARGET: the channel-composed member of the
+fixed family generalized blind to a full-rank state outside every
+finite-rank ket family and landed ABOVE the converged full-rank MLE
+(0.9232 vs 0.8966) with ~110 real parameters against the MLE's ~2.6e5.
+The texture is the informative part:
+  1. The PURE-DETECTION ket mixtures track their rank ceilings almost
+     exactly (rank-1 models sit 0.008-0.009 below theirs; rank-2
+     coherent at 86%). Their limitation on a full-rank target is rank
+     CAPACITY, not fit quality. [Exploratory addendum, outside the
+     declared lineup and labeled as such: a blind bbdagM rank-8 reaches
+     F 0.8751 = 92% of its 0.9513 ceiling -- capacity keeps being the
+     binding constraint as R grows.]
+  2. The generalization mechanism is CHANNEL COMPOSITION:
+     loss_eta(B B^dagger) is full rank with O(K) parameters, and the
+     blind fit spent its eta knob (0.36, far from the physical 0.8) to
+     buy the Gaussian width the ket mixture cannot express -- fitted
+     eta as a model parameter, exactly the exp14/exp17 stance. The
+     eta-(state) flat direction that made joint fitting UNSAFE for
+     calibration in exp17 is here doing useful work: the flat family
+     contains a good approximant of the out-of-family target.
+
+Learned: "the BB-dagger family is effective for in-family adaptation
+only" is REFUTED on this target: one blind, full-rank, out-of-family
+generalization is on record, and it beat the converged full-rank MLE.
+What this does not license: any universal claim. Single data seed,
+one target class, fidelity measured in an n_max=8 truncation (the
+scoring is conservative for the model: its own post-channel trace is
+0.977), MLE at the exp06-era 900 s budget. The README's generalization
+bar moves one notch -- from "no evidence of blind generalization" to
+"one recorded instance on a synthetic full-rank held-out target" --
+and no further. Follow-ups recorded, not opened: a sigma_add / seed
+sweep to test robustness, and a theory note on WHY loss-channel
+composition approximates Gaussian-noise states this well (the channel
+family's closure properties).

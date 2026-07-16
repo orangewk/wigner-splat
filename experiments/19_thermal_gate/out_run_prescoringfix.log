@@ -1,0 +1,25 @@
+=== exp19: issue #38 -- the blind-generalization gate (thermal-noise lossy cat) ===
+target alpha=1.5 parity=1 eta=0.8 sigma_add=0.1; 27 triples x 2000 shots, data seed 42; init seeds (0, 1, 2) best-by-train
+building the Fock-route target (n_max=8 + n_max=10 stability check)...
+  truncated trace: n8=0.99178 n10=0.99928; purity(n8)=0.2875
+  rank-R fidelity ceilings (sum of top-R eigenvalues):
+    R=1: 0.3781 (n10 check 0.3792)
+    R=2: 0.7491 (n10 check 0.7512)
+    R=4: 0.8171 (n10 check 0.8201)
+    R=8: 0.9513 (n10 check 0.9560)
+  bbdagM R2K2      F=0.6473 (proj trace 0.9969, init 2, wall=18s)
+  bbdagS K4        F=0.3691 (proj trace 0.9980, init 2, wall=63s)
+  bbdagS lossyR2K4 F=0.4256 eta=0.3593 (proj trace 0.5345, init 2, wall=674s)
+  purefock3        F=0.3705 (init 2, wall=198s)
+  mle3             F=0.8976 (converged=False, wall=900s)
+  splat            overlap=0.2861 (perfect=0.2875, non-PSD axis, wall=16s)
+
+raw results -> C:\dev\wigner-splat-exp19\experiments\19_thermal_gate\results.json
+
+=== gate ruling (falsification condition declared in the docstring) ===
+rank ceilings: R=1 0.3781, R=2 0.7491 (margin 0.05)
+  bbdagM R2K2        rank 2: F=0.6473 vs ceiling 0.7491 -> short of ceiling by 0.1018; below MLE
+  bbdagS K4          rank 1: F=0.3691 vs ceiling 0.3781 -> NEAR CEILING; below MLE
+  bbdagS lossy R2K4  rank 2: F=0.4256 vs ceiling 0.7491 -> short of ceiling by 0.3235; below MLE
+  purefock3          rank 1: F=0.3705 vs ceiling 0.3781 -> NEAR CEILING; below MLE
+-> falsification condition FIRES: the fixed extended family neither approaches its rank ceiling nor matches the full-rank MLE on this held-out full-rank target. Recorded: in-family adaptation only; the generalizing claim stays barred.
