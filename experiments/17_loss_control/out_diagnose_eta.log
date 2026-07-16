@@ -1,0 +1,8 @@
+=== exp16 diagnostic: fitted-eta collapse -- start sensitivity or identifiability? ===
+  eta0=0.6 seed=0: eta_fit=0.5635 NLL=3.96111 F=0.5085
+  eta0=0.6 seed=1: eta_fit=0.6566 NLL=3.96111 F=0.1999
+  eta0=0.6 seed=2: eta_fit=0.6215 NLL=3.96111 F=0.1331
+  eta0=0.79 seed=0: eta_fit=0.6925 NLL=3.96110 F=0.8036
+  eta0=0.79 seed=1: eta_fit=0.7720 NLL=3.96112 F=0.3144
+  eta0=0.79 seed=2: eta_fit=0.7548 NLL=3.96112 F=0.0632
+  known eta=0.8 seed=0: NLL=3.96109 F=0.8246

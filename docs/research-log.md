@@ -1033,3 +1033,83 @@ selection-robust practice for mixed-target BB-dagger fits (more inits,
 or a fidelity-blind diagnostic such as the fitted state's own purity /
 column Gram rank) would close the gap between best-observed and
 NLL-selected.
+## 2026-07-16 — Loss model deployed across all reconstructors + the noise control (experiment 17, issue #42 full scope)
+
+(Numbering note: this experiment lives in experiments/17_loss_control.
+It ran as "exp16" before the parallel application line's experiment 15
+(15_video_conf, issue #48) merged first and shifted the quantum-line
+numbering; the committed raw log headers still print exp16 and are
+left untouched.)
+
+Tried: the remaining #42 scope — take the exp13 loss forward model
+(measured pdf = pure pdf convolved per mode with N(0, sigma2),
+sigma2 = (1 - eta)/2 + electronic noise) out of bbdagS and into every
+other reconstructor, each by the route its representation makes natural:
+  * bbdagM (coherent, rank-1 and rank-R): DELEGATION. A coherent ket is
+    the xi = 0 slice of the squeezed ansatz, so the lossy pdf / NLL /
+    analytic gradient are the bbdagS pair machinery evaluated at xi = 0
+    with the xi gradient block dropped — exact, nothing re-derived.
+    Known-eta and jointly-fitted-eta modes both exposed.
+  * purefock3: per-mode inefficient-homodyne POVM matrices
+    Phi[n,n'](x) = int psi_n(y) psi_n'(y) N(x - sqrt(eta) y; sigma2) dy
+    by a Gauss-Hermite rule that is EXACT (polynomial x Gaussian
+    integrand), so electronic noise is supported with no truncation
+    error; a truncated-Kraus route serves as the independent test
+    cross-check at sigma_el = 0. p = psi^dag (E1 x E2 x E3) psi / Z via
+    three sequential mode contractions; known-eta fitter.
+  * splat (forward3f / fit3f): the measurement map on the projected
+    Gaussians, m -> sqrt(eta) m, C -> eta C + sigma2 I — and because the
+    projection columns are orthonormal (U^T U = I), this equals the
+    PHASE-SPACE loss map mu -> sqrt(eta) mu, Sigma -> eta Sigma +
+    sigma2 I_6 on the mixture itself. The fitted splat therefore
+    estimates the PRE-loss Wigner function and every pure-target overlap
+    score applies unchanged. Threaded through all fit3f stages including
+    the blob_span variance inversion.
+  * data3.apply_detection_noise: detector-side noisy sampler for ANY
+    target's ideal samples.
+Pinned by 22 new tests (eta = 1 exact reduction everywhere; agreement
+with numerical convolution AND the Fock/Kraus channel on independent
+routes; FD gradient checks with the loss on; parameter validation); the
+full suite passes at 181. A latent convention subtlety surfaced:
+purefock3's amplitude (sum psi_n v_n, unconjugated) and
+fock.marginal_from_rho are mutually CONJUGATE phase conventions —
+invisible for real-coefficient states (every state pinned before now),
+visible for random complex ones; documented where the tests hit it.
+
+Happened (experiment 17, pre-declared ignore/known/fitted control on a
+pure cat3 with known detector noise eta = 0.8, sigma_el^2 = 0.02, 27
+triples x 1000 shots, single data seed, descriptive):
+    bbdagM K=2   ignore 0.6188 | known 0.8246 | fitted 0.5085 (eta -> 0.56)
+    purefock3    ignore 0.8925 | known 0.9727
+    splat        ignore 0.4364 | known 0.5009   (overlap-score axis)
+Ignoring the detector costs every reconstructor and the known-eta
+correction recovers most of it (purefock3 to 0.9727 against the ~0.993
+truncation ceiling). The surprise is the FITTED arm: jointly fitted eta
+landed at 0.5635 with F = 0.5085 — worse than ignoring the noise.
+
+Diagnostic (diagnose_eta.py, committed log; discriminator declared
+before running: start sensitivity vs identifiability): refits from
+eta0 = 0.6 AND 0.79, three inits each, ALL land on one train-NLL plateau
+(3.96110-3.96112, with the known-eta reference at 3.96109) while fitted
+eta scatters 0.56-0.77 and fidelity scatters 0.06-0.80. The likelihood
+at this budget is flat to ~1e-5 nats along a (state, eta) direction
+across fits whose fidelity differs by 0.74: a genuine IDENTIFIABILITY
+failure, not under-optimization. Known eta pins the model to the right
+member of the plateau — that is what the calibration knob is for.
+
+Learned: the known-eta deployment holds across every representation with
+the closed-form discipline intact (the only integral anywhere is an
+exact finite Gauss-Hermite rule). And "fit eta jointly" is not a free
+lunch: it was safe on the GKP data (exp13: ~60k single-mode samples,
+fitted eta stable at 0.638-0.643 across seeds and splits) and is UNSAFE
+on a 27k-sample three-mode cat, where eta is unidentifiable and fidelity
+collapses silently while the NLL moves by 1e-5. This is the same
+budget-blindness exp16 (the exp11 multi-seed replication, issue #39)
+exposed on the init axis, seen here on the eta
+axis: at small budgets the training objective cannot see directions
+fidelity cares about. Practical rule going forward: calibrate eta when a
+calibration exists; fit it only with enough per-mode data; read fitted
+eta as a model parameter (exp14's pre-declared stance) always. #42's
+full scope (bbdagM / purefock3 / splat deployment + known-vs-fitted
+control) is complete; #38's thermal-noise held-out target shares this
+Gaussian-convolution machinery as designed.

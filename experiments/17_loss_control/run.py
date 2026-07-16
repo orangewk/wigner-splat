@@ -1,4 +1,4 @@
-"""Experiment 16 -- issue #42: the noise-aware vs noise-ignorant control.
+"""Experiment 17 -- issue #42: the noise-aware vs noise-ignorant control.
 
 The loss forward model is now deployed across every reconstructor (bbdagS in
 exp13; bbdagM / purefock3 / splat in this PR). This experiment measures, on
@@ -79,7 +79,7 @@ def best_of(fits):
 
 
 def main():
-    print("=== exp16: issue #42 -- noise-aware vs noise-ignorant control ===")
+    print("=== exp17: issue #42 -- noise-aware vs noise-ignorant control ===")
     print(f"target: pure cat3 alpha={ALPHA} parity={PARITY}; detector "
           f"eta={ETA} extra_noise_var={EXTRA}; {len(GRID)} triples x "
           f"{SHOTS} shots, data seed {DATA_SEED}", flush=True)
