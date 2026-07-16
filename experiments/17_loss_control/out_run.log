@@ -1,0 +1,28 @@
+=== exp16: issue #42 -- noise-aware vs noise-ignorant control ===
+target: pure cat3 alpha=1.5 parity=1; detector eta=0.8 extra_noise_var=0.02; 27 triples x 1000 shots, data seed 42
+
+--- bbdagM K=2 ---
+  ignore  F=0.6188 (init 1, wall=4s)
+  known   F=0.8246 eta=0.8000 (init 0, wall=27s)
+  fitted  F=0.5085 eta=0.5635 (init 0, wall=52s)
+
+--- purefock3 n_max=8 ---
+  ignore  F=0.8925 (init 2, wall=71s)
+  known   F=0.9727 (init 1, wall=1548s)
+
+--- splat fit3f ---
+  ignore  overlap-score=0.4364 (non-PSD axis; hist-loss=2.997e-04, wall=25s)
+  known   overlap-score=0.5009 (non-PSD axis; hist-loss=2.991e-04, wall=24s)
+
+raw results -> C:\dev\wigner-splat\experiments\16_loss_control\results.json
+
+=== summary (fidelity axis; splat = overlap score, separate axis) ===
+  bbdagM     ignore  0.6188
+  bbdagM     known   0.8246 eta=0.8000
+  bbdagM     fitted  0.5085 eta=0.5635
+  purefock3  ignore  0.8925
+  purefock3  known   0.9727
+  splat      ignore  0.4364
+  splat      known   0.5009
+
+readings (declared in the docstring): ignore-arm deficit vs known-arm recovery vs fitted-eta gap; single data seed, descriptive only.

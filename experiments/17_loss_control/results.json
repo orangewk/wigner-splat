@@ -1,0 +1,58 @@
+[
+ {
+  "method": "bbdagM",
+  "condition": "ignore",
+  "value": 0.618797198347044,
+  "eta": null,
+  "wall_s": 4.2605370999990555,
+  "init": 1
+ },
+ {
+  "method": "bbdagM",
+  "condition": "known",
+  "value": 0.824592288281479,
+  "eta": 0.8,
+  "wall_s": 26.667667199999414,
+  "init": 0
+ },
+ {
+  "method": "bbdagM",
+  "condition": "fitted",
+  "value": 0.5084977822448948,
+  "eta": 0.5634618889209897,
+  "wall_s": 51.753528900000674,
+  "init": 0
+ },
+ {
+  "method": "purefock3",
+  "condition": "ignore",
+  "value": 0.8924665413926491,
+  "eta": null,
+  "wall_s": 70.99959599999784,
+  "init": 2
+ },
+ {
+  "method": "purefock3",
+  "condition": "known",
+  "value": 0.972737543249419,
+  "eta": null,
+  "wall_s": 1547.8427034000015,
+  "init": 1
+ },
+ {
+  "method": "splat",
+  "condition": "ignore",
+  "value": 0.4364460221968566,
+  "eta": null,
+  "wall_s": 25.061422299997503,
+  "init": null
+ },
+ {
+  "method": "splat",
+  "condition": "known",
+  "value": 0.5008689352567285,
+  "eta": null,
+  "wall_s": 24.487869799999316,
+  "init": null
+ }
+]
