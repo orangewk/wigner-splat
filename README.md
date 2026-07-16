@@ -103,7 +103,7 @@ its source README and attribution under `experiments/12_gkp_data/data/`.
 wigner_splat/   forward models, fitters, physical Gaussian-ket models, and MLE baselines
 experiments/    reproducible synthetic and public-data experiments
 tests/          numerical and physical-consistency tests
-docs/           research log, surveys, decisions, and outreach material
+docs/           research log, surveys, and reproducibility notes
 ```
 
 ## Prior work and novelty boundary
