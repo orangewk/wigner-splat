@@ -76,15 +76,30 @@ def test_birth_field_is_dLdw_of_hypothetical_splat():
         assert B[iy, ix] == pytest.approx(g["w"][-1], rel=1e-5, abs=1e-12)
 
 
-def test_split_mode_never_creates_a_new_sign():
+def test_split_preserves_parent_sign():
+    """The structural invariant the demo narrative rests on, tested on the
+    split helper directly for both parent signs."""
+    rng = np.random.default_rng(0)
+    K = 3
+    mu = rng.normal(size=(K, 2))
+    s = rng.uniform(-0.5, 0.5, (K, 2))
+    phi = rng.uniform(0, np.pi, K)
+    for parent_w in (0.7, -0.7):
+        w = np.array([0.3, parent_w, 0.2])
+        mu2, s2, phi2, w2 = bf.split_one(mu, s, phi, w, k=1)
+        assert len(w2) == K + 1
+        assert np.sign(w2[1]) == np.sign(parent_w)   # parent half
+        assert np.sign(w2[-1]) == np.sign(parent_w)  # child half
+        assert w2[1] + w2[-1] == pytest.approx(parent_w)  # weight conserved
+
+
+def test_split_mode_runs_and_records_parent_signs():
     rng = np.random.default_rng(0)
     T = np.clip(rng.normal(size=(24, 24)), 0, None)
     hist = bf.fit(T, extent=2.0, mode="split", K0=3, K_max=8, iters=300,
                   grow_every=60, snapshot_every=1000, seed=1)
-    kinds = {e[1] for e in hist["events"]}
-    assert kinds == {"split"}
-    # splits preserve each parent's sign at the moment of splitting; the
-    # structural claim (no sign flip by splitting) is what the demo shows
+    assert {e[1] for e in hist["events"]} == {"split"}
+    assert all(e[3] in (-1.0, 0.0, 1.0) for e in hist["events"])
     assert len(hist["final"][0]["w"]) == 8
 
 

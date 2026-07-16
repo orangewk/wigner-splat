@@ -851,31 +851,42 @@ the other reconstructors is unchanged.
 
 ## 2026-07-15 — Outreach demo: the birth field, exported to plain image fitting (demos/birthfield_image, #46 idea 4)
 
+(Entry rewritten after the PR #49 review, which caught an Adam-moment
+inconsistency at growth events, an attribution confound, an untested sign
+invariant, and asset/state mismatches -- all fixed; the numbers below are
+from the corrected rerun.)
+
 Tried: the first deliverable of the applications track (#46) -- a
-self-contained, numpy-only demo that restates exp02's densification
-lesson on an audience-friendly target: the cat Wigner function fitted AS
-AN IMAGE by signed 2D Gaussian splats. Two growth modes under identical
-budgets: split-only (the 3DGS-style baseline; a split preserves its
-parent's sign) vs birth (new splats placed and SIGNED by the closed-form
-birth field B(mu) = dL/dw of a hypothetical splat = the residual smoothed
-by the probe kernel -- pinned against the analytic weight gradient to
-1e-5 in tests).
+self-contained demo (core fitter numpy-only) restating exp02's
+densification lesson on an audience-friendly target: the cat Wigner
+function fitted AS AN IMAGE by signed 2D Gaussian splats. Growth rules
+under identical budgets: split (parent-sign-preserving baseline; the
+invariant is tested directly on split_one) vs birth-field placement, plus
+the review-demanded ABLATION isolating the newborn's initial weight:
+signed by the field / forced positive / zero.
 
-Happened (committed log, 3 seeds per mode, comparison.png +
-birthfield_demo.gif): an honesty correction first -- the naive reading
-"split-only can never obtain negative weights" is WRONG for this
-objective, because Adam drags weights through zero; the split runs do
-end with negatives. The precise, measured claim: that route is slow and
-plateau-prone, while the birth field injects the right sign at the right
-place immediately. Loss ratios split/birth at matched budget: 77-616x at
-iteration 1000, 374-25496x at the end, across all seeds (declared bar
-was 10x). The GIF shows the mechanism: the birth field lights up on the
-un-carved fringe, a negative splat is born there, the loss steps down.
+Happened (committed log, 3 seeds per mode):
+- Honesty corrections first: "split can never obtain negatives" is wrong
+  for this objective (the optimizer drags weights through zero; split
+  runs end with 11-19 negatives). And the first run's headline ratios (up
+  to 25496x) were partly an Adam bookkeeping artifact -- growth events
+  zero-padded new moment rows while resetting the bias-correction clock
+  for everyone; with moments and clock reset together, the true gaps are
+  smaller and still decisive: split/birth 18-767x at iteration 1000,
+  52-85x final, across seeds (declared bar 10x -- passed).
+- The ablation OVERTURNED the sign-injection story: forced-positive
+  newborns match signed ones (1.0-1.3x), and zero-weight newborns are the
+  BEST variant (about 10x better than signed at both checkpoints). A
+  newborn's weight sits at zero scale, so the optimizer flips its sign
+  cheaply -- unlike a grown splat's. What the birth field actually
+  contributes is the LOCATION (argmax |dL/dw| of a hypothetical splat, in
+  closed form).
 
-Learned: the exp02 lesson survives export, but only in its precise form
-("splitting preserves sign; sign must otherwise migrate through zero,
-slowly") -- the sloppy form died on contact with a first run, which is
-exactly why the verdict text was corrected before publishing. This demo
-is the template for the applications track: small, self-contained,
-premise declared, and the narrative downgraded to what the numbers
-actually show.
+Learned: two of this demo's own narratives died on contact with the
+data, and what survived is sharper and more actionable for the 3DGS
+audience: "spawn new Gaussians at the birth-field argmax with ZERO
+initial weight" beats both gradient-norm splitting (by 1-3 orders at
+matched budget on this signed target) and any attempt to be clever about
+the newborn's sign. The demo is the applications-track template in both
+senses: small and self-contained, and its claims were cut down to
+exactly what the ablation supports before publishing.

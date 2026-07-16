@@ -13,16 +13,22 @@ fringes are NEGATIVE regions -- the structure that split/clone
 densification cannot inject directly, because a split preserves its
 parent's sign (exp02 lesson, restated precisely below).
 
-Declared expectation (corrected after a first exploratory run -- the
-naive "split can NEVER obtain negatives" reading is wrong for this
-objective, because gradient descent can drag a weight through zero):
-splitting preserves each splat's sign, so split-only runs must grow their
-negatives by the slow weight-through-zero route, visible as long plateaus
-in the loss; the birth field injects the right sign at the right place
-directly. The measurable claim: at the SAME iteration and splat budget,
-birth reaches >= 10x lower loss than split-only, both mid-run (iter 1000)
-and at the end, across seeds. If split-only keeps up, the demo narrative
-is unsupported and is recorded as such.
+Declared expectations (corrected after a first exploratory run and the
+PR #49 review):
+  * the naive "split can NEVER obtain negatives" reading is wrong for
+    this objective -- gradient descent can drag a weight through zero;
+    splitting itself preserves the parent's sign (tested directly), so
+    split-only runs must grow negatives by that slow route.
+  * headline bar: at the SAME iteration and splat budget, the composite
+    birth rule reaches >= 10x lower loss than the split baseline, mid-run
+    (iter 1000) and final, across seeds. If not, the narrative is
+    unsupported and recorded as such.
+  * ATTRIBUTION ablation (review item 2): the birth rule changes
+    placement, initial scale, AND initial sign at once vs split. Variants
+    differing only in the newborn's initial weight -- signed / forced
+    positive / zero -- isolate the sign-injection component. Whatever the
+    ablation shows is reported as measured; the narrative claims only
+    what the variants support.
 """
 import pathlib
 import sys
@@ -114,7 +120,7 @@ def main():
           f"negative fraction {np.mean(target < -0.02):.2f}")
 
     results = {}
-    for mode in ("split", "birth"):
+    for mode in ("split", "birth", "birth_pos", "birth_zero"):
         for seed in SEEDS:
             t0 = time.perf_counter()
             hist = fit(target, EXTENT, mode, K0=K0, K_max=K_MAX,
@@ -122,19 +128,23 @@ def main():
                        snapshot_every=80)
             wall = time.perf_counter() - t0
             wfin = hist["final"][0]["w"]
-            print(f"  {mode:5s} seed={seed}: final loss={hist['loss'][-1]:.5f}  "
-                  f"K={len(wfin)}  negatives={int(np.sum(wfin < 0))}  "
-                  f"wall={wall:.0f}s", flush=True)
+            print(f"  {mode:10s} seed={seed}: loss@1000={hist['loss'][1000]:.3e}"
+                  f"  final={hist['loss'][-1]:.3e}  K={len(wfin)}  "
+                  f"negatives={int(np.sum(wfin < 0))}  wall={wall:.0f}s",
+                  flush=True)
             results[(mode, seed)] = hist
 
     # comparison figure
     fig, axes = plt.subplots(1, 4, figsize=(15, 3.6))
-    for mode, color in (("split", "tab:blue"), ("birth", "tab:red")):
+    for mode, color in (("split", "tab:blue"), ("birth", "tab:red"),
+                        ("birth_pos", "tab:orange"),
+                        ("birth_zero", "tab:green")):
         for seed in SEEDS:
             axes[0].semilogy(results[(mode, seed)]["loss"], color=color,
                              alpha=0.6, lw=1.2,
                              label=mode if seed == SEEDS[0] else None)
-    axes[0].legend(); axes[0].set_title("loss: split-only vs birth (3 seeds)")
+    axes[0].legend(fontsize=8)
+    axes[0].set_title("loss: split vs birth variants (3 seeds)")
     axes[0].set_xlabel("iteration")
     best = {m: min(SEEDS, key=lambda sd: results[(m, sd)]["loss"][-1])
             for m in ("split", "birth")}
@@ -161,23 +171,42 @@ def main():
                 / results[("birth", sd)]["loss"][1000] for sd in SEEDS]
     gaps_fin = [results[("split", sd)]["loss"][-1]
                 / results[("birth", sd)]["loss"][-1] for sd in SEEDS]
-    print("\n=== verdict vs declared expectation (docstring) ===")
-    print(f"loss ratio split/birth at iter 1000 per seed: "
-          f"{[f'{g:.0f}x' for g in gaps_mid]}")
-    print(f"loss ratio split/birth at the end per seed:   "
+    print("\n=== verdicts vs declared expectations (docstring) ===")
+    print(f"1. composite rule: loss ratio split/birth at iter 1000 "
+          f"{[f'{g:.0f}x' for g in gaps_mid]}, final "
           f"{[f'{g:.0f}x' for g in gaps_fin]}")
-    print("note: split-only runs DO end with negative weights -- gradient "
-          "descent drags weights through zero -- but that route is slow "
-          "(the plateaus in the blue curves); splitting itself never flips "
-          "a sign.")
     if min(gaps_mid) >= 10 and min(gaps_fin) >= 10:
-        print("-> CONFIRMED: at matched iteration and splat budget the "
-              "birth field beats split-only by >=10x on every seed, "
-              "mid-run and final, by injecting signed splats where the "
-              "residual demands them.")
+        print("   -> the composite birth rule beats this split baseline by "
+              ">=10x on every seed, mid-run and final.")
     else:
-        print("-> NOT SUPPORTED at the declared 10x bar on at least one "
+        print("   -> NOT SUPPORTED at the declared 10x bar on at least one "
               "seed -- recorded; do not publish the narrative.")
+    print("   note: split runs DO end with negative weights (the optimizer "
+          "drags weights through zero); splitting itself never flips a "
+          "sign (tested directly).")
+    print("2. attribution ablation (same placement and scale; only the "
+          "newborn's initial weight differs):")
+    for stage, idx in (("iter 1000", 1000), ("final", -1)):
+        med = {m: float(np.median([results[(m, sd)]["loss"][idx]
+                                   for sd in SEEDS]))
+               for m in ("birth", "birth_pos", "birth_zero")}
+        print(f"   {stage}: median loss birth {med['birth']:.3e}, "
+              f"birth_pos {med['birth_pos']:.3e}, "
+              f"birth_zero {med['birth_zero']:.3e}  "
+              f"(pos/signed {med['birth_pos'] / med['birth']:.1f}x, "
+              f"zero/signed {med['birth_zero'] / med['birth']:.1f}x)")
+    med_f = {m: float(np.median([results[(m, sd)]["loss"][-1]
+                                 for sd in SEEDS]))
+             for m in ("birth", "birth_pos", "birth_zero")}
+    if med_f["birth_pos"] >= 3.0 * med_f["birth"]:
+        print("   -> sign injection carries a real share of the gain "
+              "(forced-positive newborns are >=3x worse).")
+    else:
+        print("   -> PLACEMENT dominates: newborns recover from a wrong or "
+              "zero initial sign quickly (a newborn's weight sits at zero "
+              "scale, so the optimizer flips it cheaply -- unlike a grown "
+              "splat's). The narrative must credit the birth LOCATION, "
+              "not the sign injection.")
 
 
 if __name__ == "__main__":

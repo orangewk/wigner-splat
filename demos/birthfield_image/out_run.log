@@ -1,15 +1,24 @@
 === birth-field demo: cat Wigner as an image target ===
 target: alpha=2.0 even cat, 96x96, negative fraction 0.07
-  split seed=0: final loss=0.00003  K=30  negatives=11  wall=57s
-  split seed=1: final loss=0.00001  K=30  negatives=10  wall=55s
-  split seed=2: final loss=0.00036  K=30  negatives=7  wall=55s
-  birth seed=0: final loss=0.00000  K=30  negatives=11  wall=55s
-  birth seed=1: final loss=0.00000  K=30  negatives=18  wall=56s
-  birth seed=2: final loss=0.00000  K=30  negatives=15  wall=55s
+  split      seed=0: loss@1000=3.634e-03  final=6.135e-05  K=30  negatives=15  wall=37s
+  split      seed=1: loss@1000=1.334e-04  final=9.063e-05  K=30  negatives=19  wall=37s
+  split      seed=2: loss@1000=3.558e-04  final=7.356e-06  K=30  negatives=11  wall=36s
+  birth      seed=0: loss@1000=4.736e-06  final=9.998e-07  K=30  negatives=13  wall=38s
+  birth      seed=1: loss@1000=7.301e-06  final=1.071e-06  K=30  negatives=11  wall=38s
+  birth      seed=2: loss@1000=7.211e-07  final=1.408e-07  K=30  negatives=13  wall=38s
+  birth_pos  seed=0: loss@1000=4.698e-06  final=3.814e-06  K=30  negatives=10  wall=38s
+  birth_pos  seed=1: loss@1000=7.401e-06  final=1.258e-06  K=30  negatives=12  wall=38s
+  birth_pos  seed=2: loss@1000=6.681e-07  final=2.059e-07  K=30  negatives=17  wall=37s
+  birth_zero seed=0: loss@1000=6.637e-07  final=1.482e-07  K=30  negatives=12  wall=38s
+  birth_zero seed=1: loss@1000=6.148e-06  final=5.655e-07  K=30  negatives=14  wall=38s
+  birth_zero seed=2: loss@1000=6.208e-07  final=1.399e-07  K=30  negatives=14  wall=38s
   assets: /home/user/wigner-splat/demos/birthfield_image/birthfield_demo.gif, /home/user/wigner-splat/demos/birthfield_image/comparison.png
 
-=== verdict vs declared expectation (docstring) ===
-loss ratio split/birth at iter 1000 per seed: ['616x', '77x', '281x']
-loss ratio split/birth at the end per seed:   ['980x', '374x', '25496x']
-note: split-only runs DO end with negative weights -- gradient descent drags weights through zero -- but that route is slow (the plateaus in the blue curves); splitting itself never flips a sign.
--> CONFIRMED: at matched iteration and splat budget the birth field beats split-only by >=10x on every seed, mid-run and final, by injecting signed splats where the residual demands them.
+=== verdicts vs declared expectations (docstring) ===
+1. composite rule: loss ratio split/birth at iter 1000 ['767x', '18x', '493x'], final ['61x', '85x', '52x']
+   -> the composite birth rule beats this split baseline by >=10x on every seed, mid-run and final.
+   note: split runs DO end with negative weights (the optimizer drags weights through zero); splitting itself never flips a sign (tested directly).
+2. attribution ablation (same placement and scale; only the newborn's initial weight differs):
+   iter 1000: median loss birth 4.736e-06, birth_pos 4.698e-06, birth_zero 6.637e-07  (pos/signed 1.0x, zero/signed 0.1x)
+   final: median loss birth 9.998e-07, birth_pos 1.258e-06, birth_zero 1.482e-07  (pos/signed 1.3x, zero/signed 0.1x)
+   -> PLACEMENT dominates: newborns recover from a wrong or zero initial sign quickly (a newborn's weight sits at zero scale, so the optimizer flips it cheaply -- unlike a grown splat's). The narrative must credit the birth LOCATION, not the sign injection.
