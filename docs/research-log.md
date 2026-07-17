@@ -1289,3 +1289,15 @@ residual) or change what is being certified (a certificate that
 models bias, not just variance) — and either way the gates get
 re-declared on the issue before running. No post-hoc rescoping of
 this round: it failed as declared.
+
+## 2026-07-18 — Experiment 20 / issue #48 Round 3, Phase 0–2
+
+Owner/decisions: orange approved the GPU migration plan and Phase 2 execution; Codex session `019f6d8a` selected the version pins and executed the environment, data-boundary, and train-only COLMAP checks on branch `feat/issue-48-round3-gpu`.
+
+Environment: RTX 5070 (sm_120, 12 GB), driver 576.88, Python 3.10.11, PyTorch 2.11.0+cu128, CUDA Toolkit 12.8.93, MSVC 19.44, and gsplat commit `77ab983f`. The Windows build exposed two upstream/toolchain edges: PyTorch decoded UTF-8 Japanese MSVC output as OEM CP932 during its ABI probe, and `Cameras.cuh` called host-only `std::isfinite` from device code on NVCC 12.8. The build uses PyTorch's ABI-check bypass after an independent compiler-version check and a recorded one-line `::isfinite` patch. Compiling every new backend was needlessly large; rebuilding only the standard RGB 3DGS feature set succeeded. A real RTX 5070 rasterization forward, backward, and Adam step were finite.
+
+Data boundary: the supplied file is 20,130,116 bytes, H.264, 1920x1080@30 fps, 10.2667 s, SHA-256 `4483e898...f7b9e`. This differs from the old provenance text's 12 MB / HEVC metadata, but direct comparison against the committed 24 downscaled frames confirmed it is the same capture. Positions 4/10/16/22 live under `heldout-sealed`; only the other 20 filenames occur in the COLMAP database.
+
+COLMAP finding: the planned 4.1.0 official CUDA asset is built with CUDA 13.2. Driver 576.88 cannot initialize it. No driver upgrade was attempted. Official release 4.0.4 is CUDA 12.9 with `all-major` architectures and ran GPU SIFT/matching successfully. Train-only sequential matching produced 69/69 verified pairs and 58,159 inliers. The mapper used its standard automatic initialization-constraint relaxation, then formed one model with 20/20 registered images, 4,567 points, mean track length 4.484, and mean reprojection error 0.695 px. Ordered camera steps are continuous (median 0.532, max 1.130 in arbitrary COLMAP units). Phase 2 passes without exposing held-out data to reconstruction.
+
+Protocol-record correction: the local plan was approved before execution, but its promised Issue #48 publication was omitted before Phase 2. This is recorded as a process failure, not backdated. The unchanged protocol was published as a late hard lock before any gsplat training, PSNR tuning, held-out registration, or Gate B evaluation: issue comment `5008571914`.
