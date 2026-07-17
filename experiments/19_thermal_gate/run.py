@@ -13,7 +13,11 @@ the pure-detection ket mixtures only -- the channel-composed member
 loss_eta(B B^dagger) is itself a full-rank family with a free eta, and
 whether the target lies outside THAT family is not established, so the
 ruling below words its claim as blind held-out performance, not
-out-of-family generalization.
+out-of-family generalization. [RESOLVED by exp20 / issue #63: the
+target admits NO finite-rank pre-image for any eta', so it IS strictly
+outside the channel-composed family; see
+experiments/20_noninclusion/derivation.md. The committed exp19 logs
+predate that resolution and keep the downgraded wording.]
 
 PROTOCOL (declared before the run):
   * target: alpha = 1.5, parity = +1, eta = 0.8, sigma_add = 0.1 (added

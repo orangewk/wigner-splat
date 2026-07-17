@@ -59,9 +59,15 @@ converged full-rank MLE**: on a thermal-noise lossy cat that no finite-rank
 ket mixture contains, the loss-channel-composed rank-2 model reached fidelity
 0.923 against the MLE's 0.898 with roughly 110 real parameters — while the
 pure-detection ket mixtures landed almost exactly on their rank-capacity
-ceilings. This is not proven out-of-family generalization: the winning model
-is itself a full-rank family (a loss channel of a ket mixture), and whether
-the target lies outside it is unresolved. Single seed and a single target
+ceilings. A non-inclusion analysis (experiment 20) then settled the family
+boundary: for **no** efficiency does the target admit a finite-rank pre-image
+(analytic for most of the parameter range, a validated numerical scan for the
+rest), so the target is **strictly outside the winning family** and the exp19
+record is one instance of blind performance on a genuinely out-of-family
+target. The boundary is thin, however: a direct best-approximation study
+found the family approaches the target to about 1 − F ≈ 5 × 10⁻³ (one-mode
+floor, stable under cutoff growth), so exp19's larger blind gap is a fit- and
+data-budget effect, not the family boundary. Single seed and a single target
 class; universal claims remain unwarranted. See the
 [research log](docs/research-log.md) and [prior-art survey](docs/prior-art-survey.md)
 for the evidence and comparisons.
