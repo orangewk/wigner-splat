@@ -1258,14 +1258,18 @@ The texture is the informative part:
      declared lineup and labeled as such: a blind bbdagM rank-8 reaches
      F 0.8759 = 92% of its 0.9521 ceiling -- capacity keeps being the
      binding constraint as R grows.]
-  2. The generalization mechanism is CHANNEL COMPOSITION:
+  2. The mechanism behind the blind held-out performance is CHANNEL
+     COMPOSITION:
      loss_eta(B B^dagger) is full rank with O(K) parameters, and the
      blind fit spent its eta knob (0.36, far from the physical 0.8) to
      buy the Gaussian width the ket mixture cannot express -- fitted
      eta as a model parameter, exactly the exp14/exp17 stance. The
      eta-(state) flat direction that made joint fitting UNSAFE for
      calibration in exp17 is here doing useful work: the flat family
-     contains a good approximant of the out-of-family target.
+     contains a good approximant of the target (which lies outside
+     every finite-rank ket mixture; whether it also lies outside the
+     channel-composed family is the unresolved non-inclusion question
+     recorded below).
 
 Learned: the gate as originally worded (a target no finite-rank ket
 mixture contains) is met, and on it the pure-detection ket mixtures

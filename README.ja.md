@@ -208,8 +208,9 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
           ターゲットがチャネル合成族の外にあるかは未解決 — 非包含テストを follow-up に記録)。
           **splat の score 1.7674 (>1) は非物理性の直接証明**(純粋ターゲットとの tr(ρσ)≤1 は
           物理状態のみ)— issue #8 の tension がヘッドライン数値に露出した形。
-          残: held-out フルランク・ターゲット(複数シード再現は実験16 で完了、rank-R × squeezed
-          複合 ansatz は実験14 で完了)。
+          残: σ_add/シード sweep と非包含テスト(follow-up として記録のみ。held-out フルランク・
+          ターゲット判定は実験19、複数シード再現は実験16、rank-R × squeezed 複合 ansatz は
+          実験14 で完了)。
         - **解析勾配化(issue #25、2026-07-13 解決)**: NLL 勾配を閉形式化(`bbdagM.nll_and_grad`。
           Z=z†Gz は coherent overlap の Gram、サンプル項は LO 回転の chain rule。central-diff と
           1e-9〜1e-8 級一致をテストで固定)。3モード K=4 が **527 s → 10.6–16.6 s(32–50×、コンテナ間

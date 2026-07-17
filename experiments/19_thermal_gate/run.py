@@ -7,8 +7,13 @@ correction explicitly barred any "generalizing method" claim until the
 extended family is tested against a held-out target NO finite-rank ket
 mixture contains. This is that gate: the lossy cat followed by per-mode
 classical Gaussian displacement noise (ThermalLossyThreeModeCat) is FULL
-RANK, so every fixed extension fitted here is out-of-family by
-construction.
+RANK, so it lies outside every FINITE-RANK KET MIXTURE in the lineup by
+construction. FAMILY-BOUNDARY NOTE (PR-61 review): that guarantee covers
+the pure-detection ket mixtures only -- the channel-composed member
+loss_eta(B B^dagger) is itself a full-rank family with a free eta, and
+whether the target lies outside THAT family is not established, so the
+ruling below words its claim as blind held-out performance, not
+out-of-family generalization.
 
 PROTOCOL (declared before the run):
   * target: alpha = 1.5, parity = +1, eta = 0.8, sigma_add = 0.1 (added
