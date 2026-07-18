@@ -7,16 +7,24 @@ every eta' and splits (0, 1] into:
 
   Regime I/II  (eta' > eta - sigma):  pre-image = a positive-variance
       Gaussian-displacement-noise composition -> FULL RANK analytically
-      (Lemma 2, displacement orthogonality). This script CORROBORATES
-      the lemma numerically (eigenvalue tails at sample points, checked
-      against the independent channel machinery in wigner_splat.fock).
+      (Lemma 2, displacement orthogonality).
   Boundary     (eta' = eta - sigma):  pre-image = quantum-limited
-      amplifier output A_G(cat) -- no lemma; the spectrum is computed.
-  Regime III   (eta' < eta - sigma):  the pre-image carries a formal
-      negative-variance residue; whether it is even PSD is the open
-      part. This script SETTLES it on a grid: reconstruct rho'(eta') in
-      the Fock basis from its closed-form characteristic function and
-      scan min eigenvalue + eigenvalue tail.
+      amplifier output A_G(cat); INFINITE RANK analytically (Theorem 2,
+      Bargmann-kernel rank).
+  Regime III   (eta' < eta - sigma):  no PSD pre-image, analytically on
+      the whole subinterval (Theorem 1: the pre-image's Husimi function
+      is a rescaled s-ordered quasidistribution of the cat with s > -1,
+      and the cat's closed-form Bargmann zeros force it negative
+      somewhere).
+
+  The exclusion is therefore ANALYTIC on all of (0, 1]. This script is
+  the numerical CORROBORATION (a role sharpened by the PR-64 review;
+  the first draft leaned on the grid for regime III and the boundary):
+  it reconstructs rho'(eta') in the Fock basis from its closed-form
+  characteristic function, checks the regime-I/II points against the
+  independent channel machinery, and reports min eigenvalues and
+  eigenvalue tails so the theorems can be seen operating -- including
+  HOW the PSD violation grows away from the boundary.
 
 Reconstruction route: chi_{rho'}(lam) = chi_cat(k lam) e^{-c |lam|^2}
 with k^2 = eta/eta', c = (eta' - eta + 2 sigma)/(2 eta') is a sum of 4
@@ -34,13 +42,11 @@ references: at eta' = eta the pre-image must equal N_{sigma/eta}(cat)
 remapped parameters, and applying truncated-Kraus loss to the
 reconstruction must recover the target.
 
-DECISION QUANTITIES (issue #63 decision rule):
-  * regime III: min eigenvalue << -numerical noise on the whole grid
-    -> no PSD pre-image -> combined with the regime-I/II lemma, NO
-    finite-rank pre-image exists for ANY eta' (case-2 branch, pending
-    Route B corroboration).
-  * any eta' with a PSD pre-image of rank <= 2 -> representable
-    (case-1 branch).
+DECISION QUANTITIES (issue #63 decision rule): the analytic theorems
+carry the case-2 obstruction; this scan corroborates. A scan finding
+that CONTRADICTED them -- a PSD, rank-<=-2-tailed pre-image at any
+eta' -- would instead fire the representability alarm (case-1 branch)
+and send the derivation back for review.
 
 Scan design: 1-mode fine grid eta' in [0.10, 1.00] step 0.02 at
 n_max = 30 (n_max = 40 stability spot checks at the smallest eta',
@@ -285,15 +291,16 @@ def main():
           f"{min_lam3:.3e} (rank-2 would need ~0; full-rank tail as "
           f"Lemma 2 predicts)")
     if all_neg and all_neg_3m:
-        print("-> NO eta' in (0, 1] admits a PSD finite-rank pre-image on "
-              "the scanned grid: regime I/II excluded analytically "
-              "(derivation.md Lemmas 1-2), regime III excluded by this "
-              "scan. Pending Route B corroboration (issue #63 decision "
-              "rule, case-2 branch).")
+        print("-> scan CONSISTENT with the analytic exclusion on all of "
+              "(0, 1] (derivation.md: Lemmas 1-2 for eta' > 0.70, "
+              "Theorem 2 at the boundary, Theorem 1 below it). The "
+              "case-2 obstruction rests on the theorems; this grid is "
+              "corroboration.")
     else:
-        print("-> scan found PSD candidates in regime III or a rank-2-"
-              "compatible tail; the representability branch (case 1) "
-              "must be examined before any ruling.")
+        print("-> ALARM: scan found a PSD candidate in regime III or a "
+              "rank-2-compatible tail, CONTRADICTING the theorems -- "
+              "the derivation must be re-examined before any ruling "
+              "(representability branch, case 1).")
 
     path = pathlib.Path(__file__).parent / "results.json"
     path.write_text(json.dumps(out, indent=1))

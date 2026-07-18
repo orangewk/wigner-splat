@@ -105,42 +105,95 @@ analytically.**
 ### Boundary: `eta' = eta - sigma` (= 0.7 for the exp19 numbers)
 
 `v = 0`: the pre-image is exactly the quantum-limited amplifier output
-`A_{eta/(eta-sigma)}(cat)` of a pure non-Gaussian state. No Lemma-2
-shortcut; `run.py` computes its spectrum directly (expected: a
-thermal-like tail from the amplifier dilation, i.e. full rank — the
-amplifier's Stinespring two-mode squeezer entangles every pure
-non-vacuum input with the environment).
+`A_G(cat)`, `G = eta/(eta - sigma)` — a valid state, so PSD offers no
+contradiction. Finite rank is excluded by the analytic-kernel argument
+of Theorem 2 below. (The first draft of this note left the boundary to
+a finite-cutoff spectrum computation; the PR-64 review correctly
+flagged that as insufficient for an "any finite rank" claim, and this
+section was strengthened to a proof.)
+
+**Theorem 2 (boundary: infinite rank).** `A_G(cat)` with `G > 1` has
+no finite-rank representation.
+*Proof.* Write the Husimi function through chi (Section 1):
+`Q_{rho'}(beta) = (1/G) Q_cat(beta/sqrt(G))`, since at the boundary
+`w := (c + 1/2)/k^2 = 1/2` exactly (see Theorem 1 below for `w`). The
+Bargmann kernel `B(u, conj(v)) = e^{(|u|^2+|v|^2)/2} <v|rho'|u>` is
+entire in `(u, conj(v))` and is determined by its diagonal, which the
+Husimi identity fixes as
+
+```
+B(beta, conj(beta)) = (1/G) e^{|beta|^2 (1 - 1/G)}
+                      F(conj(beta)/sqrt(G)) conj(F(conj(beta)/sqrt(G))),
+```
+
+with `F` the cat's (entire) Bargmann function. Its unique entire
+continuation is `B(u, cv) = (1/G) e^{u cv (1 - 1/G)} F(cv/sqrt(G))
+Ftil(u/sqrt(G))` (`Ftil(u) = conj(F(conj(u)))`, entire). If `rho'` had
+rank `R < infinity`, `B` would be a sum of `R` products
+`G_r(u) conj(G_r(conj(cv)))` and the functions `u -> B(u, cv_j)` could
+span at most `R` dimensions. But for `t = 1 - 1/G != 0` the functions
+`u -> e^{t u cv_j} F...(u)` for distinct `cv_j` are linearly
+independent (divide out the nonzero entire factor; distinct
+exponentials are independent). Contradiction. QED
 
 ### Regime III: `eta' < eta - sigma`
 
 `v < 0`: the residual factor is a formal **negative-variance** noise
-and the pre-image is not a channel image of the cat at all. Whether
-`chi_{rho'}` is PSD must be checked directly: `run.py` reconstructs
+and the pre-image is not a channel image of the cat at all. Here PSD
+itself fails, on the WHOLE subinterval, analytically:
+
+**Theorem 1 (regime III: no PSD pre-image).** For every
+`eta' < eta - sigma` there is no PSD trace-class operator with the
+pre-image characteristic function.
+*Proof.* Suppose `rho'` is such an operator. Its Husimi function is
+`Q_{rho'}(beta) = (1/pi^2) int chi_{rho'}(lam) e^{-|lam|^2/2}
+e^{beta conj(lam) - conj(beta) lam} d^2 lam`. Substituting
+`mu = k lam` turns this into a rescaled s-ordered quasidistribution of
+the CAT itself:
+
+```
+Q_{rho'}(beta) = (1/k^2) W_s(cat)(beta/k),
+s = -2w,   w = (c + 1/2)/k^2 = (2 eta' - eta + 2 sigma) / (2 eta),
+```
+
+and `w < 1/2` (i.e. `s > -1`) **exactly** characterizes
+`eta' < eta - sigma`. PSD of `rho'` forces `Q_{rho'} >= 0`, hence
+`W_s(cat) >= 0` everywhere. But then the cat's Husimi function, which
+is the further Gaussian smoothing `Q_cat = W_s * Gauss_{(s+1)/2}` with
+a strictly positive kernel, would be strictly positive everywhere —
+while `Q_cat` has EXPLICIT zeros: the even cat's Bargmann function
+`F(cb) ~ cosh(cb alpha)` vanishes at `cb = i pi (2j+1) / (2 alpha)`.
+Contradiction. QED
+(This is the nonclassical-depth-1 mechanism of Lutkenhaus & Barnett,
+PRA 51, 3340 (1995), instantiated with the cat's closed-form Bargmann
+zeros so the argument is self-contained.)
+
+`run.py` CORROBORATES Theorem 1 on a grid: it reconstructs
 `rho'(eta')` in the Fock basis from its 4-Gaussian-term chi
 (`rho' = (1/pi) int chi(lam) D(lam)^dagger d^2 lam`, Gauss–Hermite in
 Re/Im lam against the closed-form displacement matrix elements) and
-scans the minimum eigenvalue and the eigenvalue tail over an eta' grid.
-Expected: PSD fails immediately below the boundary (noise subtraction
-from a non-Gaussian mixed state), and nothing in the scan comes close
-to rank 2.
+reports minimum eigenvalues and eigenvalue tails; the scan also
+visualizes HOW the violation grows away from the boundary. The
+conclusions do not rest on the grid.
 
 ## 3. What this buys
 
-If the Regime-III scan shows PSD violation (or full rank wherever PSD
-holds) across `(0, eta - sigma]`:
-
 > For NO `eta'` in `(0, 1]` is the exp19 target expressible as
-> `loss_eta'(rho')` with `rho'` of ANY finite rank — the regime-I/II
-> exclusion is analytic (Lemmas 1–2), the regime-III / boundary
-> exclusion is numerical on a grid.
+> `loss_eta'(rho')` with `rho'` of ANY finite rank — regime I/II by
+> Lemmas 1–2, regime III by Theorem 1, the boundary point by
+> Theorem 2. The exclusion is analytic on the whole interval; the
+> run.py scan is numerical corroboration.
 
-Note the statement is stronger than the rank-2 question asked: Lemma 2
-excludes every finite rank at once, and the numeric scan reports the
-full spectrum, not a rank-2 test. The claim upgrade this licenses for
-exp19 (decision rule case 2 on the issue) still requires the Route-B
-corroboration: a best-approximation floor in `1 - F` that survives
-cutoff growth, since the analytic statement concerns EXACT equality
-while exp19's comparisons live at finite fidelity.
+Note the statement is stronger than the rank-2 question asked: every
+finite rank is excluded at once. The claim movement this licenses for
+exp19 (decision rule case 2 on the issue) also asks for Route-B
+corroboration on the finite-fidelity axis, since the analytic
+statement concerns EXACT equality while exp19's comparisons live at
+finite fidelity. Route B (routeB.py) supplies best-approximation
+residuals: by nature these are UPPER bounds on the family's distance
+to the target obtained by local optimization — heuristic
+corroboration, not a proven lower bound (wording per the PR-64
+review).
 
 ## 4. The eta-flat direction (exp17's hazard = exp19's asset)
 

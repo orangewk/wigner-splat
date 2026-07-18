@@ -82,6 +82,6 @@ target alpha=1.5 parity=+1 eta=0.8 sigma_add=0.1; boundary eta'-crit = eta - sig
   regime III (eta' < 0.70): PSD fails at every grid point (1-mode): True; worst min_eig -4.397e+02
   regime III 3-mode confirmation: True
   regime I/II PSD points: smallest 3rd eigenvalue 4.142e-02 (rank-2 would need ~0; full-rank tail as Lemma 2 predicts)
--> scan CONSISTENT with the analytic exclusion on all of (0, 1] (derivation.md: Lemmas 1-2 for eta' > 0.70, Theorem 2 at the boundary, Theorem 1 below it). The case-2 obstruction rests on the theorems; this grid is corroboration.
+-> NO eta' in (0, 1] admits a PSD finite-rank pre-image on the scanned grid: regime I/II excluded analytically (derivation.md Lemmas 1-2), regime III excluded by this scan. Pending Route B corroboration (issue #63 decision rule, case-2 branch).
 
 raw results -> C:\dev\wigner-splat-exp20\experiments\20_noninclusion\results.json

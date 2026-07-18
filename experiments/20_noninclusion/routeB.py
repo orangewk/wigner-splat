@@ -1,50 +1,55 @@
 """Experiment 20, Route B -- issue #63: best-approximation corroboration.
 
-Route A (run.py + derivation.md) settled EXACT non-inclusion: no eta'
-in (0, 1] admits a finite-rank pre-image of the thermal-noise target.
-Route B corroborates on the FINITE-fidelity axis the exp19 comparisons
-actually live on: directly optimize the fidelity of
-loss_eta'(rank-2 squeezed ket mixture) against the target -- no data,
-no sampling noise, FD gradients on the exact Fock-side objective -- and
-watch whether 1 - F approaches 0 (which would CONTRADICT Route A and
-fire the representability branch) or stalls on a floor that survives
-cutoff growth.
+Route A (derivation.md Lemmas 1-2 + Theorems 1-2) settled EXACT
+non-inclusion analytically: no eta' in (0, 1] admits a finite-rank
+pre-image of the thermal-noise target. Route B probes the
+FINITE-fidelity axis the exp19 comparisons actually live on: directly
+optimize the Uhlmann fidelity of loss_eta'(rank-2 squeezed ket
+mixture) against the target -- no data, no sampling noise, FD
+gradients on the exact Fock-side objective.
 
-PROTOCOL NOTE (deviation from the issue text, declared before running):
-the issue sketched Route B "against the Fock-basis target at n_max =
-8, 10, 12" with the 3-mode target in mind. A 3-mode FD fit is
-computationally out of reach (the wide-cutoff channel application per
-FD probe puts a single config in the multi-hour range), and Route A's
-regime argument is mode-count-agnostic (derivation.md section 5). Route
-B therefore runs the ONE-MODE problem -- same channels, same cat, same
-regime structure, scoring cutoffs n_score = 12 / 16 / 20 -- where the
-objective is exact and cheap. The exp19 blind 3-mode fit itself
-(F = 0.9234, i.e. 1 - F = 0.077 at trace ceiling 0.9922) already
-provides the 3-mode data point: a NLL-driven optimizer left a gap of
-the same order as the floor found here.
+WHAT ROUTE B CAN AND CANNOT SHOW (wording per the PR-64 review): a
+best-found residual from local optimization is an UPPER bound on the
+family's true distance to the target -- multi-init, cutoff-stable,
+superset-armed residuals are HEURISTIC corroboration of a floor, not
+a proven lower bound. The load-bearing obstruction for the issue-63
+case-2 ruling is Route A's analytic theorems; what Route B adds is
+(a) the finite-fidelity scale of the boundary and (b) a live alarm:
+any fit reaching 1 - F < 1e-4 would CONTRADICT Route A and reopen the
+derivation (representability branch, case 1).
+
+THIS RUN follows the issue-declared parameters: direct FIDELITY
+objective, scoring cutoffs n_max in {8, 10, 12}, K in {2, 4, 8}. (A
+first run deviated undeclared -- HS objective, cutoffs {12, 16, 20},
+K {2, 4}; the PR-64 review flagged it, its log is kept superseded as
+out_routeB_hsobj.log, and its results agree with this run at the same
+order.) The ONE declared deviation stands: the issue sketched the
+3-MODE fit, whose FD cost is computationally out of reach (the
+wide-cutoff channel application per FD probe puts a single config in
+the multi-hour range); Route B runs the ONE-MODE problem -- same
+channels, same cat, same regime structure (derivation.md section 5 is
+mode-count-agnostic) -- and exp19's own blind 3-mode residual
+(1 - F = 0.077 at trace ceiling 0.9922) stands in as the 3-mode
+point.
 
 Design:
   * target: N_sigma(E_eta(cat1)) built wide (n = 30) and cropped.
   * model: rho' = B B^dag / Z, B = 2 columns of K displaced-squeezed
     kets (bbdagS.sq_wavefunction coefficients by quadrature, n_build =
-    30); channel = truncated Kraus loss at n_build, cropped to n_score;
-    eta' free through a logit. OBJECTIVE: minimize the Frobenius (HS)
-    distance || model - target ||_F (smooth, cheap); REPORT Uhlmann
-    fidelity of the final state (the declared floor metric).
-  * grid: n_score in {12, 16, 20} x K in {2, 4} x 3 inits (seed 0/1/2
-    with eta'0 = 0.8 / 0.6 / 0.4 -- inits span the regime boundary).
-    Representative per (n_score, K): best final HS.
-  * addendum arm (labeled): rank-2 FREE-Fock-ket pre-image (columns as
-    unconstrained complex vectors, a strict superset of the squeezed
-    family) at n_score = 16 -- an upper bound that removes the
-    "squeezed parametrization just couldn't express it" confound.
-  * cutoff-abuse monitor: pre-loss population of the fitted kets above
-    n_score is quoted (an optimizer parking mass at the build cutoff
-    would fake a low HS).
-
-Decision quantities: min over fits of 1 - F per n_score. Floor stable
-across n_score (and shared by the free-ket arm) -> corroborates case 2.
-Any fit with 1 - F < 1e-4 -> representability alarm, re-examine Route A.
+    30); channel = truncated Kraus loss at n_build, cropped to
+    n_score; eta' free through a logit. OBJECTIVE: minimize
+    1 - F_Uhlmann(model, target) directly.
+  * grid: n_score in {8, 10, 12} x K in {2, 4, 8} x 3 inits (seed
+    0/1/2 with eta'0 = 0.8 / 0.6 / 0.4 -- inits span the regime
+    boundary). Representative per (n_score, K): best final 1 - F.
+  * addendum arm (labeled, outside the issue lineup): rank-2
+    FREE-Fock-ket pre-image (columns as unconstrained complex
+    vectors, a strict superset of the squeezed family) with eta' ALSO
+    free, at n_score = 12 -- removes both the parametrization
+    confound and the fixed-eta' objection of the first run.
+  * cutoff-abuse monitor: pre-loss population of the fitted kets
+    above n_score is quoted (an optimizer parking mass at the build
+    cutoff would fake a high F).
 """
 import json
 import pathlib
@@ -66,15 +71,19 @@ PARITY = +1
 ETA = 0.8
 SIGMA = 0.1
 N_BUILD = 30
-N_SCORES = (12, 16, 20)
-KS = (2, 4)
+N_SCORES = (8, 10, 12)
+KS = (2, 4, 8)
 INITS = ((0, 0.8), (1, 0.6), (2, 0.4))
 ITERS = 500
 ITERS_FREE = 400
 FD_H = 1e-5
 
-_XGRID = np.linspace(-14.0, 14.0, 4001)
-_HPSI = hermite_psi(_XGRID, N_BUILD)
+_XGRID = np.linspace(-12.0, 12.0, 1201)   # machine-precision identical to
+_HPSI = hermite_psi(_XGRID, N_BUILD)      # a 4001-pt/28-wide grid at n=30
+_COMB = np.zeros((N_BUILD, N_BUILD))
+for _m in range(N_BUILD):
+    for _k in range(_m + 1):
+        _COMB[_m, _k] = comb(_m, _k)
 
 
 def cat1_fock(alpha, parity, n_max):
@@ -90,8 +99,8 @@ def kraus_ops(eta, n_max):
     for k in range(n_max):
         A = np.zeros((n_max, n_max))
         idx = np.arange(k, n_max)
-        A[idx - k, idx] = [np.sqrt(comb(m, k) * eta ** (m - k)
-                                   * (1 - eta) ** k) for m in idx]
+        A[idx - k, idx] = np.sqrt(_COMB[idx, k] * eta ** (idx - k)
+                                  * (1 - eta) ** k)
         ops.append(A)
     return ops
 
@@ -133,36 +142,107 @@ def unpack(theta, K):
     return eta_p, z, al, xi
 
 
+def _coeff(al, xi):
+    f = sq_wavefunction(_XGRID, al, xi)
+    return np.trapezoid(_HPSI * f[None, :], _XGRID, axis=1)
+
+
+def _coeff_table(al, xi):
+    """(2, K, N_BUILD) coefficient vectors of every ket."""
+    K = al.shape[1]
+    V = np.empty((2, K, N_BUILD), complex)
+    for r in range(2):
+        for k in range(K):
+            V[r, k] = _coeff(al[r, k], xi[r, k])
+    return V
+
+
+def _obj_parts(eta_p, z, V, n_score, target):
+    rho_pre = np.zeros((N_BUILD, N_BUILD), complex)
+    for r in range(2):
+        col = z[r] @ V[r]
+        rho_pre += np.outer(col, col.conj())
+    Z = np.trace(rho_pre).real
+    out = kraus_loss(rho_pre / Z, eta_p, N_BUILD)
+    return 1.0 - uhlmann(out[:n_score, :n_score], target)
+
+
 def model_state(theta, K, n_score):
     """(cropped model matrix, eta', pre-loss rho at N_BUILD)."""
     eta_p, z, al, xi = unpack(theta, K)
+    V = _coeff_table(al, xi)
     rho_pre = np.zeros((N_BUILD, N_BUILD), complex)
     for r in range(2):
-        col = np.zeros(N_BUILD, complex)
-        for k in range(K):
-            f = sq_wavefunction(_XGRID, al[r, k], xi[r, k])
-            col += z[r, k] * np.trapezoid(_HPSI * f[None, :], _XGRID, axis=1)
+        col = z[r] @ V[r]
         rho_pre += np.outer(col, col.conj())
     Z = np.trace(rho_pre).real
     out = kraus_loss(rho_pre / Z, eta_p, N_BUILD)
     return out[:n_score, :n_score], eta_p, rho_pre / Z
 
 
-def hs_obj(theta, K, n_score, target):
+def fid_obj(theta, K, n_score, target):
     m, _, _ = model_state(theta, K, n_score)
-    return float(np.sum(np.abs(m - target) ** 2))
+    return 1.0 - uhlmann(m, target)
 
 
-def adam_fd(obj, theta0, iters, lr=0.02):
+def _structured_grad(theta, K, n_score, target):
+    """Central-difference gradient of fid_obj that only recomputes the
+    ONE perturbed ket's coefficient vector per probe (the quadrature is
+    the expensive part; z and eta' probes reuse the cached table).
+    Numerically identical to blind FD on fid_obj."""
+    eta_p, z, al, xi = unpack(theta, K)
+    V = _coeff_table(al, xi)
+    g = np.empty_like(theta)
+    # eta' slot
+    e_p = 1.0 / (1.0 + np.exp(-(theta[0] + FD_H)))
+    e_m = 1.0 / (1.0 + np.exp(-(theta[0] - FD_H)))
+    g[0] = (_obj_parts(e_p, z, V, n_score, target)
+            - _obj_parts(e_m, z, V, n_score, target)) / (2 * FD_H)
+    # per-ket slots
+    for r in range(2):
+        for k in range(K):
+            base = 1 + (r * K + k) * 6
+            for j in range(6):
+                idx = base + j
+                if j < 2:                        # z: table unchanged
+                    zp = z.copy(); zm = z.copy()
+                    d = FD_H if j == 0 else 1j * FD_H
+                    zp[r, k] += d; zm[r, k] -= d
+                    g[idx] = (_obj_parts(eta_p, zp, V, n_score, target)
+                              - _obj_parts(eta_p, zm, V, n_score, target)
+                              ) / (2 * FD_H)
+                else:                            # alpha / xi: one vector
+                    d = FD_H if j % 2 == 0 else 1j * FD_H
+                    a_p, x_p = al[r, k], xi[r, k]
+                    if j < 4:
+                        vp = _coeff(a_p + d, x_p)
+                        vm = _coeff(a_p - d, x_p)
+                    else:
+                        vp = _coeff(a_p, x_p + d)
+                        vm = _coeff(a_p, x_p - d)
+                    keep = V[r, k].copy()
+                    V[r, k] = vp
+                    op = _obj_parts(eta_p, z, V, n_score, target)
+                    V[r, k] = vm
+                    om = _obj_parts(eta_p, z, V, n_score, target)
+                    V[r, k] = keep
+                    g[idx] = (op - om) / (2 * FD_H)
+    return g
+
+
+def adam_fd(obj, theta0, iters, lr=0.02, grad_fn=None):
     theta = theta0.copy()
     m = np.zeros_like(theta)
     v = np.zeros_like(theta)
     for t in range(1, iters + 1):
-        g = np.empty_like(theta)
-        for i in range(len(theta)):
-            tp = theta.copy(); tp[i] += FD_H
-            tm = theta.copy(); tm[i] -= FD_H
-            g[i] = (obj(tp) - obj(tm)) / (2 * FD_H)
+        if grad_fn is not None:
+            g = grad_fn(theta)
+        else:
+            g = np.empty_like(theta)
+            for i in range(len(theta)):
+                tp = theta.copy(); tp[i] += FD_H
+                tm = theta.copy(); tm[i] -= FD_H
+                g[i] = (obj(tp) - obj(tm)) / (2 * FD_H)
         m = 0.9 * m + 0.1 * g
         v = 0.999 * v + 0.001 * g * g
         mh = m / (1 - 0.9 ** t)
@@ -181,51 +261,53 @@ def fit_squeezed(K, n_score, seed, eta0, target):
     pars[..., 2] += rng.choice([-1.5, 1.5], (2, K))     # alpha near +-alpha
     pars[..., 4:] *= 0.2                                 # small squeezing
     theta0[1:] = pars.ravel()
-    theta = adam_fd(lambda th: hs_obj(th, K, n_score, target), theta0, ITERS)
+    theta = adam_fd(lambda th: fid_obj(th, K, n_score, target), theta0, ITERS,
+                    grad_fn=lambda th: _structured_grad(th, K, n_score,
+                                                        target))
     m, eta_p, rho_pre = model_state(theta, K, n_score)
     tail = float(1.0 - np.trace(rho_pre[:n_score, :n_score]).real)
-    return dict(hs=float(np.sqrt(np.sum(np.abs(m - target) ** 2))),
-                F=uhlmann(m, target), eta_p=float(eta_p),
+    return dict(F=uhlmann(m, target), eta_p=float(eta_p),
                 pre_tail=tail, seed=seed, eta0=eta0)
 
 
 # ---------------- free-ket addendum arm ----------------
-# theta: per column, Re/Im of an N_BUILD Fock vector (superset family)
+# theta: [eta' logit, then per column Re/Im of an N_BUILD Fock vector]
 
-def model_free(theta, n_score, eta_p):
-    cols = theta.reshape(2, N_BUILD, 2)
+def model_free(theta, n_score):
+    eta_p = 1.0 / (1.0 + np.exp(-theta[0]))
+    cols = theta[1:].reshape(2, N_BUILD, 2)
     rho_pre = np.zeros((N_BUILD, N_BUILD), complex)
     for r in range(2):
         col = cols[r, :, 0] + 1j * cols[r, :, 1]
         rho_pre += np.outer(col, col.conj())
     Z = np.trace(rho_pre).real
     out = kraus_loss(rho_pre / Z, eta_p, N_BUILD)
-    return out[:n_score, :n_score], rho_pre / Z
+    return out[:n_score, :n_score], eta_p, rho_pre / Z
 
 
-def fit_free(n_score, seed, eta_p, target):
-    """eta' held FIXED per run (the free-ket arm probes ket freedom;
-    the eta' axis is already scanned exactly by Route A)."""
+def fit_free(n_score, seed, eta0, target):
     rng = np.random.default_rng(seed)
-    theta0 = rng.normal(0.0, 0.3, 2 * N_BUILD * 2)
+    theta0 = np.concatenate([[np.log(eta0 / (1 - eta0))],
+                             rng.normal(0.0, 0.3, 2 * N_BUILD * 2)])
 
     def obj(th):
-        m, _ = model_free(th, n_score, eta_p)
-        return float(np.sum(np.abs(m - target) ** 2))
+        m, _, _ = model_free(th, n_score)
+        return 1.0 - uhlmann(m, target)
 
     theta = adam_fd(obj, theta0, ITERS_FREE, lr=0.05)
-    m, rho_pre = model_free(theta, n_score, eta_p)
+    m, eta_p, rho_pre = model_free(theta, n_score)
     tail = float(1.0 - np.trace(rho_pre[:n_score, :n_score]).real)
-    return dict(hs=float(np.sqrt(np.sum(np.abs(m - target) ** 2))),
-                F=uhlmann(m, target), eta_p=eta_p, pre_tail=tail, seed=seed)
+    return dict(F=uhlmann(m, target), eta_p=float(eta_p),
+                pre_tail=tail, seed=seed, eta0=eta0)
 
 
 def main():
     out = dict(params=dict(alpha=ALPHA, parity=PARITY, eta=ETA, sigma=SIGMA,
                            n_build=N_BUILD, iters=ITERS, fd_h=FD_H),
                squeezed=[], free_ket=[])
-    print("=== exp20 Route B: best-approximation floor (1-mode; protocol "
-          "deviation from the 3-mode sketch declared in the docstring) ===")
+    print("=== exp20 Route B: best-approximation residuals (declared "
+          "protocol: fidelity objective, n {8,10,12}, K {2,4,8}; 1-mode "
+          "is the single declared deviation, see docstring) ===")
     for n_score in N_SCORES:
         target = build_target(n_score)
         for K in KS:
@@ -237,42 +319,48 @@ def main():
                          wall=round(time.perf_counter() - t0))
                 fits.append(r)
                 out["squeezed"].append(r)
-            best = min(fits, key=lambda r: r["hs"])
+            best = min(fits, key=lambda r: 1 - r["F"])
             print(f"  n{n_score} K{K}: best 1-F = {1 - best['F']:.5f} "
-                  f"(HS {best['hs']:.4f}, eta' {best['eta_p']:.3f}, "
+                  f"(eta' {best['eta_p']:.3f}, "
                   f"pre-tail {best['pre_tail']:.1e}, seed {best['seed']}; "
                   f"all 1-F: "
                   f"{[round(1 - r['F'], 5) for r in fits]})", flush=True)
 
-    print("\n--- [ADDENDUM] rank-2 free-ket upper-bound arm (n_score=16) ---")
-    target = build_target(16)
-    for eta_p in (0.5, 0.65, 0.8):
-        fits = [fit_free(16, s, eta_p, target) for s in (0, 1, 2)]
-        best = min(fits, key=lambda r: r["hs"])
-        for r in fits:
-            r.update(n_score=16)
-            out["free_ket"].append(r)
-        print(f"  eta'={eta_p:.2f}: best 1-F = {1 - best['F']:.5f} "
-              f"(HS {best['hs']:.4f}, pre-tail {best['pre_tail']:.1e}; "
-              f"all 1-F: {[round(1 - r['F'], 5) for r in fits]})",
-              flush=True)
+    print("\n--- [ADDENDUM] rank-2 free-ket superset arm (n_score=12, "
+          "eta' free) ---")
+    target = build_target(12)
+    fits = []
+    for seed, eta0 in INITS:
+        r = fit_free(12, seed, eta0, target)
+        r.update(n_score=12)
+        fits.append(r)
+        out["free_ket"].append(r)
+    best = min(fits, key=lambda r: 1 - r["F"])
+    print(f"  best 1-F = {1 - best['F']:.5f} (eta' {best['eta_p']:.3f}, "
+          f"pre-tail {best['pre_tail']:.1e}; "
+          f"all 1-F: {[round(1 - r['F'], 5) for r in fits]}, "
+          f"eta': {[round(r['eta_p'], 3) for r in fits]})", flush=True)
 
     floors = {}
     for n_score in N_SCORES:
         rs = [r for r in out["squeezed"] if r["n_score"] == n_score]
         floors[n_score] = min(1 - r["F"] for r in rs)
-    out["ruling"] = dict(floors_by_cutoff=floors,
+    out["ruling"] = dict(best_residuals_by_cutoff=floors,
                          alarm=any(f < 1e-4 for f in floors.values()))
     print("\n=== Route B ruling ===")
-    print(f"  best 1-F by scoring cutoff: "
+    print(f"  best-found 1-F by scoring cutoff: "
           f"{ {k: round(v, 5) for k, v in floors.items()} }")
     if out["ruling"]["alarm"]:
-        print("-> ALARM: a fit reached 1-F < 1e-4; representability branch "
-              "must be re-examined against Route A before any ruling.")
+        print("-> ALARM: a fit reached 1-F < 1e-4, contradicting Route A's "
+              "exact non-inclusion -- the derivation must be re-examined "
+              "before any ruling (case-1 branch).")
     else:
-        print("-> a floor in 1-F persists at every scoring cutoff, "
-              "corroborating Route A's exact non-inclusion on the "
-              "finite-fidelity axis (issue #63 decision rule, case 2).")
+        print("-> best-found residuals stay well above the alarm line at "
+              "every cutoff and K, and are cutoff-stable. As local-"
+              "optimization results these are UPPER bounds on the "
+              "family's distance -- heuristic corroboration of Route A's "
+              "analytic exclusion, which alone carries the case-2 "
+              "obstruction (issue #63 decision rule).")
 
     path = pathlib.Path(__file__).parent / "results_routeB.json"
     path.write_text(json.dumps(out, indent=1))

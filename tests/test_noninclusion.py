@@ -134,3 +134,36 @@ def test_regime3_scan_point_is_robust_to_quadrature_and_cutoff():
     wider = np.linalg.eigvalsh(run20.preimage_1mode(eta_p, 40).real)[0]
     assert abs(base - more_nodes) < 1e-9
     assert abs(base - wider) < 1e-7
+
+
+def coherent_fock(beta, n_max):
+    n = np.arange(n_max)
+    log_fact = np.concatenate([[0.0], np.cumsum(np.log(np.arange(1, n_max)))])
+    with np.errstate(divide="ignore", invalid="ignore"):
+        logb = np.where(n > 0, n * np.log(np.abs(beta) + (beta == 0)), 0.0)
+    c = np.exp(-np.abs(beta) ** 2 / 2.0 + logb - log_fact / 2.0)
+    ph = np.ones(n_max, complex) if beta == 0 else (beta / np.abs(beta)) ** n
+    return c * ph
+
+
+def test_theorem1_qcat_bargmann_zero():
+    """Theorem 1's witness: the even cat's Husimi function vanishes at
+    beta with conj(beta) = i pi / (2 alpha) (cosh zero, closed form)."""
+    beta0 = np.conj(1j * np.pi / (2.0 * ALPHA))
+    cat = cat1_fock(ALPHA, PARITY, 60)
+    ov = np.vdot(coherent_fock(beta0, 60), cat)
+    assert abs(ov) ** 2 < 1e-28
+
+
+def test_theorem1_husimi_negative_in_regime3():
+    """Theorem 1 operating: in regime III the pre-image's Husimi
+    function (well-defined as a quadratic form whether or not rho' is
+    a state) takes NEGATIVE values -- checked at the fringe axis where
+    the cat's Bargmann zeros sit."""
+    rho = run20.preimage_1mode(0.6, 30)
+    ys = np.linspace(0.0, 2.5, 61)
+    vals = []
+    for y in ys:
+        v = coherent_fock(np.conj(1j * y), 30)
+        vals.append(np.real(np.vdot(v, rho @ v)))
+    assert min(vals) < -1e-4

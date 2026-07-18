@@ -61,13 +61,15 @@ ket mixture contains, the loss-channel-composed rank-2 model reached fidelity
 pure-detection ket mixtures landed almost exactly on their rank-capacity
 ceilings. A non-inclusion analysis (experiment 20) then settled the family
 boundary: for **no** efficiency does the target admit a finite-rank pre-image
-(analytic for most of the parameter range, a validated numerical scan for the
-rest), so the target is **strictly outside the winning family** and the exp19
+(proven analytically across the whole efficiency range, with a validated
+numerical scan as corroboration), so the target is **strictly outside the
+winning family** and the exp19
 record is one instance of blind performance on a genuinely out-of-family
 target. The boundary is thin, however: a direct best-approximation study
-found the family approaches the target to about 1 − F ≈ 5 × 10⁻³ (one-mode
-floor, stable under cutoff growth), so exp19's larger blind gap is a fit- and
-data-budget effect, not the family boundary. Single seed and a single target
+found the family approaches the target to a few × 10⁻³ in 1 − F (one-mode,
+cutoff-stable best-found values — upper bounds on its true distance), so
+exp19's larger blind gap is a fit- and data-budget effect, not the family
+boundary. Single seed and a single target
 class; universal claims remain unwarranted. See the
 [research log](docs/research-log.md) and [prior-art survey](docs/prior-art-survey.md)
 for the evidence and comparisons.
