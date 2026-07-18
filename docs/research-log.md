@@ -1278,7 +1278,10 @@ quality, binds them. But the family had already outgrown that boundary:
 its channel-composed member is full rank, and it delivered blind
 held-out fidelity above the converged full-rank MLE. The honest record
 is therefore NOT "out-of-family generalization achieved" (the target
-may lie inside or near the channel-composed family; unresolved) but
+may lie inside or near the channel-composed family; unresolved
+[ADDENDUM 2026-07-18, exp20 / issue #63: resolved -- strictly OUTSIDE,
+for every eta' and every finite rank; the claim moves up one notch in
+the exp20 entry below]) but
 "one recorded instance of blind held-out performance above a converged
 full-rank MLE on a synthetic full-rank target". Single data seed, one
 target class, fidelity in an n_max=8 truncation (conservative for the
@@ -1398,3 +1401,114 @@ residual) or change what is being certified (a certificate that
 models bias, not just variance) — and either way the gates get
 re-declared on the issue before running. No post-hoc rescoping of
 this round: it failed as declared.
+
+## 2026-07-18 — The non-inclusion test: exp19's target is strictly outside the channel-composed family (experiment 20, issue #63)
+
+Tried: the boundary question the PR-61 review left open -- is the
+thermal-noise lossy cat N_sigma(E_eta(cat)) exactly representable as
+loss_eta'(rho') with rho' a rank-2 (or ANY finite-rank) squeezed ket
+mixture? Protocol pre-declared on the issue: an analytic Route A
+(characteristic-function calculus) as primary, a numerical Route B
+(direct best-approximation, fidelity axis) as corroboration, and a
+three-branch decision rule fixing what each outcome does to exp19's
+claim wording.
+
+Route A (experiments/20_noninclusion/derivation.md + run.py): both
+channels act on chi(lam) by argument rescale x Gaussian multiplication,
+so E_eta' is injective and the pre-image at each eta' is UNIQUE:
+chi'(mu) = chi_cat(k mu) e^{-c|mu|^2}, k^2 = eta/eta',
+c = (eta' - eta + 2 sigma)/(2 eta'). The interval splits at
+eta'_crit = eta - sigma = 0.70:
+  * eta' > 0.70: the pre-image decomposes as a POSITIVE-variance
+    Gaussian-displacement-noise composition (N_{sigma/eta'} after loss
+    for eta' > eta; N_v after a quantum-limited amplifier for
+    eta - sigma < eta' <= eta), and a displacement-orthogonality lemma
+    makes any such output FULL RANK. Analytic exclusion of every
+    finite rank at once.
+  * eta' < 0.70 [STRENGTHENED after the PR-64 review, which correctly
+    flagged that a grid scan cannot exclude a continuum and a finite
+    cutoff cannot exclude "any finite rank"]: excluded ANALYTICALLY on
+    the whole subinterval (Theorem 1): the pre-image's Husimi function
+    is a rescaled s-ordered quasidistribution W_s of the CAT with
+    s > -1 exactly when eta' < eta - sigma; if the pre-image were PSD
+    then W_s >= 0, so its Gaussian smoothing Q_cat would be strictly
+    positive -- but Q_cat has closed-form Bargmann zeros
+    (cosh(conj(beta) alpha) = 0). Contradiction (the
+    Lutkenhaus-Barnett depth-1 mechanism, self-contained).
+  * eta' = 0.70 exactly (amplifier output, a valid state): infinite
+    rank ANALYTICALLY (Theorem 2): the Husimi identity's Bargmann-
+    kernel continuation carries a factor e^{t u conj(v)} with
+    t = 1 - 1/G != 0, whose kernel rank is infinite; a rank-R state
+    would cap it at R.
+    The exclusion is therefore analytic on ALL of (0, 1]. The scan
+    (run.py) is CORROBORATION and visualization: PSD violation at
+    every regime-III grid point (min eigenvalue -4.9e-3 at eta' = 0.69
+    growing to -4.4e+2 at eta' = 0.10, against a 1e-16 numerical
+    floor, stable under node doubling and cutoff raise), PSD with a
+    full-rank tail (3rd eigenvalue 5e-2) at the boundary, and the same
+    structure in a 3-mode confirmation scan (per-term Kronecker
+    factorization). Accuracy pinned by 8 tests
+    (tests/test_noninclusion.py) against independent references in
+    every regime: Lemma-1 remap onto gaussian_noise_channel_1mode,
+    regime-I remap onto thermal_lossy_cat3_fock, and truncated-Kraus
+    forward recovery of the target from the regime-III pre-image.
+
+Route B (routeB.py): a first run silently deviated from the issue's
+declared parameters (HS objective, cutoffs {12,16,20}, K {2,4}); the
+PR-64 review flagged it and the run was REDONE per declaration --
+direct FIDELITY objective, scoring cutoffs {8,10,12}, K {2,4,8}, 3
+inits spanning the regime boundary (the superseded log is kept as
+out_routeB_hsobj.log; its numbers agree at the same order). The ONE
+declared deviation stands: the issue sketched the 3-MODE fit, whose FD
+cost is out of reach; the run is the ONE-MODE problem, with exp19's
+own blind 3-mode residual standing in as the 3-mode data point. A
+labeled free-Fock-ket superset arm (eta' free) removes the
+parametrization confound.
+A round-2 review finding corrected the metric itself: the cropped
+matrices are SUBNORMALIZED, and the plain Uhlmann formula let the
+crop's trace deficit leak into the residual (identical crops scored
+(Tr rho)^2 < 1 -- at n = 8 that penalty alone, 0.0051, exceeded the
+then-reported best residual, so the objective was not even optimizing
+agreement). All Route B scoring now uses the generalized fidelity for
+subnormalized states, F = (Tr sqrt(sqrt(rho) sigma sqrt(rho)) +
+sqrt((1 - Tr rho)(1 - Tr sigma)))^2, which returns exactly 1 for
+identical crops; target traces are quoted per cutoff (superseded log
+kept as out_routeB_plainuhlmann.log).
+Result: best-found 1 - F = 0.0014 / 0.0020 / 0.0022 at cutoffs
+8/10/12, K-saturated at K = 4-8, pre-loss tail mass monitored small
+(no cutoff abuse); the superset arm lands at the same order (0.0063).
+EPISTEMIC STATUS (per the review): local-optimization residuals are
+UPPER bounds on the family's true distance -- heuristic corroboration
+of the analytic exclusion, not a proven floor; the case-2 obstruction
+rests on Route A's theorems alone. And the fitted eta' converges to
+0.65-0.67 from every init: the optimizer walks to the PSD boundary of
+Route A's regime map and parks where the pre-image's negativity is
+smallest -- the two routes agree not just on the verdict but on the
+geometry.
+
+Ruling (decision rule case 2 fires): the target admits NO finite-rank
+pre-image for ANY eta' in (0, 1] -- analytic on the whole interval
+(Lemmas 1-2, Theorems 1-2), numerically corroborated on the grid --
+so it is STRICTLY OUTSIDE the channel-composed family, and
+exp19's record upgrades exactly one notch: "one recorded instance of
+blind held-out performance on a genuinely OUT-OF-FAMILY full-rank
+target, above a converged full-rank MLE" (single data seed, one target
+class; universal claims stay barred). The honest counterweight is that
+the boundary is THIN: the family approximates the target to
+1 - F ~ 2e-3 (best-found, an upper bound on its true distance), so
+exp19's blind gap (1 - F = 0.077) is dominated by fit
+and data budget, not by the family boundary. Both faces go into the
+READMEs.
+
+Learned: the eta-(state) flat direction now has its full arc written
+in one algebra (derivation.md section 4): the SAME curve of
+(eta', state) pairs that makes joint calibration unidentifiable
+(exp17) lets a blind fit slide toward Gaussian-noise surrogates
+(exp19), and its endpoint -- the PSD boundary at eta' = eta - sigma --
+is exactly where Route B's optimizer settles. Non-inclusion is proven,
+yet the family tracks the excluded target to ~2e-3: "outside the
+family" and "far from the family" are different claims, and only the
+first is established. Follow-up recorded, not opened: the sigma_add /
+seed sweep (unchanged from exp19); a possible representation-theory
+note on WHICH mixed states loss_eta'(finite-rank) can reach exactly
+(the scan machinery generalizes beyond this target).
