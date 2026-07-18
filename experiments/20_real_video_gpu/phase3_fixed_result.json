@@ -1,0 +1,64 @@
+{
+  "recorded_at": "2026-07-18",
+  "phase": "3_fixed_three_seed_train_only_fit",
+  "status": "hard_stop_passed",
+  "protocol": {
+    "train_images": 20,
+    "input_resolution": [1920, 1080],
+    "pooled_over_all_train_frames_and_rgb_channels": true,
+    "hard_stop_psnr_db": 25.0,
+    "heldout_accessed": false
+  },
+  "configuration": {
+    "seeds": [0, 1, 2],
+    "steps": 4000,
+    "packed": true,
+    "configured_sh_degree": 3,
+    "sh_degree_interval": 1000,
+    "max_sh_degree_reached": 3,
+    "appearance_optimization": false,
+    "upstream_commit": "77ab983ffe43420b2131669cb35776b883ca4c3c"
+  },
+  "runs": [
+    {
+      "seed": 0,
+      "final_step": 3999,
+      "pooled_mse": 0.0020133757209981127,
+      "pooled_psnr_db": 26.96075172786378,
+      "gaussians": 551891,
+      "peak_vram_gib": 1.1349411010742188,
+      "training_elapsed_seconds": 454.34006214141846,
+      "checkpoint_bytes": 130249269,
+      "checkpoint_sha256": "CB602D0971CA996347C7812EB36A8DCA6D3B0523AC15A73D74D9B7690FCBFFC2"
+    },
+    {
+      "seed": 1,
+      "final_step": 3999,
+      "pooled_mse": 0.0019630229030239616,
+      "pooled_psnr_db": 27.070746333603097,
+      "gaussians": 557226,
+      "peak_vram_gib": 1.1359333992004395,
+      "training_elapsed_seconds": 444.6570749282837,
+      "checkpoint_bytes": 131508277,
+      "checkpoint_sha256": "8AA722643FFCD62259C54EE0992FD58C6E1F53FC206055F2F65751CC563AEDA5"
+    },
+    {
+      "seed": 2,
+      "final_step": 3999,
+      "pooled_mse": 0.0019856871840862435,
+      "pooled_psnr_db": 27.020891671828103,
+      "gaussians": 545356,
+      "peak_vram_gib": 1.1010427474975586,
+      "training_elapsed_seconds": 443.4227113723755,
+      "checkpoint_bytes": 128707061,
+      "checkpoint_sha256": "04CF7C63608E92C57F5C92943970C675BDC5D3573AE910D3950ECC4B40BC5F49"
+    }
+  ],
+  "aggregate": {
+    "min_pooled_psnr_db": 26.96075172786378,
+    "max_pooled_psnr_db": 27.070746333603097,
+    "all_seeds_passed": true,
+    "max_peak_vram_gib": 1.1359333992004395,
+    "heldout_unseal_authorized_by_protocol": true
+  }
+}
