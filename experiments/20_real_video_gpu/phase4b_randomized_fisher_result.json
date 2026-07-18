@@ -1,0 +1,110 @@
+{
+  "phase": "4b_randomized_matrix_free_fisher",
+  "status": "pass",
+  "heldout_accessed": false,
+  "declaration": {
+    "issue_comment": 5011474178,
+    "metric_clarification_comment": 5011480536,
+    "fisher_probe_counts": [
+      32,
+      128,
+      512
+    ],
+    "score_probe_counts": [
+      16,
+      64,
+      256
+    ],
+    "estimator_seeds": [
+      314159,
+      271828,
+      161803
+    ],
+    "production_estimator_seed": 314159,
+    "max_parameter_displacement": 0.001,
+    "damping_fraction": 1e-06
+  },
+  "rows": [
+    {
+      "seed": 314159,
+      "fisher_relative_frobenius": {
+        "32": 0.4080752730369568,
+        "128": 0.11186450719833374,
+        "512": 0.09302616119384766
+      },
+      "score": {
+        "16": {
+          "spearman": 0.9891344308853149,
+          "normalized_rmse": 0.12212668359279633
+        },
+        "64": {
+          "spearman": 0.9942483901977539,
+          "normalized_rmse": 0.07741178572177887
+        },
+        "256": {
+          "spearman": 0.9975446462631226,
+          "normalized_rmse": 0.04739242047071457
+        }
+      },
+      "max_first_8_jvp_normalized_l2": 0.00578656978905201
+    },
+    {
+      "seed": 271828,
+      "fisher_relative_frobenius": {
+        "32": 0.2267664521932602,
+        "128": 0.14504821598529816,
+        "512": 0.08131450414657593
+      },
+      "score": {
+        "16": {
+          "spearman": 0.9895685315132141,
+          "normalized_rmse": 0.12336228042840958
+        },
+        "64": {
+          "spearman": 0.9950894117355347,
+          "normalized_rmse": 0.06638417392969131
+        },
+        "256": {
+          "spearman": 0.9985620379447937,
+          "normalized_rmse": 0.02563987486064434
+        }
+      },
+      "max_first_8_jvp_normalized_l2": 0.0072672925889492035
+    },
+    {
+      "seed": 161803,
+      "fisher_relative_frobenius": {
+        "32": 0.24331475794315338,
+        "128": 0.12702485918998718,
+        "512": 0.04984875023365021
+      },
+      "score": {
+        "16": {
+          "spearman": 0.9870997071266174,
+          "normalized_rmse": 0.11817190051078796
+        },
+        "64": {
+          "spearman": 0.9975717663764954,
+          "normalized_rmse": 0.045359935611486435
+        },
+        "256": {
+          "spearman": 0.9983721375465393,
+          "normalized_rmse": 0.04172275587916374
+        }
+      },
+      "max_first_8_jvp_normalized_l2": 0.005528921261429787
+    }
+  ],
+  "convergence": {
+    "median_initial_score_nrmse": 0.12212668359279633,
+    "median_final_score_nrmse": 0.04172275587916374,
+    "final_over_initial": 0.3416350518309233
+  },
+  "acceptance": {
+    "all_512_probe_fisher_errors_le_0.10": true,
+    "all_256_probe_score_spearman_ge_0.95_and_nrmse_le_0.20": true,
+    "all_first_8_jvp_max_errors_le_0.01": true,
+    "median_score_nrmse_final_over_initial_le_0.60": true
+  },
+  "claim_scope": "Tiny fused-gsplat validation only. Passing authorizes the declared 512-VJP Fisher and 256 finite-difference-JVP score estimators; it does not establish Gate B/B2 on held-out real video."
+}
