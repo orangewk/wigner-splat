@@ -87,3 +87,13 @@ pixel predictive variance は block 逆共分散方向の256二側中央差分 J
 `0.342`。事前 gate を全項目で通過したため、production は estimator seed
 `314159`、Fisher 512、score 256 に固定する。結果は
 `phase4b_randomized_fisher_result.json`。
+
+Production train Fisher は seed ごとに実行し、各 train view 完了後に
+`out/production_fisher_seed*/fisher_state.pt` を更新する。再実行は次の未完 view
+から再開する。smoke 実測は55.2万 splats・1920×1080・1 view×2 probesで
+1.34秒、peak VRAM 0.683 GiB。held-out path は構築・列挙しない。
+
+```powershell
+.venv\Scripts\python.exe experiments\20_real_video_gpu\build_production_fisher.py `
+  --fit-seed 0
+```
