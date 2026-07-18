@@ -29,3 +29,20 @@ COLMAPの再現実行:
 ```
 
 COLMAP 4.1.0公式CUDA版はCUDA 13.2 buildのため、driver 576.88ではGPU初期化できない。CUDA 12.9 + sm_120の公式4.0.4 assetを固定して使う。
+
+## Train-only gsplat
+
+固定commitのupstream `examples/simple_trainer.py`をadapter経由で呼ぶ。
+20枚すべてを学習へ投入し、画像はCPU RAMへcache、評価は全frame/channelの
+pooled MSEからPSNRを算出する。`heldout-sealed/` は列挙もloaderへの引き渡しも
+行わない。COLMAPのradial undistortionは使うが、有効ROI cropは行わず
+1920x1080 canvasを維持する。
+
+```powershell
+.venv\Scripts\python.exe experiments\20_real_video_gpu\train_gsplat.py `
+  --seed 0 --steps 4000 --eval-every 250 --run-name seed0_fixed_4000
+```
+
+seed 0 / 3000-step pilotは25.976 dB、peak VRAM 0.955 GiBで通過した。ただし
+SH昇格間隔ではdegree 2までだったため、固定3-seed recipeは4000 stepとする。
+pilotの集計値は `phase3_pilot_result.json`。
