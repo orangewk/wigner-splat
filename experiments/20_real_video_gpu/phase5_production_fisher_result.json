@@ -1,0 +1,55 @@
+{
+  "phase": "production_train_block_fisher",
+  "status": "complete",
+  "gsplat_commit": "77ab983ffe43420b2131669cb35776b883ca4c3c",
+  "heldout_accessed": false,
+  "train_views_per_seed": 20,
+  "probe_count_per_view": 512,
+  "estimator_seed": 314159,
+  "block_parameterization": [
+    "mean_x",
+    "mean_y",
+    "mean_z",
+    "log_scale_x",
+    "log_scale_y",
+    "log_scale_z"
+  ],
+  "validation": {
+    "dtype": "torch.float32",
+    "all_finite": true,
+    "max_symmetry_error": 0.0,
+    "checkpoint_metadata_matches": true
+  },
+  "seeds": [
+    {
+      "fit_seed": 0,
+      "n_splats": 551891,
+      "shape": [551891, 6, 6],
+      "elapsed_seconds": 402.4038,
+      "peak_vram_gib": 0.683642864,
+      "block_trace_sum": 34699812864.0,
+      "checkpoint_sha256": "CB602D0971CA996347C7812EB36A8DCA6D3B0523AC15A73D74D9B7690FCBFFC2",
+      "fisher_blocks_sha256": "46D87F035AD2ECB48B0E43E2C6D4209152F492733E067B2977CA7DB21E34795B"
+    },
+    {
+      "fit_seed": 1,
+      "n_splats": 557226,
+      "shape": [557226, 6, 6],
+      "elapsed_seconds": 430.50515,
+      "peak_vram_gib": 0.689026833,
+      "block_trace_sum": 34498482176.0,
+      "checkpoint_sha256": "8AA722643FFCD62259C54EE0992FD58C6E1F53FC206055F2F65751CC563AEDA5",
+      "fisher_blocks_sha256": "17BA779C90B2633BE282649165E36D3BF0C22D662B217995E5D6E13D6197B340"
+    },
+    {
+      "fit_seed": 2,
+      "n_splats": 545356,
+      "shape": [545356, 6, 6],
+      "elapsed_seconds": 448.170764,
+      "peak_vram_gib": 0.674711227,
+      "block_trace_sum": 34598928384.0,
+      "checkpoint_sha256": "04CF7C63608E92C57F5C92943970C675BDC5D3573AE910D3950ECC4B40BC5F49",
+      "fisher_blocks_sha256": "EDCD888A0DB51C421F785C85842DA65EFCDA1E43F78A24C68014942F3A02A39C"
+    }
+  ]
+}
