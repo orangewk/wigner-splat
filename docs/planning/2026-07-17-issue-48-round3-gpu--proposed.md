@@ -124,6 +124,18 @@ held-out を COLMAP に最初から渡すと画像特徴が train reconstruction
 
 停止条件: fused gsplat 上で検証可能な block Fisher/pushforward が得られない。ランダム推定や custom CUDA へ切り替える場合は、それ自体を科学的変数として issue #48 で再宣言する。
 
+#### Phase 4b amendment: randomized matrix-free Fisher
+
+Phase 4 は scalar-output VJP が exact per-splat 6D block と一致して通過したが、
+full-resolution で全 Jacobian は実体化できない。orange の 2026-07-18 承認後、
+Rademacher VJP による train block Fisher と、block 逆共分散方向の中央差分 JVP
+による pixel predictive variance を新しい科学的変数として Issue #48
+comment `5011474178` に事前宣言した。tiny exact gate は Fisher probes
+`32/128/512`、score probes `16/64/256`、estimator seeds
+`314159/271828/161803`。512-probe block 誤差 ≤ 0.10、256-probe score の
+Spearman ≥ 0.95・nRMSE ≤ 0.20、中央差分 JVP nL2 ≤ 0.01、score nRMSE
+median が 16→256 probes で 0.60 倍以下を全て満たした場合のみ Phase 5 へ進む。
+
 ### Phase 5: hard stop と Gate B/B2
 
 1. Phase 3 の checkpoint を読み、train PSNR だけを先に集計する。
