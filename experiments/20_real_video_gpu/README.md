@@ -46,3 +46,26 @@ pooled MSEからPSNRを算出する。`heldout-sealed/` は列挙もloaderへの
 seed 0 / 3000-step pilotは25.976 dB、peak VRAM 0.955 GiBで通過した。ただし
 SH昇格間隔ではdegree 2までだったため、固定3-seed recipeは4000 stepとする。
 pilotの集計値は `phase3_pilot_result.json`。
+
+## Fisher feasibility spike
+
+held-out に触れない完全合成の tiny scene（2 views、2 splats、8×6 RGB）で、
+PUP と共通の per-splat block `[mean(3), log-scale(3)]` を検証する。exact は
+PyTorch の全画像 Jacobian から、候補は scalar RGB output ごとの VJP 外積累積
+から作る。回転・opacity・色は固定する。
+
+```powershell
+.venv\Scripts\python.exe experiments\20_real_video_gpu\phase4_fisher_spike.py
+```
+
+chunk 1/7/64 の候補 block は exact block と最大相対誤差 `6.94e-9` で一致した。
+log-scale と activated-scale の座標変換では damping metric も変換し、score map
+の相対誤差は `4.40e-7`。damping `1e-8` 対 `1e-10` の map 変化は
+`7.25e-5` まで収束した。振幅、density-gradient norm、diagonal Fisher、block
+Fisher の4 mapと全数値は `phase4_fisher_result.json` に保存する。
+
+この pass が保証するのは fused gsplat 上の scalar-output VJP 実装だけである。
+PUP の patch-summed 近似、custom CUDA Fisher kernel、held-out ranking は未検証。
+設計参照は [gsplat](https://github.com/nerfstudio-project/gsplat)、
+[PUP 3D-GS](https://github.com/j-alex-hanson/gaussian-splatting-pup)、
+[FisherRF](https://github.com/JiangWenPL/FisherRF)。
