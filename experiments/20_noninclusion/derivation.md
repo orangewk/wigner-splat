@@ -13,10 +13,13 @@ for the exp19 target (`alpha = 1.5`, `parity = +1`, `eta = 0.8`,
 rank 2, for **any** finite rank.
 
 This note fixes conventions, derives the unique pre-image for every
-`eta'`, and splits `(0, 1]` into a regime where non-inclusion is
-**analytic** and a boundary regime where it is settled **numerically**
-(`run.py` in this directory). Everything is one-mode until the final
-section; the three-mode port is a per-mode bookkeeping change.
+`eta'`, and excludes a finite-rank pre-image **analytically on all of
+`(0, 1]`**: Lemmas 1–2 for `eta' > eta - sigma`, Theorem 1 on the
+whole subinterval below it, Theorem 2 at the boundary point. The
+numerical scan (`run.py` in this directory) is corroboration and
+visualization, not part of the obstruction. Everything is one-mode
+until the final section; the three-mode port is a per-mode bookkeeping
+change.
 
 ## 1. Conventions
 

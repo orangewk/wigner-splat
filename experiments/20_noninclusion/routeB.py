@@ -38,7 +38,12 @@ Design:
     kets (bbdagS.sq_wavefunction coefficients by quadrature, n_build =
     30); channel = truncated Kraus loss at n_build, cropped to
     n_score; eta' free through a logit. OBJECTIVE: minimize
-    1 - F_Uhlmann(model, target) directly.
+    1 - F directly, with F the GENERALIZED Uhlmann fidelity for
+    subnormalized matrices (see gen_fidelity: round-2 review fix --
+    the plain formula let the crop's trace deficit leak into the
+    residual, so identical crops scored (Tr rho)^2 < 1 and the
+    optimizer could trade agreement for trace). Target traces per
+    cutoff are printed alongside.
   * grid: n_score in {8, 10, 12} x K in {2, 4, 8} x 3 inits (seed
     0/1/2 with eta'0 = 0.8 / 0.6 / 0.4 -- inits span the regime
     boundary). Representative per (n_score, K): best final 1 - F.
@@ -119,14 +124,30 @@ def build_target(n_score):
     return t[:n_score, :n_score]
 
 
-def uhlmann(rho, sigma):
+def gen_fidelity(rho, sigma):
+    """Generalized Uhlmann fidelity for SUBNORMALIZED matrices:
+
+        F = (Tr sqrt(sqrt(rho) sigma sqrt(rho))
+             + sqrt((1 - Tr rho)(1 - Tr sigma)))^2
+
+    (PR-64 review, round 2): the cropped matrices carry trace < 1, and
+    the PLAIN Uhlmann formula lets the trace deficit leak into the
+    residual -- identical crops score F = (Tr rho)^2 < 1, so an
+    optimizer can trade agreement for trace. The generalized form
+    equals the ordinary fidelity at trace 1 and returns exactly 1 for
+    identical subnormalized matrices; the missing-mass term treats the
+    (tiny, quoted) cutoff losses of both sides as if they matched.
+    """
     rho = (rho + rho.conj().T) / 2
     sigma = (sigma + sigma.conj().T) / 2
     w, U = np.linalg.eigh(rho)
     sq = (U * np.sqrt(np.maximum(w, 0.0))) @ U.conj().T
     inner = sq @ sigma @ sq
     ev = np.maximum(np.linalg.eigvalsh((inner + inner.conj().T) / 2), 0.0)
-    return float(np.sum(np.sqrt(ev)) ** 2)
+    root = float(np.sum(np.sqrt(ev)))
+    miss_r = max(0.0, 1.0 - float(np.trace(rho).real))
+    miss_s = max(0.0, 1.0 - float(np.trace(sigma).real))
+    return float((root + np.sqrt(miss_r * miss_s)) ** 2)
 
 
 # ---------------- squeezed-family model ----------------
@@ -164,7 +185,7 @@ def _obj_parts(eta_p, z, V, n_score, target):
         rho_pre += np.outer(col, col.conj())
     Z = np.trace(rho_pre).real
     out = kraus_loss(rho_pre / Z, eta_p, N_BUILD)
-    return 1.0 - uhlmann(out[:n_score, :n_score], target)
+    return 1.0 - gen_fidelity(out[:n_score, :n_score], target)
 
 
 def model_state(theta, K, n_score):
@@ -182,7 +203,7 @@ def model_state(theta, K, n_score):
 
 def fid_obj(theta, K, n_score, target):
     m, _, _ = model_state(theta, K, n_score)
-    return 1.0 - uhlmann(m, target)
+    return 1.0 - gen_fidelity(m, target)
 
 
 def _structured_grad(theta, K, n_score, target):
@@ -266,7 +287,7 @@ def fit_squeezed(K, n_score, seed, eta0, target):
                                                         target))
     m, eta_p, rho_pre = model_state(theta, K, n_score)
     tail = float(1.0 - np.trace(rho_pre[:n_score, :n_score]).real)
-    return dict(F=uhlmann(m, target), eta_p=float(eta_p),
+    return dict(F=gen_fidelity(m, target), eta_p=float(eta_p),
                 pre_tail=tail, seed=seed, eta0=eta0)
 
 
@@ -292,12 +313,12 @@ def fit_free(n_score, seed, eta0, target):
 
     def obj(th):
         m, _, _ = model_free(th, n_score)
-        return 1.0 - uhlmann(m, target)
+        return 1.0 - gen_fidelity(m, target)
 
     theta = adam_fd(obj, theta0, ITERS_FREE, lr=0.05)
     m, eta_p, rho_pre = model_free(theta, n_score)
     tail = float(1.0 - np.trace(rho_pre[:n_score, :n_score]).real)
-    return dict(F=uhlmann(m, target), eta_p=float(eta_p),
+    return dict(F=gen_fidelity(m, target), eta_p=float(eta_p),
                 pre_tail=tail, seed=seed, eta0=eta0)
 
 
@@ -310,6 +331,8 @@ def main():
           "is the single declared deviation, see docstring) ===")
     for n_score in N_SCORES:
         target = build_target(n_score)
+        print(f"  [target trace at n={n_score}: "
+              f"{np.trace(target).real:.7f}]", flush=True)
         for K in KS:
             fits = []
             for seed, eta0 in INITS:

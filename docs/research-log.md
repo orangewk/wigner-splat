@@ -1464,9 +1464,19 @@ cost is out of reach; the run is the ONE-MODE problem, with exp19's
 own blind 3-mode residual standing in as the 3-mode data point. A
 labeled free-Fock-ket superset arm (eta' free) removes the
 parametrization confound.
-Result: best-found 1 - F = 0.0046 / 0.0024 / 0.0022 at cutoffs
+A round-2 review finding corrected the metric itself: the cropped
+matrices are SUBNORMALIZED, and the plain Uhlmann formula let the
+crop's trace deficit leak into the residual (identical crops scored
+(Tr rho)^2 < 1 -- at n = 8 that penalty alone, 0.0051, exceeded the
+then-reported best residual, so the objective was not even optimizing
+agreement). All Route B scoring now uses the generalized fidelity for
+subnormalized states, F = (Tr sqrt(sqrt(rho) sigma sqrt(rho)) +
+sqrt((1 - Tr rho)(1 - Tr sigma)))^2, which returns exactly 1 for
+identical crops; target traces are quoted per cutoff (superseded log
+kept as out_routeB_plainuhlmann.log).
+Result: best-found 1 - F = 0.0014 / 0.0020 / 0.0022 at cutoffs
 8/10/12, K-saturated at K = 4-8, pre-loss tail mass monitored small
-(no cutoff abuse); the superset arm lands at the same order (0.0064).
+(no cutoff abuse); the superset arm lands at the same order (0.0063).
 EPISTEMIC STATUS (per the review): local-optimization residuals are
 UPPER bounds on the family's true distance -- heuristic corroboration
 of the analytic exclusion, not a proven floor; the case-2 obstruction

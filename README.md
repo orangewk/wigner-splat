@@ -66,7 +66,7 @@ numerical scan as corroboration), so the target is **strictly outside the
 winning family** and the exp19
 record is one instance of blind performance on a genuinely out-of-family
 target. The boundary is thin, however: a direct best-approximation study
-found the family approaches the target to a few × 10⁻³ in 1 − F (one-mode,
+found the family approaches the target to 1–2 × 10⁻³ in 1 − F (one-mode,
 cutoff-stable best-found values — upper bounds on its true distance), so
 exp19's larger blind gap is a fit- and data-budget effect, not the family
 boundary. Single seed and a single target
