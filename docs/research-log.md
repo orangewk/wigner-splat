@@ -1562,6 +1562,66 @@ result: `experiments/20_real_video_gpu/phase5_gate_b_result.json`; certificate:
 `experiments/20_real_video_gpu/heldout_certificate.png`; Issue result comment
 `5011709434`.
 
+## 2026-07-19 — Robustness sweep of the thermal gate: the blind verdict holds on all five configurations (experiment 21, issue #67)
+
+Tried: the preprint prerequisite. exp19's headline (the channel-composed
+model beating the converged full-rank MLE blind) was a single data
+seed, and exp16 had demonstrated that this very fit family can be
+init-fragile enough to flip verdicts on the pure-cat target, with the
+train likelihood blind to the collapse. Pre-declared protocol (issue
+#67): data seeds {42, 1, 2} at sigma_add = 0.1 plus sigma_add
+{0.05, 0.2} at seed 42 (five configs, exp19 conventions), lossy R2K4
+x init seeds {0,1,2} best-by-train-NLL vs mle3 (900 s), scored with
+the generalized fidelity for subnormalized matrices (the PR-64
+round-2 metric) through the exp19 wide-intermediate pipeline.
+Pre-declared reading: any config with representative lossy F < F_mle
+adds an exp16-style fragility note; all five holding permits "robust
+across 3 data seeds and a 4x sigma_add range" (one target class,
+exploratory -- unchanged).
+
+Happened (committed log, results.json):
+
+    config            lossy rep    F_mle    verdict     eta' (rep)
+    seed 42, 0.10      0.9490     0.8980    holds        0.359
+    seed  1, 0.10      0.9435     0.9023    holds        0.359
+    seed  2, 0.10      0.9435     0.9032    holds        0.362
+    seed 42, 0.05      0.9490     0.9362    holds        0.442
+    seed 42, 0.20      0.8929     0.8147    holds        0.297
+
+Verdict holds on 5/5. (The 42/0.10 row is exp19 reproduced under the
+generalized-fidelity metric: the lossy row rises 0.9234 -> 0.9490 --
+the plain-Uhlmann convention had been penalizing exactly the winning
+row's trace deficit, as predicted in the PR-64 discussion -- while
+the trace-1 MLE row barely moves, 0.8976 -> 0.8980.)
+
+Texture worth recording honestly:
+  1. NO exp16-style basin collapse anywhere: 15 fits, per-config F
+     spreads 0.024-0.041 (exp16's collapse was dF ~ 0.45). The
+     thermal target appears to regularize the fit landscape relative
+     to the pure lossy cat.
+  2. The NLL-blindness itself is still visible in mild form: on the
+     sigma_add = 0.20 config, best-by-train-NLL selects the WORST of
+     the three inits (F 0.8929 vs 0.9243/0.9253 available; dNLL
+     0.0026 vs dF 0.032). The declared selection rule was honored and
+     the verdict is unaffected (margin over MLE 0.078), but the
+     selection hazard exp16 documented has not disappeared -- it is
+     just too small here to bite.
+  3. eta' tracks sigma_add monotonically (0.442 / ~0.36 / 0.297 for
+     sigma_add 0.05 / 0.10 / 0.20): the flat-direction mechanism the
+     exp20 derivation formalized (spend eta' to buy Gaussian width),
+     behaving as predicted across the noise range.
+  4. MLE convergence within the 900 s budget is config-dependent
+     (converged on 2 of 5); the sweep inherits exp19's budget
+     convention unchanged.
+
+Learned: the pre-declared reading's favorable branch fires -- the
+exp19 blind verdict is robust across 3 data seeds and a 4x sigma_add
+range on this target class, and the wording in both READMEs moves
+accordingly (still one target class, still exploratory, still no
+universal claims). The preprint (issue #69) can now cite exp21 for
+robustness and exp16 for the selection hazard that exp21 shows in
+mild, non-verdict-affecting form.
+
 ## 2026-07-19 — Experiment 20 / issue #48 Round 4, fresh replication
 
 Owner/decisions: orange approved and hard-locked the protocol in Issue #48
