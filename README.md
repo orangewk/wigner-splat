@@ -36,9 +36,11 @@ models with closed-form homodyne likelihoods and analytic gradients.
 - **An honest scaling story.** One mode: MLE is faster. Two modes: statistical
   tie at ~1/7.4 the compute. Three modes: the signed-splat score is not
   physical fidelity (non-PSD) and the repository says so.
-- **Falsification-first records.** Every experiment pre-declares its protocol
-  and falsification condition; negative results, scoring corrections, and
-  superseded logs are all kept in the [research log](docs/research-log.md).
+- **Falsification-first records.** The formal gates and later experiments
+  pre-declare their protocols and falsification conditions before running
+  (the earliest experiments were exploratory and are recorded as such);
+  negative results, scoring corrections, and superseded logs are all kept in
+  the [research log](docs/research-log.md).
 
 ## What is being explored
 
