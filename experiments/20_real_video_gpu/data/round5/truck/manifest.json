@@ -10,7 +10,8 @@
     "archive_basename": "Truck.zip",
     "archive_bytes": 380210369,
     "archive_sha256": "9ae9ebe88c23f10e02e1abdb2a85f6bd7d4d59fad6b549685f7cbcc872439cc2",
-    "license": "CC BY 4.0",
+    "license_cc_by_notice": "CC BY 4.0, stated in the Copyright section of the official license page",
+    "license_additional_restrictions": "The License Grant section of the same official license page limits use to non-commercial research and education and forbids providing copies to third parties; the page is internally inconsistent and this record does not resolve it",
     "license_url": "https://www.tanksandtemples.org/license/",
     "citation": "Knapitsch, Park, Zhou, and Koltun. Tanks and Temples: Benchmarking Large-Scale Scene Reconstruction. ACM TOG, 2017."
   },
