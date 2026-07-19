@@ -1561,3 +1561,39 @@ error localization, not a block-Fisher-specific mechanism. Machine-readable
 result: `experiments/20_real_video_gpu/phase5_gate_b_result.json`; certificate:
 `experiments/20_real_video_gpu/heldout_certificate.png`; Issue result comment
 `5011709434`.
+
+## 2026-07-19 — Experiment 20 / issue #48 Round 4, fresh replication
+
+Owner/decisions: orange approved and hard-locked the protocol in Issue #48
+comment 5013626313; Codex session 019f6d8a implemented and executed the GPU
+evaluation without refitting the three frozen Round 3 checkpoints.
+
+Four previously unused frames from the end of the same capture (source indices
+216/244/272/300, 7.20–10.00 s) were losslessly extracted and sealed. COLMAP
+registered all 4/4 against a copy of the frozen train model. Existing train
+poses, camera intrinsics, and point XYZ remained fixed; no BA, triangulation, or
+splat update ran. The new interval is temporal extrapolation within one
+registerable trajectory, not an independent-scene replication.
+
+Gate B replicated on all fit seeds:
+Spearman(block-Fisher sigma, fresh RGB-L2 residual) =
+0.36905 / 0.33663 / 0.37550 against the fixed 0.3 bar. Unlike Round 3,
+block Fisher strictly beat amplitude (-0.155 / -0.182 / -0.116), H=I J-norm
+(0.196 / 0.215 / 0.245), and diagonal Fisher
+(0.319 / 0.295 / 0.345) on every seed.
+
+Gate B2 nevertheless failed on every seed because the shared three-fit-seed
+ensemble sigma scored 0.57534 / 0.56690 / 0.54286, above block Fisher in all
+three comparisons. The hard-locked reading therefore applies: at this
+operating point the H^-1 certificate does not beat brute-force repetition.
+This is a result about the declared 3-seed ensemble, not all possible ensemble
+sizes or independent scenes.
+
+The descriptive damping sweep was monotone on all seeds:
+1e-4: 0.299 / 0.285 / 0.317; primary 1e-6:
+0.369 / 0.337 / 0.376; 1e-8: 0.422 / 0.383 / 0.434.
+It shows material regularization sensitivity but does not alter the primary
+verdict. Fresh pooled RGB MSE was 0.03186 / 0.03315 / 0.02852, much higher
+than Round 3's opened views, consistent with the intended extrapolation stress.
+Machine-readable result: experiments/20_real_video_gpu/phase6_round4_result.json;
+certificate: experiments/20_real_video_gpu/round4_certificate.png.
