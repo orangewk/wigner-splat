@@ -4,7 +4,8 @@ import importlib.util
 import pathlib
 
 import pytest
-import torch
+
+torch = pytest.importorskip("torch")  # GPU-line dependency; skip cleanly in torch-less envs
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MODULE_PATH = ROOT / "experiments" / "20_real_video_gpu" / "run_round4_gate.py"
