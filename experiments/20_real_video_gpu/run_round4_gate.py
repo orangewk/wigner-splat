@@ -15,6 +15,9 @@ import torch
 from scipy.stats import rankdata
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from ensemble_artifact import sha256, validate_shared_ensemble
+
 ROUND3_GATE = HERE / "run_gate_b.py"
 REGISTRATION = HERE / "out" / "round4_registration"
 ENSEMBLE_DIR = HERE / "out" / "round4_ensemble"
@@ -98,6 +101,7 @@ def build_ensemble(gate, builder, views, device: torch.device) -> dict[str, obje
     ENSEMBLE_DIR.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter()
     torch.cuda.reset_peak_memory_stats()
+    map_sha256 = {}
     for view_index, view in enumerate(views):
         renders = []
         for fit_seed in range(3):
@@ -108,6 +112,7 @@ def build_ensemble(gate, builder, views, device: torch.device) -> dict[str, obje
             del splats, theta
         stack = torch.stack(renders)
         sigma = stack.var(dim=0, correction=1).sum(dim=-1).sqrt().squeeze(0)
+        output = ENSEMBLE_DIR / f"view_{view_index}.pt"
         torch.save({
             "view_index": view_index,
             "view_name": view["name"],
@@ -116,7 +121,8 @@ def build_ensemble(gate, builder, views, device: torch.device) -> dict[str, obje
             "rgb_scalar": "sqrt(sum(channel sample variance))",
             "render_clamp": [0.0, 1.0],
             "sigma_ensemble": sigma.cpu(),
-        }, ENSEMBLE_DIR / f"view_{view_index}.pt")
+        }, output)
+        map_sha256[view["name"]] = sha256(output)
     result = {
         "phase": "round4_shared_ensemble",
         "status": "complete",
@@ -124,6 +130,7 @@ def build_ensemble(gate, builder, views, device: torch.device) -> dict[str, obje
         "heldout_names": list(HELDOUT_NAMES),
         "ddof": 1,
         "shared_single_map_across_fit_seed_comparisons": True,
+        "map_sha256": map_sha256,
         "monte_carlo_budget": 0,
         "elapsed_seconds": time.perf_counter() - started,
         "peak_vram_gib": torch.cuda.max_memory_allocated() / 1024**3,
@@ -155,9 +162,7 @@ def run(fit_seed: int, source: Path, build_shared_ensemble: bool = False) -> dic
     views = load_views(examples)
     if build_shared_ensemble:
         build_ensemble(gate, builder, views, device)
-    ensemble_record = json.loads((ENSEMBLE_DIR / "result.json").read_text())
-    if ensemble_record.get("status") != "complete":
-        raise RuntimeError("Shared 3-seed ensemble is incomplete")
+    validate_shared_ensemble(ENSEMBLE_DIR, HELDOUT_NAMES)
 
     splats = builder.load_checkpoint(fit_seed, device)
     blocks = gate.load_blocks(builder, fit_seed, device)

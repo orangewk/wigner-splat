@@ -4,3 +4,6 @@ data/staging/*.png
 colmap/
 data/heldout2-sealed/*.png
 data/round4-staging/*.png
+data/round5/*/train/*
+data/round5/*/heldout-sealed/*
+data/round5-staging/
