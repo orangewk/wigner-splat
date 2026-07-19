@@ -1,0 +1,18 @@
+title = "wigner-splat Gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+  [[rules.allowlists]]
+  description = "Public Tanks and Temples Google Drive resource keys"
+  condition = "AND"
+  regexTarget = "secret"
+  regexes = [
+    '''^0-(?:uYzL1Ga_EW1Ck0o-msT7Sg|EbTpTf5_Nyvf0E68VPIJxw)$''',
+  ]
+  paths = [
+    '''^experiments/20_real_video_gpu/(?:prepare_round5_data\.py|data/round5/(?:truck|train)/manifest\.json)$''',
+  ]
