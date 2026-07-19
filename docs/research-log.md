@@ -1512,3 +1512,148 @@ first is established. Follow-up recorded, not opened: the sigma_add /
 seed sweep (unchanged from exp19); a possible representation-theory
 note on WHICH mixed states loss_eta'(finite-rank) can reach exactly
 (the scan machinery generalizes beyond this target).
+
+## 2026-07-18 — Experiment 20 / issue #48 Round 3, Phase 0–2
+
+(Numbering note: "experiment 20" collided across the two parallel
+lines again; this line's lives in experiments/20_real_video_gpu,
+distinct from the quantum line's experiments/20_noninclusion above.)
+
+Owner/decisions: orange approved the GPU migration plan and Phase 2 execution; Codex session `019f6d8a` selected the version pins and executed the environment, data-boundary, and train-only COLMAP checks on branch `feat/issue-48-round3-gpu`.
+
+Environment: RTX 5070 (sm_120, 12 GB), driver 576.88, Python 3.10.11, PyTorch 2.11.0+cu128, CUDA Toolkit 12.8.93, MSVC 19.44, and gsplat commit `77ab983f`. The Windows build exposed two upstream/toolchain edges: PyTorch decoded UTF-8 Japanese MSVC output as OEM CP932 during its ABI probe, and `Cameras.cuh` called host-only `std::isfinite` from device code on NVCC 12.8. The build uses PyTorch's ABI-check bypass after an independent compiler-version check and a recorded one-line `::isfinite` patch. Compiling every new backend was needlessly large; rebuilding only the standard RGB 3DGS feature set succeeded. A real RTX 5070 rasterization forward, backward, and Adam step were finite.
+
+Data boundary: the supplied file is 20,130,116 bytes, H.264, 1920x1080@30 fps, 10.2667 s, SHA-256 `4483e898...f7b9e`. This differs from the old provenance text's 12 MB / HEVC metadata, but direct comparison against the committed 24 downscaled frames confirmed it is the same capture. Positions 4/10/16/22 live under `heldout-sealed`; only the other 20 filenames occur in the COLMAP database.
+
+COLMAP finding: the planned 4.1.0 official CUDA asset is built with CUDA 13.2. Driver 576.88 cannot initialize it. No driver upgrade was attempted. Official release 4.0.4 is CUDA 12.9 with `all-major` architectures and ran GPU SIFT/matching successfully. Train-only sequential matching produced 69/69 verified pairs and 58,159 inliers. The mapper used its standard automatic initialization-constraint relaxation, then formed one model with 20/20 registered images, 4,567 points, mean track length 4.484, and mean reprojection error 0.695 px. Ordered camera steps are continuous (median 0.532, max 1.130 in arbitrary COLMAP units). Phase 2 passes without exposing held-out data to reconstruction.
+
+Protocol-record correction: the local plan was approved before execution, but its promised Issue #48 publication was omitted before Phase 2. This is recorded as a process failure, not backdated. The unchanged protocol was published as a late hard lock before any gsplat training, PSNR tuning, held-out registration, or Gate B evaluation: issue comment `5008571914`.
+
+## 2026-07-18 — Experiment 20 / issue #48 Round 3(a), final
+
+The fixed full-resolution gsplat recipe cleared the 25 dB hard stop on all
+three train-only fits: 26.961 / 27.071 / 27.021 dB with 551,891 / 557,226 /
+545,356 splats. A 512-probe Rademacher estimator then built each train-only
+per-splat 6x6 `[mean, log-scale]` Fisher in 6.7–7.5 minutes at <0.70 GiB peak
+VRAM. Held-out remained sealed through this point.
+
+After the hard stop, all four held-out poses were registered against a copy of
+the frozen train reconstruction using GPU SIFT/matching and COLMAP
+`image_registrator`. No BA, triangulation, or splat update ran. The 20 train
+poses, camera intrinsics, and all 4,567 point XYZ coordinates remained fixed;
+the 24-frame trajectory was continuous (step median 0.499, max 0.589).
+
+Gate B PASSED on every fit seed: pooled full-resolution RGB-L2
+Spearman(block-Fisher sigma, held-out residual) = +0.33433 / +0.33237 /
++0.33510 against the fixed 0.3 bar. Gate B2 FAILED on every seed. The H=I
+`||J||` control scored +0.40247 / +0.39836 / +0.40093 and diagonal-Fisher
+scored +0.37832 / +0.36601 / +0.37780; rendered amplitude was near zero and
+slightly negative. Float32 outer-product accumulation produced tiny numerical
+negative eigenvalues, so the pre-score amendment projected only negative 6x6
+eigenvalues to zero before adding the unchanged damping. The relative
+Frobenius correction was 0.62e-9–1.98e-9 and does not drive the result.
+
+Honest reading: closing the fit-quality gap changed the round-2 result in an
+important way — model-derived predictive sensitivity now correlates with real
+held-out error above the preregistered bar. But the block covariance does not
+beat simpler support/sensitivity controls, so this round establishes useful
+error localization, not a block-Fisher-specific mechanism. Machine-readable
+result: `experiments/20_real_video_gpu/phase5_gate_b_result.json`; certificate:
+`experiments/20_real_video_gpu/heldout_certificate.png`; Issue result comment
+`5011709434`.
+
+## 2026-07-19 — Robustness sweep of the thermal gate: the blind verdict holds on all five configurations (experiment 21, issue #67)
+
+Tried: the preprint prerequisite. exp19's headline (the channel-composed
+model beating the converged full-rank MLE blind) was a single data
+seed, and exp16 had demonstrated that this very fit family can be
+init-fragile enough to flip verdicts on the pure-cat target, with the
+train likelihood blind to the collapse. Pre-declared protocol (issue
+#67): data seeds {42, 1, 2} at sigma_add = 0.1 plus sigma_add
+{0.05, 0.2} at seed 42 (five configs, exp19 conventions), lossy R2K4
+x init seeds {0,1,2} best-by-train-NLL vs mle3 (900 s), scored with
+the generalized fidelity for subnormalized matrices (the PR-64
+round-2 metric) through the exp19 wide-intermediate pipeline.
+Pre-declared reading: any config with representative lossy F < F_mle
+adds an exp16-style fragility note; all five holding permits "robust
+across 3 data seeds and a 4x sigma_add range" (one target class,
+exploratory -- unchanged).
+
+Happened (committed log, results.json):
+
+    config            lossy rep    F_mle    verdict     eta' (rep)
+    seed 42, 0.10      0.9490     0.8980    holds        0.359
+    seed  1, 0.10      0.9435     0.9023    holds        0.359
+    seed  2, 0.10      0.9435     0.9032    holds        0.362
+    seed 42, 0.05      0.9490     0.9362    holds        0.442
+    seed 42, 0.20      0.8929     0.8147    holds        0.297
+
+Verdict holds on 5/5. (The 42/0.10 row is exp19 reproduced under the
+generalized-fidelity metric: the lossy row rises 0.9234 -> 0.9490 --
+the plain-Uhlmann convention had been penalizing exactly the winning
+row's trace deficit, as predicted in the PR-64 discussion -- while
+the trace-1 MLE row barely moves, 0.8976 -> 0.8980.)
+
+Texture worth recording honestly:
+  1. NO exp16-style basin collapse anywhere: 15 fits, per-config F
+     spreads 0.024-0.041 (exp16's collapse was dF ~ 0.45). The
+     thermal target appears to regularize the fit landscape relative
+     to the pure lossy cat.
+  2. The NLL-blindness itself is still visible in mild form: on the
+     sigma_add = 0.20 config, best-by-train-NLL selects the WORST of
+     the three inits (F 0.8929 vs 0.9243/0.9253 available; dNLL
+     0.0026 vs dF 0.032). The declared selection rule was honored and
+     the verdict is unaffected (margin over MLE 0.078), but the
+     selection hazard exp16 documented has not disappeared -- it is
+     just too small here to bite.
+  3. eta' tracks sigma_add monotonically (0.442 / ~0.36 / 0.297 for
+     sigma_add 0.05 / 0.10 / 0.20): the flat-direction mechanism the
+     exp20 derivation formalized (spend eta' to buy Gaussian width),
+     behaving as predicted across the noise range.
+  4. MLE convergence within the 900 s budget is config-dependent
+     (converged on 2 of 5); the sweep inherits exp19's budget
+     convention unchanged.
+
+Learned: the pre-declared reading's favorable branch fires -- the
+exp19 blind verdict is robust across 3 data seeds and a 4x sigma_add
+range on this target class, and the wording in both READMEs moves
+accordingly (still one target class, still exploratory, still no
+universal claims). The preprint (issue #69) can now cite exp21 for
+robustness and exp16 for the selection hazard that exp21 shows in
+mild, non-verdict-affecting form.
+
+## 2026-07-19 — Experiment 20 / issue #48 Round 4, fresh replication
+
+Owner/decisions: orange approved and hard-locked the protocol in Issue #48
+comment 5013626313; Codex session 019f6d8a implemented and executed the GPU
+evaluation without refitting the three frozen Round 3 checkpoints.
+
+Four previously unused frames from the end of the same capture (source indices
+216/244/272/300, 7.20–10.00 s) were losslessly extracted and sealed. COLMAP
+registered all 4/4 against a copy of the frozen train model. Existing train
+poses, camera intrinsics, and point XYZ remained fixed; no BA, triangulation, or
+splat update ran. The new interval is temporal extrapolation within one
+registerable trajectory, not an independent-scene replication.
+
+Gate B replicated on all fit seeds:
+Spearman(block-Fisher sigma, fresh RGB-L2 residual) =
+0.36905 / 0.33663 / 0.37550 against the fixed 0.3 bar. Unlike Round 3,
+block Fisher strictly beat amplitude (-0.155 / -0.182 / -0.116), H=I J-norm
+(0.196 / 0.215 / 0.245), and diagonal Fisher
+(0.319 / 0.295 / 0.345) on every seed.
+
+Gate B2 nevertheless failed on every seed because the shared three-fit-seed
+ensemble sigma scored 0.57534 / 0.56690 / 0.54286, above block Fisher in all
+three comparisons. The hard-locked reading therefore applies: at this
+operating point the H^-1 certificate does not beat brute-force repetition.
+This is a result about the declared 3-seed ensemble, not all possible ensemble
+sizes or independent scenes.
+
+The descriptive damping sweep was monotone on all seeds:
+1e-4: 0.299 / 0.285 / 0.317; primary 1e-6:
+0.369 / 0.337 / 0.376; 1e-8: 0.422 / 0.383 / 0.434.
+It shows material regularization sensitivity but does not alter the primary
+verdict. Fresh pooled RGB MSE was 0.03186 / 0.03315 / 0.02852, much higher
+than Round 3's opened views, consistent with the intended extrapolation stress.
+Machine-readable result: experiments/20_real_video_gpu/phase6_round4_result.json;
+certificate: experiments/20_real_video_gpu/round4_certificate.png.

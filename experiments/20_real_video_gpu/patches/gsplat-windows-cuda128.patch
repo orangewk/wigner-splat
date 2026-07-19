@@ -1,0 +1,9 @@
+diff --git a/gsplat/cuda/include/Cameras.cuh b/gsplat/cuda/include/Cameras.cuh
+index ffd1995..b6632ad 100644
+--- a/gsplat/cuda/include/Cameras.cuh
++++ b/gsplat/cuda/include/Cameras.cuh
+@@ -781,3 +781,3 @@ struct OrthographicCameraModel : public BaseCameraModel<OrthographicCameraModel<
+         const auto point = glm::fvec2{ray.x, ray.y} / ray.z;
+-        if(!std::isfinite(point.x) || !std::isfinite(point.y))
++        if(!::isfinite(point.x) || !::isfinite(point.y))
+         {

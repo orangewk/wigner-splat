@@ -1,0 +1,114 @@
+{
+  "phase": "round3a_gate_b_b2",
+  "status": "complete",
+  "gate_b": {
+    "threshold": 0.3,
+    "requires_all_seeds": true,
+    "passed": true,
+    "rho_by_seed": [
+      0.33432680172225404,
+      0.3323702586231138,
+      0.3351031646070429
+    ]
+  },
+  "gate_b2": {
+    "requires_strict_uplift_over_all_controls_all_seeds": true,
+    "passed": false
+  },
+  "rows": [
+    {
+      "phase": "gate_b_b2",
+      "status": "complete",
+      "fit_seed": 0,
+      "heldout_views": 4,
+      "probe_count_per_view": 256,
+      "estimator_seed": 314159,
+      "view_seed_rule": "314159 + 1000003 * (zero_based_heldout_view + 1)",
+      "same_rademacher_signs_across_scores": true,
+      "max_parameter_displacement": 0.001,
+      "damping": 0.01047906640625,
+      "damping_fraction": 1e-06,
+      "psd_projection": {
+        "negative_eigenvalue_count": 12749,
+        "minimum_eigenvalue": -0.24100606682583012,
+        "relative_frobenius_psd_correction": 1.2208932482385033e-09
+      },
+      "render_rgb_clamped_0_1": true,
+      "pixel_scalar": "RGB L2",
+      "correlations": {
+        "block_fisher": 0.33432680172225404,
+        "amplitude": -0.006663276232784545,
+        "j_norm_h_identity": 0.4024733522179322,
+        "diagonal_fisher": 0.3783195221016491
+      },
+      "gate_b_pass": true,
+      "gate_b2_pass": false,
+      "pooled_heldout_mse_rgb": 0.004281266708858311,
+      "elapsed_this_invocation_seconds": 57.250471700011985,
+      "peak_vram_gib": 0.7739439010620117
+    },
+    {
+      "phase": "gate_b_b2",
+      "status": "complete",
+      "fit_seed": 1,
+      "heldout_views": 4,
+      "probe_count_per_view": 256,
+      "estimator_seed": 314159,
+      "view_seed_rule": "314159 + 1000003 * (zero_based_heldout_view + 1)",
+      "same_rademacher_signs_across_scores": true,
+      "max_parameter_displacement": 0.001,
+      "damping": 0.0103185185546875,
+      "damping_fraction": 1e-06,
+      "psd_projection": {
+        "negative_eigenvalue_count": 12951,
+        "minimum_eigenvalue": -0.066950345204656,
+        "relative_frobenius_psd_correction": 6.197430117266504e-10
+      },
+      "render_rgb_clamped_0_1": true,
+      "pixel_scalar": "RGB L2",
+      "correlations": {
+        "block_fisher": 0.3323702586231138,
+        "amplitude": -0.006981357199452736,
+        "j_norm_h_identity": 0.3983640061983788,
+        "diagonal_fisher": 0.3660066493019139
+      },
+      "gate_b_pass": true,
+      "gate_b2_pass": false,
+      "pooled_heldout_mse_rgb": 0.004266793315764517,
+      "elapsed_this_invocation_seconds": 57.71508300001733,
+      "peak_vram_gib": 0.7786197662353516
+    },
+    {
+      "phase": "gate_b_b2",
+      "status": "complete",
+      "fit_seed": 2,
+      "heldout_views": 4,
+      "probe_count_per_view": 256,
+      "estimator_seed": 314159,
+      "view_seed_rule": "314159 + 1000003 * (zero_based_heldout_view + 1)",
+      "same_rademacher_signs_across_scores": true,
+      "max_parameter_displacement": 0.001,
+      "damping": 0.010573804687499999,
+      "damping_fraction": 1e-06,
+      "psd_projection": {
+        "negative_eigenvalue_count": 11310,
+        "minimum_eigenvalue": -0.4108271393767518,
+        "relative_frobenius_psd_correction": 1.9786547204847654e-09
+      },
+      "render_rgb_clamped_0_1": true,
+      "pixel_scalar": "RGB L2",
+      "correlations": {
+        "block_fisher": 0.3351031646070429,
+        "amplitude": -0.004752490489811656,
+        "j_norm_h_identity": 0.40093123154475574,
+        "diagonal_fisher": 0.37779537775940986
+      },
+      "gate_b_pass": true,
+      "gate_b2_pass": false,
+      "pooled_heldout_mse_rgb": 0.004240056732669473,
+      "elapsed_this_invocation_seconds": 56.84530280000763,
+      "peak_vram_gib": 0.7639780044555664
+    }
+  ],
+  "interpretation": "At the >=25 dB static 3DGS operating point, block-Fisher predictive sigma correlates with held-out RGB-L2 residual above the fixed 0.3 bar on all seeds. It does not isolate a block-Fisher advantage: the H=I J-norm and diagonal-Fisher controls rank residuals better on all seeds."
+}

@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "data_boundary": {"train_images": 20, "heldout_sealed_images": 4, "heldout_images_in_colmap_database": 0},
+  "features": {"type": "SIFT GPU", "keypoints": 198813, "descriptors": 198813},
+  "matching": {"type": "sequential GPU", "raw_pairs": 69, "verified_pairs": 69, "verified_inliers": 58159},
+  "reconstruction": {
+    "models": 1, "registered_images": 20, "total_images": 20,
+    "points3D": 4567, "observations": 20480, "mean_track_length": 4.484344,
+    "mean_observations_per_image": 1024.0, "mean_reprojection_error_px": 0.694732,
+    "camera": {"model": "SIMPLE_RADIAL", "width": 1920, "height": 1080, "focal_length_px": 1751.5731809447025, "principal_point_px": [960.0, 540.0], "radial_k1": 0.015345656544854308},
+    "trajectory": {"path_length_colmap_units": 11.569828700583091, "step_min": 0.41900592657859265, "step_median": 0.5315641470418122, "step_max": 1.1303061394027973, "extent_xyz": [1.528378441714307, 1.8709109137553175, 10.886713925807555]}
+  }
+}

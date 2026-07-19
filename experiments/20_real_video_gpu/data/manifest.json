@@ -1,0 +1,259 @@
+{
+  "schema_version": 1,
+  "source_video": {
+    "basename": "IMG_3899.MOV",
+    "sha256": "4483e8983295e559774cdb76fc43f963cfab358307161eaa390ab5f2b31f7b9e",
+    "bytes": 20130116,
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "pix_fmt": "yuv420p",
+          "r_frame_rate": "30/1",
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "10.266667"
+      }
+    }
+  },
+  "extraction": {
+    "ffmpeg_executable": "ffmpeg.EXE",
+    "ffmpeg_version": "ffmpeg version 8.0.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers",
+    "pixel_format": "rgb24",
+    "container": "png",
+    "lossless": true,
+    "source_indices_inherited_from": "experiments/16_real_video/data/carousel_frames.npz"
+  },
+  "held_out_positions": [
+    4,
+    10,
+    16,
+    22
+  ],
+  "frames": [
+    {
+      "position": 0,
+      "source_frame_index": 30,
+      "timestamp_seconds": 1.0,
+      "split": "train",
+      "relative_path": "data/train/frame_00_src_0030.png",
+      "sha256": "251903488b5e6fa8f551e74ce72d69918046bc6c666e4539b10fa4aad98c3358",
+      "bytes": 1958884
+    },
+    {
+      "position": 1,
+      "source_frame_index": 38,
+      "timestamp_seconds": 1.2666666666666666,
+      "split": "train",
+      "relative_path": "data/train/frame_01_src_0038.png",
+      "sha256": "7c36bacefa0bc558b1c8426c995014418a74637f21550a99888e28bb6b643c80",
+      "bytes": 2037333
+    },
+    {
+      "position": 2,
+      "source_frame_index": 45,
+      "timestamp_seconds": 1.5,
+      "split": "train",
+      "relative_path": "data/train/frame_02_src_0045.png",
+      "sha256": "fd017b0589d860638f1a469e3e1ca5544aaf1538fb3ac57e8c7a41815cc7748a",
+      "bytes": 2086696
+    },
+    {
+      "position": 3,
+      "source_frame_index": 52,
+      "timestamp_seconds": 1.7333333333333334,
+      "split": "train",
+      "relative_path": "data/train/frame_03_src_0052.png",
+      "sha256": "094da73d5103bfd16cfbd18464bc8353fa9c253774e46ed0d263a470f037007f",
+      "bytes": 2129070
+    },
+    {
+      "position": 4,
+      "source_frame_index": 60,
+      "timestamp_seconds": 2.0,
+      "split": "heldout-sealed",
+      "relative_path": "data/heldout-sealed/frame_04_src_0060.png",
+      "sha256": "806dec9b273e468f6568bb593ffd7d7aa1dc0f30226dbde9e06fc1f3411078c6",
+      "bytes": 2158329
+    },
+    {
+      "position": 5,
+      "source_frame_index": 68,
+      "timestamp_seconds": 2.2666666666666666,
+      "split": "train",
+      "relative_path": "data/train/frame_05_src_0068.png",
+      "sha256": "4116556e5b45138dedd1524d4e33199198a109fcb46ba01105078e019bfc65ba",
+      "bytes": 2020682
+    },
+    {
+      "position": 6,
+      "source_frame_index": 75,
+      "timestamp_seconds": 2.5,
+      "split": "train",
+      "relative_path": "data/train/frame_06_src_0075.png",
+      "sha256": "ac3163ffe632e0747a2afa906db7414aae55cd16c99fa430a95018981ec8b11a",
+      "bytes": 2188360
+    },
+    {
+      "position": 7,
+      "source_frame_index": 82,
+      "timestamp_seconds": 2.7333333333333334,
+      "split": "train",
+      "relative_path": "data/train/frame_07_src_0082.png",
+      "sha256": "40501955f9f6e7e840cf8fa1425554d679ef47747a6d58820c5967c0950f627a",
+      "bytes": 1992916
+    },
+    {
+      "position": 8,
+      "source_frame_index": 90,
+      "timestamp_seconds": 3.0,
+      "split": "train",
+      "relative_path": "data/train/frame_08_src_0090.png",
+      "sha256": "dcc2ca9358a016d0916f46c7d0f067679bd0f48df7faaaa9e54a0ce32f39ad42",
+      "bytes": 2011378
+    },
+    {
+      "position": 9,
+      "source_frame_index": 98,
+      "timestamp_seconds": 3.2666666666666666,
+      "split": "train",
+      "relative_path": "data/train/frame_09_src_0098.png",
+      "sha256": "95c9cd7c771e08bf303e6786687938f4ea62a7d3f98023245778b7c1880afa48",
+      "bytes": 1881260
+    },
+    {
+      "position": 10,
+      "source_frame_index": 105,
+      "timestamp_seconds": 3.5,
+      "split": "heldout-sealed",
+      "relative_path": "data/heldout-sealed/frame_10_src_0105.png",
+      "sha256": "d2280a3b1082f8b0fcd426691f131724bc5ddebbce55bbf7b3025c77733a9f63",
+      "bytes": 1808704
+    },
+    {
+      "position": 11,
+      "source_frame_index": 112,
+      "timestamp_seconds": 3.7333333333333334,
+      "split": "train",
+      "relative_path": "data/train/frame_11_src_0112.png",
+      "sha256": "7003aa77c6d901a3b701804611699a3115c3b974ac556dc91b1c38cca4625b9f",
+      "bytes": 1826177
+    },
+    {
+      "position": 12,
+      "source_frame_index": 120,
+      "timestamp_seconds": 4.0,
+      "split": "train",
+      "relative_path": "data/train/frame_12_src_0120.png",
+      "sha256": "8e82c9cda3ea757cd90484f07c377b341696604ed6ec6d1c9d920bb5d74043a5",
+      "bytes": 1664929
+    },
+    {
+      "position": 13,
+      "source_frame_index": 128,
+      "timestamp_seconds": 4.266666666666667,
+      "split": "train",
+      "relative_path": "data/train/frame_13_src_0128.png",
+      "sha256": "dd7aa12203fdb77b5cd32b18a6dff956493ec32a7f9557e962d1769a4344f519",
+      "bytes": 2147860
+    },
+    {
+      "position": 14,
+      "source_frame_index": 135,
+      "timestamp_seconds": 4.5,
+      "split": "train",
+      "relative_path": "data/train/frame_14_src_0135.png",
+      "sha256": "b3cc4013bb09399143242679cfe963954fae041a20f0aa2101cc083ede023363",
+      "bytes": 2168547
+    },
+    {
+      "position": 15,
+      "source_frame_index": 142,
+      "timestamp_seconds": 4.733333333333333,
+      "split": "train",
+      "relative_path": "data/train/frame_15_src_0142.png",
+      "sha256": "2943e62054e60e05f9c6432259ffde243a1c25de2257d7b9a1c68ca1eedae8f0",
+      "bytes": 1985162
+    },
+    {
+      "position": 16,
+      "source_frame_index": 150,
+      "timestamp_seconds": 5.0,
+      "split": "heldout-sealed",
+      "relative_path": "data/heldout-sealed/frame_16_src_0150.png",
+      "sha256": "7ff8b3543a1c7190568815efb726044c1c9296a9fea5df6036fd170aca1cff84",
+      "bytes": 2164477
+    },
+    {
+      "position": 17,
+      "source_frame_index": 158,
+      "timestamp_seconds": 5.266666666666667,
+      "split": "train",
+      "relative_path": "data/train/frame_17_src_0158.png",
+      "sha256": "31f0e0b9ff71288fd8f03c3b6b91483385c79b1aee6ef62bc16cbeb1c02bebbe",
+      "bytes": 2244702
+    },
+    {
+      "position": 18,
+      "source_frame_index": 165,
+      "timestamp_seconds": 5.5,
+      "split": "train",
+      "relative_path": "data/train/frame_18_src_0165.png",
+      "sha256": "226bf66e829c0edadfffb81298f2809df6860032708b4814917cd65702825c37",
+      "bytes": 2331840
+    },
+    {
+      "position": 19,
+      "source_frame_index": 172,
+      "timestamp_seconds": 5.733333333333333,
+      "split": "train",
+      "relative_path": "data/train/frame_19_src_0172.png",
+      "sha256": "0a958408097f1e3bb7ecee7b3b6f70af841aa9bb7ca8b54f1f8e67b080869f26",
+      "bytes": 2184604
+    },
+    {
+      "position": 20,
+      "source_frame_index": 180,
+      "timestamp_seconds": 6.0,
+      "split": "train",
+      "relative_path": "data/train/frame_20_src_0180.png",
+      "sha256": "69460ef4268cf5a5cece51e1e1f41ece05d995ffc908fd1ce241b5eecbb8cccb",
+      "bytes": 2153079
+    },
+    {
+      "position": 21,
+      "source_frame_index": 188,
+      "timestamp_seconds": 6.266666666666667,
+      "split": "train",
+      "relative_path": "data/train/frame_21_src_0188.png",
+      "sha256": "34926ae907a2fef07641ea9a7285012bfa7781dbf04761b64f741f6d52069e4b",
+      "bytes": 2385378
+    },
+    {
+      "position": 22,
+      "source_frame_index": 195,
+      "timestamp_seconds": 6.5,
+      "split": "heldout-sealed",
+      "relative_path": "data/heldout-sealed/frame_22_src_0195.png",
+      "sha256": "e7abdbf832cd8e811822a8d098c4005990042fabe722274a2e5b405ce777c832",
+      "bytes": 2278982
+    },
+    {
+      "position": 23,
+      "source_frame_index": 202,
+      "timestamp_seconds": 6.733333333333333,
+      "split": "train",
+      "relative_path": "data/train/frame_23_src_0202.png",
+      "sha256": "c190c5f22b3dedb7b025bfdd74a2b6fcd9953b30cec2bd6f0a4ae6ac7b5a6111",
+      "bytes": 2311438
+    }
+  ]
+}

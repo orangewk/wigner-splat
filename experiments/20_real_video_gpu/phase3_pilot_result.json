@@ -1,0 +1,38 @@
+{
+  "recorded_at": "2026-07-18",
+  "phase": "3_seed0_pilot",
+  "status": "passed_seed0_only",
+  "protocol": {
+    "train_images": 20,
+    "input_resolution": [1920, 1080],
+    "pooled_over_all_train_frames_and_rgb_channels": true,
+    "heldout_accessed": false,
+    "hard_stop_psnr_db": 25.0
+  },
+  "configuration": {
+    "seed": 0,
+    "steps": 3000,
+    "packed": true,
+    "configured_sh_degree": 3,
+    "sh_degree_interval": 1000,
+    "max_sh_degree_reached": 2,
+    "appearance_optimization": false,
+    "upstream_commit": "77ab983ffe43420b2131669cb35776b883ca4c3c"
+  },
+  "result": {
+    "final_step": 2999,
+    "pooled_mse": 0.002525642688987887,
+    "pooled_psnr_db": 25.976280905095685,
+    "first_observed_passing_step": 2499,
+    "gaussians": 422037,
+    "peak_vram_gib": 0.9553546905517578,
+    "training_elapsed_seconds": 325.2120912075043,
+    "final_checkpoint_bytes": 99603893,
+    "trajectory_samples": 13
+  },
+  "recipe_decision": {
+    "fixed_steps": 4000,
+    "reason": "3000 steps reaches only SH degree 2 with the upstream 1000-step schedule; 4000 steps gives degree 3 approximately 1000 training steps",
+    "heldout_remains_sealed_until_all_three_fixed-recipe_seeds_pass": true
+  }
+}

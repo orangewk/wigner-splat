@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-07-18",
+  "gpu": {"name": "NVIDIA GeForce RTX 5070", "compute_capability": "12.0", "vram_bytes": 12820480000, "driver": "576.88"},
+  "python": "3.10.11",
+  "pytorch": {"version": "2.11.0+cu128", "cuda": "12.8"},
+  "cuda_toolkit": {"version": "12.8.93", "path": "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.8"},
+  "msvc": "19.44.35228",
+  "gsplat": {
+    "package_version": "1.5.3",
+    "upstream_commit": "77ab983ffe43420b2131669cb35776b883ca4c3c",
+    "patch": "patches/gsplat-windows-cuda128.patch",
+    "patch_sha256": "70d4716e23e6c2831d0d0e8beb4ea5a1abcea30cd53486f288f497663ddea115",
+    "build_flags": {"TORCH_CUDA_ARCH_LIST": "12.0", "BUILD_EXPERIMENTAL": "0", "BUILD_3DGS": "1", "BUILD_2DGS": "0", "BUILD_3DGUT": "0", "BUILD_ADAM": "0", "BUILD_RELOC": "0", "BUILD_LOSSES": "0", "BUILD_CAMERA_WRAPPERS": "0", "NUM_CHANNELS": "3", "MAX_JOBS": "2", "TORCH_DONT_CHECK_COMPILER_ABI": "1"}
+  },
+  "colmap": {
+    "release_asset": "4.0.4/colmap-x64-windows-cuda.zip",
+    "asset_sha256": "f4496c3dd9ffccfb4bfda225401b738b545068302ab6487f5539b5b28861b143",
+    "binary_report": "COLMAP 4.1.0.dev0 (Commit 5b76f53 on 2026-04-27 with CUDA)",
+    "build_cuda": "12.9",
+    "architectures": "all-major",
+    "rejected_asset": {"release": "4.1.0", "asset_sha256": "ccd2f8c5b44f3e0ce645170d6abad30ff763ede97eeb0e6e23af1993e624e64b", "build_cuda": "13.2", "reason": "driver 576.88 is below the CUDA 13.x minimum driver 580"}
+  }
+}
