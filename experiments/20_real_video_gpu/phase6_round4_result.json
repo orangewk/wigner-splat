@@ -1,0 +1,262 @@
+{
+  "phase": "round4_fresh_replication_and_ensemble_control",
+  "status": "complete",
+  "registration_hard_stop": {
+    "passed": true,
+    "fresh_registered": 4,
+    "train_model_frozen": true
+  },
+  "gate_b": {
+    "threshold": 0.3,
+    "requires_all_seeds": true,
+    "passed": true,
+    "block_fisher_rho_by_seed": [
+      0.3690475094711023,
+      0.33662779855883407,
+      0.375501977498546
+    ]
+  },
+  "gate_b2": {
+    "requires_strict_uplift_over_four_controls_all_seeds": true,
+    "passed": false,
+    "ensemble_rho_by_seed": [
+      0.5753418165244423,
+      0.5668979315929856,
+      0.5428564783911156
+    ],
+    "ensemble_ge_block_by_seed": [
+      true,
+      true,
+      true
+    ]
+  },
+  "damping_sensitivity_descriptive_only": {
+    "fractions": [
+      0.0001,
+      1e-06,
+      1e-08
+    ],
+    "block_rho_by_fraction_then_seed": {
+      "1e-4": [
+        0.29945794008515,
+        0.2848934721854016,
+        0.31735173866784927
+      ],
+      "1e-6": [
+        0.3690475094711023,
+        0.33662779855883407,
+        0.375501977498546
+      ],
+      "1e-8": [
+        0.4216418064866924,
+        0.38313897972689104,
+        0.43445473314135447
+      ]
+    },
+    "primary_fraction_remains": 1e-06
+  },
+  "rows": [
+    {
+      "phase": "round4_gate_b_b2",
+      "status": "complete",
+      "fit_seed": 0,
+      "heldout_views": 4,
+      "heldout_names": [
+        "round4_src_0216.png",
+        "round4_src_0244.png",
+        "round4_src_0272.png",
+        "round4_src_0300.png"
+      ],
+      "probe_count_per_view": 256,
+      "view_seed_indices": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "view_seeds": [
+        5314174,
+        6314177,
+        7314180,
+        8314183
+      ],
+      "damping_fractions": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "primary_damping_fraction": 1e-06,
+      "damping_values": {
+        "1e-04": 1.047906640625,
+        "1e-06": 0.01047906640625,
+        "1e-08": 0.00010479066406250001
+      },
+      "psd_projection": {
+        "1e-04": {
+          "negative_eigenvalue_count": 12749,
+          "minimum_eigenvalue": -0.24100606682583012,
+          "relative_frobenius_psd_correction": 1.2208932482385033e-09
+        },
+        "1e-06": {
+          "negative_eigenvalue_count": 12749,
+          "minimum_eigenvalue": -0.24100606682583012,
+          "relative_frobenius_psd_correction": 1.2208932482385033e-09
+        },
+        "1e-08": {
+          "negative_eigenvalue_count": 12749,
+          "minimum_eigenvalue": -0.24100606682583012,
+          "relative_frobenius_psd_correction": 1.2208932482385033e-09
+        }
+      },
+      "correlations": {
+        "block_fisher": 0.3690475094711023,
+        "amplitude": -0.15505209416647117,
+        "j_norm_h_identity": 0.1959937951149982,
+        "diagonal_fisher": 0.31897295867955694,
+        "ensemble_sigma": 0.5753418165244423,
+        "block_fisher_damping_1e-4": 0.29945794008515,
+        "block_fisher_damping_1e-8": 0.4216418064866924
+      },
+      "gate_b_pass": true,
+      "gate_b2_pass": false,
+      "pooled_heldout_mse_rgb": 0.031862703850492835,
+      "elapsed_this_invocation_seconds": 113.21129710000241,
+      "peak_vram_gib": 0.9591221809387207
+    },
+    {
+      "phase": "round4_gate_b_b2",
+      "status": "complete",
+      "fit_seed": 1,
+      "heldout_views": 4,
+      "heldout_names": [
+        "round4_src_0216.png",
+        "round4_src_0244.png",
+        "round4_src_0272.png",
+        "round4_src_0300.png"
+      ],
+      "probe_count_per_view": 256,
+      "view_seed_indices": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "view_seeds": [
+        5314174,
+        6314177,
+        7314180,
+        8314183
+      ],
+      "damping_fractions": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "primary_damping_fraction": 1e-06,
+      "damping_values": {
+        "1e-04": 1.0318518554687501,
+        "1e-06": 0.0103185185546875,
+        "1e-08": 0.000103185185546875
+      },
+      "psd_projection": {
+        "1e-04": {
+          "negative_eigenvalue_count": 12951,
+          "minimum_eigenvalue": -0.066950345204656,
+          "relative_frobenius_psd_correction": 6.197430117266504e-10
+        },
+        "1e-06": {
+          "negative_eigenvalue_count": 12951,
+          "minimum_eigenvalue": -0.066950345204656,
+          "relative_frobenius_psd_correction": 6.197430117266504e-10
+        },
+        "1e-08": {
+          "negative_eigenvalue_count": 12951,
+          "minimum_eigenvalue": -0.066950345204656,
+          "relative_frobenius_psd_correction": 6.197430117266504e-10
+        }
+      },
+      "correlations": {
+        "block_fisher": 0.33662779855883407,
+        "amplitude": -0.18160706933633575,
+        "j_norm_h_identity": 0.21515931526565102,
+        "diagonal_fisher": 0.29489221328310605,
+        "ensemble_sigma": 0.5668979315929856,
+        "block_fisher_damping_1e-4": 0.2848934721854016,
+        "block_fisher_damping_1e-8": 0.38313897972689104
+      },
+      "gate_b_pass": true,
+      "gate_b2_pass": false,
+      "pooled_heldout_mse_rgb": 0.03315241727977991,
+      "elapsed_this_invocation_seconds": 84.3370702000102,
+      "peak_vram_gib": 0.9651460647583008
+    },
+    {
+      "phase": "round4_gate_b_b2",
+      "status": "complete",
+      "fit_seed": 2,
+      "heldout_views": 4,
+      "heldout_names": [
+        "round4_src_0216.png",
+        "round4_src_0244.png",
+        "round4_src_0272.png",
+        "round4_src_0300.png"
+      ],
+      "probe_count_per_view": 256,
+      "view_seed_indices": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "view_seeds": [
+        5314174,
+        6314177,
+        7314180,
+        8314183
+      ],
+      "damping_fractions": [
+        0.0001,
+        1e-06,
+        1e-08
+      ],
+      "primary_damping_fraction": 1e-06,
+      "damping_values": {
+        "1e-04": 1.0573804687500001,
+        "1e-06": 0.010573804687499999,
+        "1e-08": 0.000105738046875
+      },
+      "psd_projection": {
+        "1e-04": {
+          "negative_eigenvalue_count": 11310,
+          "minimum_eigenvalue": -0.4108271393767518,
+          "relative_frobenius_psd_correction": 1.9786547204847654e-09
+        },
+        "1e-06": {
+          "negative_eigenvalue_count": 11310,
+          "minimum_eigenvalue": -0.4108271393767518,
+          "relative_frobenius_psd_correction": 1.9786547204847654e-09
+        },
+        "1e-08": {
+          "negative_eigenvalue_count": 11310,
+          "minimum_eigenvalue": -0.4108271393767518,
+          "relative_frobenius_psd_correction": 1.9786547204847654e-09
+        }
+      },
+      "correlations": {
+        "block_fisher": 0.375501977498546,
+        "amplitude": -0.11555964182705541,
+        "j_norm_h_identity": 0.2445096568378103,
+        "diagonal_fisher": 0.34544977862933773,
+        "ensemble_sigma": 0.5428564783911156,
+        "block_fisher_damping_1e-4": 0.31735173866784927,
+        "block_fisher_damping_1e-8": 0.43445473314135447
+      },
+      "gate_b_pass": true,
+      "gate_b2_pass": false,
+      "pooled_heldout_mse_rgb": 0.028522991109639406,
+      "elapsed_this_invocation_seconds": 93.77200719999382,
+      "peak_vram_gib": 0.9505209922790527
+    }
+  ],
+  "interpretation": "Gate B replicates on four fresh, temporally extrapolated registered views. Block Fisher now strictly beats amplitude, H=I J-norm, and diagonal Fisher on every fit seed, but the shared three-fit-seed ensemble sigma ranks residual better on every seed. Therefore Gate B2 fails and the hard-locked reading applies: at this operating point the H^-1 certificate does not beat brute-force repetition. Damping sensitivity is descriptive and does not alter the primary 1e-6 verdict."
+}

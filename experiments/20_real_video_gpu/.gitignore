@@ -2,3 +2,5 @@ data/train/*.png
 data/heldout-sealed/*.png
 data/staging/*.png
 colmap/
+data/heldout2-sealed/*.png
+data/round4-staging/*.png

@@ -121,3 +121,30 @@ GPU exhaustive matching の後、`image_registrator` で固定train modelへpose
 高品質fitではpredictive sensitivityと残差の相関が回復するが、block Fisher固有の
 優位性は示されない。結果は `phase5_gate_b_result.json`、図は
 `heldout_certificate.png`。
+## Round 4 fresh-view replication
+
+Issue #48 comment 5013626313 の hard lock に従い、未使用の動画末尾 frame
+index 216/244/272/300 を heldout2-sealed へ lossless 抽出した。4/4 pose が
+凍結 train COLMAP model のコピーへ登録され、train pose、camera intrinsics、
+point XYZ は不変だった。再fit、BA、triangulation、splat更新は行っていない。
+
+```powershell
+.venv\Scripts\python.exe experiments\20_real_video_gpu\prepare_round4_data.py `
+  --video C:\path\to\IMG_3899.MOV
+.venv\Scripts\python.exe experiments\20_real_video_gpu\register_round4_poses.py `
+  --colmap .venv\tools\colmap-4.0.4\bin\colmap.exe
+.venv\Scripts\python.exe experiments\20_real_video_gpu\run_round4_gate.py `
+  --fit-seed 0 --build-shared-ensemble
+.venv\Scripts\python.exe experiments\20_real_video_gpu\run_round4_gate.py --fit-seed 1
+.venv\Scripts\python.exe experiments\20_real_video_gpu\run_round4_gate.py --fit-seed 2
+.venv\Scripts\python.exe experiments\20_real_video_gpu\summarize_round4.py
+```
+
+主系 block-Fisher は fresh data でも 0.3690 / 0.3366 / 0.3755 で Gate B を
+全seed通過し、今回は amplitude、H=I ||J||、diagonal-Fisher の全てを
+全seedで上回った。しかし3 fit-seed共有の不偏 ensemble sigma は
+0.5753 / 0.5669 / 0.5429 でblockを全seed上回り、Gate B2は不通過。
+hard lockどおり「H^-1証明書はこの作業点で力ずくの反復に勝てない」と読む。
+damping感度は判定外で、1e-4 -> 1e-6 -> 1e-8 と弱めるほど全seedで相関が
+上がったが、primaryは1e-6から変更しない。結果は
+phase6_round4_result.json、図はround4_certificate.png。
