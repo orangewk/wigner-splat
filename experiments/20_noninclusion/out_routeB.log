@@ -1,0 +1,22 @@
+=== exp20 Route B: best-approximation residuals (declared protocol: fidelity objective, n {8,10,12}, K {2,4,8}; 1-mode is the single declared deviation, see docstring) ===
+  [target trace at n=8: 0.9974338]
+  n8 K2: best 1-F = 0.00250 (eta' 0.666, pre-tail 1.1e-02, seed 0; all 1-F: [0.0025, 0.01487, 0.01428])
+  n8 K4: best 1-F = 0.00160 (eta' 0.664, pre-tail 9.8e-03, seed 2; all 1-F: [0.00171, 0.0016, 0.0016])
+  n8 K8: best 1-F = 0.00136 (eta' 0.656, pre-tail 2.3e-02, seed 1; all 1-F: [0.00163, 0.00136, 0.00157])
+  [target trace at n=10: 0.9997687]
+  n10 K2: best 1-F = 0.00321 (eta' 0.662, pre-tail 2.7e-03, seed 0; all 1-F: [0.00321, 0.01505, 0.01577])
+  n10 K4: best 1-F = 0.00220 (eta' 0.649, pre-tail 2.3e-03, seed 1; all 1-F: [0.00231, 0.0022, 0.00224])
+  n10 K8: best 1-F = 0.00198 (eta' 0.651, pre-tail 3.5e-03, seed 1; all 1-F: [0.0023, 0.00198, 0.00222])
+  [target trace at n=12: 0.9999827]
+  n12 K2: best 1-F = 0.00344 (eta' 0.661, pre-tail 7.9e-04, seed 0; all 1-F: [0.00344, 0.01518, 0.01603])
+  n12 K4: best 1-F = 0.00237 (eta' 0.648, pre-tail 3.7e-04, seed 1; all 1-F: [0.00249, 0.00237, 0.00245])
+  n12 K8: best 1-F = 0.00217 (eta' 0.649, pre-tail 7.7e-04, seed 1; all 1-F: [0.00248, 0.00217, 0.00246])
+
+--- [ADDENDUM] rank-2 free-ket superset arm (n_score=12, eta' free) ---
+  best 1-F = 0.00632 (eta' 0.520, pre-tail 1.9e-03; all 1-F: [0.00632, 0.00635, 0.00999], eta': [0.52, 0.48, 0.19])
+
+=== Route B ruling ===
+  best-found 1-F by scoring cutoff: {8: 0.00136, 10: 0.00198, 12: 0.00217}
+-> best-found residuals stay well above the alarm line at every cutoff and K, and are cutoff-stable. As local-optimization results these are UPPER bounds on the family's distance -- heuristic corroboration of Route A's analytic exclusion, which alone carries the case-2 obstruction (issue #63 decision rule).
+
+raw results -> C:\dev\wigner-splat-exp20\experiments\20_noninclusion\results_routeB.json

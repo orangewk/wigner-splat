@@ -271,6 +271,46 @@ def overlap_vs_lossy_cat3(mixture, alpha, parity=+1, eta=0.8):
     )
 
 
+def overlap_vs_thermal_lossy_cat3(mixture, alpha, parity=+1, eta=0.8,
+                                  sigma_add=0.1):
+    """tr(rho_mix rho_thermal), closed form (issue #38 held-out target).
+
+    The random-displacement channel convolves every Wigner component with an
+    isotropic Gaussian of variance sigma_add per quadrature: each unit-width
+    component exp(-|z - c|^2) becomes (1/u^3) exp(-|z - c|^2 / u) with
+    u = 1 + 2 sigma_add (valid for the complex fringe center by analytic
+    continuation), and the constants (fringe damping, norm) are untouched.
+    The splat overlap absorbs the width by rescaling: integral N(z; mu,
+    Sigma) exp(-|z - c|^2/u) dz = _gaussian_overlap(mu/sqrt(u), Sigma/u,
+    c/sqrt(u)). sigma_add = 0 reduces exactly to overlap_vs_lossy_cat3.
+    NOTE: the target is full rank; a perfect reconstruction scores the
+    target purity (numeric; see fock.thermal_lossy_cat3_fock), not 1.
+    """
+    if sigma_add < 0.0:
+        raise ValueError(f"sigma_add must be >= 0, got {sigma_add}")
+    a = float(alpha)
+    u = 1.0 + 2.0 * float(sigma_add)
+    r2a = np.sqrt(2.0) * np.sqrt(eta) * a
+    cross = np.exp(-6.0 * a ** 2 * (1.0 - eta))
+    norm = 2 * (1 + parity * np.exp(-6 * a ** 2))
+    mu = mixture.mu / np.sqrt(u)
+    Sigma = mixture.Sigma() / u
+    # _cat3_overlap_sum is NOT reused: the fringe constant e^{-3 r2a^2} must
+    # stay at the UNSCALED r2a (the channel convolves the z-dependent factor
+    # only) while the centers scale by 1/sqrt(u) -- a global rescale would
+    # leak the fringe correction into the blob terms.
+    c_ppp = np.array([r2a, 0.0, r2a, 0.0, r2a, 0.0]) / np.sqrt(u)
+    c_f = np.array([0.0, 1j * r2a, 0.0, 1j * r2a, 0.0, 1j * r2a]) / np.sqrt(u)
+    O_ppp = _gaussian_overlap(mu, Sigma, c_ppp).real
+    O_mmm = _gaussian_overlap(mu, Sigma, -c_ppp).real
+    O_f = _gaussian_overlap(mu, Sigma, c_f)
+    per_k = (
+        O_ppp + O_mmm
+        + parity * cross * 2.0 * np.exp(-3.0 * r2a ** 2) * O_f.real
+    )
+    return float(8.0 / (norm * u ** 3) * np.sum(mixture.w * per_k))
+
+
 def lossy_cat3_purity(alpha, parity=+1, eta=0.8):
     """tr(rho_lossy^2) -- the overlap score a PERFECT reconstruction attains.
 

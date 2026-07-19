@@ -1,0 +1,25 @@
+=== exp19: issue #38 -- the blind-generalization gate (thermal-noise lossy cat) ===
+target alpha=1.5 parity=1 eta=0.8 sigma_add=0.1; 27 triples x 2000 shots, data seed 42; init seeds (0, 1, 2) best-by-train
+building the Fock-route target (n_max=8 + n_max=10 stability check)...
+  truncated trace: n8=0.99224 n10=0.99930; purity(n8)=0.2882
+  rank-R fidelity ceilings (sum of top-R eigenvalues):
+    R=1: 0.3786 (n10 check 0.3792)
+    R=2: 0.7501 (n10 check 0.7513)
+    R=4: 0.8181 (n10 check 0.8202)
+    R=8: 0.9521 (n10 check 0.9560)
+  bbdagM R2K2      F=0.6481 (proj trace 0.9969, init 2, wall=12s)
+  bbdagS K4        F=0.3696 (proj trace 0.9980, init 2, wall=46s)
+  bbdagS lossyR2K4 F=0.9234 eta=0.3593 (proj trace 0.9774, init 2, wall=488s)
+  purefock3        F=0.3710 (init 2, wall=148s)
+  mle3             F=0.8976 (converged=True, wall=840s)
+  splat            overlap=0.2861 (perfect=0.2882, non-PSD axis, wall=11s)
+
+raw results -> C:\dev\wigner-splat-exp19\experiments\19_thermal_gate\results.json
+
+=== gate ruling (falsification condition declared in the docstring) ===
+rank ceilings: R=1 0.3786, R=2 0.7501 (margin 0.05)
+  bbdagM R2K2        rank 2: F=0.6481 vs ceiling 0.7501 -> short of ceiling by 0.1019; below MLE
+  bbdagS K4          rank 1: F=0.3696 vs ceiling 0.3786 -> NEAR CEILING; below MLE
+  bbdagS lossy R2K4  full rank (channel): F=0.9234 vs ceiling 0.9922 -> short of ceiling by 0.0689; beats MLE
+  purefock3          rank 1: F=0.3710 vs ceiling 0.3786 -> NEAR CEILING; below MLE
+-> falsification condition does NOT fire: best fixed-family fit bbdagS lossy R2K4 F=0.9234 (gap to its ceiling 0.0689; MLE 0.8976). FAMILY-BOUNDARY NOTE (PR-61 review): the target lies outside every finite-rank ket mixture, but the winning member is the CHANNEL-COMPOSED model, itself a full-rank family with a free eta -- whether the target lies outside THAT family is not established. What this run records is therefore BLIND HELD-OUT PERFORMANCE on one synthetic full-rank target (single data seed), not proven out-of-family generalization.

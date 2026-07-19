@@ -88,6 +88,77 @@ class LossyThreeModeCat:
         )
 
 
+class ThermalLossyThreeModeCat:
+    """Lossy cat followed by per-mode classical Gaussian displacement noise:
+    a FULL-RANK held-out target (issue #38, the blind-generalization gate).
+
+    rho = N_sigma(E_eta(|cat3><cat3|)) with N_sigma the isotropic
+    random-displacement channel adding ``sigma_add`` variance to EVERY
+    quadrature (a Gaussian mixture of displaced lossy cats -- full rank, so
+    no finite-rank ket mixture contains it). The homodyne pdf is the lossy
+    cat's pdf convolved per mode with N(0, sigma_add), and each of the four
+    span terms stays closed form: the per-mode pair densities are the
+    bbdagS loss machinery evaluated at eta = 1, sigma2 = sigma_add (the
+    same Gaussian-convolution mathematics as issue #42, used here on the
+    TARGET side). sigma_add = 0 reduces exactly to LossyThreeModeCat.
+    """
+
+    def __init__(self, alpha, parity=+1, eta=0.8, sigma_add=0.1):
+        if sigma_add < 0.0:
+            raise ValueError(f"sigma_add must be >= 0, got {sigma_add}")
+        self._lossy = LossyThreeModeCat(alpha, parity, eta)
+        self.alpha = self._lossy.alpha
+        self.parity = self._lossy.parity
+        self.eta = self._lossy.eta
+        self.a_out = self._lossy.a_out
+        self.cross = self._lossy.cross
+        self.norm = self._lossy.norm
+        self.sigma_add = float(sigma_add)
+
+    def _mode_pair_terms(self, x, theta):
+        """Convolved per-mode pair densities O[..., i, j] on x's own shape.
+
+        O[i, j](x) = integral f_i(y) conj(f_j)(y) N(x - y; sigma_add) dy for
+        the two rotated kets (+b, -b) -- via bbdagS's tilted pair-density at
+        eta = 1 (conj(f_c) f_d ordering, transposed here to psi_i conj_j).
+        """
+        from .bbdagS import _gauss_params, _lossy_mode_pair_density
+        b = self.a_out * np.exp(-1j * theta)
+        kets = np.array([b, -b], complex)
+        params = _gauss_params(kets, np.zeros(2, complex))
+        x = np.asarray(x, float)
+        O, _, _ = _lossy_mode_pair_density(
+            params, x.ravel(), 1.0, self.sigma_add)
+        # transpose (c, d) -> psi_d conj(psi_c) ordering used by the span sum
+        O = np.transpose(O, (0, 2, 1))
+        return O.reshape(x.shape + (2, 2))
+
+    def homodyne_pdf(self, x1, x2, x3, theta1, theta2, theta3):
+        if self.sigma_add <= 1e-14:
+            return self._lossy.homodyne_pdf(x1, x2, x3, theta1, theta2,
+                                            theta3)
+        pc = self.parity * self.cross
+        M = np.array([[1.0, pc], [pc, 1.0]]) / self.norm
+        O1 = self._mode_pair_terms(np.asarray(x1, float), theta1)
+        O2 = self._mode_pair_terms(np.asarray(x2, float), theta2)
+        O3 = self._mode_pair_terms(np.asarray(x3, float), theta3)
+        dens = 0.0
+        for i in range(2):
+            for j in range(2):
+                dens = dens + M[i, j] * np.real(
+                    O1[..., i, j] * O2[..., i, j] * O3[..., i, j])
+        return np.maximum(np.real(dens), 0.0)
+
+    def sample_homodyne(self, angle_triples, shots_per_triple, rng=None,
+                        x_max=None, grid=161):
+        x_max = x_max or (np.sqrt(2) * abs(self.alpha) + 5.0
+                          + 3.0 * np.sqrt(self.sigma_add))
+        return sample_homodyne_pdf3(
+            self.homodyne_pdf, angle_triples, shots_per_triple,
+            rng=rng, x_max=x_max, grid=grid,
+        )
+
+
 class SqueezedThreeModeCat:
     """Pure squeezed cat: sum_c parity^c prod_m D(±a) S(xi) |0>, real a, xi.
 

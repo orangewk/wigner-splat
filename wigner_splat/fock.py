@@ -104,6 +104,121 @@ def wigner_overlap(Wa, Wb, xs):
     return float(2 * np.pi * np.sum(Wa * Wb) * d * d)
 
 
+def displacement_matrix(beta, n_max):
+    """<m|D(beta)|n> for scalar complex beta, (n_max, n_max) complex.
+
+    Closed form <m|D(b)|n> = sqrt(n!/m!) b^{m-n} e^{-|b|^2/2} L_n^{(m-n)}(|b|^2)
+    for m >= n, and <m|D(b)|n> = conj(<n|D(-b)|m>) below the diagonal --
+    the same matrix elements wigner_from_rho uses, materialized as a matrix.
+    """
+    beta = complex(beta)
+    y = np.abs(beta) ** 2
+    log_fact = np.concatenate([[0.0], np.cumsum(np.log(np.arange(1, n_max)))])
+    D = np.zeros((n_max, n_max), complex)
+    env = np.exp(-y / 2.0)
+    yarr = np.array([y])
+    for d in range(n_max):
+        L = _genlaguerre(n_max - d, d, yarr)[:, 0]     # L_n^{(d)}(y)
+        for n in range(n_max - d):
+            m = n + d
+            amp = np.exp((log_fact[n] - log_fact[m]) / 2.0)
+            D[m, n] = amp * beta ** d * env * L[n]
+            if d > 0:
+                D[n, m] = amp * (-np.conj(beta)) ** d * env * L[n]
+    return D
+
+
+def _noise_quadrature(sigma_add, n_max, n_r, n_phi):
+    """Displacement nodes and weights of the random-displacement channel.
+
+    N_sigma(rho) = integral d^2beta P(beta) D(beta) rho D(beta)^dag with
+    P a symmetric Gaussian of variance sigma_add/2 per real component
+    (a displacement beta shifts x by sqrt2 Re beta, so this adds sigma_add
+    to every quadrature variance). Radial: Gauss-Laguerre in t = |beta|^2 /
+    sigma_add (the P weight becomes e^{-t} exactly); angular: a uniform
+    grid, exact for the e^{i k phi} harmonics (|k| <= 2 n_max - 2) once
+    n_phi > 4 n_max.
+    """
+    n_phi = n_phi or (4 * n_max + 2)
+    t, wt = np.polynomial.laguerre.laggauss(n_r)
+    r = np.sqrt(sigma_add * t)
+    phi = 2.0 * np.pi * np.arange(n_phi) / n_phi
+    betas = r[:, None] * np.exp(1j * phi)[None, :]
+    weights = (wt / n_phi)[:, None] * np.ones(n_phi)[None, :]
+    return betas.ravel(), weights.ravel()
+
+
+def _check_sigma_add(sigma_add):
+    if sigma_add < 0.0:
+        raise ValueError(f"sigma_add must be >= 0, got {sigma_add}")
+
+
+def _noise_superop(sigma_add, n_max, n_r, n_phi):
+    """The single-mode channel as an (n^2, n^2) matrix acting on vec(rho).
+
+    S[(j, k), (m, n)] = sum_nodes w D[j, m] conj(D)[k, n] -- one kron per
+    displacement node, so wide cutoffs stay cheap and every mode
+    application is a single matmul.
+    """
+    betas, weights = _noise_quadrature(sigma_add, n_max, n_r, n_phi)
+    S = np.zeros((n_max ** 2, n_max ** 2), complex)
+    for b, w in zip(betas, weights):
+        D = displacement_matrix(b, n_max)
+        S += w * np.kron(D, D.conj())
+    return S
+
+
+def gaussian_noise_channel_1mode(rho, sigma_add, n_r=32, n_phi=None):
+    """N_sigma(rho) for a single-mode Fock density matrix (numeric, tested
+    against the closed-form pdf convolution). sigma_add = 0 is identity."""
+    _check_sigma_add(sigma_add)
+    if sigma_add == 0.0:
+        return rho.copy()
+    n_max = len(rho)
+    S = _noise_superop(sigma_add, n_max, n_r, n_phi)
+    return (S @ np.asarray(rho, complex).reshape(-1)).reshape(n_max, n_max)
+
+
+def gaussian_noise_channel_3mode(rho, sigma_add, n_max, n_r=32, n_phi=None):
+    """Per-mode N_sigma applied to a flat (n_max^3, n_max^3) 3-mode rho."""
+    _check_sigma_add(sigma_add)
+    if sigma_add == 0.0:
+        return rho.copy()
+    S = _noise_superop(sigma_add, n_max, n_r, n_phi)
+    out = np.asarray(rho, complex).reshape((n_max,) * 6)
+    for mode in range(3):
+        # bring this mode's (ket, bra) pair to the front as one n^2 axis
+        t = np.moveaxis(out, (mode, mode + 3), (0, 1))
+        rest = t.shape[2:]
+        t = (S @ t.reshape(n_max ** 2, -1)).reshape((n_max, n_max) + rest)
+        out = np.moveaxis(t, (0, 1), (mode, mode + 3))
+    return out.reshape(n_max ** 3, n_max ** 3)
+
+
+def thermal_lossy_cat3_fock(alpha, parity=+1, eta=0.8, sigma_add=0.1,
+                            n_max=8, n_r=32, n_phi=None, n_build=None):
+    """Truncated Fock rho of the thermal-noise lossy cat (issue #38 target).
+
+    Built WIDE and cropped: the displacement channel moves population in
+    BOTH directions, so applying it to a lossy cat already truncated at
+    n_max loses the contributions that scatter back into the n_max block
+    from above (the target-side analog of the pre-channel cutoff artifact
+    documented in experiments/19_thermal_gate). The channel therefore runs
+    at n_build (default n_max + 8) and the result is cropped to the n_max
+    scoring block. FULL RANK for sigma_add > 0; quote np.trace as the
+    ceiling analog.
+    """
+    _check_sigma_add(sigma_add)
+    n_build = n_build or (n_max + 8)
+    if n_build < n_max:
+        raise ValueError(f"n_build {n_build} < n_max {n_max}")
+    rho = lossy_cat3_fock(alpha, parity, eta, n_build)
+    rho = gaussian_noise_channel_3mode(rho, sigma_add, n_build, n_r, n_phi)
+    rho6 = rho.reshape((n_build,) * 6)
+    crop = rho6[:n_max, :n_max, :n_max, :n_max, :n_max, :n_max]
+    return crop.reshape(n_max ** 3, n_max ** 3)
+
+
 def _coherent_coeffs(alpha, n_max):
     """Fock coefficients <m|alpha> = e^{-a^2/2} a^m / sqrt(m!), m = 0..n_max-1.
 

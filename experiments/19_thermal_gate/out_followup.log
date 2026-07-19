@@ -1,0 +1,5 @@
+=== exp19 follow-up: lossy-row rescore + rank-8 exploratory addendum ===
+  refit reproduced: init 2, eta=0.3593
+  lossy R2K4 rescored: F=0.9234 (pre-loss n16 trace 0.9835, post-channel n8 trace 0.9774; the committed main-log value 0.4256 at proj trace 0.5345 is superseded)
+  [EXPLORATORY] bbdagM R8K2 blind: F=0.8759 vs rank-8 ceiling 0.9521 (proj trace 0.9939, init 2, wall=80s)
+raw results -> C:\dev\wigner-splat-exp19\experiments\19_thermal_gate\results_followup.json
