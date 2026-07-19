@@ -1,0 +1,18 @@
+=== exp20 Route B: best-approximation floor (1-mode; protocol deviation from the 3-mode sketch declared in the docstring) ===
+  n12 K2: best 1-F = 0.02988 (HS 0.0404, eta' 0.685, pre-tail 2.1e-02, seed 2; all 1-F: [0.01847, 0.03668, 0.02988])
+  n12 K4: best 1-F = 0.00648 (HS 0.0100, eta' 0.691, pre-tail 2.0e-03, seed 2; all 1-F: [0.00573, 0.0053, 0.00648])
+  n16 K2: best 1-F = 0.02215 (HS 0.0434, eta' 0.681, pre-tail 8.4e-03, seed 2; all 1-F: [0.01484, 0.03756, 0.02215])
+  n16 K4: best 1-F = 0.00537 (HS 0.0102, eta' 0.691, pre-tail 1.8e-04, seed 2; all 1-F: [0.00504, 0.00531, 0.00537])
+  n20 K2: best 1-F = 0.01450 (HS 0.0443, eta' 0.673, pre-tail 3.1e-04, seed 0; all 1-F: [0.0145, 0.03758, 0.02046])
+  n20 K4: best 1-F = 0.00535 (HS 0.0101, eta' 0.691, pre-tail 7.0e-05, seed 2; all 1-F: [0.00502, 0.00531, 0.00535])
+
+--- [ADDENDUM] rank-2 free-ket upper-bound arm (n_score=16) ---
+  eta'=0.50: best 1-F = 0.00940 (HS 0.0769, pre-tail 8.8e-06; all 1-F: [0.01124, 0.0094, 0.01026])
+  eta'=0.65: best 1-F = 0.00470 (HS 0.0227, pre-tail 4.0e-05; all 1-F: [0.0047, 0.00397, 0.00429])
+  eta'=0.80: best 1-F = 0.05387 (HS 0.0345, pre-tail 4.1e-02; all 1-F: [0.05387, 0.05375, 0.05386])
+
+=== Route B ruling ===
+  best 1-F by scoring cutoff: {12: 0.0053, 16: 0.00504, 20: 0.00502}
+-> a floor in 1-F persists at every scoring cutoff, corroborating Route A's exact non-inclusion on the finite-fidelity axis (issue #63 decision rule, case 2).
+
+raw results -> C:\dev\wigner-splat-exp20\experiments\20_noninclusion\results_routeB.json

@@ -76,6 +76,127 @@ splat 品質(0.756)へ届かない — 測定制約 1.8万行 vs 密度行列 26
 /純状態制約など**他ベースラインとの比較**、(d) **signed splat の PSD 物理性保証**(未達のため
 現状の "fidelity" は厳密には Wigner overlap score。issue #8)。
 
+## 実データ戦: 公開 homodyne データの GKP 状態(実験12–14・18、2026-07-14〜16)
+
+合成ベンチマークで育てた構成的物理 ρ=BB† トラック(経緯は下のロードマップ issue
+#8/#25/#27/#28・実験11 の項)を、初めて実測データに投入した 4 round の記録。データは公開データ
+サーベイ(`docs/2026-07-14-public-data-survey--recorded.md`)が生 homodyne 公開データとして
+唯一確認できた、Konno et al., Science 383, 289 (2024) の伝搬光 GKP 状態
+(Dryad [doi:10.5061/dryad.t76hdr86j](https://doi.org/10.5061/dryad.t76hdr86j)、CC0)—
+LO 位相 6 点(0/±30/±60/−90°)× 各約 2 万ショットの生 quadrature 値。元 README・帰属とともに
+`experiments/12_gkp_data/data/` に再配布している。単位規約はデータ自身で検証: 0° のピーク間隔
+~1.69 ≈ √π が本リポジトリの真空分散 1/2 規約とそのまま一致(リスケール不要)。位相に依存しない
+平均オフセット ~−0.26 は装置起因(コヒーレント変位なら位相とともに回転するはず)— 差し引かず、
+そのままフィットした。評価はすべて split 内の held-out per-sample NLL(小さいほど良い)。
+
+**第1戦・明確な負け(実験12、issue #41、2026-07-14)**: 教科書的フルランク MLE(R ρ R、
+n_max=25、論文自身の手法クラス)が held-out NLL **1.6299**(秒未満)。純粋 squeezed-product
+ansatz(bbdagS K=4/6、解析勾配、~30–40 s)は **1.7670 / 1.7819** で完敗。overlay 図が敗因の
+署名を示す — 干渉ディップが深すぎ、ピークが高すぎる。純粋状態はフリンジのコントラストを洗い
+流せず、実際の(損失を受けた)GKP 状態は混合状態である。約束どおり記録した初の実データ判定:
+不足は ket の形ではなく **rank(混合性)と検出効率** = 既に filed 済みの issue #40/#42 が狙う
+ギャップそのもの。scale の注意: 1 モードでは MLE 行列は 25×25 と小さく秒未満 — スケーリング論は
+無傷で、実データが試すのはフォワードモデルの物理。(訂正記録: 初出の「K=6 は誤った多様体内の
+過適合」は誤り。K=6 は train NLL でも K=4 より悪く(1.75386 vs 1.74336、best-of-3)、これは
+最適化不良であって、過適合の主張はどちら向きにも支持されない — PR #37 の owner review 起点)
+
+**第2戦・損失モデルがギャップの 98% を閉じる(実験13、issue #42 部分、2026-07-14)**: bbdagS に
+検出効率フォワードモデルを実装 — 測定 pdf = 純粋 ansatz pdf ⊛ ガウス(分散 (1−η)/2 + electronic
+noise)。これは loss チャネル通過後状態の homodyne marginal と**厳密に**一致し、PSD 構成のまま
+全体が閉形式(pair-overlap ガウスの tilt + ∂log f 多項式トリックで解析勾配)。η は joint fit。
+Fock 基底 loss チャネル(独立ルート)との厳密一致を含む 12 テストで固定。same-K same-budget の
+η ablation: K=4 pure 1.75542 → lossy **1.63304** = 経験的 MLE frontier best(1.62984)への
+ギャップの **97.5%** を物理パラメータ 1 個が閉じる(K=6 で 98.2%、代替 reshuffle で 97.8%。
+fitted η は K・シード・split を通じ 0.638–0.643 で安定)。ただし判定は **descriptive loss**
+(記述的な負け): test-selected な MLE frontier best に対する conditional paired-bootstrap
+95% CI は [+0.0022, +0.0041](primary)/ [+0.0016, +0.0034](alternate)で両方ゼロの上。
+パラメータ効率は観測 Pareto 比較として: 同程度 dof で lossy K=4(23 dof)の 1.63304 vs
+MLE n_max=6(35 dof)の 1.63534(MLE frontier は n_max≈8 = 63 dof 以上で平坦 — 当初の「1/17」
+枠組みは誤りとして棄却)。残差 +0.002〜+0.004 nats の物理原因(最適化 / 有限 K・純粋状態容量 /
+単一ガウス損失チャネルの misspecification)は未特定のまま #40 へ。(protocol 注記: この round は
+PR #37 の owner review が初版 protocol を棄却 → 再宣言後に再走した **exploratory reanalysis**。
+再宣言はデータと初回結果を見た後なので preregistered confirmation ではない)
+
+**第3戦・rank 仮説、matched-dof control 付き(実験14、issue #40、2026-07-14)**: rank-R 拡張
+`MixedSqueezedKetState`(ρ=BB† を R 本の squeezed-ket 列に拡張し #42 損失チャネルと合成。
+PSD 構成・閉形式・解析勾配、10 テストで固定)。primary config は事前固定の lossy R=2 K=4 vs
+同一スケジュール rank-1。R2K4 は両 reshuffle で予測能力を descriptive に改善:
+CI(R=2 − rank-1) = [−0.00296, −0.00143] / [−0.00283, −0.00124]。frontier gap は縮んで残る:
+CI(R=2 − best MLE) = [+0.00055, +0.00149](primary、point +0.00100 — exp13 の +0.00320 から
+約 2/3 減)/ [+0.00002, +0.00093](alternate、point +0.00048、CI 分解能で borderline)=
+**3 度目の descriptive 負け、ただし半ミリナットまで**。PR #44 の owner review が指摘した通り、
+素朴な R=1→2 比較は ket 数(4→8)・dof(23→46)・計算量が rank と同時に動く交絡があり、
+**matched-dof control**(R1K8 = 47 dof vs R2K4 = 46 dof、同一スケジュール)で判定: nested な
+最適化不良チェック通過(R1K8 の train 1.62882/1.62952 が R1K4 floor 1.62938/1.63019 を下回る)
+の上で、held-out は両 reshuffle とも rank 側の勝ち(1.63084 vs 1.63216 / 1.62770 vs 1.62936、
+CI [−0.00194, −0.00067] / [−0.00230, −0.00100])→ **「ket・パラメータ容量だけで説明がつく」は
+descriptively 不利に**(それでも「physical rank を同定した」はまだ強すぎる、が pre-declared の
+読み)。観測 Pareto 帯も広がる: R=2(46 dof)1.63084・R=3(69 dof)1.63009 は各 dof 帯で観測
+MLE 曲線の下(alternate では R=2 が ~99 dof まで下)。ただし train の単調改善(1.62938→
+1.62761→1.62688)が支持するのは「このスケジュールで train 目的関数が頭打ちしていない」まで
+であり「rank 未飽和」ではない — その判定は実験18 へ。事前宣言どおり η-rank の同定不能ドリフト
+も観測: fitted η は R=1/2/3 で 0.643→0.701→0.875 — rank が混合性を吸収して損失ノブの分担が
+減る。**fitted η はモデルパラメータであり、較正された検出効率ではない**。
+
+**第4戦・frontier とのタイ(実験18、issue #40、2026-07-16)**: 事前宣言の飽和 protocol —
+cold R=4(両 reshuffle)と R=5(primary)、warm-start chain R3→4→5、matched ~70 dof の
+K-interplay 対(R3K4 = 69 dof vs R2K6 = 70 dof)、split ごとの MLE frontier 再走。R=3 の
+再フィットが exp14 のコミット済み数値を厳密再現(cross-run 再現性を固定)。結果、事前宣言の
+decision check 順に:
+
+1. **飽和**: best-by-train の Δ(4) = +0.00016 は宣言済み平坦閾値 0.0002 未満、Δ(5) = +0.00000。
+   held-out も R3/R4/R5 = 1.63009/1.62993/1.62995(primary)で追随 — rank 曲線はこのスケジュール
+   で **R=4–5 で飽和**。
+2. **frontier**: CI(R=4 − test-selected best MLE) = **[−0.00002, +0.00020]**(primary、point
+   +0.00009)/ **[−0.00017, +0.00003]**(alternate、point −0.00007)。両方ゼロを跨ぐ = 事前宣言の
+   分岐に従い **CI 分解能でタイ**。3 連敗(実験12/13/14)の後、初めて descriptive loss のつかな
+   かった round。物理モデル側は **92 実パラメータ**、相手の frontier best は **255**、しかも相手は
+   test-selected の oracle。
+3. **最適化**: warm R=4 の cold best に対する train 改善は +0.00003(宣言閾値 0.0001 未満)→
+   cold スケジュールは R=4 で十分 = **under-optimization は残差原因として descriptively 排除**
+   (warm chain 終端の warm R=5、train 1.62663 / test 1.62990 も同じ plateau と整合)。
+4. **K interplay**: matched ~70 dof でも rank 側が held-out 勝ち(CI(R3K4 − R2K6) =
+   [−0.00098, −0.00018])。exp14 の 46 dof control と合わせ、調べた 2 つの frontier 点の両方で
+   「dof は ket 数より rank に割くほうが得」。
+5. **η ドリフト**(事前宣言): fitted η は R=3/4/5 で 0.87→0.94→0.92、warm R=5 chain では
+   0.9948 — rank が伸びるほど損失ノブは絞り出され、純 rank mixture へ収束していく。η がモデル
+   パラメータであるという exp14 の stance のまま。
+
+(番号注記: 並行する応用線の実験15 が先にマージされ量子線の番号が繰り上がったため、実験18 は
+`experiments/18_gkp_saturation` に居るがコミット済み raw log のヘッダは旧番号 exp17 のまま。
+research-log の各エントリ冒頭に同種の注記あり)
+
+<p align="center">
+  <img src="experiments/14_gkp_rank/gkp_rank_marginals.png" width="78%" alt="実測 GKP homodyne 周辺分布と再構成の重ね描き" />
+</p>
+
+<p align="center">
+  <img src="experiments/18_gkp_saturation/gkp_saturation_frontier.png" width="78%" alt="held-out NLL vs 自由度: rank 1〜5 の物理モデルと MLE frontier" />
+</p>
+
+**スコープ注記(全 round 共通 — 過剰主張の禁止)**: この 4 round はすべて **exploratory**
+分析である。(a) primary/alternate の 2 split は**同一観測の reshuffle** であり、独立 holdout は
+存在しない。(b) MLE 側の対戦相手は **test-selected**(テストデータで最良の n_max を選んだ
+oracle = MLE に有利な設定)。(c) bootstrap CI はフィット済みモデルと test-selected n_max に
+**conditional** で、モデル選択の不確実性を勘定しない。(d) 「タイ」は CI statement であって
+**preregistered confirmation ではない**。事前登録つきの確認は、新しいデータセットか held-out
+セッションが得られた場合にのみ行う(#41 スコープ)。また η の joint fit がこのデータで安全
+だったのは規模(単一モード ~6 万サンプル、η が 0.638–0.643 で安定)の産物であり、小データでは
+同定不能 — 実験17(issue #42 全スコープ、ロードマップの該当項参照)の対照で、27k サンプルの
+3 モード猫では尤度が (状態, η) 方向に ~1e-5 nats で平坦なまま fidelity が 0.06〜0.80 に散る
+ことを確認済み。訓練目的関数が fidelity の差に盲目になりうる同種の budget-blindness は、
+実験16(issue #39、多シード再現)が init 軸でも記録している。
+
+4 round の要約: 損失モデル化がギャップの ~98% を閉じ(実験13)、rank-2 が残りの 2/3 を削り
+(実験14)、rank-4 が残りを統計的タイに変えた(実験18)。各段は matched-dof control により
+「容量でなく rank」に帰属され、warm start が終端の under-optimization を排除した。数値・図・
+全 protocol は `experiments/12_gkp_data` / `13_gkp_eta` / `14_gkp_rank` / `18_gkp_saturation` の
+コミット済み log と、research-log の日付エントリ
+([exp12](docs/research-log.md#2026-07-14--first-real-data-furusawa-group-gkp-states-experiment-12-issue-41)、
+[exp13](docs/research-log.md#2026-07-14--gkp-rematch-exploratory-loss-model-reanalysis-experiment-13-issue-42-partial)、
+[exp14](docs/research-log.md#2026-07-14--rank-freedom-on-real-data-exploratory-rank-hypothesis-test-experiment-14-issue-40)、
+[exp18](docs/research-log.md#2026-07-16--rank-saturation-on-the-gkp-data-the-frontier-gap-closes-experiment-18-issue-40))にある。
+
 ## 構成
 
 ```
@@ -198,10 +319,23 @@ python experiments/01_cat_state/run.py   # データ生成 → 再構成 → 図
           *旧 rank-1 coherent 族*に対して族外であり、フィットした*拡張族にとっては in-family*。
           実験11が示すのは「故障方向を特定 → 族を拡張 → 同一尺度で勝つ」という**族の適応力**であり、
           拡張族の外への盲目的汎化ではない。その関門は「有限 rank の ket 混合に入らない held-out
-          ターゲット」(熱雑音付き損失猫 = フルランク。ノイズモデル化と同一機構)— 残ゲートとして記録。
+          ターゲット」(熱雑音付き損失猫 = フルランク。ノイズモデル化と同一機構)—
+          **実験19 で判定(issue #38、2026-07-16)**: 純検出 ket 族は各自の rank 上限にほぼ到達
+          (rank-1 は上限 −0.009、敗因は近似能力でなく rank 容量)。**チャネル合成族
+          (loss_η∘BB†、フルランク)は blind フィットで F=0.9234 と、収束済みフルランク MLE
+          (0.8976、~2.6×10⁵ パラメータ)を ~110 パラメータで上回り、反証条件は不発火**。
+          勝った族自体もフルランク族だが、**非包含テスト(実験20、issue #63、2026-07-18)で
+          族境界が確定**: どの η′ に対しても有限 rank の逆像は存在しないことを**全 η′ 域で
+          解析的に証明**(検証済み数値スキャンは裏取り)。ターゲットは**チャネル合成族の厳密に外**。
+          よって実験19 の記録は**真に族外のターゲットへの blind 性能 1 例**に昇格。ただし境界は
+          薄い: 族はターゲットを 1−F ≈ (1–2)×10⁻³ まで近似できる(1 モード・cutoff 安定の
+          best-found 値 = 真の距離の上界)ため、
+          実験19 の blind 残差 0.077 は族境界でなくフィット・データ予算由来
+          (単一シード・単一ターゲットクラス、普遍主張は不可)。
           **splat の score 1.7674 (>1) は非物理性の直接証明**(純粋ターゲットとの tr(ρσ)≤1 は
           物理状態のみ)— issue #8 の tension がヘッドライン数値に露出した形。
-          残: held-out フルランク・ターゲット(複数シード再現は実験16 で完了、rank-R × squeezed
+          残: σ_add/シード sweep(follow-up として記録のみ。非包含テストは実験20、held-out
+          フルランク・ターゲット判定は実験19、複数シード再現は実験16、rank-R × squeezed
           複合 ansatz は実験14 で完了)。
         - **解析勾配化(issue #25、2026-07-13 解決)**: NLL 勾配を閉形式化(`bbdagM.nll_and_grad`。
           Z=z†Gz は coherent overlap の Gram、サンプル項は LO 回転の chain rule。central-diff と

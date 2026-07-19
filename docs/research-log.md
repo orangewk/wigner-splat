@@ -1181,6 +1181,118 @@ preregistered confirmation. #40's saturation question is answered
 an INDEPTH preregistered confirmation only if a fresh dataset or a
 held-out session becomes available (#41 scope).
 
+## 2026-07-16 — The blind-generalization gate: thermal-noise lossy cat (experiment 19, issue #38)
+
+(Numbering note: experiments 15-18 were taken by the time this ran
+(15_video_conf #48, 16_exp11_seeds #39, 17_loss_control #42,
+18_gkp_saturation #40); this one lives in experiments/19_thermal_gate.)
+
+Tried: the gate exp11's scope correction demanded before any
+"generalizing method" claim -- a held-out target NO finite-rank ket
+mixture contains. Target: the lossy cat followed by per-mode classical
+Gaussian displacement noise (states3x.ThermalLossyThreeModeCat; eta=0.8,
+sigma_add=0.1 variance per quadrature; purity 0.2882 -- genuinely full
+rank). Machinery, all pinned by tests on independent routes
+(tests/test_thermal_target.py): closed-form pdf via the issue-#42 pair
+machinery at eta=1 on the target side; a numerically exact Fock-route
+construction (fock.gaussian_noise_channel_3mode: Gauss-Laguerre radial x
+exact-harmonic angular displacement quadrature, cross-checked against
+the pdf convolution); a width-scaled closed-form splat overlap
+(forward3f.overlap_vs_thermal_lossy_cat3). Rank-R fidelity ceilings from
+the target spectrum (max over rank-R sigma of F = sum of the top R
+eigenvalues): R1 0.3786, R2 0.7501, R4 0.8181, R8 0.9521 (stable at
+n_max=10). Protocol pre-declared: fixed blind lineup (exp11/exp14
+extensions, nobody told sigma_add), init seeds {0,1,2} best-by-train
+(an exp11-protocol upgrade justified by exp16's likelihood-blindness
+finding), and the issue's falsification condition: best fixed-family F
+short of its own rank ceiling by > 0.05 AND below the MLE fires
+"in-family adaptation only".
+
+Happened (committed log, single data seed 42):
+    bbdagM R2K2        F = 0.6481   (86% of its rank-2 ceiling 0.7501)
+    bbdagS K4          F = 0.3696   (rank-1 ceiling 0.3786: NEAR CEILING)
+    purefock3          F = 0.3710   (ditto -- the generic control too)
+    bbdagS lossy R2K4  F = 0.9234   eta fitted blind -> 0.3593
+    mle3 (full rank)   F = 0.8976   (converged, 900 s budget)
+    splat overlap 0.2861 vs perfect 0.2882 (99.3%; separate non-PSD axis)
+
+SCORING CORRECTION (documented, superseded log kept): the first run
+scored the channel-composed model by projecting its PRE-loss kets at
+n_max=8 -- but the blind fit drove eta to 0.36, which scales pre-loss
+amplitudes by 1/sqrt(eta) and overflowed the cutoff (projection trace
+0.53, F 0.4256; out_run_prescoringfix.log). The declared fix
+(rescore_and_addendum.py, out_followup.log) projects the pre-loss kets
+at n_max=16, applies the truncated Kraus channel there, and cuts the
+output back to the n_max=8 scoring block (trace 0.977). The main log
+was regenerated with the corrected pipeline; the deterministic fits
+reproduced exactly. A second correction in the same pass: the
+channel-composed model is FULL RANK (a CPTP output), so the rank-2
+ceiling never bounded it -- its ceiling is the truncated trace 0.9922.
+A third correction (PR-61 review): the TARGET had the same disease --
+the displacement channel scatters population in both directions, so
+building it from an n_max=8 lossy cat loses the contributions that
+scatter back into the scoring block from above.
+fock.thermal_lossy_cat3_fock now builds at n_build=16 and crops to the
+scoring block (regression pinned at the experiment amplitude:
+n_build 16 vs 20 agree to 5e-6 while build-at-8 differs by > 1e-4),
+and the run was regenerated once more; every value moved by ~1e-3
+upward and no comparison flipped (superseded logs kept:
+out_run_prescoringfix.log, out_run_pretargetfix.log).
+
+RULING: the pre-declared falsification condition does NOT fire: the
+channel-composed member of the fixed family, fitted blind, landed ABOVE
+the converged full-rank MLE (0.9234 vs 0.8976) with ~110 real
+parameters against the MLE's ~2.6e5. FAMILY-BOUNDARY NOTE (PR-61
+review, accepted): the target lies outside every finite-rank ket
+mixture -- the boundary the exp11 gate was worded against -- but the
+winning model is loss_eta(B B^dagger), itself a FULL-RANK family with a
+free eta, and whether the target lies outside (or merely near) THAT
+family is not established. What this run records is therefore BLIND
+HELD-OUT PERFORMANCE on one synthetic full-rank target, not proven
+out-of-family generalization.
+The texture is the informative part:
+  1. The PURE-DETECTION ket mixtures track their rank ceilings almost
+     exactly (rank-1 models sit 0.008-0.009 below theirs; rank-2
+     coherent at 86%). Their limitation on a full-rank target is rank
+     CAPACITY, not fit quality. [Exploratory addendum, outside the
+     declared lineup and labeled as such: a blind bbdagM rank-8 reaches
+     F 0.8759 = 92% of its 0.9521 ceiling -- capacity keeps being the
+     binding constraint as R grows.]
+  2. The mechanism behind the blind held-out performance is CHANNEL
+     COMPOSITION:
+     loss_eta(B B^dagger) is full rank with O(K) parameters, and the
+     blind fit spent its eta knob (0.36, far from the physical 0.8) to
+     buy the Gaussian width the ket mixture cannot express -- fitted
+     eta as a model parameter, exactly the exp14/exp17 stance. The
+     eta-(state) flat direction that made joint fitting UNSAFE for
+     calibration in exp17 is here doing useful work: the flat family
+     contains a good approximant of the target (which lies outside
+     every finite-rank ket mixture; whether it also lies outside the
+     channel-composed family is the unresolved non-inclusion question
+     recorded below).
+
+Learned: the gate as originally worded (a target no finite-rank ket
+mixture contains) is met, and on it the pure-detection ket mixtures
+behave exactly as their spectra predict -- rank capacity, not fit
+quality, binds them. But the family had already outgrown that boundary:
+its channel-composed member is full rank, and it delivered blind
+held-out fidelity above the converged full-rank MLE. The honest record
+is therefore NOT "out-of-family generalization achieved" (the target
+may lie inside or near the channel-composed family; unresolved
+[ADDENDUM 2026-07-18, exp20 / issue #63: resolved -- strictly OUTSIDE,
+for every eta' and every finite rank; the claim moves up one notch in
+the exp20 entry below]) but
+"one recorded instance of blind held-out performance above a converged
+full-rank MLE on a synthetic full-rank target". Single data seed, one
+target class, fidelity in an n_max=8 truncation (conservative for the
+model: its own post-channel trace is 0.977), MLE at the exp06-era
+900 s budget. The README's wording moves accordingly -- one notch, no
+further. Follow-ups recorded, not opened: a sigma_add / seed sweep;
+a non-inclusion test (is N_sigma(E_eta(cat)) exactly representable as
+loss_eta' of a rank-2 squeezed mixture?) that would settle the family
+boundary; and a theory note on WHY channel composition approximates
+Gaussian-noise states this well.
+
 ## 2026-07-16 (later) — Phase 1 on real video, round 1: precondition DNF (experiment 16 = 16_real_video, issue #48)
 
 (Numbering note: "experiment 16" collided across the two parallel
@@ -1290,7 +1402,122 @@ models bias, not just variance) — and either way the gates get
 re-declared on the issue before running. No post-hoc rescoping of
 this round: it failed as declared.
 
+## 2026-07-18 — The non-inclusion test: exp19's target is strictly outside the channel-composed family (experiment 20, issue #63)
+
+Tried: the boundary question the PR-61 review left open -- is the
+thermal-noise lossy cat N_sigma(E_eta(cat)) exactly representable as
+loss_eta'(rho') with rho' a rank-2 (or ANY finite-rank) squeezed ket
+mixture? Protocol pre-declared on the issue: an analytic Route A
+(characteristic-function calculus) as primary, a numerical Route B
+(direct best-approximation, fidelity axis) as corroboration, and a
+three-branch decision rule fixing what each outcome does to exp19's
+claim wording.
+
+Route A (experiments/20_noninclusion/derivation.md + run.py): both
+channels act on chi(lam) by argument rescale x Gaussian multiplication,
+so E_eta' is injective and the pre-image at each eta' is UNIQUE:
+chi'(mu) = chi_cat(k mu) e^{-c|mu|^2}, k^2 = eta/eta',
+c = (eta' - eta + 2 sigma)/(2 eta'). The interval splits at
+eta'_crit = eta - sigma = 0.70:
+  * eta' > 0.70: the pre-image decomposes as a POSITIVE-variance
+    Gaussian-displacement-noise composition (N_{sigma/eta'} after loss
+    for eta' > eta; N_v after a quantum-limited amplifier for
+    eta - sigma < eta' <= eta), and a displacement-orthogonality lemma
+    makes any such output FULL RANK. Analytic exclusion of every
+    finite rank at once.
+  * eta' < 0.70 [STRENGTHENED after the PR-64 review, which correctly
+    flagged that a grid scan cannot exclude a continuum and a finite
+    cutoff cannot exclude "any finite rank"]: excluded ANALYTICALLY on
+    the whole subinterval (Theorem 1): the pre-image's Husimi function
+    is a rescaled s-ordered quasidistribution W_s of the CAT with
+    s > -1 exactly when eta' < eta - sigma; if the pre-image were PSD
+    then W_s >= 0, so its Gaussian smoothing Q_cat would be strictly
+    positive -- but Q_cat has closed-form Bargmann zeros
+    (cosh(conj(beta) alpha) = 0). Contradiction (the
+    Lutkenhaus-Barnett depth-1 mechanism, self-contained).
+  * eta' = 0.70 exactly (amplifier output, a valid state): infinite
+    rank ANALYTICALLY (Theorem 2): the Husimi identity's Bargmann-
+    kernel continuation carries a factor e^{t u conj(v)} with
+    t = 1 - 1/G != 0, whose kernel rank is infinite; a rank-R state
+    would cap it at R.
+    The exclusion is therefore analytic on ALL of (0, 1]. The scan
+    (run.py) is CORROBORATION and visualization: PSD violation at
+    every regime-III grid point (min eigenvalue -4.9e-3 at eta' = 0.69
+    growing to -4.4e+2 at eta' = 0.10, against a 1e-16 numerical
+    floor, stable under node doubling and cutoff raise), PSD with a
+    full-rank tail (3rd eigenvalue 5e-2) at the boundary, and the same
+    structure in a 3-mode confirmation scan (per-term Kronecker
+    factorization). Accuracy pinned by 8 tests
+    (tests/test_noninclusion.py) against independent references in
+    every regime: Lemma-1 remap onto gaussian_noise_channel_1mode,
+    regime-I remap onto thermal_lossy_cat3_fock, and truncated-Kraus
+    forward recovery of the target from the regime-III pre-image.
+
+Route B (routeB.py): a first run silently deviated from the issue's
+declared parameters (HS objective, cutoffs {12,16,20}, K {2,4}); the
+PR-64 review flagged it and the run was REDONE per declaration --
+direct FIDELITY objective, scoring cutoffs {8,10,12}, K {2,4,8}, 3
+inits spanning the regime boundary (the superseded log is kept as
+out_routeB_hsobj.log; its numbers agree at the same order). The ONE
+declared deviation stands: the issue sketched the 3-MODE fit, whose FD
+cost is out of reach; the run is the ONE-MODE problem, with exp19's
+own blind 3-mode residual standing in as the 3-mode data point. A
+labeled free-Fock-ket superset arm (eta' free) removes the
+parametrization confound.
+A round-2 review finding corrected the metric itself: the cropped
+matrices are SUBNORMALIZED, and the plain Uhlmann formula let the
+crop's trace deficit leak into the residual (identical crops scored
+(Tr rho)^2 < 1 -- at n = 8 that penalty alone, 0.0051, exceeded the
+then-reported best residual, so the objective was not even optimizing
+agreement). All Route B scoring now uses the generalized fidelity for
+subnormalized states, F = (Tr sqrt(sqrt(rho) sigma sqrt(rho)) +
+sqrt((1 - Tr rho)(1 - Tr sigma)))^2, which returns exactly 1 for
+identical crops; target traces are quoted per cutoff (superseded log
+kept as out_routeB_plainuhlmann.log).
+Result: best-found 1 - F = 0.0014 / 0.0020 / 0.0022 at cutoffs
+8/10/12, K-saturated at K = 4-8, pre-loss tail mass monitored small
+(no cutoff abuse); the superset arm lands at the same order (0.0063).
+EPISTEMIC STATUS (per the review): local-optimization residuals are
+UPPER bounds on the family's true distance -- heuristic corroboration
+of the analytic exclusion, not a proven floor; the case-2 obstruction
+rests on Route A's theorems alone. And the fitted eta' converges to
+0.65-0.67 from every init: the optimizer walks to the PSD boundary of
+Route A's regime map and parks where the pre-image's negativity is
+smallest -- the two routes agree not just on the verdict but on the
+geometry.
+
+Ruling (decision rule case 2 fires): the target admits NO finite-rank
+pre-image for ANY eta' in (0, 1] -- analytic on the whole interval
+(Lemmas 1-2, Theorems 1-2), numerically corroborated on the grid --
+so it is STRICTLY OUTSIDE the channel-composed family, and
+exp19's record upgrades exactly one notch: "one recorded instance of
+blind held-out performance on a genuinely OUT-OF-FAMILY full-rank
+target, above a converged full-rank MLE" (single data seed, one target
+class; universal claims stay barred). The honest counterweight is that
+the boundary is THIN: the family approximates the target to
+1 - F ~ 2e-3 (best-found, an upper bound on its true distance), so
+exp19's blind gap (1 - F = 0.077) is dominated by fit
+and data budget, not by the family boundary. Both faces go into the
+READMEs.
+
+Learned: the eta-(state) flat direction now has its full arc written
+in one algebra (derivation.md section 4): the SAME curve of
+(eta', state) pairs that makes joint calibration unidentifiable
+(exp17) lets a blind fit slide toward Gaussian-noise surrogates
+(exp19), and its endpoint -- the PSD boundary at eta' = eta - sigma --
+is exactly where Route B's optimizer settles. Non-inclusion is proven,
+yet the family tracks the excluded target to ~2e-3: "outside the
+family" and "far from the family" are different claims, and only the
+first is established. Follow-up recorded, not opened: the sigma_add /
+seed sweep (unchanged from exp19); a possible representation-theory
+note on WHICH mixed states loss_eta'(finite-rank) can reach exactly
+(the scan machinery generalizes beyond this target).
+
 ## 2026-07-18 — Experiment 20 / issue #48 Round 3, Phase 0–2
+
+(Numbering note: "experiment 20" collided across the two parallel
+lines again; this line's lives in experiments/20_real_video_gpu,
+distinct from the quantum line's experiments/20_noninclusion above.)
 
 Owner/decisions: orange approved the GPU migration plan and Phase 2 execution; Codex session `019f6d8a` selected the version pins and executed the environment, data-boundary, and train-only COLMAP checks on branch `feat/issue-48-round3-gpu`.
 
@@ -1334,6 +1561,7 @@ error localization, not a block-Fisher-specific mechanism. Machine-readable
 result: `experiments/20_real_video_gpu/phase5_gate_b_result.json`; certificate:
 `experiments/20_real_video_gpu/heldout_certificate.png`; Issue result comment
 `5011709434`.
+
 ## 2026-07-19 — Experiment 20 / issue #48 Round 4, fresh replication
 
 Owner/decisions: orange approved and hard-locked the protocol in Issue #48

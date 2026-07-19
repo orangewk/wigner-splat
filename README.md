@@ -50,10 +50,27 @@ likelihood estimation (MLE) on simulated cat states at matched shot budgets.
 | 2 modes | Fidelity is statistically indistinguishable across 20 paired seeds; splat uses about 1/7.4 of the measured compute. | Requires full cross-mode covariance; separable splats fail. |
 | 3 modes | A signed-splat run reached a higher Wigner-overlap score in about 15 s while the 512-dimensional MLE run did not converge within 900 s. | This score is not state fidelity when the reconstruction is non-PSD. It is not a physical-tomography win. |
 
-The physical $BB^\dagger$ track resolves the PSD issue by construction, but
-its synthetic high-fidelity results are **in-family existence results**. A fair
-Fock-ket comparison showed that its main demonstrated advantage is compactness
-and speed, not a general fidelity advantage. See the
+The physical $BB^\dagger$ track resolves the PSD issue by construction. Its
+early synthetic high-fidelity results were **in-family existence results**, and
+a fair Fock-ket comparison showed that its main demonstrated advantage is
+compactness and speed, not a general fidelity advantage. A held-out full-rank
+gate (experiment 19) later recorded **blind held-out performance above a
+converged full-rank MLE**: on a thermal-noise lossy cat that no finite-rank
+ket mixture contains, the loss-channel-composed rank-2 model reached fidelity
+0.923 against the MLE's 0.898 with roughly 110 real parameters — while the
+pure-detection ket mixtures landed almost exactly on their rank-capacity
+ceilings. A non-inclusion analysis (experiment 20) then settled the family
+boundary: for **no** efficiency does the target admit a finite-rank pre-image
+(proven analytically across the whole efficiency range, with a validated
+numerical scan as corroboration), so the target is **strictly outside the
+winning family** and the exp19
+record is one instance of blind performance on a genuinely out-of-family
+target. The boundary is thin, however: a direct best-approximation study
+found the family approaches the target to 1–2 × 10⁻³ in 1 − F (one-mode,
+cutoff-stable best-found values — upper bounds on its true distance), so
+exp19's larger blind gap is a fit- and data-budget effect, not the family
+boundary. Single seed and a single target
+class; universal claims remain unwarranted. See the
 [research log](docs/research-log.md) and [prior-art survey](docs/prior-art-survey.md)
 for the evidence and comparisons.
 
