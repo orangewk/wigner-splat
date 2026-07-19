@@ -1,0 +1,48 @@
+=== exp21: issue #67 -- sigma_add / data-seed sweep of the thermal gate ===
+configs (data_seed, sigma_add): [(42, 0.1), (1, 0.1), (2, 0.1), (42, 0.05), (42, 0.2)]; lossy R2K4 x init seeds (0, 1, 2) best-by-train vs mle3 (900s); generalized fidelity (PR-64 metric)
+
+--- config: data seed 42, sigma_add 0.1 ---
+  lossy init 0: F=0.9156 eta'=0.5994 trainNLL=4.17817 (wall=474s)
+  lossy init 1: F=0.9392 eta'=0.3601 trainNLL=4.17762 (wall=491s)
+  lossy init 2: F=0.9490 eta'=0.3593 trainNLL=4.17623 (wall=535s)
+  representative (best train NLL): init 2 F=0.9490; NLL spread 0.00194 vs F spread 0.0334
+  mle3: F=0.8980 (converged=False, wall=901s)
+  -> verdict: lossy >= mle (0.9490 vs 0.8980)
+
+--- config: data seed 1, sigma_add 0.1 ---
+  lossy init 0: F=0.9190 eta'=0.5970 trainNLL=4.17319 (wall=493s)
+  lossy init 1: F=0.9259 eta'=0.3549 trainNLL=4.17301 (wall=773s)
+  lossy init 2: F=0.9435 eta'=0.3587 trainNLL=4.17146 (wall=652s)
+  representative (best train NLL): init 2 F=0.9435; NLL spread 0.00173 vs F spread 0.0245
+  mle3: F=0.9023 (converged=True, wall=827s)
+  -> verdict: lossy >= mle (0.9435 vs 0.9023)
+
+--- config: data seed 2, sigma_add 0.1 ---
+  lossy init 0: F=0.9198 eta'=0.5958 trainNLL=4.17830 (wall=481s)
+  lossy init 1: F=0.9291 eta'=0.3471 trainNLL=4.17891 (wall=462s)
+  lossy init 2: F=0.9435 eta'=0.3617 trainNLL=4.17658 (wall=461s)
+  representative (best train NLL): init 2 F=0.9435; NLL spread 0.00233 vs F spread 0.0237
+  mle3: F=0.9032 (converged=False, wall=901s)
+  -> verdict: lossy >= mle (0.9435 vs 0.9032)
+
+--- config: data seed 42, sigma_add 0.05 ---
+  lossy init 0: F=0.9079 eta'=0.7633 trainNLL=4.04993 (wall=667s)
+  lossy init 1: F=0.9132 eta'=0.5148 trainNLL=4.05105 (wall=639s)
+  lossy init 2: F=0.9490 eta'=0.4418 trainNLL=4.04894 (wall=706s)
+  representative (best train NLL): init 2 F=0.9490; NLL spread 0.00211 vs F spread 0.0411
+  mle3: F=0.9362 (converged=True, wall=821s)
+  -> verdict: lossy >= mle (0.9490 vs 0.9362)
+
+--- config: data seed 42, sigma_add 0.2 ---
+  lossy init 0: F=0.9253 eta'=0.3939 trainNLL=4.40294 (wall=558s)
+  lossy init 1: F=0.9243 eta'=0.3459 trainNLL=4.40294 (wall=593s)
+  lossy init 2: F=0.8929 eta'=0.2973 trainNLL=4.40036 (wall=649s)
+  representative (best train NLL): init 2 F=0.8929; NLL spread 0.00258 vs F spread 0.0325
+  mle3: F=0.8147 (converged=False, wall=910s)
+  -> verdict: lossy >= mle (0.8929 vs 0.8147)
+
+=== sweep ruling (pre-declared reading, issue #67) ===
+  verdict holds on 5/5 configs
+-> all configs hold: the wording may add 'robust across 3 data seeds and a 4x sigma_add range' (one target class, exploratory -- unchanged).
+
+raw results -> C:\dev\wigner-splat-exp21\experiments\21_thermal_sweep\results.json
