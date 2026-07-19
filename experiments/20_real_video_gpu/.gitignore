@@ -1,0 +1,4 @@
+data/train/*.png
+data/heldout-sealed/*.png
+data/staging/*.png
+colmap/
