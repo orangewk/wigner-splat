@@ -1597,3 +1597,27 @@ verdict. Fresh pooled RGB MSE was 0.03186 / 0.03315 / 0.02852, much higher
 than Round 3's opened views, consistent with the intended extrapolation stress.
 Machine-readable result: experiments/20_real_video_gpu/phase6_round4_result.json;
 certificate: experiments/20_real_video_gpu/round4_certificate.png.
+
+## 2026-07-19 — Experiment 20 / issue #48 Round 5, public-scene DNF
+
+Owner/decisions: orange approved hard lock comment 5014598454. Codex session
+019f6d8a executed the GPU-side pipeline. Official Tanks and Temples Truck and
+Train image-set archives were pinned by URL, byte length, and SHA-256; their
+251/301 frames yielded declared strides 10/12 and native 1920x1080 splits.
+CC BY 4.0 attribution and the official page's conflicting legacy
+non-commercial wording are both recorded.
+
+The prerequisite failed before fitting. The video-oriented sequential matcher
+registered Truck 11/20 and Train 3/20. Before any fit or held-out access,
+operational correction comment 5014845453 fixed CUDA exhaustive matching for
+the globally spaced image set while preserving both failures. It improved
+Truck to 15/20 but Train produced 2/20; neither met the explicit 20/20
+completion condition.
+
+Both scenes are DNF. No gsplat, pooled-train-PSNR decision, Fisher, held-out
+registration, Gate B/B2, or ensemble decomposition ran. This result does not
+replicate or reject Gate B; the locked 24-frame global stride failed to supply
+the complete SfM prerequisite. Further rescue tuning was barred as post-hoc
+protocol exploration. Machine-readable result:
+experiments/20_real_video_gpu/phase7_round5_result.json; certificate:
+experiments/20_real_video_gpu/round5_dnf_certificate.png.

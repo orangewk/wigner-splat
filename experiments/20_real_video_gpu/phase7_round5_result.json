@@ -1,0 +1,96 @@
+{
+  "phase": "round5_independent_public_scene_replication",
+  "status": "did_not_finish",
+  "hard_lock_issue_comment": 5014598454,
+  "operational_correction_issue_comment": 5014845453,
+  "prework": {
+    "shared_ensemble_reuse_guard": "implemented_and_cpu_verified",
+    "validated_fields": [
+      "heldout_names",
+      "fit_seeds",
+      "ddof",
+      "map_sha256"
+    ]
+  },
+  "scenes": {
+    "Truck": {
+      "status": "did_not_finish",
+      "source_archive_sha256": "9ae9ebe88c23f10e02e1abdb2a85f6bd7d4d59fad6b549685f7cbcc872439cc2",
+      "total_official_frames": 251,
+      "selection_stride": 10,
+      "train_images": 20,
+      "heldout_sealed_images": 4,
+      "heldout_access": false,
+      "attempts": [
+        {
+          "matcher": "sequential",
+          "registered_train_images": 11,
+          "required_train_images": 20,
+          "wall_seconds": 17.7,
+          "wall_seconds_source": "execution harness observation",
+          "cuda_feature_extraction_and_matching": true,
+          "peak_vram_gib": null,
+          "peak_vram_note": "The COLMAP process was too brief for a synchronized peak sample; GPU use is established by the CUDA extractor/matcher logs.",
+          "model": "out/round5/truck/colmap/train/sparse/0"
+        },
+        {
+          "matcher": "exhaustive",
+          "registered_train_images": 15,
+          "required_train_images": 20,
+          "wall_seconds": 10.9,
+          "wall_seconds_source": "execution harness observation",
+          "cuda_feature_extraction_and_matching": true,
+          "peak_vram_gib": null,
+          "peak_vram_note": "The COLMAP process was too brief for a synchronized peak sample; GPU use is established by the CUDA extractor/matcher logs.",
+          "model": "out/round5/truck/colmap/exhaustive_v1/sparse/0"
+        }
+      ],
+      "best_registered_train_images": 15,
+      "dnf_reason": "No COLMAP attempt registered all 20 train images.",
+      "fit_started": false,
+      "fit_hard_stop_evaluated": false,
+      "fisher_started": false,
+      "gate_started": false
+    },
+    "Train": {
+      "status": "did_not_finish",
+      "source_archive_sha256": "542bb34aa5e83eba8e7f8095b11909f619f5f09349eaea716933a14cd8894367",
+      "total_official_frames": 301,
+      "selection_stride": 12,
+      "train_images": 20,
+      "heldout_sealed_images": 4,
+      "heldout_access": false,
+      "attempts": [
+        {
+          "matcher": "sequential",
+          "registered_train_images": 3,
+          "required_train_images": 20,
+          "wall_seconds": 19.2,
+          "wall_seconds_source": "execution harness observation",
+          "cuda_feature_extraction_and_matching": true,
+          "peak_vram_gib": null,
+          "peak_vram_note": "The COLMAP process was too brief for a synchronized peak sample; GPU use is established by the CUDA extractor/matcher logs.",
+          "model": "out/round5/train/colmap/train/sparse/0"
+        },
+        {
+          "matcher": "exhaustive",
+          "registered_train_images": 2,
+          "required_train_images": 20,
+          "wall_seconds": 6.5,
+          "wall_seconds_source": "execution harness observation",
+          "cuda_feature_extraction_and_matching": true,
+          "peak_vram_gib": null,
+          "peak_vram_note": "The COLMAP process was too brief for a synchronized peak sample; GPU use is established by the CUDA extractor/matcher logs.",
+          "model": "out/round5/train/colmap/exhaustive_v1/sparse/0"
+        }
+      ],
+      "best_registered_train_images": 3,
+      "dnf_reason": "No COLMAP attempt registered all 20 train images.",
+      "fit_started": false,
+      "fit_hard_stop_evaluated": false,
+      "fisher_started": false,
+      "gate_started": false
+    }
+  },
+  "conclusion": "Both preregistered public scenes failed before fitting because the hard-locked 20-image training sets did not yield complete COLMAP reconstructions. Truck registered at most 15/20 and Train at most 3/20 across the preserved attempts. No gsplat, Fisher, held-out registration, Gate B/B2, or decomposition result exists. This DNF does not support either replication or rejection of Gate B."
+}
