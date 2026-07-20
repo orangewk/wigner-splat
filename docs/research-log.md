@@ -1708,3 +1708,27 @@ held-out images were not accessed by COLMAP, fit, or evaluation. Round 6 thus
 neither replicates nor rejects Gate B. Machine-readable result:
 experiments/20_real_video_gpu/phase8_round6_result.json; certificate:
 experiments/20_real_video_gpu/round6_dnf_certificate.png.
+
+## 2026-07-20 — Experiment 22 / issue #89, signed-splat expression demos
+
+Owner/decisions: orange approved the demo line; Codex session 019f6d8a implemented
+and rendered it. This is expression work, not a confirmatory gate or a continuation
+of issue #48's scientific claim. No GPU training ran.
+
+A dependency-light CPU renderer now loads common 32-byte `.splat` files and gsplat
+test `.npz` scenes. Three time-varying signed operations were exercised: matched
+negative copies inside a moving 3D eraser sphere, a swept dark beam filled with
+low-amplitude negative Gaussians, and a translated negative copy that annihilates
+a selected positive region at contact. The distinction from NegGS is purpose
+(post-training expression rather than reconstruction); GaussianEditor and Point'n
+Move remain adjacent editing/removal precedents.
+
+Local garden renders completed at 2M splats, 1296x840, 12 fps, 96 frames, 8 seconds.
+All three passed ffprobe and 1/4/7-second visual QA. The exact recipe, wall times,
+and output hashes are in `experiments/22_signed_splat_demo/demo_result.json`.
+
+The local input is not publishable from the evidence available: cakewalk/splat-data
+states that files come from different sources under different licenses but does not
+map garden.splat to one license. Therefore neither scene nor rendered videos are
+committed. The reusable code and provenance warning are the durable result; public
+video publication waits for a self-captured or otherwise clearly licensed scene.

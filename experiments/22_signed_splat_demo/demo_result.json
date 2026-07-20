@@ -1,0 +1,54 @@
+{
+  "issue": 89,
+  "status": "local_demo_complete_publication_blocked_on_asset_provenance",
+  "renderer": {
+    "kind": "signed CPU post-process",
+    "formats": ["32-byte .splat", "gsplat test .npz"],
+    "dependencies": ["numpy", "Pillow", "ffmpeg"],
+    "effects": ["eraser", "dark-flashlight", "annihilation"]
+  },
+  "local_input": {
+    "name": "garden.splat",
+    "url": "https://huggingface.co/cakewalk/splat-data/resolve/main/garden.splat",
+    "bytes": 186713088,
+    "sha256": "f85efae49d16cf17756290a4f6d9dea71c324639b7f53119920630389f2b59aa",
+    "redistributed": false,
+    "publication_status": "blocked: upstream model card does not map this file to a specific source license"
+  },
+  "render_recipe": {
+    "loaded_splats": 2000000,
+    "width": 1296,
+    "height": 840,
+    "fps": 12,
+    "frames": 96,
+    "duration_seconds": 8.0,
+    "camera_preset": "garden camera 0 from cakewalk/splat main.js",
+    "video_codec": "h264",
+    "pixel_format": "yuv420p"
+  },
+  "local_outputs_not_committed": [
+    {
+      "effect": "eraser",
+      "bytes": 1794195,
+      "sha256": "0a55fb0f66934525b3197fa789c0b03be2d221ed0adfcdff5b496db13d1971bc",
+      "wall_seconds": 81.732
+    },
+    {
+      "effect": "dark-flashlight",
+      "bytes": 1490389,
+      "sha256": "bfec3b36eb150d627aec742d4fe6301b42beca1c5d2ec869a130204d231978c1",
+      "wall_seconds": 4.082
+    },
+    {
+      "effect": "annihilation",
+      "bytes": 13583664,
+      "sha256": "2084ff259b75dfc9b3d241134d7581a6505a2c6fceaf357d94cdf838aa8aeb18",
+      "wall_seconds": 113.686
+    }
+  ],
+  "validation": {
+    "targeted_tests": "4 passed in 0.15s",
+    "video_probe": "all outputs: 1296x840, 12 fps, 96 frames, 8.000 seconds",
+    "visual_qa_times_seconds": [1, 4, 7]
+  }
+}
