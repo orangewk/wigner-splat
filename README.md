@@ -16,6 +16,32 @@ models with closed-form homodyne likelihoods and analytic gradients.
 > The complete chronological research narrative is available in
 > [Japanese](README.ja.md).
 
+<p align="center">
+  <img src="experiments/14_gkp_rank/gkp_rank_marginals.png" width="78%" alt="Measured GKP homodyne marginals and physical-model reconstructions" />
+</p>
+
+## Highlights
+
+- **Real measured data.** On the public propagating-light GKP homodyne dataset
+  (Konno *et al.*, Science 2024), a 92-parameter physical model **ties the
+  test-selected full-rank MLE frontier (255 parameters) at
+  confidence-interval resolution**
+  ([experiment 18](docs/research-log.md#2026-07-16--rank-saturation-on-the-gkp-data-the-frontier-gap-closes-experiment-18-issue-40)).
+- **A recorded out-of-family win.** On a synthetic full-rank thermal-noise
+  target, the loss-channel-composed rank-2 model fitted blind reached fidelity
+  0.923 against 0.898 for a converged full-rank MLE with ~2.6×10⁵ parameters
+  (experiment 19) — and the target is **provably outside the model family**:
+  experiment 20 shows analytically that no efficiency and no finite rank can
+  represent it exactly, while best approximations stop 1–2×10⁻³ short.
+- **An honest scaling story.** One mode: MLE is faster. Two modes: statistical
+  tie at ~1/7.4 the compute. Three modes: the signed-splat score is not
+  physical fidelity (non-PSD) and the repository says so.
+- **Falsification-first records.** The formal gates and later experiments
+  pre-declare their protocols and falsification conditions before running
+  (the earliest experiments were exploratory and are recorded as such);
+  negative results, scoring corrections, and superseded logs are all kept in
+  the [research log](docs/research-log.md).
+
 ## What is being explored
 
 Homodyne tomography observes one-dimensional quadrature marginals at local
@@ -102,10 +128,6 @@ frontier best at 255 parameters). Earlier rounds' recorded losses
 (experiments 12–14) stand in the log. These analyses remain exploratory—the
 splits reuse the same observations, the MLE opponent is test-selected, and a
 tie at CI resolution is not preregistered confirmation.
-
-<p align="center">
-  <img src="experiments/14_gkp_rank/gkp_rank_marginals.png" width="78%" alt="Measured GKP homodyne marginals and reconstructions" />
-</p>
 
 <p align="center">
   <img src="experiments/18_gkp_saturation/gkp_saturation_frontier.png" width="78%" alt="Held-out NLL versus degrees of freedom for physical models and MLE, ranks 1 through 5" />
