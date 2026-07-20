@@ -12,17 +12,31 @@ discipline *is* the selling point.
 
 ---
 
-## Abstract (draft slots)
+## Abstract (draft v1)
 
-- One sentence: what representation (finite mixtures of displaced/squeezed Gaussian kets,
-  ρ = BB†, PSD by construction; and the signed-splat Radon track it grew out of).
-- One sentence: real-data headline — 92-parameter physical model ties the test-selected
-  full-rank MLE frontier (255 params) at CI resolution on the public GKP dataset (exp18).
-- One sentence: synthetic blind gate — one recorded instance of blind held-out fidelity
-  above an equal-budget full-rank MLE on a target *proven* outside the model family
-  (exp19/20), robust across 5 pre-declared configurations (exp21).
-- One sentence: what is NOT claimed — no universal superiority; exploratory splits;
-  the full falsification-first record is the repository itself.
+> Continuous-variable quantum-state tomography usually reconstructs a truncated
+> Fock-basis density matrix. We study a compact alternative: finite mixtures of
+> displaced, squeezed Gaussian kets whose ρ = BB† construction is positive
+> semidefinite by construction, fitted by per-sample homodyne likelihood with
+> closed-form gradients, and composed with physical loss and noise channels.
+> On the public propagating-light GKP dataset of Konno *et al.* (Science 2024),
+> a rank-4 model with 92 real parameters matches the empirical full-rank
+> maximum-likelihood frontier (255 parameters) at confidence-interval
+> resolution on held-out likelihood. On a synthetic thermal-noise target that
+> we prove lies outside the model family — no detection efficiency and no
+> finite rank reproduces it exactly — the channel-composed model fitted blind
+> exceeds an equal-wall-clock full-rank MLE, a verdict that holds across all
+> five pre-declared seed and noise configurations. We do not claim a
+> universally superior method: comparisons on real data reuse observations
+> across splits, the strongest baseline is test-selected, and the blind result
+> covers one target class. The contribution is a compact, physically
+> constrained model family together with a fully falsification-first research
+> record — negative results, superseded scorings, and pre-declared protocols
+> are all preserved in the accompanying repository.
+
+(v1 notes: ~180 words; each sentence maps to C1–C3 + the non-claim; the
+"proof" sentence deliberately says *exceeds an equal-wall-clock MLE*, not
+"beats converged MLE" — exp21's convergence caveat baked in from the start.)
 
 ## 1. Introduction
 
