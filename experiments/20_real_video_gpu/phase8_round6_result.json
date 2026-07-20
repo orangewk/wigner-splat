@@ -1,0 +1,163 @@
+{
+  "phase": "round6_independent_public_scene_replication",
+  "status": "did_not_finish",
+  "hard_lock_issue_comment": 5017827938,
+  "execution_handoff_issue_comment": 5018136279,
+  "scenes": {
+    "Truck": {
+      "status": "did_not_finish",
+      "source_archive_sha256": "9ae9ebe88c23f10e02e1abdb2a85f6bd7d4d59fad6b549685f7cbcc872439cc2",
+      "selection_start": 113,
+      "source_indices": [
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136
+      ],
+      "train_images": 20,
+      "heldout_sealed_images": 4,
+      "heldout_access": false,
+      "colmap": {
+        "matcher": "exhaustive",
+        "cuda_feature_extraction_and_matching": true,
+        "registered_train_images": 20,
+        "required_train_images": 20,
+        "wall_seconds": 16.4,
+        "wall_seconds_source": "execution harness observation",
+        "result": "out/round6/truck/colmap/exhaustive_v1/result.json"
+      },
+      "fit_hard_stop": {
+        "required_fit_seeds": [
+          0,
+          1,
+          2
+        ],
+        "executed_fit_seeds": [
+          0
+        ],
+        "not_run_after_decisive_failure": [
+          1,
+          2
+        ],
+        "seed0": {
+          "steps": 4000,
+          "final_step": 3999,
+          "final_pooled_mse": 0.00371070738038127,
+          "final_pooled_psnr_db": 24.305432919719795,
+          "required_pooled_psnr_db": 25.0,
+          "passed": false,
+          "descriptive_peak_pooled_psnr_db": 24.968984670006755,
+          "descriptive_peak_step": 2999,
+          "num_gaussians_final": 715788,
+          "peak_vram_gib": 1.2818212509155273,
+          "wall_seconds": 177.3,
+          "wall_seconds_source": "execution harness observation",
+          "checkpoint_step3999_exists": true
+        }
+      },
+      "dnf_reason": "Fit seed 0 completed the fixed 4000-step recipe below the pooled train PSNR floor; one failed seed is sufficient for DNF.",
+      "fisher_started": false,
+      "heldout_registration_started": false,
+      "gate_started": false,
+      "ensemble_decomposition_started": false
+    },
+    "Train": {
+      "status": "did_not_finish",
+      "source_archive_sha256": "542bb34aa5e83eba8e7f8095b11909f619f5f09349eaea716933a14cd8894367",
+      "selection_start": 138,
+      "source_indices": [
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161
+      ],
+      "train_images": 20,
+      "heldout_sealed_images": 4,
+      "heldout_access": false,
+      "colmap": {
+        "matcher": "exhaustive",
+        "cuda_feature_extraction_and_matching": true,
+        "registered_train_images": 20,
+        "required_train_images": 20,
+        "wall_seconds": 12.3,
+        "wall_seconds_source": "execution harness observation",
+        "result": "out/round6/train/colmap/exhaustive_v1/result.json"
+      },
+      "fit_hard_stop": {
+        "required_fit_seeds": [
+          0,
+          1,
+          2
+        ],
+        "executed_fit_seeds": [
+          0
+        ],
+        "not_run_after_decisive_failure": [
+          1,
+          2
+        ],
+        "seed0": {
+          "steps": 4000,
+          "final_step": 3999,
+          "final_pooled_mse": 0.006053281878768189,
+          "final_pooled_psnr_db": 22.18009102141758,
+          "required_pooled_psnr_db": 25.0,
+          "passed": false,
+          "descriptive_peak_pooled_psnr_db": 22.40852937256401,
+          "descriptive_peak_step": 2999,
+          "num_gaussians_final": 914028,
+          "peak_vram_gib": 1.4504985809326172,
+          "wall_seconds": 180.5,
+          "wall_seconds_source": "execution harness observation",
+          "checkpoint_step3999_exists": true
+        }
+      },
+      "dnf_reason": "Fit seed 0 completed the fixed 4000-step recipe below the pooled train PSNR floor; one failed seed is sufficient for DNF.",
+      "fisher_started": false,
+      "heldout_registration_started": false,
+      "gate_started": false,
+      "ensemble_decomposition_started": false
+    }
+  },
+  "conclusion": "The locked contiguous central windows repaired the Round 5 SfM failure: both scenes registered 20/20 train images. Both scenes then failed the next preregistered prerequisite on fit seed 0 (Truck 24.305 dB; Train 22.180 dB versus the 25 dB floor). Seeds 1/2, Fisher, held-out registration, Gate B/B2, and ensemble decomposition were not run. This DNF neither replicates nor rejects Gate B on the public scenes."
+}

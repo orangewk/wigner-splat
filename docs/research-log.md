@@ -1682,3 +1682,29 @@ the complete SfM prerequisite. Further rescue tuning was barred as post-hoc
 protocol exploration. Machine-readable result:
 experiments/20_real_video_gpu/phase7_round5_result.json; certificate:
 experiments/20_real_video_gpu/round5_dnf_certificate.png.
+
+## 2026-07-20 — Experiment 20 / issue #48 Round 6, SfM pass then fit DNF
+
+Owner/decisions: orange approved hard lock comment 5017827938 and gave the GPU
+GO after execution handoff 5018136279. Codex session 019f6d8a ran the fixed
+contiguous central windows: Truck source 113–136 and Train 138–161, with
+positions 4/10/16/22 sealed.
+
+CUDA exhaustive COLMAP registered 20/20 train images for both scenes on the
+first attempt (Truck 10,537 points / 0.648 px mean reprojection error; Train
+8,934 / 0.719 px). No parameter rescue or window movement occurred. This
+repairs the exact prerequisite that stopped Round 5 and supports its diagnosis:
+the global-stride selection, not GPU availability, broke SfM connectivity.
+
+The next hard stop failed. With the unchanged 4000-step gsplat recipe, seed 0
+ended at pooled train PSNR 24.305 dB for Truck and 22.180 dB for Train, both
+below the declared 25 dB floor. Truck descriptively peaked at 24.969 dB at step
+2999, but selecting that checkpoint would change the fixed decision point after
+seeing the trajectory, so step 3999 remains authoritative.
+
+One failed seed is sufficient for scene DNF. Seeds 1/2, production Fisher,
+held-out registration, Gate B/B2, and ensemble decomposition were not run;
+held-out images were not accessed by COLMAP, fit, or evaluation. Round 6 thus
+neither replicates nor rejects Gate B. Machine-readable result:
+experiments/20_real_video_gpu/phase8_round6_result.json; certificate:
+experiments/20_real_video_gpu/round6_dnf_certificate.png.

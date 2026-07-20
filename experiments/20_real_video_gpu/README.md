@@ -169,3 +169,16 @@ gsplat、train PSNR hard stop、Fisher、sealed pose登録、Gate B/B2、ensembl
 分解は未実行である。このDNFはGate Bの再現も棄却も意味しない。宣言24枚の
 global strideでは必要な完全SfMへ到達しなかった、という前提条件の結果である。
 集計は phase7_round5_result.json、図は round5_dnf_certificate.png。
+
+## Round 6 contiguous public-scene blocks
+
+Issue #48 comment 5017827938 の hard lock に従い、Round 5 と同じ Truck / Train
+アーカイブから中央固定の連続24枚を使用した。Truckはsource 113–136、Trainは
+138–161、sealed positionsは4/10/16/22で不変。CUDA exhaustive COLMAPは両scene
+とも最初の試行でtrain 20/20を登録し、Round 5のSfM前提DNFを解消した。
+
+次のpooled train PSNR前提は、固定4000-step recipeのseed 0でTruck 24.305 dB、
+Train 22.180 dBとなり、25 dB床を両sceneとも未達。1 seedの未達でDNFが確定する
+ためseeds 1/2、Fisher、held-out登録、Gate B/B2、ensemble分解は実行していない。
+held-outはCOLMAP・fit・評価から未アクセス。集計は
+phase8_round6_result.json、図はround6_dnf_certificate.png。
