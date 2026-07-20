@@ -15,3 +15,15 @@ jobs:
     # Shared CLI-direct scan; replaces gitleaks/gitleaks-action, whose
     # owner-type API lookup fails closed during GitHub outages (2026-07-20).
     uses: orangewk/.github/.github/workflows/gitleaks.yml@main
+
+  required-check:
+    # Repository rules gate merges on the legacy check context
+    # "Scan for secrets". The reusable workflow reports as
+    # "scan / Scan for secrets", so this job re-reports success under the
+    # legacy name; it is skipped (and the rule stays unsatisfied) unless
+    # the scan succeeds.
+    name: Scan for secrets
+    needs: scan
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "shared gitleaks scan succeeded"
