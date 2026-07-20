@@ -2,7 +2,10 @@
 
 - **Upload type**: Publication → Preprint
 - **Title**: Compact physical Gaussian-ket models for homodyne quantum-state tomography
-- **Authors**: orangewk
+- **Authors**: Person — Family name `Kawashima`, Given names `Wataru`,
+  Identifier (ORCID) `0009-0002-7713-5547`; Affiliations/Role left empty
+  (decision 2026-07-20: real name + ORCID; the repository handle *orangewk*
+  is noted in the paper's Acknowledgements for continuity)
 - **Description** (アブストラクトをそのまま):
   Continuous-variable quantum-state tomography usually reconstructs a truncated
   Fock-basis density matrix. We study a compact alternative: finite mixtures of

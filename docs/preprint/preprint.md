@@ -1,6 +1,6 @@
 ---
 title: "Compact physical Gaussian-ket models for homodyne quantum-state tomography"
-author: "orangewk"
+author: "Wataru Kawashima (ORCID: 0009-0002-7713-5547)"
 date: "July 2026 — draft v1 (not yet submitted)"
 abstract: |
   Continuous-variable quantum-state tomography usually reconstructs a
@@ -357,7 +357,8 @@ included with its source attribution.
 # Acknowledgements {-}
 
 Research direction, claim review, and all protocol decisions are by the
-author. Implementation, drafting, analysis, and internal-review
+author, who maintains the accompanying repository under the handle
+*orangewk*. Implementation, drafting, analysis, and internal-review
 assistance were provided by AI agents: Claude (Anthropic) and Codex
 (OpenAI). The GKP homodyne dataset is by Konno *et al.*, redistributed
 with attribution from the Dryad archive (doi:10.5061/dryad.t76hdr86j);
