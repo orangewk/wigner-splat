@@ -1,7 +1,7 @@
 ---
 title: "Compact physical Gaussian-ket models for homodyne quantum-state tomography"
 author: "Wataru Kawashima (ORCID: 0009-0002-7713-5547)"
-date: "July 2026 — draft v1 (not yet submitted)"
+date: "July 2026 — v1"
 abstract: |
   Continuous-variable quantum-state tomography usually reconstructs a
   truncated Fock-basis density matrix. We study a compact alternative:
