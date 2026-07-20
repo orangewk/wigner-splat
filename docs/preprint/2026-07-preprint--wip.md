@@ -5,7 +5,8 @@
 (Claude, Codex); the author directed the research questions, reviewed every claim, and made
 all editorial and protocol decisions. (Full statement in Acknowledgements.)
 
-**Target:** OSF Preprints / Zenodo, short paper (6–10 pp).
+**Target:** Zenodo (concrete target; the generalist OSF Preprints server has been
+closed to new submissions since 2025-08-25), short paper (6–10 pp).
 **Status:** skeleton — prose slots marked `[...]`, numbers slot in from the committed
 experiment logs at the end. Every claim carries its scope note inline; the claim
 discipline *is* the selling point.
@@ -25,8 +26,9 @@ discipline *is* the selling point.
 > resolution on held-out likelihood. On a synthetic thermal-noise target that
 > we prove lies outside the model family — no detection efficiency and no
 > finite rank reproduces it exactly — the channel-composed model fitted blind
-> exceeds an equal-wall-clock full-rank MLE, a verdict that holds across all
-> five pre-declared seed and noise configurations. We do not claim a
+> exceeds a full-rank MLE run under the pre-declared 900-second baseline
+> budget, a verdict that holds across all five pre-declared seed and noise
+> configurations. We do not claim a
 > universally superior method: comparisons on real data reuse observations
 > across splits, the strongest baseline is test-selected, and the blind result
 > covers one target class. The contribution is a compact, physically
@@ -34,9 +36,12 @@ discipline *is* the selling point.
 > record — negative results, superseded scorings, and pre-declared protocols
 > are all preserved in the accompanying repository.
 
-(v1 notes: ~180 words; each sentence maps to C1–C3 + the non-claim; the
-"proof" sentence deliberately says *exceeds an equal-wall-clock MLE*, not
-"beats converged MLE" — exp21's convergence caveat baked in from the start.)
+(v1 notes: ~180 words; each sentence maps to C1–C3 + the non-claim. The
+headline says *a full-rank MLE under the pre-declared 900 s baseline budget* —
+NOT "converged MLE" (exp21: converged 2/5) and NOT "equal wall-clock" (the
+model side fits three initializations totaling ~1.4–2.0×10³ s per
+configuration vs the MLE's 821–910 s; the budget asymmetry is disclosed in
+§2.3/§3.3, review round 1).)
 
 ## 1. Introduction
 
@@ -72,8 +77,11 @@ discipline *is* the selling point.
   derivation.md for the full proofs, state only what the paper needs.
 
 ### 2.3 Baselines and scoring
-- Iterative RρR full-rank MLE at matched shot budgets and matched wall-clock budgets
-  (state the 900 s convention and its convergence caveat where used).
+- Iterative RρR full-rank MLE at matched shot budgets; the MLE baseline runs under
+  a pre-declared 900 s budget (NOT matched wall-clock: the model side fits three
+  initializations of ~470–670 s each, 1.4–2.0×10³ s aggregate per configuration,
+  and selects blind by train NLL — disclose the asymmetry and the 2/5 convergence
+  rate wherever the comparison is cited).
 - Generalized fidelity for subnormalized (cropped) matrices
   F = (Tr√(√ρσ√ρ) + √((1−Trρ)(1−Trσ)))² — why plain Uhlmann mis-scores cropped
   models (PR #64 round 2); used uniformly for exp19-class scoring.
@@ -108,9 +116,11 @@ discipline *is* the selling point.
   the proof. Thin-boundary caveat: best-found approximations reach 1−F ≈ 1–2×10⁻³
   (upper bounds), so the blind gap is fit-/data-budget, not distance.
 - exp21: 5 pre-declared configs (3 data seeds × σ_add range 4×): verdict holds 5/5
-  (lossy 0.893–0.949 vs MLE 0.815–0.936). **Equal-budget caveat**: MLE converged on
-  2/5 within 900 s; margins over unconverged baselines not guaranteed under longer
-  optimization. Texture: no basin collapse in 15 fits; the exp16 selection hazard
+  (lossy 0.893–0.949 vs MLE 0.815–0.936). **Budget disclosure**: the MLE baseline
+  runs under the pre-declared 900 s budget and converged on 2/5; the lossy side is
+  three initializations (1.4–2.0×10³ s aggregate per configuration, sequential)
+  selected blind by train NLL. Margins over unconverged baselines not guaranteed
+  under longer optimization. Texture: no basin collapse in 15 fits; the exp16 selection hazard
   visible in mild non-verdict-affecting form; fitted η′ tracks σ_add as the exp20
   mechanism predicts.
 - One new summary figure: exp19/20/21 combined (target, family boundary, sweep bars).
@@ -134,9 +144,11 @@ discipline *is* the selling point.
 
 ## 5. Reproducibility
 
-- Repository (MIT) + Zenodo archived release DOI 10.5281/zenodo.21387212; every
-  experiment: committed scripts, raw logs, results.json; research log as the
-  chronological record including superseded scorings.
+- Repository (MIT) + Zenodo archived release DOI 10.5281/zenodo.21387212. Artifact
+  coverage stated accurately: every experiment directory commits its scripts and
+  raw output logs; the formal-gate experiments (16, 17, 18, 19, 20_noninclusion,
+  21) additionally commit machine-readable results.json. The research log is the
+  chronological record, including superseded scorings.
 
 ## Acknowledgements
 
