@@ -21,6 +21,7 @@ def _load(name):
 
 
 renderer = _load("signed_renderer")
+gpu_renderer = _load("gpu_renderer")
 
 
 def test_splat_loader_decodes_32_byte_records(tmp_path):
@@ -84,3 +85,49 @@ def test_scene_rasterizer_exposes_background_when_splats_are_removed():
     removed = renderer.composite(rgb, removed_alpha, background)
     assert visible[2, 2, 0] == 1.0
     np.testing.assert_allclose(removed[2, 2], 0.25)
+
+
+def test_gaussian_ply_loader_preserves_trained_attributes(tmp_path):
+    properties = (
+        ["x", "y", "z"]
+        + [f"f_dc_{index}" for index in range(3)]
+        + [f"f_rest_{index}" for index in range(45)]
+        + ["opacity"]
+        + [f"scale_{index}" for index in range(3)]
+        + [f"rot_{index}" for index in range(4)]
+    )
+    dtype = np.dtype([(name, "<f4") for name in properties])
+    records = np.zeros(2, dtype=dtype)
+    records["x"], records["y"], records["z"] = [1, 4], [2, 5], [3, 6]
+    records["opacity"] = [0.0, np.log(3.0)]
+    records["scale_0"] = np.log(2.0)
+    records["scale_1"] = np.log(3.0)
+    records["scale_2"] = np.log(4.0)
+    records["rot_0"] = 1.0
+    records["f_dc_0"] = [0.25, 0.5]
+    records["f_rest_44"] = [0.75, 1.0]
+    header = "\n".join(
+        ["ply", "format binary_little_endian 1.0", "element vertex 2"]
+        + [f"property float {name}" for name in properties]
+        + ["end_header", ""]
+    ).encode("ascii")
+    path = tmp_path / "trained.ply"
+    path.write_bytes(header + records.tobytes())
+
+    scene = gpu_renderer.load_gaussian_ply(path)
+
+    np.testing.assert_allclose(scene.means, [[1, 2, 3], [4, 5, 6]])
+    np.testing.assert_allclose(scene.scales, [[2, 3, 4], [2, 3, 4]], rtol=1e-6)
+    np.testing.assert_allclose(scene.opacities, [0.5, 0.75], rtol=1e-6)
+    assert scene.sh_coefficients.shape == (2, 16, 3)
+    np.testing.assert_allclose(scene.sh_coefficients[:, 0, 0], [0.25, 0.5])
+    np.testing.assert_allclose(scene.sh_coefficients[:, 15, 2], [0.75, 1.0])
+
+
+def test_look_at_maps_target_to_positive_camera_depth():
+    eye = np.array([0.0, 0.0, -4.0], dtype=np.float32)
+    target = np.zeros(3, dtype=np.float32)
+    view = gpu_renderer.look_at(eye, target, np.array([0.0, -1.0, 0.0], dtype=np.float32))
+    camera_target = view @ np.array([*target, 1.0], dtype=np.float32)
+    np.testing.assert_allclose(camera_target[:2], 0.0, atol=1e-7)
+    assert camera_target[2] == 4.0

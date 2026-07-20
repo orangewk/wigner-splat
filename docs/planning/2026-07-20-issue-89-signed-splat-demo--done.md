@@ -1,67 +1,51 @@
 # Issue #89 signed-splat demo — done
 
-## Authority and scope
+## Authority and fixed contract
 
-orange が 2026-07-20 に GO。Codex session `019f6d8a` が担当した。
-確認的検証や GPU 再学習ではなく、既存 3D Gaussian scene に負の寄与を後処理で
-加える表現デモを対象とした。追加候補（干渉縞・存在つまみ）は実装していない。
+orangeが2026-07-20にGOし、同日「公開済み・学習済み・美麗・精細度に問題がない
+3DGSを探し、追加学習なしで3効果を完成させる」と契約を再確認した。
+Codex session `019f6d8a` がデータ探索、GPU描画、視覚QA、PR反映を担当した。
+
+## Final public material
+
+steam studio / 3D SCAN STUDIO irisのCC0サボテンPLYを採用した。
+
+- source: https://note.com/steam_studio/n/ne9736d94f162
+- capture: Nikon Z7II、8256×5504、427 photos
+- model: Postshot、25k steps、1,935,120 splats、SH degree 3
+- PLY: 456,689,798 bytes
+- SHA-256: `0d747af95e3e9d55837a1e3aa6a4ed7dc6222866e0ba8cda928e211f7e8888c1`
+- GPU training: なし
+
+大容量PLYはcommitしない。CC0派生動画3本は合計約1.4MBのためPRに含める。
 
 ## Implementation decisions
 
-- 32-byte `.splat` と gsplat test `.npz` を読み込む dependency-light CPU renderer。
-- `eraser`: 3D球内で source splat と同位置の負コピーを相殺する。inpaintingしない。
-- `dark-flashlight`: 44個の低振幅 negative Gaussian で sweep する減光ビームを作る。
-- `annihilation`: 中央領域の負コピーを右から接近させ、接触時に正側を相殺する。
-- NumPy / Pillow / ffmpeg のみ。raw RGB を ffmpeg stdin へ流し、中間frameを作らない。
-- 出力済みファイルは既定で上書き拒否する。
+- `gpu_renderer.py`: Postshot/INRIA binary PLYの全Gaussian属性を読む。
+- `gsplat` CUDA rasterizer: 異方性scale、quaternion、SH degree 3、antialiasingを使用。
+- `eraser`: カメラ側3D球内の正splatsを相殺し、取得済み背面を露出。
+- `dark-flashlight`: 52個のnegative Gaussianによる減光ビーム。
+- `annihilation`: サボテンと遮蔽由来の小片を負コピーとの接触で相殺し、鉢は保持。
+- CUDA依存は実行時に遅延importし、PLY loaderのCIテストはCPUだけで実行可能。
+- 既存CPU rendererはlegacy fallbackとして残すが、正式成果物には使わない。
 
-## Prior-work boundary
+## Superseded path
 
-NegGS は negative Gaussian 自体と再構成用途の先行。GaussianEditor は Gaussian
-RoI とtext instructionによる局所編集、Point'n Moveは object removal/manipulation
-と露出領域inpaintingの先行。本作の差分は、学習改善ではなく時間変化する符号付き
-表現操作であり、既存法への優越は主張しない。
+初版の`cakewalk/splat-data/garden.splat`＋固定screen-space footprint CPU rendererは
+正式成果物から外した。gardenの個別licenseが不明確だったことに加え、異方性scale、
+quaternion、SHを無視する描画が精細度契約を満たさなかったためである。
+自作MOVへの切替・再学習案も撤回した。
 
-## Local material and license boundary
+## Validation
 
-ローカル検証に `cakewalk/splat-data/garden.splat` を使用した。
+- targeted pytest: `6 passed in 0.21s`（最終再実行）
+- full pytest: CPU稼働を継続したまま304秒でtimeout。元processはtimeoutで終了し、二重起動なし
+- GPU: NVIDIA GeForce RTX 5070
+- videos: 3本とも960×960、12 fps、96 frames、8.000秒、H.264 yuv420p
+- visual QA: 各動画1・4・7秒、annihilation最終frame
+- committed artifacts:
+  - `media/cc0-cactus-eraser.mp4`
+  - `media/cc0-cactus-dark-flashlight.mp4`
+  - `media/cc0-cactus-annihilation.mp4`
 
-- bytes: `186,713,088`
-- SHA-256: `f85efae49d16cf17756290a4f6d9dea71c324639b7f53119920630389f2b59aa`
-- camera: 同作者 WebGL viewer `main.js` の camera 0 を転記
-
-upstream model card は「様々な出典・様々なライセンス」とだけ記し、garden file と
-元素材licenseの対応を示さない。Issue本文の「動画公開は出典明記でOK」は一次資料から
-確認できなかったため、scene と動画はcommit・公開しない。公開版は自作scan等、権利が
-明確なsceneへの差し替えが必要。
-
-## Local representative videos
-
-共通 recipe: 2,000,000 splats / 1296×840 / 12 fps / 96 frames / 8.000 s /
-H.264 yuv420p。ファイル本体は `out/` にあり、gitignore対象。
-
-- eraser: 1,794,195 bytes, wall 81.732 s,
-  SHA-256 `0a55fb0f66934525b3197fa789c0b03be2d221ed0adfcdff5b496db13d1971bc`
-- dark-flashlight v2: 1,490,389 bytes, wall 4.082 s,
-  SHA-256 `bfec3b36eb150d627aec742d4fe6301b42beca1c5d2ec869a130204d231978c1`
-- annihilation: 13,583,664 bytes, wall 113.686 s,
-  SHA-256 `2084ff259b75dfc9b3d241134d7581a6505a2c6fceaf357d94cdf838aa8aeb18`
-
-1 / 4 / 7秒frameで視覚QA。初版の闇ビームはfoliage上で弱すぎたため、negative
-particle weightを `-0.055` から `-0.12` へ強めてv2を採用した。
-
-## Validation and operational record
-
-- targeted pytest: `4 passed in 0.15s`
-- ffprobe: 全3本 1296×840 / 12 fps / 96 frames / 8.000 s
-- AST parse / direct `.splat` decode / exact signed cancellation check: pass
-- `garden.splat` hashはHugging Face Xet pointer記載値と一致
-
-sandbox内pytestはテスト本体が `3 passed` に到達後、終了処理で2回hangした。
-二重起動せず、各元process treeだけを診断・停止した。権限付きかつthird-party plugin
-autoload無効で再実行すると正常終了し、fixture 1件のnear-plane前提を修正後4件pass。
-
-## Remaining action
-
-公開可能な自作sceneを受領後、同じCLIで3本を再生成して動画を公開成果物へ昇格する。
-現時点の完了範囲は、再現可能なコード、ローカル表現検証、権利境界の記録まで。
+結果・hash・再現条件は`experiments/22_signed_splat_demo/demo_result.json`に記録した。

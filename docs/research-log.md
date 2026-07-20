@@ -1711,24 +1711,32 @@ experiments/20_real_video_gpu/round6_dnf_certificate.png.
 
 ## 2026-07-20 — Experiment 22 / issue #89, signed-splat expression demos
 
-Owner/decisions: orange approved the demo line; Codex session 019f6d8a implemented
-and rendered it. This is expression work, not a confirmatory gate or a continuation
-of issue #48's scientific claim. No GPU training ran.
+Owner/decisions: orange approved the demo line and later fixed the acceptance
+contract to a public, pretrained, visually beautiful, high-detail 3DGS with no
+additional training. Codex session 019f6d8a selected the public material,
+implemented the GPU path, rendered the effects, and performed visual QA. This
+is expression work, not a confirmatory gate or a continuation of issue #48's
+scientific claim.
 
-A dependency-light CPU renderer now loads common 32-byte `.splat` files and gsplat
-test `.npz` scenes. Three time-varying signed operations were exercised: matched
-negative copies inside a moving 3D eraser sphere, a swept dark beam filled with
-low-amplitude negative Gaussians, and a translated negative copy that annihilates
-a selected positive region at contact. The distinction from NegGS is purpose
-(post-training expression rather than reconstruction); GaussianEditor and Point'n
-Move remain adjacent editing/removal precedents.
+The final input is steam studio / 3D SCAN STUDIO iris's CC0 cactus model:
+Nikon Z7II, 8256x5504, 427 photos, Postshot 25k steps, 1,935,120 splats, and
+SH degree 3. The 456,689,798-byte PLY hash is
+`0d747af95e3e9d55837a1e3aa6a4ed7dc6222866e0ba8cda928e211f7e8888c1`.
+No GPU training ran.
 
-Local garden renders completed at 2M splats, 1296x840, 12 fps, 96 frames, 8 seconds.
-All three passed ffprobe and 1/4/7-second visual QA. The exact recipe, wall times,
-and output hashes are in `experiments/22_signed_splat_demo/demo_result.json`.
+The production renderer uses gsplat CUDA with the trained position, opacity,
+anisotropic scale, WXYZ quaternion, and SH degree-3 coefficients. It renders
+three time-varying signed operations: a moving 3D eraser sphere, a dark beam
+filled with negative Gaussians, and a translated negative copy that annihilates
+the cactus at contact. The CPU fixed-footprint renderer remains a fallback but
+is not used for the high-fidelity result.
 
-The local input is not publishable from the evidence available: cakewalk/splat-data
-states that files come from different sources under different licenses but does not
-map garden.splat to one license. Therefore neither scene nor rendered videos are
-committed. The reusable code and provenance warning are the durable result; public
-video publication waits for a self-captured or otherwise clearly licensed scene.
+Three CC0-derived videos are committed at 960x960, 12 fps, 96 frames, and
+8 seconds. They passed ffprobe, 1/4/7-second visual QA, and an additional final
+frame check for complete annihilation while retaining the pot. Six targeted
+tests passed. Exact recipes and hashes are in
+`experiments/22_signed_splat_demo/demo_result.json`.
+
+This supersedes the earlier garden/provenance conclusion. The ambiguous
+cakewalk garden asset is not used, and the contract is satisfied by continuing
+the public-data search rather than switching to a self-captured MOV.
