@@ -173,12 +173,17 @@ def prepare_scene(spec: SceneSpec, archive_path: Path) -> dict:
             "archive_basename": archive_path.name,
             "archive_bytes": spec.archive_bytes,
             "archive_sha256": archive_hash,
-            "license": "CC BY 4.0 (Copyright section)",
-            "additional_terms": (
-                "The same official terms' License Grant section limits use to "
-                "non-commercial scientific research and prohibits reproducing, "
-                "modifying, or making the Data available to third parties without "
-                "prior written permission."
+            "license_cc_by_notice": (
+                "CC BY 4.0, stated in the Copyright section of the official "
+                "license page"
+            ),
+            "license_additional_restrictions": (
+                "The License Grant section of the same official license page "
+                "limits use to non-commercial scientific research and prohibits "
+                "reproducing, modifying, or making the Data available in any "
+                "form to any third party without prior written permission; the "
+                "page is internally inconsistent and this record does not "
+                "resolve it"
             ),
             "license_url": LICENSE_URL,
             "citation": (

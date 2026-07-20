@@ -6,18 +6,23 @@ and Train.
 - Authors: Arno Knapitsch, Jaesik Park, Qian-Yi Zhou, Vladlen Koltun
 - Dataset page: https://www.tanksandtemples.org/download/
 - License page: https://www.tanksandtemples.org/license/
-- Copyright section: CC BY 4.0
-- Additional terms on the same official page: the License Grant section limits
-  use to non-commercial scientific research and prohibits reproducing,
-  modifying, or making the Data available to third parties without prior
-  written permission
 - Citation: *Tanks and Temples: Benchmarking Large-Scale Scene
   Reconstruction*, ACM Transactions on Graphics 36(4), 2017.
 
-The Copyright and License Grant sections on the official terms page conflict.
-This provenance record preserves both statements, refers users to the official
-terms, and does not attempt to resolve the inconsistency. This experiment is
-non-commercial scientific research, and image payloads remain untracked.
+License status (the official license page is internally inconsistent, and this
+record does not resolve it):
+
+- The Copyright section of the official license page states CC BY 4.0, which is
+  the attribution the Round 5 hard lock recorded. This notice is preserved here
+  and in the committed manifests.
+- The License Grant section of the same official license page additionally
+  limits use to non-commercial scientific research and says the Data may not
+  be reproduced, modified, or made available in any form to any third party
+  without prior written permission.
+
+The authoritative terms are whatever the official license page states; consult
+it directly before any reuse. This experiment is non-commercial scientific
+research, and image payloads are not committed to this repository.
 
 ## Reproduction
 
