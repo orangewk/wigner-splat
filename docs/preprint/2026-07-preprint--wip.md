@@ -60,8 +60,9 @@ Two model tracks came out of it. The first, *signed* anisotropic Gaussian
 mixtures fitted to quadrature marginals through a closed-form differentiable
 Radon forward model, is expressive and fast — signed weights can represent
 Wigner negativity — but a signed mixture is not guaranteed to be a quantum
-state, and we found the resulting overlap scores can exceed physical bounds
-precisely in the regime where the method looks strongest (§3.1). The second
+state, and the resulting overlap scores are not physically bounded and are
+not fidelities; on one out-of-family target the recorded score exceeds
+unity (§3.4). The second
 track responds to that tension: finite mixtures of displaced, squeezed
 Gaussian kets assembled as ρ = BB†, which is positive semidefinite by
 construction, admits a closed-form per-sample homodyne likelihood with
@@ -86,16 +87,30 @@ Our contributions are deliberately scoped:
   components needed by a state as a possible continuous-variable analogue of
   stabilizer rank (§4).
 
-Prior work bounds the novelty claims. Differentiable Radon tomography with
-Gaussian primitives exists in the computer-vision and CT literature
-(R2-Gaussian, X²-Gaussian); Gaussian representations of Wigner negativity
-are studied by Kenfack and Życzkowski and, recently, Tosca *et al.*;
-physical-model optimization for homodyne data appears in Strandberg (2022)
-and Gaikwad *et al.* (2025). The narrow open question the signed-splat track
-addresses is whether the first two lines combine into an inverse problem on
-measured homodyne data. The physical Gaussian-ket track has a different and
-more crowded prior-art boundary, and we do not claim the combination novelty
-for it; the repository's prior-art survey records both boundaries.
+Prior work bounds the novelty claims, and the closest precedents concern
+the physical track itself. Gaussian-superposition representations are an
+established lineage: the stellar representation of Chabaud, Markham, and
+Grosshans stratifies non-Gaussian states by the zeros of their Bargmann
+functions; Marshall and Anand simulate quantum optics by finite
+coherent-state decompositions; and variational Gaussian-wavepacket
+superpositions go back to Heller's frozen Gaussians in chemical physics.
+On the inverse-problem side, structured and model-based homodyne
+tomography is likewise established: Ohliger *et al.* formulated low-rank
+continuous-variable tomography, Tiunov *et al.* demonstrated that a
+physically constrained generative model beats generic MLE at small sample
+sizes on experimental homodyne data, and Fedotova *et al.* pursue
+Fock-truncation-free reconstruction at high amplitude. Against this
+background we do not claim a new Gaussian-state representation: the
+surviving contribution is algorithmic and empirical — a differentiable,
+closed-form-likelihood Gaussian-ket estimator with physical channel
+composition, evaluated under pre-declared falsification protocols. For the
+signed-splat track the anchors are differentiable Gaussian Radon
+tomography (R2-Gaussian, X²-Gaussian) and Gaussian representations of
+Wigner negativity (Kenfack and Życzkowski; Tosca *et al.*), and the narrow
+open question is their combination on measured homodyne data;
+physical-model homodyne optimizers (Strandberg; Gaikwad *et al.*) are
+adjacent to both tracks. The repository's prior-art survey records these
+boundaries in detail.
 
 ## 2. Models and methods
 
@@ -114,16 +129,21 @@ what the physical track removes.
 ### 2.2 Physical Gaussian-ket mixtures
 
 The physical model represents B as a K-component mixture of displaced,
-squeezed product kets, so ρ = BB† is positive semidefinite with trace
-normalization by construction; a rank-R extension takes R such columns. The
-homodyne likelihood of a quadrature sample at a given phase is closed-form
-in the mixture parameters, and the gradients are analytic (replacing an
-earlier finite-difference implementation, a 30–90× wall-clock improvement
-that made the multi-start protocols of §3.3 affordable). Mixed and
-noise-broadened states are reached by composing the ket mixture with a
-physical loss channel of transmissivity η′ and, where the target calls for
-it, additive Gaussian noise; the composed model's likelihood remains
-closed-form. The characteristic-function calculus behind the composition —
+squeezed product kets and sets ρ = BB† / Tr(BB†): positive semidefinite by
+construction, with the trace normalized explicitly; a rank-R extension
+takes R such columns. The homodyne likelihood of a quadrature sample at a
+given phase is closed-form in the mixture parameters, with analytic
+gradients for the ket and mixture parameters (replacing an earlier
+finite-difference implementation, a 30–90× wall-clock improvement that made
+the multi-start protocols of §3.3 affordable); when the loss transmissivity
+η′ is itself fitted, its derivative is taken by a scalar finite difference.
+Mixed states are reached by composing the ket mixture with a physical loss
+channel of transmissivity η′; the composed likelihood remains closed-form.
+The implementation also supports a *fixed* additive-noise variance, but the
+blind protocols of §3.3 deliberately do not use it: the fitted family is
+the loss-composed ket mixture alone, while the target contains additive
+thermal noise that this family provably cannot represent exactly — that
+mismatch is the point of the gate. The characteristic-function calculus behind the composition —
 including the commutation of loss and noise channels used throughout §3.3 —
 is developed in the repository's derivation document, and we state here
 only the facts the results depend on.
@@ -142,10 +162,11 @@ Fidelity to a known synthetic target is scored with a generalized fidelity
 for subnormalized matrices, F = (Tr√(√ρσ√ρ) + √((1−Tr ρ)(1−Tr σ)))²,
 which reduces to the Uhlmann fidelity at unit trace. The generalization
 matters because scored operators are crops of larger-cutoff computations:
-plain Uhlmann fidelity penalizes a model exactly for the trace its crop
-loses, and during review of the non-inclusion study this artifact was found
-to mis-rank otherwise identical operators. All §3.3-class scores use the
-generalized form uniformly.
+for an identical pair ρ = σ of common trace t < 1, plain squared Uhlmann
+fidelity returns t² < 1 — its residual conflates crop loss with genuine
+disagreement — while the generalized form returns exactly 1. (The artifact
+was caught during review of the non-inclusion study.) All §3.3-class scores
+use the generalized form uniformly.
 
 Held-out evaluation uses train/held-out splits with the selection rule
 declared before scoring. The known hazards of this design — a training
@@ -264,6 +285,10 @@ Second, jointly fitting the detection efficiency η with the state is
 non-identifiable in this design: fitted η scattered over 0.56–0.77 along a
 training-NLL plateau of width ~10⁻⁵ nats per sample while fidelity varied
 from 0.06 to 0.80. Nuisance channel parameters must be measured or fixed, not fitted.
+Third, the signed-splat score is directly non-physical in the worst case:
+on a squeezed out-of-family target its recorded overlap score reached
+1.7674 > 1 — impossible for a physical state scored against a pure
+target — which is why §3.1 declines to report splat scores as fidelities.
 The earliest experiments in the repository predate the pre-declaration
 discipline and are recorded as exploratory.
 
@@ -273,7 +298,8 @@ What the record supports is compactness under physical constraints. On real
 data, 92 parameters tie a 255-parameter empirical frontier at
 confidence-interval resolution; on the synthetic gate, roughly 110
 parameters exceed a ~2.6×10⁵-parameter baseline under the disclosed budget
-conventions. The mechanism is identifiable in both cases: rank buys what
+conventions. The controls isolate a mechanistic reading under the tested
+protocols: rank buys what
 parameter count alone does not (§3.2's matched-degrees-of-freedom
 controls), and channel composition buys structured full-rank expressivity
 that pure-detection mixtures lack (§3.3's ceiling analysis). The
@@ -287,10 +313,16 @@ components a state requires — in either track — behaves like a resource
 count: cat states need few, and the rank/component saturation points found
 on real data (§3.2) are small. This suggests a continuous-variable analogue
 of stabilizer rank, "how many Gaussians is this state," as a nonclassicality
-measure grounded in fitting practice. We flag this as speculation: no
-result in this paper establishes it, and making it precise (basis
-dependence, robustness to loss, relation to existing negativity measures)
-is future work.
+measure grounded in fitting practice. Any precise version must be
+distinguished from existing hierarchies: it is not the stellar rank of
+Chabaud *et al.* (a cat state has infinite stellar rank — its Bargmann
+function has infinitely many zeros — yet needs only two Gaussian kets
+here), and it is not identical to coherent-state decomposition rank
+(components here carry independent squeezing). Whether "Gaussian count"
+differs meaningfully from those hierarchies, and its basis dependence,
+robustness to loss, and relation to negativity measures, is exactly what
+would need to be established. We flag this as speculation: no result in
+this paper establishes it.
 
 The limitations bound the claims. The blind gate covers one target class;
 the real-data analyses reuse observations across reshuffled splits and face
@@ -305,8 +337,10 @@ The repository (MIT license) and its archived Zenodo release
 directories commit their scripts and available recorded outputs; the formal
 gates 16_exp11_seeds, 17_loss_control, 18_gkp_saturation, 19_thermal_gate,
 20_noninclusion, and 21_thermal_sweep additionally commit machine-readable
-results.json files, and the summary figure regenerates from those files
-with assertions that fail if the plotted verdict diverges from the data.
+results.json files, and the summary figure regenerates from committed
+machine-readable result files (the sweep's results.json and the
+non-inclusion study's results_routeB.json) with assertions that fail if
+the plotted verdict diverges from the data.
 The research log preserves the chronological record, including superseded
 scorings and the negative results of §3.4. The public GKP dataset is
 included with its source attribution.
@@ -325,5 +359,11 @@ included with its source attribution.
 - R2-Gaussian (2405.20693), X²-Gaussian (2503.21779)
 - Kenfack & Życzkowski (physics/0304029), Tosca et al. (2507.14076)
 - Strandberg (2202.11584), Gaikwad et al. (2503.04526)
+- Chabaud–Markham–Grosshans, stellar representation (1907.11009, PRL 2020)
+- Marshall & Anand, coherent-state decomposition (2305.17099, Optica Quantum)
+- Tiunov et al., ML homodyne tomography (Optica 2020)
+- Ohliger et al., low-rank CV tomography (1111.0853)
+- Fedotova et al., high-amplitude CV tomography (2212.07406)
+- Heller, frozen Gaussians (J. Chem. Phys. 1981)
 - Lütkenhaus & Barnett (Q-function zeros / depth argument, exp20 のメカニズム出典)
 - Hudson's theorem / stabilizer-rank analogy anchors (C4 用、#71 から)
