@@ -9,7 +9,7 @@ issue #70 にコメントで残す。
 https://github.com/orangewk/wigner-splat
 
 方針: 過大主張なし(README と同じ規律)。各通とも「なぜあなたに」を
-1 文で明示。長さは 150–250 語(読了 1 分)。返信がなくても失うものは
+1 文で明示。長さは 120–250 語(読了 1 分)。返信がなくても失うものは
 ない設計(具体的で小さい ask を 1 つだけ)。
 
 ---
@@ -66,8 +66,9 @@ Subject: Physically constrained homodyne tomography — a small preprint you may
 > closed-form gradients, composed with physical loss channels. On the
 > public GKP dataset of Konno et al. it ties a full-rank MLE frontier at
 > CI resolution with ~1/3 the parameters; on a synthetic thermal target
-> it records one instance of blind held-out performance above an
-> equal-budget MLE on a target provably outside the model family — the
+> it records one instance of blind held-out performance above a
+> full-rank MLE run under a pre-declared 900-second baseline budget, on
+> a target provably outside the model family — the
 > preprint is deliberately explicit about scope limits and negative
 > results: https://doi.org/10.5281/zenodo.21457049
 > (code: https://github.com/orangewk/wigner-splat).
