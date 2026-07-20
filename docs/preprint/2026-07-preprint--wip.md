@@ -144,11 +144,12 @@ configuration vs the MLE's 821–910 s; the budget asymmetry is disclosed in
 
 ## 5. Reproducibility
 
-- Repository (MIT) + Zenodo archived release DOI 10.5281/zenodo.21387212. Artifact
-  coverage stated accurately: every experiment directory commits its scripts and
-  raw output logs; the formal-gate experiments (16, 17, 18, 19, 20_noninclusion,
-  21) additionally commit machine-readable results.json. The research log is the
-  chronological record, including superseded scorings.
+- Repository (MIT) + Zenodo archived release DOI 10.5281/zenodo.21387212.
+  Experiment directories commit their scripts and available recorded outputs.
+  The formal gates 16_exp11_seeds, 17_loss_control, 18_gkp_saturation,
+  19_thermal_gate, 20_noninclusion, and 21_thermal_sweep additionally commit
+  machine-readable results.json. The research log is the chronological record,
+  including superseded scorings.
 
 ## Acknowledgements
 
