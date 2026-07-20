@@ -14,5 +14,5 @@ id = "generic-api-key"
     '''^0-(?:uYzL1Ga_EW1Ck0o-msT7Sg|EbTpTf5_Nyvf0E68VPIJxw)$''',
   ]
   paths = [
-    '''^experiments/20_real_video_gpu/(?:prepare_round5_data\.py|data/round5/(?:truck|train)/manifest\.json)$''',
+    '''^experiments/20_real_video_gpu/(?:prepare_round5_data\.py|data/round(?:5|6)/(?:truck|train)/manifest\.json)$''',
   ]

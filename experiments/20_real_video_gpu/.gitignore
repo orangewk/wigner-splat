@@ -7,3 +7,6 @@ data/round4-staging/*.png
 data/round5/*/train/*
 data/round5/*/heldout-sealed/*
 data/round5-staging/
+data/round6/*/train/*
+data/round6/*/heldout-sealed/*
+data/round6-staging/
