@@ -24,16 +24,16 @@ from matplotlib.patches import Patch
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 OUT = pathlib.Path(__file__).resolve().parent / "summary_figure.png"
 
-# exp20 constants (experiments/20_noninclusion/run.py)
-ETA = 0.8
-SIGMA = 0.1
-ETA_CRIT = ETA - SIGMA  # 0.70
-
 # Route B fitted eta' (experiments/20_noninclusion/results_routeB.json):
 # per rank K, the best-F squeezed-family fit at the largest scoring cutoff.
 routeB = json.loads(
     (ROOT / "experiments/20_noninclusion/results_routeB.json").read_text()
 )
+
+# exp20 constants, from the committed result data (single source of truth)
+ETA = routeB["params"]["eta"]
+SIGMA = routeB["params"]["sigma"]
+ETA_CRIT = ETA - SIGMA  # 0.70
 rows = routeB["squeezed"]
 n_max = max(r["n_score"] for r in rows)
 routeB_etas = [
@@ -50,6 +50,12 @@ sweep = json.loads(
 )
 configs = sweep["configs"]
 
+# The panel-(b) title states the verdict -- derive it from the data so a
+# regenerated figure cannot silently keep a stale claim.
+ruling = sweep["ruling"]
+assert ruling["holds"] == ruling["total"] == len(configs) == 5, ruling
+assert all(c["verdict_lossy_ge_mle"] for c in configs), "verdict flag flipped"
+
 fig, (ax_a, ax_b) = plt.subplots(
     2, 1, figsize=(7.2, 5.4), gridspec_kw={"height_ratios": [1.0, 1.6]}
 )
@@ -57,10 +63,10 @@ fig, (ax_a, ax_b) = plt.subplots(
 # ---------------------------------------------------------------- panel (a)
 REGIONS = [
     (0.0, ETA_CRIT, "#d9e8f5", "III: no PSD pre-image\n(Thm. 1)"),
-    (ETA_CRIT, ETA, "#f5e3d0", "II: full rank\n(Lemma 2)"),
+    (ETA_CRIT, ETA, "#f5e3d0", "II\n(Lemma 2)"),
     (ETA, 1.0, "#e5f0dc", "I: full rank\n(Lemma 2)"),
 ]
-XMIN = 0.3  # left edge of the plotted eta' window
+XMIN = 0.0  # full theorem domain (0, 1]
 for x0, x1, color, label in REGIONS:
     ax_a.axvspan(x0, x1, color=color)
     ax_a.text(
@@ -70,12 +76,13 @@ for x0, x1, color, label in REGIONS:
 
 ax_a.axvline(ETA_CRIT, color="#8a4a10", lw=1.6)
 ax_a.annotate(
-    "boundary $\\eta' = \\eta - \\sigma$: no finite rank (Thm. 2)",
-    xy=(ETA_CRIT, 0.30),
-    xytext=(0.36, 0.30),
+    "boundary $\\eta' = \\eta - \\sigma$:\nno finite rank (Thm. 2)",
+    xy=(ETA_CRIT, 0.32),
+    xytext=(0.30, 0.32),
     fontsize=8.5,
+    ha="center",
     va="center",
-    arrowprops=dict(arrowstyle="->", lw=0.9),
+    arrowprops=dict(arrowstyle="->", lw=0.9, shrinkA=8),
 )
 ax_a.axvline(ETA, color="#5b6b3a", lw=1.0, ls=":")
 ax_a.text(ETA + 0.008, 0.94, "$\\eta = 0.8$", ha="left", va="top", fontsize=8)
@@ -92,7 +99,7 @@ ax_a.text(
     color="#20456b",
 )
 
-ax_a.set_xlim(0.3, 1.0)
+ax_a.set_xlim(0.0, 1.0)
 ax_a.set_ylim(0, 1)
 ax_a.set_yticks([])
 ax_a.set_xlabel("assumed detection efficiency $\\eta'$", fontsize=9)
