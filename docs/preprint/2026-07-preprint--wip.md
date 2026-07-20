@@ -7,9 +7,10 @@ all editorial and protocol decisions. (Full statement in Acknowledgements.)
 
 **Target:** Zenodo (concrete target; the generalist OSF Preprints server has been
 closed to new submissions since 2025-08-25), short paper (6–10 pp).
-**Status:** skeleton — prose slots marked `[...]`, numbers slot in from the committed
-experiment logs at the end. Every claim carries its scope note inline; the claim
-discipline *is* the selling point.
+**Status:** full prose draft v1 — abstract and §1–5 in paper prose (numbers
+verified against committed logs through the PR review rounds); Acknowledgements
+and References remain in note form. Every claim carries its scope note inline;
+the claim discipline *is* the selling point.
 
 ---
 
@@ -45,48 +46,112 @@ configuration vs the MLE's 821–910 s; the budget asymmetry is disclosed in
 
 ## 1. Introduction
 
-- Origin: 3D Gaussian splatting ↔ homodyne tomography analogy (camera view = LO phase,
-  splat = phase-space Gaussian, rendering = Radon projection). State explicitly: an
-  origin story and an experimental representation, **not** a claim that CV-3DGS solves
-  tomography.
-- The two tracks and why the physical one became the main line:
-  signed splats (expressive, fast, but non-PSD scores are not fidelities — the #8
-  tension stated up front) → BB† Gaussian-ket mixtures (PSD by construction,
-  closed-form per-sample likelihood, analytic gradients).
-- Contribution list (each with its experiment tag and scope note):
-  C1 honest scaling story (1/2/3 modes, exp05–11);
-  C2 rank saturation + CI-resolution tie on real GKP data (exp12–14, 18);
-  C3 blind out-of-family gate + analytic family boundary (exp19–21);
-  C4 (speculative, one paragraph) splat count as a CV nonclassicality measure.
-- Related work paragraph: R2-/X²-Gaussian (differentiable Radon), Kenfack/Tosca
-  (Gaussian Wigner-negativity representations), Strandberg 2022 / Gaikwad 2025
-  (physical homodyne optimization). Novelty boundary per docs/prior-art-survey.md:
-  the *combination* question for splats; the BB† track does NOT inherit that claim.
+This project began with an analogy. In computer-vision 3D Gaussian splatting,
+a scene is represented as a mixture of anisotropic Gaussians and rendered by
+projection; in homodyne tomography, a quantum state's Wigner function is
+observed through one-dimensional projections — Radon transforms — indexed by
+the local-oscillator phase. A camera view corresponds to a homodyne phase, a
+splat to a phase-space Gaussian, rendering to a Radon projection. We state
+up front what the analogy is and is not: it is the origin of the project and
+an experimental representation choice, not a claim that computer-vision
+splatting solves quantum tomography.
+
+Two model tracks came out of it. The first, *signed* anisotropic Gaussian
+mixtures fitted to quadrature marginals through a closed-form differentiable
+Radon forward model, is expressive and fast — signed weights can represent
+Wigner negativity — but a signed mixture is not guaranteed to be a quantum
+state, and we found the resulting overlap scores can exceed physical bounds
+precisely in the regime where the method looks strongest (§3.1). The second
+track responds to that tension: finite mixtures of displaced, squeezed
+Gaussian kets assembled as ρ = BB†, which is positive semidefinite by
+construction, admits a closed-form per-sample homodyne likelihood with
+analytic gradients, and composes with physical loss and noise channels.
+The physical track is the main subject of this paper.
+
+Our contributions are deliberately scoped:
+
+- **C1** — an honest scaling comparison of the signed-splat track against
+  full-rank maximum-likelihood estimation on one, two, and three synthetic
+  modes, including the non-PSD failure that motivates the physical track
+  (§3.1).
+- **C2** — on the public GKP homodyne dataset of Konno *et al.*, a
+  rank-saturation analysis showing a 92-parameter physical model tying the
+  empirical full-rank MLE frontier at confidence-interval resolution on
+  held-out likelihood (§3.2).
+- **C3** — a pre-declared blind gate on a synthetic thermal-noise target,
+  together with an analytic proof that the target lies outside the model
+  family for every assumed efficiency and every finite rank, and a
+  five-configuration robustness sweep (§3.3).
+- **C4** — a one-paragraph speculative discussion: the number of Gaussian
+  components needed by a state as a possible continuous-variable analogue of
+  stabilizer rank (§4).
+
+Prior work bounds the novelty claims. Differentiable Radon tomography with
+Gaussian primitives exists in the computer-vision and CT literature
+(R2-Gaussian, X²-Gaussian); Gaussian representations of Wigner negativity
+are studied by Kenfack and Życzkowski and, recently, Tosca *et al.*;
+physical-model optimization for homodyne data appears in Strandberg (2022)
+and Gaikwad *et al.* (2025). The narrow open question the signed-splat track
+addresses is whether the first two lines combine into an inverse problem on
+measured homodyne data. The physical Gaussian-ket track has a different and
+more crowded prior-art boundary, and we do not claim the combination novelty
+for it; the repository's prior-art survey records both boundaries.
 
 ## 2. Models and methods
 
-### 2.1 Signed-splat Radon model (brief)
-- Closed-form Radon projection of anisotropic signed Gaussians; birth/split/prune.
-- Kept brief: it is the origin and the 1/2/3-mode comparison substrate.
+### 2.1 Signed-splat Radon model
 
-### 2.2 Physical Gaussian-ket mixtures (main)
-- ρ = BB†: mixtures of displaced squeezed kets; rank-R extension; per-sample homodyne
-  NLL, closed-form gradients (issue #25 speedups: FD → analytic, 30–90×).
-- Loss/noise channel composition: E_η ∘ ket mixture; thermal noise N_σ; the
-  characteristic-function calculus (Lemma 1: N_σ∘E_η = E_η∘N_{σ/η}) — cite exp20
-  derivation.md for the full proofs, state only what the paper needs.
+A state's Wigner function is modeled as a signed mixture of anisotropic
+Gaussians; the Radon projection of each component is Gaussian and
+closed-form, so quadrature histograms are differentiable in all mixture
+parameters. Gradient-driven birth, splitting, and pruning adapt the mixture
+size during fitting. We keep this section brief: in this paper the
+signed-splat model serves as the origin story and as one arm of the §3.1
+scaling comparison, and its central limitation — signed mixtures need not be
+positive semidefinite, so overlap scores are not fidelities — is exactly
+what the physical track removes.
+
+### 2.2 Physical Gaussian-ket mixtures
+
+The physical model represents B as a K-component mixture of displaced,
+squeezed product kets, so ρ = BB† is positive semidefinite with trace
+normalization by construction; a rank-R extension takes R such columns. The
+homodyne likelihood of a quadrature sample at a given phase is closed-form
+in the mixture parameters, and the gradients are analytic (replacing an
+earlier finite-difference implementation, a 30–90× wall-clock improvement
+that made the multi-start protocols of §3.3 affordable). Mixed and
+noise-broadened states are reached by composing the ket mixture with a
+physical loss channel of transmissivity η′ and, where the target calls for
+it, additive Gaussian noise; the composed model's likelihood remains
+closed-form. The characteristic-function calculus behind the composition —
+including the commutation of loss and noise channels used throughout §3.3 —
+is developed in the repository's derivation document, and we state here
+only the facts the results depend on.
 
 ### 2.3 Baselines and scoring
-- Iterative RρR full-rank MLE at matched shot budgets; the MLE baseline runs under
-  a pre-declared 900 s budget (NOT matched wall-clock: the model side fits three
-  initializations of ~470–670 s each, 1.4–2.0×10³ s aggregate per configuration,
-  and selects blind by train NLL — disclose the asymmetry and the 2/5 convergence
-  rate wherever the comparison is cited).
-- Generalized fidelity for subnormalized (cropped) matrices
-  F = (Tr√(√ρσ√ρ) + √((1−Trρ)(1−Trσ)))² — why plain Uhlmann mis-scores cropped
-  models (PR #64 round 2); used uniformly for exp19-class scoring.
-- Held-out protocol: train/held-out splits, best-by-train-NLL selection rule
-  (pre-declared), its known hazard (exp16) and where it bit mildly (exp21, σ=0.2).
+
+The full-rank baseline is iterative RρR maximum-likelihood estimation at a
+matched shot budget. Where wall-clock budgets matter (§3.3), the MLE runs
+under a pre-declared 900-second budget; the model side fits three
+initializations of roughly 470–670 s each — 1.4–2.0×10³ s aggregate per
+configuration — and selects blind by training likelihood. This asymmetry,
+and the fact that the MLE met its convergence criterion on only two of five
+sweep configurations, is disclosed wherever the comparison is cited.
+
+Fidelity to a known synthetic target is scored with a generalized fidelity
+for subnormalized matrices, F = (Tr√(√ρσ√ρ) + √((1−Tr ρ)(1−Tr σ)))²,
+which reduces to the Uhlmann fidelity at unit trace. The generalization
+matters because scored operators are crops of larger-cutoff computations:
+plain Uhlmann fidelity penalizes a model exactly for the trace its crop
+loses, and during review of the non-inclusion study this artifact was found
+to mis-rank otherwise identical operators. All §3.3-class scores use the
+generalized form uniformly.
+
+Held-out evaluation uses train/held-out splits with the selection rule
+declared before scoring. The known hazards of this design — a training
+likelihood nearly blind to large fidelity differences, and non-identifiable
+nuisance parameters — are documented negative results in this record
+(§3.4), and the blind protocols are shaped around them.
 
 ## 3. Results
 
@@ -204,23 +269,47 @@ discipline and are recorded as exploratory.
 
 ## 4. Discussion
 
-- What the record supports: compactness (92 vs 255 params at the frontier tie;
-  ~110 vs ~2.6×10⁵ on the blind gate), channel-composed structure as the working
-  mechanism (exp20 geometry: fitted η′ lands on the PSD boundary).
-- C4 (one paragraph, flagged speculative): splat/ket count K as a CV analogue of
-  stabilizer rank — "how many Gaussians is this state?" Links to issue #71; no
-  results claimed.
-- Limitations: one target class for the blind gate; exploratory reshuffles on real
-  data; test-selected opponent; wall-clock-budget baselines.
+What the record supports is compactness under physical constraints. On real
+data, 92 parameters tie a 255-parameter empirical frontier at
+confidence-interval resolution; on the synthetic gate, roughly 110
+parameters exceed a ~2.6×10⁵-parameter baseline under the disclosed budget
+conventions. The mechanism is identifiable in both cases: rank buys what
+parameter count alone does not (§3.2's matched-degrees-of-freedom
+controls), and channel composition buys structured full-rank expressivity
+that pure-detection mixtures lack (§3.3's ceiling analysis). The
+non-inclusion geometry sharpens this: best-approximation fits press against
+the positivity boundary of the channel parameter, with best-found fitted
+η′ of 0.648–0.661 across ranks — the family is exploiting the boundary the
+theorems draw.
+
+One speculative direction seems worth naming (C4). The number of Gaussian
+components a state requires — in either track — behaves like a resource
+count: cat states need few, and the rank/component saturation points found
+on real data (§3.2) are small. This suggests a continuous-variable analogue
+of stabilizer rank, "how many Gaussians is this state," as a nonclassicality
+measure grounded in fitting practice. We flag this as speculation: no
+result in this paper establishes it, and making it precise (basis
+dependence, robustness to loss, relation to existing negativity measures)
+is future work.
+
+The limitations bound the claims. The blind gate covers one target class;
+the real-data analyses reuse observations across reshuffled splits and face
+a test-selected opponent; the wall-clock baselines are budget conventions,
+not converged optima; and nothing here is a universality claim about
+tomography methods.
 
 ## 5. Reproducibility
 
-- Repository (MIT) + Zenodo archived release DOI 10.5281/zenodo.21387212.
-  Experiment directories commit their scripts and available recorded outputs.
-  The formal gates 16_exp11_seeds, 17_loss_control, 18_gkp_saturation,
-  19_thermal_gate, 20_noninclusion, and 21_thermal_sweep additionally commit
-  machine-readable results.json. The research log is the chronological record,
-  including superseded scorings.
+The repository (MIT license) and its archived Zenodo release
+(doi:10.5281/zenodo.21387212) contain the complete record. Experiment
+directories commit their scripts and available recorded outputs; the formal
+gates 16_exp11_seeds, 17_loss_control, 18_gkp_saturation, 19_thermal_gate,
+20_noninclusion, and 21_thermal_sweep additionally commit machine-readable
+results.json files, and the summary figure regenerates from those files
+with assertions that fail if the plotted verdict diverges from the data.
+The research log preserves the chronological record, including superseded
+scorings and the negative results of §3.4. The public GKP dataset is
+included with its source attribution.
 
 ## Acknowledgements
 
