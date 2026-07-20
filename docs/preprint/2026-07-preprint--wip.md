@@ -117,8 +117,8 @@ matched-degrees-of-freedom control, outperformed a rank-one model of
 comparable capacity.
 
 A rank-saturation study then walked the remaining frontier gap down. The
-held-out rank curve saturates at R = 4–5; warm starts rule out
-under-optimization as the explanation, and matched-degrees-of-freedom
+held-out rank curve saturates at R = 4–5; warm starts make material
+under-optimization unlikely under the tested schedule, and matched-degrees-of-freedom
 controls at two frontier points attribute each gain to rank rather than raw
 parameter count. At rank 4 — 92 real parameters — the physical model ties
 the empirical MLE frontier at confidence-interval resolution on both data
@@ -140,25 +140,29 @@ blind (all modeling decisions declared before scoring), the loss-composed
 rank-2 model reached generalized fidelity 0.949 against 0.898 for a
 full-rank MLE run under the pre-declared 900-second baseline budget, with
 roughly 110 versus ~2.6×10⁵ real parameters. The pure-detection ket
-mixtures, by contrast, landed almost exactly on their rank-capacity
-ceilings — the loss channel is doing mechanistic work, not adding generic
-capacity.
+mixtures, by contrast, were capacity-limited: the rank-1 models landed
+within 2–3% of their rank-capacity ceiling (0.370–0.371 against 0.379),
+while the rank-2 mixture reached 0.648, about 86% of its 0.750 ceiling.
+The loss channel thus buys structured full-rank expressivity with very few
+parameters, rather than generic fitting capacity.
 
 A non-inclusion analysis then settled what "out-of-family" means here. For
 **no** assumed detection efficiency η′ ∈ (0, 1] and **no** finite rank does
 the target factor as a loss-channel image of a finite-rank state: for
-η′ below η − σ the required pre-image is not a positive operator at all
-(the smoothed quasidistribution the pre-image would need is strictly
-positive, contradicting the Bargmann zeros of the cat's Husimi function);
+η′ below η − σ the required pre-image is not a positive operator at all:
+positivity of the pre-image would force an s-ordered quasidistribution of
+the *cat state itself* to be nonnegative, and Gaussian smoothing of that
+nonnegative function would make the cat's Husimi function strictly
+positive — contradicting its exact (Bargmann) zeros;
 exactly at the boundary the pre-image is an amplified cat whose kernel has
 no finite-rank factorization; above the boundary the pre-image is a valid
 but full-rank state. Proofs are in the repository derivation; a validated
 numerical scan corroborates the theorems but is not the argument. The
 boundary is thin, however: direct best-approximation fits approach the
 target to 1–2×10⁻³ in 1 − F (cutoff-stable best-found values, hence upper
-bounds on the true distance), and the fitted η′ converges to 0.648–0.661
-across ranks — pressed against the positivity boundary (Fig. summary,
-panel a). The blind gap of ~0.05 is therefore a fit- and data-budget
+bounds on the true distance), with best-found fitted η′ values of
+0.648–0.661 across ranks — pressed against the positivity boundary
+(Fig. summary, panel a). The blind gap of ~0.05 is therefore a fit- and data-budget
 effect, not the family boundary itself.
 
 Finally, a robustness sweep repeated the blind comparison across three data
@@ -183,15 +187,18 @@ Two failure modes documented earlier in the record bound how far §3.3-style
 results can be trusted, and we state them as first-class findings. First,
 multi-seed refits of a lossy-target model exhibited a collapse basin:
 solutions differing by ΔF ≈ 0.45 in fidelity were separated by only
-≈ 2.5×10⁻³ nats in training likelihood, and in one case a pre-declared
-selection rule picked a solution 0.04 worse in fidelity than a
-near-equivalent alternative at ΔNLL ~ 10⁻⁴. Training likelihood can be
-almost blind to fidelity-relevant structure; every blind protocol above
-therefore pre-declares its selection rule and reports per-seed spreads.
+≈ 2.5×10⁻³ nats per sample in training likelihood, and in one case a
+pre-declared selection rule picked a solution 0.04 worse in fidelity than a
+near-equivalent alternative at ΔNLL ~ 10⁻⁴ nats per sample. Training
+likelihood can be almost blind to fidelity-relevant structure; every blind
+protocol above therefore pre-declares its selection rule, and the
+robustness sweep additionally records all per-initialization fidelities
+(the single-configuration gate retains only its selected fit — a
+limitation the sweep remedies).
 Second, jointly fitting the detection efficiency η with the state is
 non-identifiable in this design: fitted η scattered over 0.56–0.77 along a
-training-NLL plateau of width ~10⁻⁵ while fidelity varied from 0.06 to
-0.80. Nuisance channel parameters must be measured or fixed, not fitted.
+training-NLL plateau of width ~10⁻⁵ nats per sample while fidelity varied
+from 0.06 to 0.80. Nuisance channel parameters must be measured or fixed, not fitted.
 The earliest experiments in the repository predate the pre-declaration
 discipline and are recorded as exploratory.
 
