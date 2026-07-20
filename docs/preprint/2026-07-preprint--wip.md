@@ -154,9 +154,9 @@ configuration vs the MLE's 821–910 s; the budget asymmetry is disclosed in
 ## Acknowledgements
 
 - AI-assistance statement (per decision 2026-07-20): research direction, claim
-  review, and all protocol decisions by the author; implementation, drafting, and
-  analysis assistance by Claude (Anthropic) and Codex (OpenAI) agents; reviewer
-  role by [Sol の表記をどうするか orange に確認] .
+  review, and all protocol decisions by the author; implementation, drafting,
+  analysis, and internal-review assistance by Claude (Anthropic) and Codex
+  (OpenAI) agents.
 - Konno et al. / Dryad data attribution.
 
 ## References (seed list)
