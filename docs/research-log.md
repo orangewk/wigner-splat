@@ -1604,8 +1604,10 @@ Owner/decisions: orange approved hard lock comment 5014598454. Codex session
 019f6d8a executed the GPU-side pipeline. Official Tanks and Temples Truck and
 Train image-set archives were pinned by URL, byte length, and SHA-256; their
 251/301 frames yielded declared strides 10/12 and native 1920x1080 splits.
-CC BY 4.0 attribution and the official page's conflicting legacy
-non-commercial wording are both recorded.
+The official terms page's CC BY 4.0 Copyright statement and its separate
+License Grant restrictions (non-commercial scientific research only and no
+third-party redistribution without prior written permission) are both recorded
+without attempting to resolve the conflict.
 
 The prerequisite failed before fitting. The video-oriented sequential matcher
 registered Truck 11/20 and Train 3/20. Before any fit or held-out access,

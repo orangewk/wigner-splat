@@ -27,9 +27,11 @@ Train archive: 201,581,296 bytes, SHA-256
 542bb34a...d8894367, 301 frames, stride 12.
 
 Both official image sets contain native 1920x1080 JPEGs. Download and frame
-hashes are recorded in the committed manifests. CC BY 4.0 attribution is in the
-Round 5 data README. The official download page retains conflicting older
-non-commercial wording; this run is research use.
+hashes are recorded in the committed manifests. The official terms page's
+Copyright section states CC BY 4.0, while its License Grant section separately
+limits use to non-commercial scientific research and prohibits third-party
+redistribution without prior written permission. Both statements are recorded
+in the Round 5 data README and manifests; this run is research use.
 
 ## COLMAP outcome
 

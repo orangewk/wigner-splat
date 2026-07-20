@@ -173,7 +173,13 @@ def prepare_scene(spec: SceneSpec, archive_path: Path) -> dict:
             "archive_basename": archive_path.name,
             "archive_bytes": spec.archive_bytes,
             "archive_sha256": archive_hash,
-            "license": "CC BY 4.0",
+            "license": "CC BY 4.0 (Copyright section)",
+            "additional_terms": (
+                "The same official terms' License Grant section limits use to "
+                "non-commercial scientific research and prohibits reproducing, "
+                "modifying, or making the Data available to third parties without "
+                "prior written permission."
+            ),
             "license_url": LICENSE_URL,
             "citation": (
                 "Knapitsch, Park, Zhou, and Koltun. Tanks and Temples: "
