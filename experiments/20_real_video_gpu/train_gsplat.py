@@ -73,13 +73,17 @@ def _link_exact_file(source: Path, target: Path) -> None:
         shutil.copy2(source, target)
 
 
-def _prepare_train_only_dataset(run_dir: Path) -> Path:
+def _prepare_train_only_dataset(
+    run_dir: Path, image_source: Path, sparse_source: Path
+) -> Path:
     """Build a COLMAP layout without opening/enumerating heldout-sealed."""
-    image_source = EXPERIMENT_DIR / "data" / "train"
-    sparse_source = EXPERIMENT_DIR / "colmap" / "train" / "sparse" / "0"
-    images = sorted(image_source.glob("*.png"))
+    images = sorted(
+        path
+        for path in image_source.iterdir()
+        if path.is_file() and path.suffix.lower() in {".jpg", ".jpeg", ".png"}
+    )
     if len(images) != 20:
-        raise RuntimeError(f"Expected exactly 20 train PNGs, found {len(images)}")
+        raise RuntimeError(f"Expected exactly 20 train images, found {len(images)}")
     dataset = run_dir / "train_dataset"
     image_target = dataset / "images"
     sparse_target = dataset / "sparse" / "0"
@@ -92,7 +96,7 @@ def _prepare_train_only_dataset(run_dir: Path) -> Path:
         if not source.is_file():
             raise FileNotFoundError(source)
         _link_exact_file(source, sparse_target / name)
-    if {p.name for p in image_target.glob("*.png")} != {p.name for p in images}:
+    if {p.name for p in image_target.iterdir() if p.is_file()} != {p.name for p in images}:
         raise RuntimeError("Train dataset contains unexpected image names")
     return dataset
 
@@ -112,6 +116,16 @@ def main() -> None:
         "--gsplat-source", type=Path, default=Path(r"C:\tmp\gsplat-77ab983-windows")
     )
     parser.add_argument("--run-name", default=None)
+    parser.add_argument(
+        "--image-source", type=Path, default=EXPERIMENT_DIR / "data" / "train"
+    )
+    parser.add_argument(
+        "--sparse-source",
+        type=Path,
+        default=EXPERIMENT_DIR / "colmap" / "train" / "sparse" / "0",
+    )
+    parser.add_argument("--output-root", type=Path, default=EXPERIMENT_DIR / "out")
+
     args = parser.parse_args()
     if args.steps < 1 or args.eval_every < 1:
         parser.error("--steps and --eval-every must be positive")
@@ -125,9 +139,11 @@ def main() -> None:
     from gsplat.strategy import DefaultStrategy
 
     run_name = args.run_name or f"seed{args.seed}_pilot_{args.steps}"
-    run_dir = EXPERIMENT_DIR / "out" / run_name
+    run_dir = args.output_root.resolve() / run_name
     run_dir.mkdir(parents=True, exist_ok=True)
-    dataset_dir = _prepare_train_only_dataset(run_dir)
+    image_source = args.image_source.resolve()
+    sparse_source = args.sparse_source.resolve()
+    dataset_dir = _prepare_train_only_dataset(run_dir, image_source, sparse_source)
 
     class TrainOnlyDataset(UpstreamDataset):
         """Use every registered image and cache decoded tensors in CPU RAM."""
@@ -243,6 +259,8 @@ def main() -> None:
         "max_sh_degree_reached": min((args.steps - 1) // cfg.sh_degree_interval, cfg.sh_degree),
         "appearance_optimization": False,
         "heldout_access": False,
+        "image_source": str(image_source),
+        "sparse_source": str(sparse_source),
     }
     (run_dir / "adapter_config.json").write_text(
         json.dumps(record, indent=2) + "\n", encoding="utf-8"
