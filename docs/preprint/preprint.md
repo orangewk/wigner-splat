@@ -26,6 +26,7 @@ abstract: |
   pre-declared protocols are all preserved in the accompanying repository.
 geometry: margin=2.7cm
 fontsize: 10pt
+numbersections: true
 ---
 
 # Introduction
@@ -353,7 +354,7 @@ research log preserves the chronological record, including superseded
 scorings and the negative results of §3.4. The public GKP dataset is
 included with its source attribution.
 
-# Acknowledgements
+# Acknowledgements {-}
 
 Research direction, claim review, and all protocol decisions are by the
 author. Implementation, drafting, analysis, and internal-review
@@ -362,7 +363,7 @@ assistance were provided by AI agents: Claude (Anthropic) and Codex
 with attribution from the Dryad archive (doi:10.5061/dryad.t76hdr86j);
 we thank the authors for making it public.
 
-# References
+# References {-}
 
 1. S. Konno *et al.*, "Logical states for fault-tolerant quantum
    computation with propagating light," Science **383**, 289 (2024). Data:
