@@ -365,31 +365,38 @@ we thank the authors for making it public.
 # References
 
 1. S. Konno *et al.*, "Logical states for fault-tolerant quantum
-   computation with propagating light," Science **383** (2024). Data:
+   computation with propagating light," Science **383**, 289 (2024). Data:
    Dryad, doi:10.5061/dryad.t76hdr86j.
 2. R. Zha *et al.*, "R²-Gaussian: Rectifying radiative Gaussian splatting
-   for tomographic reconstruction," arXiv:2405.20693.
-3. W. Yu *et al.*, "X²-Gaussian," arXiv:2503.21779.
+   for tomographic reconstruction," NeurIPS 2024; arXiv:2405.20693.
+3. W. Yu *et al.*, "X²-Gaussian: 4D radiative Gaussian splatting for
+   continuous-time tomographic reconstruction," arXiv:2503.21779.
 4. A. Kenfack and K. Życzkowski, "Negativity of the Wigner function as an
    indicator of non-classicality," J. Opt. B **6**, 396 (2004);
    arXiv:physics/0304029.
-5. Tosca *et al.*, arXiv:2507.14076 (2025).
+5. J. Tosca, F. Carnazza, L. Giacomelli, and C. Ciuti, "Variational
+   multi-Gaussian phase-space dynamics via automatic differentiation,"
+   arXiv:2507.14076 (2025).
 6. I. Strandberg, "Simple, reliable, and noise-resilient continuous-variable
    quantum state tomography with convex optimization," Phys. Rev. Applied
-   (2022); arXiv:2202.11584.
-7. Gaikwad *et al.*, arXiv:2503.04526 (2025).
+   **18**, 044041 (2022); arXiv:2202.11584.
+7. A. Gaikwad, M. S. Torres, S. Ahmed, and A. F. Kockum, "Gradient-descent
+   methods for fast quantum state tomography," Quantum Sci. Technol.
+   **10**, 045055 (2025); arXiv:2503.04526.
 8. U. Chabaud, D. Markham, and F. Grosshans, "Stellar representation of
    non-Gaussian quantum states," Phys. Rev. Lett. **124**, 063605 (2020);
    arXiv:1907.11009.
 9. J. Marshall and N. Anand, "Simulation of quantum optics by coherent
-   state decomposition," Optica Quantum (2023); arXiv:2305.17099.
-10. E. S. Tiunov *et al.*, "Experimental quantum homodyne tomography via
-    machine learning," Optica **7**, 448 (2020).
-11. M. Ohliger *et al.*, "Continuous-variable quantum compressed sensing,"
-    arXiv:1111.0853.
-12. Fedotova *et al.*, "Continuous-variable quantum tomography of
-    high-amplitude states," Phys. Rev. A (2023); arXiv:2212.07406.
-13. E. J. Heller, "Frozen Gaussians: A simple semiclassical
+   state decomposition," Optica Quantum **1**, 78 (2023); arXiv:2305.17099.
+10. E. S. Tiunov, V. V. Tiunova, A. E. Ulanov, A. I. Lvovsky, and
+    A. K. Fedorov, "Experimental quantum homodyne tomography via machine
+    learning," Optica **7**, 448 (2020).
+11. M. Ohliger, V. Nesme, D. Gross, Y.-K. Liu, and J. Eisert,
+    "Continuous-variable quantum compressed sensing," arXiv:1111.0853.
+12. E. Fedotova, N. Kuznetsov, E. Tiunov, A. E. Ulanov, and A. I. Lvovsky,
+    "Continuous-variable quantum tomography of high-amplitude states,"
+    Phys. Rev. A **108**, 042430 (2023); arXiv:2212.07406.
+13. E. J. Heller, "Frozen Gaussians: A very simple semiclassical
     approximation," J. Chem. Phys. **75**, 2923 (1981).
 14. N. Lütkenhaus and S. M. Barnett, "Nonclassical effects in phase
     space," Phys. Rev. A **51**, 3340 (1995).
