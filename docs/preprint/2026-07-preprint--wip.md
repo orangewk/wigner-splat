@@ -7,6 +7,9 @@ all editorial and protocol decisions. (Full statement in Acknowledgements.)
 
 **Target:** Zenodo (concrete target; the generalist OSF Preprints server has been
 closed to new submissions since 2025-08-25), short paper (6–10 pp).
+**Note:** the clean submission source is `preprint.md` (built to `preprint.pdf`
+via `pandoc preprint.md -o preprint.pdf --pdf-engine=xelatex`); this file remains
+the working document with review notes.
 **Status:** full prose draft v1 — abstract and §1–5 in paper prose (numbers
 verified against committed logs through the PR review rounds); Acknowledgements
 and References remain in note form. Every claim carries its scope note inline;
