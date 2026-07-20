@@ -3,6 +3,10 @@
 import importlib.util
 import pathlib
 
+import pytest
+
+pytest.importorskip("torch")  # the summarize_* module imports torch at load time
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MODULE_PATH = ROOT / "experiments" / "20_real_video_gpu" / "summarize_round4.py"
 _spec = importlib.util.spec_from_file_location("summarize_round4", MODULE_PATH)
