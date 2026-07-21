@@ -28,6 +28,28 @@ Wigner 負性表現([Kenfack et al. 2004](https://arxiv.org/abs/physics/0304029)
 固有の技術的困難(=貢献の中身): 負の重みを許しながら、物理的制約
 (全確率 1、周辺分布の非負性、密度演算子の正定値性)を保つ最適化。
 
+## ビジュアルデモ: 表現媒体としての符号付きスプラット
+
+本リポジトリの符号付き(負の重みを持つ)スプラットは、通常の3D Gaussian
+Splattingシーンに対しても表現媒体として機能する — 負スプラットは遮蔽の
+代わりに光を減算するため、通常の非負 alpha の 3DGS 合成では直接表現
+しにくい効果が可能になる。
+
+<p align="center">
+  <img src="experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-contact.png" width="60%" alt="サボテンのスキャンとその負のコピーが接触し、打ち消し合って消滅する瞬間のフレーム" />
+</p>
+
+12秒のアニメーションカメラによる動画3本:
+
+- [消しゴム](experiments/22_signed_splat_demo/media/cc0-cactus-eraser-orbit.mp4) — 見えない球体が対象を正直に消し去り、裏側に実際にスキャンされていたものを露わにする
+- [闇の懐中電灯](experiments/22_signed_splat_demo/media/cc0-cactus-dark-flashlight-orbit.mp4) — 闇の光線: 低アルファの負スプラットで満たされた円錐
+- [対消滅](experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-orbit.mp4) — 対象がその負のコピーと出会い、重なった部分が打ち消し合って消える
+
+コード、来歴(CC0のサボテンシーン)、先行研究メモ(負のガウシアン自体は
+NegGS, arXiv:2405.18163 で再構成品質向上のために使われているが、ここでは
+表現目的で使用している)については
+[experiments/22_signed_splat_demo/](experiments/22_signed_splat_demo/) を参照。
+
 ## 反証条件
 
 同一ショット数で iterative MLE に fidelity・速度の両方で勝てないなら、
