@@ -43,6 +43,27 @@ models with closed-form homodyne likelihoods and analytic gradients.
   negative results, scoring corrections, and superseded logs are all kept in
   the [research log](docs/research-log.md).
 
+## Visual demos: signed splats as a medium
+
+The repository's signed (negative-weight) splats also work as a visual medium
+on ordinary 3D Gaussian-splatting scenes — negative splats subtract light
+instead of occluding, which enables effects impossible in normal rendering.
+
+<p align="center">
+  <img src="experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-contact.png" width="60%" alt="Frame at the moment a cactus scan and its negative copy meet and cancel to nothing" />
+</p>
+
+Three 12-second animated-camera videos:
+
+- [Eraser](experiments/22_signed_splat_demo/media/cc0-cactus-eraser-orbit.mp4) — an invisible sphere honestly erases the object, revealing what was actually scanned behind it
+- [Dark flashlight](experiments/22_signed_splat_demo/media/cc0-cactus-dark-flashlight-orbit.mp4) — a beam of darkness: a cone filled with low-alpha negative splats
+- [Annihilation](experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-orbit.mp4) — the object meets its negative copy and the overlap cancels to nothing
+
+See [experiments/22_signed_splat_demo/](experiments/22_signed_splat_demo/) for
+code, provenance (CC0 cactus scene), and prior-art notes (negative Gaussians
+appear in NegGS, arXiv:2405.18163, for reconstruction quality; here they are
+used expressively).
+
 ## What is being explored
 
 Homodyne tomography observes one-dimensional quadrature marginals at local
