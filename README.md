@@ -47,7 +47,8 @@ models with closed-form homodyne likelihoods and analytic gradients.
 
 The repository's signed (negative-weight) splats also work as a visual medium
 on ordinary 3D Gaussian-splatting scenes — negative splats subtract light
-instead of occluding, which enables effects impossible in normal rendering.
+instead of occluding, which enables effects that are difficult to express
+with ordinary non-negative-alpha 3DGS compositing.
 
 <p align="center">
   <img src="experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-contact.png" width="60%" alt="Frame at the moment a cactus scan and its negative copy meet and cancel to nothing" />

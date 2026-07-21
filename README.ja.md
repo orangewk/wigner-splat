@@ -32,7 +32,8 @@ Wigner 負性表現([Kenfack et al. 2004](https://arxiv.org/abs/physics/0304029)
 
 本リポジトリの符号付き(負の重みを持つ)スプラットは、通常の3D Gaussian
 Splattingシーンに対しても表現媒体として機能する — 負スプラットは遮蔽の
-代わりに光を減算するため、通常のレンダリングでは不可能な効果が可能になる。
+代わりに光を減算するため、通常の非負 alpha の 3DGS 合成では直接表現
+しにくい効果が可能になる。
 
 <p align="center">
   <img src="experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-contact.png" width="60%" alt="サボテンのスキャンとその負のコピーが接触し、打ち消し合って消滅する瞬間のフレーム" />
