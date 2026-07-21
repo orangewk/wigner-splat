@@ -1740,3 +1740,11 @@ tests passed. Exact recipes and hashes are in
 This supersedes the earlier garden/provenance conclusion. The ambiguous
 cakewalk garden asset is not used, and the contract is satisfied by continuing
 the public-data search rather than switching to a self-captured MOV.
+
+On 2026-07-21, orange approved an additional slow inspection-camera variant.
+Three more GPU videos keep a fixed look-at target while combining an 18–25
+degree horizontal arc, level-to-look-down-to-look-up elevation, and restrained
+dolly. Dark flashlight uses half the vertical amplitude to preserve beam
+readability. Each animated-camera result is 960x960, 12 fps, 144 frames, and
+12 seconds; ffprobe and 1/5/9/11.5-second visual QA passed. Eight targeted tests
+passed after adding camera-path coverage.

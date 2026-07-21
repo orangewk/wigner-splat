@@ -1,6 +1,6 @@
 {
   "issue": 89,
-  "status": "public_high_fidelity_demo_complete",
+  "status": "public_high_fidelity_demo_complete_with_animated_camera",
   "renderer": {
     "kind": "gsplat CUDA signed post-process",
     "format": "Postshot/INRIA binary Gaussian PLY",
@@ -41,7 +41,16 @@
     "duration_seconds": 8.0,
     "video_codec": "h264",
     "pixel_format": "yuv420p",
-    "gpu_training": false
+    "gpu_training": false,
+    "animated_camera": {
+      "duration_seconds": 12.0,
+      "frames": 144,
+      "focus": "fixed",
+      "yaw_degrees": "18–25 by effect",
+      "look_down_degrees": "10 max; 5 for dark-flashlight",
+      "look_up_degrees": "6 max; 3 for dark-flashlight",
+      "dolly": "8 percent max"
+    }
   },
   "committed_outputs": [
     {
@@ -64,16 +73,46 @@
       "bytes": 604178,
       "sha256": "fc0c3d1f85ad6f902e8774810f73dae4dfcf0bfa4c65f9339493860786511d82",
       "wall_seconds": 8.412
+    },
+    {
+      "effect": "eraser",
+      "camera_motion": "orbit",
+      "path": "experiments/22_signed_splat_demo/media/cc0-cactus-eraser-orbit.mp4",
+      "bytes": 1619044,
+      "sha256": "6b98fb9cbb152f7f3009777fdb6fea4990c0735995348dfb6c2dcb725d209687",
+      "wall_seconds": 5.621
+    },
+    {
+      "effect": "dark-flashlight",
+      "camera_motion": "orbit",
+      "path": "experiments/22_signed_splat_demo/media/cc0-cactus-dark-flashlight-orbit.mp4",
+      "bytes": 1651355,
+      "sha256": "156ed23e4e314ac47b264d667a91d8b296abe9e62236b8f32d3972e30d9a85ae",
+      "wall_seconds": 9.896
+    },
+    {
+      "effect": "annihilation",
+      "camera_motion": "orbit",
+      "path": "experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-orbit.mp4",
+      "bytes": 2039953,
+      "sha256": "b6e3d1bb323771962f69096b860d90e2870a7ec9bfea5c648c32a1f870903e67",
+      "wall_seconds": 9.455
     }
   ],
   "validation": {
-    "targeted_tests": "6 passed in 0.21s (final rerun)",
+    "targeted_tests": "8 passed in 0.88s (animated-camera tests added)",
     "full_suite": "timed out after 304s while CPU-active; original process ended with timeout",
-    "video_probe": "all outputs: 960x960, 12 fps, 96 frames, 8.000 seconds",
-    "visual_qa_times_seconds": [
+    "video_probe": "fixed: 96 frames / 8.000s; animated: 144 frames / 12.000s; all 960x960, 12 fps, H.264 yuv420p",
+    "fixed_visual_qa_times_seconds": [
       1,
       4,
       7
+    ],
+    "animated_visual_qa_times_seconds": [
+      1,
+      5,
+      9,
+      11.5
     ],
     "annihilation_final_frame": "cactus and occluded rim fragments cancelled; pot retained"
   },

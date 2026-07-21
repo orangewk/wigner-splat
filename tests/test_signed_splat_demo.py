@@ -131,3 +131,24 @@ def test_look_at_maps_target_to_positive_camera_depth():
     camera_target = view @ np.array([*target, 1.0], dtype=np.float32)
     np.testing.assert_allclose(camera_target[:2], 0.0, atol=1e-7)
     assert camera_target[2] == 4.0
+
+
+def test_animated_camera_changes_elevation_while_crossing_target():
+    target = np.array([1.0, 2.0, 3.0], dtype=np.float32)
+    radius = 5.0
+    start = gpu_renderer.animated_camera_eye("eraser", 0.0, target, radius)
+    overhead = gpu_renderer.animated_camera_eye("eraser", 0.42, target, radius)
+    finish = gpu_renderer.animated_camera_eye("eraser", 1.0, target, radius)
+
+    np.testing.assert_allclose(np.linalg.norm(start - target), radius, rtol=1e-6)
+    assert overhead[1] < target[1]
+    assert finish[1] > target[1]
+    assert start[0] < target[0] < finish[0]
+
+
+def test_flashlight_camera_uses_restrained_vertical_arc():
+    target = np.zeros(3, dtype=np.float32)
+    eraser = gpu_renderer.animated_camera_eye("eraser", 0.42, target, 5.0)
+    flashlight = gpu_renderer.animated_camera_eye("dark-flashlight", 0.42, target, 5.0)
+
+    assert abs(flashlight[1]) < abs(eraser[1])
