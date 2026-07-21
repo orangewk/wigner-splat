@@ -39,11 +39,26 @@ Splattingシーンに対しても表現媒体として機能する — 負スプ
   <img src="experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-contact.png" width="60%" alt="サボテンのスキャンとその負のコピーが接触し、打ち消し合って消滅する瞬間のフレーム" />
 </p>
 
-12秒のアニメーションカメラによる動画3本:
+12秒のアニメーションカメラによる動画3本(下のプレイヤーで再生可。アーカイブ
+用のファイル本体は
+[`experiments/22_signed_splat_demo/media/`](experiments/22_signed_splat_demo/media/)
+にある):
 
-- [消しゴム](experiments/22_signed_splat_demo/media/cc0-cactus-eraser-orbit.mp4) — 見えない球体が対象を正直に消し去り、裏側に実際にスキャンされていたものを露わにする
-- [闇の懐中電灯](experiments/22_signed_splat_demo/media/cc0-cactus-dark-flashlight-orbit.mp4) — 闇の光線: 低アルファの負スプラットで満たされた円錐
-- [対消滅](experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-orbit.mp4) — 対象がその負のコピーと出会い、重なった部分が打ち消し合って消える
+**消しゴム** — 見えない球体が対象を正直に消し去り、裏側に実際にスキャンされて
+いたものを露わにする
+([ファイル](experiments/22_signed_splat_demo/media/cc0-cactus-eraser-orbit.mp4)):
+
+https://github.com/user-attachments/assets/6835fc8d-9b9a-4791-b74f-875ffac7a88b
+
+**闇の懐中電灯** — 闇の光線: 低アルファの負スプラットで満たされた円錐
+([ファイル](experiments/22_signed_splat_demo/media/cc0-cactus-dark-flashlight-orbit.mp4)):
+
+https://github.com/user-attachments/assets/3d02224f-cc79-4982-a678-6835463c4405
+
+**対消滅** — 対象がその負のコピーと出会い、重なった部分が打ち消し合って消える
+([ファイル](experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-orbit.mp4)):
+
+https://github.com/user-attachments/assets/93ccf81a-af23-4a8a-90f1-54a882260d91
 
 コード、来歴(CC0のサボテンシーン)、先行研究メモ(負のガウシアン自体は
 NegGS, arXiv:2405.18163 で再構成品質向上のために使われているが、ここでは

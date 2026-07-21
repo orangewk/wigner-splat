@@ -54,11 +54,26 @@ with ordinary non-negative-alpha 3DGS compositing.
   <img src="experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-contact.png" width="60%" alt="Frame at the moment a cactus scan and its negative copy meet and cancel to nothing" />
 </p>
 
-Three 12-second animated-camera videos:
+Three 12-second animated-camera videos (players below; the archived files live
+in [`experiments/22_signed_splat_demo/media/`](experiments/22_signed_splat_demo/media/)):
 
-- [Eraser](experiments/22_signed_splat_demo/media/cc0-cactus-eraser-orbit.mp4) — an invisible sphere honestly erases the object, revealing what was actually scanned behind it
-- [Dark flashlight](experiments/22_signed_splat_demo/media/cc0-cactus-dark-flashlight-orbit.mp4) — a beam of darkness: a cone filled with low-alpha negative splats
-- [Annihilation](experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-orbit.mp4) — the object meets its negative copy and the overlap cancels to nothing
+**Eraser** — an invisible sphere honestly erases the object, revealing what
+was actually scanned behind it
+([file](experiments/22_signed_splat_demo/media/cc0-cactus-eraser-orbit.mp4)):
+
+https://github.com/user-attachments/assets/6835fc8d-9b9a-4791-b74f-875ffac7a88b
+
+**Dark flashlight** — a beam of darkness: a cone filled with low-alpha
+negative splats
+([file](experiments/22_signed_splat_demo/media/cc0-cactus-dark-flashlight-orbit.mp4)):
+
+https://github.com/user-attachments/assets/3d02224f-cc79-4982-a678-6835463c4405
+
+**Annihilation** — the object meets its negative copy and the overlap cancels
+to nothing
+([file](experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-orbit.mp4)):
+
+https://github.com/user-attachments/assets/93ccf81a-af23-4a8a-90f1-54a882260d91
 
 See [experiments/22_signed_splat_demo/](experiments/22_signed_splat_demo/) for
 code, provenance (CC0 cactus scene), and prior-art notes (negative Gaussians
