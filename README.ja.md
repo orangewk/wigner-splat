@@ -35,10 +35,6 @@ Splattingシーンに対しても表現媒体として機能する — 負スプ
 代わりに光を減算するため、通常の非負 alpha の 3DGS 合成では直接表現
 しにくい効果が可能になる。
 
-<p align="center">
-  <img src="experiments/22_signed_splat_demo/media/cc0-cactus-annihilation-contact.png" width="60%" alt="サボテンのスキャンとその負のコピーが接触し、打ち消し合って消滅する瞬間のフレーム" />
-</p>
-
 12秒のアニメーションカメラによる動画3本(下のプレイヤーで再生可。アーカイブ
 用のファイル本体は
 [`experiments/22_signed_splat_demo/media/`](experiments/22_signed_splat_demo/media/)
