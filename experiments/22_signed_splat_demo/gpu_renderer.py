@@ -139,6 +139,46 @@ def smoothstep(edge0: float, edge1: float, value: np.ndarray) -> np.ndarray:
     return x * x * (3.0 - 2.0 * x)
 
 
+def animated_camera_eye(
+    effect: str, progress: float, target: np.ndarray, radius: float
+) -> np.ndarray:
+    """Return a slow inspection-camera position while keeping ``target`` fixed."""
+    progress = float(np.clip(progress, 0.0, 1.0))
+    eased = float(smoothstep(0.0, 1.0, np.asarray(progress)))
+    yaw_span = {"eraser": 25.0, "dark-flashlight": 18.0, "annihilation": 25.0}[effect]
+    yaw = np.deg2rad(-0.5 * yaw_span + yaw_span * eased)
+
+    # Begin level, rise into a look-down composition, then finish with a
+    # restrained look-up. The flashlight uses half the vertical travel so
+    # its screen-space beam remains easy to read.
+    vertical_scale = 0.5 if effect == "dark-flashlight" else 1.0
+    if progress <= 0.42:
+        segment = float(smoothstep(0.0, 0.42, np.asarray(progress)))
+        elevation_degrees = 10.0 * segment
+    else:
+        segment = float(smoothstep(0.42, 1.0, np.asarray(progress)))
+        elevation_degrees = 10.0 + (-6.0 - 10.0) * segment
+    elevation = np.deg2rad(elevation_degrees * vertical_scale)
+
+    distance_scale = 1.0 - 0.04 * np.sin(np.pi * progress)
+    if effect == "dark-flashlight":
+        distance_scale = 1.0 - 0.02 * np.sin(np.pi * progress)
+    elif effect == "annihilation":
+        pullback = float(smoothstep(0.62, 1.0, np.asarray(progress)))
+        distance_scale += 0.08 * pullback
+    distance = radius * distance_scale
+    horizontal = distance * np.cos(elevation)
+    offset = np.array(
+        [
+            horizontal * np.sin(yaw),
+            -distance * np.sin(elevation),
+            -horizontal * np.cos(yaw),
+        ],
+        dtype=np.float32,
+    )
+    return np.asarray(target, dtype=np.float32) + offset
+
+
 class GpuDemoRenderer:
     """Render full anisotropic Gaussian splats and three signed effects."""
 
@@ -173,8 +213,12 @@ class GpuDemoRenderer:
         self.scales = torch.from_numpy(self.scene.scales).to(device)
         self.opacities = torch.from_numpy(self.scene.opacities).to(device)
         self.colors = torch.from_numpy(self.scene.sh_coefficients).to(device)
-        self.view = torch.from_numpy(view)[None].to(device)
+        self.fixed_view = torch.from_numpy(view)[None].to(device)
+        self.view = self.fixed_view
         self.intrinsic = torch.from_numpy(intrinsic)[None].to(device)
+        self.target = target
+        self.camera_radius = 2.20 * radius
+        self._camera_key: tuple[str, float] = ("fixed", 0.0)
 
         yy = np.linspace(0.0, 1.0, height, dtype=np.float32)[:, None, None]
         top = np.array([0.004, 0.006, 0.010], dtype=np.float32).reshape(1, 1, 3)
@@ -211,8 +255,27 @@ class GpuDemoRenderer:
             self._base, _ = self._rasterize()
         return self._base
 
-    def render(self, effect: str, progress: float) -> np.ndarray:
+    def _set_camera(self, effect: str, progress: float, camera_motion: str) -> None:
+        if camera_motion == "fixed":
+            if self._camera_key[0] != "fixed":
+                self.view = self.fixed_view
+                self._base = None
+                self._camera_key = ("fixed", 0.0)
+            return
+        if camera_motion != "orbit":
+            raise ValueError(f"unknown camera motion {camera_motion!r}")
+        key = (effect, float(progress))
+        if key == self._camera_key:
+            return
+        eye = animated_camera_eye(effect, progress, self.target, self.camera_radius)
+        view = look_at(eye, self.target, np.array([0.0, -1.0, 0.0], dtype=np.float32))
+        self.view = self.torch.from_numpy(view)[None].to(self.means.device)
+        self._base = None
+        self._camera_key = key
+
+    def render(self, effect: str, progress: float, camera_motion: str = "fixed") -> np.ndarray:
         progress = float(np.clip(progress, 0.0, 1.0))
+        self._set_camera(effect, progress, camera_motion)
         if effect == "eraser":
             return self._eraser(progress)
         if effect == "dark-flashlight":

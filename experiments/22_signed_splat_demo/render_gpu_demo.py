@@ -32,7 +32,14 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def write_video(path: Path, renderer: GpuDemoRenderer, effect: str, fps: int, seconds: float) -> dict:
+def write_video(
+    path: Path,
+    renderer: GpuDemoRenderer,
+    effect: str,
+    fps: int,
+    seconds: float,
+    camera_motion: str,
+) -> dict:
     frame_count = max(1, round(fps * seconds))
     command = [
         "ffmpeg",
@@ -63,7 +70,9 @@ def write_video(path: Path, renderer: GpuDemoRenderer, effect: str, fps: int, se
     assert process.stdin is not None
     try:
         for index in range(frame_count):
-            frame = renderer.render(effect, frame_progress(index, frame_count))
+            frame = renderer.render(
+                effect, frame_progress(index, frame_count), camera_motion=camera_motion
+            )
             process.stdin.write(np.asarray(frame * 255.0, dtype=np.uint8).tobytes())
     finally:
         process.stdin.close()
@@ -87,6 +96,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--height", type=int, default=960)
     parser.add_argument("--fps", type=int, default=12)
     parser.add_argument("--seconds", type=float, default=8.0)
+    parser.add_argument("--camera-motion", choices=("fixed", "orbit"), default="fixed")
     parser.add_argument("--preview-progress", type=float, default=None)
     return parser.parse_args()
 
@@ -103,17 +113,29 @@ def main() -> None:
         "source_sha256": sha256(args.scene),
         "loaded_splats": len(renderer.scene.means),
         "effect": args.effect,
+        "camera_motion": args.camera_motion,
         "width": args.width,
         "height": args.height,
         "renderer": "gsplat CUDA; anisotropic covariance; SH degree 3; antialiased",
         "device": renderer.torch.cuda.get_device_name(),
     }
     if args.preview_progress is not None:
-        frame = renderer.render(args.effect, args.preview_progress)
+        frame = renderer.render(
+            args.effect, args.preview_progress, camera_motion=args.camera_motion
+        )
         Image.fromarray(np.asarray(frame * 255.0, dtype=np.uint8), mode="RGB").save(args.output)
         metadata["preview_progress"] = args.preview_progress
     else:
-        metadata.update(write_video(args.output, renderer, args.effect, args.fps, args.seconds))
+        metadata.update(
+            write_video(
+                args.output,
+                renderer,
+                args.effect,
+                args.fps,
+                args.seconds,
+                args.camera_motion,
+            )
+        )
     metadata["output_bytes"] = args.output.stat().st_size
     metadata["output_sha256"] = sha256(args.output)
     metadata_path = args.output.with_suffix(args.output.suffix + ".json")
