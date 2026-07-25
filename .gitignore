@@ -19,3 +19,10 @@ serviceAccountKey.json
 # Experiment outputs
 experiments/*/out/
 .venv/
+
+# Agent working directories (not tracked)
+.codex/
+
+# Non-public layer: documents in which third parties appear
+# (outreach drafts, contact prioritisation). Kept in the private sibling repo.
+docs/outreach/
