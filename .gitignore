@@ -26,3 +26,4 @@ experiments/*/out/
 # Non-public layer: documents in which third parties appear
 # (outreach drafts, contact prioritisation). Kept in the private sibling repo.
 docs/outreach/
+docs/2026-07-15-live-action-loop-background-game--proposed.md
