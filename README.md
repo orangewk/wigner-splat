@@ -33,7 +33,8 @@ models with closed-form homodyne likelihoods and analytic gradients.
   0.923 against 0.898 for a converged full-rank MLE with ~2.6×10⁵ parameters
   (experiment 19) — and the target is **provably outside the model family**:
   experiment 20 shows analytically that no efficiency and no finite rank can
-  represent it exactly, while best approximations stop 1–2×10⁻³ short.
+  represent it exactly, while best approximations stop ≈2–3×10⁻³ short at
+  the largest scored cutoff (n = 12).
 - **An honest scaling story.** One mode: MLE is faster. Two modes: statistical
   tie at ~1/7.4 the compute. Three modes: the signed-splat score is not
   physical fidelity (non-PSD) and the repository says so.
@@ -126,8 +127,9 @@ numerical scan as corroboration), so the target is **strictly outside the
 winning family** and the exp19
 record is one instance of blind performance on a genuinely out-of-family
 target. The boundary is thin, however: a direct best-approximation study
-found the family approaches the target to 1–2 × 10⁻³ in 1 − F (one-mode,
-cutoff-stable best-found values — upper bounds on its true distance), so
+found the family approaches the target to ≈2–3 × 10⁻³ in 1 − F at the
+largest scored cutoff (n = 12; one-mode best-found values, still increasing
+slowly with cutoff — upper bounds on its true distance), so
 exp19's larger blind gap is a fit- and data-budget effect, not the family
 boundary. A robustness sweep (experiment 21) then repeated the blind
 comparison across three data seeds and a 4x range of noise strength: the
