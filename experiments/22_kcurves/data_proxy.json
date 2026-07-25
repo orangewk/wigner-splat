@@ -1,0 +1,61 @@
+{
+  "certified_lower_bound_reservation": {
+    "scope": "Gate T certified lower bounds",
+    "status": "reserved_not_computed"
+  },
+  "ci_vs_test_selected_mle": {
+    "R4_alternate_95": [
+      -0.00016675900530110381,
+      2.7269914027297554e-05
+    ],
+    "R4_primary_95": [
+      -1.8046357874321374e-05,
+      0.00019604652582752948
+    ]
+  },
+  "cutoff_status": "not applicable: this is a fixed reconstruction schedule, not a fidelity cutoff sweep",
+  "epistemic_status": "data proxy only; not K_epsilon^{G,F} and not a certified lower bound",
+  "fidelity_convention": "not available: real-data true-state fidelity is inaccessible",
+  "label": "data proxy",
+  "points": [
+    {
+      "R": 1,
+      "held_out_per_sample_nll": 1.63304,
+      "source": "exp14 committed log"
+    },
+    {
+      "R": 2,
+      "held_out_per_sample_nll": 1.63084,
+      "source": "exp14 committed log"
+    },
+    {
+      "R": 3,
+      "dof": 69,
+      "held_out_per_sample_nll": 1.630085541333045,
+      "source": "exp18 results JSON"
+    },
+    {
+      "R": 4,
+      "dof": 92,
+      "held_out_per_sample_nll": 1.6299296036916187,
+      "source": "exp18 results JSON"
+    },
+    {
+      "R": 5,
+      "dof": 115,
+      "held_out_per_sample_nll": 1.629948111500704,
+      "source": "exp18 results JSON"
+    }
+  ],
+  "primary_split": "seed 0",
+  "quantity": "held-out per-sample NLL vs operator mixture rank R (K=4 ket components fixed)",
+  "rank_primitive": {
+    "curve_x_axis": "R = operator mixture rank",
+    "ket_components_per_rank_column_K": 4
+  },
+  "schema_version": 2,
+  "source": [
+    "experiments/18_gkp_saturation/results.json",
+    "experiments/14_gkp_rank/out_run.log"
+  ]
+}

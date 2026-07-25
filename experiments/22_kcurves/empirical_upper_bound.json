@@ -1,0 +1,129 @@
+{
+  "certified_lower_bound_reservation": {
+    "scope": "Gate T certified lower bounds",
+    "status": "reserved_not_computed"
+  },
+  "cutoff_status": "still increasing with cutoff; infinite-cutoff limit unresolved",
+  "epistemic_status": "empirical best-found family-constrained approximation; not a certified lower bound and not an upper bound on K_epsilon^{G,F}",
+  "fidelity_convention": "generalized Uhlmann fidelity for cropped/subnormalized matrices",
+  "label": "family-constrained approximation curve",
+  "params": {
+    "eta": 0.8,
+    "n_scores": [
+      8,
+      10,
+      12
+    ],
+    "sigma": 0.1
+  },
+  "points": [
+    {
+      "K": 2,
+      "epsilon": 0.0025040597041628976,
+      "eta_prime": 0.6663881112185104,
+      "fidelity": 0.9974959402958371,
+      "n_score": 8,
+      "seed": 0
+    },
+    {
+      "K": 4,
+      "epsilon": 0.0015980820320179445,
+      "eta_prime": 0.6639241026430248,
+      "fidelity": 0.998401917967982,
+      "n_score": 8,
+      "seed": 2
+    },
+    {
+      "K": 8,
+      "epsilon": 0.0013572362253208015,
+      "eta_prime": 0.6561036781729631,
+      "fidelity": 0.9986427637746792,
+      "n_score": 8,
+      "seed": 1
+    },
+    {
+      "K": 2,
+      "epsilon": 0.003214245815439609,
+      "eta_prime": 0.6616617230106784,
+      "fidelity": 0.9967857541845604,
+      "n_score": 10,
+      "seed": 0
+    },
+    {
+      "K": 4,
+      "epsilon": 0.0021978444732121405,
+      "eta_prime": 0.6490193971820386,
+      "fidelity": 0.9978021555267879,
+      "n_score": 10,
+      "seed": 1
+    },
+    {
+      "K": 8,
+      "epsilon": 0.0019824207826606433,
+      "eta_prime": 0.650550079321109,
+      "fidelity": 0.9980175792173394,
+      "n_score": 10,
+      "seed": 1
+    },
+    {
+      "K": 2,
+      "epsilon": 0.0034384094059295434,
+      "eta_prime": 0.6612488431416249,
+      "fidelity": 0.9965615905940705,
+      "n_score": 12,
+      "seed": 0
+    },
+    {
+      "K": 4,
+      "epsilon": 0.0023747199770528526,
+      "eta_prime": 0.6484042022505367,
+      "fidelity": 0.9976252800229471,
+      "n_score": 12,
+      "seed": 1
+    },
+    {
+      "K": 8,
+      "epsilon": 0.0021749434414252145,
+      "eta_prime": 0.6493640754938897,
+      "fidelity": 0.9978250565585748,
+      "n_score": 12,
+      "seed": 1
+    }
+  ],
+  "quantity": "best-found generalized-fidelity residual 1 - F within the fixed rank-2 BB\u2020 + loss family",
+  "r_epsilon_upper_points": {
+    "claim": "At n_score=12, each fit demonstrates R_epsilon <= 2 at its listed epsilon; K only varies the ket components per rank-2 column.",
+    "points": [
+      {
+        "K": 2,
+        "epsilon": 0.0034384094059295434,
+        "eta_prime": 0.6612488431416249,
+        "fidelity": 0.9965615905940705,
+        "n_score": 12,
+        "seed": 0
+      },
+      {
+        "K": 4,
+        "epsilon": 0.0023747199770528526,
+        "eta_prime": 0.6484042022505367,
+        "fidelity": 0.9976252800229471,
+        "n_score": 12,
+        "seed": 1
+      },
+      {
+        "K": 8,
+        "epsilon": 0.0021749434414252145,
+        "eta_prime": 0.6493640754938897,
+        "fidelity": 0.9978250565585748,
+        "n_score": 12,
+        "seed": 1
+      }
+    ]
+  },
+  "rank_primitive": {
+    "curve_x_axis": "K = ket components per rank-2 column",
+    "pre_loss_operator_rank_R": 2
+  },
+  "schema_version": 2,
+  "source": "experiments/20_noninclusion/results_routeB.json"
+}
