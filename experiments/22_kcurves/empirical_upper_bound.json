@@ -1,0 +1,38 @@
+{
+  "interpretation": "A fit attains K_epsilon <= K; this is not a certified lower bound.",
+  "label": "empirical upper bound",
+  "params": {
+    "eta": 0.8,
+    "n_score": 12,
+    "sigma": 0.1
+  },
+  "points": [
+    {
+      "K": 2,
+      "epsilon_upper": 0.0034384094059295434,
+      "eta_prime": 0.6612488431416249,
+      "fidelity": 0.9965615905940705,
+      "n_score": 12,
+      "seed": 0
+    },
+    {
+      "K": 4,
+      "epsilon_upper": 0.0023747199770528526,
+      "eta_prime": 0.6484042022505367,
+      "fidelity": 0.9976252800229471,
+      "n_score": 12,
+      "seed": 1
+    },
+    {
+      "K": 8,
+      "epsilon_upper": 0.0021749434414252145,
+      "eta_prime": 0.6493640754938897,
+      "fidelity": 0.9978250565585748,
+      "n_score": 12,
+      "seed": 1
+    }
+  ],
+  "quantity": "best-found epsilon = 1 - F at fixed K",
+  "schema_version": 1,
+  "source": "experiments/20_noninclusion/results_routeB.json"
+}

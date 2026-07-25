@@ -1,0 +1,51 @@
+{
+  "ci_vs_test_selected_mle": {
+    "R4_alternate_95": [
+      -0.00016675900530110381,
+      2.7269914027297554e-05
+    ],
+    "R4_primary_95": [
+      -1.8046357874321374e-05,
+      0.00019604652582752948
+    ]
+  },
+  "interpretation": "Real-data true-state fidelity is unavailable; this is not K_epsilon.",
+  "label": "data proxy",
+  "points": [
+    {
+      "K": 1,
+      "held_out_per_sample_nll": 1.63304,
+      "source": "exp14 committed log"
+    },
+    {
+      "K": 2,
+      "held_out_per_sample_nll": 1.63084,
+      "source": "exp14 committed log"
+    },
+    {
+      "K": 3,
+      "dof": 69,
+      "held_out_per_sample_nll": 1.630085541333045,
+      "source": "exp18 results JSON"
+    },
+    {
+      "K": 4,
+      "dof": 92,
+      "held_out_per_sample_nll": 1.6299296036916187,
+      "source": "exp18 results JSON"
+    },
+    {
+      "K": 5,
+      "dof": 115,
+      "held_out_per_sample_nll": 1.629948111500704,
+      "source": "exp18 results JSON"
+    }
+  ],
+  "primary_split": "seed 0",
+  "quantity": "held-out per-sample NLL vs mixture rank K",
+  "schema_version": 1,
+  "source": [
+    "experiments/18_gkp_saturation/results.json",
+    "experiments/14_gkp_rank/out_run.log"
+  ]
+}

@@ -1736,6 +1736,16 @@ Three CC0-derived videos are committed at 960x960, 12 fps, 96 frames, and
 frame check for complete annihilation while retaining the pot. Six targeted
 tests passed. Exact recipes and hashes are in
 `experiments/22_signed_splat_demo/demo_result.json`.
+## 2026-07-25 — Experiment 22 / issue #100, measured K-curves reanalysis
+
+Owner/decision: orange approved the issue #71 Gate D labeling discipline and
+delegated this non-fitting reanalysis in parallel with Gate T. `experiments/22_kcurves/`
+extracts the synthetic Route-B best-found `1 - F` curve as an **empirical upper
+bound** and the real GKP held-out per-sample NLL curve as a **data proxy**.
+The output reserves, but does not calculate, a **certified lower bound** panel
+for Gate T. The generator asserts committed Route-B parameters/ruling and the
+GKP CI/frontier checkpoints; no new fit or GPU work ran.
+
 
 This supersedes the earlier garden/provenance conclusion. The ambiguous
 cakewalk garden asset is not used, and the contract is satisfied by continuing
