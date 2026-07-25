@@ -179,9 +179,11 @@ def prepare_scene(spec: SceneSpec, archive_path: Path) -> dict:
             ),
             "license_additional_restrictions": (
                 "The License Grant section of the same official license page "
-                "limits use to non-commercial research and education and "
-                "forbids providing copies to third parties; the page is "
-                "internally inconsistent and this record does not resolve it"
+                "limits use to non-commercial scientific research and prohibits "
+                "reproducing, modifying, or making the Data available in any "
+                "form to any third party without prior written permission; the "
+                "page is internally inconsistent and this record does not "
+                "resolve it"
             ),
             "license_url": LICENSE_URL,
             "citation": (

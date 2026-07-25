@@ -16,13 +16,13 @@ record does not resolve it):
   the attribution the Round 5 hard lock recorded. This notice is preserved here
   and in the committed manifests.
 - The License Grant section of the same official license page additionally
-  limits use to non-commercial research and education and forbids providing
-  copies of the data to third parties.
+  limits use to non-commercial scientific research and says the Data may not
+  be reproduced, modified, or made available in any form to any third party
+  without prior written permission.
 
 The authoritative terms are whatever the official license page states; consult
-it directly before any reuse. This experiment is non-commercial research use,
-which is permitted under either reading, and image payloads are not committed
-to this repository.
+it directly before any reuse. This experiment is non-commercial scientific
+research, and image payloads are not committed to this repository.
 
 ## Reproduction
 
