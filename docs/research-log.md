@@ -1740,8 +1740,15 @@ tests passed. Exact recipes and hashes are in
 
 Owner/decision: orange approved the issue #71 Gate D labeling discipline and
 delegated this non-fitting reanalysis in parallel with Gate T. `experiments/22_kcurves/`
-extracts the synthetic Route-B best-found `1 - F` curve as an **empirical upper
-bound** and the real GKP held-out per-sample NLL curve as a **data proxy**.
+separates the synthetic Route-B cutoff-scored **family-constrained approximation
+curve** from the real GKP held-out per-sample NLL **rank proxy**. Route B fixes
+pre-loss operator rank `R=2`; its `K={2,4,8}` axis is ket components per rank-2
+column, not the GKP mixture-rank axis. The figure stores all `n_score={8,10,12}`
+series and highlights `n=12`: generalized fidelity is for cropped/subnormalized
+matrices, is still increasing with cutoff, and has no resolved infinite-cutoff
+limit. The `n=12` points empirically demonstrate `R_epsilon <= 2` at their
+listed residuals, while the family curve itself is neither a K-epsilon bound nor
+a certified lower bound.
 The output reserves, but does not calculate, a **certified lower bound** panel
 for Gate T. The generator asserts committed Route-B parameters/ruling and the
 GKP CI/frontier checkpoints; no new fit or GPU work ran.
