@@ -113,6 +113,21 @@ made for χ_G / K_ε; R_ε appears only to exhibit their inequivalence, and no
 monotonicity is claimed for it (loss cannot be "pulled back" through the
 monotonicity of §3; the inequality only runs forward).
 
+### 2.4 Declaration table (single source of truth for "which quantity, which state")
+
+Every theorem, table and figure in this note cites one row of this table.
+Rows are also targets of the build-time claim checker (§7.4): any number a
+prose sentence attributes to a row must match the artifact JSON it names.
+
+| ID | Quantity | State it certifies | Dictionary / family | Source of numbers |
+|----|----------|--------------------|---------------------|-------------------|
+| D1 | K_ε^{G,F} (unrestricted) | any ρ | all pure-Gaussian superpositions, roof | definitions only; no lower bounds claimed (impossible by §5.4a) |
+| D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust` |
+| D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | ideal finite-energy GKP comb | as D2, threshold d(ε)+‖tail‖ | exp23 `N_robust_lifted` (computed column; per-configuration) |
+| D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified); Route B series (empirical) |
+| D5 | family-constrained approximation curve | thermal lossy cat ρ_T | rank-2 BB† + loss, K kets/column | exp22 JSON (empirical; cutoff-conditioned) |
+| D6 | held-out NLL rank proxy | measured GKP data (true state unknown) | operator mixture rank R, K=4 kets | exp22 JSON (proxy) |
+
 ## 3. Consistency and monotonicity (certified)
 
 **Lemma A1′.** χ_G is well-defined with values in ℕ_{≥1} ∪ {∞}; the sets
@@ -305,19 +320,41 @@ dataset; true-state fidelity — hence K_ε — is inaccessible on measured
 data, and the proxy is labeled as such). The certified-lower-bound panel is
 reserved and unpopulated pending Gate E. Figures: experiments/22_kcurves/.
 
-### 7.2 Gate E: robust-zero census for finite-energy GKP (pending)
+### 7.2 Gate E: robust-zero census for finite-energy GKP
 
-For finite-energy GKP states (square lattice, envelope Δ), the robust-zero
-count in the energy window R ≲ √⟨n⟩ is computed numerically with explicit
-truncation-tail bounds (experiments/23_gkp_robust_zeros, in progress).
-Candidate statement to be instantiated: for a GKP state of mean photon
-number ⟨n⟩ and a dictionary G_eq(a,B),
+For finite-energy GKP states (square lattice, envelope Δ ∈ {0.2, 0.3, 0.4},
+⟨n⟩ ≈ 12.0 / 5.1 / 2.4) the zeros of the Bargmann function in energy
+windows R ≲ √⟨n⟩ are located and tested against the robustness threshold of
+§5.2, with explicit truncation-tail bounds
+(experiments/23_gkp_robust_zeros). Two certification levels, per the
+declaration table:
 
-> K_ε^{G_eq(a,B),F} ≥ N_robust(R,δ,ε)/C − B(R+δ), R ~ √⟨n⟩,
+- **D2 (ψ_trunc):** N_robust = 12 / 8 / 4 at the largest windows
+  (ε = 10⁻⁴) — the area-density scaling N_robust ~ ⟨n⟩ is measured, with
+  all three points nonzero. The bound K ≥ N_robust/C − B(R+δ) certifies
+  the renormalized truncated states exactly.
+- **D3 (untruncated comb, lifted threshold d(ε)+‖tail‖):** the
+  Δ = 0.3 and Δ = 0.4 configurations certify the ideal finite-energy comb
+  directly (nonzero N_robust_lifted at ε ≤ 10⁻⁴ and ε ≤ 10⁻³
+  respectively); Δ = 0.2 does not lift at the current truncation
+  (‖tail‖ = 0.074 > d(10⁻⁴) = 0.010, not repairable below the
+  polynomial-root numerical ceiling n_max ≲ 300 of this implementation)
+  and remains a ψ_trunc statement.
 
-with N_robust read from the census table. Until that table exists, "the
-bound has content for GKP" is a **candidate application, not a theorem**
-(T1 review, fix 5). [NUMBERS PENDING GATE E]
+Robustness activates only for ε ≲ 10⁻³ (at ε = 10⁻² no zero is robust in
+any configuration): certified content requires high-fidelity approximation
+demands. [EXACT LIFTED VALUES MACHINE-CHECKED AGAINST exp23 JSON — §7.4]
+
+### 7.3½ Claim checker (build gate)
+
+A build script (docs/kepsilon-note/check_claims.py, to be added with the
+final draft) verifies every number this note attributes to an artifact —
+including numbers asserted inside prose metadata fields such as
+`certified_subject` — against the committed JSONs of exp20/22/23. The
+lesson behind it: three same-shaped failures (routeB's hardcoded verdict
+print, the K-axis conflation, the blanket ψ_trunc declaration) all came
+from prose carrying claims that no computation backed. Prose that makes a
+claim gets that claim checked.
 
 ### 7.3 Quoting policy for Route B numbers
 
