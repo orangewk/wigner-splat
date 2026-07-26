@@ -59,7 +59,8 @@ def _factorial_second_moment(alpha: float, r: float) -> float:
 def _component_tail_upper_bound(coeff: np.ndarray, alpha: float, r: float, n_max: int, reference_cutoff: int) -> float:
     """Bound P(N > n_max), retaining a rigorous factorial-moment remainder."""
     resolved = float(np.sum(np.abs(coeff[n_max + 1 :]) ** 2))
-    moment_remainder = _factorial_second_moment(alpha, r) / ((reference_cutoff + 1) * (reference_cutoff + 2))
+    # Markov on N(N-1): P(N > c) = P(N(N-1) >= c(c+1)) <= <N(N-1)> / (c(c+1)).
+    moment_remainder = _factorial_second_moment(alpha, r) / (reference_cutoff * (reference_cutoff + 1))
     return resolved + moment_remainder
 
 
@@ -144,7 +145,12 @@ def winding_number(coefficients: np.ndarray, center: complex, half_width: float,
 
 
 def validate_zero_count(coefficients: np.ndarray, radius: float, roots: np.ndarray) -> None:
-    """Verify no missed/double-counted roots by tiled argument-principle counts."""
+    """Cross-check root counts by tiled argument-principle counts.
+
+    Coverage note (#71 exp23 merge review, point 3): only cells fully inside
+    the window (|center| + sqrt(2)*cell/2 <= radius) are checked, so the
+    annulus near |z| = radius is NOT covered by this cross-check.
+    """
     cell = 0.45
     centers = np.arange(-radius + cell / 2, radius, cell)
     checked_cells = 0

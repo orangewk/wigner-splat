@@ -1,4 +1,5 @@
 {
+  "certified_subject": "psi_trunc: the Fock-truncated (n <= n_max), renormalized finite-energy GKP state. psi_trunc is itself a normalized pure state, so Theorem B' applies to it exactly; N_robust and the symbolic K bound certify psi_trunc, not the untruncated comb.",
   "configurations": [
     {
       "envelope_width_Delta": 0.2,
@@ -150,7 +151,7 @@
       ],
       "state": {
         "elevated_n_max": 200,
-        "fock_tail_upper_bound": 0.005481564327631653,
+        "fock_tail_upper_bound": 0.005498185890251167,
         "lattice_envelope_amplitude_bound": 3.8390712972967816e-16,
         "lattice_half_width_s_max": 11,
         "mean_photon_reference": 12.009998542469395,
@@ -308,7 +309,7 @@
       ],
       "state": {
         "elevated_n_max": 200,
-        "fock_tail_upper_bound": 0.0006367015210976626,
+        "fock_tail_upper_bound": 0.0006386911598007485,
         "lattice_envelope_amplitude_bound": 3.832158176395603e-16,
         "lattice_half_width_s_max": 7,
         "mean_photon_reference": 5.062332763190313,
@@ -466,7 +467,7 @@
       ],
       "state": {
         "elevated_n_max": 200,
-        "fock_tail_upper_bound": 0.00013645207175161234,
+        "fock_tail_upper_bound": 0.00013687848447540337,
         "lattice_envelope_amplitude_bound": 3.8319101351967523e-16,
         "lattice_half_width_s_max": 5,
         "mean_photon_reference": 2.4418236877574686,
@@ -475,8 +476,9 @@
       }
     }
   ],
-  "epistemic_status": "numerically certified modulo stated truncation bounds",
+  "epistemic_status": "numerically certified for the renormalized truncated state psi_trunc; the relation to the ideal finite-energy comb is a separate l2-closeness statement",
   "fidelity_convention": "pure-state fidelity F(psi,phi) >= 1-epsilon; d(epsilon)=sqrt(2-2sqrt(1-epsilon))",
+  "ideal_comb_relation": "The untruncated finite-energy comb is within sqrt(fock_tail_upper_bound) of psi_trunc in l2 (amplitude norm). Lifting the K bound to the ideal comb requires folding that amplitude into d(epsilon); at the current n_max this exceeds d(1e-4) and the lifted N_robust is 0. (#71 exp23 merge review, point 1.)",
   "rank_primitive": {
     "dictionary": "G_eq(a,B): common complex squeezing a and |b_k| <= B",
     "quantity": "restricted equal-squeezing Gaussian ket-component count"

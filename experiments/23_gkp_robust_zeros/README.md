@@ -4,6 +4,17 @@ This is Gate E for issue #71.  It evaluates the Theorem B′ premise for a
 normalized, finite-energy square-lattice GKP logical-zero approximation, not
 for the ideal (non-normalizable) GKP state.
 
+**Certified subject (#71 exp23 merge review, point 1).** The state the
+numbers certify is `psi_trunc`: the Fock-truncated (`n <= n_max`),
+renormalized comb.  `psi_trunc` is itself a normalized pure state, so
+Theorem B′ applies to it exactly.  The untruncated finite-energy comb is
+within `sqrt(fock_tail_upper_bound)` of `psi_trunc` in amplitude (l2) norm —
+0.074 at `Delta=0.2` — which **exceeds** `d(1e-4) = 0.010`; lifting the
+bound to the untruncated comb by folding that amplitude into `d(epsilon)`
+would drive `N_robust` to 0 at the current `n_max`.  The two statements
+(exact bound for `psi_trunc`; l2 closeness to the comb) are therefore kept
+separate and never combined into a single "certified for GKP" claim.
+
 The convention is `[q,p]=i`: the state is
 `sum_s exp(-2*pi*Delta^2*s^2) D(s*sqrt(2*pi)) S(-log Delta)|0>`.
 It scans `Delta={0.2,0.3,0.4}`, three windows around `sqrt(<n>)`,
@@ -17,11 +28,12 @@ Gaussian rank.
 
 Fock tails are bounded conservatively: for every displaced squeezed component
 the explicitly resolved tail is supplemented by the exact
-`<N(N-1)>/((n_ref+1)(n_ref+2))` Markov remainder, then combined by triangle
+`<N(N-1)>/(n_ref(n_ref+1))` Markov remainder, then combined by triangle
 inequality.  The compact lattice sum has its separately recorded Gaussian
 envelope amplitude remainder.  `run.py` also asserts that every reported
-`N_robust` is unchanged when `n_max` rises from 160 to 200, validates roots by
-a tiled argument-principle count, checks disk disjointness, and applies a
+`N_robust` is unchanged when `n_max` rises from 160 to 200, cross-checks roots by
+a tiled argument-principle count (interior cells only; the annulus near
+|z| = R is not covered by this cross-check), checks disk disjointness, and applies a
 finite-window area-plus-boundary density sanity check.
 
 Reproduce deterministically:
