@@ -19,7 +19,11 @@ N_MAX = 160
 N_MAX_ELEVATED = 200
 DISK_RADII = (0.18, 0.30)
 EPSILONS = (1e-2, 1e-3, 1e-4)
-
+LIFTED_EXPECTED_MAX_WINDOW = {
+    0.2: {1e-2: 0, 1e-3: 0, 1e-4: 0},
+    0.3: {1e-2: 0, 1e-3: 0, 1e-4: 4},
+    0.4: {1e-2: 0, 1e-3: 4, 1e-4: 4},
+}
 
 def _write_json(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -29,6 +33,38 @@ def _radii(energy: float) -> tuple[float, ...]:
     base = np.sqrt(max(energy, 1.0))
     return tuple(float(np.round(x * base, 3)) for x in (0.75, 1.0, 1.25))
 
+
+def _format_epsilon(epsilon: float) -> str:
+    return format(epsilon, ".0e").replace("e-0", "e-")
+
+
+def certification_from_rows(rows: list[dict], max_radius: float, delta: float) -> dict:
+    """Derive configuration-level scope and prose solely from lifted row counts."""
+    lifted = {
+        row["epsilon"]: row["N_robust_lifted"]
+        for row in rows
+        if row["R"] == max_radius and row["delta"] == delta
+    }
+    nonzero_epsilons = sorted(epsilon for epsilon, count in lifted.items() if count > 0)
+    certification = {
+        "ideal_comb": {
+            "epsilons_with_nonzero_lifted": nonzero_epsilons,
+            "max_N_robust_lifted": max(lifted.values()),
+        },
+        "psi_trunc_only": not nonzero_epsilons,
+    }
+    if nonzero_epsilons:
+        certification["description"] = (
+            "The ideal finite-energy comb is certified for epsilon <= "
+            f"{_format_epsilon(max(nonzero_epsilons))}, with maximum "
+            f"N_robust_lifted={certification['ideal_comb']['max_N_robust_lifted']}."
+        )
+    else:
+        certification["description"] = (
+            "Only psi_trunc is certified at this cutoff: all scanned "
+            f"lifted counts are {certification['ideal_comb']['max_N_robust_lifted']}."
+        )
+    return certification
 
 def compute() -> dict:
     configurations = []
@@ -41,17 +77,19 @@ def compute() -> dict:
         roots = find_zeros(state.coefficients, max_radius)
         elevated_roots = find_zeros(elevated.coefficients, max_radius)
         rows = []
+        tail_norm = float(np.sqrt(state.fock_tail_upper_bound))
         for radius in radii:
             inside = roots[np.abs(roots) <= radius]
             validate_zero_count(state.coefficients, radius, inside)
             # A finite-window density check: area/pi plus a perimeter allowance.
             assert len(inside) <= int(np.ceil(radius**2 + 4.0 * radius + 8.0))
             for disk_radius in DISK_RADII:
-                robust_rows = robust_zero_rows(state.coefficients, inside, disk_radius, EPSILONS)
+                robust_rows = robust_zero_rows(state.coefficients, inside, disk_radius, EPSILONS, tail_norm=tail_norm)
                 elevated_inside = elevated_roots[np.abs(elevated_roots) <= radius]
                 elevated_rows = robust_zero_rows(elevated.coefficients, elevated_inside, disk_radius, EPSILONS)
                 for epsilon in EPSILONS:
                     count = sum(row["robust"] for row in robust_rows if row["epsilon"] == epsilon)
+                    lifted_count = sum(row["lifted_robust"] for row in robust_rows if row["epsilon"] == epsilon)
                     elevated_count = sum(row["robust"] for row in elevated_rows if row["epsilon"] == epsilon)
                     assert count == elevated_count, (envelope_delta, radius, disk_radius, epsilon, count, elevated_count)
                     rows.append({
@@ -60,10 +98,17 @@ def compute() -> dict:
                         "epsilon": epsilon,
                         "N_zeros": len(inside),
                         "N_robust": count,
+                        "N_robust_lifted": lifted_count,
                         "K_lower_bound_symbolic": f"{count}/C - B*({radius + disk_radius:.3f})",
                     })
                 if radius == radii[-1] and disk_radius == DISK_RADII[0]:
                     map_data.append((envelope_delta, inside, robust_rows))
+        lifted_max_window = {
+            row["epsilon"]: row["N_robust_lifted"]
+            for row in rows
+            if row["R"] == radii[-1] and row["delta"] == DISK_RADII[0]
+        }
+        assert lifted_max_window == LIFTED_EXPECTED_MAX_WINDOW[envelope_delta], (envelope_delta, lifted_max_window)
         configurations.append({
             "envelope_width_Delta": envelope_delta,
             "state": {
@@ -76,6 +121,7 @@ def compute() -> dict:
                 "lattice_envelope_amplitude_bound": state.lattice_envelope_amplitude_bound,
             },
             "rows": rows,
+            "certification": certification_from_rows(rows, radii[-1], DISK_RADII[0]),
         })
     return {"configurations": configurations, "map_data": map_data}
 
@@ -101,20 +147,13 @@ def make_figure(result: dict, output: Path) -> None:
 def main() -> None:
     computed = compute()
     payload = {
-        "schema_version": 1,
-        "epistemic_status": "numerically certified for the renormalized truncated state psi_trunc; the relation to the ideal finite-energy comb is a separate l2-closeness statement",
-        "certified_subject": (
-            "psi_trunc: the Fock-truncated (n <= n_max), renormalized finite-energy GKP state. "
-            "psi_trunc is itself a normalized pure state, so Theorem B' applies to it exactly; "
-            "N_robust and the symbolic K bound certify psi_trunc, not the untruncated comb."
-        ),
-        "ideal_comb_relation": (
-            "The untruncated finite-energy comb is within sqrt(fock_tail_upper_bound) of psi_trunc in l2 "
-            "(amplitude norm). Lifting the K bound to the ideal comb requires folding that amplitude into "
-            "d(epsilon); at the current n_max this exceeds d(1e-4) and the lifted N_robust is 0. "
-            "(#71 exp23 merge review, point 1.)"
-        ),
-        "rank_primitive": {
+        "schema_version": 2,
+        "epistemic_status": "Certification scope is derived separately for every configuration.",
+        "lifting_rule": (
+            "For a truncated-state zero disk, ||psi_trunc - phi|| <= sqrt(fock_tail_upper_bound) + d(epsilon). "
+            "Therefore the disk lifts to the untruncated finite-energy comb when circle_minimum exceeds "
+            "exp((|z_j|+delta)^2/2) times that sum; the tail bound includes the renormalization contribution."
+        ),        "rank_primitive": {
             "quantity": "restricted equal-squeezing Gaussian ket-component count",
             "dictionary": "G_eq(a,B): common complex squeezing a and |b_k| <= B",
         },
