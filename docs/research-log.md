@@ -1766,3 +1766,33 @@ dolly. Dark flashlight uses half the vertical amplitude to preserve beam
 readability. Each animated-camera result is 960x960, 12 fps, 144 frames, and
 12 seconds; ffprobe and 1/5/9/11.5-second visual QA passed. Eight targeted tests
 passed after adding camera-path coverage.
+
+## 2026-07-27 — K_ε theory note (T2), issue #71: certified lower bounds, inequivalence, measured curves
+
+The theory companion to the preprint enters review as a PR
+(docs/kepsilon-note/). Contents, per the #71 charter and its gates:
+adopted definitions (χ_G with a stellar-style sup-roof and fidelity-ball
+K_ε; no novelty claimed for definitions after the Gate S survey);
+Gaussian-channel monotonicity with full proof; a disk zero-counting
+lemma for bounded common-squeezing dictionaries (reduction to an
+exponential-sum bound, re-derived in an appendix down to the classical
+interval Turán inequality); a robust-zero lower bound (Theorem B′,
+restricted quantity — the restriction is provably forced by the cat
+counterexample family); a one-directional inequivalence theorem on the
+exp20 thermal lossy cat (χ_G ≤ 2 vs R_0 = ∞ with a closed R_ε
+definition); measured curves (exp22) and a finite-energy GKP robust-zero
+census (exp23) with sampled/certified columns and an explicitly stated
+numerical status (supported, not certified: float64 without outward
+rounding, numeric zero existence). A build-gate claim checker
+(check_claims.py) machine-verifies a coded list of the note's
+artifact-attributed numbers, including numeric claims inside prose
+metadata fields, plus status-prose and internal-reference hygiene.
+
+Review record: statements passed T0/T1 (2 reviewers × 2 rounds);
+whole-note review ran 3 rounds (Sol/gpt-5.6-sol and Codex/gpt-5.6-terra,
+independent, what-layer-only prompts), catching among others a
+dictionary-definition collapse, a mode-quantification gap, an R_ε domain
+gap, and repeated certification-scope overreach; all resolved. The
+recurring failure type of this cycle — attributing one quantity's
+property to another — is documented in the note's declaration table
+(§2.4) and the #71 thread.
