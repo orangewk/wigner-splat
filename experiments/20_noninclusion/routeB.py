@@ -10,9 +10,11 @@ gradients on the exact Fock-side objective.
 
 WHAT ROUTE B CAN AND CANNOT SHOW (wording per the PR-64 review): a
 best-found residual from local optimization is an UPPER bound on the
-family's true distance to the target -- multi-init, cutoff-stable,
-superset-armed residuals are HEURISTIC corroboration of a floor, not
-a proven lower bound. The load-bearing obstruction for the issue-63
+family's true distance to the target -- multi-init, superset-armed
+residuals are HEURISTIC corroboration of a floor, not a proven lower
+bound. The residual series is quoted across all scoring cutoffs with
+its trend; no stability across cutoffs is asserted (the measured
+series still increases with cutoff). The load-bearing obstruction for the issue-63
 case-2 ruling is Route A's analytic theorems; what Route B adds is
 (a) the finite-fidelity scale of the boundary and (b) a live alarm:
 any fit reaching 1 - F < 1e-4 would CONTRADICT Route A and reopen the
@@ -368,22 +370,32 @@ def main():
     for n_score in N_SCORES:
         rs = [r for r in out["squeezed"] if r["n_score"] == n_score]
         floors[n_score] = min(1 - r["F"] for r in rs)
+    ordered = [floors[n] for n in sorted(floors)]
+    if all(b > a for a, b in zip(ordered, ordered[1:])):
+        trend = "increasing with cutoff"
+    elif all(b < a for a, b in zip(ordered, ordered[1:])):
+        trend = "decreasing with cutoff"
+    else:
+        trend = "non-monotone in cutoff"
     out["ruling"] = dict(best_residuals_by_cutoff=floors,
+                         cutoff_trend=trend,
                          alarm=any(f < 1e-4 for f in floors.values()))
     print("\n=== Route B ruling ===")
     print(f"  best-found 1-F by scoring cutoff: "
           f"{ {k: round(v, 5) for k, v in floors.items()} }")
+    print(f"  cutoff trend: {trend}")
     if out["ruling"]["alarm"]:
         print("-> ALARM: a fit reached 1-F < 1e-4, contradicting Route A's "
               "exact non-inclusion -- the derivation must be re-examined "
               "before any ruling (case-1 branch).")
     else:
         print("-> best-found residuals stay well above the alarm line at "
-              "every cutoff and K, and are cutoff-stable. As local-"
-              "optimization results these are UPPER bounds on the "
-              "family's distance -- heuristic corroboration of Route A's "
-              "analytic exclusion, which alone carries the case-2 "
-              "obstruction (issue #63 decision rule).")
+              f"every cutoff and K; the series is {trend}, so quote it "
+              "with its largest scored cutoff rather than as a single "
+              "range. As local-optimization results these are UPPER "
+              "bounds on the family's distance -- heuristic corroboration "
+              "of Route A's analytic exclusion, which alone carries the "
+              "case-2 obstruction (issue #63 decision rule).")
 
     path = pathlib.Path(__file__).parent / "results_routeB.json"
     path.write_text(json.dumps(out, indent=1))

@@ -248,7 +248,8 @@ no finite-rank factorization; above the boundary the pre-image is a valid
 but full-rank state. Proofs are in the repository derivation; a validated
 numerical scan corroborates the theorems but is not the argument. The
 boundary is thin, however: direct best-approximation fits approach the
-target to 1–2×10⁻³ in 1 − F (cutoff-stable best-found values, hence upper
+target to ≈2–3×10⁻³ in 1 − F at the largest scored cutoff (n = 12;
+best-found values, still increasing slowly with cutoff, hence upper
 bounds on the true distance), with best-found fitted η′ values of
 0.648–0.661 across ranks — pressed against the positivity boundary
 (Fig. summary, panel a). The blind gap of ~0.05 is therefore a fit- and data-budget
