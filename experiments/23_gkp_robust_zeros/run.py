@@ -102,7 +102,18 @@ def main() -> None:
     computed = compute()
     payload = {
         "schema_version": 1,
-        "epistemic_status": "numerically certified modulo stated truncation bounds",
+        "epistemic_status": "numerically certified for the renormalized truncated state psi_trunc; the relation to the ideal finite-energy comb is a separate l2-closeness statement",
+        "certified_subject": (
+            "psi_trunc: the Fock-truncated (n <= n_max), renormalized finite-energy GKP state. "
+            "psi_trunc is itself a normalized pure state, so Theorem B' applies to it exactly; "
+            "N_robust and the symbolic K bound certify psi_trunc, not the untruncated comb."
+        ),
+        "ideal_comb_relation": (
+            "The untruncated finite-energy comb is within sqrt(fock_tail_upper_bound) of psi_trunc in l2 "
+            "(amplitude norm). Lifting the K bound to the ideal comb requires folding that amplitude into "
+            "d(epsilon); at the current n_max this exceeds d(1e-4) and the lifted N_robust is 0. "
+            "(#71 exp23 merge review, point 1.)"
+        ),
         "rank_primitive": {
             "quantity": "restricted equal-squeezing Gaussian ket-component count",
             "dictionary": "G_eq(a,B): common complex squeezing a and |b_k| <= B",
