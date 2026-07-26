@@ -19,8 +19,9 @@ extent ξ), with the fidelity-ball ε-relaxation template established for the
 stellar rank by Hahn, Garnier, Ferrini, Ferraro and Chabaud
 [arXiv:2410.23721] and lower-bound techniques for the *coherent-state* rank
 initiated by Cottier and Chabaud [arXiv:2604.00766]. **We claim no novelty
-for the definitions**; this note adopts them and contributes three things
-the cited line does not currently contain:
+for the definitions**; this note adopts and combines them (pure χ from
+HTFY; the fidelity-ball and sup-roof forms from the stellar-rank line) and
+contributes three things the cited line does not currently contain:
 
 1. **Certified lower bounds from Bargmann zeros for bounded
    common-squeezing dictionaries** (§5), by a technique different from the
@@ -39,7 +40,8 @@ the cited line does not currently contain:
 3. **Measured K–ε-type curves on public data and synthetic gates** (§7):
    the cutoff-scored family-constrained approximation curve and the
    real-data rank proxy of experiment 22, and (Gate E, experiment 23) a
-   numerically certified robust-zero census for finite-energy GKP states.
+   robust-zero census for finite-energy GKP states (numerical status per
+   §7.2).
 
 Throughout, three epistemic labels are used and never mixed: **certified**
 (theorem-backed), **empirical** (best-found by optimization; an upper
@@ -61,7 +63,11 @@ pure states, ρ = ∫ |ψ_i⟩⟨ψ_i| dμ(i)):
 
 > χ_G(ρ) := inf over decompositions of [ ess sup_i χ_G(|ψ_i⟩) ],
 
-the essential supremum taken with respect to the completed measure. Because
+the essential supremum taken with respect to the completed measure. (This
+sup-type roof follows the *stellar-rank* convention of [arXiv:2410.23721];
+HTFY's own mixed-state treatment is extent-based. The mixed χ_G used here
+is therefore a combination of existing forms, not a verbatim adoption.)
+Because
 the objective is integer-valued, the outer infimum is attained (Lemma A1′).
 Convex mixing is free by design; this matches the classical-simulability
 anchor (mixtures of Gaussians are the classical backdrop against which
@@ -79,15 +85,24 @@ interconvertible with χ_δ of [HTFY] via ‖ψ−ψ′‖² = 2(1−Re⟨ψ|ψ�
 
 ### 2.2 The bounded common-squeezing dictionary (the certified results' quantity)
 
-The certified lower bounds of §5 concern the following *restricted*
-dictionary. Fix a complex squeezing parameter a, |a| ≤ a* < 1 — common in
-**modulus and angle** — and a displacement budget B:
+**Single mode.** Sections 4–5 and the rows D2–D3 are single-mode
+statements (one-variable Bargmann functions, zeros in a complex disk);
+the multimode extension is open (§8).
 
-> G_eq(a,B) := { states whose Bargmann function is
-> F(z) = e^{a z²/2} Σ_{k=1}^{K} c_k e^{b_k z}, |b_k| ≤ B }.
+The certified lower bounds of §5 concern the following *restricted atomic
+dictionary*. Fix one complex squeezing parameter a, |a| ≤ a* < 1 — the
+same a in **modulus and angle** for every atom — and a displacement
+budget B. The **atoms** are single normalized Gaussian kets:
 
-χ_{G_eq(a,B)} and K_ε^{G_eq(a,B),F} are defined verbatim as above with
-components restricted to this family (mixed case: restricted ess-sup roof).
+> 𝒜(a,B) := { |G⟩ : Bargmann function F_G(z) ∝ e^{a z²/2 + b z}, |b| ≤ B }.
+
+The **rank** counts atoms: χ_{G_eq(a,B)}(|ψ⟩) := min{ K : |ψ⟩ ∝
+Σ_{k=1}^{K} c_k |G_k⟩, |G_k⟩ ∈ 𝒜(a,B) } (values ℕ_{≥1} ∪ {∞}); the mixed
+case is the restricted ess-sup roof over generalized ensembles whose
+members admit such decompositions **with the one fixed a of the dictionary
+instance** (members may not vary a; a union-over-a variant would also
+satisfy Theorem B′, whose proof is uniform in a, but is not the quantity
+used here). K_ε^{G_eq(a,B),F} is then defined verbatim as in §2.1.
 **Physical translation** (operator ordering D(α)S(ξ)|0⟩, ξ = r e^{iφ},
 S(ξ) = exp[(ξ* â² − ξ â†²)/2]): a = −e^{iφ} tanh r and b = α − a α*, an
 invertible real-linear map at fixed a with
@@ -121,10 +136,10 @@ prose sentence attributes to a row must match the artifact JSON it names.
 
 | ID | Quantity | State it certifies | Dictionary / family | Source of numbers |
 |----|----------|--------------------|---------------------|-------------------|
-| D1 | K_ε^{G,F} (unrestricted) | any ρ | all pure-Gaussian superpositions, roof | definitions only; no lower bounds claimed (impossible by §5.4a) |
+| D1 | K_ε^{G,F} (unrestricted) | any ρ | all pure-Gaussian superpositions, roof | definitions only; no disk-zero lower bound is claimed (§5.4a rules out that technique, not other routes — cf. Cottier–Chabaud) |
 | D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust` |
 | D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | ideal finite-energy GKP comb | as D2, threshold d(ε)+‖tail‖ | exp23 `N_robust_lifted` (computed column; per-configuration) |
-| D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified); Route B series (empirical) |
+| D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified). No empirical R_ε point is claimed: the Route B residuals are cutoff-conditioned generalized fidelities, which can exceed the true infinite-dimensional fidelity, so they live in row D5 |
 | D5 | family-constrained approximation curve | thermal lossy cat ρ_T | rank-2 BB† + loss, K kets/column | exp22 JSON (empirical; cutoff-conditioned) |
 | D6 | held-out NLL rank proxy | measured GKP data (true state unknown) | operator mixture rank R, K=4 kets | exp22 JSON (proxy) |
 
@@ -143,7 +158,7 @@ roof objective takes values in a discrete set; if no decomposition achieved
 the value m := inf, every decomposition would have value ≥ m+1,
 contradicting inf = m. K_0 = χ_G follows from F(ρ,σ) = 1 ⟺ ρ = σ. ∎
 
-**Theorem A′ (Gaussian-channel monotonicity).** For every Gaussian channel
+**Theorem A′ (Gaussian-channel monotonicity; row D1).** For every Gaussian channel
 Λ (including loss and classical Gaussian noise), every state ρ, and every
 ε ∈ [0,1]:
 
@@ -228,7 +243,7 @@ Define **N_robust(ψ; R,δ,ε) := Σ_j m_j**.
 
 ### 5.3 Theorem B′
 
-**Theorem B′.** Let |ψ⟩ be a normalized pure state and let |φ⟩ satisfy
+**Theorem B′ (row D2).** Let |ψ⟩ be a normalized pure state and let |φ⟩ satisfy
 F(ψ,φ) ≥ 1−ε with χ_{G_eq(a,B)}(φ) ≤ K. Then
 
 > **K ≥ N_robust(ψ; R,δ,ε)/C − B(R+δ)**,
@@ -263,8 +278,9 @@ cf. §2.2.)
 squeezings the family e^{a z²/2} − 1 (K = 2) has ~|a|R²/π zeros in D(0,R)
 (a double zero at the origin — note Lemma P1 does not apply across distinct
 squeezings). More generally a 2-component sum with squeezing gap Δa and
-displacement gap Δb has ≤ c(|Δa|R² + |Δb|R) zeros, and this is sharp in
-form. So for *general* bounded-squeezing dictionaries the adversary budget
+displacement gap Δb has ≤ C(1 + |Δa|R² + |Δb|R) zeros (the additive
+constant is necessary: e^{δz} − 1 keeps its origin zero as δR → 0), and
+this is sharp in form. So for *general* bounded-squeezing dictionaries the adversary budget
 acquires an area term (K−1)·O(a*R²), and the lower bound for area-density
 targets saturates at K ≥ 1 + Ω(1/a*) instead of growing with R. We record
 this as a calibrated **conjecture** (statement in Appendix D), not a
@@ -283,7 +299,7 @@ Target: the thermal lossy cat of experiment 20,
 ρ_T = N_σ(E_η(|cat⟩⟨cat|)), η = 0.8, σ = 0.1 (per-quadrature added
 variance), α = 1.5, parity +1.
 
-**Theorem C′ (inequivalence).**
+**Theorem C′ (inequivalence; rows D1, D4, D5).**
 (C′1, certified) R_0(ρ_T) = ∞: for **no** η′ ∈ (0,1] does ρ_T admit a
 finite-rank pre-loss representation. [Experiment 20, derivation.md,
 Lemmas 1–2 and Theorems 1–2: regimes I/II by full-rankness of noise
@@ -292,23 +308,33 @@ argument, regime III by the Bargmann-zero vs Q-positivity obstruction.]
 (C′2, certified) χ_G(ρ_T) ≤ 2, hence K_ε^{G,F}(ρ_T) ≤ 2 for all ε:
 |cat⟩ has χ_G ≤ 2 and both N_σ and E_η are Gaussian channels; apply
 Theorem A′.
-(C′3, empirical) R_ε ≤ 2 already at ε = 3.44×10⁻³ / 2.37×10⁻³ / 2.17×10⁻³
-(Route B, n_score = 12; the three values are the best-found 1−F at
-K = 2/4/8 ket components per rank-2 column; the series over cutoffs
-n_score ∈ {8,10,12} is still increasing, so these are cutoff-conditioned
-empirical values, not limits).
+(C′3, empirical, row D5 — **not** an R_ε point) the rank-2 family fit
+approaches ρ_T to best-found cutoff-conditioned residuals 1−F =
+3.44×10⁻³ / 2.37×10⁻³ / 2.17×10⁻³ (Route B, n_score = 12, at K = 2/4/8
+ket components per rank-2 column; the series over cutoffs is still
+increasing). These generalized fidelities are computed on
+cropped/subnormalized matrices and can exceed the true state fidelity, so
+no inequality on the R_ε of §2.3 is asserted; they are the empirical
+surrogate showing the boundary of C′1 is thin at finite resolution.
+Turning them into a genuine D4 point requires a full-state fidelity tail
+bound (open).
 
-**Reading.** One and the same state has Gaussian-superposition rank 2 and
-pre-loss operator rank ∞: Gaussian classical noise makes operator rank
-explode while leaving χ_G untouched (the continuous-ensemble roof absorbs
-it). The two compressibility notions are inequivalent, and neither implies
-the other's smallness. This recovers, in sharpened form, what experiment 20
-actually proved — and corrects an earlier conflation of the two quantities
-in this repository's working notes (issue #71, C′3 correction).
+**Reading (one-directional separation).** One and the same state has
+Gaussian-superposition rank **at most 2** and pre-loss operator rank ∞:
+small χ_G does not imply small pre-loss operator rank. (χ_G(ρ_T) = 2
+exactly is not claimed — only the ≤ direction is proven; and whether small
+R forces small χ_G, the converse separation, is left open, so we do not
+claim "neither implies the other".) Mechanically, the Gaussian classical
+noise cannot increase χ_G above the cat's value (Theorem A′) while
+exploding operator rank — the continuous-ensemble roof absorbs what the
+finite-rank pre-image cannot. This recovers, in sharpened form, what
+experiment 20 actually proved — and corrects an earlier conflation of the
+two quantities in this repository's working notes (issue #71, C′3
+correction).
 
 ## 7. Measured curves (empirical / proxy) and the GKP census (Gate E)
 
-### 7.1 Experiment 22 artifacts
+### 7.1 Experiment 22 artifacts (rows D5, D6)
 
 From committed results only (no new fits): the **family-constrained
 approximation curve** (synthetic thermal-cat target; rank-2 BB† + loss
@@ -331,21 +357,34 @@ windows R ≲ √⟨n⟩ are located and tested against the robustness threshold
 declaration table:
 
 - **D2 (ψ_trunc):** N_robust = 12 / 8 / 4 at the largest windows
-  (ε = 10⁻⁴) — the area-density scaling N_robust ~ ⟨n⟩ is measured, with
-  all three points nonzero. The bound K ≥ N_robust/C − B(R+δ) certifies
-  the renormalized truncated states exactly.
+  (ε = 10⁻⁴, **δ = 0.18**; at δ = 0.30 the Δ = 0.2 count drops to 8) —
+  the area-density scaling N_robust ~ ⟨n⟩ is measured, with all three
+  points nonzero. These counts instantiate the **premises** of the
+  symbolic bound K ≥ N_robust/C − B(R+δ) for the renormalized truncated
+  states; no specific positive K value is certified, since C is
+  deliberately not assigned a number and B is a free dictionary parameter.
 - **D3 (untruncated comb, lifted threshold d(ε)+‖tail‖):** the
-  Δ = 0.3 and Δ = 0.4 configurations certify the ideal finite-energy comb
-  directly (nonzero N_robust_lifted at ε ≤ 10⁻⁴ and ε ≤ 10⁻³
-  respectively); Δ = 0.2 does not lift at the current truncation
-  (‖tail‖ = 0.074 > d(10⁻⁴) = 0.010, not repairable below the
-  polynomial-root numerical ceiling n_max ≲ 300 of this implementation)
-  and remains a ψ_trunc statement.
+  Δ = 0.3 and Δ = 0.4 configurations instantiate the premises for the
+  ideal finite-energy comb directly (nonzero N_robust_lifted at ε ≤ 10⁻⁴
+  and ε ≤ 10⁻³ respectively, δ = 0.18); Δ = 0.2 does not lift at the
+  current truncation (‖tail‖ = 0.074 > d(10⁻⁴) = 0.010, not repairable
+  below the polynomial-root numerical ceiling n_max ≲ 300 of this
+  implementation) and remains a ψ_trunc statement.
+
+**Numerical status.** Circle minima are lower-bounded rigorously
+(sampled minimum minus arc-step times a coefficient-norm Cauchy bound on
+|F′|); the JSON carries both `_sampled` and `_certified` columns, with
+certified ≤ sampled enforced across all rows, and **no robust zero was
+lost in certification** (smallest margin ≈ 8.7%). The lattice-envelope
+amplitude (~4×10⁻¹⁶) is folded into the lifted threshold. Residual
+non-rigor: zero *existence/count* inside each disk rests on polynomial
+root-finding with residual checks and tiled argument-principle
+cross-checks (interior cells), which we report as numerics, not proof.
 
 Robustness activates only for ε ≲ 10⁻³ (at ε = 10⁻² no zero is robust in
 any configuration): certified content requires high-fidelity approximation
-demands. Exact lifted values are machine-checked against the exp23 JSON
-by the claim checker (§7.3).
+demands. Exact values are machine-checked against the exp23 JSON by the
+claim checker (§7.3).
 
 ### 7.3 Claim checker (build gate)
 
@@ -377,8 +416,9 @@ technique's limits are part of the result: it dies at unbounded
 displacement, saturates for general squeezing (plateau conjecture), and is
 selective — vacuous exactly on states that *are* Gaussian-compressible.
 
-Open next steps, in charter order: Gate E census (→ §7.2 numbers), the
-plateau conjecture, the dynamics program K_ε(t) (issue #97 direction 2),
+Open next steps, in charter order: rigorous certification of the census
+circle minima (§7.2), the multimode extension (§2.2), the plateau
+conjecture, the dynamics program K_ε(t) (issue #97 direction 2),
 and the relation between the zero-counting route and the
 low-rank-approximation route of [Cottier–Chabaud] — the two see different
 obstructions and might compose.
@@ -448,8 +488,9 @@ D(z₀,r). ∎
 
 **B.2 Blaschke step (Friedland Lemma B.1).** Suppose q has N zeros
 (with multiplicity) in D̄(z₀,r), q ≢ 0. Write q = B_N · h on D(z₀,8r)
-where B_N is the product of the N Möbius factors vanishing at the zeros
-(normalized for the disk of radius 8r) and h is zero-free there. Each
+where B_N is the product of the N Möbius factors vanishing at those N
+zeros (normalized for the disk of radius 8r) and h is holomorphic there
+(h may have further zeros of q outside D̄(z₀,r); they are not needed). Each
 Möbius factor has modulus ≤ θ < 1 (an absolute constant) on D̄(z₀,r) and
 = 1 on ∂D(z₀,8r), so
 
