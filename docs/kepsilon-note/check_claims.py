@@ -10,7 +10,7 @@ checked. Three same-shaped failures motivated this gate: routeB's hardcoded
 verdict print, the exp22 K-axis conflation, and the blanket psi_trunc
 declaration that under-reported exp23's lifted results.
 
-Run:  python docs/kepsilon-note/check_claims.py   (exit 0 = all claims match)
+Run:  python docs/kepsilon-note/check_claims.py   (exit 0 = coded checks pass)
 """
 from __future__ import annotations
 

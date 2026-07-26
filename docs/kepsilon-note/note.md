@@ -358,8 +358,8 @@ For finite-energy GKP states (square lattice, envelope Δ ∈ {0.2, 0.3, 0.4},
 ⟨n⟩ ≈ 12.0 / 5.1 / 2.4) the zeros of the Bargmann function in energy
 windows R ≲ √⟨n⟩ are located and tested against the robustness threshold of
 §5.2, with explicit truncation-tail bounds
-(experiments/23_gkp_robust_zeros). Two certification levels, per the
-declaration table:
+(experiments/23_gkp_robust_zeros). Two target rows, per the declaration table (neither is a full
+certification; see the numerical-status paragraph below):
 
 - **D2 (ψ_trunc):** N_robust = 12 / 8 / 4 at the largest windows
   (ε = 10⁻⁴, **δ = 0.18**; at δ = 0.30 the Δ = 0.2 count drops to 8) —
@@ -392,8 +392,9 @@ Supporting evidence for the numbers themselves is strong: certified ≤
 sampled holds across all rows with no robust zero lost (smallest margin
 ≈ 8.7%); independent verification (PR #113 review) found the derivative
 bound within a factor 1.7 of the true max|F′| and the 1440-point sampled
-minima exact against 2×10⁵-point sampling on every zero — the interval
-step tightened the *status* of the same numbers, not the numbers. The
+minima exact against 2×10⁵-point sampling on every zero — the
+discretized-bound step tightened the *status* of the same numbers, not
+the numbers. The
 lattice-envelope amplitude (~4×10⁻¹⁶) is folded into the lifted
 threshold (entering pre-normalization; conservative in all three
 configurations, checked numerically).
@@ -547,7 +548,7 @@ pure-state χ_G. On mixed targets the quantities differ by construction
 **Calibrating examples (certified).** (i) e^{a z²/2} − 1 (two components
 with squeezing gap a) has ≈ |a|R²/π zeros in D(0,R), including a double
 zero at 0. (ii) More generally, for two components c₁e^{a₁z²/2+b₁z+d₁} +
-c₂e^{a₂z²/2+b₂z+d₂} with parameter gaps (Δa, Δb, Δd), zeros solve
+c₂e^{a₂z²/2+b₂z+d₂} with parameter gaps Δx := x₂ − x₁, zeros solve
 Δa·z²/2 + Δb·z + Δd ∈ log(−c₁/c₂) + 2πiℤ — a lattice of spacing 2π on a
 line, shifted by the coefficient ratio; counting lattice points hit by a
 degree-2 polynomial image of the disk gives N ≤ C(1 + |Δa| R² + |Δb| R),
