@@ -165,7 +165,15 @@ def validate_zero_count(coefficients: np.ndarray, radius: float, roots: np.ndarr
     assert checked_cells > 0
 
 
-def robust_zero_rows(coefficients: np.ndarray, roots: np.ndarray, delta: float, epsilons: tuple[float, ...]) -> list[dict]:
+def robust_zero_rows(
+    coefficients: np.ndarray,
+    roots: np.ndarray,
+    delta: float,
+    epsilons: tuple[float, ...],
+    *,
+    tail_norm: float = 0.0,
+) -> list[dict]:
+    """Evaluate truncated and tail-lifted Rouché conditions on each disk."""
     if len(roots) > 1:
         separations = np.abs(roots[:, None] - roots[None, :])
         np.fill_diagonal(separations, np.inf)
@@ -177,6 +185,7 @@ def robust_zero_rows(coefficients: np.ndarray, roots: np.ndarray, delta: float, 
         for epsilon in epsilons:
             d_epsilon = sqrt(2.0 - 2.0 * sqrt(1.0 - epsilon))
             threshold = exp((abs(root) + delta) ** 2 / 2.0) * d_epsilon
+            lifted_threshold = exp((abs(root) + delta) ** 2 / 2.0) * (d_epsilon + tail_norm)
             rows.append({
                 "zero": [float(root.real), float(root.imag)],
                 "delta": delta,
@@ -184,5 +193,7 @@ def robust_zero_rows(coefficients: np.ndarray, roots: np.ndarray, delta: float, 
                 "circle_minimum": minimum,
                 "rouche_threshold": threshold,
                 "robust": bool(minimum > threshold),
+                "lifted_rouche_threshold": lifted_threshold,
+                "lifted_robust": bool(minimum > lifted_threshold),
             })
     return rows

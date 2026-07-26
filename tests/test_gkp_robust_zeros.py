@@ -1,6 +1,7 @@
 """Synthetic and structural checks for Gate E robust-zero numerics."""
 
 import importlib.util
+import json
 import math
 import sys
 from pathlib import Path
@@ -72,3 +73,30 @@ def test_robust_zero_map_bytes_are_deterministic(tmp_path):
     first = output.read_bytes()
     run.make_figure(result, output)
     assert output.read_bytes() == first
+
+def test_lifted_counts_and_generated_certification_are_data_derived():
+    payload = json.loads((EXP / "robust_zero_results.json").read_text(encoding="utf-8"))
+    expected_lifted = {
+        0.2: {1e-2: 0, 1e-3: 0, 1e-4: 0},
+        0.3: {1e-2: 0, 1e-3: 0, 1e-4: 4},
+        0.4: {1e-2: 0, 1e-3: 4, 1e-4: 4},
+    }
+    expected_truncated = {
+        0.2: {1e-2: 0, 1e-3: 4, 1e-4: 12},
+        0.3: {1e-2: 0, 1e-3: 4, 1e-4: 8},
+        0.4: {1e-2: 0, 1e-3: 4, 1e-4: 4},
+    }
+    sys.path.insert(0, str(EXP))
+    run_spec = importlib.util.spec_from_file_location("gkp_robust_zeros_run_certification", EXP / "run.py")
+    assert run_spec is not None and run_spec.loader is not None
+    run = importlib.util.module_from_spec(run_spec)
+    run_spec.loader.exec_module(run)
+    for configuration in payload["configurations"]:
+        delta = configuration["envelope_width_Delta"]
+        max_radius = max(row["R"] for row in configuration["rows"])
+        rows = [row for row in configuration["rows"] if row["R"] == max_radius and row["delta"] == 0.18]
+        lifted = {row["epsilon"]: row["N_robust_lifted"] for row in rows}
+        truncated = {row["epsilon"]: row["N_robust"] for row in rows}
+        assert lifted == expected_lifted[delta]
+        assert truncated == expected_truncated[delta]
+        assert configuration["certification"] == run.certification_from_rows(configuration["rows"], max_radius, 0.18)
