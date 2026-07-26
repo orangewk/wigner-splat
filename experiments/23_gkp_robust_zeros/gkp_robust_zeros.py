@@ -119,6 +119,34 @@ def bargmann_value(coefficients: np.ndarray, z: np.ndarray | complex) -> np.ndar
     return np.polynomial.polynomial.polyval(z, bargmann_polynomial_coefficients(coefficients))
 
 
+def bargmann_derivative_upper_bound(coefficients: np.ndarray, radius: float) -> float:
+    """Proven upper bound for ``sup_|z|<=radius |F'(z)|`` from Fock coefficients."""
+    if radius < 0.0:
+        raise ValueError("radius must be non-negative")
+    n = np.arange(1, len(coefficients), dtype=float)
+    if not len(n):
+        return 0.0
+    log_scale = -0.5 * np.array([lgamma(int(k) + 1) for k in n])
+    terms = np.abs(coefficients[1:]) * n * radius ** (n - 1.0) * np.exp(log_scale)
+    return float(np.sum(terms))
+
+
+def circle_minimum_lower_bound(
+    coefficients: np.ndarray, center: complex, delta: float, samples: int
+) -> tuple[float, float, float]:
+    """Return sampled minimum, derivative bound, and a proven circle lower bound.
+
+    Every circle point is within one sample-arc length of a sample. The
+    mean-value inequality gives the lower bound; a full arc is conservative.
+    """
+    if delta <= 0.0 or samples < 1:
+        raise ValueError("delta must be positive and samples must be nonzero")
+    phases = np.linspace(0.0, 2.0 * pi, samples, endpoint=False)
+    sampled_minimum = float(np.min(np.abs(bargmann_value(coefficients, center + delta * np.exp(1j * phases)))))
+    derivative_bound = bargmann_derivative_upper_bound(coefficients, abs(center) + delta)
+    lower_bound = max(0.0, sampled_minimum - (2.0 * pi * delta / samples) * derivative_bound)
+    return sampled_minimum, derivative_bound, lower_bound
+
 def find_zeros(coefficients: np.ndarray, radius: float, *, residual_tolerance: float = 1e-7) -> np.ndarray:
     """Find polynomial zeros and independently reject inaccurate root solves."""
     polynomial = bargmann_polynomial_coefficients(coefficients)
@@ -172,28 +200,35 @@ def robust_zero_rows(
     epsilons: tuple[float, ...],
     *,
     tail_norm: float = 0.0,
+    lattice_envelope_amplitude_bound: float = 0.0,
+    circle_samples: int = 1440,
 ) -> list[dict]:
-    """Evaluate truncated and tail-lifted Rouché conditions on each disk."""
+    """Evaluate sampled and interval-certified Rouché conditions on each disk."""
     if len(roots) > 1:
         separations = np.abs(roots[:, None] - roots[None, :])
         np.fill_diagonal(separations, np.inf)
         assert float(np.min(separations)) > 2.0 * delta, "robustness disks are not disjoint"
     rows: list[dict] = []
-    phases = np.linspace(0.0, 2.0 * pi, 1440, endpoint=False)
     for root in roots:
-        minimum = float(np.min(np.abs(bargmann_value(coefficients, root + delta * np.exp(1j * phases)))))
+        minimum, derivative_bound, lower_bound = circle_minimum_lower_bound(coefficients, root, delta, circle_samples)
         for epsilon in epsilons:
             d_epsilon = sqrt(2.0 - 2.0 * sqrt(1.0 - epsilon))
             threshold = exp((abs(root) + delta) ** 2 / 2.0) * d_epsilon
-            lifted_threshold = exp((abs(root) + delta) ** 2 / 2.0) * (d_epsilon + tail_norm)
+            lifted_threshold = exp((abs(root) + delta) ** 2 / 2.0) * (
+                d_epsilon + tail_norm + lattice_envelope_amplitude_bound
+            )
             rows.append({
                 "zero": [float(root.real), float(root.imag)],
                 "delta": delta,
                 "epsilon": epsilon,
-                "circle_minimum": minimum,
+                "circle_minimum_sampled": minimum,
+                "circle_derivative_upper_bound": derivative_bound,
+                "circle_minimum_certified_lower_bound": lower_bound,
                 "rouche_threshold": threshold,
-                "robust": bool(minimum > threshold),
+                "sampled_robust": bool(minimum > threshold),
+                "certified_robust": bool(lower_bound > threshold),
                 "lifted_rouche_threshold": lifted_threshold,
-                "lifted_robust": bool(minimum > lifted_threshold),
+                "sampled_lifted_robust": bool(minimum > lifted_threshold),
+                "certified_lifted_robust": bool(lower_bound > lifted_threshold),
             })
     return rows
