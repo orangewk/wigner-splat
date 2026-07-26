@@ -1,7 +1,7 @@
 ---
 title: "Compact physical Gaussian-ket models for homodyne quantum-state tomography"
 author: "Wataru Kawashima (ORCID: 0009-0002-7713-5547)"
-date: "July 2026 — v1"
+date: "July 2026 — v2"
 abstract: |
   Continuous-variable quantum-state tomography usually reconstructs a
   truncated Fock-basis density matrix. We study a compact alternative:
@@ -244,9 +244,11 @@ kernel has no finite-rank factorization; above the boundary the pre-image
 is a valid but full-rank state. Proofs are in the repository derivation; a
 validated numerical scan corroborates the theorems but is not the
 argument. The boundary is thin, however: direct best-approximation fits
-approach the target to $1$--$2\times10^{-3}$ in $1 - F$ (cutoff-stable best-found
-values, hence upper bounds on the true distance), with best-found fitted
-$\eta'$ values of 0.648--0.661 across ranks --- pressed against the
+approach the target to $\approx 2$--$3\times10^{-3}$ in $1 - F$ at the largest
+scored cutoff ($n_{\text{score}} = 12$; best-found values, hence upper bounds
+on the true distance). That series is still increasing with the scoring
+cutoff, so its infinite-cutoff limit is unresolved. The best-found fitted
+$\eta'$ values, 0.648--0.661 across ranks, are pressed against the
 positivity boundary (Fig. 3a). The blind gap of $\sim 0.05$ is therefore a
 fit- and data-budget effect, not the family boundary itself.
 
@@ -315,23 +317,28 @@ best-approximation fits press against the positivity boundary of the
 channel parameter, with best-found fitted $\eta'$ of 0.648--0.661 across
 ranks --- the family is exploiting the boundary the theorems draw.
 
-One speculative direction seems worth naming (C4). The number of Gaussian
-components a state requires --- in either track --- behaves like a
-resource count: cat states need few, and the rank/component saturation
-points found on real data (§3.2) are small. Hudson's theorem (pure states
-with nonnegative Wigner functions are Gaussian) anchors the intuition that
-non-Gaussianity is the resource being counted, suggesting a
-continuous-variable analogue of stabilizer rank: "how many Gaussians is
-this state," as a nonclassicality measure grounded in fitting practice.
-Any precise version must be distinguished from existing hierarchies: it is
-not the stellar rank of Chabaud *et al.* (a cat state has infinite stellar
-rank --- its Bargmann function has infinitely many zeros --- yet needs
-only two Gaussian kets here), and it is not identical to coherent-state
-decomposition rank (components here carry independent squeezing). Whether
-"Gaussian count" differs meaningfully from those hierarchies, and its
-basis dependence, robustness to loss, and relation to negativity measures,
-is exactly what would need to be established. We flag this as speculation:
-no result in this paper establishes it.
+One connection to the resource-theory literature is worth naming (C4). The
+number of Gaussian components a state requires --- in either track ---
+behaves like a resource count: cat states need few, and the rank/component
+saturation points found on real data (§3.2) are small. Hudson's theorem
+(pure states with nonnegative Wigner functions are Gaussian) anchors the
+intuition that non-Gaussianity is the resource being counted. That
+intuition has already been formalized, and we claim no novelty for the
+measure: Hahn, Takagi, Ferrini, and Yamasaki define the *Gaussian rank*
+and the *Gaussian extent* as measures of the cost of classically
+simulating Gaussian operations on non-Gaussian states [16]; the stellar
+rank has been extended to an approximate version serving as an operational
+non-Gaussianity measure [17]; and lower bounds on the approximate
+coherent-state rank have been studied systematically [18]. What this paper
+adds is measurement from the fitting side rather than a new quantity. Two
+distinctions are worth keeping in view: the count here is not the stellar
+rank of Chabaud *et al.* (a cat state has infinite stellar rank --- its
+Bargmann function has infinitely many zeros --- yet needs only two
+Gaussian kets here), and it is not identical to coherent-state
+decomposition rank (components here carry independent squeezing). What
+remains open is how the counts we measure relate to those defined
+quantities --- basis dependence, robustness to loss, and the connection to
+negativity measures. No result in this paper establishes that relation.
 
 The limitations bound the claims. The blind gate covers one target class;
 the real-data analyses reuse observations across reshuffled splits and
@@ -353,6 +360,19 @@ assertions that fail if the plotted verdict diverges from the data. The
 research log preserves the chronological record, including superseded
 scorings and the negative results of §3.4. The public GKP dataset is
 included with its source attribution.
+
+# Version note {-}
+
+This is v2. Two corrections were made to v1 (doi:10.5281/zenodo.21457049),
+neither of which affects the abstract or any headline result. First, the
+best-approximation residuals quoted in §3.3 were taken from a smaller
+scoring cutoff and were described as cutoff-stable; the values at the
+largest scored cutoff are $\approx 2$--$3\times10^{-3}$ and the series is
+still increasing, so the stability claim is withdrawn. Second, §4 (C4)
+presented the idea of counting Gaussian components as a speculative
+direction without citing the prior work that already defines it;
+references [16--18] are now given and no novelty is claimed for the
+measure. The repository records both corrections and their causes.
 
 # Acknowledgements {-}
 
@@ -404,6 +424,14 @@ we thank the authors for making it public.
     space," Phys. Rev. A **51**, 3340 (1995).
 15. R. L. Hudson, "When is the Wigner quasi-probability density
     non-negative?" Rep. Math. Phys. **6**, 249 (1974).
+16. O. Hahn, R. Takagi, G. Ferrini, and H. Yamasaki, "Classical simulation
+    and quantum resource theory of non-Gaussian optics," arXiv:2404.07115
+    (2024).
+17. O. Hahn, M. Garnier, G. Ferrini, A. Ferraro, and U. Chabaud,
+    "Assessing non-Gaussian quantum state conversion with the stellar
+    rank," arXiv:2410.23721 (2024).
+18. F. Cottier and U. Chabaud, "Lower bounds on coherent state rank,"
+    arXiv:2604.00766 (2026).
 
 *Repository:* <https://github.com/orangewk/wigner-splat> --- prior-art
 survey, research log, derivations, and all experiment protocols.
