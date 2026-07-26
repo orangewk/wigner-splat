@@ -4,17 +4,17 @@ This is Gate E for issue #71.  It evaluates the Theorem B′ premise for a
 normalized, finite-energy square-lattice GKP logical-zero approximation, not
 for the ideal (non-normalizable) GKP state.
 
-**Certified subject (#71 exp23 merge review, point 1).** The state the
-numbers certify is `psi_trunc`: the Fock-truncated (`n <= n_max`),
-renormalized comb.  `psi_trunc` is itself a normalized pure state, so
-Theorem B′ applies to it exactly.  The untruncated finite-energy comb is
-within `sqrt(fock_tail_upper_bound)` of `psi_trunc` in amplitude (l2) norm —
-0.074 at `Delta=0.2` — which **exceeds** `d(1e-4) = 0.010`; lifting the
-bound to the untruncated comb by folding that amplitude into `d(epsilon)`
-would drive `N_robust` to 0 at the current `n_max`.  The two statements
-(exact bound for `psi_trunc`; l2 closeness to the comb) are therefore kept
-separate and never combined into a single "certified for GKP" claim.
-
+**Certified subject (configuration-specific; #71 management review).** The
+JSON computes both `N_robust` for `psi_trunc` (the Fock-truncated,
+renormalized comb) and `N_robust_lifted` for the untruncated finite-energy
+comb, by adding `sqrt(fock_tail_upper_bound)` to the Rouché perturbation
+threshold. At `delta=0.18` in the largest window, the ideal comb is certified
+for `Delta=0.3` at `epsilon <= 1e-4` and for `Delta=0.4` at
+`epsilon <= 1e-3`; `Delta=0.2` remains certified only for `psi_trunc`.
+For `Delta=0.2`, the tail norm is 0.074 at `n_max=160`, greater than
+`d(1e-4)=0.010`; raising `n_max` through 260 does not yield a lifted zero,
+while `polyroots` overflows around `n_max=320`. This implementation thus has
+a numerical ceiling of roughly `n_max <= 300` for that lifting attempt.
 The convention is `[q,p]=i`: the state is
 `sum_s exp(-2*pi*Delta^2*s^2) D(s*sqrt(2*pi)) S(-log Delta)|0>`.
 It scans `Delta={0.2,0.3,0.4}`, three windows around `sqrt(<n>)`,
