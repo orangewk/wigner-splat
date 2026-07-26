@@ -1,0 +1,491 @@
+{
+  "certified_subject": "psi_trunc: the Fock-truncated (n <= n_max), renormalized finite-energy GKP state. psi_trunc is itself a normalized pure state, so Theorem B' applies to it exactly; N_robust and the symbolic K bound certify psi_trunc, not the untruncated comb.",
+  "configurations": [
+    {
+      "envelope_width_Delta": 0.2,
+      "rows": [
+        {
+          "K_lower_bound_symbolic": "0/C - B*(2.779)",
+          "N_robust": 0,
+          "N_zeros": 8,
+          "R": 2.599,
+          "delta": 0.18,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.779)",
+          "N_robust": 4,
+          "N_zeros": 8,
+          "R": 2.599,
+          "delta": 0.18,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "8/C - B*(2.779)",
+          "N_robust": 8,
+          "N_zeros": 8,
+          "R": 2.599,
+          "delta": 0.18,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(2.899)",
+          "N_robust": 0,
+          "N_zeros": 8,
+          "R": 2.599,
+          "delta": 0.3,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.899)",
+          "N_robust": 4,
+          "N_zeros": 8,
+          "R": 2.599,
+          "delta": 0.3,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "8/C - B*(2.899)",
+          "N_robust": 8,
+          "N_zeros": 8,
+          "R": 2.599,
+          "delta": 0.3,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(3.646)",
+          "N_robust": 0,
+          "N_zeros": 8,
+          "R": 3.466,
+          "delta": 0.18,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(3.646)",
+          "N_robust": 4,
+          "N_zeros": 8,
+          "R": 3.466,
+          "delta": 0.18,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "8/C - B*(3.646)",
+          "N_robust": 8,
+          "N_zeros": 8,
+          "R": 3.466,
+          "delta": 0.18,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(3.766)",
+          "N_robust": 0,
+          "N_zeros": 8,
+          "R": 3.466,
+          "delta": 0.3,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(3.766)",
+          "N_robust": 4,
+          "N_zeros": 8,
+          "R": 3.466,
+          "delta": 0.3,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "8/C - B*(3.766)",
+          "N_robust": 8,
+          "N_zeros": 8,
+          "R": 3.466,
+          "delta": 0.3,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(4.512)",
+          "N_robust": 0,
+          "N_zeros": 16,
+          "R": 4.332,
+          "delta": 0.18,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(4.512)",
+          "N_robust": 4,
+          "N_zeros": 16,
+          "R": 4.332,
+          "delta": 0.18,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "12/C - B*(4.512)",
+          "N_robust": 12,
+          "N_zeros": 16,
+          "R": 4.332,
+          "delta": 0.18,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(4.632)",
+          "N_robust": 0,
+          "N_zeros": 16,
+          "R": 4.332,
+          "delta": 0.3,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(4.632)",
+          "N_robust": 4,
+          "N_zeros": 16,
+          "R": 4.332,
+          "delta": 0.3,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "8/C - B*(4.632)",
+          "N_robust": 8,
+          "N_zeros": 16,
+          "R": 4.332,
+          "delta": 0.3,
+          "epsilon": 0.0001
+        }
+      ],
+      "state": {
+        "elevated_n_max": 200,
+        "fock_tail_upper_bound": 0.005498185890251167,
+        "lattice_envelope_amplitude_bound": 3.8390712972967816e-16,
+        "lattice_half_width_s_max": 11,
+        "mean_photon_reference": 12.009998542469395,
+        "n_max": 160,
+        "reference_cutoff": 640
+      }
+    },
+    {
+      "envelope_width_Delta": 0.3,
+      "rows": [
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.867)",
+          "N_robust": 0,
+          "N_zeros": 4,
+          "R": 1.687,
+          "delta": 0.18,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(1.867)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 1.687,
+          "delta": 0.18,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(1.867)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 1.687,
+          "delta": 0.18,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.987)",
+          "N_robust": 0,
+          "N_zeros": 4,
+          "R": 1.687,
+          "delta": 0.3,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(1.987)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 1.687,
+          "delta": 0.3,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(1.987)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 1.687,
+          "delta": 0.3,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(2.430)",
+          "N_robust": 0,
+          "N_zeros": 4,
+          "R": 2.25,
+          "delta": 0.18,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.430)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 2.25,
+          "delta": 0.18,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.430)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 2.25,
+          "delta": 0.18,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(2.550)",
+          "N_robust": 0,
+          "N_zeros": 4,
+          "R": 2.25,
+          "delta": 0.3,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.550)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 2.25,
+          "delta": 0.3,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.550)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 2.25,
+          "delta": 0.3,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(2.992)",
+          "N_robust": 0,
+          "N_zeros": 8,
+          "R": 2.812,
+          "delta": 0.18,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.992)",
+          "N_robust": 4,
+          "N_zeros": 8,
+          "R": 2.812,
+          "delta": 0.18,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "8/C - B*(2.992)",
+          "N_robust": 8,
+          "N_zeros": 8,
+          "R": 2.812,
+          "delta": 0.18,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(3.112)",
+          "N_robust": 0,
+          "N_zeros": 8,
+          "R": 2.812,
+          "delta": 0.3,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(3.112)",
+          "N_robust": 4,
+          "N_zeros": 8,
+          "R": 2.812,
+          "delta": 0.3,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "8/C - B*(3.112)",
+          "N_robust": 8,
+          "N_zeros": 8,
+          "R": 2.812,
+          "delta": 0.3,
+          "epsilon": 0.0001
+        }
+      ],
+      "state": {
+        "elevated_n_max": 200,
+        "fock_tail_upper_bound": 0.0006386911598007485,
+        "lattice_envelope_amplitude_bound": 3.832158176395603e-16,
+        "lattice_half_width_s_max": 7,
+        "mean_photon_reference": 5.062332763190313,
+        "n_max": 160,
+        "reference_cutoff": 640
+      }
+    },
+    {
+      "envelope_width_Delta": 0.4,
+      "rows": [
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.352)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.172,
+          "delta": 0.18,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.352)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.172,
+          "delta": 0.18,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.352)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.172,
+          "delta": 0.18,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.472)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.172,
+          "delta": 0.3,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.472)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.172,
+          "delta": 0.3,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.472)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.172,
+          "delta": 0.3,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.743)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.563,
+          "delta": 0.18,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.743)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.563,
+          "delta": 0.18,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.743)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.563,
+          "delta": 0.18,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.863)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.563,
+          "delta": 0.3,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.863)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.563,
+          "delta": 0.3,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(1.863)",
+          "N_robust": 0,
+          "N_zeros": 0,
+          "R": 1.563,
+          "delta": 0.3,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(2.133)",
+          "N_robust": 0,
+          "N_zeros": 4,
+          "R": 1.953,
+          "delta": 0.18,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.133)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 1.953,
+          "delta": 0.18,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.133)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 1.953,
+          "delta": 0.18,
+          "epsilon": 0.0001
+        },
+        {
+          "K_lower_bound_symbolic": "0/C - B*(2.253)",
+          "N_robust": 0,
+          "N_zeros": 4,
+          "R": 1.953,
+          "delta": 0.3,
+          "epsilon": 0.01
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.253)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 1.953,
+          "delta": 0.3,
+          "epsilon": 0.001
+        },
+        {
+          "K_lower_bound_symbolic": "4/C - B*(2.253)",
+          "N_robust": 4,
+          "N_zeros": 4,
+          "R": 1.953,
+          "delta": 0.3,
+          "epsilon": 0.0001
+        }
+      ],
+      "state": {
+        "elevated_n_max": 200,
+        "fock_tail_upper_bound": 0.00013687848447540337,
+        "lattice_envelope_amplitude_bound": 3.8319101351967523e-16,
+        "lattice_half_width_s_max": 5,
+        "mean_photon_reference": 2.4418236877574686,
+        "n_max": 160,
+        "reference_cutoff": 640
+      }
+    }
+  ],
+  "epistemic_status": "numerically certified for the renormalized truncated state psi_trunc; the relation to the ideal finite-energy comb is a separate l2-closeness statement",
+  "fidelity_convention": "pure-state fidelity F(psi,phi) >= 1-epsilon; d(epsilon)=sqrt(2-2sqrt(1-epsilon))",
+  "ideal_comb_relation": "The untruncated finite-energy comb is within sqrt(fock_tail_upper_bound) of psi_trunc in l2 (amplitude norm). Lifting the K bound to the ideal comb requires folding that amplitude into d(epsilon); at the current n_max this exceeds d(1e-4) and the lifted N_robust is 0. (#71 exp23 merge review, point 1.)",
+  "rank_primitive": {
+    "dictionary": "G_eq(a,B): common complex squeezing a and |b_k| <= B",
+    "quantity": "restricted equal-squeezing Gaussian ket-component count"
+  },
+  "robustness_method": "1440-point circle minimum and Rouch\u00e9 threshold; disk disjointness asserted",
+  "schema_version": 1,
+  "theorem_scope": "The symbolic bound is K >= N_robust/C - B(R+delta); C is intentionally not assigned a numerical value.",
+  "truncation_protocol": "componentwise resolved Fock tail plus exact second-factorial-moment Markov remainder; N_robust asserted invariant when n_max rises from 160 to 200",
+  "zero_method": "Fock-truncated Bargmann polynomial roots, residual-checked and tiled argument-principle cross-checked"
+}
