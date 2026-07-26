@@ -414,7 +414,8 @@ Coverage is the coded checks, not literally every number in the note
 lesson behind it: three same-shaped failures (routeB's hardcoded verdict
 print, the K-axis conflation, the blanket ψ_trunc declaration) all came
 from prose carrying claims that no computation backed. Prose that makes a
-claim gets that claim checked.
+claim should get that claim coded into the checker — coverage is the
+coded list and grows with it, not a property of prose as such.
 
 ### 7.4 Quoting policy for Route B numbers
 
