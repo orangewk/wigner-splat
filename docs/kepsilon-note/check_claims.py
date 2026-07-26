@@ -95,6 +95,21 @@ def main() -> int:
     check("7.1 proxy axis", all("R" in p for p in px["points"]),
           "proxy points no longer keyed by operator rank R")
 
+    # --- self-application (management proposal, 2026-07-26): status prose and
+    # internal references are claims too.
+    for banned in ("pending", "TO WRITE", "TODO", "to be added"):
+        check(f"stale-status phrase '{banned}'", banned not in note,
+              "present in note body — rephrase or resolve")
+    headings = set()
+    for m in re.finditer(r"^#{2,3}\s+(?:Appendix\s+([A-Z])|(\d+(?:\.\d+)?))[.\s]",
+                         note, re.M):
+        headings.add(m.group(1) or m.group(2))
+    for m in re.finditer(r"§(\d+(?:\.\d+)?)", note):
+        ref = m.group(1)
+        check(f"internal ref §{ref}",
+              ref in headings or ref.split(".")[0] in headings,
+              "no such heading")
+
     if FAILURES:
         print("CLAIM CHECK FAILED:")
         for f in FAILURES:

@@ -1,6 +1,6 @@
 # Certified lower bounds and measured K–ε curves for approximate Gaussian rank
 
-**Status: T2 draft (issue #71). Not yet reviewed as a whole; statements passed T0/T1 review (2 independent reviewers × 2 rounds), proofs of §3–§5 written out below, §7 numbers pending Gate E.**
+**Status: T2 draft (issue #71). Not yet reviewed as a whole; statements passed T0/T1 review (2 independent reviewers × 2 rounds), proofs of §3–§5 and Appendices A–C written out below, §7 numbers merged (exp22/exp23) and machine-checked (§7.3).**
 
 Working note for the theory companion to the preprint
 [doi:10.5281/zenodo.21457049](https://doi.org/10.5281/zenodo.21457049).
@@ -38,7 +38,7 @@ the cited line does not currently contain:
    same state separates them.
 3. **Measured K–ε-type curves on public data and synthetic gates** (§7):
    the cutoff-scored family-constrained approximation curve and the
-   real-data rank proxy of experiment 22, and (Gate E, pending) a
+   real-data rank proxy of experiment 22, and (Gate E, experiment 23) a
    numerically certified robust-zero census for finite-energy GKP states.
 
 Throughout, three epistemic labels are used and never mixed: **certified**
@@ -116,7 +116,7 @@ monotonicity of §3; the inequality only runs forward).
 ### 2.4 Declaration table (single source of truth for "which quantity, which state")
 
 Every theorem, table and figure in this note cites one row of this table.
-Rows are also targets of the build-time claim checker (§7.4): any number a
+Rows are also targets of the build-time claim checker (§7.3): any number a
 prose sentence attributes to a row must match the artifact JSON it names.
 
 | ID | Quantity | State it certifies | Dictionary / family | Source of numbers |
@@ -318,7 +318,8 @@ machine-readable `rank_primitive`, `fidelity_convention`, `cutoff_status`,
 per-sample NLL vs operator mixture rank R = 1..5 on the public GKP homodyne
 dataset; true-state fidelity — hence K_ε — is inaccessible on measured
 data, and the proxy is labeled as such). The certified-lower-bound panel is
-reserved and unpopulated pending Gate E. Figures: experiments/22_kcurves/.
+reserved in the exp22 figure; the census values live in the exp23
+artifacts (§7.2). Figures: experiments/22_kcurves/.
 
 ### 7.2 Gate E: robust-zero census for finite-energy GKP
 
@@ -343,12 +344,12 @@ declaration table:
 
 Robustness activates only for ε ≲ 10⁻³ (at ε = 10⁻² no zero is robust in
 any configuration): certified content requires high-fidelity approximation
-demands. [EXACT LIFTED VALUES MACHINE-CHECKED AGAINST exp23 JSON — §7.4]
+demands. Exact lifted values are machine-checked against the exp23 JSON
+by the claim checker (§7.3).
 
-### 7.3½ Claim checker (build gate)
+### 7.3 Claim checker (build gate)
 
-A build script (docs/kepsilon-note/check_claims.py, to be added with the
-final draft) verifies every number this note attributes to an artifact —
+The build script docs/kepsilon-note/check_claims.py verifies every number this note attributes to an artifact —
 including numbers asserted inside prose metadata fields such as
 `certified_subject` — against the committed JSONs of exp20/22/23. The
 lesson behind it: three same-shaped failures (routeB's hardcoded verdict
@@ -356,7 +357,7 @@ print, the K-axis conflation, the blanket ψ_trunc declaration) all came
 from prose carrying claims that no computation backed. Prose that makes a
 claim gets that claim checked.
 
-### 7.3 Quoting policy for Route B numbers
+### 7.4 Quoting policy for Route B numbers
 
 Cutoff series always quoted alongside (8/10/12); headline = largest
 scored cutoff; the phrase "cutoff-stable" is not used (the series still
