@@ -1,6 +1,6 @@
 # 2026-07-26 preprint v2 訂正リスト（先出し）
 
-状態: proposed（管理役が組み立てた素案。本線の確認 → orange の投稿判断が要る）
+状態: proposed（管理役が組み立てた素案。方針判断は 2026-07-26 に orange が決定済み — 末尾「決定事項」参照）
 
 公開済み: [doi:10.5281/zenodo.21457049](https://doi.org/10.5281/zenodo.21457049)
 （*Compact physical Gaussian-ket models for homodyne quantum-state tomography*, v1, 2026-07）
@@ -90,15 +90,24 @@ stellar rank（Chabaud et al.）と coherent-state decomposition rank の 2 つ�
 
 - ガウス成分数を非古典性の資源カウントと見る枠組みは HTFY [2404.07115] が
   Gaussian rank / Gaussian extent として既に定式化している
-- fidelity ボールによる ε 緩和のテンプレートは stellar rank について
-  Hahn, Garnier, Ferrini, Ferraro, Chabaud [2410.23721]
+- 近似版への拡張は stellar rank について Hahn, Garnier, Ferrini, Ferraro, Chabaud
+  [2410.23721]（approximate stellar rank）
 - 近似 coherent-state rank の下界研究は Cottier–Chabaud [2604.00766]
 - 本論文の実測（cat は 2 成分、実データでのランク／成分数の飽和点が小さいこと）は、
   この既存の量に対する**実験側の観測**として位置づけられる
 
-**注記**: 上記 3 本のうち一次ソースを本管理役が直接確認したのは 2404.07115 のみ。
-残り 2 本は #71 の Gate S 記録とノート References（本線が一次ソース確認済みと記録）に依拠している。
-**v2 に載せる前に本線が確認済みであることを再確認すること**（規律 1）。
+**一次ソース確認状況**（規律 1、いずれも 2026-07-26 に管理役が arXiv abstract を直接取得）:
+
+| 文献 | 著者・投稿日 | 確認できた記述 |
+|---|---|---|
+| [2404.07115](https://arxiv.org/abs/2404.07115) | Hahn, Takagi, Ferrini, Yamasaki / 2024-04-10 | "define measures of non-Gaussianity quantifying this simulation cost, which we call the **Gaussian rank and the Gaussian extent**" |
+| [2410.23721](https://arxiv.org/abs/2410.23721) | Hahn, Garnier, Ferrini, Ferraro, Chabaud / 2024-10-31（v5: 2026-04-30） | "extending the stellar rank to the **approximate stellar rank**, which serves as an operational measure of non-Gaussianity" |
+| [2604.00766](https://arxiv.org/abs/2604.00766) | Cottier, Chabaud / 2026-04-01 | *Lower Bounds on Coherent State Rank*、"initiate a systematic study of **lower bounds on the approximate coherent state rank**" |
+
+**限界**: 3 本とも確認したのは abstract であり本文ではない。とくに 2410.23721 について
+「fidelity ボールによる ε 緩和」という具体的な定義形は abstract からは確認できていないので、
+v2 本文では **abstract で確認できた粒度（"approximate stellar rank" への拡張）までしか書かない**。
+定義の細部に踏み込む記述が必要になったら、その時点で本文を取得して確認する。
 
 **任意**: K_ε ノートが同時に公開されるなら、C4 から companion note への参照を張れる。
 特に Theorem C′（同じ状態がガウス粒では 2 個、pre-loss operator rank では無限）は
@@ -132,14 +141,15 @@ C4 の「cat は stellar rank 無限だがガウスケット 2 個で足りる�
 4. 新しい PDF をアップロード、Description は v1 のまま
 5. Version 欄を `v2` に、Additional notes に訂正内容の要約を記載
 
-## orange の判断が要る未決事項
+## 決定事項（orange、2026-07-26）
 
-- **旧 DOI を貼ったアウトリーチメールの受信者に、訂正を通知するか**。
-  送信済みメールには v1 の DOI が入っている。concept DOI は自動的に最新版を指すが、
-  version DOI 直リンクの場合は旧版に留まる。訂正内容が数値レンジと安定性主張の撤回である以上、
-  通知する側に理があると管理役は考えるが、相手との関係もあるので判断は orange に委ねる
-- **訂正 2 を v2 に含めるか、ノート公開時に別途扱うか**。
-  訂正 1 だけなら「数値の訂正」で完結するが、訂正 2 は論文の位置づけに関わる
+| 論点 | 決定 | 備考 |
+|---|---|---|
+| 訂正 2（C4 の先行研究追記）を v2 に含めるか | **含める** | 訂正 1 と一度に出す。Zenodo 操作は 1 回 |
+| 旧 DOI を貼ったアウトリーチ受信者へ通知するか | **通知しない** | concept DOI が最新版を指すことに依拠する。管理役は通知側に理があると述べたが、orange の判断で不通知 |
+| preprint.md 本体への適用 PR を先に作るか | **いま作る** | 当日の作業を Zenodo 操作だけに縮める |
+
+決定者: orange。提案・素案作成: Claude（管理役）。
 
 ---
 

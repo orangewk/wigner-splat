@@ -79,15 +79,24 @@ interconvertible with χ_δ of [HTFY] via ‖ψ−ψ′‖² = 2(1−Re⟨ψ|ψ�
 
 ### 2.2 The bounded common-squeezing dictionary (the certified results' quantity)
 
-The certified lower bounds of §5 concern the following *restricted*
-dictionary. Fix a complex squeezing parameter a, |a| ≤ a* < 1 — common in
-**modulus and angle** — and a displacement budget B:
+**Single mode.** Sections 4–5 and the rows D2–D3 are single-mode
+statements (one-variable Bargmann functions, zeros in a complex disk);
+the multimode extension is open (§8).
 
-> G_eq(a,B) := { states whose Bargmann function is
-> F(z) = e^{a z²/2} Σ_{k=1}^{K} c_k e^{b_k z}, |b_k| ≤ B }.
+The certified lower bounds of §5 concern the following *restricted atomic
+dictionary*. Fix one complex squeezing parameter a, |a| ≤ a* < 1 — the
+same a in **modulus and angle** for every atom — and a displacement
+budget B. The **atoms** are single normalized Gaussian kets:
 
-χ_{G_eq(a,B)} and K_ε^{G_eq(a,B),F} are defined verbatim as above with
-components restricted to this family (mixed case: restricted ess-sup roof).
+> 𝒜(a,B) := { |G⟩ : Bargmann function F_G(z) ∝ e^{a z²/2 + b z}, |b| ≤ B }.
+
+The **rank** counts atoms: χ_{G_eq(a,B)}(|ψ⟩) := min{ K : |ψ⟩ ∝
+Σ_{k=1}^{K} c_k |G_k⟩, |G_k⟩ ∈ 𝒜(a,B) } (values ℕ_{≥1} ∪ {∞}); the mixed
+case is the restricted ess-sup roof over generalized ensembles whose
+members admit such decompositions **with the one fixed a of the dictionary
+instance** (members may not vary a; a union-over-a variant would also
+satisfy Theorem B′, whose proof is uniform in a, but is not the quantity
+used here). K_ε^{G_eq(a,B),F} is then defined verbatim as in §2.1.
 **Physical translation** (operator ordering D(α)S(ξ)|0⟩, ξ = r e^{iφ},
 S(ξ) = exp[(ξ* â² − ξ â†²)/2]): a = −e^{iφ} tanh r and b = α − a α*, an
 invertible real-linear map at fixed a with
@@ -121,10 +130,10 @@ prose sentence attributes to a row must match the artifact JSON it names.
 
 | ID | Quantity | State it certifies | Dictionary / family | Source of numbers |
 |----|----------|--------------------|---------------------|-------------------|
-| D1 | K_ε^{G,F} (unrestricted) | any ρ | all pure-Gaussian superpositions, roof | definitions only; no lower bounds claimed (impossible by §5.4a) |
+| D1 | K_ε^{G,F} (unrestricted) | any ρ | all pure-Gaussian superpositions, roof | definitions only; no disk-zero lower bound is claimed (§5.4a rules out that technique, not other routes — cf. Cottier–Chabaud) |
 | D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust` |
 | D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | ideal finite-energy GKP comb | as D2, threshold d(ε)+‖tail‖ | exp23 `N_robust_lifted` (computed column; per-configuration) |
-| D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified); Route B series (empirical) |
+| D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified). No empirical R_ε point is claimed: the Route B residuals are cutoff-conditioned generalized fidelities, which can exceed the true infinite-dimensional fidelity, so they live in row D5 |
 | D5 | family-constrained approximation curve | thermal lossy cat ρ_T | rank-2 BB† + loss, K kets/column | exp22 JSON (empirical; cutoff-conditioned) |
 | D6 | held-out NLL rank proxy | measured GKP data (true state unknown) | operator mixture rank R, K=4 kets | exp22 JSON (proxy) |
 
@@ -292,19 +301,29 @@ argument, regime III by the Bargmann-zero vs Q-positivity obstruction.]
 (C′2, certified) χ_G(ρ_T) ≤ 2, hence K_ε^{G,F}(ρ_T) ≤ 2 for all ε:
 |cat⟩ has χ_G ≤ 2 and both N_σ and E_η are Gaussian channels; apply
 Theorem A′.
-(C′3, empirical) R_ε ≤ 2 already at ε = 3.44×10⁻³ / 2.37×10⁻³ / 2.17×10⁻³
-(Route B, n_score = 12; the three values are the best-found 1−F at
-K = 2/4/8 ket components per rank-2 column; the series over cutoffs
-n_score ∈ {8,10,12} is still increasing, so these are cutoff-conditioned
-empirical values, not limits).
+(C′3, empirical, row D5 — **not** an R_ε point) the rank-2 family fit
+approaches ρ_T to best-found cutoff-conditioned residuals 1−F =
+3.44×10⁻³ / 2.37×10⁻³ / 2.17×10⁻³ (Route B, n_score = 12, at K = 2/4/8
+ket components per rank-2 column; the series over cutoffs is still
+increasing). These generalized fidelities are computed on
+cropped/subnormalized matrices and can exceed the true state fidelity, so
+no inequality on the R_ε of §2.3 is asserted; they are the empirical
+surrogate showing the boundary of C′1 is thin at finite resolution.
+Turning them into a genuine D4 point requires a full-state fidelity tail
+bound (open).
 
-**Reading.** One and the same state has Gaussian-superposition rank 2 and
-pre-loss operator rank ∞: Gaussian classical noise makes operator rank
-explode while leaving χ_G untouched (the continuous-ensemble roof absorbs
-it). The two compressibility notions are inequivalent, and neither implies
-the other's smallness. This recovers, in sharpened form, what experiment 20
-actually proved — and corrects an earlier conflation of the two quantities
-in this repository's working notes (issue #71, C′3 correction).
+**Reading (one-directional separation).** One and the same state has
+Gaussian-superposition rank **at most 2** and pre-loss operator rank ∞:
+small χ_G does not imply small pre-loss operator rank. (χ_G(ρ_T) = 2
+exactly is not claimed — only the ≤ direction is proven; and whether small
+R forces small χ_G, the converse separation, is left open, so we do not
+claim "neither implies the other".) Mechanically, the Gaussian classical
+noise cannot increase χ_G above the cat's value (Theorem A′) while
+exploding operator rank — the continuous-ensemble roof absorbs what the
+finite-rank pre-image cannot. This recovers, in sharpened form, what
+experiment 20 actually proved — and corrects an earlier conflation of the
+two quantities in this repository's working notes (issue #71, C′3
+correction).
 
 ## 7. Measured curves (empirical / proxy) and the GKP census (Gate E)
 
