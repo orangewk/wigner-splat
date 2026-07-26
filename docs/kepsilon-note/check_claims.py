@@ -119,7 +119,7 @@ def main() -> int:
         for f in FAILURES:
             print("  -", f)
         return 1
-    print("all note claims match committed artifacts")
+    print("coded claim checks pass (coverage: the checks above, not every number)")
     return 0
 
 

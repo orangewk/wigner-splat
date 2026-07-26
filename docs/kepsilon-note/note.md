@@ -119,8 +119,12 @@ intrinsic to any zero-counting argument, not a defect of ours.
 
 For the inequivalence theorem only, define the **pre-loss operator rank**
 
-> R_ε(ρ) := min{ R : ∃ η′ ∈ (0,1], ∃ ρ′ ⪰ 0 with rank(ρ′) ≤ R and
-> F(loss_{η′}(ρ′), ρ) ≥ 1−ε }.
+> R_ε(ρ) := min{ R : ∃ η′ ∈ (0,1], ∃ ρ′ ⪰ 0 with **Tr ρ′ = 1**,
+> rank(ρ′) ≤ R and F(loss_{η′}(ρ′), ρ) ≥ 1−ε },  with min ∅ := ∞.
+
+(The normalization keeps F inside its density-operator domain — without
+it the value could be manipulated by scalar rescaling — and the ∞
+convention is what makes statements like R_0 = ∞ well-formed.)
 
 R_ε is a repository-specific contrast quantity with no counterpart in the
 cited literature. **It is subordinate by charter**: the note's claims are
@@ -131,8 +135,9 @@ monotonicity of §3; the inequality only runs forward).
 ### 2.4 Declaration table (single source of truth for "which quantity, which state")
 
 Every theorem, table and figure in this note cites one row of this table.
-Rows are also targets of the build-time claim checker (§7.3): any number a
-prose sentence attributes to a row must match the artifact JSON it names.
+Rows are also targets of the build-time claim checker (§7.3): the coded
+checks compare numbers that prose sentences attribute to rows against the
+artifact JSONs they name.
 
 | ID | Quantity | State it certifies | Dictionary / family | Source of numbers |
 |----|----------|--------------------|---------------------|-------------------|
@@ -371,32 +376,41 @@ declaration table:
   below the polynomial-root numerical ceiling n_max ≲ 300 of this
   implementation) and remains a ψ_trunc statement.
 
-**Numerical status.** Circle minima are lower-bounded rigorously
-(sampled minimum minus arc-step times a coefficient-norm Cauchy bound on
-|F′|); the JSON carries both `_sampled` and `_certified` columns, with
-certified ≤ sampled enforced across all rows, and **no robust zero was
-lost in certification** (smallest margin ≈ 8.7%). Independent
-verification (PR #113 review) found the derivative bound within a factor
-1.7 of the true max|F′| and the 1440-point sampled minima already exact
-against 2×10⁵-point sampling on every zero — the certification step
-**added proof status to the same numbers**, rather than repairing loose
-measurement. The lattice-envelope amplitude (~4×10⁻¹⁶) is folded into
-the lifted threshold (entering pre-normalization; conservative in all
-three configurations, checked numerically). Residual non-rigor: zero
-*existence/count* inside each disk rests on polynomial root-finding with
-residual checks and tiled argument-principle cross-checks (interior
-cells), which we report as numerics, not proof.
+**Numerical status (the census is numerically supported, not
+certified).** Two layers must not be conflated. (i) The circle-minimum
+step is *analytically discretized*: the reported lower bound is sampled
+minimum minus arc-step times a coefficient-norm Cauchy bound on |F′| —
+but it is evaluated in float64 **without outward rounding**, so it is
+not a computer-verified proof; interval arithmetic would be needed for
+that. (ii) Zero *existence/count* inside each disk rests on polynomial
+root-finding with residual checks and tiled argument-principle
+cross-checks (interior cells) — numerics, and a Theorem B′ premise. The
+JSON's `_certified` columns therefore refer to layer (i) only, and the
+census as a whole is a **numerically supported instantiation of the
+theorem's premises**, not a conditional or full certification.
+Supporting evidence for the numbers themselves is strong: certified ≤
+sampled holds across all rows with no robust zero lost (smallest margin
+≈ 8.7%); independent verification (PR #113 review) found the derivative
+bound within a factor 1.7 of the true max|F′| and the 1440-point sampled
+minima exact against 2×10⁵-point sampling on every zero — the interval
+step tightened the *status* of the same numbers, not the numbers. The
+lattice-envelope amplitude (~4×10⁻¹⁶) is folded into the lifted
+threshold (entering pre-normalization; conservative in all three
+configurations, checked numerically).
 
 Robustness activates only for ε ≲ 10⁻³ (at ε = 10⁻² no zero is robust in
-any configuration): certified content requires high-fidelity approximation
-demands. Exact values are machine-checked against the exp23 JSON by the
+any configuration): the bound has content only under high-fidelity
+approximation demands. Exact values are machine-checked against the exp23 JSON by the
 claim checker (§7.3).
 
 ### 7.3 Claim checker (build gate)
 
-The build script docs/kepsilon-note/check_claims.py verifies every number this note attributes to an artifact —
-including numbers asserted inside prose metadata fields such as
-`certified_subject` — against the committed JSONs of exp20/22/23. The
+The build script docs/kepsilon-note/check_claims.py verifies a **coded
+list** of the claims this note attributes to artifacts — including
+numeric claims asserted inside prose metadata fields such as
+`certified_subject` — against the committed JSONs of exp20/22/23.
+Coverage is the coded checks, not literally every number in the note
+(energies, some δ rows, and physical parameters are spot-checked only). The
 lesson behind it: three same-shaped failures (routeB's hardcoded verdict
 print, the K-axis conflation, the blanket ψ_trunc declaration) all came
 from prose carrying claims that no computation backed. Prose that makes a
@@ -422,9 +436,10 @@ technique's limits are part of the result: it dies at unbounded
 displacement, saturates for general squeezing (plateau conjecture), and is
 selective — vacuous exactly on states that *are* Gaussian-compressible.
 
-Open next steps, in charter order: rigorous certification of the census
-circle minima (§7.2), the multimode extension (§2.2), the plateau
-conjecture, the dynamics program K_ε(t) (issue #97 direction 2),
+Open next steps, in charter order: full certification of the census
+(interval arithmetic with outward rounding + validated winding-number
+integrals for zero existence, §7.2), the multimode extension (§2.2), the
+plateau conjecture, the dynamics program K_ε(t) (issue #97 direction 2),
 and the relation between the zero-counting route and the
 low-rank-approximation route of [Cottier–Chabaud] — the two see different
 obstructions and might compose.
@@ -530,10 +545,12 @@ pure-state χ_G. On mixed targets the quantities differ by construction
 
 **Calibrating examples (certified).** (i) e^{a z²/2} − 1 (two components
 with squeezing gap a) has ≈ |a|R²/π zeros in D(0,R), including a double
-zero at 0. (ii) More generally, for two components with parameter gaps
-(Δa, Δb), zeros solve Δa·z²/2 + Δb·z ∈ iπ(2ℤ+1); counting lattice points
-of spacing 2π hit by a degree-2 polynomial image of the disk gives
-N ≤ c(|Δa| R² + |Δb| R), sharp in form. Any general-dictionary zero bound
+zero at 0. (ii) More generally, for two components c₁e^{a₁z²/2+b₁z+d₁} +
+c₂e^{a₂z²/2+b₂z+d₂} with parameter gaps (Δa, Δb, Δd), zeros solve
+Δa·z²/2 + Δb·z + Δd ∈ log(−c₁/c₂) + 2πiℤ — a lattice of spacing 2π on a
+line, shifted by the coefficient ratio; counting lattice points hit by a
+degree-2 polynomial image of the disk gives N ≤ C(1 + |Δa| R² + |Δb| R),
+sharp in form (the additive constant is again necessary). Any general-dictionary zero bound
 must therefore carry an area term a* R².
 
 **Conjecture D.** For f = Σ_{k=1}^{K} c_k e^{a_k z²/2 + b_k z + d_k} with
@@ -571,10 +588,10 @@ transcribed and checked; remaining items to re-verify at final draft.
    arXiv:2410.23721; Quantum 10, 2095 (2026). [pdf][stmt: Def. 7 r*_ε;
    Thm 1 monotonicity; convex-roof mixed stellar rank]
 3. F. Cottier, U. Chabaud, *Lower Bounds on Coherent State Rank*,
-   arXiv:2604.00766 (2026). [pdf-abstract][stmt: ε-approximate coherent
-   state rank; low-rank-approximation and permanent-complexity lower
-   bounds; single-mode characterization] — full-text re-read scheduled at
-   final draft (technique comparison in §8).
+   arXiv:2604.00766 (2026). [pdf][stmt: ε-approximate coherent state
+   rank; low-rank-approximation and permanent-complexity lower bounds;
+   single-mode characterization — full text confirmed at round 2 review
+   (coherent-only dictionary; technique disjoint from the zero route)]
 4. O. Friedland, *A Disk-Growth Remez Principle and a Modular Proof of the
    Measurable Turán-Nazarov Inequality*, arXiv:2606.24823 (2026).
    [stmt: Lemma 3.2, Lemma B.1 — audited by two independent reviews;
