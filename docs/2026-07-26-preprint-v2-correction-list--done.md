@@ -1,6 +1,6 @@
 # 2026-07-26 preprint v2 訂正リスト（先出し）
 
-状態: proposed（管理役が組み立てた素案。方針判断は 2026-07-26 に orange が決定済み — 末尾「決定事項」参照）
+状態: done（2026-07-26 に v2 を公開して完了。訂正 2 件・Zenodo 手順・実施結果を記録として残す）
 
 公開済み: [doi:10.5281/zenodo.21457049](https://doi.org/10.5281/zenodo.21457049)
 （*Compact physical Gaussian-ket models for homodyne quantum-state tomography*, v1, 2026-07）
@@ -127,19 +127,50 @@ C4 の「cat は stellar rank 無限だがガウスケット 2 個で足りる�
 
 ---
 
-## orange の作業手順（当日）
+## Zenodo 操作手順（2026-07-26 に実際にやった形）
 
-1. `docs/preprint/preprint.md` に訂正 1・2 を適用（本線または管理役が PR で先に用意する）
+**この節は実機で確認した内容に書き換えてある。** 初稿は旧 Zenodo フォームの記憶で
+書かれており、「Additional notes 欄」など**現在は存在しない項目**を指していた。
+次に v3 を出す人が同じ場所で迷わないよう、実際の画面に合わせてある。
+
+1. `docs/preprint/preprint.md` に訂正を適用（管理役が PR で先に用意する）
 2. PDF を再ビルド:
 
    ```bash
    pandoc docs/preprint/preprint.md -o docs/preprint/preprint.pdf --pdf-engine=xelatex
    ```
 
-3. Zenodo の当該レコードで **"New version"** を選択（concept DOI 配下に v2 が付く。
-   v1 の DOI は生き続ける）
-4. 新しい PDF をアップロード、Description は v1 のまま
-5. Version 欄を `v2` に、Additional notes に訂正内容の要約を記載
+3. レコードページ <https://zenodo.org/records/21457049> の**右サイドバー**、
+   `Record details` の下にある **Record management** 区画（Manage / Delete record /
+   Edit / **New version** / Share が縦に並ぶ）から **New version** をクリック
+4. Files 欄に新しい PDF をアップロード。**旧版のファイルが引き継がれていないか必ず確認する**
+   （残っていたら削除。ページ数が見分け方 — v1 は 8pp、v2 は 9pp）
+5. **Version 欄**に `v2` と入力。この欄は **`Recommended information` セクションの中**にあり、
+   デフォルトで折りたたまれている。展開すると Contributors / Keywords and subjects /
+   Languages / Dates / **Version** / Publisher の順に並ぶ（**Dates と Publisher の間**）。
+   v1 が小文字 `v1` なので小文字で揃える
+6. 訂正内容の要約は、**`Description` セクションの `Add description` ボタン**で追加ブロックを
+   作って書く（旧フォームの「Additional notes」に相当する欄は**もう無い**）。
+   **`Type` の選択は必須** — 未選択のまま Publish すると
+   `The draft was not published. Record saved with validation feedback in Basic information`
+   で弾かれる。Type は **`Notes`** を選ぶ。
+   選択肢は Zenodo の語彙 <https://zenodo.org/api/vocabularies/descriptiontypes> で確認でき、
+   Abstract / Methods / **Notes** / Other / Series information / Table of contents /
+   Technical info の 7 種
+7. メインの Description（abstract）は**書き換えない**
+8. 右サイドバー上部の **Publish**（`Save draft` だけでは公開されない）
+
+## 実施結果（2026-07-26 公開）
+
+| 項目 | 値 |
+|---|---|
+| v2 DOI | [10.5281/zenodo.21600248](https://doi.org/10.5281/zenodo.21600248) |
+| v1 DOI | [10.5281/zenodo.21457049](https://doi.org/10.5281/zenodo.21457049)（存続） |
+| concept DOI | [10.5281/zenodo.21457048](https://doi.org/10.5281/zenodo.21457048)（常に最新版を指す） |
+| ファイル | `preprint.pdf` 357.5 kB（9pp）— ローカルビルドの 357,530 バイトと一致を確認 |
+| Notes | 訂正 2 件の要約がレコードページに表示されることを確認 |
+
+本文への適用は PR #115、公開操作は orange。
 
 ## 決定事項（orange、2026-07-26）
 
@@ -153,5 +184,19 @@ C4 の「cat は stellar rank 無限だがガウスケット 2 個で足りる�
 
 ---
 
+## 教訓（次に外部サービスの手順書を書く人へ）
+
+初稿の Zenodo 手順は、管理役が**旧フォームの記憶で書いた**ものだった。実機では
+「Additional notes」欄は存在せず、Version 欄の在処も違い、Type 必須という
+罠もあった。結果として orange が画面の前で 3 回詰まり、うち 1 回は Publish が
+弾かれている。
+
+AGENTS.md の規律 1 は外部のライセンス・規格・論文を対象に書かれているが、
+**外部サービスの UI 手順も同じ性質**である。記憶で書いた手順は、記憶で書いた
+引用と同じだけ間違える。手順書を書くなら実機を見てから書く。
+
+---
+
 作成: Claude（管理役）2026-07-26。実測値は `results_routeB.json` から再取得、
-arXiv:2404.07115 は abstract を直接取得して確認した。
+参照 3 本は arXiv abstract を直接取得して確認した。Zenodo 手順は 2026-07-26 の
+公開作業時に実機で確認した内容へ差し替え済み。
