@@ -375,11 +375,17 @@ declaration table:
 (sampled minimum minus arc-step times a coefficient-norm Cauchy bound on
 |F′|); the JSON carries both `_sampled` and `_certified` columns, with
 certified ≤ sampled enforced across all rows, and **no robust zero was
-lost in certification** (smallest margin ≈ 8.7%). The lattice-envelope
-amplitude (~4×10⁻¹⁶) is folded into the lifted threshold. Residual
-non-rigor: zero *existence/count* inside each disk rests on polynomial
-root-finding with residual checks and tiled argument-principle
-cross-checks (interior cells), which we report as numerics, not proof.
+lost in certification** (smallest margin ≈ 8.7%). Independent
+verification (PR #113 review) found the derivative bound within a factor
+1.7 of the true max|F′| and the 1440-point sampled minima already exact
+against 2×10⁵-point sampling on every zero — the certification step
+**added proof status to the same numbers**, rather than repairing loose
+measurement. The lattice-envelope amplitude (~4×10⁻¹⁶) is folded into
+the lifted threshold (entering pre-normalization; conservative in all
+three configurations, checked numerically). Residual non-rigor: zero
+*existence/count* inside each disk rests on polynomial root-finding with
+residual checks and tiled argument-principle cross-checks (interior
+cells), which we report as numerics, not proof.
 
 Robustness activates only for ε ≲ 10⁻³ (at ε = 10⁻² no zero is robust in
 any configuration): certified content requires high-fidelity approximation
