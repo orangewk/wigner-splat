@@ -384,12 +384,163 @@ obstructions and might compose.
 
 ---
 
-## Appendix A. Proof of Lemma A1′ [TO WRITE IN FULL — sketch in §3 verified at T1]
+## Appendix A. Proof of Lemma A1′
 
-## Appendix B. Re-derivation of the disk zero bound [TO WRITE — chain verified by both T1 reviewers; external input reduced to classical interval Turán]
+**A.1 Setup.** Fix M modes. Pure Gaussian states form a finite-dimensional
+real-analytic manifold 𝒢 (parameterized by covariance/mean or, per mode
+pair, by (a, b) with |a| < 1 in the Bargmann form). For K ∈ ℕ let
 
-## Appendix C. Interconversion with χ_δ of HTFY on pure states [SHORT]
+  S_K := { |ψ⟩ ∈ ℋ, ‖ψ‖ = 1 : |ψ⟩ ∝ Σ_{k=1}^{K} c_k |G_k⟩, |G_k⟩ ∈ 𝒢 }.
 
-## Appendix D. The plateau conjecture for general bounded-squeezing dictionaries [STATEMENT + counterexample calibration from T1]
+**A.2 Measurability.** The map Φ_K : 𝒢^K × ℂ^K → ℋ,
+Φ_K(G_1..G_K, c) = Σ c_k |G_k⟩, is continuous (Gaussian states depend
+continuously on parameters in norm; finite sums preserve continuity). S_K
+is the image of the Borel set {‖Φ_K‖ ≠ 0} under normalization composed
+with Φ_K, i.e. an analytic subset of the unit sphere of ℋ (continuous
+image of a Polish space). Analytic sets are universally measurable, so
+{ψ : χ_G(ψ) ≤ K} = S_K (mod phase) is universally measurable, and
+χ_G(·) = min{K : ψ ∈ S_K} (with min ∅ = ∞) is a universally measurable
+function into ℕ_{≥1} ∪ {∞}. For a generalized ensemble (standard Borel
+index space, measurable pure-state field) the composition i ↦ χ_G(ψ_i) is
+measurable for the completed measure, and ess sup_i χ_G(ψ_i) is
+well-defined.
 
-## References [TO COMPILE — all primary-source verified per repository policy: HTFY 2404.07115; Hahn et al. 2410.23721; Cottier–Chabaud 2604.00766; Friedland 2606.24823; Motamedi et al. 2504.10455 (Bargmann parameter table); classical Turán; exp20 derivation; exp22 artifacts]
+**A.3 Attainment of the outer infimum.** The roof objective takes values
+in the discrete set ℕ_{≥1} ∪ {∞}. Let m := inf over decompositions of the
+ess sup. If m = ∞ there is nothing to attain. If m < ∞, some decomposition
+has ess sup < m + 1, i.e. ≤ m, i.e. = m by definition of the infimum.
+(The ensemble set is nonempty: the spectral decomposition is a countable
+generalized ensemble.)
+
+**A.4 Monotonicity in ε and K_0 = χ_G.** The feasible set
+{σ : F(ρ,σ) ≥ 1−ε} grows with ε, so the min is non-increasing. At ε = 0,
+F(ρ,σ) = 1 ⟺ ρ = σ for density operators, so K_0^{G,F}(ρ) = χ_G(ρ). ∎
+
+## Appendix B. Re-derivation of the disk zero bound
+
+Following [Friedland, arXiv:2606.24823, Lemma 3.2 and Lemma B.1]; both
+steps were independently audited in the T1 round-2 reviews (issue #71).
+The only external input is the classical interval Turán inequality:
+
+**Input (interval Turán).** For a nonzero exponential sum
+q(t) = Σ_{k=1}^{m} a_k e^{μ_k t} restricted to a real interval I of length
+L, and a subinterval J ⊂ I,
+
+  sup_I |q| ≤ e^{L·max_k|Re μ_k|} (c L / |J|)^{m−1} sup_J |q|,
+
+with c an absolute constant. [Classical; also subsumed by the
+Turán–Nazarov inequality, Friedland–Yomdin arXiv:1107.0039, Thm 1.1.]
+
+**B.1 Disk growth (Friedland Lemma 3.2).** For q as above, z₀ ∈ ℂ,
+0 < r ≤ R, σ := max_k |μ_k|:
+
+  sup_{D(z₀,R)} |q| ≤ e^{2Rσ} (C R/r)^{m−1} sup_{D(z₀,r)} |q|.
+
+*Derivation.* Let z* realize the outer sup and w* the point of D(z₀,r)
+where |q| is largest on the segment ray through z* — parameterize the line
+through z₀ and z* as z = z₀ + sθ with |θ| = 1, s ∈ [−R, R]. On this line
+Q(s) := q(z₀ + sθ) is an exponential sum with exponents θμ_k, and
+|Re(θμ_k)| ≤ |μ_k| ≤ σ. Apply interval Turán with I of length 2R and
+J = the sub-segment of length 2r inside D(z₀,r): sup on I (hence at z*)
+is ≤ e^{2Rσ}(cR/r)^{m−1} times the sup on J, which is ≤ the sup on
+D(z₀,r). ∎
+
+**B.2 Blaschke step (Friedland Lemma B.1).** Suppose q has N zeros
+(with multiplicity) in D̄(z₀,r), q ≢ 0. Write q = B_N · h on D(z₀,8r)
+where B_N is the product of the N Möbius factors vanishing at the zeros
+(normalized for the disk of radius 8r) and h is zero-free there. Each
+Möbius factor has modulus ≤ θ < 1 (an absolute constant) on D̄(z₀,r) and
+= 1 on ∂D(z₀,8r), so
+
+  sup_{D(z₀,r)} |q| ≤ θ^N sup_{D(z₀,8r)} |q|
+                   ≤ θ^N e^{16 r σ} (8C)^{m−1} sup_{D(z₀,r)} |q|,
+
+using B.1 at radii (8r, r). Dividing by the (nonzero) sup and taking
+logarithms: N log(1/θ) ≤ 16 r σ + (m−1) log(8C), i.e.
+
+  **N ≤ C′ (m + σ r)** with C′ absolute. ∎
+
+## Appendix C. Interconversion with χ_δ of HTFY on pure states
+
+HTFY define χ_δ(|ψ⟩) = inf{ χ(|ψ′⟩) : ‖ψ − ψ′‖ < δ } (vector-norm ball).
+For normalized ψ, ψ′ with optimally aligned phases,
+‖ψ−ψ′‖² = 2(1 − |⟨ψ|ψ′⟩|) and F = |⟨ψ|ψ′⟩|², so a fidelity ball
+F ≥ 1−ε equals a norm ball of radius d(ε) = √(2−2√(1−ε)):
+
+  K_ε^{G,F}(|ψ⟩⟨ψ| restricted to pure approximants) = χ_{d(ε)}(|ψ⟩),
+
+up to the open/closed ball convention. Two caveats keep this from being an
+identity of the full quantities: (i) our K_ε permits **mixed** approximants
+σ, which can only lower the min (on pure targets, if a mixed σ with roof
+value K satisfies ⟨ψ|σ|ψ⟩ ≥ 1−ε, the averaging argument of Theorem B′
+produces a pure member with the same K and fidelity, so the two agree on
+pure targets); (ii) HTFY's χ counts superpositions only, matching our
+pure-state χ_G. On mixed targets the quantities differ by construction
+(roof vs no natural χ_δ analogue), and no identification is claimed.
+
+## Appendix D. The plateau conjecture for general bounded-squeezing dictionaries
+
+**Calibrating examples (certified).** (i) e^{a z²/2} − 1 (two components
+with squeezing gap a) has ≈ |a|R²/π zeros in D(0,R), including a double
+zero at 0. (ii) More generally, for two components with parameter gaps
+(Δa, Δb), zeros solve Δa·z²/2 + Δb·z ∈ iπ(2ℤ+1); counting lattice points
+of spacing 2π hit by a degree-2 polynomial image of the disk gives
+N ≤ c(|Δa| R² + |Δb| R), sharp in form. Any general-dictionary zero bound
+must therefore carry an area term a* R².
+
+**Conjecture D.** For f = Σ_{k=1}^{K} c_k e^{a_k z²/2 + b_k z + d_k} with
+|a_k| ≤ a* < 1, |b_k| ≤ B, f ≢ 0, in minimal representation:
+
+  N(D̄(z₀,R); f) ≤ C (K − 1)(1 + a* R² + B R).
+
+**Consequence if true.** For an area-density target
+(N_robust ~ ρ₀ R², ρ₀ ≤ 1/π) the Theorem-B′-style bound saturates:
+K ≥ 1 + ρ₀/(C a*) as R → ∞ — a plateau inversely proportional to the
+squeezing budget, instead of unbounded growth. The certified results of
+this note are the a-common slice, where the area term cancels exactly
+(§4); the conjecture marks where the technique's power ends, not where the
+states become easy.
+
+**Status.** Statement calibrated by the examples above (T1, issue #71);
+proof route sketched via the order-K linear ODE with polynomial
+coefficients satisfied by f (Wronskian = (Π_k f_k)·Q with deg Q ≤
+K(K−1)/2) and disconjugacy on disks avoiding Q's zeros; the naive complex
+Chebyshev shortcut is false (W[1, e^{μz}] never vanishes while e^{μz}−1
+has ~Rμ/π disk zeros), so coefficient bounds must enter. Left open.
+
+## References
+
+Primary-source verification status per repository policy: [pdf] = read in
+PDF/HTML by this project; [stmt] = the specific cited statement was
+transcribed and checked; remaining items to re-verify at final draft.
+
+1. K. Hahn, R. Takagi, G. Ferrini, H. Yamasaki, *Classical simulation and
+   quantum resource theory of non-Gaussian optics*, arXiv:2404.07115;
+   Quantum 9, 1881 (2025). [pdf][stmt: χ, χ_δ, ξ definitions; convex-roof
+   mixed extension; monotonicity under Gaussian unitaries/measurements]
+2. K. Hahn, A. Garnier, G. Ferrini, A. Ferraro, U. Chabaud, *Assessing
+   non-Gaussian quantum state conversion with the stellar rank*,
+   arXiv:2410.23721; Quantum 10, 2095 (2026). [pdf][stmt: Def. 7 r*_ε;
+   Thm 1 monotonicity; convex-roof mixed stellar rank]
+3. F. Cottier, U. Chabaud, *Lower Bounds on Coherent State Rank*,
+   arXiv:2604.00766 (2026). [pdf-abstract][stmt: ε-approximate coherent
+   state rank; low-rank-approximation and permanent-complexity lower
+   bounds; single-mode characterization] — full-text re-read scheduled at
+   final draft (technique comparison in §8).
+4. O. Friedland, *A Disk-Growth Remez Principle and a Modular Proof of the
+   Measurable Turán-Nazarov Inequality*, arXiv:2606.24823 (2026).
+   [stmt: Lemma 3.2, Lemma B.1 — audited by two independent reviews;
+   re-derived in Appendix B]
+5. O. Friedland, Y. Yomdin, *An observation on Turán-Nazarov inequality*,
+   arXiv:1107.0039. [pdf][stmt: Thm 1.1 interval Turán–Nazarov]
+6. M. Motamedi et al., *The stellar decomposition of Gaussian quantum
+   states*, arXiv:2504.10455. [stmt: Bargmann parameter table, cross-check
+   of a = −e^{iφ}tanh r, b = α − aα*]
+7. Experiment 20 derivation note (this repository,
+   experiments/20_noninclusion/derivation.md): Lemmas 1–2, Theorems 1–2.
+   [in-repo, PR-64-reviewed]
+8. Experiments 22–23 artifacts (this repository): exp22 curves JSON,
+   exp23 robust-zero census JSON. [in-repo, reviewed]
+9. Preprint: W. Kawashima, *Compact physical Gaussian-ket models for
+   homodyne quantum-state tomography* (2026), doi:10.5281/zenodo.21457049.
+   [v2 planned with this note; erratum for the Route B quoting]
