@@ -74,12 +74,26 @@ def main() -> int:
     def lifted_eps(delta: float) -> set[float]:
         return {r["epsilon"] for r in by_delta[delta]["rows"]
                 if r.get("N_robust_lifted_bounded", 0) > 0 and r["delta"] == 0.18}
-    check("7.2 D3 Delta=0.2", lifted_eps(0.2) == set(),
-          f"note claims no lift, artifact lifts at {lifted_eps(0.2)}")
-    check("7.2 D3 Delta=0.3", lifted_eps(0.3) == {1e-4},
+    check("7.2 D3 Delta=0.2", lifted_eps(0.2) == {1e-4},
+          f"note claims lift at 1e-4 only, artifact lifts at {lifted_eps(0.2)}")
+    check("7.2 D3 Delta=0.3", lifted_eps(0.3) == {1e-3, 1e-4},
           f"artifact lifts at {lifted_eps(0.3)}")
     check("7.2 D3 Delta=0.4", lifted_eps(0.4) == {1e-3, 1e-4},
           f"artifact lifts at {lifted_eps(0.4)}")
+    # lifted values quoted in the note (4/8/4 at delta=0.18):
+    for delta, want in [(0.2, 4), (0.3, 8), (0.4, 4)]:
+        got = max((r.get("N_robust_lifted_bounded", 0)
+                   for r in by_delta[delta]["rows"] if r["delta"] == 0.18),
+                  default=0)
+        check(f"7.2 D3 value Delta={delta}", got == want,
+              f"note quotes lifted={want}, artifact max={got}")
+    # margins quoted in the note vs artifact (Delta=0.4 lifting margins):
+    lm = by_delta[0.4].get("lifting_margins") or {}
+    for key, want in (("sampled_minimum_relative_percent", 37.96),
+                      ("interval_lower_bound_relative_percent", 36.03)):
+        got = lm.get(key)
+        check(f"7.2 margin {key}", got is not None and abs(got - want) < 0.05,
+              f"note quotes {want}, artifact has {got}")
     # artifact-interpretation policy (issue #71, 2026-07-27): artifacts must
     # not carry conclusion prose at all; enforced here in addition to the
     # repo test suite.
@@ -111,6 +125,18 @@ def main() -> int:
         check(f"internal ref §{ref}",
               ref in headings or ref.split(".")[0] in headings,
               "no such heading")
+
+    # mutation guard: the specific numbers the coded checks pin must appear
+    # verbatim in the note text; editing the note's numbers now fails here.
+    for needle, label in [
+        ("3.44×10⁻³ / 2.37×10⁻³ / 2.17×10⁻³", "C'3 residual triple"),
+        ("N_robust = 12 / 8 / 4", "7.2 D2 triple"),
+        ("N_robust_lifted = 4 / 8 / 4", "7.2 D3 triple"),
+        ("37.96%", "margin sampled"),
+        ("36.03%", "margin bounded"),
+    ]:
+        check(f"note-text {label}", needle in note,
+              "expected quoted value string not found in note.md")
 
     if FAILURES:
         print("CLAIM CHECK FAILED:")

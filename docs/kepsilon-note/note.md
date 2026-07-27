@@ -393,13 +393,16 @@ certification; see the numerical-status paragraph below):
   states; no specific positive K value is certified, since C is
   deliberately not assigned a number and B is a free dictionary parameter.
 - **D3 (untruncated comb, lifted threshold d(ε)+‖Fock tail‖+‖lattice
-  remainder‖, matching the implementation):** the
-  Δ = 0.3 and Δ = 0.4 configurations instantiate the premises for the
-  untruncated finite-energy comb directly (nonzero N_robust_lifted at ε ≤ 10⁻⁴
-  and ε ≤ 10⁻³ respectively, δ = 0.18); Δ = 0.2 does not lift at the
-  current truncation (‖tail‖ = 0.074 > d(10⁻⁴) = 0.010, not repairable
-  below the polynomial-root numerical ceiling n_max ≲ 300 of this
-  implementation) and remains a ψ_trunc statement.
+  remainder‖, matching the implementation):** **all three configurations
+  instantiate the premises for the untruncated finite-energy comb**
+  (N_robust_lifted = 4 / 8 / 4 at δ = 0.18: Δ = 0.2 at ε = 10⁻⁴,
+  Δ = 0.3 and 0.4 at ε ≤ 10⁻³). An earlier draft reported that Δ = 0.2
+  could not lift and misattributed this to a polynomial-degree ceiling;
+  the binding constraint was in fact the Markov remainder of the Fock
+  tail bound, controlled by an independent parameter (reference cutoff,
+  now 3000; tails 3.3×10⁻⁴ / 2.9×10⁻⁵ / 6.2×10⁻⁶), and the corrected
+  exact tail distance √(2−2√(1−p)) is used throughout. The degree
+  ceiling n_max ≲ 300 constrains only the zero search, not the tail.
 
 **Numerical status (the census is numerically supported, not
 certified).** Two layers must not be conflated. (i) The circle-minimum
@@ -414,9 +417,11 @@ JSON's `_bounded` columns therefore refer to layer (i) only, and the
 census as a whole is a **numerically supported instantiation of the
 theorem's premises**, not a conditional or full certification.
 Supporting evidence for the numbers themselves is strong: bounded ≤
-sampled holds across all rows with no robust zero lost (smallest margins:
-8.66% on the sampled minimum and 7.14% on the float64 discretized bound
-(no outward rounding — see above), both at Δ = 0.4, ε = 10⁻³); independent verification (PR #113 review) found the derivative
+sampled holds across all rows with no robust zero lost (the historically
+tightest row, Δ = 0.4 at ε = 10⁻³, now carries lifting margins of 37.96%
+on the sampled minimum and 36.03% on the float64 discretized bound (no
+outward rounding — see above), the tightening of the tail bound having
+widened what was an 8.7%-class margin); independent verification (PR #113 review) found the derivative
 bound within a factor 1.7 of the true max|F′| and the 1440-point sampled
 minima unchanged to reported precision against 2×10⁵-point sampling on
 every zero — the
