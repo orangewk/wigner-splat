@@ -389,8 +389,8 @@ certification; see the numerical-status paragraph below):
   (ε = 10⁻⁴, **δ = 0.18**; at δ = 0.30 the Δ = 0.2 count drops to 8) —
   the count **increases with energy in the same direction across all
   three configurations** (the same triple, set against the ⟨n⟩ values
-  quoted at the top of this subsection, gives ratios
-  1.00/1.58/1.64 — not constant, and with R, Δ, tail and margins
+  quoted at the top of this subsection, gives ratios that are far from
+  constant, and with R, Δ, tail and margins
   co-varying, three points cannot identify a proportionality law or a
   density constant — a Δ→0 series with error estimates would be needed
   for an area-density *scaling* claim). All three points are nonzero.
