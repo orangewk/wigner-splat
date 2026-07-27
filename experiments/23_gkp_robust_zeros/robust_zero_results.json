@@ -1,21 +1,21 @@
 {
   "configurations": [
     {
-      "certification": {
-        "description": "Only psi_trunc is certified at this cutoff: all scanned lifted certified counts are 0 at delta=0.18.",
+      "discretization_bounds": {
         "ideal_comb": {
           "delta": 0.18,
           "epsilons_with_nonzero_lifted": [],
-          "max_N_robust_lifted_certified": 0
+          "max_N_robust_lifted_bounded": 0
         },
         "psi_trunc_only": true
       },
       "envelope_width_Delta": 0.2,
+      "lifting_margins": null,
       "rows": [
         {
           "K_lower_bound_symbolic": "0/C - B*(2.779)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 8,
@@ -25,8 +25,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.779)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 8,
@@ -36,8 +36,8 @@
         },
         {
           "K_lower_bound_symbolic": "8/C - B*(2.779)",
-          "N_robust_certified": 8,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 8,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 8,
           "N_zeros": 8,
@@ -47,8 +47,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(2.899)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 8,
@@ -58,8 +58,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.899)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 8,
@@ -69,8 +69,8 @@
         },
         {
           "K_lower_bound_symbolic": "8/C - B*(2.899)",
-          "N_robust_certified": 8,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 8,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 8,
           "N_zeros": 8,
@@ -80,8 +80,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(3.646)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 8,
@@ -91,8 +91,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(3.646)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 8,
@@ -102,8 +102,8 @@
         },
         {
           "K_lower_bound_symbolic": "8/C - B*(3.646)",
-          "N_robust_certified": 8,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 8,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 8,
           "N_zeros": 8,
@@ -113,8 +113,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(3.766)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 8,
@@ -124,8 +124,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(3.766)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 8,
@@ -135,8 +135,8 @@
         },
         {
           "K_lower_bound_symbolic": "8/C - B*(3.766)",
-          "N_robust_certified": 8,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 8,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 8,
           "N_zeros": 8,
@@ -146,8 +146,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(4.512)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 16,
@@ -157,8 +157,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(4.512)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 16,
@@ -168,8 +168,8 @@
         },
         {
           "K_lower_bound_symbolic": "12/C - B*(4.512)",
-          "N_robust_certified": 12,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 12,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 12,
           "N_zeros": 16,
@@ -179,8 +179,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(4.632)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 16,
@@ -190,8 +190,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(4.632)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 16,
@@ -201,8 +201,8 @@
         },
         {
           "K_lower_bound_symbolic": "8/C - B*(4.632)",
-          "N_robust_certified": 8,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 8,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 8,
           "N_zeros": 16,
@@ -222,23 +222,23 @@
       }
     },
     {
-      "certification": {
-        "description": "The ideal finite-energy comb is certified for epsilon <= 1e-4 at delta=0.18, with maximum N_robust_lifted_certified=4.",
+      "discretization_bounds": {
         "ideal_comb": {
           "delta": 0.18,
           "epsilons_with_nonzero_lifted": [
             0.0001
           ],
-          "max_N_robust_lifted_certified": 4
+          "max_N_robust_lifted_bounded": 4
         },
         "psi_trunc_only": false
       },
       "envelope_width_Delta": 0.3,
+      "lifting_margins": null,
       "rows": [
         {
           "K_lower_bound_symbolic": "0/C - B*(1.867)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 4,
@@ -248,8 +248,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(1.867)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -259,8 +259,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(1.867)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -270,8 +270,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.987)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 4,
@@ -281,8 +281,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(1.987)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -292,8 +292,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(1.987)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -303,8 +303,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(2.430)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 4,
@@ -314,8 +314,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.430)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -325,8 +325,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.430)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -336,8 +336,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(2.550)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 4,
@@ -347,8 +347,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.550)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -358,8 +358,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.550)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -369,8 +369,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(2.992)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 8,
@@ -380,8 +380,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.992)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 8,
@@ -391,8 +391,8 @@
         },
         {
           "K_lower_bound_symbolic": "8/C - B*(2.992)",
-          "N_robust_certified": 8,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 8,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 8,
           "N_zeros": 8,
@@ -402,8 +402,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(3.112)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 8,
@@ -413,8 +413,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(3.112)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 4,
           "N_zeros": 8,
@@ -424,8 +424,8 @@
         },
         {
           "K_lower_bound_symbolic": "8/C - B*(3.112)",
-          "N_robust_certified": 8,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 8,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 8,
           "N_zeros": 8,
@@ -445,24 +445,28 @@
       }
     },
     {
-      "certification": {
-        "description": "The ideal finite-energy comb is certified for epsilon <= 1e-3 at delta=0.18, with maximum N_robust_lifted_certified=4.",
+      "discretization_bounds": {
         "ideal_comb": {
           "delta": 0.18,
           "epsilons_with_nonzero_lifted": [
             0.0001,
             0.001
           ],
-          "max_N_robust_lifted_certified": 4
+          "max_N_robust_lifted_bounded": 4
         },
         "psi_trunc_only": false
       },
       "envelope_width_Delta": 0.4,
+      "lifting_margins": {
+        "epsilon": 0.001,
+        "interval_lower_bound_relative_percent": 7.138331776160056,
+        "sampled_minimum_relative_percent": 8.66166029507247
+      },
       "rows": [
         {
           "K_lower_bound_symbolic": "0/C - B*(1.352)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -472,8 +476,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.352)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -483,8 +487,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.352)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -494,8 +498,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.472)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -505,8 +509,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.472)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -516,8 +520,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.472)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -527,8 +531,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.743)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -538,8 +542,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.743)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -549,8 +553,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.743)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -560,8 +564,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.863)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -571,8 +575,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.863)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -582,8 +586,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(1.863)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 0,
@@ -593,8 +597,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(2.133)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 4,
@@ -604,8 +608,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.133)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -615,8 +619,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.133)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -626,8 +630,8 @@
         },
         {
           "K_lower_bound_symbolic": "0/C - B*(2.253)",
-          "N_robust_certified": 0,
-          "N_robust_lifted_certified": 0,
+          "N_robust_bounded": 0,
+          "N_robust_lifted_bounded": 0,
           "N_robust_lifted_sampled": 0,
           "N_robust_sampled": 0,
           "N_zeros": 4,
@@ -637,8 +641,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.253)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -648,8 +652,8 @@
         },
         {
           "K_lower_bound_symbolic": "4/C - B*(2.253)",
-          "N_robust_certified": 4,
-          "N_robust_lifted_certified": 4,
+          "N_robust_bounded": 4,
+          "N_robust_lifted_bounded": 4,
           "N_robust_lifted_sampled": 4,
           "N_robust_sampled": 4,
           "N_zeros": 4,
@@ -669,16 +673,16 @@
       }
     }
   ],
-  "epistemic_status": "Rouche verdicts use a coefficient-norm derivative interval lower bound, not a sampled circle minimum; sampled and certified counts are both retained.",
+  "epistemic_status": "Rouche verdicts use a coefficient-norm derivative interval lower bound; sampled and interval-bounded counts are both retained.",
   "fidelity_convention": "pure-state fidelity F(psi,phi) >= 1-epsilon; d(epsilon)=sqrt(2-2sqrt(1-epsilon))",
-  "lifting_rule": "For a truncated-state zero disk, ||psi_trunc - phi|| <= sqrt(fock_tail_upper_bound) + lattice_envelope_amplitude_bound + d(epsilon). Therefore the disk lifts to the untruncated finite-energy comb when circle_minimum_certified_lower_bound exceeds exp((|z_j|+delta)^2/2) times that sum; the tail bound includes the renormalization contribution.",
+  "lifting_rule": "For a truncated-state zero disk, ||psi_trunc - phi|| <= d(epsilon) + sqrt(fock_tail_upper_bound) + lattice_envelope_amplitude_bound. Therefore the disk lifts to the untruncated finite-energy comb when circle_minimum_interval_lower_bound exceeds exp((|z_j|+delta)^2/2) times that sum; the tail bound includes the renormalization contribution.",
   "rank_primitive": {
     "dictionary": "G_eq(a,B): common complex squeezing a and |b_k| <= B",
     "quantity": "restricted equal-squeezing Gaussian ket-component count"
   },
   "robustness_method": "A 1440-point circle minimum minus one sample-arc length times a coefficient-norm upper bound on sup|F'|; disk disjointness asserted",
   "schema_version": 3,
-  "theorem_scope": "The symbolic bound is K >= N_robust_certified/C - B(R+delta); C is intentionally not assigned a numerical value.",
-  "truncation_protocol": "componentwise resolved Fock tail plus exact second-factorial-moment Markov remainder; N_robust_certified asserted invariant when n_max rises from 160 to 200",
+  "theorem_scope": "The symbolic bound is K >= N_robust_bounded/C - B(R+delta); C is intentionally not assigned a numerical value.",
+  "truncation_protocol": "componentwise resolved Fock tail plus exact second-factorial-moment Markov remainder; N_robust_bounded asserted invariant when n_max rises from 160 to 200",
   "zero_method": "Fock-truncated Bargmann polynomial roots, residual-checked and tiled argument-principle cross-checked"
 }
