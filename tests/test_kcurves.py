@@ -20,7 +20,7 @@ def test_committed_family_curve_extracts_all_cutoffs_and_rank_primitives():
     assert len(curve["points"]) == 9
     assert {(p["n_score"], p["K"]) for p in curve["points"]} == {(n, k) for n in (8, 10, 12) for k in (2, 4, 8)}
     assert curve["rank_primitive"]["pre_loss_operator_rank_R"] == 2
-    assert curve["r_epsilon_upper_points"]["points"][-1]["epsilon"] == pytest.approx(0.0021749434414252145)
+    assert curve["family_fit_residual_points"]["points"][-1]["epsilon"] == pytest.approx(0.0021749434414252145)
     assert curve["cutoff_status"] == "still increasing with cutoff; infinite-cutoff limit unresolved"
 
 

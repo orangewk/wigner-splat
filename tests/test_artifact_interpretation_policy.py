@@ -26,3 +26,15 @@ def test_issue_71_artifacts_have_no_conclusion_prose_fields():
     for artifact in artifacts:
         payload = json.loads(artifact.read_text(encoding="utf-8"))
         assert FORBIDDEN.isdisjoint(_keys(payload)), artifact
+
+
+def test_issue_71_generator_sources_have_no_conclusion_strings():
+    generators = [
+        ROOT / "experiments/22_kcurves/run.py",
+        ROOT / "experiments/22_kcurves/kcurve_io.py",
+        ROOT / "experiments/23_gkp_robust_zeros/run.py",
+    ]
+    forbidden = ("R_epsilon", "claim")
+    for generator in generators:
+        source = generator.read_text(encoding="utf-8").lower()
+        assert all(token.lower() not in source for token in forbidden), generator

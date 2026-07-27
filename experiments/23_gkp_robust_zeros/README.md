@@ -10,16 +10,14 @@ JSON retains sampled and discretization-bounded columns: `N_robust_sampled` /
 counterparts for the untruncated finite-energy comb. The discretization-bounded count uses
 the sampled circle minimum minus one sample-arc length times a coefficient-
 norm upper bound on `sup |F'|`; it is therefore a lower bound for the true
-circle minimum. The lifting threshold is `d(epsilon) + sqrt(fock_tail_upper_bound) +`
-`lattice_envelope_amplitude_bound`. At
-`delta=0.18` in the largest window, the discretization-bounded ideal-comb count remains
-nonzero for `Delta=0.3, epsilon=1e-4` and `Delta=0.4, epsilon<=1e-3`;
-`Delta=0.2` remains discretization-bounded only for `psi_trunc`.
-For `Delta=0.2`, the tail norm is 0.074 at `n_max=160`, greater than
-`d(1e-4)=0.010`; raising `n_max` through 260 does not yield a lifted zero,
-while `polyroots` overflows around `n_max=320`. This implementation thus has
-a numerical ceiling of roughly `n_max <= 300` for that lifting attempt.
-The convention is `[q,p]=i`: the state is
+circle minimum. The lifting threshold is `d(epsilon) + sqrt(2-2sqrt(1-p)) +`
+`lattice_envelope_amplitude_bound`, where `p=fock_tail_upper_bound`.  The
+Markov remainder is the dominant tail term, so resolving it with
+`reference_cutoff=3000` lifts a discretization-bounded zero in the largest
+window at `delta=0.18, epsilon=1e-4` for each `Delta={0.2,0.3,0.4}`.  This
+reference cutoff only resolves the tail bound; it does not change the
+Bargmann polynomial degree `n_max`, which is the numerical limit relevant to
+zero finding.The convention is `[q,p]=i`: the state is
 `sum_s exp(-2*pi*Delta^2*s^2) D(s*sqrt(2*pi)) S(-log Delta)|0>`.
 It scans `Delta={0.2,0.3,0.4}`, three windows around `sqrt(<n>)`,
 `delta={0.18,0.30}`, and `epsilon={1e-2,1e-3,1e-4}`.
