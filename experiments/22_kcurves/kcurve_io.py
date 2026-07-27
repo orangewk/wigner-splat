@@ -49,7 +49,7 @@ def extract_empirical_upper_bound(route_b_path: Path) -> dict:
         "fidelity_convention": "generalized Uhlmann fidelity for cropped/subnormalized matrices",
         "cutoff_status": "still increasing with cutoff; infinite-cutoff limit unresolved",
         "epistemic_status": "empirical best-found family-constrained approximation; not a proven lower bound and not an upper bound on K_epsilon^{G,F}",
-        "r_epsilon_upper_points": {"points": n12_points},
+        "family_fit_residual_points": {"points": n12_points},
         "lower_bound_reservation": {"status": "reserved_not_computed", "scope": "Gate T lower bounds"},
         "source": "experiments/20_noninclusion/results_routeB.json",
         "params": {"eta": params["eta"], "sigma": params["sigma"], "n_scores": n_scores},

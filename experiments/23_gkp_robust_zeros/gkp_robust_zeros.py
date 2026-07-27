@@ -64,6 +64,13 @@ def _component_tail_upper_bound(coeff: np.ndarray, alpha: float, r: float, n_max
     return resolved + moment_remainder
 
 
+def truncation_distance_upper_bound(tail_probability_upper_bound: float) -> float:
+    """Bound ``||psi - psi_trunc||`` from an upper bound on tail probability."""
+    if not 0.0 <= tail_probability_upper_bound <= 1.0:
+        raise ValueError("tail probability upper bound must lie in [0, 1]")
+    return sqrt(2.0 - 2.0 * sqrt(1.0 - tail_probability_upper_bound))
+
+
 def build_gkp_state(delta: float, n_max: int, *, lattice_tolerance: float = 1e-15, reference_cutoff: int | None = None) -> GKPState:
     """Construct a normalized finite-energy square-GKP |0> Fock vector.
 
@@ -75,7 +82,9 @@ def build_gkp_state(delta: float, n_max: int, *, lattice_tolerance: float = 1e-1
         raise ValueError("delta must lie in (0, 1)")
     if n_max < 8:
         raise ValueError("n_max is too small for a robust-zero calculation")
-    reference_cutoff = reference_cutoff or max(4 * n_max, 512)
+    # This resolves the Markov remainder only; it does not change the
+    # degree n_max of the Bargmann polynomial used for the zero search.
+    reference_cutoff = reference_cutoff or max(4 * n_max, 3000)
     if reference_cutoff <= n_max:
         raise ValueError("reference_cutoff must exceed n_max")
     kappa = 2.0 * pi * delta**2
