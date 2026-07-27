@@ -462,7 +462,7 @@
       "envelope_width_Delta": 0.4,
       "lifting_margins": {
         "epsilon": 0.001,
-        "interval_lower_bound_relative_percent": 36.02974620342765,
+        "float64_lower_bound_relative_percent": 36.02974620342765,
         "sampled_minimum_relative_percent": 37.963862484471036
       },
       "rows": [
@@ -678,7 +678,7 @@
   ],
   "epistemic_status": "Rouche verdicts use a coefficient-norm derivative interval lower bound; sampled and interval-bounded counts are both retained.",
   "fidelity_convention": "pure-state fidelity F(psi,phi) >= 1-epsilon; d(epsilon)=sqrt(2-2sqrt(1-epsilon))",
-  "lifting_rule": "For a truncated-state zero disk, ||psi_trunc - phi|| <= d(epsilon) + sqrt(2-2sqrt(1-fock_tail_upper_bound)) + lattice_envelope_amplitude_bound. Therefore the disk lifts to the untruncated finite-energy comb when circle_minimum_interval_lower_bound exceeds exp((|z_j|+delta)^2/2) times that sum; the tail bound includes the renormalization contribution.",
+  "lifting_rule": "For a truncated-state zero disk, ||psi_trunc - phi|| <= d(epsilon) + sqrt(2-2sqrt(1-fock_tail_upper_bound)) + lattice_envelope_amplitude_bound. Therefore the disk lifts to the untruncated finite-energy comb when circle_minimum_float64_lower_bound exceeds exp((|z_j|+delta)^2/2) times that sum; the tail bound includes the renormalization contribution.",
   "rank_primitive": {
     "dictionary": "G_eq(a,B): common complex squeezing a and |b_k| <= B",
     "quantity": "restricted equal-squeezing Gaussian ket-component count"

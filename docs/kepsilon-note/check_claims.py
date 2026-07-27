@@ -90,7 +90,7 @@ def main() -> int:
     # margins quoted in the note vs artifact (Delta=0.4 lifting margins):
     lm = by_delta[0.4].get("lifting_margins") or {}
     for key, want in (("sampled_minimum_relative_percent", 37.96),
-                      ("interval_lower_bound_relative_percent", 36.03)):
+                      ("float64_lower_bound_relative_percent", 36.03)):
         got = lm.get(key)
         check(f"7.2 margin {key}", got is not None and abs(got - want) < 0.05,
               f"note quotes {want}, artifact has {got}")

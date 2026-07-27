@@ -388,8 +388,9 @@ certification; see the numerical-status paragraph below):
 - **D2 (ψ_trunc):** N_robust = 12 / 8 / 4 at the largest windows
   (ε = 10⁻⁴, **δ = 0.18**; at δ = 0.30 the Δ = 0.2 count drops to 8) —
   the count **increases with energy in the same direction across all
-  three configurations** (12/8/4 vs ⟨n⟩ ≈ 12.0/5.1/2.4; the ratios
-  1.00/1.58/1.64 are not constant, and with R, Δ, tail and margins
+  three configurations** (the same triple, set against the ⟨n⟩ values
+  quoted at the top of this subsection, gives ratios
+  1.00/1.58/1.64 — not constant, and with R, Δ, tail and margins
   co-varying, three points cannot identify a proportionality law or a
   density constant — a Δ→0 series with error estimates would be needed
   for an area-density *scaling* claim). All three points are nonzero.
@@ -477,6 +478,13 @@ selective — vacuous on states that *are* Gaussian-compressible (the
 cat), though not only on those: with B a free dictionary parameter
 (§7.2), a large enough budget voids the bound for any target, so content
 always requires committing to a dictionary budget first.
+
+A same-cluster preprint appeared during this note's review: Wang et al.
+[arXiv:2607.06404] construct bosonic codes of *finite stellar rank*,
+GKP-adjacent but measuring a different resource — stellar rank of code
+states versus our equal-squeezing Gaussian-rank budget; neither bound
+implies the other, and the census here is complementary to their
+construction.
 
 Open next steps, in charter order: full certification of the census
 (interval arithmetic with outward rounding + validated winding-number
