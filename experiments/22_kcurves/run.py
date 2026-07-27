@@ -27,7 +27,6 @@ def make_figure(upper: dict, proxy: dict, output: Path) -> None:
     ax_upper.set_ylabel("best-found $1-F$")
     ax_upper.set_xlabel("K = ket components per rank-2 column")
     ax_upper.set_title("family-constrained approximation curve (rank-2 BB† + loss)", loc="left", fontsize=10)
-    ax_upper.text(0.02, 0.03, "$R_\\epsilon \\leq 2$ points at $n=12$; generalized fidelity on cropped/subnormalized matrices\nstill increasing with cutoff; infinite-cutoff limit unresolved", transform=ax_upper.transAxes, fontsize=7.5, va="bottom")
     ax_upper.legend(fontsize=7, loc="upper right")
     ax_upper.grid(axis="y", alpha=0.25)
 

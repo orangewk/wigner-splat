@@ -1,6 +1,34 @@
 {
   "cutoff_status": "still increasing with cutoff; infinite-cutoff limit unresolved",
   "epistemic_status": "empirical best-found family-constrained approximation; not a proven lower bound and not an upper bound on K_epsilon^{G,F}",
+  "family_fit_residual_points": {
+    "points": [
+      {
+        "K": 2,
+        "epsilon": 0.0034384094059295434,
+        "eta_prime": 0.6612488431416249,
+        "fidelity": 0.9965615905940705,
+        "n_score": 12,
+        "seed": 0
+      },
+      {
+        "K": 4,
+        "epsilon": 0.0023747199770528526,
+        "eta_prime": 0.6484042022505367,
+        "fidelity": 0.9976252800229471,
+        "n_score": 12,
+        "seed": 1
+      },
+      {
+        "K": 8,
+        "epsilon": 0.0021749434414252145,
+        "eta_prime": 0.6493640754938897,
+        "fidelity": 0.9978250565585748,
+        "n_score": 12,
+        "seed": 1
+      }
+    ]
+  },
   "fidelity_convention": "generalized Uhlmann fidelity for cropped/subnormalized matrices",
   "label": "family-constrained approximation curve",
   "lower_bound_reservation": {
@@ -91,34 +119,6 @@
     }
   ],
   "quantity": "best-found generalized-fidelity residual 1 - F within the fixed rank-2 BB\u2020 + loss family",
-  "r_epsilon_upper_points": {
-    "points": [
-      {
-        "K": 2,
-        "epsilon": 0.0034384094059295434,
-        "eta_prime": 0.6612488431416249,
-        "fidelity": 0.9965615905940705,
-        "n_score": 12,
-        "seed": 0
-      },
-      {
-        "K": 4,
-        "epsilon": 0.0023747199770528526,
-        "eta_prime": 0.6484042022505367,
-        "fidelity": 0.9976252800229471,
-        "n_score": 12,
-        "seed": 1
-      },
-      {
-        "K": 8,
-        "epsilon": 0.0021749434414252145,
-        "eta_prime": 0.6493640754938897,
-        "fidelity": 0.9978250565585748,
-        "n_score": 12,
-        "seed": 1
-      }
-    ]
-  },
   "rank_primitive": {
     "curve_x_axis": "K = ket components per rank-2 column",
     "pre_loss_operator_rank_R": 2
