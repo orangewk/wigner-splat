@@ -138,6 +138,18 @@ def main() -> int:
         check(f"note-text {label}", needle in note,
               "expected quoted value string not found in note.md")
 
+    # scope-as-column (issue #71, 2026-07-27): every declaration-table row
+    # must carry a Modes entry; a new row with an empty Modes cell fails.
+    import itertools
+    for line in note.splitlines():
+        if line.startswith("| D") and line.count("|") >= 6:
+            cells = [c.strip() for c in line.split("|")]
+            check(f"modes cell {cells[1]}", len(cells) > 4 and cells[4] != "",
+                  "empty Modes cell in declaration table")
+            check(f"modes wording {cells[1]}",
+                  "mode" in cells[4].lower() or "M" in cells[4],
+                  f"Modes cell not a mode declaration: {cells[4]!r}")
+
     if FAILURES:
         print("CLAIM CHECK FAILED:")
         for f in FAILURES:

@@ -145,14 +145,14 @@ Rows are also targets of the build-time claim checker (§7.3): the coded
 checks compare numbers that prose sentences attribute to rows against the
 artifact JSONs they name.
 
-| ID | Quantity | Target state | Dictionary / family | Source of numbers |
-|----|----------|--------------------|---------------------|-------------------|
-| D1 | K_ε^{G,F} (unrestricted) | any ρ | all pure-Gaussian superpositions, roof | definitions only; no disk-zero lower bound is claimed (§5.4a rules out that technique, not other routes — cf. Cottier–Chabaud) |
-| D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust_bounded` |
-| D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | untruncated finite-energy GKP comb | as D2, threshold d(ε)+‖Fock tail‖+‖lattice remainder‖ | exp23 `N_robust_lifted_bounded` (computed column; per-configuration) |
-| D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified). No empirical R_ε point is claimed: the Route B residuals are cutoff-conditioned generalized fidelities, which can exceed the true infinite-dimensional fidelity, so they live in row D5 |
-| D5 | family-constrained approximation curve | thermal lossy cat ρ_T | rank-2 BB† + loss, K kets/column | exp22 JSON (empirical; cutoff-conditioned) |
-| D6 | held-out NLL rank proxy | measured GKP data (true state unknown) | operator mixture rank R, K=4 kets | exp22 JSON (proxy) |
+| ID | Quantity | Target state | Modes | Dictionary / family | Source of numbers |
+|----|----------|--------------------|-------|---------------------|-------------------|
+| D1 | K_ε^{G,F} (unrestricted) | any ρ | any finite M (definitions only) | all pure-Gaussian superpositions, roof | definitions only; no disk-zero lower bound is claimed (§5.4a rules out that technique, not other routes — cf. Cottier–Chabaud) |
+| D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | **single mode** | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust_bounded` |
+| D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | untruncated finite-energy GKP comb | **single mode** | as D2, threshold d(ε)+‖Fock tail‖+‖lattice remainder‖ | exp23 `N_robust_lifted_bounded` (computed column; per-configuration) |
+| D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | **single mode** | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified). No empirical R_ε point is claimed: the Route B residuals are cutoff-conditioned generalized fidelities, which can exceed the true infinite-dimensional fidelity, so they live in row D5 |
+| D5 | family-constrained approximation curve | thermal lossy cat ρ_T | **single mode** | rank-2 BB† + loss, K kets/column | exp22 JSON (empirical; cutoff-conditioned) |
+| D6 | held-out NLL rank proxy | measured GKP data (true state unknown) | **single mode** | operator mixture rank R, K=4 kets | exp22 JSON (proxy) |
 
 ## 3. Consistency and monotonicity (certified)
 
@@ -316,9 +316,14 @@ loses all power.
 
 ## 6. Inequivalence of the two compressibilities (certified + empirical)
 
-Target: the thermal lossy cat of experiment 20,
-ρ_T = N_σ(E_η(|cat⟩⟨cat|)), η = 0.8, σ = 0.1 (per-quadrature added
-variance), α = 1.5, parity +1.
+Target (**single mode**, like every certified and empirical row of this
+note — see the Modes column of §2.4): the one-mode thermal lossy cat of
+experiment 20, ρ_T = N_σ(E_η(|cat⟩⟨cat|)), η = 0.8, σ = 0.1
+(per-quadrature added variance), α = 1.5, parity +1. The exp20
+derivation proves Lemmas 1–2 and Theorems 1–2 in one mode; its closing
+section sketches a three-mode port but omits Theorem 2 from the porting
+list, so this note cites the one-mode statements only and makes no
+multimode claim.
 
 **Theorem C′ (inequivalence; rows D1, D4, D5).**
 (C′1, certified) R_0(ρ_T) = ∞ (with the min ∅ = ∞ convention of §2.3):
