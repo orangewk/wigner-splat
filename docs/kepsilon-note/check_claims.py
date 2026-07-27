@@ -65,7 +65,7 @@ def main() -> int:
     # note claims: N_robust = 12 / 8 / 4 at largest windows, eps=1e-4,
     # delta=0.18 pinned (Sol: max over delta let a dropped condition pass).
     for delta, want in [(0.2, 12), (0.3, 8), (0.4, 4)]:
-        got = max(r["N_robust_certified"] for r in by_delta[delta]["rows"]
+        got = max(r["N_robust_bounded"] for r in by_delta[delta]["rows"]
                   if r["epsilon"] == 1e-4 and r["delta"] == 0.18)
         check(f"7.2 D2 Delta={delta}", got == want,
               f"note claims N_robust={want} at delta=0.18, artifact max={got}")
@@ -73,22 +73,20 @@ def main() -> int:
     # (eps<=1e-3); 0.2 does not lift.
     def lifted_eps(delta: float) -> set[float]:
         return {r["epsilon"] for r in by_delta[delta]["rows"]
-                if r.get("N_robust_lifted_certified", 0) > 0 and r["delta"] == 0.18}
+                if r.get("N_robust_lifted_bounded", 0) > 0 and r["delta"] == 0.18}
     check("7.2 D3 Delta=0.2", lifted_eps(0.2) == set(),
           f"note claims no lift, artifact lifts at {lifted_eps(0.2)}")
     check("7.2 D3 Delta=0.3", lifted_eps(0.3) == {1e-4},
           f"artifact lifts at {lifted_eps(0.3)}")
     check("7.2 D3 Delta=0.4", lifted_eps(0.4) == {1e-3, 1e-4},
           f"artifact lifts at {lifted_eps(0.4)}")
-    # prose fields must agree with computed columns (prose-claim checking):
-    for delta, c in by_delta.items():
-        cert = c.get("certification", {})
-        text = json.dumps(cert)
-        nums = [float(x) for x in re.findall(r"N_robust_lifted=(\d+)", text)]
-        max_lift = max((r.get("N_robust_lifted_certified", 0) for r in c["rows"]), default=0)
-        for n in nums:
-            check(f"prose claim Delta={delta}", n == max_lift,
-                  f"prose says lifted={n}, computed max={max_lift}")
+    # artifact-interpretation policy (issue #71, 2026-07-27): artifacts must
+    # not carry conclusion prose at all; enforced here in addition to the
+    # repo test suite.
+    raw23 = json.dumps(rz)
+    for banned in ("\"claim\"", "\"description\"", "\"interpretation\""):
+        check(f"exp23 no-conclusion-prose {banned}", banned not in raw23,
+              "conclusion-prose field present in artifact")
 
     # --- exp22 (section 7.1): labels and rank primitives still declared.
     up = load("experiments/22_kcurves/empirical_upper_bound.json")
