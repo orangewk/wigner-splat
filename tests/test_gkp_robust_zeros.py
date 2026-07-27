@@ -50,10 +50,10 @@ def test_cat_robust_zero_count_scales_linearly_in_window():
     small_epsilon = 1e-4 * np.exp(-3.0**2)
     large_epsilon = 1e-4 * np.exp(-6.0**2)
     small_rows = gkp.robust_zero_rows(coeff, small, 0.2, (small_epsilon,))
-    small_count = sum(row["certified_robust"] for row in small_rows)
+    small_count = sum(row["interval_bounded_robust"] for row in small_rows)
     large_rows = gkp.robust_zero_rows(coeff, large, 0.2, (large_epsilon,))
-    large_count = sum(row["certified_robust"] for row in large_rows)
-    assert all(row["certified_robust"] <= row["sampled_robust"] for row in small_rows + large_rows)
+    large_count = sum(row["interval_bounded_robust"] for row in large_rows)
+    assert all(row["interval_bounded_robust"] <= row["sampled_robust"] for row in small_rows + large_rows)
     assert large_count >= 2 * small_count - 1
 
 
@@ -85,17 +85,20 @@ def test_robust_zero_map_bytes_are_deterministic(tmp_path):
     run.make_figure(result, output)
     assert output.read_bytes() == first
 
-def test_lifted_counts_and_generated_certification_are_data_derived():
+def test_lifted_counts_and_generated_discretization_bounds_are_data_derived():
     payload = json.loads((EXP / "robust_zero_results.json").read_text(encoding="utf-8"))
     sys.path.insert(0, str(EXP))
-    run_spec = importlib.util.spec_from_file_location("gkp_robust_zeros_run_certification", EXP / "run.py")
+    run_spec = importlib.util.spec_from_file_location("gkp_robust_zeros_run_discretization_bounds", EXP / "run.py")
     assert run_spec is not None and run_spec.loader is not None
     run = importlib.util.module_from_spec(run_spec)
     run_spec.loader.exec_module(run)
     for configuration in payload["configurations"]:
         max_radius = max(row["R"] for row in configuration["rows"])
         rows = [row for row in configuration["rows"] if row["R"] == max_radius and row["delta"] == 0.18]
-        assert all(row["N_robust_certified"] <= row["N_robust_sampled"] for row in rows)
-        assert all(row["N_robust_lifted_certified"] <= row["N_robust_lifted_sampled"] for row in rows)
-        assert configuration["certification"]["ideal_comb"]["delta"] == 0.18
-        assert configuration["certification"] == run.certification_from_rows(configuration["rows"], max_radius, 0.18)
+        assert all(row["N_robust_bounded"] <= row["N_robust_sampled"] for row in rows)
+        assert all(row["N_robust_lifted_bounded"] <= row["N_robust_lifted_sampled"] for row in rows)
+        assert configuration["discretization_bounds"]["ideal_comb"]["delta"] == 0.18
+        assert configuration["discretization_bounds"] == run.discretization_bounds_from_rows(configuration["rows"], max_radius, 0.18)
+        if configuration["envelope_width_Delta"] == 0.4:
+            assert configuration["lifting_margins"]["sampled_minimum_relative_percent"] == pytest.approx(8.661660295072604)
+            assert configuration["lifting_margins"]["interval_lower_bound_relative_percent"] == pytest.approx(7.138331776160189)

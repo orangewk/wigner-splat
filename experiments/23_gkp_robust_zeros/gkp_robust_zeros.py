@@ -203,7 +203,7 @@ def robust_zero_rows(
     lattice_envelope_amplitude_bound: float = 0.0,
     circle_samples: int = 1440,
 ) -> list[dict]:
-    """Evaluate sampled and interval-certified Rouché conditions on each disk."""
+    """Evaluate sampled and interval-bounded Rouché conditions on each disk."""
     if len(roots) > 1:
         separations = np.abs(roots[:, None] - roots[None, :])
         np.fill_diagonal(separations, np.inf)
@@ -223,12 +223,12 @@ def robust_zero_rows(
                 "epsilon": epsilon,
                 "circle_minimum_sampled": minimum,
                 "circle_derivative_upper_bound": derivative_bound,
-                "circle_minimum_certified_lower_bound": lower_bound,
+                "circle_minimum_interval_lower_bound": lower_bound,
                 "rouche_threshold": threshold,
                 "sampled_robust": bool(minimum > threshold),
-                "certified_robust": bool(lower_bound > threshold),
+                "interval_bounded_robust": bool(lower_bound > threshold),
                 "lifted_rouche_threshold": lifted_threshold,
                 "sampled_lifted_robust": bool(minimum > lifted_threshold),
-                "certified_lifted_robust": bool(lower_bound > lifted_threshold),
+                "interval_bounded_lifted_robust": bool(lower_bound > lifted_threshold),
             })
     return rows

@@ -40,7 +40,7 @@ def make_figure(upper: dict, proxy: dict, output: Path) -> None:
     ax_proxy.grid(axis="y", alpha=0.25)
 
     ax_lower.set_axis_off()
-    ax_lower.text(0.02, 0.67, "certified lower bound", fontsize=10, fontweight="bold", transform=ax_lower.transAxes)
+    ax_lower.text(0.02, 0.67, "lower bound", fontsize=10, fontweight="bold", transform=ax_lower.transAxes)
     ax_lower.text(0.02, 0.32, "Reserved for Gate T; not computed or inferred in this figure.", fontsize=9, transform=ax_lower.transAxes)
     for spine in ax_lower.spines.values(): spine.set_visible(True)
     ax_upper.set_xticks([2, 4, 8])

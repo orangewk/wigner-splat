@@ -1,8 +1,4 @@
 {
-  "certified_lower_bound_reservation": {
-    "scope": "Gate T certified lower bounds",
-    "status": "reserved_not_computed"
-  },
   "ci_vs_test_selected_mle": {
     "R4_alternate_95": [
       -0.00016675900530110381,
@@ -14,9 +10,13 @@
     ]
   },
   "cutoff_status": "not applicable: this is a fixed reconstruction schedule, not a fidelity cutoff sweep",
-  "epistemic_status": "data proxy only; not K_epsilon^{G,F} and not a certified lower bound",
+  "epistemic_status": "data proxy only; not K_epsilon^{G,F} and not a proven lower bound",
   "fidelity_convention": "not available: real-data true-state fidelity is inaccessible",
   "label": "data proxy",
+  "lower_bound_reservation": {
+    "scope": "Gate T lower bounds",
+    "status": "reserved_not_computed"
+  },
   "points": [
     {
       "R": 1,
