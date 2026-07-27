@@ -113,7 +113,8 @@ is uniform as |a| → 1**, which is why a* < 1 is part of the definition.
 
 Since K_ε^{G,F} ≤ K_ε^{G_eq(a,B),F}, lower bounds on the restricted
 quantity do **not** transfer to the unrestricted one. §5.4 shows this is
-intrinsic to any zero-counting argument, not a defect of ours.
+intrinsic to count-only zero arguments, not a defect of this particular
+proof.
 
 ### 2.3 The subordinate contrast quantity R_ε
 
@@ -128,9 +129,10 @@ convention is what makes statements like R_0 = ∞ well-formed.)
 
 R_ε is a repository-specific contrast quantity with no counterpart in the
 cited literature. **It is subordinate by charter**: the note's claims are
-made for χ_G / K_ε; R_ε appears only to exhibit their inequivalence, and no
-monotonicity is claimed for it (loss cannot be "pulled back" through the
-monotonicity of §3; the inequality only runs forward).
+made for χ_G / K_ε; R_ε appears only to exhibit their inequivalence. It
+is trivially non-increasing in ε; no **Gaussian-channel** monotonicity is
+claimed for it (loss cannot be "pulled back" through the monotonicity of
+§3; that inequality only runs forward).
 
 ### 2.4 Declaration table (single source of truth for "which quantity, which state")
 
@@ -139,11 +141,11 @@ Rows are also targets of the build-time claim checker (§7.3): the coded
 checks compare numbers that prose sentences attribute to rows against the
 artifact JSONs they name.
 
-| ID | Quantity | State it certifies | Dictionary / family | Source of numbers |
+| ID | Quantity | Target state | Dictionary / family | Source of numbers |
 |----|----------|--------------------|---------------------|-------------------|
 | D1 | K_ε^{G,F} (unrestricted) | any ρ | all pure-Gaussian superpositions, roof | definitions only; no disk-zero lower bound is claimed (§5.4a rules out that technique, not other routes — cf. Cottier–Chabaud) |
-| D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust` |
-| D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | ideal finite-energy GKP comb | as D2, threshold d(ε)+‖tail‖ | exp23 `N_robust_lifted` (computed column; per-configuration) |
+| D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust_bounded` |
+| D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | ideal finite-energy GKP comb | as D2, threshold d(ε)+‖Fock tail‖+‖lattice remainder‖ | exp23 `N_robust_lifted_bounded` (computed column; per-configuration) |
 | D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified). No empirical R_ε point is claimed: the Route B residuals are cutoff-conditioned generalized fidelities, which can exceed the true infinite-dimensional fidelity, so they live in row D5 |
 | D5 | family-constrained approximation curve | thermal lossy cat ρ_T | rank-2 BB† + loss, K kets/column | exp22 JSON (empirical; cutoff-conditioned) |
 | D6 | held-out NLL rank proxy | measured GKP data (true state unknown) | operator mixture rank R, K=4 kets | exp22 JSON (proxy) |
@@ -260,10 +262,12 @@ and some generalized-ensemble decomposition has χ_{G_eq(a,B)}(φ_i) ≤ K for
 attained by Lemma A1′), then the same bound holds.
 
 *Proof.* By §5.1 the perturbation on each circle |z−z_j| = δ is strictly
-below min |F_ψ| there; Rouché gives F_φ exactly m_j zeros (with
-multiplicity) in D(z_j,δ). The disks are disjoint and contained in
-D(0,R+δ), so F_φ has ≥ Σ m_j = N_robust zeros there; Lemma B1′-eq bounds
-that count by C(K + B(R+δ)). Rearranged. Mixed case: since
+below min |F_ψ| there; Rouché gives F_φ the same number of zeros (with
+multiplicity) in D(z_j,δ) as F_ψ has, which is **at least** m_j (other
+zeros of F_ψ may also lie in the disk; no assumption excluding them is
+needed). The disks are disjoint and contained in D(0,R+δ), so F_φ has
+≥ Σ m_j = N_robust zeros there; Lemma B1′-eq bounds that count by
+C(K + B(R+δ)). Rearranged. Mixed case: since
 ∫ |⟨ψ|φ_i⟩|² dμ ≥ 1−ε, the set {i : |⟨ψ|φ_i⟩|² ≥ 1−ε} has positive
 measure — otherwise the average would be strictly below 1−ε — and it meets
 the full-measure set where the rank condition holds; pick a member and
@@ -274,10 +278,12 @@ apply the pure case. ∎
 **(a) No unrestricted disk-zero bound.** The even-cat family
 |α⟩+|−α⟩ (K = 2, a = 0, b = ±α) has ~2Rα/π zeros in D(0,R). As α → ∞ the
 zero count in a fixed disk is unbounded at fixed K. Hence no function of
-(K, R) alone bounds disk zeros, and no lower bound on the unrestricted
-χ_G can be extracted from zeros in a disk: the displacement budget B must
-appear. (This is also why our certified quantity is K_ε^{G_eq(a,B),F};
-cf. §2.2.)
+(K, R) alone bounds disk zeros, so no lower bound on the unrestricted
+χ_G can be extracted from **raw disk zero counts alone**: the
+displacement budget B must appear. (Refinements that weight zeros by
+energy or position are not excluded by this family and might evade the
+obstruction; what is excluded is the count-only route. This is also why
+our certified quantity is K_ε^{G_eq(a,B),F}; cf. §2.2.)
 
 **(b) The common-squeezing restriction and the plateau.** With two distinct
 squeezings the family e^{a z²/2} − 1 (K = 2) has ~|a|R²/π zeros in D(0,R)
@@ -305,11 +311,14 @@ Target: the thermal lossy cat of experiment 20,
 variance), α = 1.5, parity +1.
 
 **Theorem C′ (inequivalence; rows D1, D4, D5).**
-(C′1, certified) R_0(ρ_T) = ∞: for **no** η′ ∈ (0,1] does ρ_T admit a
-finite-rank pre-loss representation. [Experiment 20, derivation.md,
-Lemmas 1–2 and Theorems 1–2: regimes I/II by full-rankness of noise
-outputs, the boundary η′ = η−σ by an analytic-kernel linear-independence
-argument, regime III by the Bargmann-zero vs Q-positivity obstruction.]
+(C′1, certified) R_0(ρ_T) = ∞ (with the min ∅ = ∞ convention of §2.3):
+for **no** η′ ∈ (0,1] does ρ_T admit a finite-rank pre-loss
+representation. [Experiment 20, derivation.md, Lemmas 1–2 and
+Theorems 1–2: regimes I/II by full-rankness of noise outputs, the
+boundary η′ = η−σ by an analytic-kernel linear-independence argument —
+the evaluation points there must avoid the cat Bargmann function's zero
+set, always possible since that set is discrete — regime III by the
+Bargmann-zero vs Q-positivity obstruction.]
 (C′2, certified) χ_G(ρ_T) ≤ 2, hence K_ε^{G,F}(ρ_T) ≤ 2 for all ε:
 |cat⟩ has χ_G ≤ 2 and both N_σ and E_η are Gaussian channels; apply
 Theorem A′.
@@ -363,12 +372,18 @@ certification; see the numerical-status paragraph below):
 
 - **D2 (ψ_trunc):** N_robust = 12 / 8 / 4 at the largest windows
   (ε = 10⁻⁴, **δ = 0.18**; at δ = 0.30 the Δ = 0.2 count drops to 8) —
-  the area-density scaling N_robust ~ ⟨n⟩ is measured, with all three
-  points nonzero. These counts instantiate the **premises** of the
+  the count **increases with energy in the same direction across all
+  three configurations** (12/8/4 vs ⟨n⟩ ≈ 12.0/5.1/2.4; the ratios
+  1.00/1.58/1.64 are not constant, and with R, Δ, tail and margins
+  co-varying, three points cannot identify a proportionality law or a
+  density constant — a Δ→0 series with error estimates would be needed
+  for an area-density *scaling* claim). All three points are nonzero.
+  These counts instantiate the **premises** of the
   symbolic bound K ≥ N_robust/C − B(R+δ) for the renormalized truncated
   states; no specific positive K value is certified, since C is
   deliberately not assigned a number and B is a free dictionary parameter.
-- **D3 (untruncated comb, lifted threshold d(ε)+‖tail‖):** the
+- **D3 (untruncated comb, lifted threshold d(ε)+‖Fock tail‖+‖lattice
+  remainder‖, matching the implementation):** the
   Δ = 0.3 and Δ = 0.4 configurations instantiate the premises for the
   ideal finite-energy comb directly (nonzero N_robust_lifted at ε ≤ 10⁻⁴
   and ε ≤ 10⁻³ respectively, δ = 0.18); Δ = 0.2 does not lift at the
@@ -385,12 +400,13 @@ not a computer-verified proof; interval arithmetic would be needed for
 that. (ii) Zero *existence/count* inside each disk rests on polynomial
 root-finding with residual checks and tiled argument-principle
 cross-checks (interior cells) — numerics, and a Theorem B′ premise. The
-JSON's `_certified` columns therefore refer to layer (i) only, and the
+JSON's `_bounded` columns therefore refer to layer (i) only, and the
 census as a whole is a **numerically supported instantiation of the
 theorem's premises**, not a conditional or full certification.
-Supporting evidence for the numbers themselves is strong: certified ≤
-sampled holds across all rows with no robust zero lost (smallest margin
-≈ 8.7%); independent verification (PR #113 review) found the derivative
+Supporting evidence for the numbers themselves is strong: bounded ≤
+sampled holds across all rows with no robust zero lost (smallest margins:
+8.66% on the sampled minimum and 7.14% on the proven discretized bound,
+both at Δ = 0.4, ε = 10⁻³); independent verification (PR #113 review) found the derivative
 bound within a factor 1.7 of the true max|F′| and the 1440-point sampled
 minima exact against 2×10⁵-point sampling on every zero — the
 discretized-bound step tightened the *status* of the same numbers, not
@@ -470,7 +486,10 @@ measurable for the completed measure, and ess sup_i χ_G(ψ_i) is
 well-defined.
 
 **A.3 Attainment of the outer infimum.** The roof objective takes values
-in the discrete set ℕ_{≥1} ∪ {∞}. Let m := inf over decompositions of the
+in the discrete set ℕ_{≥1} ∪ {∞}. (The same discreteness argument applies
+verbatim to the restricted roof χ_{G_eq(a,B)} of §2.2 — attainment there
+is not a separate assumption; measurability of the restricted rank sets
+follows as in A.2 with the atom manifold 𝒜(a,B) in place of 𝒢.) Let m := inf over decompositions of the
 ess sup. If m = ∞ there is nothing to attain. If m < ∞, some decomposition
 has ess sup < m + 1, i.e. ≤ m, i.e. = m by definition of the infimum.
 (The ensemble set is nonempty: the spectral decomposition is a countable
@@ -532,9 +551,12 @@ For normalized ψ, ψ′ with optimally aligned phases,
 ‖ψ−ψ′‖² = 2(1 − |⟨ψ|ψ′⟩|) and F = |⟨ψ|ψ′⟩|², so a fidelity ball
 F ≥ 1−ε equals a norm ball of radius d(ε) = √(2−2√(1−ε)):
 
-  K_ε^{G,F}(|ψ⟩⟨ψ| restricted to pure approximants) = χ_{d(ε)}(|ψ⟩),
+  χ_{d(ε)}(|ψ⟩) ≤ K_ε^{G,F}(|ψ⟩⟨ψ| restricted to pure approximants)
+  ≤ χ_{d′}(|ψ⟩) for every d′ > d(ε)
 
-up to the open/closed ball convention. Two caveats keep this from being an
+(the sandwich, rather than an equality, because HTFY's ball is open and
+ours closed; the two agree except at the at-most-countably-many radii
+where χ_δ jumps). Two caveats keep this from being an
 identity of the full quantities: (i) our K_ε permits **mixed** approximants
 σ, which can only lower the min (on pure targets, if a mixed σ with roof
 value K satisfies ⟨ψ|σ|ψ⟩ ≥ 1−ε, the averaging argument of Theorem B′
@@ -551,14 +573,25 @@ zero at 0. (ii) More generally, for two components c₁e^{a₁z²/2+b₁z+d₁} 
 c₂e^{a₂z²/2+b₂z+d₂} with parameter gaps Δx := x₂ − x₁, zeros solve
 Δa·z²/2 + Δb·z + Δd ∈ log(−c₁/c₂) + 2πiℤ — a lattice of spacing 2π on a
 line, shifted by the coefficient ratio; counting lattice points hit by a
-degree-2 polynomial image of the disk gives N ≤ C(1 + |Δa| R² + |Δb| R),
-sharp in form (the additive constant is again necessary). Any general-dictionary zero bound
+degree-2 polynomial image of the **centered** disk D̄(0,R) gives
+N ≤ C(1 + |Δa| R² + |Δb| R), sharp in form (the additive constant is
+again necessary). **Off-center disks are worse**: over D̄(z₀,R) the image
+diameter grows like |Δa||z₀|R, so the count acquires an unavoidable
+a*|z₀|R term (verified numerically: for e^{0.5·z²/2} − 1 the unit disk at
+|z₀| = 10³ contains ≈159 zeros, matching the ray density a|z₀|/2π). The
+common-squeezing slice is immune — there the Gaussian factor divides out
+globally and the budget is center-uniform. Any general-dictionary zero bound
 must therefore carry an area term a* R².
 
 **Conjecture D.** For f = Σ_{k=1}^{K} c_k e^{a_k z²/2 + b_k z + d_k} with
-|a_k| ≤ a* < 1, |b_k| ≤ B, f ≢ 0, in minimal representation:
+|a_k| ≤ a* < 1, |b_k| ≤ B, f ≢ 0, in minimal representation, on the
+**centered** disk:
 
-  N(D̄(z₀,R); f) ≤ C (K − 1)(1 + a* R² + B R).
+  N(D̄(0,R); f) ≤ C (K − 1)(1 + a* R² + B R).
+
+(For off-center disks the right side must additionally carry a
+C(K−1)·a*·|z₀|·R term — see the calibrating example above; a
+center-uniform bound without that term is false.)
 
 **Consequence if true.** For an area-density target
 (N_robust ~ ρ₀ R², ρ₀ ≤ 1/π) the Theorem-B′-style bound saturates:
@@ -607,7 +640,7 @@ transcribed and checked; remaining items to re-verify at final draft.
    experiments/20_noninclusion/derivation.md): Lemmas 1–2, Theorems 1–2.
    [in-repo, PR-64-reviewed]
 8. Experiments 22–23 artifacts (this repository): exp22 curves JSON,
-   exp23 robust-zero census JSON. [in-repo, reviewed]
+   exp23 robust-zero census JSON (`_sampled`/`_bounded` columns). [in-repo, reviewed]
 9. Preprint: W. Kawashima, *Compact physical Gaussian-ket models for
    homodyne quantum-state tomography* (2026), doi:10.5281/zenodo.21457049.
    [v2 planned with this note; erratum for the Route B quoting]
