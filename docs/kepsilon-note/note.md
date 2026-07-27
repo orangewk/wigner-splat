@@ -66,7 +66,11 @@ pure states, ρ = ∫ |ψ_i⟩⟨ψ_i| dμ(i)):
 the essential supremum taken with respect to the completed measure. (This
 sup-type roof follows the *stellar-rank* convention of [arXiv:2410.23721];
 HTFY's own mixed-state treatment is extent-based. The mixed χ_G used here
-is therefore a combination of existing forms, not a verbatim adoption.)
+is therefore a combination of existing forms, not a verbatim adoption —
+and the generalized-ensemble (continuous) roof is *more permissive* than
+the discrete decompositions used in the cited works, which is precisely
+what Theorem A′'s coherent-POVM proof needs; its consistency (Lemma A1′)
+is part of this note's contribution rather than an import.)
 Because
 the objective is integer-valued, the outer infimum is attained (Lemma A1′).
 Convex mixing is free by design; this matches the classical-simulability
@@ -145,7 +149,7 @@ artifact JSONs they name.
 |----|----------|--------------------|---------------------|-------------------|
 | D1 | K_ε^{G,F} (unrestricted) | any ρ | all pure-Gaussian superpositions, roof | definitions only; no disk-zero lower bound is claimed (§5.4a rules out that technique, not other routes — cf. Cottier–Chabaud) |
 | D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust_bounded` |
-| D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | ideal finite-energy GKP comb | as D2, threshold d(ε)+‖Fock tail‖+‖lattice remainder‖ | exp23 `N_robust_lifted_bounded` (computed column; per-configuration) |
+| D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | untruncated finite-energy GKP comb | as D2, threshold d(ε)+‖Fock tail‖+‖lattice remainder‖ | exp23 `N_robust_lifted_bounded` (computed column; per-configuration) |
 | D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified). No empirical R_ε point is claimed: the Route B residuals are cutoff-conditioned generalized fidelities, which can exceed the true infinite-dimensional fidelity, so they live in row D5 |
 | D5 | family-constrained approximation curve | thermal lossy cat ρ_T | rank-2 BB† + loss, K kets/column | exp22 JSON (empirical; cutoff-conditioned) |
 | D6 | held-out NLL rank proxy | measured GKP data (true state unknown) | operator mixture rank R, K=4 kets | exp22 JSON (proxy) |
@@ -240,13 +244,18 @@ changes neither the component count nor the zeros.
 
 ### 5.2 Robust zeros
 
-Let z_1, …, z_J be **distinct** zeros of F_ψ in D(0,R), with
-multiplicities m_j, such that the closed disks D̄(z_j,δ) are pairwise
-disjoint, and each is **(δ,ε)-robust**:
+A **robust-zero certificate** at parameters (R, δ, ε) is a finite set of
+**distinct** zeros z_1, …, z_J of F_ψ in D(0,R), with multiplicities m_j,
+such that the closed disks D̄(z_j,δ) are pairwise disjoint and each is
+**(δ,ε)-robust**:
 
 > min_{|z−z_j|=δ} |F_ψ(z)| > e^{(|z_j|+δ)²/2} d(ε).
 
-Define **N_robust(ψ; R,δ,ε) := Σ_j m_j**.
+Its value is Σ_j m_j. Theorem B′ holds for **every** certificate, so the
+best exhibited certificate gives the best bound; we write
+**N_robust(ψ; R,δ,ε)** for the value of the certificate actually
+exhibited (the census tables of §7.2 are such exhibits — N_robust is
+certificate-relative, not an intrinsic function of (ψ,R,δ,ε)).
 
 ### 5.3 Theorem B′
 
@@ -386,7 +395,7 @@ certification; see the numerical-status paragraph below):
 - **D3 (untruncated comb, lifted threshold d(ε)+‖Fock tail‖+‖lattice
   remainder‖, matching the implementation):** the
   Δ = 0.3 and Δ = 0.4 configurations instantiate the premises for the
-  ideal finite-energy comb directly (nonzero N_robust_lifted at ε ≤ 10⁻⁴
+  untruncated finite-energy comb directly (nonzero N_robust_lifted at ε ≤ 10⁻⁴
   and ε ≤ 10⁻³ respectively, δ = 0.18); Δ = 0.2 does not lift at the
   current truncation (‖tail‖ = 0.074 > d(10⁻⁴) = 0.010, not repairable
   below the polynomial-root numerical ceiling n_max ≲ 300 of this
@@ -406,10 +415,11 @@ census as a whole is a **numerically supported instantiation of the
 theorem's premises**, not a conditional or full certification.
 Supporting evidence for the numbers themselves is strong: bounded ≤
 sampled holds across all rows with no robust zero lost (smallest margins:
-8.66% on the sampled minimum and 7.14% on the proven discretized bound,
-both at Δ = 0.4, ε = 10⁻³); independent verification (PR #113 review) found the derivative
+8.66% on the sampled minimum and 7.14% on the float64 discretized bound
+(no outward rounding — see above), both at Δ = 0.4, ε = 10⁻³); independent verification (PR #113 review) found the derivative
 bound within a factor 1.7 of the true max|F′| and the 1440-point sampled
-minima exact against 2×10⁵-point sampling on every zero — the
+minima unchanged to reported precision against 2×10⁵-point sampling on
+every zero — the
 discretized-bound step tightened the *status* of the same numbers, not
 the numbers. The
 lattice-envelope amplitude (~4×10⁻¹⁶) is folded into the lifted
@@ -555,12 +565,15 @@ For normalized ψ, ψ′ with optimally aligned phases,
 ‖ψ−ψ′‖² = 2(1 − |⟨ψ|ψ′⟩|) and F = |⟨ψ|ψ′⟩|², so a fidelity ball
 F ≥ 1−ε equals a norm ball of radius d(ε) = √(2−2√(1−ε)):
 
-  χ_{d(ε)}(|ψ⟩) ≤ K_ε^{G,F}(|ψ⟩⟨ψ| restricted to pure approximants)
-  ≤ χ_{d′}(|ψ⟩) for every d′ > d(ε)
+  χ_{d′}(|ψ⟩) ≤ K_ε^{G,F}(|ψ⟩⟨ψ| restricted to pure approximants)
+  ≤ χ_{d(ε)}(|ψ⟩) for every d′ > d(ε)
 
 (the sandwich, rather than an equality, because HTFY's ball is open and
-ours closed; the two agree except at the at-most-countably-many radii
-where χ_δ jumps). Two caveats keep this from being an
+ours closed: an open ball of radius d(ε) is contained in our closed ball,
+so the min over it is *larger*, χ_{d(ε)} ≥ K_ε; and our closed ball sits
+inside any open ball of radius d′ > d(ε), giving the left inequality.
+The two sides agree except at the at-most-countably-many radii where
+χ_δ jumps). Two caveats keep this from being an
 identity of the full quantities: (i) our K_ε permits **mixed** approximants
 σ, which can only lower the min (on pure targets, if a mixed σ with roof
 value K satisfies ⟨ψ|σ|ψ⟩ ≥ 1−ε, the averaging argument of Theorem B′
@@ -574,7 +587,8 @@ pure-state χ_G. On mixed targets the quantities differ by construction
 **Calibrating examples (certified).** (i) e^{a z²/2} − 1 (two components
 with squeezing gap a) has ≈ |a|R²/π zeros in D(0,R), including a double
 zero at 0. (ii) More generally, for two components c₁e^{a₁z²/2+b₁z+d₁} +
-c₂e^{a₂z²/2+b₂z+d₂} with parameter gaps Δx := x₂ − x₁, zeros solve
+c₂e^{a₂z²/2+b₂z+d₂} with parameter gaps Δx := x₂ − x₁ (assuming f ≢ 0,
+i.e. excluding identical parameters with c₂ = −c₁), zeros solve
 Δa·z²/2 + Δb·z + Δd ∈ log(−c₁/c₂) + 2πiℤ — a lattice of spacing 2π on a
 line, shifted by the coefficient ratio; counting lattice points hit by a
 degree-2 polynomial image of the **centered** disk D̄(0,R) gives
@@ -640,6 +654,12 @@ transcribed and checked; remaining items to re-verify at final draft.
 6. M. Motamedi et al., *The stellar decomposition of Gaussian quantum
    states*, arXiv:2504.10455. [stmt: Bargmann parameter table, cross-check
    of a = −e^{iφ}tanh r, b = α − aα*]
+6′. Y. Wang, A. Udupa, T. Hillmann, U. Chabaud, A. Ferraro, G. Ferrini,
+   *Bosonic quantum error-correcting codes with finite stellar rank*,
+   arXiv:2607.06404 (2026). [flagged at round-2 review: GKP with finite
+   stellar rank from the same cluster; contrasted in §7.2/§8 — their
+   object is stellar rank of code states, ours the equal-squeezing
+   Gaussian rank budget; neither implies the other]
 7. Experiment 20 derivation note (this repository,
    experiments/20_noninclusion/derivation.md): Lemmas 1–2, Theorems 1–2.
    [in-repo, PR-64-reviewed]
