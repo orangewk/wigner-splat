@@ -1,12 +1,12 @@
 {
-  "certified_lower_bound_reservation": {
-    "scope": "Gate T certified lower bounds",
-    "status": "reserved_not_computed"
-  },
   "cutoff_status": "still increasing with cutoff; infinite-cutoff limit unresolved",
-  "epistemic_status": "empirical best-found family-constrained approximation; not a certified lower bound and not an upper bound on K_epsilon^{G,F}",
+  "epistemic_status": "empirical best-found family-constrained approximation; not a proven lower bound and not an upper bound on K_epsilon^{G,F}",
   "fidelity_convention": "generalized Uhlmann fidelity for cropped/subnormalized matrices",
   "label": "family-constrained approximation curve",
+  "lower_bound_reservation": {
+    "scope": "Gate T lower bounds",
+    "status": "reserved_not_computed"
+  },
   "params": {
     "eta": 0.8,
     "n_scores": [
@@ -92,7 +92,6 @@
   ],
   "quantity": "best-found generalized-fidelity residual 1 - F within the fixed rank-2 BB\u2020 + loss family",
   "r_epsilon_upper_points": {
-    "claim": "At n_score=12, each fit demonstrates R_epsilon <= 2 at its listed epsilon; K only varies the ket components per rank-2 column.",
     "points": [
       {
         "K": 2,
