@@ -101,4 +101,4 @@ def test_lifted_counts_and_generated_discretization_bounds_are_data_derived():
         assert configuration["discretization_bounds"] == run.discretization_bounds_from_rows(configuration["rows"], max_radius, 0.18)
         if configuration["envelope_width_Delta"] == 0.4:
             assert configuration["lifting_margins"]["sampled_minimum_relative_percent"] == pytest.approx(37.963862484471)
-            assert configuration["lifting_margins"]["interval_lower_bound_relative_percent"] == pytest.approx(36.0297462034276)
+            assert configuration["lifting_margins"]["float64_lower_bound_relative_percent"] == pytest.approx(36.0297462034276)

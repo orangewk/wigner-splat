@@ -61,11 +61,11 @@ def lifting_margins_from_rows(rows: list[dict], epsilon: float) -> dict:
     selected = [row for row in rows if row["epsilon"] == epsilon and row["interval_bounded_lifted_robust"]]
     assert selected, epsilon
     sampled = min((row["circle_minimum_sampled"] / row["lifted_rouche_threshold"] - 1.0) * 100.0 for row in selected)
-    lower = min((row["circle_minimum_interval_lower_bound"] / row["lifted_rouche_threshold"] - 1.0) * 100.0 for row in selected)
+    lower = min((row["circle_minimum_float64_lower_bound"] / row["lifted_rouche_threshold"] - 1.0) * 100.0 for row in selected)
     return {
         "epsilon": epsilon,
         "sampled_minimum_relative_percent": sampled,
-        "interval_lower_bound_relative_percent": lower,
+        "float64_lower_bound_relative_percent": lower,
     }
 def compute() -> dict:
     configurations = []
@@ -121,7 +121,7 @@ def compute() -> dict:
                     if envelope_delta == 0.4:
                         lifting_margins = lifting_margins_from_rows(robust_rows, 1e-3)
                         assert np.isclose(lifting_margins["sampled_minimum_relative_percent"], 37.963862484471)
-                        assert np.isclose(lifting_margins["interval_lower_bound_relative_percent"], 36.0297462034276)
+                        assert np.isclose(lifting_margins["float64_lower_bound_relative_percent"], 36.0297462034276)
         target_rows = [row for row in rows if row["R"] == radii[-1] and row["delta"] == 0.18 and row["epsilon"] == 1e-4]
         assert len(target_rows) == 1 and target_rows[0]["N_robust_lifted_bounded"] > 0, (envelope_delta, target_rows)
         configurations.append({
@@ -167,7 +167,7 @@ def main() -> None:
         "epistemic_status": "Rouche verdicts use a coefficient-norm derivative interval lower bound; sampled and interval-bounded counts are both retained.",
         "lifting_rule": (
             "For a truncated-state zero disk, ||psi_trunc - phi|| <= d(epsilon) + sqrt(2-2sqrt(1-fock_tail_upper_bound)) + lattice_envelope_amplitude_bound. "
-            "Therefore the disk lifts to the untruncated finite-energy comb when circle_minimum_interval_lower_bound exceeds "
+            "Therefore the disk lifts to the untruncated finite-energy comb when circle_minimum_float64_lower_bound exceeds "
             "exp((|z_j|+delta)^2/2) times that sum; the tail bound includes the renormalization contribution."
         ),        "rank_primitive": {
             "quantity": "restricted equal-squeezing Gaussian ket-component count",

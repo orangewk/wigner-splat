@@ -232,7 +232,7 @@ def robust_zero_rows(
                 "epsilon": epsilon,
                 "circle_minimum_sampled": minimum,
                 "circle_derivative_upper_bound": derivative_bound,
-                "circle_minimum_interval_lower_bound": lower_bound,
+                "circle_minimum_float64_lower_bound": lower_bound,
                 "rouche_threshold": threshold,
                 "sampled_robust": bool(minimum > threshold),
                 "interval_bounded_robust": bool(lower_bound > threshold),
