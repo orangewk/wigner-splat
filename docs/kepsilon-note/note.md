@@ -288,10 +288,11 @@ our certified quantity is K_ε^{G_eq(a,B),F}; cf. §2.2.)
 **(b) The common-squeezing restriction and the plateau.** With two distinct
 squeezings the family e^{a z²/2} − 1 (K = 2) has ~|a|R²/π zeros in D(0,R)
 (a double zero at the origin — note Lemma P1 does not apply across distinct
-squeezings). More generally a 2-component sum with squeezing gap Δa and
-displacement gap Δb has ≤ C(1 + |Δa|R² + |Δb|R) zeros (the additive
-constant is necessary: e^{δz} − 1 keeps its origin zero as δR → 0), and
-this is sharp in form. So for *general* bounded-squeezing dictionaries the adversary budget
+squeezings). The general two-component
+count — stated and calibrated **for centered disks only**, with the
+off-center obstruction and sharpness discussion — lives in one place,
+Appendix D; the body deliberately does not restate the formula. The
+consequence needed here: for *general* bounded-squeezing dictionaries the adversary budget
 acquires an area term (K−1)·O(a*R²), and the lower bound for area-density
 targets saturates at K ≥ 1 + Ω(1/a*) instead of growing with R. We record
 this as a calibrated **conjecture** (statement in Appendix D), not a
@@ -452,7 +453,10 @@ before loss" are different questions with opposite answers on the same
 state, and measured curves that keep the theory attached to data. The
 technique's limits are part of the result: it dies at unbounded
 displacement, saturates for general squeezing (plateau conjecture), and is
-selective — vacuous exactly on states that *are* Gaussian-compressible.
+selective — vacuous on states that *are* Gaussian-compressible (the
+cat), though not only on those: with B a free dictionary parameter
+(§7.2), a large enough budget voids the bound for any target, so content
+always requires committing to a dictionary budget first.
 
 Open next steps, in charter order: full certification of the census
 (interval arithmetic with outward rounding + validated winding-number
