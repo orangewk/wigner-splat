@@ -102,6 +102,10 @@ def build_gkp_state(delta: float, n_max: int, *, lattice_tolerance: float = 1e-1
         tail_norm_sum += abs(weight) * sqrt(_component_tail_upper_bound(component, alpha, r, n_max, reference_cutoff))
     projection_norm_sq = float(np.vdot(unnormalized, unnormalized).real)
     assert projection_norm_sq > 0.0
+    # required by the 4x normalization factor in robust_zero_rows (3-round
+    # review, blocker 1): the unnormalized lattice sum must have norm >= 1/2
+    # for || psi/||psi|| - v/||v|| || <= 4 ||psi - v|| to hold.
+    assert projection_norm_sq >= 0.25, projection_norm_sq
     tail_upper = (tail_norm_sum**2) / projection_norm_sq
     coeff = unnormalized[: n_max + 1].copy()
     coeff /= np.linalg.norm(coeff)
@@ -224,7 +228,14 @@ def robust_zero_rows(
             d_epsilon = sqrt(2.0 - 2.0 * sqrt(1.0 - epsilon))
             threshold = exp((abs(root) + delta) ** 2 / 2.0) * d_epsilon
             lifted_threshold = exp((abs(root) + delta) ** 2 / 2.0) * (
-                d_epsilon + tail_norm + lattice_envelope_amplitude_bound
+                d_epsilon + tail_norm
+                # Normalization of the finite-lattice approximant (3-round
+                # review, blocker 1): for unit-norm psi and approximant v,
+                # || psi/||psi|| - v/||v|| || <= 2 ||psi - v|| / ||psi||.
+                # The raw envelope bound is a pre-normalization amplitude;
+                # with ||psi|| >= 1/2 (asserted numerically at build time)
+                # the normalized-state distance is <= 4x the raw bound.
+                + 4.0 * lattice_envelope_amplitude_bound
             )
             rows.append({
                 "zero": [float(root.real), float(root.imag)],

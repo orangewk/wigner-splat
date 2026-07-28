@@ -1,6 +1,7 @@
 # Certified lower bounds and measured K–ε curves for approximate Gaussian rank
 
-**Status: T2 draft (issue #71). Not yet reviewed as a whole; statements passed T0/T1 review (2 independent reviewers × 2 rounds), proofs of §3–§5 and Appendices A–C written out below, §7 numbers merged (exp22/exp23) and machine-checked (§7.3).**
+**Status: T2 draft (issue #71). Not yet reviewed as a whole; statements passed T0/T1 review (2 independent reviewers × 2 rounds), proofs of §3–§5 and Appendices A–C written out below, §7 numbers merged (exp22/exp23), with the enumerated coded claims
+checked against artifacts (§7.3).**
 
 Working note for the theory companion to the preprint
 [doi:10.5281/zenodo.21457049](https://doi.org/10.5281/zenodo.21457049).
@@ -65,12 +66,17 @@ pure states, ρ = ∫ |ψ_i⟩⟨ψ_i| dμ(i)):
 
 the essential supremum taken with respect to the completed measure. (This
 sup-type roof follows the *stellar-rank* convention of [arXiv:2410.23721];
-HTFY's own mixed-state treatment is extent-based. The mixed χ_G used here
-is therefore a combination of existing forms, not a verbatim adoption —
-and the generalized-ensemble (continuous) roof is *more permissive* than
-the discrete decompositions used in the cited works, which is precisely
-what Theorem A′'s coherent-POVM proof needs; its consistency (Lemma A1′)
-is part of this note's contribution rather than an import.)
+HTFY's mixed-state treatment is extent-based, and — importantly — HTFY
+**do** define continuous-decomposition versions on the extent side
+(their Eq. 82 ξ′ and Eq. 85–86 Ξ vs Ξ′), explicitly leaving "the
+analysis of the difference in these definitions for future work". The
+mixed χ_G used here is thus not more permissive than anything in the
+cited literature as a *concept*; what is ours is the measure-theoretic
+ess-sup **rank** roof formulation together with its attainment (Lemma
+A1′) and channel monotonicity (Theorem A′) — a partial answer, on the
+rank side, to the discrete-vs-continuous question HTFY left open. The
+coherent-POVM proof of A′ needs the continuous form; whether the
+discrete and continuous rank roofs coincide is open, cf. issue #122.)
 Because
 the objective is integer-valued, the outer infimum is attained (Lemma A1′).
 Convex mixing is free by design; this matches the classical-simulability
@@ -149,7 +155,7 @@ artifact JSONs they name.
 |----|----------|--------------------|-------|---------------------|-------------------|
 | D1 | K_ε^{G,F} (unrestricted) | any ρ | any finite M (definitions only) | all pure-Gaussian superpositions, roof | definitions only; no disk-zero lower bound is claimed (§5.4a rules out that technique, not other routes — cf. Cottier–Chabaud) |
 | D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | **single mode** | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust_bounded` |
-| D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | untruncated finite-energy GKP comb | **single mode** | as D2, threshold d(ε)+‖Fock tail‖+‖lattice remainder‖ | exp23 `N_robust_lifted_bounded` (computed column; per-configuration) |
+| D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | untruncated finite-energy GKP comb | **single mode** | as D2, threshold d(ε)+‖Fock tail‖+4·‖lattice remainder‖ (normalization factor, §7.2) | exp23 `N_robust_lifted_bounded` (computed column; per-configuration) |
 | D4 | R_ε (pre-loss operator rank; subordinate) | thermal lossy cat ρ_T | **single mode** | loss ∘ finite-rank | exp20 theorems (R_0 = ∞, certified). No empirical R_ε point is claimed: the Route B residuals are cutoff-conditioned generalized fidelities, which can exceed the true infinite-dimensional fidelity, so they live in row D5 |
 | D5 | family-constrained approximation curve | thermal lossy cat ρ_T | **single mode** | rank-2 BB† + loss, K kets/column | exp22 JSON (empirical; cutoff-conditioned) |
 | D6 | held-out NLL rank proxy | measured GKP data (true state unknown) | **single mode** | operator mixture rank R, K=4 kets | exp22 JSON (proxy) |
@@ -175,7 +181,8 @@ contradicting inf = m. K_0 = χ_G follows from F(ρ,σ) = 1 ⟺ ρ = σ. ∎
 
 > K_ε^{G,F}(Λρ) ≤ K_ε^{G,F}(ρ), and χ_G(Λρ) ≤ χ_G(ρ).
 
-*Proof.* (i) Rank part. Let σ achieve χ_G(σ) = m with decomposition
+*Proof.* (i) Rank part. If χ_G(σ) = ∞ there is nothing to prove; let
+σ achieve χ_G(σ) = m < ∞ with decomposition
 {μ, ψ_i}, ess sup χ_G(ψ_i) ≤ m (attained by Lemma A1′). Stinespring-dilate
 Λ = Tr_E [U_G (· ⊗ |0⟩⟨0|_E) U_G†] with U_G Gaussian (for a mixed Gaussian
 environment, purify with a further Gaussian ancilla). Resolve the
@@ -349,7 +356,8 @@ Turning them into a genuine D4 point requires a full-state fidelity tail
 bound (open).
 
 **Reading (one-directional separation).** One and the same state has
-Gaussian-superposition rank **at most 2** and pre-loss operator rank ∞:
+Gaussian-superposition rank **at most 2** and exact pre-loss operator
+rank R_0 = ∞ (the behaviour of R_ε for ε > 0 is not determined here):
 small χ_G does not imply small pre-loss operator rank. (χ_G(ρ_T) = 2
 exactly is not claimed — only the ≤ direction is proven; and whether small
 R forces small χ_G, the converse separation, is left open, so we do not
@@ -379,8 +387,8 @@ artifacts (§7.2). Figures: experiments/22_kcurves/.
 ### 7.2 Gate E: robust-zero census for finite-energy GKP
 
 For finite-energy GKP states (square lattice, envelope Δ ∈ {0.2, 0.3, 0.4},
-⟨n⟩ ≈ 12.0 / 5.1 / 2.4) the zeros of the Bargmann function in energy
-windows R ≲ √⟨n⟩ are located and tested against the robustness threshold of
+⟨n⟩ ≈ 12.0 / 5.1 / 2.4 — reference-cutoff estimates, per the artifact) the zeros of the Bargmann function in energy
+windows R = 0.75/1.00/1.25·√⟨n⟩ are located and tested against the robustness threshold of
 §5.2, with explicit truncation-tail bounds
 (experiments/23_gkp_robust_zeros). Two target rows, per the declaration table (neither is a full
 certification; see the numerical-status paragraph below):
@@ -398,8 +406,12 @@ certification; see the numerical-status paragraph below):
   symbolic bound K ≥ N_robust/C − B(R+δ) for the renormalized truncated
   states; no specific positive K value is certified, since C is
   deliberately not assigned a number and B is a free dictionary parameter.
-- **D3 (untruncated comb, lifted threshold d(ε)+‖Fock tail‖+‖lattice
-  remainder‖, matching the implementation):** **all three configurations
+- **D3 (untruncated comb, lifted threshold d(ε)+‖Fock tail‖+4·‖lattice
+  remainder‖ — the factor 4 converts the pre-normalization envelope
+  amplitude to a normalized-state distance via ‖ψ/‖ψ‖ − v/‖v‖‖ ≤
+  2‖ψ−v‖/‖ψ‖ with lattice-sum norm ≥ 1/2 asserted at build; the term is
+  ~10⁻¹⁵ and no verdict depends on it, checked up to a 10¹²-fold
+  inflation):** **all three configurations
   instantiate the premises for the untruncated finite-energy comb**
   (N_robust_lifted = 4 / 8 / 4 at δ = 0.18: Δ = 0.2 at ε = 10⁻⁴,
   Δ = 0.3 and 0.4 at ε ≤ 10⁻³). An earlier draft reported that Δ = 0.2
@@ -439,15 +451,16 @@ configurations, checked numerically).
 
 Robustness activates only for ε ≲ 10⁻³ (at ε = 10⁻² no zero is robust in
 any configuration): the bound has content only under high-fidelity
-approximation demands. Exact values are machine-checked against the exp23 JSON by the
-claim checker (§7.3).
+approximation demands. The enumerated coded claims are checked against
+the exp23 JSON by the claim checker (§7.3).
 
 ### 7.3 Claim checker (build gate)
 
 The build script docs/kepsilon-note/check_claims.py verifies a **coded
 list** of the claims this note attributes to artifacts — including
 numeric claims asserted inside prose metadata fields such as
-`certified_subject` — against the committed JSONs of exp20/22/23.
+`rank_primitive` and `lifting_rule` — against the committed JSONs of
+exp20/22/23.
 Coverage is the coded checks, not literally every number in the note
 (energies, some δ rows, and physical parameters are spot-checked only). The
 lesson behind it: three same-shaped failures (routeB's hardcoded verdict
@@ -466,7 +479,11 @@ increases); the compressed range "1–2×10⁻³" is deprecated repository-wide.
 
 The world-model question that motivates this repository — *is the world
 describable by Gaussian splats?* — here takes a sharpened, answerable form.
-The definitions are the community's (χ, χ_δ, r*_ε); what this note adds is
+The pure-state definitions are the community's (χ, χ_δ, r*_ε); the
+continuous ess-sup rank roof is our formulation of a question their
+extent-side analogues leave open. Within the literature we checked
+(Gate S survey plus the round-2/3 reviews' primary sources — not a
+systematic novelty search), what this note adds is
 a certified way to say **no at a rate** for bounded dictionaries
 (area-density robust zeros defeat line-density zero budgets), an
 inequivalence showing that "how many Gaussians" and "what operator rank
@@ -482,9 +499,11 @@ always requires committing to a dictionary budget first.
 A same-cluster preprint appeared during this note's review: Wang et al.
 [arXiv:2607.06404] construct bosonic codes of *finite stellar rank*,
 GKP-adjacent but measuring a different resource — stellar rank of code
-states versus our equal-squeezing Gaussian-rank budget; neither bound
-implies the other, and the census here is complementary to their
-construction.
+states versus our equal-squeezing Gaussian-rank budget. The two
+quantities are defined on different decompositions and this note makes
+no claim about their relation (an implication either way would require
+an explicit state family, which we have not constructed); the census
+here is simply complementary to their construction.
 
 Open next steps, in charter order: full certification of the census
 (interval arithmetic with outward rounding + validated winding-number

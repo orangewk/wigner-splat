@@ -69,8 +69,8 @@ def main() -> int:
                   if r["epsilon"] == 1e-4 and r["delta"] == 0.18)
         check(f"7.2 D2 Delta={delta}", got == want,
               f"note claims N_robust={want} at delta=0.18, artifact max={got}")
-    # note claims: lifted certifies ideal comb for 0.3 (eps<=1e-4) and 0.4
-    # (eps<=1e-3); 0.2 does not lift.
+    # note claims (post ref-cutoff 3000): all three configurations lift at
+    # delta=0.18 — 0.2 at 1e-4 only, 0.3 and 0.4 at eps<=1e-3.
     def lifted_eps(delta: float) -> set[float]:
         return {r["epsilon"] for r in by_delta[delta]["rows"]
                 if r.get("N_robust_lifted_bounded", 0) > 0 and r["delta"] == 0.18}
