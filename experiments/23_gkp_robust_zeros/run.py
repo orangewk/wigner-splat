@@ -164,11 +164,13 @@ def main() -> None:
     computed = compute()
     payload = {
         "schema_version": 3,
-        "epistemic_status": "Rouche verdicts use a coefficient-norm derivative interval lower bound; sampled and interval-bounded counts are both retained.",
+        "epistemic_status": "Rouche verdicts use a coefficient-norm derivative float64 lower bound (no outward rounding); sampled and float64-bounded counts are both retained.",
         "lifting_rule": (
-            "For a truncated-state zero disk, ||psi_trunc - phi|| <= d(epsilon) + sqrt(2-2sqrt(1-fock_tail_upper_bound)) + lattice_envelope_amplitude_bound. "
-            "Therefore the disk lifts to the untruncated finite-energy comb when circle_minimum_float64_lower_bound exceeds "
-            "exp((|z_j|+delta)^2/2) times that sum; the tail bound includes the renormalization contribution."
+            "For a truncated-state zero disk, ||psi_trunc - phi|| <= d(epsilon) + sqrt(2-2sqrt(1-fock_tail_upper_bound)) + 4*lattice_envelope_amplitude_bound. "
+            "The factor 4 converts the pre-normalization envelope amplitude into a normalized-state distance: "
+            "||psi/||psi|| - v/||v|| || <= 2||psi-v||/||psi|| and the unnormalized lattice sum has norm >= 1/2 (asserted at build). "
+            "A disk lifts to the untruncated finite-energy comb when circle_minimum_float64_lower_bound exceeds "
+            "exp((|z_j|+delta)^2/2) times that sum; the Fock tail term includes the truncation renormalization."
         ),        "rank_primitive": {
             "quantity": "restricted equal-squeezing Gaussian ket-component count",
             "dictionary": "G_eq(a,B): common complex squeezing a and |b_k| <= B",
