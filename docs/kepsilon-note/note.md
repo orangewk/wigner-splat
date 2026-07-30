@@ -1,5 +1,7 @@
 # Zero-counting lower bounds and measured K–ε curves for approximate Gaussian rank
 
+Wataru Kawashima (ORCID: [0009-0002-7713-5547](https://orcid.org/0009-0002-7713-5547))
+
 **Status: T2 (issue #71). Statements passed T0/T1 review (2 independent reviewers × 2 rounds); the whole note passed 3 full review rounds plus cross-vendor review by 2 independent vendor lineages (terra/sol); proofs of §3–§5 and Appendices A–C written out below, §7 numbers merged (exp22/exp23), with the enumerated coded claims
 checked against artifacts (§7.3).**
 
@@ -152,7 +154,7 @@ checks compare numbers that prose sentences attribute to rows against the
 artifact JSONs they name.
 
 | ID | Quantity | Target state | Modes | Dictionary / family | Source of numbers |
-|----|----------|--------------------|-------|---------------------|-------------------|
+|----|----------------|-----------------|-------|-------------------|------------------|
 | D1 | K_ε^{G,F} (unrestricted) | any ρ | any finite M (definitions only) | all pure-Gaussian superpositions, roof | definitions only; no disk-zero lower bound is claimed (§5.4a rules out that technique, not other routes — cf. Cottier–Chabaud) |
 | D2 | K_ε^{G_eq(a,B),F} (restricted) | pure targets of §5; ψ_trunc of Gate E | **single mode** | common complex a (\|a\| ≤ a* < 1), \|b_k\| ≤ B | Theorem B′ + exp23 `N_robust_bounded` |
 | D3 | K_ε^{G_eq(a,B),F} lifted to the untruncated finite-energy comb | untruncated finite-energy GKP comb | **single mode** | as D2, threshold d(ε)+‖Fock tail‖+4·‖lattice remainder‖ (normalization factor, §7.2) | exp23 `N_robust_lifted_bounded` (computed column; per-configuration) |
