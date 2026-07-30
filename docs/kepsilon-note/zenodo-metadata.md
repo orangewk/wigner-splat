@@ -1,4 +1,36 @@
-# Zenodo 投稿メタデータ（準備稿 — orange が投稿フォームに貼る用）
+# Zenodo 投稿メタデータ（**公開済み** — 実際に投稿した内容の記録）
+
+> **本書は Zenodo にアップロードしない。** 下記の内容をフォームの各欄へ
+> 転記するための手元用メモである。Zenodo に添付するファイルは
+> `note.pdf` のみ。
+
+## 公開記録（2026-07-30、orange が実施）
+
+| 項目 | 値 |
+|---|---|
+| version DOI | [10.5281/zenodo.21698700](https://doi.org/10.5281/zenodo.21698700) |
+| **concept DOI**（引用に使う。常に最新版を指す） | [10.5281/zenodo.21698699](https://doi.org/10.5281/zenodo.21698699) |
+| 添付 | `note.pdf` 134,410 バイト、md5 `8739950d6006af0d82f8cfc90c5950ef` |
+| ソース commit | main `4a8aa7f`（全テスト green: 278 passed, 7 skipped, 1 xfailed） |
+
+Zenodo API で照合済み（管理役、2026-07-30）: title / Working paper / 2026-07-30 /
+v1 / cc-by-4.0 / 著者 `Kawashima, Wataru` + ORCID / Related works 3 件 /
+keywords 9 語 / 添付 PDF は repo の `note.pdf` と md5 一致。
+
+公開直後にメタデータのみ修正した点 2 件（DOI は不変）:
+
+- 著者名が `KAWASHIMA, WATARU` と全大文字で入っていた → preprint v2 の
+  `Kawashima, Wataru` へ統一。同一 ORCID の 2 レコードで表記が割れると
+  著者ページや引用の集約で別名扱いになる余地がある
+- keywords が 8 語で、`zero counting` の欠落と `GKP state`（単数化）・
+  `homodyne tomograph`（`tomography` の末尾欠落 = 別語「断層撮影装置」）
+  が発生していた → 下記 9 語へ修正
+
+**教訓**: keywords は 1 語ずつ入力する UI なので、貼り付けではなく手入力の
+過程で語の脱落・末尾切れが起きる。**Publish 後に API で照合すること**
+（`curl -sSL https://zenodo.org/api/records/<id>`）。
+
+---
 
 対象: K_ε 理論ノート `docs/kepsilon-note/note.md` の PDF。
 一次資料: タイトル決定 = issue #71 コメント 5124698689（orange、2026-07-30）、
@@ -12,6 +44,7 @@ abstract = PR #130 本文の版（同 PR で採用決定・用語精密化済み
 - **Authors**: Person — Family name `Kawashima`, Given names `Wataru`,
   Identifier (ORCID) `0009-0002-7713-5547`; Affiliations/Role は空のまま
   （preprint v2 と同一。orange 指示 2026-07-30）
+- **Publication date**: `2026-07-30`（投稿日 = 公開日。orange 実施 2026-07-30）
 - **Version**: `v1`（Version 欄は `Recommended information` の中、Dates と
   Publisher の間にある）
 - **Description**（PR #130 本文の abstract をそのまま）:
@@ -48,18 +81,26 @@ abstract = PR #130 本文の版（同 PR で採用決定・用語精密化済み
 - **Keywords**: approximate Gaussian rank; Gaussian rank; zero counting;
   Bargmann function; robust zeros; GKP states; continuous-variable quantum
   tomography; homodyne tomography; stellar rank
-- **Related identifiers**:
+- **Related works**（2026-07-30 実機確認。旧フォームの「Related identifiers」
+  ではなく **`Related works`** セクション。`Add related work` ボタンで 1 件ずつ
+  追加する。並び順は Funding → Alternate identifiers → **Related works** →
+  References。**`Alternate identifiers` は別セクションなので使わない**）:
   - `is supplement to` → doi:10.5281/zenodo.21457048（preprint concept DOI。
     常に最新版を指す）
   - `is supplemented by` → https://github.com/orangewk/wigner-splat（repository）
   - `cites` → doi:10.5061/dryad.t76hdr86j（Konno et al. GKP dataset。
     本文の参照 8′ と対応。#132 で追加済み）
-- **Communities**: （任意）quantum-physics 系があれば
-- **Notes 欄**: 特記なし
+- **Communities**: **使わない**。既存 3 レコード（preprint v1 `21457049` /
+  v2 `21600248` / software `21387212`）はいずれもコミュニティ未登録であることを
+  Zenodo API で確認済み（2026-07-30）。先例に揃える。コミュニティ登録は相手側
+  キュレータの承認プロセスが走る外向きの操作なので、必要になってから別途判断する
+- **Alternate identifiers / References / Dates / Funding / Contributors /
+  Publisher / Languages**: すべて空のまま
 
-## 添付ファイル
+## 添付ファイル（Zenodo にアップロードするのはこれだけ）
 
-`note.pdf`（本書と同じディレクトリに配置予定）。
+`docs/kepsilon-note/note.pdf` — main `4a8aa7f` でコミット済み（#133）。
+実 path: `C:\dev\wigner-splat-wt\admin\docs\kepsilon-note\note.pdf`
 
 ビルドレシピ（本線が確定、管理役が独立再現）:
 
@@ -102,8 +143,18 @@ zenodo.org → Upload → New upload → 上記を転記 → `note.pdf` を添�
 
 UI の注意（実機準拠、`docs/2026-07-26-preprint-v2-correction-list--done.md` より）:
 
-- Version 欄は `Recommended information` の中、Dates と Publisher の間
-- Description を追加したら **Type の選択が必須**。空だと Publish が
-  validation で弾かれる
+- **Version 欄**は `Recommended information` の中（デフォルトで折りたたみ）。
+  展開すると Contributors / Keywords and subjects / Languages / Dates /
+  **Version** / Publisher の順。Dates と Publisher の間に `v1` を入れる
+- **`Dates` セクションは使わない。** これは受理日・収集日などを足す任意欄で、
+  足すごとに Type の選択が要る。`2026-07-30` は別の必須欄
+  **`Publication date`** に入れる（そちらに Type は無い）
+- **`Add description` は押さない。** メインの Description 欄に abstract を
+  貼るだけでよい（この欄に Type は無い）。`Add description` で追加ブロックを
+  作った場合のみ **Type が必須**になり、未選択だと
+  `The draft was not published. Record saved with validation feedback in
+  Basic information` で弾かれる。今回は追加ブロック不要
+  （preprint v2 では訂正要約を追加ブロックで書いたためこの罠を踏んだ。
+  経緯は `docs/2026-07-26-preprint-v2-correction-list--done.md`）
 
 発行された DOI は README・issue #71 に反映する。

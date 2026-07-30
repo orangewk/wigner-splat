@@ -2,6 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21387212.svg)](https://doi.org/10.5281/zenodo.21387212)
 [![Preprint](https://img.shields.io/badge/preprint-10.5281%2Fzenodo.21457048-blue)](https://doi.org/10.5281/zenodo.21457048)
+[![Theory note](https://img.shields.io/badge/theory%20note-10.5281%2Fzenodo.21698699-blue)](https://doi.org/10.5281/zenodo.21698699)
 
 **Constructively physical Gaussian representations for continuous-variable quantum-state tomography.**
 
@@ -227,6 +228,16 @@ quantum-state tomography* (2026),
 [DOI: 10.5281/zenodo.21457048](https://doi.org/10.5281/zenodo.21457048)
 (concept DOI — resolves to the latest version; source and build under
 [`docs/preprint/`](docs/preprint/)).
+
+The theory companion to that preprint is published separately as a working
+paper: W. Kawashima, *Zero-counting lower bounds and measured K–ε curves for
+approximate Gaussian rank* (2026),
+[DOI: 10.5281/zenodo.21698699](https://doi.org/10.5281/zenodo.21698699)
+(concept DOI; source, PDF, and submission metadata under
+[`docs/kepsilon-note/`](docs/kepsilon-note/)). It states the certified
+lower-bound theorems for a restricted dictionary and the measured K–ε curves;
+the GKP robust-zero census in it is numerically supported, not
+computer-certified.
 
 If this software or its research record is useful, please cite it using
 [`CITATION.cff`](CITATION.cff). The exact archived `v0.1.0` release is

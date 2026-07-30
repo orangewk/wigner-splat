@@ -7,6 +7,13 @@
 > Zenodo に公開 — [DOI: 10.5281/zenodo.21457048](https://doi.org/10.5281/zenodo.21457048)
 > (concept DOI — 常に最新版を指す)
 > (ソースとビルドは [`docs/preprint/`](docs/preprint/)、issue #69)。
+>
+> **理論ノート公開(2026-07-30)**: 上記短報の理論編を working paper として
+> 別途 Zenodo に公開 — [DOI: 10.5281/zenodo.21698699](https://doi.org/10.5281/zenodo.21698699)
+> (concept DOI — 常に最新版を指す)
+> (ソース・PDF・投稿メタデータは [`docs/kepsilon-note/`](docs/kepsilon-note/)、issue #71)。
+> 制限辞書上の下界定理と実測 K–ε 曲線を扱う。GKP robust-zero センサスの数値は
+> numerically supported であり computer-certified ではない。
 
 ## 主張(2026-07-06 サーベイ通過後の定式化)
 
