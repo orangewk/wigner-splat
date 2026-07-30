@@ -1,7 +1,7 @@
 # wigner-splat
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21387212.svg)](https://doi.org/10.5281/zenodo.21387212)
-[![Preprint](https://img.shields.io/badge/preprint-10.5281%2Fzenodo.21457049-blue)](https://doi.org/10.5281/zenodo.21457049)
+[![Preprint](https://img.shields.io/badge/preprint-10.5281%2Fzenodo.21457048-blue)](https://doi.org/10.5281/zenodo.21457048)
 
 **Constructively physical Gaussian representations for continuous-variable quantum-state tomography.**
 
@@ -224,8 +224,9 @@ boundaries and their remaining risks.
 A short preprint summarizing the research record is published on Zenodo:
 W. Kawashima, *Compact physical Gaussian-ket models for homodyne
 quantum-state tomography* (2026),
-[DOI: 10.5281/zenodo.21457049](https://doi.org/10.5281/zenodo.21457049)
-(source and build under [`docs/preprint/`](docs/preprint/)).
+[DOI: 10.5281/zenodo.21457048](https://doi.org/10.5281/zenodo.21457048)
+(concept DOI — resolves to the latest version; source and build under
+[`docs/preprint/`](docs/preprint/)).
 
 If this software or its research record is useful, please cite it using
 [`CITATION.cff`](CITATION.cff). The exact archived `v0.1.0` release is
