@@ -239,6 +239,21 @@ def test_tally_excludes_ladders_with_failures_below_transition():
     assert "excluded as indeterminate" in text and "t11/gaussian" in text
     assert "2 of 2" not in text
 
+    # the indeterminate ladder's own line must carry no coincidence verdict:
+    # only the first OBSERVED transition is known (PR #136 round 4)
+    gaussian_lines = [
+        line for line in text.splitlines() if line.strip().startswith("- gaussian:")
+    ]
+    assert len(gaussian_lines) == 1
+    assert "which coincides" not in gaussian_lines[0]
+    assert "does NOT coincide" not in gaussian_lines[0]
+    assert "first observed" in gaussian_lines[0]
+    assert "coincidence with the true first transition: INDETERMINATE" in gaussian_lines[0]
+    coherent_lines = [
+        line for line in text.splitlines() if line.strip().startswith("- coherent:")
+    ]
+    assert "which coincides" in coherent_lines[0]
+
 
 def test_topo_readme_generated_blocks_match_artifacts():
     """One-authoring-location gate for exp24/25 README numbers: the block in

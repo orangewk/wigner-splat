@@ -103,27 +103,41 @@ def render(results: dict) -> str:
             if not lad:
                 continue
             fk = lad["first_transition"]
-            first = fk["K"] if fk["K"] is not None else "none found"
-            caveat = (
-                f" (INDETERMINATE below K={min(fk['indeterminate_below'])} — "
-                "census failures; excluded from the tally)"
-                if fk["indeterminate_below"]
-                else ""
-            )
-            agree = (
-                "coincides"
-                if fk["K"] is not None
-                and fk["K"] == lad["largest_relative_step_at_K"]
-                else "does NOT coincide"
-            )
-            lines.append(
-                f"  - {dict_type}: first {mark} at K = {first}{caveat}; the "
-                f"ladder's largest relative step lands at "
+            step = (
+                f"the ladder's largest relative step lands at "
                 f"K = {lad['largest_relative_step_at_K']} "
-                f"(x{lad['largest_relative_step_factor']:.1f}), which "
-                f"{agree} with the transition. Descriptive only — no cliff "
-                "criterion was pre-declared."
+                f"(x{lad['largest_relative_step_factor']:.1f})"
             )
+            if fk["indeterminate_below"]:
+                # only the first OBSERVED transition is known, so no
+                # coincidence judgment may be emitted for this ladder
+                first = fk["K"] if fk["K"] is not None else "none observed"
+                lines.append(
+                    f"  - {dict_type}: first observed {mark} at K = {first} "
+                    f"(INDETERMINATE below K={min(fk['indeterminate_below'])} "
+                    f"— census failures; excluded from the tally); {step}; "
+                    "coincidence with the true first transition: "
+                    "INDETERMINATE. Descriptive only — no cliff criterion "
+                    "was pre-declared."
+                )
+            elif fk["K"] is None:
+                lines.append(
+                    f"  - {dict_type}: no {mark} found in the scanned K "
+                    f"range; {step}; no transition to compare (not in the "
+                    "tally). Descriptive only — no cliff criterion was "
+                    "pre-declared."
+                )
+            else:
+                agree = (
+                    "coincides"
+                    if fk["K"] == lad["largest_relative_step_at_K"]
+                    else "does NOT coincide"
+                )
+                lines.append(
+                    f"  - {dict_type}: first {mark} at K = {fk['K']}; {step}, "
+                    f"which {agree} with the transition. Descriptive only — "
+                    "no cliff criterion was pre-declared."
+                )
         lines.append("")
     scored, indeterminate = coincidence_partition(ladders)
     agree = [
