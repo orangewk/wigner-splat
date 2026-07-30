@@ -197,20 +197,22 @@ def structured_starts(target, dict_type, k):
         tmsv = lambda lam: [0, 0, 0, 0, 0, 0, lam, 0, 0, 0]  # noqa: E731
         sq1 = lambda a: [0, 0, 0, 0, a, 0, 0, 0, 0, 0]  # noqa: E731
         sq2l = lambda q, l: [0, 0, l, 0, 0, 0, 0, 0, q, 0]  # noqa: E731
+        # squeezing seeds stay at 0.22: at cutoff 36 a 0.3 quadratic already
+        # puts ~1.2e-8 of its mass in the tail band, just past TAIL_MAX
         if target == "t11":
             pats = {1: [[tmsv(0.5)]], 2: [[tmsv(0.4), tmsv(-0.4)]]}
         else:
             pats = {
-                2: [[sq1(0.3), sq1(-0.3)]],
-                4: [[sq1(0.3), sq1(-0.3), sq2l(0.3, 0.35), sq2l(0.3, -0.35)]],
+                2: [[sq1(0.22), sq1(-0.22)]],
+                4: [[sq1(0.22), sq1(-0.22), sq2l(0.22, 0.3), sq2l(0.22, -0.3)]],
                 6: [
                     [
-                        sq1(0.3),
-                        sq1(-0.3),
-                        sq2l(0.3, 0.35),
-                        sq2l(0.3, -0.35),
-                        sq2l(-0.3, 0.35),
-                        sq2l(-0.3, -0.35),
+                        sq1(0.22),
+                        sq1(-0.22),
+                        sq2l(0.22, 0.3),
+                        sq2l(0.22, -0.3),
+                        sq2l(-0.22, 0.3),
+                        sq2l(-0.22, -0.3),
                     ]
                 ],
             }
@@ -222,11 +224,23 @@ def structured_starts(target, dict_type, k):
 def fit_cell(target, dict_type, k, rng, warm_x):
     per = PARAMS_PER_TERM[dict_type]
     tvec = target_vec(target)
+    def damp_quadratic(x, factor):
+        # gaussian rows are (l re/im x2, q re/im x6). The tail budget at
+        # cutoff 36 caps the quadratic operator norm near 0.56 (0.6^32 is
+        # already ~8e-8 of mass in the tail band), so random starts must
+        # begin with small squeezing to sit inside the bounded dictionary.
+        if dict_type == "gaussian":
+            x = x.reshape(-1, per).copy()
+            x[:, 4:] *= factor
+            return x.ravel()
+        return x
+
     starts = structured_starts(target, dict_type, k)
     if warm_x is not None:
-        starts.append(np.concatenate([warm_x, rng.normal(scale=0.2, size=per)]))
+        new = damp_quadratic(rng.normal(scale=0.2, size=per), 0.25)
+        starts.append(np.concatenate([warm_x, new]))
     for _ in range(6):
-        starts.append(rng.normal(scale=0.4, size=k * per))
+        starts.append(damp_quadratic(rng.normal(scale=0.4, size=k * per), 0.12))
     # only a finite, strictly valid best point (objective < 0, i.e. an actual
     # fidelity) may win: penalty plateaus from starts outside the bounded
     # dictionary must never contaminate the cell result
