@@ -381,8 +381,9 @@ family, K ket components per column; all n_score series; labels and
 machine-readable `rank_primitive`, `fidelity_convention`, `cutoff_status`,
 `epistemic_status` in the JSONs) and the **real-data rank proxy** (held-out
 per-sample NLL vs operator mixture rank R = 1..5 on the public GKP homodyne
-dataset; true-state fidelity — hence K_ε — is inaccessible on measured
-data, and the proxy is labeled as such). The certified-lower-bound panel is
+dataset of Konno *et al.* [Science **383**, 289 (2024); data: Dryad
+doi:10.5061/dryad.t76hdr86j — ref 8′]; true-state fidelity — hence K_ε —
+is inaccessible on measured data, and the proxy is labeled as such). The certified-lower-bound panel is
 reserved in the exp22 figure; the census values live in the exp23
 artifacts (§7.2). Figures: experiments/22_kcurves/.
 
@@ -704,6 +705,11 @@ transcribed and checked; remaining items to re-verify at final draft.
    [in-repo, PR-64-reviewed]
 8. Experiments 22–23 artifacts (this repository): exp22 curves JSON,
    exp23 robust-zero census JSON (`_sampled`/`_bounded` columns). [in-repo, reviewed]
+8′. S. Konno *et al.*, "Logical states for fault-tolerant quantum
+   computation with propagating light," Science **383**, 289 (2024). Data:
+   Dryad, doi:10.5061/dryad.t76hdr86j. [the measured homodyne dataset
+   behind the exp22 real-data rank proxy (row D6); accessed via the
+   preprint's pipeline, ref 9]
 9. Preprint: W. Kawashima, *Compact physical Gaussian-ket models for
    homodyne quantum-state tomography* (2026), doi:10.5281/zenodo.21457048.
    [v2 published 2026-07 (10.5281/zenodo.21600248) carries the Route B
