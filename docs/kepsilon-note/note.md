@@ -1,10 +1,10 @@
-# Certified lower bounds and measured K–ε curves for approximate Gaussian rank
+# Zero-counting lower bounds and measured K–ε curves for approximate Gaussian rank
 
-**Status: T2 draft (issue #71). Not yet reviewed as a whole; statements passed T0/T1 review (2 independent reviewers × 2 rounds), proofs of §3–§5 and Appendices A–C written out below, §7 numbers merged (exp22/exp23), with the enumerated coded claims
+**Status: T2 (issue #71). Statements passed T0/T1 review (2 independent reviewers × 2 rounds); the whole note passed 3 full review rounds plus cross-vendor review by 2 independent vendor lineages (terra/sol); proofs of §3–§5 and Appendices A–C written out below, §7 numbers merged (exp22/exp23), with the enumerated coded claims
 checked against artifacts (§7.3).**
 
 Working note for the theory companion to the preprint
-[doi:10.5281/zenodo.21457049](https://doi.org/10.5281/zenodo.21457049).
+[doi:10.5281/zenodo.21457048](https://doi.org/10.5281/zenodo.21457048).
 Vocabulary and gate history: issue #71.
 
 ---
@@ -703,5 +703,5 @@ transcribed and checked; remaining items to re-verify at final draft.
 8. Experiments 22–23 artifacts (this repository): exp22 curves JSON,
    exp23 robust-zero census JSON (`_sampled`/`_bounded` columns). [in-repo, reviewed]
 9. Preprint: W. Kawashima, *Compact physical Gaussian-ket models for
-   homodyne quantum-state tomography* (2026), doi:10.5281/zenodo.21457049.
+   homodyne quantum-state tomography* (2026), doi:10.5281/zenodo.21457048.
    [v2 planned with this note; erratum for the Route B quoting]
