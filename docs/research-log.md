@@ -1882,3 +1882,58 @@ Scope: best-found multi-start values under a fixed budget, never suprema;
 tail-bounded operational dictionary (effective squeezing singular value
 <= ~0.56 at cutoff 36); censuses numerically supported; no certified
 language.
+
+## 2026-07-30 — Experiment 26 / issue #137 Gate T′ slice 1, Gaussian-group action on zero links
+
+Owner/decisions: the 管理役 comment of 2026-07-31 on issue #137 asked (指摘 2)
+whether the zero-link topology is invariant under the full Gaussian unitary
+group or only under passive optics; orange asked for the new experiment with
+implementation delegated. A boundary declaration on PR #138 (管理役, orange
+承認済み) fixes ownership — this line owns wigner_splat/gaussact.py (2-mode
+only, no N-mode expansion from this line; that would reopen #30),
+experiments/26_*, and the claim-surface policy extensions — and gates the
+merge on an independent 管理役 re-derivation plus a Sol structural audit, on
+top of the pre-declaration discipline. 指摘 3 of the same comment (isotopy
+stability inside a fidelity ball) is explicitly NOT addressed here and stays
+open as Gate T′ sub-goal (a).
+
+Pre-declared (experiments/26_gauss_invariance/derivation.md, committed before
+any run output existed): the closed form of the squeezed |11> (G1, proved),
+fixed-radius non-invariance with the threshold lam* = sqrt(2)-1 on the unit
+sphere and its large-radius restoration (G2, proved via 24/P1 + 24/P4b), the
+top-form multiplicity partition as a full-Gaussian invariant refining the
+stellar rank (G3, proved modulo the standard factorization and disentangling
+lemmas, with the Gaussian-conjugated heat-flow closed form Lemma C proved in
+full), the link-at-infinity reading (G4, sketch — multiplicity carries
+Puiseux data the partition alone does not), and the Gaussian
+non-connectivity of |2,0> and |1,1> (G5, corollary of G3) with a
+pre-declared adversarial alarm threshold.
+
+Measured (experiments/26_gauss_invariance/gauss_invariance.json,
+authoritative; verdicts computed from data, census failures and ambiguous
+root clusterings propagating as indeterminate): all outcome values — the E1
+machinery-gate readings, the E2/E3 threshold and restoration cells, the E4
+partition cells, the E5 large-radius comparisons with the data-computed
+|2,0>-image curve classifier, and the E6 best-found values — are reported
+only through the JSON and the README's generated block (policy-tested); this
+log restates none of them. The epistemic status of G1–G5 is likewise not
+restated here: derivation.md §4's claim table is its sole authoring
+location, quoted verbatim into the generated block (the exp25 round-3
+mechanism, applied from the start).
+
+Toolkit: wigner_splat/gaussact.py carries the exact (P, A, b) action of
+disentangled Bloch–Messiah factors; tests/test_gaussact.py pins it against
+two independent referees (a from-scratch tau-series of the generator and a
+truncated-Fock matrix exponential at cutoff 42) plus census pins on both
+sides of lam*. Implementation was delegated (two sub-builds), then reviewed
+and accepted against the memo; the sanctioned deviations are recorded in the
+test file and run.py comments (clustering tolerance raised to the measured
+np.roots scatter; brute-force referee applied per factor with passives
+checked against stellar2.rotated).
+
+Scope: two modes, pure states; E6 is best-found under a fixed multi-start
+budget over a non-compact group — no supremum claims in either direction;
+censuses numerically supported, not certified; same-environment
+reproduction (environment recorded in the JSON); novelty unclaimed pending
+Gate S′ — "link at infinity" is a standard singularity-theory notion and
+the derivation says so.

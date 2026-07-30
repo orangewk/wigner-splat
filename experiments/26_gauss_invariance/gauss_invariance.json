@@ -1,0 +1,1498 @@
+{
+  "E1": {
+    "bruteforce_cutoff": 36,
+    "bruteforce_max_rel_diff": {
+      "t11": 4.545241932548996e-15,
+      "trefoil": 4.596246877303146e-15
+    },
+    "bruteforce_ok": true,
+    "bruteforce_seed": 100,
+    "bruteforce_tol": 1e-06,
+    "g1_constant_cells": [
+      {
+        "lam": 0.3,
+        "rel_err_vs_sinh_cosh": 0.0
+      },
+      {
+        "lam": 0.5,
+        "rel_err_vs_sinh_cosh": 3.3306690738754696e-16
+      }
+    ],
+    "g1_ok": true,
+    "g1_tol": 1e-12,
+    "input_fock_max_abs_err": {
+      "t11": 0.0,
+      "t20": 0.0,
+      "trefoil": 0.0
+    },
+    "input_fock_ok": true,
+    "passive_max_rel_diff": {
+      "t11": {
+        "U_post": 1.3469908410779035e-16,
+        "U_pre": 3.901876752395092e-16
+      },
+      "trefoil": {
+        "U_post": 3.5867024704575587e-16,
+        "U_pre": 1.8109283569394645e-16
+      }
+    },
+    "passive_ok": true,
+    "passive_point_seed": 11,
+    "passive_tol": 1e-10
+  },
+  "E2": {
+    "cells": [
+      {
+        "c_lam": 0.32967032967032966,
+        "census": {
+          "components": [
+            {
+              "n_points": 368,
+              "windings": [
+                1,
+                -1
+              ]
+            },
+            {
+              "n_points": 368,
+              "windings": [
+                -1,
+                1
+              ]
+            }
+          ],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.43978568164965826,
+            "min_abs_on_caps": 0.11994738452812426,
+            "min_component_points": 368
+          },
+          "frame_seed_used": 1,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "radius": 1.0
+        },
+        "lam": 0.3,
+        "matches_prediction": true,
+        "measured_linking_offdiag": [
+          1
+        ],
+        "measured_n_components": 2,
+        "predicted_linking_offdiag": [
+          1
+        ],
+        "predicted_n_components": 2,
+        "radius": 1.0
+      },
+      {
+        "c_lam": 0.3988603988603988,
+        "census": {
+          "components": [
+            {
+              "n_points": 368,
+              "windings": [
+                1,
+                -1
+              ]
+            },
+            {
+              "n_points": 368,
+              "windings": [
+                -1,
+                1
+              ]
+            }
+          ],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.43518654359153686,
+            "min_abs_on_caps": 0.052054478268296865,
+            "min_component_points": 368
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "radius": 1.0
+        },
+        "lam": 0.35,
+        "matches_prediction": true,
+        "measured_linking_offdiag": [
+          1
+        ],
+        "measured_n_components": 2,
+        "predicted_linking_offdiag": [
+          1
+        ],
+        "predicted_n_components": 2,
+        "radius": 1.0
+      },
+      {
+        "c_lam": 0.4761904761904762,
+        "census": {
+          "components": [
+            {
+              "n_points": 368,
+              "windings": [
+                1,
+                -1
+              ]
+            },
+            {
+              "n_points": 368,
+              "windings": [
+                -1,
+                1
+              ]
+            }
+          ],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.4530352583224668,
+            "min_abs_on_caps": 0.11757774261693552,
+            "min_component_points": 368
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "radius": 1.0
+        },
+        "lam": 0.4,
+        "matches_prediction": true,
+        "measured_linking_offdiag": [
+          1
+        ],
+        "measured_n_components": 2,
+        "predicted_linking_offdiag": [
+          1
+        ],
+        "predicted_n_components": 2,
+        "radius": 1.0
+      },
+      {
+        "c_lam": 0.5275426328057906,
+        "census": {
+          "components": [],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.46373970969174727,
+            "min_abs_on_caps": 0.15728510298360832,
+            "min_component_points": 0
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [],
+          "radius": 1.0
+        },
+        "lam": 0.43,
+        "matches_prediction": true,
+        "measured_linking_offdiag": [],
+        "measured_n_components": 0,
+        "predicted_linking_offdiag": [],
+        "predicted_n_components": 0,
+        "radius": 1.0
+      },
+      {
+        "c_lam": 0.5834601725012685,
+        "census": {
+          "components": [],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.4741095623190059,
+            "min_abs_on_caps": 0.19697132982748183,
+            "min_component_points": 0
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [],
+          "radius": 1.0
+        },
+        "lam": 0.46,
+        "matches_prediction": true,
+        "measured_linking_offdiag": [],
+        "measured_n_components": 0,
+        "predicted_linking_offdiag": [],
+        "predicted_n_components": 0,
+        "radius": 1.0
+      },
+      {
+        "c_lam": 0.6666666666666666,
+        "census": {
+          "components": [],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.4867376638850065,
+            "min_abs_on_caps": 0.24941861196424003,
+            "min_component_points": 0
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [],
+          "radius": 1.0
+        },
+        "lam": 0.5,
+        "matches_prediction": true,
+        "measured_linking_offdiag": [],
+        "measured_n_components": 0,
+        "predicted_linking_offdiag": [],
+        "predicted_n_components": 0,
+        "radius": 1.0
+      },
+      {
+        "c_lam": 0.9375,
+        "census": {
+          "components": [],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.5097163458358462,
+            "min_abs_on_caps": 0.37383066534224785,
+            "min_component_points": 0
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [],
+          "radius": 1.0
+        },
+        "lam": 0.6,
+        "matches_prediction": true,
+        "measured_linking_offdiag": [],
+        "measured_n_components": 0,
+        "predicted_linking_offdiag": [],
+        "predicted_n_components": 0,
+        "radius": 1.0
+      }
+    ],
+    "radius": 1.0
+  },
+  "E3": {
+    "cells": [
+      {
+        "c_lam": 0.6666666666666666,
+        "census": {
+          "components": [],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.4951775554681418,
+            "min_abs_on_caps": 0.23141822302689863,
+            "min_component_points": 0
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [],
+          "radius": 1.0392304845413263
+        },
+        "matches_prediction": true,
+        "measured_linking_offdiag": [],
+        "measured_n_components": 0,
+        "predicted_linking_offdiag": [],
+        "predicted_n_components": 0,
+        "radius": 1.0392304845413263,
+        "radius_factor": 0.9
+      },
+      {
+        "c_lam": 0.6666666666666666,
+        "census": {
+          "components": [
+            {
+              "n_points": 380,
+              "windings": [
+                -1,
+                1
+              ]
+            },
+            {
+              "n_points": 380,
+              "windings": [
+                1,
+                -1
+              ]
+            }
+          ],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.6330141478695154,
+            "min_abs_on_caps": 0.19830879981638946,
+            "min_component_points": 380
+          },
+          "frame_seed_used": 1,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "radius": 1.3856406460551016
+        },
+        "matches_prediction": true,
+        "measured_linking_offdiag": [
+          1
+        ],
+        "measured_n_components": 2,
+        "predicted_linking_offdiag": [
+          1
+        ],
+        "predicted_n_components": 2,
+        "radius": 1.3856406460551016,
+        "radius_factor": 1.2
+      }
+    ],
+    "lam": 0.5,
+    "rad_star": 1.1547005383792515
+  },
+  "E4": {
+    "families": [
+      {
+        "all_cells_pass": true,
+        "cells": [
+          {
+            "cell_pass": true,
+            "margin": 0.9922360936046822,
+            "partition": [
+              1,
+              1
+            ],
+            "seed": 100
+          },
+          {
+            "cell_pass": true,
+            "margin": 0.988816330404136,
+            "partition": [
+              1,
+              1
+            ],
+            "seed": 101
+          },
+          {
+            "cell_pass": true,
+            "margin": 0.9966420949261909,
+            "partition": [
+              1,
+              1
+            ],
+            "seed": 102
+          },
+          {
+            "cell_pass": true,
+            "margin": 0.9938778347328074,
+            "partition": [
+              1,
+              1
+            ],
+            "seed": 103
+          },
+          {
+            "cell_pass": true,
+            "margin": 0.9886875299522947,
+            "partition": [
+              1,
+              1
+            ],
+            "seed": 104
+          },
+          {
+            "cell_pass": true,
+            "margin": 0.9902446786011251,
+            "partition": [
+              1,
+              1
+            ],
+            "seed": 105
+          },
+          {
+            "cell_pass": true,
+            "margin": 0.999919183818429,
+            "partition": [
+              1,
+              1
+            ],
+            "seed": 106
+          },
+          {
+            "cell_pass": true,
+            "margin": 0.9998482870265484,
+            "partition": [
+              1,
+              1
+            ],
+            "seed": 107
+          }
+        ],
+        "expected_partition": [
+          1,
+          1
+        ],
+        "family": "t11"
+      },
+      {
+        "all_cells_pass": true,
+        "cells": [
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              2
+            ],
+            "seed": 200
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              2
+            ],
+            "seed": 201
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              2
+            ],
+            "seed": 202
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              2
+            ],
+            "seed": 203
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              2
+            ],
+            "seed": 204
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              2
+            ],
+            "seed": 205
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              2
+            ],
+            "seed": 206
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              2
+            ],
+            "seed": 207
+          }
+        ],
+        "expected_partition": [
+          2
+        ],
+        "family": "t20"
+      },
+      {
+        "all_cells_pass": true,
+        "cells": [
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              3
+            ],
+            "seed": 300
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              3
+            ],
+            "seed": 301
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              3
+            ],
+            "seed": 302
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              3
+            ],
+            "seed": 303
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              3
+            ],
+            "seed": 304
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              3
+            ],
+            "seed": 305
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              3
+            ],
+            "seed": 306
+          },
+          {
+            "cell_pass": true,
+            "margin": Infinity,
+            "partition": [
+              3
+            ],
+            "seed": 307
+          }
+        ],
+        "expected_partition": [
+          3
+        ],
+        "family": "trefoil"
+      }
+    ],
+    "margin_floor": 0.01,
+    "tol": 0.001
+  },
+  "E5": {
+    "cells": [
+      {
+        "classifier": null,
+        "family": "t11",
+        "predicted_linking_offdiag": [
+          1
+        ],
+        "predicted_n_components": 2,
+        "radii": [
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 352,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                },
+                {
+                  "n_points": 358,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 1.5038729640709043,
+                "min_abs_on_caps": 0.009840078808059859,
+                "min_component_points": 352
+              },
+              "frame_seed_used": 1,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "radius": 2.5
+            },
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "radius": 2.5,
+            "winding_multiset": [
+              [
+                "1",
+                "1"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          },
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 342,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                },
+                {
+                  "n_points": 330,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 2.4895090941738314,
+                "min_abs_on_caps": 0.006327904383009493,
+                "min_component_points": 330
+              },
+              "frame_seed_used": 0,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "radius": 3.0
+            },
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "radius": 3.0,
+            "winding_multiset": [
+              [
+                "1",
+                "1"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          }
+        ],
+        "radii_agree": true,
+        "seed": 100,
+        "sketch_consistent": true
+      },
+      {
+        "classifier": null,
+        "family": "t11",
+        "predicted_linking_offdiag": [
+          1
+        ],
+        "predicted_n_components": 2,
+        "radii": [
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 352,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                },
+                {
+                  "n_points": 310,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 1.3052614023782478,
+                "min_abs_on_caps": 0.0388835677955825,
+                "min_component_points": 310
+              },
+              "frame_seed_used": 0,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "radius": 2.5
+            },
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "radius": 2.5,
+            "winding_multiset": [
+              [
+                "1",
+                "1"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          },
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 298,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                },
+                {
+                  "n_points": 334,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 1.8926667996230804,
+                "min_abs_on_caps": 0.01539899303218235,
+                "min_component_points": 298
+              },
+              "frame_seed_used": 0,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0,
+                  1
+                ],
+                [
+                  1,
+                  0
+                ]
+              ],
+              "radius": 3.0
+            },
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "radius": 3.0,
+            "winding_multiset": [
+              [
+                "1",
+                "1"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          }
+        ],
+        "radii_agree": true,
+        "seed": 101,
+        "sketch_consistent": true
+      },
+      {
+        "classifier": {
+          "beta_u": [
+            -0.38843466101319707,
+            0.2956992529367119
+          ],
+          "beta_v": [
+            -4.163336342344337e-17,
+            0.0
+          ],
+          "beta_v_rel": 9.1466455512069e-17,
+          "curve_type": "parallel_lines",
+          "delta": [
+            -0.06263364713270148,
+            0.09119364876528821
+          ],
+          "gamma": [
+            -0.3042740934367718,
+            0.16072315708316207
+          ],
+          "root_separation": 0.8760110234557644,
+          "sigma_ratio": 1.880127680485578e-17
+        },
+        "family": "t20",
+        "predicted_linking_offdiag": [
+          0
+        ],
+        "predicted_n_components": 2,
+        "radii": [
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 182,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                },
+                {
+                  "n_points": 150,
+                  "windings": [
+                    0,
+                    1
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 0.9540389689599391,
+                "min_abs_on_caps": 0.025184541479993633,
+                "min_component_points": 150
+              },
+              "frame_seed_used": 0,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "radius": 2.5
+            },
+            "linking_offdiag": [
+              0
+            ],
+            "n_components": 2,
+            "radius": 2.5,
+            "winding_multiset": [
+              [
+                "0",
+                "1"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          },
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 384,
+                  "windings": [
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "n_points": 286,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 1.5666604747646318,
+                "min_abs_on_caps": 0.0477881644996682,
+                "min_component_points": 286
+              },
+              "frame_seed_used": 1,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "radius": 3.0
+            },
+            "linking_offdiag": [
+              0
+            ],
+            "n_components": 2,
+            "radius": 3.0,
+            "winding_multiset": [
+              [
+                "0",
+                "1"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          }
+        ],
+        "radii_agree": true,
+        "seed": 200,
+        "sketch_consistent": true
+      },
+      {
+        "classifier": {
+          "beta_u": [
+            0.17394563094924118,
+            -0.08417272651871638
+          ],
+          "beta_v": [
+            2.168404344971009e-17,
+            -2.42861286636753e-17
+          ],
+          "beta_v_rel": 1.5491729147619317e-16,
+          "curve_type": "parallel_lines",
+          "delta": [
+            0.074850742324875,
+            -0.0732600301200868
+          ],
+          "gamma": [
+            -0.18908427381812323,
+            -0.10301850676646541
+          ],
+          "root_separation": 1.6250951571442374,
+          "sigma_ratio": 8.309792378969079e-17
+        },
+        "family": "t20",
+        "predicted_linking_offdiag": [
+          0
+        ],
+        "predicted_n_components": 2,
+        "radii": [
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 428,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                },
+                {
+                  "n_points": 306,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 0.8249824653218089,
+                "min_abs_on_caps": 0.009572047301137325,
+                "min_component_points": 306
+              },
+              "frame_seed_used": 0,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "radius": 2.5
+            },
+            "linking_offdiag": [
+              0
+            ],
+            "n_components": 2,
+            "radius": 2.5,
+            "winding_multiset": [
+              [
+                "1",
+                "1"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          },
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 400,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                },
+                {
+                  "n_points": 300,
+                  "windings": [
+                    1,
+                    1
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 1.191281006349762,
+                "min_abs_on_caps": 0.004656124341134446,
+                "min_component_points": 300
+              },
+              "frame_seed_used": 0,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ]
+              ],
+              "radius": 3.0
+            },
+            "linking_offdiag": [
+              0
+            ],
+            "n_components": 2,
+            "radius": 3.0,
+            "winding_multiset": [
+              [
+                "1",
+                "1"
+              ],
+              [
+                "1",
+                "1"
+              ]
+            ]
+          }
+        ],
+        "radii_agree": true,
+        "seed": 201,
+        "sketch_consistent": true
+      },
+      {
+        "classifier": null,
+        "family": "trefoil",
+        "predicted_linking_offdiag": [],
+        "predicted_n_components": 1,
+        "radii": [
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 932,
+                  "windings": [
+                    2,
+                    2
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 1.3531332550287292,
+                "min_abs_on_caps": 0.020575405425433638,
+                "min_component_points": 932
+              },
+              "frame_seed_used": 0,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0
+                ]
+              ],
+              "radius": 2.5
+            },
+            "linking_offdiag": [],
+            "n_components": 1,
+            "radius": 2.5,
+            "winding_multiset": [
+              [
+                "2",
+                "2"
+              ]
+            ]
+          },
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 900,
+                  "windings": [
+                    2,
+                    2
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 2.3031732937123754,
+                "min_abs_on_caps": 0.009872558155996015,
+                "min_component_points": 900
+              },
+              "frame_seed_used": 0,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0
+                ]
+              ],
+              "radius": 3.0
+            },
+            "linking_offdiag": [],
+            "n_components": 1,
+            "radius": 3.0,
+            "winding_multiset": [
+              [
+                "2",
+                "2"
+              ]
+            ]
+          }
+        ],
+        "radii_agree": true,
+        "seed": 300,
+        "sketch_consistent": true
+      },
+      {
+        "classifier": null,
+        "family": "trefoil",
+        "predicted_linking_offdiag": [],
+        "predicted_n_components": 1,
+        "radii": [
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 814,
+                  "windings": [
+                    2,
+                    2
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 1.5983680896439236,
+                "min_abs_on_caps": 0.17606054524201106,
+                "min_component_points": 814
+              },
+              "frame_seed_used": 0,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0
+                ]
+              ],
+              "radius": 2.5
+            },
+            "linking_offdiag": [],
+            "n_components": 1,
+            "radius": 2.5,
+            "winding_multiset": [
+              [
+                "2",
+                "2"
+              ]
+            ]
+          },
+          {
+            "census": {
+              "components": [
+                {
+                  "n_points": 802,
+                  "windings": [
+                    3,
+                    2
+                  ]
+                }
+              ],
+              "diagnostics": {
+                "caps_clear": true,
+                "median_abs_on_grid": 2.540078233747287,
+                "min_abs_on_caps": 0.2656496608999967,
+                "min_component_points": 802
+              },
+              "frame_seed_used": 2,
+              "grid": {
+                "eta_margin": 0.05,
+                "n_eta": 120,
+                "n_xi": 128
+              },
+              "linking_matrix": [
+                [
+                  0
+                ]
+              ],
+              "radius": 3.0
+            },
+            "linking_offdiag": [],
+            "n_components": 1,
+            "radius": 3.0,
+            "winding_multiset": [
+              [
+                "3",
+                "2"
+              ]
+            ]
+          }
+        ],
+        "radii_agree": true,
+        "seed": 301,
+        "sketch_consistent": true
+      }
+    ],
+    "grid": {
+      "n_eta": 120,
+      "n_xi": 128
+    },
+    "radii": [
+      2.5,
+      3.0
+    ]
+  },
+  "E6": {
+    "directions": [
+      {
+        "best_found": 0.4999999999997449,
+        "best_x": [
+          0.04637112183929029,
+          -0.47382560930097395,
+          0.6961992539300217,
+          -4.888329400476318e-08,
+          -0.04927177520015362,
+          9.246470324700874e-08,
+          -0.10263619316739078,
+          0.15841583988881536,
+          -0.18101378458321954,
+          0.09447223506518705,
+          -1.3191726120467708e-08,
+          0.044191294841678865,
+          2.989471642769483e-07,
+          -0.09121867023890001
+        ],
+        "direction": "from_20_to_11",
+        "last_shell_mass_at_best": 1.0502094e-316,
+        "n_starts": 32,
+        "norm_at_best": 0.9999999999999997,
+        "norm_ok": true
+      },
+      {
+        "best_found": 0.49999999999973643,
+        "best_x": [
+          0.02090600655989517,
+          0.029802948287106105,
+          0.12452408388269987,
+          2.9207679667862144e-07,
+          0.27421513232749867,
+          -3.024210814451969e-07,
+          0.029628865671748907,
+          -0.3624256903703762,
+          -0.4147514910708247,
+          0.6610374020915779,
+          -5.9488612841012204e-08,
+          0.6248413993482083,
+          4.536814740134152e-09,
+          0.02103379370797003
+        ],
+        "direction": "from_11_to_20",
+        "last_shell_mass_at_best": 4.21133577e-316,
+        "n_starts": 32,
+        "norm_at_best": 1.0,
+        "norm_ok": true
+      }
+    ],
+    "fit_seed": 20260731,
+    "mag_cap": 1.2,
+    "n_params": 14,
+    "nm": {
+      "iters": 800,
+      "step": 0.3,
+      "tol": 1e-12
+    },
+    "norm_cutoff": 48,
+    "overlap_cutoff": 12
+  },
+  "census_parameters": {
+    "e2_e3_grid": {
+      "n_eta": 90,
+      "n_xi": 96
+    },
+    "e5_grid": {
+      "n_eta": 120,
+      "n_xi": 128
+    },
+    "e5_radii": [
+      2.5,
+      3.0
+    ],
+    "eta_margin": 0.05,
+    "frame_seed": 0
+  },
+  "environment": {
+    "machine": "x86_64",
+    "numpy": "2.4.6",
+    "platform": "linux",
+    "python": "3.11.15"
+  },
+  "fit_seed": 20260731,
+  "verdicts": {
+    "census_failures": [],
+    "e1_transformer_validated": true,
+    "e2_fixed_radius_matches_g2": true,
+    "e3_restoration_matches_g2": true,
+    "e4_top_partition_invariant": true,
+    "e5_determinate_cells_all_consistent": true,
+    "e5_sketch_cells": {
+      "consistent": 6,
+      "inconsistent": 0,
+      "indeterminate": 0
+    },
+    "e6_alarm": false,
+    "e6_best_found": {
+      "from_11_to_20": 0.49999999999973643,
+      "from_20_to_11": 0.4999999999997449
+    }
+  }
+}

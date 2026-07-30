@@ -1,0 +1,33 @@
+== E1: transformer machinery gate (F1) ==
+E1a lam=0.3: G1 constant rel err = 0.000e+00
+E1a lam=0.5: G1 constant rel err = 3.331e-16
+E1b brute force (t11): max rel diff = 4.545e-15
+E1b brute force (trefoil): max rel diff = 4.596e-15
+E1 verdict: MATCH — transformer validated
+== E2: fixed-radius threshold scan (G2/F2) ==
+E2 lam=0.30: c = 0.3297, predicted 2 comps, measured 2 comps, lk [1] -> match
+E2 lam=0.35: c = 0.3989, predicted 2 comps, measured 2 comps, lk [1] -> match
+E2 lam=0.40: c = 0.4762, predicted 2 comps, measured 2 comps, lk [1] -> match
+E2 lam=0.43: c = 0.5275, predicted 0 comps, measured 0 comps, lk [] -> match
+E2 lam=0.46: c = 0.5835, predicted 0 comps, measured 0 comps, lk [] -> match
+E2 lam=0.50: c = 0.6667, predicted 0 comps, measured 0 comps, lk [] -> match
+E2 lam=0.60: c = 0.9375, predicted 0 comps, measured 0 comps, lk [] -> match
+== E3: radius restoration (G2/F2) ==
+E3 radius 1.0392 (0.9 x rad*): predicted 0 comps, measured 0 comps, lk [] -> match
+E3 radius 1.3856 (1.2 x rad*): predicted 2 comps, measured 2 comps, lk [1] -> match
+== E4: orbit top-form partitions (G3/F3) ==
+E4 t11: partitions [(1, 1)], min margin 9.887e-01 -> match
+E4 t20: partitions [(2,)], min margin inf -> match
+E4 trefoil: partitions [(3,)], min margin inf -> match
+== E5: large-radius censuses vs the G4 sketch (F4: no halt) ==
+E5 t11/seed=100: type -, radii agree True, sketch match
+E5 t11/seed=101: type -, radii agree True, sketch match
+E5 t20/seed=200: type parallel_lines, radii agree True, sketch match
+E5 t20/seed=201: type parallel_lines, radii agree True, sketch match
+E5 trefoil/seed=300: type -, radii agree True, sketch match
+E5 trefoil/seed=301: type -, radii agree True, sketch match
+== E6: adversarial Gaussian-connectivity probe (G5/F5) ==
+E6 from_20_to_11: best-found F = 0.50000000 over 32 starts (norm at best = 1.0000000000, tail 1.1e-316)
+E6 from_11_to_20: best-found F = 0.50000000 over 32 starts (norm at best = 1.0000000000, tail 4.2e-316)
+E6 alarm (best-found >= 1 - 1e-06): False
+artifacts: gauss_invariance.json, out_run.log, gauss_links.png, README generated block
