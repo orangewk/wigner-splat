@@ -1796,3 +1796,89 @@ gap, and repeated certification-scope overreach; all resolved. The
 recurring failure type of this cycle — attributing one quantity's
 property to another — is documented in the note's declaration table
 (§2.4) and the #71 thread.
+
+## 2026-07-30 — Experiment 24, stellar zero links on S^3 (exploratory side-track)
+
+Owner/decisions: orange asked whether the Hopf fibration connects to this
+repository's research and approved an explicitly light exploratory take in
+conversation ("まあおもろいから取り組んでみてよ 気楽に"); no issue was opened
+at first (the line was chartered as issue #137 the same day). Claude session
+(claude/hopf-fibration-research-hyalha) derived, implemented, and ran it.
+This is a side-track, not a gate: nothing here touches measured data or the
+K_ε note's certified one-mode theorems.
+
+The idea is the two-mode extension of the note's zero counting: stellar-
+function zeros meet the phase-space sphere |w1|^2+|w2|^2 = 1 in a link.
+Component count and the pairwise linking matrix are invariant under passive
+linear optics; per-component core windings are frame-fixed diagnostics
+defined against the state's own coordinate cores (this scope was corrected
+during PR #136 review — the entry as first pushed wrongly listed windings
+among the passive invariants). |1,1> realizes the positive Hopf link (two
+Hopf fibers), and linking is the topological form of a robust zero: it can
+only die by zeros colliding or leaving the sphere.
+experiments/24_hopf_stellar/derivation.md pre-declares the propositions
+(P1-P4b proved, P5/P6 sketches, Q1 open) and the falsification gates.
+
+Measured (experiments/24_hopf_stellar/hopf_link_results.json, authoritative;
+verdicts computed from data): outcome values, the E1-E3 verdict booleans,
+and a descriptive criterion-free comparison of the E4 ladder's first linked
+pair against its largest fidelity step are reported only through the JSON
+and the README's generated block (policy-tested); this log restates none of
+them. Theorem-backed regardless of the run: coherent K <= 2 cannot link
+(P3), while two TMSV terms reach |11> with the target topology held exactly
+(P4), so squeezing is what buys the link.
+
+Scope: two-mode, pure states, unit sphere, numerically supported census
+(grid-resolution limited, cap heuristic recorded); P5/P6 remain sketches
+with no certified-lower-bound language; reproduction is same-environment
+(environment recorded in the JSON; cross-platform best-found optima can
+differ, observed in review); novelty unclaimed pending the derivation §7
+prior-art survey. Toolkit: wigner_splat/stellar2.py with proved-prediction
+tests in tests/test_stellar2.py, including the linking-sign calibration pin.
+
+## 2026-07-30 — Experiment 25 / issue #137 Gate M, topological K–ε curves
+
+Owner/decisions: orange asked for the exp24 本命 line to get an issue and its
+main code ("issue建てて 本命コード"); issue #137 charters the program (Gate S′
+survey / T′ theory / M measurement / L out-of-scope ladder) and this
+experiment is Gate M's first pass. plan.md pre-declared predictions PA-PE and
+alarms, committed before interpretation; two seeding defects found on the way
+(penalty-plateau contamination of a fit cell; structured seeds marginally
+outside the tail-bounded dictionary at cutoff 36) are fixed in commits, not
+by relaxing the declared bounds.
+
+Measured (experiments/25_topological_kcurves/topological_kcurves.json,
+authoritative; verdicts computed from data with census failures propagating
+as indeterminate): outcome values — the verdict booleans, the per-ladder
+first-transition Ks, the descriptive cliff-vs-transition report and its
+tally, and the exp24 cross-check — are reported only through the JSON and
+the README's generated block (policy-tested); this log restates none of
+them. The epistemic status of each check is likewise not restated here:
+plan.md's claim table is its sole authoring location, quoted verbatim into
+the README generated block. No quantitative "cliff" criterion was
+pre-declared, so the coincidence report is descriptive only, and ladders
+with census failures below their transition are excluded from its tally as
+indeterminate.
+
+Review rounds (PR #136, GptSol under orange's account): round 1 caught the P2
+winding-invariance overclaim (fixed across derivation, READMEs, this log,
+issue #137, and the census docstring), census failures counting as verdict
+passes (now indeterminate), the F1 halt missing for E2/E3 (now uniform),
+Windows code-page console aborts plus a same-environment-only reproduction
+contract (console pinned to UTF-8, environment recorded in both JSONs,
+artifacts regenerated), and hand-restated README numbers (now generated
+blocks with a claim-surface policy test covering both experiment
+directories). Round 2 caught two residues of the same shape: hand-restated
+qualitative conclusions (the ladder-coincidence tally, now generated into
+the blocks and mechanically checked outside them) and a misclassified
+epistemic status for PC. Round 3 then caught that the round-2 status fix
+itself multiplied authoring locations, and that the tally could count
+ladders whose transition sits above a census failure: plan.md's claim table
+is now the sole authoring location for status (quoted verbatim into the
+block, policy-tested), and such ladders are excluded from the tally as
+indeterminate (fixture-tested).
+
+Scope: best-found multi-start values under a fixed budget, never suprema;
+tail-bounded operational dictionary (effective squeezing singular value
+<= ~0.56 at cutoff 36); censuses numerically supported; no certified
+language.

@@ -94,6 +94,193 @@ def test_no_withdrawn_claim_reappears_on_a_generated_surface():
             assert not found, f"{surface}: withdrawn claim {found.group(0)!r} ({record})"
 
 
+# --- issue #137 (topological K-epsilon) surfaces -----------------------------
+
+TOPO_DIRS = {
+    "24_hopf_stellar": "hopf_link_results.json",
+    "25_topological_kcurves": "topological_kcurves.json",
+}
+
+
+def _topo_paths(suffix: str) -> list[Path]:
+    return sorted(
+        path
+        for name in TOPO_DIRS
+        for path in (EXPERIMENTS / name).rglob(f"*{suffix}")
+    )
+
+
+def test_every_topo_json_is_scanned_and_free_of_conclusion_keys():
+    artifacts = _topo_paths(".json")
+    assert artifacts, "no issue #137 artifacts found — the directory list is stale"
+    for artifact in artifacts:
+        payload = json.loads(artifact.read_text(encoding="utf-8"))
+        offending = CONCLUSION_KEYS.intersection(_keys(payload))
+        assert not offending, f"{artifact}: conclusion-prose keys {sorted(offending)}"
+
+
+def test_no_withdrawn_claim_reappears_on_a_topo_surface():
+    surfaces = _topo_paths(".py") + _topo_paths(".md")
+    assert surfaces
+    for surface in surfaces:
+        text = _normalize(surface.read_text(encoding="utf-8"))
+        for pattern, record in WITHDRAWN_CLAIMS.items():
+            found = re.search(pattern, text)
+            assert not found, f"{surface}: withdrawn claim {found.group(0)!r} ({record})"
+
+
+# Result-shaped phrases that may only appear inside a generated block: the
+# 2026-07-30 review found the ladder-coincidence tally hand-restated in README
+# prose after the numeric tables had already been generated (same drift class,
+# one layer up).
+RESTATED_RESULT_PATTERNS = {
+    r"(one|two|three|four|five|six|\d+) of (the )?(four|five|six|\d+)( scored)? ladders": (
+        "PR #136 round 2 — tallies are generated into the block"
+    ),
+    r"coincide[sd]? with (it|the (transition|largest))": (
+        "PR #136 round 2 — coincidence lines are generated into the block"
+    ),
+    r"first (linked pair|\(3,2\) winding) at k = \d": (
+        "PR #136 round 2 — transition Ks are generated into the block"
+    ),
+}
+
+
+def _load_summary_module(name):
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        f"summary_block_{name}", EXPERIMENTS / name / "summary_block.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_no_result_restatement_outside_the_generated_blocks():
+    for name in TOPO_DIRS:
+        module = _load_summary_module(name)
+        readme = (EXPERIMENTS / name / "README.md").read_text(encoding="utf-8")
+        start = readme.find(module.BEGIN)
+        stop = readme.find(module.END)
+        assert start >= 0 and stop >= 0
+        outside = _normalize(readme[:start] + readme[stop + len(module.END):])
+        for pattern, record in RESTATED_RESULT_PATTERNS.items():
+            found = re.search(pattern, outside)
+            assert not found, (
+                f"{name}/README.md restates a generated result outside the "
+                f"block: {found.group(0)!r} ({record})"
+            )
+
+
+# Epistemic-status phrases may not be authored outside plan.md's claim table:
+# round 2 hand-restated PC's class on five surfaces and it drifted (round 3).
+RESTATED_STATUS_PATTERNS = {
+    r"\bp[a-e]\b[^\n]{0,80}(theorem-backed|proved-proposition|sketch-consistency)": (
+        "PR #136 round 3 — status is quoted verbatim from plan.md"
+    ),
+    r"(theorem-backed|not theorem-backed) (expectation|verdict|check)": (
+        "PR #136 round 3 — status is quoted verbatim from plan.md"
+    ),
+}
+
+
+def test_epistemic_status_quoted_from_plan_not_restated():
+    module = _load_summary_module("25_topological_kcurves")
+    registry = module.load_claim_registry()
+    assert set(registry) == set(module.CLAIM_IDS)
+
+    readme = (EXPERIMENTS / "25_topological_kcurves" / "README.md").read_text(
+        encoding="utf-8"
+    )
+    start = readme.find(module.BEGIN)
+    stop = readme.find(module.END)
+    assert start >= 0 and stop >= 0
+    block = readme[start:stop]
+    for cid, row in registry.items():
+        assert row["basis"] in block, f"{cid} basis not quoted in the block"
+    outside = _normalize(readme[:start] + readme[stop + len(module.END):])
+    for pattern, record in RESTATED_STATUS_PATTERNS.items():
+        found = re.search(pattern, outside)
+        assert not found, (
+            f"25_topological_kcurves/README.md restates epistemic status "
+            f"outside the block: {found.group(0)!r} ({record})"
+        )
+
+
+def test_tally_excludes_ladders_with_failures_below_transition():
+    """A ladder whose transition K sits above a census failure must not be
+    counted as a coincidence (PR #136 round 3 fixture test)."""
+    module = _load_summary_module("25_topological_kcurves")
+    ladders = {
+        "t11/coherent": {
+            "K": [1, 2],
+            "one_minus_F": [0.5, 0.1],
+            "relative_step_factors_into_next_K": [5.0],
+            "largest_relative_step_at_K": 2,
+            "largest_relative_step_factor": 5.0,
+            "first_transition": {"K": 2, "indeterminate_below": []},
+        },
+        "t11/gaussian": {
+            "K": [1, 2],
+            "one_minus_F": [0.5, 0.1],
+            "relative_step_factors_into_next_K": [5.0],
+            "largest_relative_step_at_K": 2,
+            "largest_relative_step_factor": 5.0,
+            "first_transition": {"K": 2, "indeterminate_below": [1]},
+        },
+    }
+    scored, indeterminate = module.coincidence_partition(ladders)
+    assert [name for name, _ in scored] == ["t11/coherent"]
+    assert indeterminate == ["t11/gaussian"]
+
+    text = module.render({"cells": {}, "verdicts": {}, "ladders": ladders})
+    assert "coincide in 1 of 1 scored ladders" in text
+    assert "excluded as indeterminate" in text and "t11/gaussian" in text
+    assert "2 of 2" not in text
+
+    # the indeterminate ladder's own line must carry no coincidence verdict:
+    # only the first OBSERVED transition is known (PR #136 round 4)
+    gaussian_lines = [
+        line for line in text.splitlines() if line.strip().startswith("- gaussian:")
+    ]
+    assert len(gaussian_lines) == 1
+    assert "which coincides" not in gaussian_lines[0]
+    assert "does NOT coincide" not in gaussian_lines[0]
+    assert "first observed" in gaussian_lines[0]
+    assert "coincidence with the true first transition: INDETERMINATE" in gaussian_lines[0]
+    coherent_lines = [
+        line for line in text.splitlines() if line.strip().startswith("- coherent:")
+    ]
+    assert "which coincides" in coherent_lines[0]
+
+
+def test_topo_readme_generated_blocks_match_artifacts():
+    """One-authoring-location gate for exp24/25 README numbers: the block in
+    each README must be exactly what its summary_block renders from the
+    committed JSON (PR #136 review: hand-restated numbers survived an
+    artifact change)."""
+    import importlib.util
+
+    for name, artifact in TOPO_DIRS.items():
+        exp_dir = EXPERIMENTS / name
+        spec = importlib.util.spec_from_file_location(
+            f"summary_block_{name}", exp_dir / "summary_block.py"
+        )
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        results = json.loads((exp_dir / artifact).read_text(encoding="utf-8"))
+        readme = (exp_dir / "README.md").read_text(encoding="utf-8")
+        start = readme.find(module.BEGIN)
+        stop = readme.find(module.END)
+        assert start >= 0 and stop >= 0, f"{name}: README lost its generated markers"
+        block = readme[start : stop + len(module.END)]
+        assert block == module.render(results), (
+            f"{name}: README generated block diverges from {artifact}; "
+            "rerun run.py instead of editing the block"
+        )
+
+
 def test_run_logs_are_excluded_from_the_scan():
     """The exclusion is deliberate; assert it stays deliberate.
 

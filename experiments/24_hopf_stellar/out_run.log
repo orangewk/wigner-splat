@@ -1,0 +1,18 @@
+== E1: tracker validation (P1/P2) ==
+E1 verdict: MATCH — tracker validated
+== E2: knot ladder ==
+E2 verdict: MATCH vs P6/R1 predictions
+== E3: dictionary probes ==
+TMSV odd cat lam=0.3: link = Hopf, F(|11>) = 0.9919
+TMSV odd cat lam=0.6: link = Hopf, F(|11>) = 0.8704
+TMSV odd cat lam=0.9: link = Hopf, F(|11>) = 0.3439
+generic TMSV cat conic pair: windings (±1,∓1), lk +1 as P4b proves
+cat(x)cat t=3.5: 6 components (geometry pattern MATCH)
+E3 verdict: MATCH vs P3/P4/P4b
+== E4: coherent-dictionary fit ladder vs |11> ==
+K=1: best fidelity 0.135335, 1-F = 8.647e-01, 0 zero components, linked pair: False
+K=2: best fidelity 0.367879, 1-F = 6.321e-01, 1 zero components, linked pair: False
+K=3: best fidelity 0.592011, 1-F = 4.080e-01, 1 zero components, linked pair: False
+K=4: best fidelity 0.999766, 1-F = 2.337e-04, 2 zero components, linked pair: True
+E4 summary: 1-F at K=1..4 = 8.647e-01, 6.321e-01, 4.080e-01, 2.337e-04; Q1 (K=3 linked pair): False
+artifacts: hopf_link_results.json, out_run.log, stellar_links_s3.png, coherent_fit_ladder.png, README generated block
