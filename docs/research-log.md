@@ -1796,3 +1796,43 @@ gap, and repeated certification-scope overreach; all resolved. The
 recurring failure type of this cycle — attributing one quantity's
 property to another — is documented in the note's declaration table
 (§2.4) and the #71 thread.
+
+## 2026-07-30 — Experiment 24, stellar zero links on S^3 (exploratory side-track)
+
+Owner/decisions: orange asked whether the Hopf fibration connects to this
+repository's research and approved an explicitly light exploratory take in
+conversation ("まあおもろいから取り組んでみてよ 気楽に"); no issue was opened.
+Claude session (claude/hopf-fibration-research-hyalha) derived, implemented,
+and ran it the same day. This is a side-track, not a gate: nothing here
+touches measured data or the K_ε note's certified one-mode theorems.
+
+The idea is the two-mode extension of the note's zero counting: stellar-
+function zeros meet the phase-space sphere |w1|^2+|w2|^2 = 1 in a link, whose
+component count, core windings, and pairwise linking numbers are invariant
+under passive linear optics. |1,1> realizes the positive Hopf link (two Hopf
+fibers), and linking is the topological form of a robust zero: it can only die
+by zeros colliding or leaving the sphere. experiments/24_hopf_stellar/
+derivation.md pre-declares the propositions (P1-P4b proved, P5/P6 sketches,
+Q1 open) and the falsification gates before the run.
+
+Measured (experiments/24_hopf_stellar/hopf_link_results.json, authoritative;
+all verdicts computed from data): the tracker reproduces every proved link
+(E1); |30>+|03> gives three mutually +1-linked circles and 0.8|20>+0.6|03>
+a (3,2)-winding trefoil component (E2); TMSV odd cats carry the exact Hopf
+link at every squeezing with F(|11>) = 1 - lam^4, the smooth conic pair shows
+the proved (+1,-1)/(-1,+1)/lk+1 signature, and the cat(x)cat satellite
+pattern matches the in-code geometric prediction (E3). The coherent fit
+ladder (E4, best-found multi-start, not certified suprema) gives best
+fidelity to |11> of 0.135/0.368/0.592/0.9998 at K = 1/2/3/4; the
+three-orders-of-magnitude jump at K = 4 coincides with the first appearance
+of a linked pair, K <= 2 shows none (as proved), and the open K = 3 cell also
+shows none at the found optimum. Dictionary separation at K = 2 is exact in
+the other direction: two TMSV terms reach |11> with the target topology held
+exactly, so squeezing is what buys the link (P3 vs P4).
+
+Scope: two-mode, pure states, unit sphere, numerically supported census
+(grid-resolution limited, cap heuristic recorded); P5/P6 remain sketches with
+no certified-lower-bound language; novelty unclaimed pending the derivation
+§7 prior-art survey. Toolkit: wigner_splat/stellar2.py with proved-prediction
+tests in tests/test_stellar2.py (13 tests, including the linking-sign
+calibration pin).

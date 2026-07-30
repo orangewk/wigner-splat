@@ -1,0 +1,1180 @@
+{
+  "E1": {
+    "check_10_plus_01": {
+      "expected": {
+        "linking_offdiag": [],
+        "n_components": 1,
+        "windings": [
+          [
+            "1",
+            "1"
+          ]
+        ]
+      },
+      "match": true,
+      "measured": {
+        "linking_offdiag": [],
+        "n_components": 1,
+        "windings": [
+          [
+            "1",
+            "1"
+          ]
+        ]
+      }
+    },
+    "check_11_frameA": {
+      "expected": {
+        "linking_offdiag": [
+          1
+        ],
+        "n_components": 2,
+        "windings": [
+          [
+            "1",
+            "x"
+          ],
+          [
+            "x",
+            "1"
+          ]
+        ]
+      },
+      "match": true,
+      "measured": {
+        "linking_offdiag": [
+          1
+        ],
+        "n_components": 2,
+        "windings": [
+          [
+            "1",
+            "x"
+          ],
+          [
+            "x",
+            "1"
+          ]
+        ]
+      }
+    },
+    "check_11_frameB": {
+      "expected": {
+        "linking_offdiag": [
+          1
+        ],
+        "n_components": 2,
+        "windings": [
+          [
+            "1",
+            "x"
+          ],
+          [
+            "x",
+            "1"
+          ]
+        ]
+      },
+      "match": true,
+      "measured": {
+        "linking_offdiag": [
+          1
+        ],
+        "n_components": 2,
+        "windings": [
+          [
+            "1",
+            "x"
+          ],
+          [
+            "x",
+            "1"
+          ]
+        ]
+      }
+    },
+    "check_20_plus_02": {
+      "expected": {
+        "linking_offdiag": [
+          1
+        ],
+        "n_components": 2,
+        "windings": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ]
+        ]
+      },
+      "match": true,
+      "measured": {
+        "linking_offdiag": [
+          1
+        ],
+        "n_components": 2,
+        "windings": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ]
+        ]
+      }
+    },
+    "state_10_plus_01": {
+      "components": [
+        {
+          "n_points": 192,
+          "windings": [
+            1,
+            1
+          ]
+        }
+      ],
+      "diagnostics": {
+        "caps_clear": true,
+        "median_abs_on_grid": 0.9999999983899868,
+        "min_abs_on_caps": 0.6778705041072381,
+        "min_component_points": 192
+      },
+      "frame_seed_used": 0,
+      "grid": {
+        "eta_margin": 0.05,
+        "n_eta": 90,
+        "n_xi": 96
+      },
+      "linking_matrix": [
+        [
+          0
+        ]
+      ],
+      "radius": 1.0
+    },
+    "state_11_frameA": {
+      "components": [
+        {
+          "n_points": 192,
+          "windings": [
+            null,
+            1
+          ]
+        },
+        {
+          "n_points": 192,
+          "windings": [
+            1,
+            null
+          ]
+        }
+      ],
+      "diagnostics": {
+        "caps_clear": true,
+        "median_abs_on_grid": 0.4051036981548477,
+        "min_abs_on_caps": 0.3185690236671928,
+        "min_component_points": 192
+      },
+      "frame_seed_used": 0,
+      "grid": {
+        "eta_margin": 0.05,
+        "n_eta": 90,
+        "n_xi": 96
+      },
+      "linking_matrix": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "radius": 1.0
+    },
+    "state_11_frameB": {
+      "components": [
+        {
+          "n_points": 192,
+          "windings": [
+            1,
+            null
+          ]
+        },
+        {
+          "n_points": 192,
+          "windings": [
+            null,
+            1
+          ]
+        }
+      ],
+      "diagnostics": {
+        "caps_clear": true,
+        "median_abs_on_grid": 0.44919401819057714,
+        "min_abs_on_caps": 0.4632234752880341,
+        "min_component_points": 192
+      },
+      "frame_seed_used": 100,
+      "grid": {
+        "eta_margin": 0.05,
+        "n_eta": 90,
+        "n_xi": 96
+      },
+      "linking_matrix": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "radius": 1.0
+    },
+    "state_20_plus_02": {
+      "components": [
+        {
+          "n_points": 192,
+          "windings": [
+            1,
+            1
+          ]
+        },
+        {
+          "n_points": 192,
+          "windings": [
+            1,
+            1
+          ]
+        }
+      ],
+      "diagnostics": {
+        "caps_clear": true,
+        "median_abs_on_grid": 0.6262967127653538,
+        "min_abs_on_caps": 0.6314006744873115,
+        "min_component_points": 192
+      },
+      "frame_seed_used": 0,
+      "grid": {
+        "eta_margin": 0.05,
+        "n_eta": 90,
+        "n_xi": 96
+      },
+      "linking_matrix": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "radius": 1.0
+    }
+  },
+  "E2": {
+    "check_three_chain": {
+      "expected": {
+        "linking_offdiag": [
+          1,
+          1,
+          1
+        ],
+        "n_components": 3,
+        "windings": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ]
+        ]
+      },
+      "match": true,
+      "measured": {
+        "linking_offdiag": [
+          1,
+          1,
+          1
+        ],
+        "n_components": 3,
+        "windings": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ]
+        ]
+      }
+    },
+    "check_trefoil": {
+      "expected": {
+        "n_components": 1,
+        "winding_magnitudes": [
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "match": true,
+      "measured": {
+        "n_components": 1,
+        "winding_magnitudes": [
+          [
+            2,
+            3
+          ]
+        ]
+      }
+    },
+    "state_30_plus_03": {
+      "components": [
+        {
+          "n_points": 192,
+          "windings": [
+            1,
+            1
+          ]
+        },
+        {
+          "n_points": 192,
+          "windings": [
+            1,
+            1
+          ]
+        },
+        {
+          "n_points": 192,
+          "windings": [
+            1,
+            1
+          ]
+        }
+      ],
+      "diagnostics": {
+        "caps_clear": true,
+        "median_abs_on_grid": 0.2997916022429721,
+        "min_abs_on_caps": 0.3177984294190872,
+        "min_component_points": 192
+      },
+      "frame_seed_used": 0,
+      "grid": {
+        "eta_margin": 0.05,
+        "n_eta": 90,
+        "n_xi": 96
+      },
+      "linking_matrix": [
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ]
+      ],
+      "radius": 1.0
+    },
+    "state_trefoil": {
+      "components": [
+        {
+          "n_points": 568,
+          "windings": [
+            3,
+            2
+          ]
+        }
+      ],
+      "diagnostics": {
+        "caps_clear": true,
+        "median_abs_on_grid": 0.31177400865834815,
+        "min_abs_on_caps": 0.11915891645850366,
+        "min_component_points": 568
+      },
+      "frame_seed_used": 0,
+      "grid": {
+        "eta_margin": 0.05,
+        "n_eta": 90,
+        "n_xi": 96
+      },
+      "linking_matrix": [
+        [
+          0
+        ]
+      ],
+      "radius": 1.0
+    }
+  },
+  "E3": {
+    "cat_x_cat": {
+      "census": {
+        "components": [
+          {
+            "n_points": 208,
+            "windings": [
+              null,
+              1
+            ]
+          },
+          {
+            "n_points": 208,
+            "windings": [
+              1,
+              null
+            ]
+          },
+          {
+            "n_points": 198,
+            "windings": [
+              1,
+              0
+            ]
+          },
+          {
+            "n_points": 198,
+            "windings": [
+              0,
+              1
+            ]
+          },
+          {
+            "n_points": 198,
+            "windings": [
+              0,
+              1
+            ]
+          },
+          {
+            "n_points": 198,
+            "windings": [
+              1,
+              0
+            ]
+          }
+        ],
+        "diagnostics": {
+          "caps_clear": true,
+          "median_abs_on_grid": 0.00011242754846561823,
+          "min_abs_on_caps": 2.616582612050865e-06,
+          "min_component_points": 198
+        },
+        "frame_seed_used": 0,
+        "grid": {
+          "eta_margin": 0.05,
+          "n_eta": 90,
+          "n_xi": 96
+        },
+        "linking_matrix": [
+          [
+            0,
+            1,
+            1,
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "radius": 1.0
+      },
+      "check_geometry": {
+        "match": true
+      },
+      "component_classes": [
+        "core1",
+        "core2",
+        "sat2",
+        "sat1",
+        "sat1",
+        "sat2"
+      ],
+      "prediction_mismatches": [],
+      "satellite_offset": 0.8975979010256552,
+      "t": 3.5
+    },
+    "generic_tmsv_cat": {
+      "census": {
+        "components": [
+          {
+            "n_points": 296,
+            "windings": [
+              1,
+              -1
+            ]
+          },
+          {
+            "n_points": 296,
+            "windings": [
+              -1,
+              1
+            ]
+          }
+        ],
+        "diagnostics": {
+          "caps_clear": true,
+          "median_abs_on_grid": 0.3715411054670694,
+          "min_abs_on_caps": 0.1009634977052045,
+          "min_component_points": 296
+        },
+        "frame_seed_used": 0,
+        "grid": {
+          "eta_margin": 0.05,
+          "n_eta": 90,
+          "n_xi": 96
+        },
+        "linking_matrix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "radius": 1.0
+      },
+      "check_p4b": {
+        "expected": {
+          "linking_offdiag": [
+            1
+          ],
+          "n_components": 2,
+          "windings": [
+            [
+              "-1",
+              "1"
+            ],
+            [
+              "1",
+              "-1"
+            ]
+          ]
+        },
+        "match": true,
+        "measured": {
+          "linking_offdiag": [
+            1
+          ],
+          "n_components": 2,
+          "windings": [
+            [
+              "-1",
+              "1"
+            ],
+            [
+              "1",
+              "-1"
+            ]
+          ]
+        }
+      },
+      "lam": 0.85,
+      "phi": 0.35
+    },
+    "tmsv_odd_cat": {
+      "0.3": {
+        "census": {
+          "components": [
+            {
+              "n_points": 192,
+              "windings": [
+                null,
+                1
+              ]
+            },
+            {
+              "n_points": 192,
+              "windings": [
+                1,
+                null
+              ]
+            }
+          ],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.231873205068934,
+            "min_abs_on_caps": 0.1820603590621275,
+            "min_component_points": 192
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "radius": 1.0
+        },
+        "check_link": {
+          "expected": {
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "windings": [
+              [
+                "1",
+                "x"
+              ],
+              [
+                "x",
+                "1"
+              ]
+            ]
+          },
+          "match": true,
+          "measured": {
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "windings": [
+              [
+                "1",
+                "x"
+              ],
+              [
+                "x",
+                "1"
+              ]
+            ]
+          }
+        },
+        "fidelity_formulas_agree": true,
+        "fidelity_to_11_closed_form": 0.9919,
+        "fidelity_to_11_fock_series": 0.9919
+      },
+      "0.6": {
+        "census": {
+          "components": [
+            {
+              "n_points": 192,
+              "windings": [
+                null,
+                1
+              ]
+            },
+            {
+              "n_points": 192,
+              "windings": [
+                1,
+                null
+              ]
+            }
+          ],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.3888775502110328,
+            "min_abs_on_caps": 0.30397050545011034,
+            "min_component_points": 192
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "radius": 1.0
+        },
+        "check_link": {
+          "expected": {
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "windings": [
+              [
+                "1",
+                "x"
+              ],
+              [
+                "x",
+                "1"
+              ]
+            ]
+          },
+          "match": true,
+          "measured": {
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "windings": [
+              [
+                "1",
+                "x"
+              ],
+              [
+                "x",
+                "1"
+              ]
+            ]
+          }
+        },
+        "fidelity_formulas_agree": true,
+        "fidelity_to_11_closed_form": 0.8704000000000001,
+        "fidelity_to_11_fock_series": 0.8704000000000001
+      },
+      "0.9": {
+        "census": {
+          "components": [
+            {
+              "n_points": 192,
+              "windings": [
+                null,
+                1
+              ]
+            },
+            {
+              "n_points": 192,
+              "windings": [
+                1,
+                null
+              ]
+            }
+          ],
+          "diagnostics": {
+            "caps_clear": true,
+            "median_abs_on_grid": 0.3176178347485116,
+            "min_abs_on_caps": 0.24654485876666257,
+            "min_component_points": 192
+          },
+          "frame_seed_used": 0,
+          "grid": {
+            "eta_margin": 0.05,
+            "n_eta": 90,
+            "n_xi": 96
+          },
+          "linking_matrix": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "radius": 1.0
+        },
+        "check_link": {
+          "expected": {
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "windings": [
+              [
+                "1",
+                "x"
+              ],
+              [
+                "x",
+                "1"
+              ]
+            ]
+          },
+          "match": true,
+          "measured": {
+            "linking_offdiag": [
+              1
+            ],
+            "n_components": 2,
+            "windings": [
+              [
+                "1",
+                "x"
+              ],
+              [
+                "x",
+                "1"
+              ]
+            ]
+          }
+        },
+        "fidelity_formulas_agree": true,
+        "fidelity_to_11_closed_form": 0.3439,
+        "fidelity_to_11_fock_series": 0.3438999999999999
+      }
+    }
+  },
+  "E4": {
+    "K=1": {
+      "best_fidelity": 0.13533528323635802,
+      "census": {
+        "components": [],
+        "diagnostics": {
+          "caps_clear": true,
+          "median_abs_on_grid": 0.1353351633623026,
+          "min_abs_on_caps": 0.03786362289323564,
+          "min_component_points": 0
+        },
+        "frame_seed_used": 0,
+        "grid": {
+          "eta_margin": 0.05,
+          "n_eta": 90,
+          "n_xi": 96
+        },
+        "linking_matrix": [],
+        "radius": 1.0
+      },
+      "coeffs_z": [
+        [
+          -0.36539300494423216,
+          -0.042699358006676645
+        ]
+      ],
+      "kets_g1": [
+        [
+          -0.9844951735130796,
+          0.17541120721011183
+        ]
+      ],
+      "kets_g2": [
+        [
+          0.9982019631853134,
+          0.05995643373696627
+        ]
+      ],
+      "linked_pair_found": false
+    },
+    "K=2": {
+      "best_fidelity": 0.3678794411757986,
+      "census": {
+        "components": [
+          {
+            "n_points": 192,
+            "windings": [
+              1,
+              null
+            ]
+          }
+        ],
+        "diagnostics": {
+          "caps_clear": true,
+          "median_abs_on_grid": 0.2626833483866066,
+          "min_abs_on_caps": 0.04861427113934729,
+          "min_component_points": 192
+        },
+        "frame_seed_used": 0,
+        "grid": {
+          "eta_margin": 0.05,
+          "n_eta": 90,
+          "n_xi": 96
+        },
+        "linking_matrix": [
+          [
+            0
+          ]
+        ],
+        "radius": 1.0
+      },
+      "coeffs_z": [
+        [
+          75.52605305299107,
+          -89.44250430277496
+        ],
+        [
+          -75.52605254119861,
+          89.44250409867658
+        ]
+      ],
+      "kets_g1": [
+        [
+          0.9159385547539372,
+          -0.40132224126528726
+        ],
+        [
+          0.915938561602214,
+          -0.4013222418470954
+        ]
+      ],
+      "kets_g2": [
+        [
+          0.0007371305367965998,
+          0.002484337846256215
+        ],
+        [
+          -0.0007358955845677645,
+          -0.0024830320706867573
+        ]
+      ],
+      "linked_pair_found": false
+    },
+    "K=3": {
+      "best_fidelity": 0.5920114113383566,
+      "census": {
+        "components": [
+          {
+            "n_points": 432,
+            "windings": [
+              2,
+              2
+            ]
+          }
+        ],
+        "diagnostics": {
+          "caps_clear": true,
+          "median_abs_on_grid": 0.34741750319216735,
+          "min_abs_on_caps": 0.027340812851672766,
+          "min_component_points": 432
+        },
+        "frame_seed_used": 0,
+        "grid": {
+          "eta_margin": 0.05,
+          "n_eta": 90,
+          "n_xi": 96
+        },
+        "linking_matrix": [
+          [
+            0
+          ]
+        ],
+        "radius": 1.0
+      },
+      "coeffs_z": [
+        [
+          0.7137965309570572,
+          -0.006665620174440637
+        ],
+        [
+          0.7137955411906916,
+          -0.006662514107211021
+        ],
+        [
+          -1.0471651413075467,
+          0.009776110369741298
+        ]
+      ],
+      "kets_g1": [
+        [
+          0.9135556358230681,
+          0.06258626234820497
+        ],
+        [
+          -0.4331199500582057,
+          -0.02967160137509988
+        ],
+        [
+          0.5799313275798255,
+          0.03972862412824191
+        ]
+      ],
+      "kets_g2": [
+        [
+          0.43337666587253343,
+          -0.02562656224883897
+        ],
+        [
+          -0.9141011234415928,
+          0.05405461331552033
+        ],
+        [
+          -0.5802763249966083,
+          0.03431328162309171
+        ]
+      ],
+      "linked_pair_found": false
+    },
+    "K=4": {
+      "best_fidelity": 0.9997663395525905,
+      "census": {
+        "components": [
+          {
+            "n_points": 192,
+            "windings": [
+              null,
+              1
+            ]
+          },
+          {
+            "n_points": 220,
+            "windings": [
+              1,
+              2
+            ]
+          }
+        ],
+        "diagnostics": {
+          "caps_clear": true,
+          "median_abs_on_grid": 0.4050161456880752,
+          "min_abs_on_caps": 0.3163944393377577,
+          "min_component_points": 192
+        },
+        "frame_seed_used": 0,
+        "grid": {
+          "eta_margin": 0.05,
+          "n_eta": 90,
+          "n_xi": 96
+        },
+        "linking_matrix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "radius": 1.0
+      },
+      "coeffs_z": [
+        [
+          5.480422208111268,
+          -19.757941015599627
+        ],
+        [
+          -0.7835971036346688,
+          -18.587363031790886
+        ],
+        [
+          -5.403590647908574,
+          19.832826171338546
+        ],
+        [
+          0.7060692201447433,
+          18.51878706376841
+        ]
+      ],
+      "kets_g1": [
+        [
+          0.06221771722768357,
+          0.041177869013810924
+        ],
+        [
+          -0.06066483142580795,
+          -0.05760098468046336
+        ],
+        [
+          -0.06976143113863587,
+          -0.03379879984557552
+        ],
+        [
+          0.05319570376097685,
+          0.06566890850391391
+        ]
+      ],
+      "kets_g2": [
+        [
+          0.11561103552222302,
+          0.11870091984609962
+        ],
+        [
+          -0.1148582514636271,
+          -0.11197877316105198
+        ],
+        [
+          0.11481088236230194,
+          0.11890764544075166
+        ],
+        [
+          -0.11580498171492068,
+          -0.11192974817846964
+        ]
+      ],
+      "linked_pair_found": true
+    }
+  },
+  "fit_seed": 20260730,
+  "grid": {
+    "n_eta": 90,
+    "n_xi": 96
+  },
+  "verdicts": {
+    "e1_tracker_validated": true,
+    "e2_knot_ladder_matches": true,
+    "e3_dictionary_probes_match": true,
+    "e4_k2_no_linked_pair_as_P3_proves": true,
+    "e4_k3_linked_pair_found_Q1": false
+  }
+}
