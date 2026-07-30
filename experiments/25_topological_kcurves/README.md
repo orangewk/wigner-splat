@@ -58,5 +58,6 @@ winding at `K = 3`) gets the earlier cliff.
 python experiments/25_topological_kcurves/run.py
 ```
 
-Seeds are fixed; the census toolkit and its tests live in
-`wigner_splat/stellar2.py` / `tests/test_stellar2.py`.
+Seeds are fixed: the rerun that produced the committed figure regenerated
+`topological_kcurves.json` byte-identically. The census toolkit and its
+tests live in `wigner_splat/stellar2.py` / `tests/test_stellar2.py`.
