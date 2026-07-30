@@ -10,28 +10,23 @@ failures propagating as indeterminate (`None`), never as passes. The numbers
 below live in a block that `run.py` generates from that JSON, checked by
 `tests/test_claim_surface_policy.py`.
 
-## Result surfaces and their epistemic classes
+## Result surfaces and epistemic status
 
 Measured outcomes — the per-ladder curves, first-transition Ks, the
-descriptive coincidence report **including its tally**, and the pre-declared
+descriptive coincidence report including its tally, and the pre-declared
 verdict values — live only in the generated block below and in the JSON;
 this hand-written text intentionally repeats none of them
 (one-authoring-location policy, checked mechanically by the policy tests).
 
-The pre-declared checks fall into two classes, fixed by `plan.md`'s own
-basis column:
-
-- **PA and PB are theorem-backed**: their expected outcomes follow from
-  proved propositions (24/P4 and 24/P3), so a violation would be a tool or
-  proof defect, never a discovery.
-- **PC is not theorem-backed**: its basis is the 24/P6 *sketch*. Its pass is
-  an empirical consistency check with that sketch, and a violation would
-  have been recorded as evidence against the sketch (no halt) — `plan.md`'s
-  own terms. PC must not be grouped with PA/PB as a proved-proposition
-  verdict (classification corrected in PR #136 review round 2).
-- The cliff-vs-transition comparison has **no pre-declared criterion** and
-  is reported descriptively only; whether to pre-register one is deferred
-  to #137.
+The epistemic status of each pre-declared check is likewise not authored
+here: `plan.md`'s claim table is its **sole** authoring location, and the
+generated block quotes every check's basis and violation clause verbatim
+from that table (mechanism added in review round 3, after a hand-restated
+status drifted across surfaces in round 2). The cliff-vs-transition
+comparison has no pre-declared criterion and is reported descriptively
+only; whether to pre-register one is deferred to #137. Ladders whose
+transition K sits above a census failure are excluded from the tally as
+indeterminate — the generated line says so when it happens.
 
 ## Measured results (generated from the artifact)
 
@@ -76,12 +71,20 @@ Tally (descriptive, no pre-declared criterion): transition and largest relative 
 
 Pre-declared verdicts (computed; None = blocked by census failure):
 
-- PA `|11>`/Gaussian/K=2 reaches the target with the Hopf link: **True** (theorem-backed expectation, 24/P4 proved)
-- PB no coherent K<=2 linked pair: **True** (theorem-backed expectation, 24/P3 proved)
-- PC Gaussian K=2 max |winding| <= 2: **True** (empirical consistency with the 24/P6 SKETCH — not theorem-backed; a violation would have been evidence against the sketch, per plan.md)
+- PA `|11>`/Gaussian/K=2 reaches the target with the Hopf link: **True**
+- PB no coherent K<=2 linked pair: **True**
+- PC Gaussian K=2 max |winding| <= 2: **True**
 - PE trefoil/Gaussian/K=6 best-found fidelity: **0.9967**
 - Cross-check vs exp24's closed-form machinery: max |dF| = 7.4e-05 (consistent: True)
 - Census failures: none
+
+Epistemic status — quoted verbatim from plan.md's claim table, its sole authoring location:
+
+- PA — basis: "24/P4 proved (family contains `F = 1 - lam^4`)"; on violation: "optimizer defect, recorded; not a physics result"
+- PB — basis: "24/P3 proved"; on violation: "tool/proof alarm; halt interpretation of that cell"
+- PC — basis: "24/P6 sketch"; on violation: "recorded as evidence against the P6 sketch (interesting either way); no halt"
+- PD — basis: "24/Q1"; on violation: "n/a"
+- PE — basis: "24-memo construction, soft"; on violation: "optimizer budget noted, no alarm"
 <!-- generated-block: end -->
 
 ## Scope limits

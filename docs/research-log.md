@@ -1853,11 +1853,12 @@ as indeterminate): outcome values — the verdict booleans, the per-ladder
 first-transition Ks, the descriptive cliff-vs-transition report and its
 tally, and the exp24 cross-check — are reported only through the JSON and
 the README's generated block (policy-tested); this log restates none of
-them. Epistemic classes per plan.md's own basis column: PA and PB are
-theorem-backed checks (24/P4, 24/P3), while PC is an empirical consistency
-check against the 24/P6 SKETCH, not a proved-proposition verdict. No
-quantitative "cliff" criterion was pre-declared, so the coincidence report
-is descriptive only.
+them. The epistemic status of each check is likewise not restated here:
+plan.md's claim table is its sole authoring location, quoted verbatim into
+the README generated block. No quantitative "cliff" criterion was
+pre-declared, so the coincidence report is descriptive only, and ladders
+with census failures below their transition are excluded from its tally as
+indeterminate.
 
 Review rounds (PR #136, GptSol under orange's account): round 1 caught the P2
 winding-invariance overclaim (fixed across derivation, READMEs, this log,
@@ -1869,9 +1870,13 @@ artifacts regenerated), and hand-restated README numbers (now generated
 blocks with a claim-surface policy test covering both experiment
 directories). Round 2 caught two residues of the same shape: hand-restated
 qualitative conclusions (the ladder-coincidence tally, now generated into
-the blocks and mechanically checked outside them) and the misclassification
-of PC as a proved-proposition verdict alongside PA/PB (now labeled a
-P6-sketch consistency check on every surface, including the round-1 reply).
+the blocks and mechanically checked outside them) and a misclassified
+epistemic status for PC. Round 3 then caught that the round-2 status fix
+itself multiplied authoring locations, and that the tally could count
+ladders whose transition sits above a census failure: plan.md's claim table
+is now the sole authoring location for status (quoted verbatim into the
+block, policy-tested), and such ladders are excluded from the tally as
+indeterminate (fixture-tested).
 
 Scope: best-found multi-start values under a fixed budget, never suprema;
 tail-bounded operational dictionary (effective squeezing singular value

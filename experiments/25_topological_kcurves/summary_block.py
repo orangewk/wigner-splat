@@ -1,17 +1,49 @@
-"""Single authoring location for experiment 25's README numbers.
+"""Single authoring location plumbing for experiment 25's README results.
 
 `run.py` calls `write_into_readme` after writing `topological_kcurves.json`;
 `tests/test_claim_surface_policy.py` re-renders the block from the committed
 JSON and asserts the README carries exactly that text.
+
+Epistemic status is NOT authored here: `plan.md`'s claim table is its sole
+authoring location, and `load_claim_registry()` parses that table so the
+block can quote each check's basis and violation clause verbatim
+(PR #136 round 3 — a hand-restated status classification drifted in round 2).
 """
 
 from __future__ import annotations
 
+from pathlib import Path
+
 BEGIN = "<!-- generated-block: do not edit (written by run.py from topological_kcurves.json) -->"
 END = "<!-- generated-block: end -->"
 
+PLAN_PATH = Path(__file__).resolve().parent / "plan.md"
+CLAIM_IDS = ("PA", "PB", "PC", "PD", "PE")
+
 LADDER_MARKS = {"t11": "linked pair", "trefoil": "(3,2) winding"}
 MARK_KEYS = {"t11": "has_linked_pair", "trefoil": "has_trefoil_windings"}
+
+
+def load_claim_registry(plan_path=PLAN_PATH):
+    """Parse plan.md's pre-declared claim table (ID | Statement | Basis |
+    On violation) into a dict of verbatim cell strings. Raises if any
+    declared ID is missing, so a drifted plan fails loudly."""
+    registry = {}
+    for line in plan_path.read_text(encoding="utf-8").splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) < 4 or cells[0] not in CLAIM_IDS:
+            continue
+        # statement cells may contain pipes inside backticks (e.g. `|11>`);
+        # the ID and the last two columns are pipe-free, so rejoin the middle
+        registry[cells[0]] = {
+            "statement": "|".join(cells[1:-2]),
+            "basis": cells[-2],
+            "on_violation": cells[-1],
+        }
+    missing = [cid for cid in CLAIM_IDS if cid not in registry]
+    if missing:
+        raise RuntimeError(f"plan.md claim table is missing rows: {missing}")
+    return registry
 
 
 def _verdict(v):
@@ -20,10 +52,29 @@ def _verdict(v):
     return str(bool(v))
 
 
+def coincidence_partition(ladders):
+    """Split ladders into (scored, indeterminate) for the tally.
+
+    A ladder is scored only when its first transition is found AND no
+    smaller-K cell had a census failure (`indeterminate_below` empty) —
+    otherwise the true first transition is unknown and the ladder must not
+    enter the coincidence count (PR #136 round 3).
+    """
+    scored, indeterminate = [], []
+    for name, lad in sorted(ladders.items()):
+        fk = lad["first_transition"]
+        if fk["indeterminate_below"]:
+            indeterminate.append(name)
+        elif fk["K"] is not None:
+            scored.append((name, lad))
+    return scored, indeterminate
+
+
 def render(results: dict) -> str:
     cells = results["cells"]
     verdicts = results.get("verdicts", {})
     ladders = results.get("ladders", {})
+    registry = load_claim_registry()
     lines = [BEGIN]
     for target, title in (("t11", "|1,1>"), ("trefoil", "0.8|20>+0.6|03> (trefoil)")):
         mark = LADDER_MARKS[target]
@@ -54,7 +105,8 @@ def render(results: dict) -> str:
             fk = lad["first_transition"]
             first = fk["K"] if fk["K"] is not None else "none found"
             caveat = (
-                f" (indeterminate below K={min(fk['indeterminate_below'])})"
+                f" (INDETERMINATE below K={min(fk['indeterminate_below'])} — "
+                "census failures; excluded from the tally)"
                 if fk["indeterminate_below"]
                 else ""
             )
@@ -73,11 +125,7 @@ def render(results: dict) -> str:
                 "criterion was pre-declared."
             )
         lines.append("")
-    scored = [
-        (name, lad)
-        for name, lad in sorted(ladders.items())
-        if lad["first_transition"]["K"] is not None
-    ]
+    scored, indeterminate = coincidence_partition(ladders)
     agree = [
         name
         for name, lad in scored
@@ -88,30 +136,33 @@ def render(results: dict) -> str:
         for name, lad in scored
         if lad["first_transition"]["K"] != lad["largest_relative_step_at_K"]
     ]
-    lines.append(
+    tally = (
         f"Tally (descriptive, no pre-declared criterion): transition and "
         f"largest relative step coincide in {len(agree)} of {len(scored)} "
         f"scored ladders"
-        + (f"; differing: {', '.join(differ)}." if differ else ".")
     )
+    if differ:
+        tally += f"; differing: {', '.join(differ)}"
+    if indeterminate:
+        tally += (
+            f"; excluded as indeterminate (census failures below the "
+            f"transition): {', '.join(indeterminate)}"
+        )
+    lines.append(tally + ".")
     lines.append("")
     lines.append("Pre-declared verdicts (computed; None = blocked by census failure):")
     lines.append("")
     lines.append(
         f"- PA `|11>`/Gaussian/K=2 reaches the target with the Hopf link: "
-        f"**{_verdict(verdicts.get('pa_11_gauss_k2_reaches_target_with_hopf_link'))}** "
-        "(theorem-backed expectation, 24/P4 proved)"
+        f"**{_verdict(verdicts.get('pa_11_gauss_k2_reaches_target_with_hopf_link'))}**"
     )
     lines.append(
         f"- PB no coherent K<=2 linked pair: "
-        f"**{_verdict(verdicts.get('pb_all_coherent_k_le_2_unlinked'))}** "
-        "(theorem-backed expectation, 24/P3 proved)"
+        f"**{_verdict(verdicts.get('pb_all_coherent_k_le_2_unlinked'))}**"
     )
     lines.append(
         f"- PC Gaussian K=2 max |winding| <= 2: "
-        f"**{_verdict(verdicts.get('pc_all_gaussian_k2_max_winding_le_2'))}** "
-        "(empirical consistency with the 24/P6 SKETCH — not theorem-backed; "
-        "a violation would have been evidence against the sketch, per plan.md)"
+        f"**{_verdict(verdicts.get('pc_all_gaussian_k2_max_winding_le_2'))}**"
     )
     pe = verdicts.get("pe_trefoil_gauss_k6_fidelity")
     if pe is not None:
@@ -124,6 +175,18 @@ def render(results: dict) -> str:
         )
     fails = verdicts.get("census_failures", [])
     lines.append(f"- Census failures: {fails if fails else 'none'}")
+    lines.append("")
+    lines.append(
+        "Epistemic status — quoted verbatim from plan.md's claim table, "
+        "its sole authoring location:"
+    )
+    lines.append("")
+    for cid in CLAIM_IDS:
+        row = registry[cid]
+        lines.append(
+            f'- {cid} — basis: "{row["basis"]}"; on violation: '
+            f'"{row["on_violation"]}"'
+        )
     lines.append(END)
     return "\n".join(lines)
 

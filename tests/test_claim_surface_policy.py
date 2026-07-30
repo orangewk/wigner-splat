@@ -173,6 +173,73 @@ def test_no_result_restatement_outside_the_generated_blocks():
             )
 
 
+# Epistemic-status phrases may not be authored outside plan.md's claim table:
+# round 2 hand-restated PC's class on five surfaces and it drifted (round 3).
+RESTATED_STATUS_PATTERNS = {
+    r"\bp[a-e]\b[^\n]{0,80}(theorem-backed|proved-proposition|sketch-consistency)": (
+        "PR #136 round 3 — status is quoted verbatim from plan.md"
+    ),
+    r"(theorem-backed|not theorem-backed) (expectation|verdict|check)": (
+        "PR #136 round 3 — status is quoted verbatim from plan.md"
+    ),
+}
+
+
+def test_epistemic_status_quoted_from_plan_not_restated():
+    module = _load_summary_module("25_topological_kcurves")
+    registry = module.load_claim_registry()
+    assert set(registry) == set(module.CLAIM_IDS)
+
+    readme = (EXPERIMENTS / "25_topological_kcurves" / "README.md").read_text(
+        encoding="utf-8"
+    )
+    start = readme.find(module.BEGIN)
+    stop = readme.find(module.END)
+    assert start >= 0 and stop >= 0
+    block = readme[start:stop]
+    for cid, row in registry.items():
+        assert row["basis"] in block, f"{cid} basis not quoted in the block"
+    outside = _normalize(readme[:start] + readme[stop + len(module.END):])
+    for pattern, record in RESTATED_STATUS_PATTERNS.items():
+        found = re.search(pattern, outside)
+        assert not found, (
+            f"25_topological_kcurves/README.md restates epistemic status "
+            f"outside the block: {found.group(0)!r} ({record})"
+        )
+
+
+def test_tally_excludes_ladders_with_failures_below_transition():
+    """A ladder whose transition K sits above a census failure must not be
+    counted as a coincidence (PR #136 round 3 fixture test)."""
+    module = _load_summary_module("25_topological_kcurves")
+    ladders = {
+        "t11/coherent": {
+            "K": [1, 2],
+            "one_minus_F": [0.5, 0.1],
+            "relative_step_factors_into_next_K": [5.0],
+            "largest_relative_step_at_K": 2,
+            "largest_relative_step_factor": 5.0,
+            "first_transition": {"K": 2, "indeterminate_below": []},
+        },
+        "t11/gaussian": {
+            "K": [1, 2],
+            "one_minus_F": [0.5, 0.1],
+            "relative_step_factors_into_next_K": [5.0],
+            "largest_relative_step_at_K": 2,
+            "largest_relative_step_factor": 5.0,
+            "first_transition": {"K": 2, "indeterminate_below": [1]},
+        },
+    }
+    scored, indeterminate = module.coincidence_partition(ladders)
+    assert [name for name, _ in scored] == ["t11/coherent"]
+    assert indeterminate == ["t11/gaussian"]
+
+    text = module.render({"cells": {}, "verdicts": {}, "ladders": ladders})
+    assert "coincide in 1 of 1 scored ladders" in text
+    assert "excluded as indeterminate" in text and "t11/gaussian" in text
+    assert "2 of 2" not in text
+
+
 def test_topo_readme_generated_blocks_match_artifacts():
     """One-authoring-location gate for exp24/25 README numbers: the block in
     each README must be exactly what its summary_block renders from the
