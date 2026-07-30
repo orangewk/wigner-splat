@@ -14,10 +14,12 @@ function is a complex curve; its intersection with a phase-space 3-sphere is a
 closed 1-dimensional curve system — a **link**. Links carry more than a count:
 components can wind and be mutually linked, the simplest nontrivial case being
 the Hopf link (the fibers of the Hopf fibration `S^3 -> S^2`). This memo asks
-whether that topology is (a) computable, (b) invariant under passive linear
-optics, and (c) an obstruction that separates Gaussian dictionaries at fixed
-term budget `K` — a **topological K–ε obstruction**, the 2-mode sibling of the
-note's zero counting. One mode counts zeros; two modes can also link them.
+whether that topology is (a) computable, (b) partially invariant under
+passive linear optics (see P2 for the exact scope — component count and
+linking are; core windings are not), and (c) an obstruction that separates
+Gaussian dictionaries at fixed term budget `K` — a **topological K–ε
+obstruction**, the 2-mode sibling of the note's zero counting. One mode
+counts zeros; two modes can also link them.
 
 ## 1. Conventions
 
@@ -48,12 +50,14 @@ Sphere `S3_r = {|w1|^2 + |w2|^2 = r^2}`; the census sphere is `r = 1` unless
 stated. The **zero link** is `L_r(psi) = f_psi^{-1}(0) ∩ S3_r`. Each component
 is oriented by the **boundary orientation** induced from the complex
 orientation of the analytic curve piece inside the ball (outward-normal-first
-convention). Recorded invariants:
+convention). Recorded quantities:
 
 - number of components;
 - per-component **core windings** `(m1, m2)` = winding of `arg w1` / `arg w2`
   along the component (equal to the linking numbers with the two core great
-  circles `{w1=0} ∩ S3`, `{w2=0} ∩ S3` when the component avoids them);
+  circles `{w1=0} ∩ S3`, `{w2=0} ∩ S3` when the component avoids them).
+  These are **frame-fixed** quantities: they reference the state's own
+  coordinate cores and are not passive invariants (P2);
 - the pairwise **linking matrix** of the components.
 
 The overall sign convention (ambient `S^3` orientation) is fixed once in code;
@@ -69,15 +73,27 @@ transversally, and complex submanifolds intersect positively, so the boundary
 linking number equals `+1`. `L_r(|11>)` is the positive Hopf link for every
 `r > 0` — literally two fibers of the Hopf fibration.
 
-**P2 (passive invariance; proved as a variable-change statement).** A linear
-unitary substitution `w -> U w`, `U in U(2)`, sends stellar functions to
-stellar functions of passively transformed states (beam splitters and phase
-shifters; the `U`-versus-`U^T` bookkeeping between state and substitution is
-not used anywhere below). It fixes every `S3_r` and maps zero sets
-diffeomorphically to zero sets, preserving orientations. Hence all recorded
-invariants are invariant under passive linear optics. Displacements and
-squeezers act affinely/nonlinearly on `w` and do **not** fix the spheres; no
-invariance is claimed for them.
+**P2 (passive invariance — corrected scope; proved as a variable-change
+statement).** A linear unitary substitution `w -> U w`, `U in U(2)`, sends
+stellar functions to stellar functions of passively transformed states (beam
+splitters and phase shifters; the `U`-versus-`U^T` bookkeeping between state
+and substitution is not used anywhere below). It fixes every `S3_r` and maps
+zero sets diffeomorphically to zero sets, preserving complex orientations.
+Hence **component count and the pairwise linking matrix** are invariant under
+passive linear optics. **Core windings are NOT**: they are linking numbers
+with the *fixed* coordinate cores, which a generic `U` moves — e.g.
+`f = w1 + w2` has winding `(1, 1)` but a 50:50 beam splitter carries it to
+`sqrt(2) w1`, whose zero circle is the core `{w1 = 0}` itself, windings
+`(·, 1)`. Windings are invariant only under per-mode phase rotations and are
+swapped by mode exchange. They remain well-defined *per state in its own
+frame* — the census's internal random frame is transported back before
+windings are read off — and every use below (the trefoil family in P6, the
+E-series checks) compares target and approximant **in one common frame**,
+which fidelity comparisons respect since both dictionaries are closed under
+passive transformations. *(Corrected during PR #136 review: the original
+draft wrongly listed core windings among the passive invariants.)*
+Displacements and squeezers act affinely/nonlinearly on `w` and do **not**
+fix the spheres; no invariance is claimed for them.
 
 **P3 (coherent K<=2 states cannot link; proved).** Let
 `f = z1 exp(l1) + z2 exp(l2)` with `l1, l2` affine linear, `z1 z2 != 0`. Then
@@ -188,7 +204,7 @@ One row per claim; empty cells would be visible.
 | ID | Claim (headline) | Modes | Dictionary / family | Sphere scope | Status |
 | --- | --- | --- | --- | --- | --- |
 | P1 | `L_r(|11>)` = positive Hopf link | 2 | target state | every `r` | proved here |
-| P2 | census invariants passive-invariant | 2 | any state | every `r` | proved here |
+| P2 | component count + linking matrix passive-invariant; core windings frame-fixed, NOT passive-invariant | 2 | any state | every `r` | proved here (scope corrected in review) |
 | P3 | coherent `K<=2`: parallel lines, no linked pair | 2 | `D_coh`, `K<=2` | every `r` | proved here |
 | P4 | TMSV odd cat: exact Hopf link, `F = 1 - lam^4` | 2 | `D_G`, `K=2` | `r = 1` (link claim), fidelity global | proved here |
 | P4b | smooth conic pair: windings `(±1,∓1)`, `lk = +1` | 2 | conic zero families | `|c| < r^2/2` | proved here (homology level) |

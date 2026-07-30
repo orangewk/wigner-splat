@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 import math
+import platform
 import sys
 from pathlib import Path
 
@@ -28,7 +29,14 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Windows code-page consoles (e.g. CP932) cannot encode the log's typography;
+# artifacts are UTF-8 regardless, so pin the console stream too (PR #136 review).
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from summary_block import write_into_readme  # noqa: E402
 
 from wigner_splat.stellar2 import (  # noqa: E402
     census,
@@ -230,7 +238,16 @@ def json_safe(obj):
 
 
 def main():
-    results = {"grid": GRID, "fit_seed": FIT_SEED}
+    results = {
+        "grid": GRID,
+        "fit_seed": FIT_SEED,
+        "environment": {
+            "python": platform.python_version(),
+            "numpy": np.__version__,
+            "platform": sys.platform,
+            "machine": platform.machine(),
+        },
+    }
     figures = {}
 
     # ---------------- E1: validation on proved links ----------------
@@ -301,6 +318,9 @@ def main():
     e2_ok = all(v["match"] for k, v in e2.items() if k.startswith("check"))
     log(f"E2 verdict: {'MATCH vs P6/R1 predictions' if e2_ok else 'MISMATCH vs P6/R1'}")
     results["verdicts"]["e2_knot_ladder_matches"] = e2_ok
+    if not e2_ok:
+        finish(results, figures)
+        raise SystemExit("F1: E2 census disagrees with a derived row; halting")
 
     # ---------------- E3: dictionary probes ----------------
     log("== E3: dictionary probes ==")
@@ -412,6 +432,9 @@ def main():
     )
     results["verdicts"]["e3_dictionary_probes_match"] = e3_ok
     log(f"E3 verdict: {'MATCH vs P3/P4/P4b' if e3_ok else 'MISMATCH'}")
+    if not e3_ok:
+        finish(results, figures)
+        raise SystemExit("F1: E3 census disagrees with a proved row; halting")
 
     # ---------------- E4: coherent fit ladder ----------------
     log("== E4: coherent-dictionary fit ladder vs |11> ==")
@@ -497,12 +520,13 @@ def finish(results, figures):
         plt.close(fig)
 
     log("artifacts: hopf_link_results.json, out_run.log, "
-        "stellar_links_s3.png, coherent_fit_ladder.png")
+        "stellar_links_s3.png, coherent_fit_ladder.png, README generated block")
     (OUT / "hopf_link_results.json").write_text(
         json.dumps(json_safe(results), indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
     (OUT / "out_run.log").write_text("\n".join(LOG_LINES) + "\n", encoding="utf-8")
+    write_into_readme(OUT / "README.md", json_safe(results))
 
 
 if __name__ == "__main__":

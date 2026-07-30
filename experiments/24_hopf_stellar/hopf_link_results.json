@@ -1165,6 +1165,12 @@
       "linked_pair_found": true
     }
   },
+  "environment": {
+    "machine": "x86_64",
+    "numpy": "2.4.6",
+    "platform": "linux",
+    "python": "3.11.15"
+  },
   "fit_seed": 20260730,
   "grid": {
     "n_eta": 90,

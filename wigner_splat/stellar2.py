@@ -32,9 +32,12 @@ amplitude noise because it is purely topological on the grid.
 
 Algorithm
 ---------
-1. Apply a seeded generic U(2) frame rotation (passive invariance,
-   derivation.md P2, makes this harmless; it moves curves off the coordinate
-   degeneracies of the Hopf-angle grid).
+1. Apply a seeded generic U(2) frame rotation to move curves off the
+   coordinate degeneracies of the Hopf-angle grid. Component count and
+   linking are U(2)-invariant (derivation.md P2); core windings are
+   frame-fixed and therefore read off after transporting the curve back to
+   the state's own frame, so the internal rotation never touches any
+   reported quantity.
 2. Grid S3_r in Hopf angles  w1 = r cos(eta) e^{i xi1},  w2 = r sin(eta)
    e^{i xi2}, eta in [margin, pi/2 - margin], xi periodic.
 3. A zero curve pierces a grid plaquette iff the phase of f winds by +-2pi

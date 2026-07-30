@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import math
+import platform
 import sys
 from pathlib import Path
 
@@ -24,7 +25,14 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Pin the console stream: code-page consoles (e.g. CP932) must not abort the
+# run on log typography; artifacts are UTF-8 regardless (PR #136 review).
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from summary_block import write_into_readme  # noqa: E402
 
 from wigner_splat.stellar2 import (  # noqa: E402
     TraceError,
@@ -325,6 +333,12 @@ def main():
         "grid": GRID,
         "fit_seed": FIT_SEED,
         "bounded_dictionary": {"quad_norm_max": QUAD_NORM_MAX, "tail_max": TAIL_MAX},
+        "environment": {
+            "python": platform.python_version(),
+            "numpy": np.__version__,
+            "platform": sys.platform,
+            "machine": platform.machine(),
+        },
         "cells": {},
     }
 
@@ -352,36 +366,81 @@ def main():
 
     cells = results["cells"]
 
-    def first_k(target, dict_type, key):
-        for k in K_RANGE[target]:
-            cell = cells[f"{target}/{dict_type}/K={k}"]
-            if cell.get(key):
-                return k
-        return None
+    # A failed census makes every topology reading of that cell unknown, so
+    # verdicts touching it must be None (indeterminate), never a clean pass
+    # (PR #136 review). first-K transitions carry the failed-K list so an
+    # earlier, unobserved transition is never silently ruled out.
+    def topo(name, key):
+        cell = cells[name]
+        if "census_failed" in cell:
+            return None
+        return cell.get(key, False)
 
+    def first_transition(target, dict_type, key):
+        failed = []
+        for k in K_RANGE[target]:
+            flag = topo(f"{target}/{dict_type}/K={k}", key)
+            if flag is None:
+                failed.append(k)
+            elif flag:
+                return {"K": k, "indeterminate_below": failed}
+        return {"K": None, "indeterminate_below": failed}
+
+    mark_keys = {"t11": "has_linked_pair", "trefoil": "has_trefoil_windings"}
+    ladders = {}
+    for target in ("t11", "trefoil"):
+        for dict_type in ("coherent", "gaussian"):
+            ks = list(K_RANGE[target])
+            gaps = [cells[f"{target}/{dict_type}/K={k}"]["one_minus_F"] for k in ks]
+            factors = [
+                gaps[i] / max(gaps[i + 1], 1e-15) for i in range(len(gaps) - 1)
+            ]
+            best = int(np.argmax(factors))
+            ladders[f"{target}/{dict_type}"] = {
+                "K": ks,
+                "one_minus_F": gaps,
+                "relative_step_factors_into_next_K": factors,
+                "largest_relative_step_at_K": ks[best + 1],
+                "largest_relative_step_factor": factors[best],
+                "first_transition": first_transition(
+                    target, dict_type, mark_keys[target]
+                ),
+            }
+    results["ladders"] = ladders
+
+    pa_link = topo("t11/gaussian/K=2", "has_linked_pair")
     pa_cell = cells["t11/gaussian/K=2"]
+    pb_flags = [
+        topo(f"{t}/coherent/K={k}", "has_linked_pair")
+        for t in ("t11", "trefoil")
+        for k in (1, 2)
+    ]
+    pc_windings = [
+        None
+        if "census_failed" in cells[f"{t}/gaussian/K=2"]
+        else cells[f"{t}/gaussian/K=2"]["max_abs_winding"]
+        for t in ("t11", "trefoil")
+    ]
     verdicts = {
-        "pa_11_gauss_k2_reaches_target_with_hopf_link": bool(
+        "pa_11_gauss_k2_reaches_target_with_hopf_link": None
+        if pa_link is None
+        else bool(
             pa_cell["best_fidelity"] >= 0.999
-            and pa_cell.get("has_linked_pair")
+            and pa_link
             and pa_cell.get("n_components") == 2
         ),
-        "pb_all_coherent_k_le_2_unlinked": all(
-            not cells[f"{t}/coherent/K={k}"].get("has_linked_pair", False)
-            for t in ("t11", "trefoil")
-            for k in (1, 2)
-        ),
-        "pc_all_gaussian_k2_max_winding_le_2": all(
-            cells[f"{t}/gaussian/K=2"].get("max_abs_winding", 0) <= 2
-            for t in ("t11", "trefoil")
-            if "census_failed" not in cells[f"{t}/gaussian/K=2"]
-        ),
+        "pb_all_coherent_k_le_2_unlinked": None
+        if any(f is None for f in pb_flags)
+        else not any(pb_flags),
+        "pc_all_gaussian_k2_max_winding_le_2": None
+        if any(w is None for w in pc_windings)
+        else all(w <= 2 for w in pc_windings),
         "pd_first_linked_K": {
-            f"t11/{d}": first_k("t11", d, "has_linked_pair")
+            f"t11/{d}": ladders[f"t11/{d}"]["first_transition"]
             for d in ("coherent", "gaussian")
         },
         "pd_first_trefoil_winding_K": {
-            f"trefoil/{d}": first_k("trefoil", d, "has_trefoil_windings")
+            f"trefoil/{d}": ladders[f"trefoil/{d}"]["first_transition"]
             for d in ("coherent", "gaussian")
         },
         "pe_trefoil_gauss_k6_fidelity": cells["trefoil/gaussian/K=6"]["best_fidelity"],
@@ -389,6 +448,12 @@ def main():
             name for name, c in cells.items() if "census_failed" in c
         ),
     }
+    if verdicts["census_failures"]:
+        log(
+            "census failures present: "
+            + ", ".join(verdicts["census_failures"])
+            + " — affected verdicts are indeterminate (None), not passes"
+        )
 
     # cross-check against exp24 E4 (independent machinery: closed-form
     # overlaps there, truncated Fock recursion here)
@@ -441,12 +506,14 @@ def main():
     fig.savefig(OUT / "topological_kcurves.png", dpi=160)
     plt.close(fig)
 
-    log("artifacts: topological_kcurves.json, out_run.log, topological_kcurves.png")
+    log("artifacts: topological_kcurves.json, out_run.log, "
+        "topological_kcurves.png, README generated block")
     (OUT / "topological_kcurves.json").write_text(
         json.dumps(json_safe(results), indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
     (OUT / "out_run.log").write_text("\n".join(LOG_LINES) + "\n", encoding="utf-8")
+    write_into_readme(OUT / "README.md", json_safe(results))
 
 
 if __name__ == "__main__":

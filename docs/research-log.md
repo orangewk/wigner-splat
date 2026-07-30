@@ -1801,70 +1801,83 @@ property to another — is documented in the note's declaration table
 
 Owner/decisions: orange asked whether the Hopf fibration connects to this
 repository's research and approved an explicitly light exploratory take in
-conversation ("まあおもろいから取り組んでみてよ 気楽に"); no issue was opened.
-Claude session (claude/hopf-fibration-research-hyalha) derived, implemented,
-and ran it the same day. This is a side-track, not a gate: nothing here
-touches measured data or the K_ε note's certified one-mode theorems.
+conversation ("まあおもろいから取り組んでみてよ 気楽に"); no issue was opened
+at first (the line was chartered as issue #137 the same day). Claude session
+(claude/hopf-fibration-research-hyalha) derived, implemented, and ran it.
+This is a side-track, not a gate: nothing here touches measured data or the
+K_ε note's certified one-mode theorems.
 
 The idea is the two-mode extension of the note's zero counting: stellar-
-function zeros meet the phase-space sphere |w1|^2+|w2|^2 = 1 in a link, whose
-component count, core windings, and pairwise linking numbers are invariant
-under passive linear optics. |1,1> realizes the positive Hopf link (two Hopf
-fibers), and linking is the topological form of a robust zero: it can only die
-by zeros colliding or leaving the sphere. experiments/24_hopf_stellar/
-derivation.md pre-declares the propositions (P1-P4b proved, P5/P6 sketches,
-Q1 open) and the falsification gates before the run.
+function zeros meet the phase-space sphere |w1|^2+|w2|^2 = 1 in a link.
+Component count and the pairwise linking matrix are invariant under passive
+linear optics; per-component core windings are frame-fixed diagnostics
+defined against the state's own coordinate cores (this scope was corrected
+during PR #136 review — the entry as first pushed wrongly listed windings
+among the passive invariants). |1,1> realizes the positive Hopf link (two
+Hopf fibers), and linking is the topological form of a robust zero: it can
+only die by zeros colliding or leaving the sphere.
+experiments/24_hopf_stellar/derivation.md pre-declares the propositions
+(P1-P4b proved, P5/P6 sketches, Q1 open) and the falsification gates.
 
 Measured (experiments/24_hopf_stellar/hopf_link_results.json, authoritative;
-all verdicts computed from data): the tracker reproduces every proved link
-(E1); |30>+|03> gives three mutually +1-linked circles and 0.8|20>+0.6|03>
-a (3,2)-winding trefoil component (E2); TMSV odd cats carry the exact Hopf
-link at every squeezing with F(|11>) = 1 - lam^4, the smooth conic pair shows
-the proved (+1,-1)/(-1,+1)/lk+1 signature, and the cat(x)cat satellite
-pattern matches the in-code geometric prediction (E3). The coherent fit
-ladder (E4, best-found multi-start, not certified suprema) gives best
-fidelity to |11> of 0.135/0.368/0.592/0.9998 at K = 1/2/3/4; the
-three-orders-of-magnitude jump at K = 4 coincides with the first appearance
-of a linked pair, K <= 2 shows none (as proved), and the open K = 3 cell also
-shows none at the found optimum. Dictionary separation at K = 2 is exact in
-the other direction: two TMSV terms reach |11> with the target topology held
-exactly, so squeezing is what buys the link (P3 vs P4).
+verdicts computed from data; README numbers are generated from the JSON and
+policy-tested): every E1-E3 census matched its pre-declared prediction —
+the proved links, the trefoil winding pair, the TMSV odd cat's exact Hopf
+link at every squeezing with its closed-form fidelity 1 - lam^4 confirmed
+against an independent Fock series, and the cat(x)cat satellite pattern
+against the in-code geometric prediction. In the E4 coherent fit ladder
+(best-found multi-start, not certified suprema) the only large fidelity jump
+arrives at the same K where a linked pair first appears in the census, and
+the K <= 2 cells show none, as P3 proves. Two TMSV terms reach |11> with the
+target topology held exactly, so squeezing is what buys the link (P3 vs P4).
 
 Scope: two-mode, pure states, unit sphere, numerically supported census
-(grid-resolution limited, cap heuristic recorded); P5/P6 remain sketches with
-no certified-lower-bound language; novelty unclaimed pending the derivation
-§7 prior-art survey. Toolkit: wigner_splat/stellar2.py with proved-prediction
-tests in tests/test_stellar2.py (13 tests, including the linking-sign
-calibration pin).
+(grid-resolution limited, cap heuristic recorded); P5/P6 remain sketches
+with no certified-lower-bound language; reproduction is same-environment
+(environment recorded in the JSON; cross-platform best-found optima can
+differ, observed in review); novelty unclaimed pending the derivation §7
+prior-art survey. Toolkit: wigner_splat/stellar2.py with proved-prediction
+tests in tests/test_stellar2.py, including the linking-sign calibration pin.
 
 ## 2026-07-30 — Experiment 25 / issue #137 Gate M, topological K–ε curves
 
 Owner/decisions: orange asked for the exp24 本命 line to get an issue and its
 main code ("issue建てて 本命コード"); issue #137 charters the program (Gate S′
 survey / T′ theory / M measurement / L out-of-scope ladder) and this
-experiment is Gate M's first pass. plan.md pre-declared predictions PA–PE and
+experiment is Gate M's first pass. plan.md pre-declared predictions PA-PE and
 alarms, committed before interpretation; two seeding defects found on the way
 (penalty-plateau contamination of a fit cell; structured seeds marginally
 outside the tail-bounded dictionary at cutoff 36) are fixed in commits, not
 by relaxing the declared bounds.
 
 Measured (experiments/25_topological_kcurves/topological_kcurves.json,
-authoritative; verdicts computed from data): in all four ladders the K–ε
-cliff coincides with a zero-topology transition. |11>: coherent falls
-0.41 -> 1.6e-4 exactly at K = 4 where a linked pair first appears; Gaussian
-falls at K = 2 (1.3e-4, Hopf link held), as exp24 P4 proves (PA true).
-Trefoil 0.8|20>+0.6|03>: coherent falls 0.24 -> 3.7e-3 at K = 5 exactly where
-the (3,2) winding first appears; Gaussian at K = 3 (0.35 -> 6.0e-2), its
-K = 2 best state substituting a winding-1 linked pair — every Gaussian K = 2
-census respects the P6 conic bound max|winding| <= 2 (PC true). No coherent
-K <= 2 linked pair (PB true, P3), no census failures, and the |11>/coherent
-ladder agrees with exp24's independent closed-form machinery to 7.4e-5. The
-explicit squeezed construction reaches F = 0.9967 at trefoil/Gaussian/K = 6
-(PE).
+authoritative; verdicts computed from data with census failures propagating
+as indeterminate, and README numbers generated from the JSON): the
+proved-proposition verdicts all hold — the Gaussian dictionary reaches |11>
+at K = 2 with the Hopf link held (PA, from P4), no coherent K <= 2 census
+shows a linked pair (PB, from P3), and every Gaussian K = 2 census respects
+the P6 conic winding bound, the trefoil cell substituting a winding-1 linked
+pair for the unavailable (3,2) signature (PC). Descriptively, the target's
+topological signature first appears one K earlier in the Gaussian ladder
+than in the coherent ladder on both targets, and the |11>/coherent ladder
+cross-checks exp24's independent closed-form machinery. No quantitative
+"cliff" criterion was pre-declared, so no cliff-coincidence verdict is
+claimed: per ladder, the JSON records the first-transition K and the largest
+relative fidelity step, which coincide in three of the four ladders and not
+in the fourth (trefoil/Gaussian) — corrected during PR #136 review from an
+earlier headline that overclaimed coincidence in all four.
+
+Review round 1 (PR #136, GptSol under orange's account) also caught: the P2
+winding-invariance overclaim (fixed across derivation, READMEs, this log,
+issue #137, and the census docstring), census failures counting as verdict
+passes (now indeterminate), the F1 halt missing for E2/E3 (now uniform),
+Windows code-page console aborts plus a same-environment-only reproduction
+contract (console pinned to UTF-8, environment recorded in both JSONs,
+artifacts regenerated), and hand-restated README numbers (now generated
+blocks with a claim-surface policy test covering both experiment
+directories).
 
 Scope: best-found multi-start values under a fixed budget, never suprema;
 tail-bounded operational dictionary (effective squeezing singular value
 <= ~0.56 at cutoff 36); censuses numerically supported; no certified
-language. Within that scope Gate M's working claim stands in every measured
-ladder: the curve does not fall until the state can afford the target's
-zero-link invariant.
+language.

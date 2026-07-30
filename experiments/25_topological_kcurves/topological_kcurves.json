@@ -1688,10 +1688,130 @@
     }
   },
   "cutoff": 36,
+  "environment": {
+    "machine": "x86_64",
+    "numpy": "2.4.6",
+    "platform": "linux",
+    "python": "3.11.15"
+  },
   "fit_seed": 20260731,
   "grid": {
     "n_eta": 90,
     "n_xi": 96
+  },
+  "ladders": {
+    "t11/coherent": {
+      "K": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "first_transition": {
+        "K": 4,
+        "indeterminate_below": []
+      },
+      "largest_relative_step_at_K": 4,
+      "largest_relative_step_factor": 2550.4407849868985,
+      "one_minus_F": [
+        0.8646647167636092,
+        0.632120558841806,
+        0.407988588661352,
+        0.00015996787342131835
+      ],
+      "relative_step_factors_into_next_K": [
+        1.3678794411431248,
+        1.5493584291557063,
+        2550.4407849868985
+      ]
+    },
+    "t11/gaussian": {
+      "K": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "first_transition": {
+        "K": 2,
+        "indeterminate_below": []
+      },
+      "largest_relative_step_at_K": 2,
+      "largest_relative_step_factor": 5672.630823699098,
+      "one_minus_F": [
+        0.7499999999973508,
+        0.00013221378639061143,
+        2.3483769634791152e-05,
+        1.3933161679080541e-05
+      ],
+      "relative_step_factors_into_next_K": [
+        5672.630823699098,
+        5.63000695572899,
+        1.6854587763845472
+      ]
+    },
+    "trefoil/coherent": {
+      "K": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "first_transition": {
+        "K": 5,
+        "indeterminate_below": []
+      },
+      "largest_relative_step_at_K": 5,
+      "largest_relative_step_factor": 65.6501490228654,
+      "one_minus_F": [
+        0.8267708374574632,
+        0.635326592605743,
+        0.3600114886188883,
+        0.24279180140585843,
+        0.0036982673309895464,
+        0.0009600913604905781
+      ],
+      "relative_step_factors_into_next_K": [
+        1.3013320189644926,
+        1.764739772730714,
+        1.4827991988785558,
+        65.6501490228654,
+        3.8519952196006035
+      ]
+    },
+    "trefoil/gaussian": {
+      "K": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "first_transition": {
+        "K": 3,
+        "indeterminate_below": []
+      },
+      "largest_relative_step_at_K": 4,
+      "largest_relative_step_factor": 7.266558725986497,
+      "one_minus_F": [
+        0.7559555968696698,
+        0.3530906169365663,
+        0.060411506505444246,
+        0.008313633562115452,
+        0.004781964142372641,
+        0.0032548472385780514
+      ],
+      "relative_step_factors_into_next_K": [
+        2.140967674044647,
+        5.844757685437724,
+        7.266558725986497,
+        1.7385395027221016,
+        1.4691823584512504
+      ]
+    }
   },
   "verdicts": {
     "census_failures": [],
@@ -1701,12 +1821,24 @@
     "pb_all_coherent_k_le_2_unlinked": true,
     "pc_all_gaussian_k2_max_winding_le_2": true,
     "pd_first_linked_K": {
-      "t11/coherent": 4,
-      "t11/gaussian": 2
+      "t11/coherent": {
+        "K": 4,
+        "indeterminate_below": []
+      },
+      "t11/gaussian": {
+        "K": 2,
+        "indeterminate_below": []
+      }
     },
     "pd_first_trefoil_winding_K": {
-      "trefoil/coherent": 5,
-      "trefoil/gaussian": 3
+      "trefoil/coherent": {
+        "K": 5,
+        "indeterminate_below": []
+      },
+      "trefoil/gaussian": {
+        "K": 3,
+        "indeterminate_below": []
+      }
     },
     "pe_trefoil_gauss_k6_fidelity": 0.996745152761422
   }

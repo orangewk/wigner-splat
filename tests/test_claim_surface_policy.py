@@ -94,6 +94,67 @@ def test_no_withdrawn_claim_reappears_on_a_generated_surface():
             assert not found, f"{surface}: withdrawn claim {found.group(0)!r} ({record})"
 
 
+# --- issue #137 (topological K-epsilon) surfaces -----------------------------
+
+TOPO_DIRS = {
+    "24_hopf_stellar": "hopf_link_results.json",
+    "25_topological_kcurves": "topological_kcurves.json",
+}
+
+
+def _topo_paths(suffix: str) -> list[Path]:
+    return sorted(
+        path
+        for name in TOPO_DIRS
+        for path in (EXPERIMENTS / name).rglob(f"*{suffix}")
+    )
+
+
+def test_every_topo_json_is_scanned_and_free_of_conclusion_keys():
+    artifacts = _topo_paths(".json")
+    assert artifacts, "no issue #137 artifacts found — the directory list is stale"
+    for artifact in artifacts:
+        payload = json.loads(artifact.read_text(encoding="utf-8"))
+        offending = CONCLUSION_KEYS.intersection(_keys(payload))
+        assert not offending, f"{artifact}: conclusion-prose keys {sorted(offending)}"
+
+
+def test_no_withdrawn_claim_reappears_on_a_topo_surface():
+    surfaces = _topo_paths(".py") + _topo_paths(".md")
+    assert surfaces
+    for surface in surfaces:
+        text = _normalize(surface.read_text(encoding="utf-8"))
+        for pattern, record in WITHDRAWN_CLAIMS.items():
+            found = re.search(pattern, text)
+            assert not found, f"{surface}: withdrawn claim {found.group(0)!r} ({record})"
+
+
+def test_topo_readme_generated_blocks_match_artifacts():
+    """One-authoring-location gate for exp24/25 README numbers: the block in
+    each README must be exactly what its summary_block renders from the
+    committed JSON (PR #136 review: hand-restated numbers survived an
+    artifact change)."""
+    import importlib.util
+
+    for name, artifact in TOPO_DIRS.items():
+        exp_dir = EXPERIMENTS / name
+        spec = importlib.util.spec_from_file_location(
+            f"summary_block_{name}", exp_dir / "summary_block.py"
+        )
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        results = json.loads((exp_dir / artifact).read_text(encoding="utf-8"))
+        readme = (exp_dir / "README.md").read_text(encoding="utf-8")
+        start = readme.find(module.BEGIN)
+        stop = readme.find(module.END)
+        assert start >= 0 and stop >= 0, f"{name}: README lost its generated markers"
+        block = readme[start : stop + len(module.END)]
+        assert block == module.render(results), (
+            f"{name}: README generated block diverges from {artifact}; "
+            "rerun run.py instead of editing the block"
+        )
+
+
 def test_run_logs_are_excluded_from_the_scan():
     """The exclusion is deliberate; assert it stays deliberate.
 
