@@ -1836,3 +1836,35 @@ no certified-lower-bound language; novelty unclaimed pending the derivation
 §7 prior-art survey. Toolkit: wigner_splat/stellar2.py with proved-prediction
 tests in tests/test_stellar2.py (13 tests, including the linking-sign
 calibration pin).
+
+## 2026-07-30 — Experiment 25 / issue #137 Gate M, topological K–ε curves
+
+Owner/decisions: orange asked for the exp24 本命 line to get an issue and its
+main code ("issue建てて 本命コード"); issue #137 charters the program (Gate S′
+survey / T′ theory / M measurement / L out-of-scope ladder) and this
+experiment is Gate M's first pass. plan.md pre-declared predictions PA–PE and
+alarms, committed before interpretation; two seeding defects found on the way
+(penalty-plateau contamination of a fit cell; structured seeds marginally
+outside the tail-bounded dictionary at cutoff 36) are fixed in commits, not
+by relaxing the declared bounds.
+
+Measured (experiments/25_topological_kcurves/topological_kcurves.json,
+authoritative; verdicts computed from data): in all four ladders the K–ε
+cliff coincides with a zero-topology transition. |11>: coherent falls
+0.41 -> 1.6e-4 exactly at K = 4 where a linked pair first appears; Gaussian
+falls at K = 2 (1.3e-4, Hopf link held), as exp24 P4 proves (PA true).
+Trefoil 0.8|20>+0.6|03>: coherent falls 0.24 -> 3.7e-3 at K = 5 exactly where
+the (3,2) winding first appears; Gaussian at K = 3 (0.35 -> 6.0e-2), its
+K = 2 best state substituting a winding-1 linked pair — every Gaussian K = 2
+census respects the P6 conic bound max|winding| <= 2 (PC true). No coherent
+K <= 2 linked pair (PB true, P3), no census failures, and the |11>/coherent
+ladder agrees with exp24's independent closed-form machinery to 7.4e-5. The
+explicit squeezed construction reaches F = 0.9967 at trefoil/Gaussian/K = 6
+(PE).
+
+Scope: best-found multi-start values under a fixed budget, never suprema;
+tail-bounded operational dictionary (effective squeezing singular value
+<= ~0.56 at cutoff 36); censuses numerically supported; no certified
+language. Within that scope Gate M's working claim stands in every measured
+ladder: the curve does not fall until the state can afford the target's
+zero-link invariant.

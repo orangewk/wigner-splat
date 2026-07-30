@@ -414,16 +414,22 @@ def main():
         (axes[0], "t11", "has_linked_pair", "linked pair"),
         (axes[1], "trefoil", "has_trefoil_windings", "(3,2) winding"),
     ):
-        for dict_type, style in (("coherent", "o-"), ("gaussian", "s--")):
+        for dict_type, style, color in (
+            ("coherent", "o-", "C0"),
+            ("gaussian", "s--", "C1"),
+        ):
             ks = list(K_RANGE[target])
             gaps = [
                 max(cells[f"{target}/{dict_type}/K={k}"]["one_minus_F"], 1e-9)
                 for k in ks
             ]
-            ax.semilogy(ks, gaps, style, label=dict_type)
+            ax.semilogy(ks, gaps, style, color=color, label=dict_type)
             for k, gap in zip(ks, gaps):
                 if cells[f"{target}/{dict_type}/K={k}"].get(marker_key):
-                    ax.plot([k], [gap], marker="*", ms=14, mfc="none", mec="k")
+                    ax.plot(
+                        [k], [gap], ls="", marker="*", ms=14,
+                        mfc="none", mec="k", color="k",
+                    )
         ax.set_xlabel("terms K")
         ax.set_ylabel("1 - best-found fidelity")
         title = "|1,1>" if target == "t11" else "0.8|20>+0.6|03> (trefoil)"
