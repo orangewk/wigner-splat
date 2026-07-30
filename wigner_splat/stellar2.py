@@ -122,6 +122,37 @@ def tmsv_term(lam, z=1.0):
     return (zc, 0.0, 0.0, 0.0, lam, 0.0)
 
 
+def gaussian_term_fock_coeffs(term, cutoff):
+    """Fock coefficients c_mn (convention of this module: f = sum c_mn w1^m
+    w2^n / sqrt(m! n!)) of one Gaussian-sum term, by Taylor recursion.
+
+    From d/dw1 f = (l1 + 2 q11 w1 + q12 w2) f and the w2 analog, the Taylor
+    coefficients t_mn of f = z exp(l.w + w.Q.w) satisfy
+
+        (m+1) t_{m+1,n} = l1 t_{m,n} + 2 q11 t_{m-1,n} + q12 t_{m,n-1}
+        (n+1) t_{m,n+1} = l2 t_{m,n} + 2 q22 t_{m,n-1} + q12 t_{m-1,n}
+
+    and c_mn = sqrt(m! n!) t_mn. The state is normalizable iff the quadratic
+    form has operator norm < 1; callers should check the returned tail mass
+    (this function truncates, it does not certify convergence).
+    """
+    z, l1, l2, q11, q12, q22 = (complex(x) for x in term)
+    t = np.zeros((cutoff, cutoff), dtype=complex)
+    t[0, 0] = z
+    for n in range(cutoff - 1):
+        t[0, n + 1] = (l2 * t[0, n] + (2 * q22 * t[0, n - 1] if n >= 1 else 0)) / (n + 1)
+    shifted = np.empty(cutoff, dtype=complex)
+    for m in range(cutoff - 1):
+        shifted[0] = 0.0
+        shifted[1:] = t[m, :-1]
+        prev = t[m - 1, :] if m >= 1 else 0.0
+        t[m + 1, :] = (l1 * t[m, :] + 2 * q11 * prev + q12 * shifted) / (m + 1)
+    idx = np.arange(cutoff)
+    fact = np.vectorize(math.factorial, otypes=[float])
+    root = np.sqrt(fact(idx))
+    return t * np.outer(root, root)
+
+
 def rotated(f, u):
     """Stellar function in a linearly rotated frame: g(w) = f(U w), U in U(2).
 

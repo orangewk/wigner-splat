@@ -172,6 +172,35 @@ def test_coherent_cat_parallel_lines_unlinked():
     assert np.all(lk == 0)
 
 
+def test_gaussian_term_fock_coeffs_closed_forms():
+    """Taylor recursion against three independent closed forms."""
+    from wigner_splat.stellar2 import gaussian_term_fock_coeffs
+
+    lam = 0.55
+    c = gaussian_term_fock_coeffs(tmsv_term(lam), 20)
+    expect = np.zeros((20, 20), dtype=complex)
+    for n in range(20):
+        expect[n, n] = math.sqrt(1 - lam**2) * lam**n
+    assert np.allclose(c, expect)
+
+    g1, g2 = 0.7 - 0.2j, -0.4 + 0.5j
+    c = gaussian_term_fock_coeffs(coherent_term(g1, g2), 20)
+    m, n = 3, 5
+    val = (
+        math.exp(-(abs(g1) ** 2 + abs(g2) ** 2) / 2)
+        * g1**m
+        * g2**n
+        / math.sqrt(math.factorial(m) * math.factorial(n))
+    )
+    assert np.isclose(c[m, n], val)
+
+    lam = 0.6  # odd-cat norm^2 = 4 lam^2/(1+lam^2), derivation.md P4
+    c = gaussian_term_fock_coeffs(tmsv_term(lam), 60) - gaussian_term_fock_coeffs(
+        tmsv_term(-lam), 60
+    )
+    assert np.isclose(np.sum(np.abs(c) ** 2), 4 * lam**2 / (1 + lam**2))
+
+
 def test_gaussian_stellar_rejects_bad_input():
     with pytest.raises(ValueError):
         gaussian_sum_stellar([])
