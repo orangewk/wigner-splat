@@ -101,9 +101,11 @@ def term_vectors(terms):
             return None, pen
         c = gaussian_term_fock_coeffs(term, CUTOFF)
         total = float(np.sum(np.abs(c) ** 2))
+        if not math.isfinite(total) or total == 0.0:
+            return None, 2.5
         tail = float(np.sum(np.abs(c[-4:, :]) ** 2) + np.sum(np.abs(c[:, -4:]) ** 2))
-        if total == 0.0 or tail / total > TAIL_MAX:
-            return None, 1.0 + min(tail / max(total, 1e-300), 1.0)
+        if tail / total > TAIL_MAX:
+            return None, 1.0 + min(tail / total, 1.0)
         vecs.append(c.ravel() / math.sqrt(total))
     return np.array(vecs), 0.0
 
@@ -120,7 +122,12 @@ def objective(x, dict_type, tvec):
     vecs, pen = term_vectors(terms_from_params(x, dict_type))
     if vecs is None:
         return pen
-    fid, _ = best_fidelity(vecs, tvec)
+    try:
+        fid, _ = best_fidelity(vecs, tvec)
+    except np.linalg.LinAlgError:
+        return 1.5
+    if not math.isfinite(fid):
+        return 1.5
     return -fid
 
 
@@ -220,11 +227,27 @@ def fit_cell(target, dict_type, k, rng, warm_x):
         starts.append(np.concatenate([warm_x, rng.normal(scale=0.2, size=per)]))
     for _ in range(6):
         starts.append(rng.normal(scale=0.4, size=k * per))
-    best_x, best_v = None, 2.0
+    # only a finite, strictly valid best point (objective < 0, i.e. an actual
+    # fidelity) may win: penalty plateaus from starts outside the bounded
+    # dictionary must never contaminate the cell result
+    best_x, best_v, n_valid = None, 0.0, 0
     for x0 in starts:
-        x, v = nelder_mead(lambda x: objective(x, dict_type, tvec), x0)
+        try:
+            x, v = nelder_mead(lambda x: objective(x, dict_type, tvec), x0)
+        except np.linalg.LinAlgError:
+            continue
+        if not (isinstance(v, float) or isinstance(v, np.floating)):
+            continue
+        if not math.isfinite(v) or v >= 0.0:
+            continue
+        n_valid += 1
         if v < best_v:
             best_x, best_v = x, v
+    if best_x is None:
+        raise RuntimeError(
+            f"no valid optimum in cell {target}/{dict_type}/K={k} "
+            f"({len(starts)} starts, {n_valid} valid)"
+        )
     terms = terms_from_params(best_x, dict_type)
     vecs, pen = term_vectors(terms)
     if vecs is None:
