@@ -4,7 +4,8 @@
 3DGS 流の微分可能最適化で homodyne 測定データにフィットし、Wigner 関数を再構成する。
 
 > **短報プレプリント公開(2026-07-20)**: 研究記録全体をまとめた 8pp の短報を
-> Zenodo に公開 — [DOI: 10.5281/zenodo.21457049](https://doi.org/10.5281/zenodo.21457049)
+> Zenodo に公開 — [DOI: 10.5281/zenodo.21457048](https://doi.org/10.5281/zenodo.21457048)
+> (concept DOI — 常に最新版を指す)
 > (ソースとビルドは [`docs/preprint/`](docs/preprint/)、issue #69)。
 
 ## 主張(2026-07-06 サーベイ通過後の定式化)
