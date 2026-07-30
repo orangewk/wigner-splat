@@ -10,22 +10,28 @@ failures propagating as indeterminate (`None`), never as passes. The numbers
 below live in a block that `run.py` generates from that JSON, checked by
 `tests/test_claim_surface_policy.py`.
 
-## Result: the curves, with their topology transitions overlaid
+## Result surfaces and their epistemic classes
 
-**No quantitative "cliff" criterion was pre-declared, so this experiment
-makes no coincidence verdict** — the generated block reports, per ladder,
-the first K at which the target's topological signature appears in the
-census and, separately, where the ladder's largest relative fidelity step
-lands. In three of the four ladders those two coincide; in the fourth
-(trefoil/Gaussian) they do not, and the block says so. Whether a
-pre-registered cliff criterion would make the coincidence a verdict is
-deferred to #137. What **is** verdict-grade here comes from the proved
-propositions: the Gaussian dictionary reaches `|1,1>` at `K = 2` with the
-Hopf link held (PA, from 24/P4), no coherent `K <= 2` census shows a linked
-pair (PB, from 24/P3), and every Gaussian `K = 2` census respects the conic
-winding bound (PC, from the 24/P6 sketch) — the trefoil/Gaussian `K = 2`
-best state substitutes a winding-1 linked pair because the `(3,2)` winding
-is topologically unavailable to it.
+Measured outcomes — the per-ladder curves, first-transition Ks, the
+descriptive coincidence report **including its tally**, and the pre-declared
+verdict values — live only in the generated block below and in the JSON;
+this hand-written text intentionally repeats none of them
+(one-authoring-location policy, checked mechanically by the policy tests).
+
+The pre-declared checks fall into two classes, fixed by `plan.md`'s own
+basis column:
+
+- **PA and PB are theorem-backed**: their expected outcomes follow from
+  proved propositions (24/P4 and 24/P3), so a violation would be a tool or
+  proof defect, never a discovery.
+- **PC is not theorem-backed**: its basis is the 24/P6 *sketch*. Its pass is
+  an empirical consistency check with that sketch, and a violation would
+  have been recorded as evidence against the sketch (no halt) — `plan.md`'s
+  own terms. PC must not be grouped with PA/PB as a proved-proposition
+  verdict (classification corrected in PR #136 review round 2).
+- The cliff-vs-transition comparison has **no pre-declared criterion** and
+  is reported descriptively only; whether to pre-register one is deferred
+  to #137.
 
 ## Measured results (generated from the artifact)
 
@@ -66,11 +72,13 @@ is topologically unavailable to it.
   - coherent: first (3,2) winding at K = 5; the ladder's largest relative step lands at K = 5 (x65.7), which coincides with the transition. Descriptive only — no cliff criterion was pre-declared.
   - gaussian: first (3,2) winding at K = 3; the ladder's largest relative step lands at K = 4 (x7.3), which does NOT coincide with the transition. Descriptive only — no cliff criterion was pre-declared.
 
+Tally (descriptive, no pre-declared criterion): transition and largest relative step coincide in 3 of 4 scored ladders; differing: trefoil/gaussian.
+
 Pre-declared verdicts (computed; None = blocked by census failure):
 
-- PA `|11>`/Gaussian/K=2 reaches the target with the Hopf link: **True**
-- PB no coherent K<=2 linked pair: **True**
-- PC Gaussian K=2 max |winding| <= 2: **True**
+- PA `|11>`/Gaussian/K=2 reaches the target with the Hopf link: **True** (theorem-backed expectation, 24/P4 proved)
+- PB no coherent K<=2 linked pair: **True** (theorem-backed expectation, 24/P3 proved)
+- PC Gaussian K=2 max |winding| <= 2: **True** (empirical consistency with the 24/P6 SKETCH — not theorem-backed; a violation would have been evidence against the sketch, per plan.md)
 - PE trefoil/Gaussian/K=6 best-found fidelity: **0.9967**
 - Cross-check vs exp24's closed-form machinery: max |dF| = 7.4e-05 (consistent: True)
 - Census failures: none

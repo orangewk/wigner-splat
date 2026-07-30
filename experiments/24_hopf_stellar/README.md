@@ -51,11 +51,13 @@ diverge.
   | 4 | 0.999766 | 2.3e-04 | 2 | yes |
 
   Observation (conjecture only): the K=1 / K=2 values sit within 2.5e-13 / 4.4e-12 of e^-2 / e^-1.
+  Descriptive (no pre-declared criterion): first linked pair at K = 4; largest relative step lands at K = 4; the transition coincides with it.
 <!-- generated-block: end -->
 
-The qualitative shape: every E1–E3 census matched its pre-declared
-prediction, and the E4 ladder's only large fidelity jump arrives at the same
-`K` where a linked pair first appears in the census.
+Interpretation beyond the block is deferred to the artifact: the block
+carries the E1–E3 verdicts and a descriptive, criterion-free comparison of
+the E4 ladder's first linked pair against its largest fidelity step; this
+hand-written text intentionally repeats none of those outcomes.
 
 ## Scope limits
 

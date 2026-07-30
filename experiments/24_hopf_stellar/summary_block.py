@@ -62,6 +62,19 @@ def render(results: dict) -> str:
             f"  Observation (conjecture only): the K=1 / K=2 values sit within "
             f"{d1:.1e} / {d2:.1e} of e^-2 / e^-1."
         )
+        ks = [1, 2, 3, 4]
+        gaps = [1 - results["E4"][f"K={k}"]["best_fidelity"] for k in ks]
+        factors = [gaps[i] / max(gaps[i + 1], 1e-15) for i in range(len(gaps) - 1)]
+        step_k = ks[factors.index(max(factors)) + 1]
+        linked_k = next(
+            (k for k in ks if results["E4"][f"K={k}"]["linked_pair_found"]), None
+        )
+        agree = "coincides" if linked_k == step_k else "does NOT coincide"
+        lines.append(
+            f"  Descriptive (no pre-declared criterion): first linked pair at "
+            f"K = {linked_k}; largest relative step lands at K = {step_k}; the "
+            f"transition {agree} with it."
+        )
     if not verdicts.get("e1_tracker_validated", True):
         lines.append("- **RUN HALTED at the F1 gate; downstream sections absent.**")
     lines.append(END)

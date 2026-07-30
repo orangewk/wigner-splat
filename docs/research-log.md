@@ -1820,16 +1820,13 @@ experiments/24_hopf_stellar/derivation.md pre-declares the propositions
 (P1-P4b proved, P5/P6 sketches, Q1 open) and the falsification gates.
 
 Measured (experiments/24_hopf_stellar/hopf_link_results.json, authoritative;
-verdicts computed from data; README numbers are generated from the JSON and
-policy-tested): every E1-E3 census matched its pre-declared prediction —
-the proved links, the trefoil winding pair, the TMSV odd cat's exact Hopf
-link at every squeezing with its closed-form fidelity 1 - lam^4 confirmed
-against an independent Fock series, and the cat(x)cat satellite pattern
-against the in-code geometric prediction. In the E4 coherent fit ladder
-(best-found multi-start, not certified suprema) the only large fidelity jump
-arrives at the same K where a linked pair first appears in the census, and
-the K <= 2 cells show none, as P3 proves. Two TMSV terms reach |11> with the
-target topology held exactly, so squeezing is what buys the link (P3 vs P4).
+verdicts computed from data): outcome values, the E1-E3 verdict booleans,
+and a descriptive criterion-free comparison of the E4 ladder's first linked
+pair against its largest fidelity step are reported only through the JSON
+and the README's generated block (policy-tested); this log restates none of
+them. Theorem-backed regardless of the run: coherent K <= 2 cannot link
+(P3), while two TMSV terms reach |11> with the target topology held exactly
+(P4), so squeezing is what buys the link.
 
 Scope: two-mode, pure states, unit sphere, numerically supported census
 (grid-resolution limited, cap heuristic recorded); P5/P6 remain sketches
@@ -1852,22 +1849,17 @@ by relaxing the declared bounds.
 
 Measured (experiments/25_topological_kcurves/topological_kcurves.json,
 authoritative; verdicts computed from data with census failures propagating
-as indeterminate, and README numbers generated from the JSON): the
-proved-proposition verdicts all hold — the Gaussian dictionary reaches |11>
-at K = 2 with the Hopf link held (PA, from P4), no coherent K <= 2 census
-shows a linked pair (PB, from P3), and every Gaussian K = 2 census respects
-the P6 conic winding bound, the trefoil cell substituting a winding-1 linked
-pair for the unavailable (3,2) signature (PC). Descriptively, the target's
-topological signature first appears one K earlier in the Gaussian ladder
-than in the coherent ladder on both targets, and the |11>/coherent ladder
-cross-checks exp24's independent closed-form machinery. No quantitative
-"cliff" criterion was pre-declared, so no cliff-coincidence verdict is
-claimed: per ladder, the JSON records the first-transition K and the largest
-relative fidelity step, which coincide in three of the four ladders and not
-in the fourth (trefoil/Gaussian) — corrected during PR #136 review from an
-earlier headline that overclaimed coincidence in all four.
+as indeterminate): outcome values — the verdict booleans, the per-ladder
+first-transition Ks, the descriptive cliff-vs-transition report and its
+tally, and the exp24 cross-check — are reported only through the JSON and
+the README's generated block (policy-tested); this log restates none of
+them. Epistemic classes per plan.md's own basis column: PA and PB are
+theorem-backed checks (24/P4, 24/P3), while PC is an empirical consistency
+check against the 24/P6 SKETCH, not a proved-proposition verdict. No
+quantitative "cliff" criterion was pre-declared, so the coincidence report
+is descriptive only.
 
-Review round 1 (PR #136, GptSol under orange's account) also caught: the P2
+Review rounds (PR #136, GptSol under orange's account): round 1 caught the P2
 winding-invariance overclaim (fixed across derivation, READMEs, this log,
 issue #137, and the census docstring), census failures counting as verdict
 passes (now indeterminate), the F1 halt missing for E2/E3 (now uniform),
@@ -1875,7 +1867,11 @@ Windows code-page console aborts plus a same-environment-only reproduction
 contract (console pinned to UTF-8, environment recorded in both JSONs,
 artifacts regenerated), and hand-restated README numbers (now generated
 blocks with a claim-surface policy test covering both experiment
-directories).
+directories). Round 2 caught two residues of the same shape: hand-restated
+qualitative conclusions (the ladder-coincidence tally, now generated into
+the blocks and mechanically checked outside them) and the misclassification
+of PC as a proved-proposition verdict alongside PA/PB (now labeled a
+P6-sketch consistency check on every surface, including the round-1 reply).
 
 Scope: best-found multi-start values under a fixed budget, never suprema;
 tail-bounded operational dictionary (effective squeezing singular value

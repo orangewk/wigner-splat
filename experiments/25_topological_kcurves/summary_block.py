@@ -73,19 +73,45 @@ def render(results: dict) -> str:
                 "criterion was pre-declared."
             )
         lines.append("")
+    scored = [
+        (name, lad)
+        for name, lad in sorted(ladders.items())
+        if lad["first_transition"]["K"] is not None
+    ]
+    agree = [
+        name
+        for name, lad in scored
+        if lad["first_transition"]["K"] == lad["largest_relative_step_at_K"]
+    ]
+    differ = [
+        name
+        for name, lad in scored
+        if lad["first_transition"]["K"] != lad["largest_relative_step_at_K"]
+    ]
+    lines.append(
+        f"Tally (descriptive, no pre-declared criterion): transition and "
+        f"largest relative step coincide in {len(agree)} of {len(scored)} "
+        f"scored ladders"
+        + (f"; differing: {', '.join(differ)}." if differ else ".")
+    )
+    lines.append("")
     lines.append("Pre-declared verdicts (computed; None = blocked by census failure):")
     lines.append("")
     lines.append(
         f"- PA `|11>`/Gaussian/K=2 reaches the target with the Hopf link: "
-        f"**{_verdict(verdicts.get('pa_11_gauss_k2_reaches_target_with_hopf_link'))}**"
+        f"**{_verdict(verdicts.get('pa_11_gauss_k2_reaches_target_with_hopf_link'))}** "
+        "(theorem-backed expectation, 24/P4 proved)"
     )
     lines.append(
         f"- PB no coherent K<=2 linked pair: "
-        f"**{_verdict(verdicts.get('pb_all_coherent_k_le_2_unlinked'))}**"
+        f"**{_verdict(verdicts.get('pb_all_coherent_k_le_2_unlinked'))}** "
+        "(theorem-backed expectation, 24/P3 proved)"
     )
     lines.append(
         f"- PC Gaussian K=2 max |winding| <= 2: "
-        f"**{_verdict(verdicts.get('pc_all_gaussian_k2_max_winding_le_2'))}**"
+        f"**{_verdict(verdicts.get('pc_all_gaussian_k2_max_winding_le_2'))}** "
+        "(empirical consistency with the 24/P6 SKETCH — not theorem-backed; "
+        "a violation would have been evidence against the sketch, per plan.md)"
     )
     pe = verdicts.get("pe_trefoil_gauss_k6_fidelity")
     if pe is not None:

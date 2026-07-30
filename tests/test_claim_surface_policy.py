@@ -129,6 +129,50 @@ def test_no_withdrawn_claim_reappears_on_a_topo_surface():
             assert not found, f"{surface}: withdrawn claim {found.group(0)!r} ({record})"
 
 
+# Result-shaped phrases that may only appear inside a generated block: the
+# 2026-07-30 review found the ladder-coincidence tally hand-restated in README
+# prose after the numeric tables had already been generated (same drift class,
+# one layer up).
+RESTATED_RESULT_PATTERNS = {
+    r"(one|two|three|four|five|six|\d+) of (the )?(four|five|six|\d+)( scored)? ladders": (
+        "PR #136 round 2 — tallies are generated into the block"
+    ),
+    r"coincide[sd]? with (it|the (transition|largest))": (
+        "PR #136 round 2 — coincidence lines are generated into the block"
+    ),
+    r"first (linked pair|\(3,2\) winding) at k = \d": (
+        "PR #136 round 2 — transition Ks are generated into the block"
+    ),
+}
+
+
+def _load_summary_module(name):
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        f"summary_block_{name}", EXPERIMENTS / name / "summary_block.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_no_result_restatement_outside_the_generated_blocks():
+    for name in TOPO_DIRS:
+        module = _load_summary_module(name)
+        readme = (EXPERIMENTS / name / "README.md").read_text(encoding="utf-8")
+        start = readme.find(module.BEGIN)
+        stop = readme.find(module.END)
+        assert start >= 0 and stop >= 0
+        outside = _normalize(readme[:start] + readme[stop + len(module.END):])
+        for pattern, record in RESTATED_RESULT_PATTERNS.items():
+            found = re.search(pattern, outside)
+            assert not found, (
+                f"{name}/README.md restates a generated result outside the "
+                f"block: {found.group(0)!r} ({record})"
+            )
+
+
 def test_topo_readme_generated_blocks_match_artifacts():
     """One-authoring-location gate for exp24/25 README numbers: the block in
     each README must be exactly what its summary_block renders from the
