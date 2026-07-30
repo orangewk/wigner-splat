@@ -704,4 +704,5 @@ transcribed and checked; remaining items to re-verify at final draft.
    exp23 robust-zero census JSON (`_sampled`/`_bounded` columns). [in-repo, reviewed]
 9. Preprint: W. Kawashima, *Compact physical Gaussian-ket models for
    homodyne quantum-state tomography* (2026), doi:10.5281/zenodo.21457048.
-   [v2 planned with this note; erratum for the Route B quoting]
+   [v2 published 2026-07 (10.5281/zenodo.21600248) carries the Route B
+   quoting correction]
