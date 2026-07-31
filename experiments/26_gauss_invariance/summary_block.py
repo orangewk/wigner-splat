@@ -185,11 +185,14 @@ def render(results: dict) -> str:
         f1 = dirs["from_20_to_11"]["best_found"]
         f2 = dirs["from_11_to_20"]["best_found"]
         n_starts = dirs["from_20_to_11"]["n_starts"]
+        cap = results["E6"]["mag_cap"]
         lines.append(
-            f"- E6 adversarial probe ({n_starts} NM starts per direction, "
-            f"best-found only, never a supremum): max F(G`|2,0>`, `|1,1>`) = "
-            f"{f1:.6f}; max F(G`|1,1>`, `|2,0>`) = {f2:.6f}; alarm "
-            f"(best-found >= 1 - 1e-6): **{bool(verdicts.get('e6_alarm'))}**."
+            f"- E6 descriptive stress probe over the magnitude-capped "
+            f"factorized family (cap {cap:g}, {n_starts} NM starts per "
+            f"direction; best-found only — no gate attaches, and per "
+            f"derivation.md F5 the value can neither support nor refute "
+            f"G3): max F(G`|2,0>`, `|1,1>`) = {f1:.6f}; "
+            f"max F(G`|1,1>`, `|2,0>`) = {f2:.6f}."
         )
 
     lines.append("")
@@ -208,7 +211,7 @@ def render(results: dict) -> str:
         ),
         (
             "e5_determinate_cells_all_consistent",
-            "E5 determinate cells all consistent with the G4 sketch (F4: no halt either way)",
+            "E5 determinate cells all consistent with the G4-predicted patterns (F4: no halt either way)",
         ),
     )
     for key, label in label_map:
@@ -223,12 +226,11 @@ def render(results: dict) -> str:
     if "e6_best_found" in verdicts:
         bf = verdicts["e6_best_found"]
         lines.append(
-            f"- E6 best-found F (descriptive; G5/F5 alarm threshold 1 - 1e-6): "
+            f"- E6 best-found F (descriptive stress probe, capped family; "
+            f"no gate — F5 withdrawn in the PR #138 Sol audit): "
             f"G`|2,0>` -> `|1,1>`: {bf['from_20_to_11']:.6f}; "
             f"G`|1,1>` -> `|2,0>`: {bf['from_11_to_20']:.6f}"
         )
-    if "e6_alarm" in verdicts:
-        lines.append(f"- E6 alarm fired: **{bool(verdicts['e6_alarm'])}**")
     fails = verdicts.get("census_failures", [])
     lines.append(f"- Census failures: {fails if fails else 'none'}")
 
@@ -241,8 +243,6 @@ def render(results: dict) -> str:
         halted = "F2"
     elif verdicts.get("e4_top_partition_invariant") is False:
         halted = "F3"
-    elif verdicts.get("e6_alarm") is True:
-        halted = "F5"
     if halted:
         lines.append("")
         lines.append(

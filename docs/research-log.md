@@ -1897,17 +1897,28 @@ top of the pre-declaration discipline. 指摘 3 of the same comment (isotopy
 stability inside a fidelity ball) is explicitly NOT addressed here and stays
 open as Gate T′ sub-goal (a).
 
-Pre-declared (experiments/26_gauss_invariance/derivation.md, committed before
-any run output existed): the closed form of the squeezed |11> (G1, proved),
-fixed-radius non-invariance with the threshold lam* = sqrt(2)-1 on the unit
-sphere and its large-radius restoration (G2, proved via 24/P1 + 24/P4b), the
-top-form multiplicity partition as a full-Gaussian invariant refining the
-stellar rank (G3, proved modulo the standard factorization and disentangling
-lemmas, with the Gaussian-conjugated heat-flow closed form Lemma C proved in
-full), the link-at-infinity reading (G4, sketch — multiplicity carries
-Puiseux data the partition alone does not), and the Gaussian
-non-connectivity of |2,0> and |1,1> (G5, corollary of G3) with a
-pre-declared adversarial alarm threshold.
+Pre-declared (experiments/26_gauss_invariance/derivation.md, committed
+before any run output existed): claims G1 through G5 with falsification
+gates F1 through F5. Claim statements and their epistemic status live only
+in that memo's §4 claim table (quoted verbatim into the README's generated
+block); this log restates neither — a first draft of this entry did, and
+was reduced to pointers when the Sol audit flagged it (see below).
+
+Sol structural audit (PR #138, 2026-07-31; verdict BLOCK, six blocking
+findings, all accepted and fixed in place with audit notes in the memo):
+the headline no longer equates the G3 invariant with the link germ at
+infinity (that stronger reading is exactly what G4 leaves open); the E6
+probe was demoted to a descriptive stress probe over a magnitude-capped
+factorized family and its F5 gate withdrawn — the declared near-1 alarm
+could not falsify G3, which excludes exact attainment of F = 1 only; Lemma
+A gained a precise statement with a constructive Takagi-based argument
+covering degenerate singular values and F = 0, plus the irreducibility
+phase step; Lemma B gained a derivation on the finite-rank class (SU(1,1)
+matrix identity plus the analytic-vector transfer); Lemma C's complex flow
+path is now explicit (segment u = t s); and this log plus the PR body were
+reduced to claim-ID pointers after the audit found them restating claims,
+with the claim-surface policy test extended to scan this log (the PR body
+is a GitHub surface outside mechanical checks and is handled in review).
 
 Measured (experiments/26_gauss_invariance/gauss_invariance.json,
 authoritative; verdicts computed from data, census failures and ambiguous
@@ -1932,8 +1943,10 @@ np.roots scatter; brute-force referee applied per factor with passives
 checked against stellar2.rotated).
 
 Scope: two modes, pure states; E6 is best-found under a fixed multi-start
-budget over a non-compact group — no supremum claims in either direction;
-censuses numerically supported, not certified; same-environment
-reproduction (environment recorded in the JSON); novelty unclaimed pending
-Gate S′ — "link at infinity" is a standard singularity-theory notion and
-the derivation says so.
+budget over a magnitude-capped factorized family, not the full non-compact
+group — no supremum claims in either direction, and the E6 value can
+neither support nor refute G3 (memo F5 as corrected); censuses numerically
+supported, not certified; same-environment reproduction (environment
+recorded in the JSON); novelty unclaimed pending Gate S′ — "link at
+infinity" is a standard singularity-theory notion and the derivation says
+so.

@@ -69,6 +69,11 @@ Build through pq_state(), which validates and trims.
 def pq_state(P, A=None, b=None):
     """Validated PQState: symmetrize A (error above 1e-12 relative asymmetry)
     and trim trailing all-zero rows/cols of P (1e-15 relative, keep >= (1,1)).
+
+    Normalizability (operator norm ||A|| < 1) is a CALLER invariant, not
+    checked here: heat_step and the squeezer factors assume it for their
+    focal-point domain argument (derivation.md Lemma C), and norm() is the
+    runtime handle for verifying it when in doubt.
     """
     p = np.array(P, dtype=complex)
     if p.ndim != 2:

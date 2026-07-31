@@ -1489,7 +1489,6 @@
       "inconsistent": 0,
       "indeterminate": 0
     },
-    "e6_alarm": false,
     "e6_best_found": {
       "from_11_to_20": 0.49999999999973643,
       "from_20_to_11": 0.4999999999997449

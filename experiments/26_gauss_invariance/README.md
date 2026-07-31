@@ -36,8 +36,9 @@ from that table (same mechanism as experiment 25, added there in review).
   and the trefoil state `0.8|20> + 0.6|03>`.
 - **E5** large-radius censuses of the first two orbit images per family,
   with a data-computed curve classifier for the `|2,0>` images.
-- **E6** adversarial multi-start optimizer probing Gaussian connectivity of
-  `|2,0>` and `|1,1>`.
+- **E6** descriptive multi-start stress probe of Gaussian connectivity of
+  `|2,0>` and `|1,1>`, over a magnitude-capped factorized family (no
+  falsification gate — see derivation.md F5 as corrected in the Sol audit).
 
 ## Measured results (generated from the artifact)
 
@@ -76,7 +77,7 @@ from that table (same mechanism as experiment 25, added there in review).
   | trefoil/300 | - | True | 1 / 1 | [] / [] | True |
   | trefoil/301 | - | True | 1 / 1 | [] / [] | True |
 
-- E6 adversarial probe (32 NM starts per direction, best-found only, never a supremum): max F(G`|2,0>`, `|1,1>`) = 0.500000; max F(G`|1,1>`, `|2,0>`) = 0.500000; alarm (best-found >= 1 - 1e-6): **False**.
+- E6 descriptive stress probe over the magnitude-capped factorized family (cap 1.2, 32 NM starts per direction; best-found only — no gate attaches, and per derivation.md F5 the value can neither support nor refute G3): max F(G`|2,0>`, `|1,1>`) = 0.500000; max F(G`|1,1>`, `|2,0>`) = 0.500000.
 
 Pre-declared verdicts (computed; INDETERMINATE = census failure or ambiguous clustering, never a pass):
 
@@ -84,26 +85,28 @@ Pre-declared verdicts (computed; INDETERMINATE = census failure or ambiguous clu
 - E2 fixed-radius cells match the G2 prediction: **True**
 - E3 restoration cells match the G2 prediction: **True**
 - E4 top-form partition unchanged across all orbit cells (G3): **True**
-- E5 determinate cells all consistent with the G4 sketch (F4: no halt either way): **True**
+- E5 determinate cells all consistent with the G4-predicted patterns (F4: no halt either way): **True**
 - E5 cell tally: consistent 6, inconsistent 0, indeterminate 0
-- E6 best-found F (descriptive; G5/F5 alarm threshold 1 - 1e-6): G`|2,0>` -> `|1,1>`: 0.500000; G`|1,1>` -> `|2,0>`: 0.500000
-- E6 alarm fired: **False**
+- E6 best-found F (descriptive stress probe, capped family; no gate — F5 withdrawn in the PR #138 Sol audit): G`|2,0>` -> `|1,1>`: 0.500000; G`|1,1>` -> `|2,0>`: 0.500000
 - Census failures: none
 
 Epistemic status — quoted verbatim from derivation.md §4, its sole authoring location:
 
 - G1 — basis: "proved here (§2.1)"; on violation: "tool alarm; halt all downstream cells"
 - G2 — basis: "proved here (§2.2; uses 24/P1 and 24/P4b)"; on violation: "tool/proof alarm; halt E2/E3 interpretation"
-- G3 — basis: "proved here modulo Lemma A (standard, sketch §A) and Lemma B (standard, numerically pinned in tests)"; on violation: "E4 mismatch: halt; diagnose the lemma chain before interpreting anything downstream of it"
+- G3 — basis: "proved here (§2.3 with Lemma C; Lemma A proved in Appendix A; Lemma B proved on the finite-rank class in Appendix B and pinned in tests) — status upgraded in the PR #138 Sol audit"; on violation: "E4 mismatch: halt; diagnose the lemma chain before interpreting anything downstream of it"
 - G4 — basis: "sketch (§2.4)"; on violation: "recorded as evidence against the sketch (interesting either way); no halt"
-- G5 — basis: "corollary of G3"; on violation: "alarm: numerically contradicts the G3 chain; halt"
+- G5 — basis: "corollary of G3"; on violation: "not experimentally testable here: E6 is a descriptive stress probe over a capped family and can neither support nor refute G3 (F5 gate removed in the PR #138 Sol audit)"
 <!-- generated-block: end -->
 
 ## Scope limits
 
 - E6 values are **best-found** under a fixed multi-start Nelder–Mead budget
-  (`fit_seed` in the JSON) over a non-compact group; nothing is a supremum
-  and no upper bound on the supremum is claimed.
+  (`fit_seed` in the JSON) over a **magnitude-capped factorized family**
+  (caps recorded in the JSON) — not the full non-compact Gaussian group.
+  Nothing is a supremum, no upper bound on the group supremum is claimed,
+  and per derivation.md F5 (corrected in the Sol audit) the E6 value can
+  neither support nor refute G3.
 - Censuses are numerically supported, not certified (exp24 README limits
   apply verbatim); grid and cap diagnostics are recorded per census in the
   JSON.

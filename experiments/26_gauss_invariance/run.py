@@ -14,8 +14,12 @@ Sections:
   E2  fixed-radius threshold scan of squeeze2(|1,1>) at radius 1 (G2/F2)
   E3  radius restoration at lam = 0.5 (G2/F2)
   E4  top-form partition of seeded Gaussian orbits (G3/F3)
-  E5  large-radius censuses of orbit images vs the G4 sketch (F4: no halt)
-  E6  adversarial multi-start probe of Gaussian |2,0> <-> |1,1> (G5/F5)
+  E5  large-radius censuses of orbit images vs the G4-predicted patterns
+      (F4: no halt)
+  E6  descriptive multi-start stress probe of Gaussian |2,0> <-> |1,1>
+      over a magnitude-capped factorized family (no gate: the originally
+      declared F5 alarm was withdrawn in the PR #138 Sol audit — a finite
+      best-found value can neither support nor refute G3)
 """
 
 from __future__ import annotations
@@ -73,7 +77,6 @@ E4_TOL = 1e-3   # np.roots scatters an exact triple root by ~6e-6 (measured
 E4_MARGIN = 1e-2  # in tests/test_gaussact.py); margin < 10x tol = indeterminate
 E5_GRID = {"n_eta": 120, "n_xi": 128}
 E5_RADII = (2.5, 3.0)
-E6_ALARM = 1e-6
 LOG_LINES: list[str] = []
 
 
@@ -458,7 +461,7 @@ def run_e4(results):
 
 
 # ---------------------------------------------------------------------------
-# E5: large-radius censuses vs the G4 sketch (F4: record, never halt)
+# E5: large-radius censuses vs the G4-predicted patterns (F4: record, no halt)
 # ---------------------------------------------------------------------------
 
 def classify_t20(state):
@@ -591,7 +594,7 @@ def run_e5(results, figures, census_failures):
 
 
 # ---------------------------------------------------------------------------
-# E6: adversarial multi-start probe of Gaussian |2,0> <-> |1,1> (G5, F5)
+# E6: descriptive stress probe of Gaussian |2,0> <-> |1,1> (G5; no gate)
 # ---------------------------------------------------------------------------
 
 NM_ITERS, NM_STEP, NM_TOL = 800, 0.3, 1e-12
@@ -746,11 +749,11 @@ def run_e6(results):
         "nm": {"iters": NM_ITERS, "step": NM_STEP, "tol": NM_TOL},
         "directions": directions,
     }
-    alarm = bool(any(v >= 1.0 - E6_ALARM for v in best_found.values()))
+    # descriptive record only: no threshold, no gate, no halt (the original
+    # F5 alarm was withdrawn in the PR #138 Sol audit — G3/G5 exclude exact
+    # attainment F = 1 only, so no finite best-found value over this capped
+    # family can falsify or support them)
     results["verdicts"]["e6_best_found"] = best_found
-    results["verdicts"]["e6_alarm"] = alarm
-    log(f"E6 alarm (best-found >= 1 - {E6_ALARM:g}): {alarm}")
-    return alarm
 
 
 # ---------------------------------------------------------------------------
@@ -836,16 +839,12 @@ def main():
         close("F3: an E4 partition changed with unambiguous clustering; "
               "diagnose the Lemma A/B/C chain before interpreting anything else")
 
-    log("== E5: large-radius censuses vs the G4 sketch (F4: no halt) ==")
+    log("== E5: large-radius censuses vs the G4-predicted patterns (F4: no halt) ==")
     run_e5(results, figures, census_failures)
 
-    log("== E6: adversarial Gaussian-connectivity probe (G5/F5) ==")
-    alarm = run_e6(results)
-    close(
-        "F5: E6 best-found crossed 1 - 1e-6; numerically contradicts the G3 chain"
-        if alarm
-        else None
-    )
+    log("== E6: descriptive Gaussian-connectivity stress probe (G5; no gate) ==")
+    run_e6(results)
+    close(None)
 
 
 if __name__ == "__main__":
