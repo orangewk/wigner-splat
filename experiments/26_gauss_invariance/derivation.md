@@ -207,9 +207,12 @@ closes the argument. ∎
 
 **Corollary (top-degree transport).** In Lemma C the heat part lowers
 degree, and the substitution is affine with invertible linear part `N_s`,
-so `(P_s)_top = P_top ∘ N_s` (the domain condition holds along the whole
+so `(P_s)_top = gamma_s * (P_top ∘ N_s)` with the **nonzero scalar**
+`gamma_s` of the closed form (the domain condition holds along the whole
 segment because `|s| = tanh rho < 1` and `||A|| < 1` give
-`||t s S A|| < 1` for `t in [0, 1]`). Under the Lemma A factors, `P_top`
+`||t s S A|| < 1` for `t in [0, 1]`; the scalar factor was made explicit
+here as the Sol 再々監査 condition — a nonzero scalar changes no root
+multiplicity). Under the Lemma A factors, `P_top`
 therefore transforms by a nonzero scalar and an invertible linear
 substitution in every case: the single-mode squeezer flow transports it by
 the invertible linear flow map of Appendix B.3 (whose transport term has
@@ -508,8 +511,9 @@ P_t' = -(conj(zeta)/2) [ d1^2 P_t + 2 (d1 P_t) (A_t w + b_t)_1
 ```
 
 In particular `e^{tX}` preserves the finite-rank class, `deg P_t <= d`,
-and `(P_t)_top = P_top ∘ L_t` for an invertible linear `L_t` (top-degree
-transport — the only output the G3 chain uses).
+and `(P_t)_top = c_t * (P_top ∘ L_t)` for an invertible linear `L_t` and a
+nonzero scalar `c_t` (top-degree transport — the only output the G3 chain
+uses).
 
 **Proof.**
 
@@ -590,14 +594,24 @@ transport — the only output the G3 chain uses).
    and step 4 upgrades it to the strong sense). So `g(t) = g(0) = f` and
    `F(t) = U(t) f`. ∎
 
-**Top-degree transport.** The only degree-preserving term of the P-line
-is the transport term `-conj(zeta) (d1 P_t)(A_t w)_1`, the action of the
-time-dependent linear vector field `w -> -conj(zeta) E11 A_t w`; the
-degree-`d` part therefore evolves by `(P_t)_top = P_top ∘ L_t` with `L_t`
-the fundamental solution of the associated linear ODE — invertible, as
-every linear ODE flow is. (If the degree-`d` part ever vanished, the same
-transport equation run backwards would keep it zero, contradicting
-`P_0 = P`; so `deg P_t = d` throughout.)
+**Top-degree transport.** The degree-preserving terms of the P-line are
+the transport term `-conj(zeta) (d1 P_t)(A_t w)_1` — the action of the
+time-dependent linear vector field `w -> -conj(zeta) E11 A_t w` — and the
+scalar term `-(conj(zeta)/2) ((A_t)_{11} + (b_t)_1^2) P_t`. The
+degree-`d` part therefore evolves by
+
+```
+(P_t)_top = c_t (P_top ∘ L_t),
+c_t = exp( int_0^t h(u) du ) != 0,   h(u) = -(conj(zeta)/2) ((A_u)_{11} + (b_u)_1^2),
+```
+
+with `L_t` the fundamental solution of the linear ODE associated with the
+vector field — invertible, as every linear ODE flow is. Composition with
+an invertible `L_t` and multiplication by the nonzero `c_t` keep the
+degree-`d` part nonzero, so `deg P_t = d` throughout, and a nonzero
+scalar changes no root multiplicity, so the partition output is
+unaffected. *(The scalar factor was added as the Sol 再々監査 condition;
+the earlier display omitted it.)*
 
 **Remark (toolkit identification; not load-bearing for G3).** The
 toolkit's normal-ordered implementation (heat step, sech scaling,
