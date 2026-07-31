@@ -8,7 +8,8 @@ interpreted; the propositions below are the pre-declared predictions, and the
 falsification conditions in §6 are fixed here. Measured numbers live only in
 `gauss_invariance.json`; this memo contains none.
 
-Headline (proved below, then measured): the answer to 指摘 2 splits.
+Headline (derived below, then measured; per-claim status lives only in
+§4): the answer to 指摘 2 splits.
 
 - At any **fixed radius** the link is *not* a full-Gaussian invariant: an
   explicit Gaussian unitary removes the Hopf link of `|1,1>` from the unit
@@ -19,7 +20,8 @@ Headline (proved below, then measured): the answer to 指摘 2 splits.
   rank (the partition sums to the rank). The partition is a strictly
   coarser datum than the link at large radius — multiplicities hide Puiseux
   data (§2.4) — so no invariance of the "link at infinity" itself is
-  claimed; that reading is exactly the G4 sketch. *(Corrected during the
+  claimed; that stronger reading is exactly the open G4 question of §2.4.
+  *(Corrected during the
   PR #138 Sol audit: an earlier draft of this bullet said the link's "germ
   at infinity" survives, which overstates G3 and contradicts G4's own
   self-limitation.)*
@@ -64,7 +66,7 @@ Censuses reuse `wigner_splat/stellar2.py` unchanged.
 
 ## 2. Propositions (pre-declared predictions)
 
-### 2.1 G1 (closed form of the squeezed `|1,1>`; proved)
+### 2.1 G1 (closed form of the squeezed `|1,1>`)
 
 For real `rho > 0`, `lam = tanh rho`:
 
@@ -91,7 +93,7 @@ complex `zeta = rho e^{i theta}` the constant becomes
 `a_i -> e^{i theta_i} a_i`); the modulus, which is all §2.2 uses, is
 unchanged. ∎
 
-### 2.2 G2 (fixed-radius links are NOT full-Gaussian invariants; proved)
+### 2.2 G2 (fixed-radius links are NOT full-Gaussian invariants)
 
 Write `c(lam) = sinh(rho)cosh(rho) = lam / (1 - lam^2)`. The zero set of
 `f_{T(rho)|11>}` is exactly the smooth conic `{w1 w2 = c(lam)}` (the
@@ -99,8 +101,8 @@ exponential factor is nowhere zero). On `S3_rad`, AM–GM gives
 `|w1 w2| <= rad^2/2` with equality only at `|w1| = |w2|`. Hence:
 
 - **`c(lam) > rad^2/2`:** the link `L_rad(T|11>)` is **empty**.
-- **`0 < c(lam) < rad^2/2`:** by 24/P4b (proved) the link is two circles
-  with linking number `+1` — the positive Hopf link.
+- **`0 < c(lam) < rad^2/2`:** by 24/P4b the link is two circles with
+  linking number `+1` — the positive Hopf link.
 
 Since `L_rad(|11>)` is the Hopf link on *every* sphere (24/P1), component
 count and linking matrix at any fixed radius are **not** invariant under the
@@ -115,7 +117,7 @@ Restoration: for every fixed `rho`, all spheres with `rad^2 > 2 c(lam)`
 carry the Hopf link again (same P4b application) — for this family the lost
 topology persists at large radius, which motivates G3. ∎
 
-### 2.3 G3 (top-form partition is a full-Gaussian invariant; proved modulo Lemmas A/B)
+### 2.3 G3 (top-form partition is a full-Gaussian invariant)
 
 **Statement.** For every finite-rank state and every Gaussian unitary `G`,
 the top-form partition of `G psi` equals that of `psi`. In particular the
@@ -127,7 +129,7 @@ to a global phase, every two-mode Gaussian unitary factors as
 single-mode squeezers with real `r_i >= 0` (Bloch–Messiah / Euler normal
 form; the appendix handles degenerate singular values and `F = 0`, and the
 operator-level phase is fixed by irreducibility). Global phases do not move
-zeros. *(Upgraded from a sketch during the PR #138 Sol audit.)*
+zeros. *(Rewritten during the PR #138 Sol audit.)*
 
 **Lemma B (disentangled factor action; standard, numerically pinned).** On
 Bargmann functions, with `s = e^{i theta} tanh rho`, `mu = sech rho`:
@@ -139,16 +141,23 @@ D(alpha): f  ->  e^{alpha^T w - |alpha|^2/2} f(w - conj alpha),
 passive:  f  ->  f(U w).
 ```
 
-These are the standard normal-ordered (disentangled) forms. The
-displacement and passive rows are proved by elementary arguments, and the
-single-mode squeezer row is **proved on the finite-rank class** — the only
-class G3 quantifies over — in Appendix B; all rows are additionally pinned
-numerically to machine precision in `tests/test_gaussact.py` against
-truncated-Fock matrix exponentials. (The two-mode form is included because
-the toolkit implements it; Lemma A makes it redundant for the G3 proof
-chain, so its analytic status is carried by the numerical pin plus the
-independent G1 cross-check only.) *(Upgraded from "standard, numerically
-pinned" during the PR #138 Sol audit.)*
+These are the standard normal-ordered (disentangled) forms, and they are
+what the toolkit implements. The G3 chain does **not** rest on them: the
+displacement and passive rows are elementary exact actions (Appendix
+B.1–B.2), and for the single-mode squeezers the chain uses the **flow
+characterization** of Appendix B.3 — the unitary flow `t -> e^{tX} f`
+stays inside the finite-rank class (the only class the G3 argument
+quantifies over) and solves an explicit finite ODE system whose
+polynomial part transports the top form by an invertible linear
+substitution. The normal-ordered forms' exponent action is identified
+with that flow in closed form (Appendix B.3 remark), their full action is
+pinned numerically to machine precision in `tests/test_gaussact.py`
+(truncated-Fock matrix exponentials), and the two-mode form is
+implementation-only — Lemma A removes it from the G3 chain, leaving it
+the numerical pin plus the independent G1 cross-check. *(Rewritten twice
+during the PR #138 Sol audits: the flow characterization replaced an
+operator-identity transfer argument whose domain step the re-audit found
+incomplete.)*
 
 **Lemma C (Gaussian-conjugated heat flow; proved here).** Let `S` be a
 symmetric 2x2 matrix, and let `F_s = exp( (s/2) d^T S d ) [ P e^Q ]` with
@@ -198,28 +207,26 @@ closes the argument. ∎
 
 **Corollary (top-degree transport).** In Lemma C the heat part lowers
 degree, and the substitution is affine with invertible linear part `N_s`,
-so `(P_s)_top = P_top ∘ N_s`. Every Lemma B factor therefore transforms
-`P_top` by a nonzero scalar and an invertible linear substitution:
-the heat step by `N_s` (its domain condition holds because
-`|s| = tanh rho < 1` and `||A|| < 1` for a normalizable input, so
-`||t s S A|| <= |s| ||A|| < 1` for every `t in [0, 1]` — both `S = E_ii`
-and the cross matrix have unit operator norm, so `det(I - t s S A) != 0`
-on the whole segment; each full unitary factor returns a normalizable
-state, restoring `||A|| < 1` for the next factor); the `mu`
-scaling and the passive substitution are linear and invertible; the
-translation in `D(alpha)` fixes top forms; the exponential prefactors touch
-only `(A, b)`. Hence `P_top` transforms under any Gaussian unitary by
-`P_top -> const * P_top ∘ L`, `L in GL(2, C)`, and the root multiplicity
+so `(P_s)_top = P_top ∘ N_s` (the domain condition holds along the whole
+segment because `|s| = tanh rho < 1` and `||A|| < 1` give
+`||t s S A|| < 1` for `t in [0, 1]`). Under the Lemma A factors, `P_top`
+therefore transforms by a nonzero scalar and an invertible linear
+substitution in every case: the single-mode squeezer flow transports it by
+the invertible linear flow map of Appendix B.3 (whose transport term has
+exactly the Lemma C structure); the passive substitution is linear and
+invertible; the translation in `D(alpha)` fixes top forms; the exponential
+prefactors touch only `(A, b)`. Hence `P_top -> const * P_top ∘ L`,
+`L in GL(2, C)`, under any Gaussian unitary, and the root multiplicity
 partition of the binary form on `CP^1` — a `PGL(2)`-invariant — is
-preserved. **G3 follows from Lemmas A–C: A and B are proved in the
-appendices (B on the finite-rank class, the only class G3 quantifies
-over), and both are additionally pinned numerically in the tests.** ∎
+preserved. **G3 follows: Lemma A factors the group (Appendix A), Appendix
+B gives each factor's action on the finite-rank class, and Lemma C plus
+the B.3 flow give the top-degree transport. Per-claim status: §4.** ∎
 
 Consistency check against G1/G2: for `|1,1>`, `P_top = w1 w2` has partition
 `(1,1)` at every `lam`, and indeed the Hopf link always reappears at large
 radius (G2 restoration) even after it leaves the unit sphere.
 
-### 2.4 G4 (the large-radius link realizes the top-form pattern; sketch)
+### 2.4 G4 (the large-radius link realizes the top-form pattern)
 
 For radii large enough (state-dependent), the census link should realize
 the top-form data: a **squarefree** top form (all multiplicities 1) has `d`
@@ -231,18 +238,18 @@ large-radius link is the `(3,2)` torus knot (one component), not three
 fibers. For `d = 2` the dichotomy is concrete: partition `(1,1)` means the
 affine conic is a hyperbola (two components, linking `+1` — the P4b pattern
 after a linear change of frame, which is however not unitary in general, so
-this case is *also* sketch outside the exact P4b frame); partition `(2)`
-means a degenerate direction — a parabola (one component) or a parallel
-line pair (two components, linking `0`) — and **never** a `+1`-linked pair.
-**Status sketch**; E5 measures it.
+outside the exact P4b frame this case rests on the same §4-recorded basis
+as the rest of G4); partition `(2)` means a degenerate direction — a
+parabola (one component) or a parallel line pair (two components, linking
+`0`) — and **never** a `+1`-linked pair. Status: §4. E5 measures it.
 
-### 2.5 G5 (Gaussian non-equivalence of `|2,0>` and `|1,1>`; corollary of G3)
+### 2.5 G5 (Gaussian non-equivalence of `|2,0>` and `|1,1>`)
 
 `|2,0>` has top-form partition `(2)`, `|1,1>` has `(1,1)`; both have rank 2.
 By G3 no Gaussian unitary maps one to the other, even though the rank
 alone cannot distinguish them: **the partition strictly refines the rank as
 a Gaussian invariant**. E6 is a **descriptive stress probe** of this
-corollary: a seeded multi-start optimizer maximizes `F(G|20>, |11>)` (and
+consequence: a seeded multi-start optimizer maximizes `F(G|20>, |11>)` (and
 the reverse) over a magnitude-capped factorized subset of the group (§5
 E6 — not the full non-compact group). G3/G5 exclude only the **exact**
 attainment `F = 1`; since the supremum over the group is not claimed to
@@ -258,8 +265,12 @@ is logically wrong for exactly the reasons just stated.)*
 - **指摘 2 answered** (this experiment): at fixed radius the invariance
   group of the link is passive only (G2 — so exp25's same-frame,
   same-radius comparisons were the right design); widening to the full
-  Gaussian group trades the fixed sphere for the germ at infinity and keeps
-  a strictly-finer-than-rank invariant (G3).
+  Gaussian group loses the fixed-radius link but keeps the top-form
+  multiplicity partition, a strictly-finer-than-rank invariant (G3).
+  Whether the large-radius link itself is invariant is exactly the open
+  G4 question — not part of the answer. *(Narrowed during Sol re-audit:
+  an earlier version of this bullet still said the group "trades the
+  fixed sphere for the germ at infinity".)*
 - **指摘 3 not addressed**: isotopy stability inside a fidelity ball
   remains Gate T′ sub-goal (a); nothing here uses or claims it.
 - Dictionary-boundedness questions (Gate T′ (c)) are untouched: this
@@ -275,7 +286,7 @@ block quotes Basis and On-violation verbatim from here.
 | --- | --- | --- | --- |
 | G1 | `f_{T(rho)|11>} = sech^3 (w1 w2 - sinh cosh) e^{lam w1 w2}` | proved here (§2.1) | tool alarm; halt all downstream cells |
 | G2 | fixed-radius link of `T|11>`: Hopf iff `0 < c(lam) < rad^2/2`, empty above; threshold `lam* = sqrt(2)-1` at radius 1; not a full-Gaussian invariant | proved here (§2.2; uses 24/P1 and 24/P4b) | tool/proof alarm; halt E2/E3 interpretation |
-| G3 | top-form multiplicity partition invariant under every Gaussian unitary | proved here (§2.3 with Lemma C; Lemma A proved in Appendix A; Lemma B proved on the finite-rank class in Appendix B and pinned in tests) — status upgraded in the PR #138 Sol audit | E4 mismatch: halt; diagnose the lemma chain before interpreting anything downstream of it |
+| G3 | top-form multiplicity partition invariant under every Gaussian unitary | proved here (§2.3: Lemma C; Lemma A in Appendix A; single-mode squeezer flow theorem in Appendix B.3 on the finite-rank class, importing Nelson/Stone/Picard–Lindelöf as named classical facts; factor implementations pinned in tests) — settled across the two PR #138 Sol audit rounds | E4 mismatch: halt; diagnose the lemma chain before interpreting anything downstream of it |
 | G4 | large-radius link realizes the top-form pattern (squarefree: d fibers pairwise `+1`; multiplicity: extra Puiseux data; `d=2` dichotomy) | sketch (§2.4) | recorded as evidence against the sketch (interesting either way); no halt |
 | G5 | no Gaussian unitary connects `|2,0>` and `|1,1>` | corollary of G3 | not experimentally testable here: E6 is a descriptive stress probe over a capped family and can neither support nor refute G3 (F5 gate removed in the PR #138 Sol audit) |
 
@@ -307,7 +318,7 @@ propagate as **indeterminate** (`None`) verdict components, never passes
   partition unchanged — `(1,1)`, `(2)`, `(3)` — with clustering ambiguity
   margin `>= 1e-2` where applicable; any margin below `10x` tolerance is an
   indeterminate cell, not a pass.
-- **E5 (links at infinity; G4 sketch).** For the first two Gaussians of
+- **E5 (links at infinity; G4 probe).** For the first two Gaussians of
   each E4 family: censuses at radii `{2.5, 3.0}` with `n_eta = 120`,
   `n_xi = 128`; the two radii must agree on (component count, linking
   multiset), else the cell is indeterminate. Predicted patterns:
@@ -341,15 +352,16 @@ propagate as **indeterminate** (`None`) verdict components, never passes
 - **F1 (tool gate):** if E1 fails, the transformer is falsified and no
   downstream cell is interpretable until diagnosed; `run.py` halts after
   writing the E1 record.
-- **F2 (proved-claim gate):** any E2/E3 census disagreeing with G2's
-  prediction is a tool/proof alarm; halt interpretation (G2 is proved — a
-  stable disagreement means the tracker or the proof chain is broken and
-  the log must say which).
+- **F2 (derivation-backed gate):** any E2/E3 census disagreeing with G2's
+  prediction is a tool/proof alarm; halt interpretation (per G2's §4
+  basis, a stable disagreement means the tracker or the derivation chain
+  is broken and the log must say which).
 - **F3 (lemma-chain gate):** any E4 partition change (with unambiguous
   clustering) contradicts G3; halt and diagnose Lemma A/B/C before
   interpreting anything else.
-- **F4 (sketch class):** E5 outcomes against G4 are recorded as evidence
-  against the sketch; no halt.
+- **F4 (recorded-only class):** E5 outcomes disagreeing with the
+  G4-predicted patterns are recorded as evidence against them (per the §4
+  on-violation cell); no halt.
 - **F5 (withdrawn during the PR #138 Sol audit):** as originally declared,
   E6 best-found `>= 1 - 1e-6` was to be treated as numerical evidence
   against the G3 chain, with a halt. That declaration was a logic error:
@@ -468,53 +480,143 @@ passive pair arises this way up to the Appendix A phase argument. The
 `V`-versus-`V^T` labeling is the bookkeeping caveat recorded in the
 toolkit docstrings; no G3 step depends on it. ∎
 
-### B.3 Single-mode squeezer (proved on the finite-rank class)
+### B.3 Single-mode squeezer flow on the finite-rank class
 
-**Claim** (mode 1; mode 2 identical): for `zeta = rho e^{i theta}`,
-`s = e^{i theta} tanh(rho)`, `mu = sech(rho)`, and every finite-rank
-`f = P e^Q` with `||A|| < 1`,
+*(Rewritten during the Sol re-audit: the previous version transferred the
+SU(1,1) disentangling through an operator-integrability step that was not
+closed — single-generator skew-adjointness, Lie-algebra integrability,
+domains of unbounded products, and the covering bookkeeping are distinct
+issues, and the text conflated them. This version characterizes the
+unitary flow directly; no covering-group argument appears.)*
+
+**Setting** (mode 1; mode 2 identical). `zeta = rho e^{i theta}`; `X` is
+the closure of `(zeta/2) a_1^dag2 - (conj(zeta)/2) a_1^2` from finite
+Fock support — essentially skew-adjoint there (Nelson's analytic-vector
+argument for a single quadratic generator; imported classical fact), so
+`U(t) = e^{tX}` exists by Stone's theorem. Fix `f = P e^Q` with
+`deg P = d` and `||A|| < 1`. Write `E11` for the matrix unit.
+
+**Theorem.** For all `t in [0, 1]`, `U(t) f = P_t e^{Q_t}`, where
+`Q_t = (1/2) w^T A_t w + b_t^T w` and `(A_t, b_t, P_t)` is the unique
+solution of the matched ODE system
 
 ```
-e^{(zeta/2) a^dag2 - (conj(zeta)/2) a^2} f
-   = sqrt(mu) e^{(s/2) w_1^2} [ e^{-(conj(s)/2) d_1^2} f ](mu w_1, w_2).
+A_t' = zeta E11 - conj(zeta) A_t E11 A_t                       A_0 = A
+b_t' = -conj(zeta) A_t E11 b_t                                  b_0 = b
+P_t' = -(conj(zeta)/2) [ d1^2 P_t + 2 (d1 P_t) (A_t w + b_t)_1
+                          + ( (A_t)_{11} + (b_t)_1^2 ) P_t ]    P_0 = P
 ```
 
-**Step 1 — the SU(1,1) matrix identity.** With `k_+ = [[0,1],[0,0]]`,
-`k_- = [[0,0],[-1,0]]`, `k_0 = diag(1/2,-1/2)` (the defining rep of the
-`K_+ = a^dag2/2, K_- = a^2/2, K_0 = (a^dag a + 1/2)/2` commutation
-relations `[k_0, k_pm] = pm k_pm`, `[k_+, k_-] = -2 k_0`), direct 2x2
-multiplication gives
+In particular `e^{tX}` preserves the finite-rank class, `deg P_t <= d`,
+and `(P_t)_top = P_top ∘ L_t` for an invertible linear `L_t` (top-degree
+transport — the only output the G3 chain uses).
+
+**Proof.**
+
+1. *(Riccati line: closed Möbius solution, Siegel-disc bound.)* Set
+   `E_t = diag(cosh t rho, 1)` and `F_t = e^{i theta} diag(sinh t rho, 0)`,
+   so `E_t' = conj(zeta) F_t`, `F_t' = zeta E_t E11`,
+   `E_t^2 - F_t conj(F_t) = I`, and `E11 F_t = F_t`. Then
+
+   ```
+   A_t := (E_t A + F_t) (conj(F_t) A + E_t)^{-1}
+   ```
+
+   solves the Riccati line: writing `N = E_t A + F_t`,
+   `Dm = conj(F_t) A + E_t`, symmetry of `A_t` gives the transposed
+   representation `A_t = Dm^{-T} N^T = (A conj(F_t) + E_t)^{-1}(A E_t + F_t)`,
+   and
+
+   ```
+   A_t' = (N' - A_t Dm') Dm^{-1}
+        = [ conj(zeta) F_t A + zeta E_t E11
+            - A_t conj(zeta) E_t E11 A - A_t conj(zeta) F_t ] Dm^{-1}
+        = [ zeta E11 - conj(zeta) A_t E11 A_t ] Dm Dm^{-1}      (term by term,
+          using E11 F_t = F_t, diagonal commutation, and A_t Dm = N)
+        = zeta E11 - conj(zeta) A_t E11 A_t.
+   ```
+
+   Siegel-disc preservation: expanding with `E_t` real diagonal, `F_t`
+   diagonal, `A` symmetric, and `E_t^2 - F_t conj(F_t) = I`,
+
+   ```
+   Dm^dag Dm - N^dag N = I - A^dag A,   hence
+   I - A_t^dag A_t = Dm^{-dag} (I - A^dag A) Dm^{-1} > 0,
+   ```
+
+   so `||A_t|| < 1` for every `t`, and by continuity on the compact
+   `[0,1]` there is `kappa < 1` with `||A_t|| <= kappa`. (`Dm` is
+   invertible throughout: `Dm = E_t(I + E_t^{-1} conj(F_t) A)` and
+   `||E_t^{-1} conj(F_t)|| = tanh(t rho) < 1`.)
+
+2. *(The b- and P-lines are linear ODEs with continuous coefficients)* on
+   `C^2` and on the finite-dimensional space of polynomials of total
+   degree `<= d` respectively — the right-hand side of the P-line maps
+   that space to itself (`d1^2` lowers degree, `(d1 P)(A_t w + b_t)_1`
+   preserves it). Picard–Lindelöf (imported classical fact) gives unique
+   solutions on `[0, 1]`. Explicitly `b_t = (A conj(F_t) + E_t)^{-1} b`
+   (differentiate and use the transposed representation of `A_t`).
+
+3. *(Generator identity, pointwise.)* `F(t) := P_t e^{Q_t}` satisfies
+   `d/dt F = [(zeta/2) w_1^2 - (conj(zeta)/2) d_1^2] F` as an identity of
+   entire functions: expanding the right-hand side on `P e^Q` gives the
+   quadratic term `(1/2) w^T [zeta E11 - conj(zeta) A_t E11 A_t] w`, the
+   linear term `-conj(zeta) (A_t E11 b_t)^T w`, and the polynomial/constant
+   terms of the P-line — the system above was matched exactly so.
+
+4. *(Regularity: the family stays in Fock space with uniform geometric
+   coefficient decay.)* `|F(t)(w)| <= C exp((kappa/2)|w|^2 + beta |w|)`
+   with `C, beta` continuous in `t` (polynomial times Gaussian with
+   `||A_t|| <= kappa`). Cauchy estimates at radii `r_1 = sqrt(m/kappa)`,
+   `r_2 = sqrt(n/kappa)` on the Taylor coefficients `t_mn`, together with
+   Stirling (`m! <= e sqrt(m) (m/e)^m`), give for the Fock coefficients
+   `c_mn = sqrt(m! n!) t_mn` the uniform bound
+
+   ```
+   |c_mn(t)| <= C' poly(m, n) kappa^{(m+n)/2} e^{beta (sqrt(m/kappa) + sqrt(n/kappa))}
+             <= C'' q^{(m+n)/2}       for any fixed q in (kappa, 1).
+   ```
+
+   Hence `F(t)` lies in Fock space, in the domain of `X` (the coefficient
+   action of a quadratic generator grows linearly in `m + n`, which
+   geometric decay absorbs), and `t -> F(t)` is strongly `C^1` (the
+   parameters are `C^1`; dominated convergence over the geometric
+   envelope).
+
+5. *(Uniqueness against the unitary flow.)* `g(t) := U(-t) F(t)` is
+   strongly differentiable with
+   `g'(t) = U(-t) [ F'(t) - X F(t) ] = 0` by steps 3–4 (step 3's
+   entire-function identity is an identity of Fock coefficient sequences,
+   and step 4 upgrades it to the strong sense). So `g(t) = g(0) = f` and
+   `F(t) = U(t) f`. ∎
+
+**Top-degree transport.** The only degree-preserving term of the P-line
+is the transport term `-conj(zeta) (d1 P_t)(A_t w)_1`, the action of the
+time-dependent linear vector field `w -> -conj(zeta) E11 A_t w`; the
+degree-`d` part therefore evolves by `(P_t)_top = P_top ∘ L_t` with `L_t`
+the fundamental solution of the associated linear ODE — invertible, as
+every linear ODE flow is. (If the degree-`d` part ever vanished, the same
+transport equation run backwards would keep it zero, contradicting
+`P_0 = P`; so `deg P_t = d` throughout.)
+
+**Remark (toolkit identification; not load-bearing for G3).** The
+toolkit's normal-ordered implementation (heat step, sech scaling,
+quadratic prefactor) has exponent action identical to the flow at
+`t = 1`: its composed maps satisfy
 
 ```
-e^{zeta k_+ - conj(zeta) k_-}            = [[cosh rho,            e^{i theta} sinh rho],
-                                            [e^{-i theta} sinh rho, cosh rho          ]],
-e^{s k_+} mu^{2 k_0} e^{-conj(s) k_-}    = [[mu + |s|^2/mu, s/mu],
-                                            [conj(s)/mu,    1/mu]],
+s E11 + M [A (I + conj(s) E11 A)^{-1}] M = (E_1 A + F_1)(conj(F_1) A + E_1)^{-1},
+M (I + conj(s) A E11)^{-1} = (A conj(F_1) + E_1)^{-1},
 ```
 
-and the two agree entrywise (`mu + |s|^2/mu = (1 + sinh^2)/cosh = cosh`,
-`s/mu = e^{i theta} sinh`, `1/mu = cosh`). So the disentangling holds
-exactly in the defining representation.
+(`M = diag(mu, 1)`; both verified by direct 2x2 algebra, e.g. the second
+from `(A conj(F_1) + E_1) M = I + conj(s) A E11`). The polynomial part of
+the implementation is pinned numerically to machine precision in
+`tests/test_gaussact.py` (τ-series and truncated-Fock referees); the G3
+chain uses only the flow theorem above, so this identification carries no
+proof weight.
 
-**Step 2 — transfer to Fock space.** Finite Fock-support vectors are
-analytic vectors for the quadratic generator `X = zeta K_+ -
-conj(zeta) K_-` (Nelson's analytic-vector theorem for quadratic
-Hamiltonians; imported classical fact), so `X` generates a unitary
-one-parameter group and the su(1,1) relations exponentiate to a unitary
-representation of the universal cover along continuous paths from the
-identity. Both sides of the claim are the lifts, along the same path
-`t in [0, 1] -> (s(t), mu(t)) = (e^{i theta} tanh(t rho), sech(t rho))`,
-of the same SU(1,1) path (Step 1); lifts through the (double) cover along
-a fixed continuous path from the identity are unique, so the operators
-agree up to a `t`-independent phase fixed to `+1` at `t = 0`. On the
-finite-rank class the right-hand side is exactly the toolkit's factor
-action (heat step, scaling, quadratic prefactor — the domain condition
-`||t s S A|| < 1` of Lemma C holds on the whole path), which is where G3
-uses it. ∎
-
-Tier note: B.3 imports two named classical facts (Nelson's theorem;
-uniqueness of continuous lifts). Independently of B.3, the identical
-formulas are pinned to machine precision against truncated-Fock matrix
-exponentials in `tests/test_gaussact.py`, and the two-mode squeezer's
-analogous form — not needed for the G3 chain after Lemma A — carries the
-numerical pin plus the independent G1 cross-check only.
+Imported classical facts in this subsection: Nelson's analytic-vector
+argument (single generator), Stone's theorem, Picard–Lindelöf, Cauchy
+estimates/Stirling. No Lie-group integrability or covering argument is
+used anywhere.

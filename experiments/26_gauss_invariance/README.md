@@ -94,7 +94,7 @@ Epistemic status — quoted verbatim from derivation.md §4, its sole authoring 
 
 - G1 — basis: "proved here (§2.1)"; on violation: "tool alarm; halt all downstream cells"
 - G2 — basis: "proved here (§2.2; uses 24/P1 and 24/P4b)"; on violation: "tool/proof alarm; halt E2/E3 interpretation"
-- G3 — basis: "proved here (§2.3 with Lemma C; Lemma A proved in Appendix A; Lemma B proved on the finite-rank class in Appendix B and pinned in tests) — status upgraded in the PR #138 Sol audit"; on violation: "E4 mismatch: halt; diagnose the lemma chain before interpreting anything downstream of it"
+- G3 — basis: "proved here (§2.3: Lemma C; Lemma A in Appendix A; single-mode squeezer flow theorem in Appendix B.3 on the finite-rank class, importing Nelson/Stone/Picard–Lindelöf as named classical facts; factor implementations pinned in tests) — settled across the two PR #138 Sol audit rounds"; on violation: "E4 mismatch: halt; diagnose the lemma chain before interpreting anything downstream of it"
 - G4 — basis: "sketch (§2.4)"; on violation: "recorded as evidence against the sketch (interesting either way); no halt"
 - G5 — basis: "corollary of G3"; on violation: "not experimentally testable here: E6 is a descriptive stress probe over a capped family and can neither support nor refute G3 (F5 gate removed in the PR #138 Sol audit)"
 <!-- generated-block: end -->

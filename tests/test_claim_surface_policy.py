@@ -214,12 +214,13 @@ def test_exp26_status_quoted_from_derivation_not_restated():
     table is the sole authoring location for G1-G5 epistemic status, the
     generated block quotes each basis verbatim, and no status is restated
     on the scanned surfaces. Scanned: README prose outside the generated
-    block, docs/research-log.md, and the exp26 generator sources (the Sol
-    audit of PR #138 found the first draft of the log restating statuses;
-    this scan now covers the known in-repo surfaces). derivation.md IS the
-    authoring location, not a scanned surface. The PR body is a GitHub
-    surface this test cannot reach: it is pointer-only by review, not by
-    machine check."""
+    block, docs/research-log.md, the exp26 generator sources, and — since
+    the Sol re-audit — derivation.md itself outside its claim-table rows,
+    because the §4 table is the sole authoring location at CLAIM
+    granularity, so even the memo's own headings and prose may not carry
+    per-claim status tags. The regex net is a backstop, not the gate:
+    paraphrased or distant restatements can evade it, and the PR body is a
+    GitHub surface this test cannot reach — both are handled by review."""
     module = _load_summary_module("26_gauss_invariance")
     registry = module.load_claim_registry()
     assert set(registry) == set(module.CLAIM_IDS)
@@ -233,6 +234,12 @@ def test_exp26_status_quoted_from_derivation_not_restated():
     for cid, row in registry.items():
         assert row["basis"] in block, f"{cid} basis not quoted in the block"
 
+    derivation = (exp_dir / "derivation.md").read_text(encoding="utf-8")
+    outside_table = "\n".join(
+        line
+        for line in derivation.splitlines()
+        if not line.lstrip().startswith("|")
+    )
     surfaces = {
         "26_gauss_invariance/README.md (outside block)": (
             readme[:start] + readme[stop + len(module.END):]
@@ -246,6 +253,9 @@ def test_exp26_status_quoted_from_derivation_not_restated():
         "26_gauss_invariance/summary_block.py": (
             exp_dir / "summary_block.py"
         ).read_text(encoding="utf-8"),
+        "26_gauss_invariance/derivation.md (outside claim-table rows)": (
+            outside_table
+        ),
     }
     patterns = {
         **RESTATED_STATUS_PATTERNS,
