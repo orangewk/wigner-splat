@@ -99,6 +99,7 @@ def test_no_withdrawn_claim_reappears_on_a_generated_surface():
 TOPO_DIRS = {
     "24_hopf_stellar": "hopf_link_results.json",
     "25_topological_kcurves": "topological_kcurves.json",
+    "26_gauss_invariance": "gauss_invariance.json",
 }
 
 
@@ -206,6 +207,70 @@ def test_epistemic_status_quoted_from_plan_not_restated():
             f"25_topological_kcurves/README.md restates epistemic status "
             f"outside the block: {found.group(0)!r} ({record})"
         )
+
+
+def test_exp26_status_quoted_from_derivation_not_restated():
+    """Same one-authoring-location gate for exp26: derivation.md's §4 claim
+    table is the sole authoring location for G1-G5 epistemic status, the
+    generated block quotes each basis verbatim, and no status is restated
+    on the scanned surfaces. Scanned: README prose outside the generated
+    block, docs/research-log.md, the exp26 generator sources, and — since
+    the Sol re-audit — derivation.md itself outside its claim-table rows,
+    because the §4 table is the sole authoring location at CLAIM
+    granularity, so even the memo's own headings and prose may not carry
+    per-claim status tags. The regex net is a backstop, not the gate:
+    paraphrased or distant restatements can evade it, and the PR body is a
+    GitHub surface this test cannot reach — both are handled by review."""
+    module = _load_summary_module("26_gauss_invariance")
+    registry = module.load_claim_registry()
+    assert set(registry) == set(module.CLAIM_IDS)
+
+    exp_dir = EXPERIMENTS / "26_gauss_invariance"
+    readme = (exp_dir / "README.md").read_text(encoding="utf-8")
+    start = readme.find(module.BEGIN)
+    stop = readme.find(module.END)
+    assert start >= 0 and stop >= 0
+    block = readme[start:stop]
+    for cid, row in registry.items():
+        assert row["basis"] in block, f"{cid} basis not quoted in the block"
+
+    derivation = (exp_dir / "derivation.md").read_text(encoding="utf-8")
+    outside_table = "\n".join(
+        line
+        for line in derivation.splitlines()
+        if not line.lstrip().startswith("|")
+    )
+    surfaces = {
+        "26_gauss_invariance/README.md (outside block)": (
+            readme[:start] + readme[stop + len(module.END):]
+        ),
+        "docs/research-log.md": (ROOT / "docs" / "research-log.md").read_text(
+            encoding="utf-8"
+        ),
+        "26_gauss_invariance/run.py": (exp_dir / "run.py").read_text(
+            encoding="utf-8"
+        ),
+        "26_gauss_invariance/summary_block.py": (
+            exp_dir / "summary_block.py"
+        ).read_text(encoding="utf-8"),
+        "26_gauss_invariance/derivation.md (outside claim-table rows)": (
+            outside_table
+        ),
+    }
+    patterns = {
+        **RESTATED_STATUS_PATTERNS,
+        r"\bg[1-5]\b[^\n]{0,80}(proved|sketch\b|corollary)": (
+            "exp26 — status is quoted verbatim from derivation.md's claim table"
+        ),
+    }
+    for name, text in surfaces.items():
+        outside = _normalize(text)
+        for pattern, record in patterns.items():
+            found = re.search(pattern, outside)
+            assert not found, (
+                f"{name} restates epistemic status outside the authoring "
+                f"location: {found.group(0)!r} ({record})"
+            )
 
 
 def test_tally_excludes_ladders_with_failures_below_transition():

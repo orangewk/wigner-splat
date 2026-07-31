@@ -1882,3 +1882,73 @@ Scope: best-found multi-start values under a fixed budget, never suprema;
 tail-bounded operational dictionary (effective squeezing singular value
 <= ~0.56 at cutoff 36); censuses numerically supported; no certified
 language.
+
+## 2026-07-30 — Experiment 26 / issue #137 Gate T′ slice 1, Gaussian-group action on zero links
+
+Owner/decisions: the 管理役 comment of 2026-07-31 on issue #137 asked (指摘 2)
+whether the zero-link topology is invariant under the full Gaussian unitary
+group or only under passive optics; orange asked for the new experiment with
+implementation delegated. A boundary declaration on PR #138 (管理役, orange
+承認済み) fixes ownership — this line owns wigner_splat/gaussact.py (2-mode
+only, no N-mode expansion from this line; that would reopen #30),
+experiments/26_*, and the claim-surface policy extensions — and gates the
+merge on an independent 管理役 re-derivation plus a Sol structural audit, on
+top of the pre-declaration discipline. 指摘 3 of the same comment (isotopy
+stability inside a fidelity ball) is explicitly NOT addressed here and stays
+open as Gate T′ sub-goal (a).
+
+Pre-declared (experiments/26_gauss_invariance/derivation.md, committed
+before any run output existed): claims G1 through G5 with falsification
+gates F1 through F5. Claim statements and their epistemic status live only
+in that memo's §4 claim table (quoted verbatim into the README's generated
+block); this log restates neither — a first draft of this entry did, and
+was reduced to pointers when the Sol audit flagged it (see below).
+
+Merge gates (PR #138 boundary declaration): both passed. Sol structural
+audit ran four rounds (BLOCK, BLOCK, PASS WITH CONDITIONS, PASS): six
+plus three blocking findings and one condition, all accepted and fixed.
+The 管理役 independent verification passed in two installments (first
+G2, then G3/G5, the latter with its own 960-orbit numerical sweep and a
+Fock-space G5 probe), recommending two documentation additions — the
+||S|| = 1 clause in the transport corollary's domain argument, and the
+scope of top_partition's ambiguity margin (it guards clustering, not the
+degree decision) — both applied. Every correction is recorded in place in
+derivation.md with an audit note, the claim table (§4 there) is the
+record of any status change, and the PR-thread comments itemize what
+moved — this log deliberately repeats none of that content (a first
+draft did, and the audit flagged it). Process changes that outlive the
+PR: the claim-surface policy test now scans this log, the memo outside
+its claim table, and the exp26 generator sources for status restatements;
+the PR body is a GitHub surface outside mechanical checks, kept
+pointer-only by review.
+
+Measured (experiments/26_gauss_invariance/gauss_invariance.json,
+authoritative; verdicts computed from data, census failures and ambiguous
+root clusterings propagating as indeterminate): all outcome values — the E1
+machinery-gate readings, the E2/E3 threshold and restoration cells, the E4
+partition cells, the E5 large-radius comparisons with the data-computed
+|2,0>-image curve classifier, and the E6 best-found values — are reported
+only through the JSON and the README's generated block (policy-tested); this
+log restates none of them. The epistemic status of G1–G5 is likewise not
+restated here: derivation.md §4's claim table is its sole authoring
+location, quoted verbatim into the generated block (the exp25 round-3
+mechanism, applied from the start).
+
+Toolkit: wigner_splat/gaussact.py carries the exact (P, A, b) action of
+disentangled Bloch–Messiah factors; tests/test_gaussact.py pins it against
+two independent referees (a from-scratch tau-series of the generator and a
+truncated-Fock matrix exponential at cutoff 42) plus census pins on both
+sides of lam*. Implementation was delegated (two sub-builds), then reviewed
+and accepted against the memo; the sanctioned deviations are recorded in the
+test file and run.py comments (clustering tolerance raised to the measured
+np.roots scatter; brute-force referee applied per factor with passives
+checked against stellar2.rotated).
+
+Scope: two modes, pure states; E6 is best-found under a fixed multi-start
+budget over a magnitude-capped factorized family, not the full non-compact
+group — no supremum claims in either direction, and the E6 value can
+neither support nor refute G3 (memo F5 as corrected); censuses numerically
+supported, not certified; same-environment reproduction (environment
+recorded in the JSON); novelty unclaimed pending Gate S′ — "link at
+infinity" is a standard singularity-theory notion and the derivation says
+so.
