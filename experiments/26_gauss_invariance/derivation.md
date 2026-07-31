@@ -208,11 +208,17 @@ closes the argument. ∎
 **Corollary (top-degree transport).** In Lemma C the heat part lowers
 degree, and the substitution is affine with invertible linear part `N_s`,
 so `(P_s)_top = gamma_s * (P_top ∘ N_s)` with the **nonzero scalar**
-`gamma_s` of the closed form (the domain condition holds along the whole
-segment because `|s| = tanh rho < 1` and `||A|| < 1` give
-`||t s S A|| < 1` for `t in [0, 1]`; the scalar factor was made explicit
-here as the Sol 再々監査 condition — a nonzero scalar changes no root
-multiplicity). Under the Lemma A factors, `P_top`
+`gamma_s` of the closed form. The domain condition holds along the whole
+segment because `|s| = tanh rho < 1`, `||A|| < 1`, **and `||S|| = 1` for
+every `S` this argument actually uses**: the Bloch–Messiah factors feed
+Lemma C only the elementary matrix `E_ii` (single-mode squeezers) or the
+antidiagonal matrix (two-mode squeezer), both of operator norm 1, so
+`||t s S A|| <= |s| ||A|| < 1` for `t in [0, 1]`. (Lemma C itself states
+`S` as a general symmetric matrix with a determinant hypothesis, so the
+norm bound must be — and now is — discharged at the point of use; clause
+added on the 管理役 second-installment recommendation. The scalar factor
+was made explicit as the Sol 再々監査 condition — a nonzero scalar
+changes no root multiplicity.) Under the Lemma A factors, `P_top`
 therefore transforms by a nonzero scalar and an invertible linear
 substitution in every case: the single-mode squeezer flow transports it by
 the invertible linear flow map of Appendix B.3 (whose transport term has

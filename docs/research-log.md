@@ -1904,16 +1904,23 @@ in that memo's §4 claim table (quoted verbatim into the README's generated
 block); this log restates neither — a first draft of this entry did, and
 was reduced to pointers when the Sol audit flagged it (see below).
 
-Sol structural audit (PR #138, 2026-07-31; two rounds, both BLOCK): round
-1 raised six blocking findings, round 2 three residual ones; all nine were
-accepted and fixed. Every correction is recorded in place in derivation.md
-with an audit note, the claim table (§4 there) is the record of any status
-change, and the PR-thread response comments itemize what moved — this log
-deliberately repeats none of that content (a first draft did, and the
-audit flagged it). Process changes that outlive the PR: the claim-surface
-policy test now scans this log, the memo outside its claim table, and the
-exp26 generator sources for status restatements; the PR body is a GitHub
-surface outside mechanical checks, kept pointer-only by review.
+Merge gates (PR #138 boundary declaration): both passed. Sol structural
+audit ran four rounds (BLOCK, BLOCK, PASS WITH CONDITIONS, PASS): six
+plus three blocking findings and one condition, all accepted and fixed.
+The 管理役 independent verification passed in two installments (first
+G2, then G3/G5, the latter with its own 960-orbit numerical sweep and a
+Fock-space G5 probe), recommending two documentation additions — the
+||S|| = 1 clause in the transport corollary's domain argument, and the
+scope of top_partition's ambiguity margin (it guards clustering, not the
+degree decision) — both applied. Every correction is recorded in place in
+derivation.md with an audit note, the claim table (§4 there) is the
+record of any status change, and the PR-thread comments itemize what
+moved — this log deliberately repeats none of that content (a first
+draft did, and the audit flagged it). Process changes that outlive the
+PR: the claim-surface policy test now scans this log, the memo outside
+its claim table, and the exp26 generator sources for status restatements;
+the PR body is a GitHub surface outside mechanical checks, kept
+pointer-only by review.
 
 Measured (experiments/26_gauss_invariance/gauss_invariance.json,
 authoritative; verdicts computed from data, census failures and ambiguous

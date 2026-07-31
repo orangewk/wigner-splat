@@ -34,6 +34,18 @@ NUMERICAL operation -- np.roots scatters an exact m-fold root by roughly
 eps^(1/m). Every top_partition result therefore carries its ambiguity
 margin (min_intercluster_distance); callers must check it and distrust any
 partition whose margin sits within a decade of the clustering tolerance.
+
+The margin guards ONLY that clustering. The separate DEGREE decision
+inside top_form (fixed relative threshold 1e-9 on |P[m, n]| / max|P|)
+carries no returned diagnostic: strong squeezing (mu -> 0) suppresses top
+coefficients relative to the Hermite-smoothing lower orders, and once the
+ratio crosses the threshold the reported degree undershoots, the roots
+collapse, and top_partition returns margin = np.inf -- the single-cluster
+"maximally confident" signal -- exactly when the answer is wrong. Inside
+moderate squeezing (the experiment-26 declared grid, r_max = 0.6) this
+does not fire; callers probing beyond it must check the top-degree
+coefficient ratio themselves. (Recorded during the PR #138 independent
+verification, which measured the failure onset near r ~ 2.5.)
 """
 
 from __future__ import annotations
@@ -439,6 +451,10 @@ def top_form(state, rel_tol=1e-9):
     d is the largest m + n with |P[m, n]| > rel_tol max|P| (the threshold
     keeps trailing numerical dust from masquerading as top degree). Returns
     (d, coeffs) with coeffs[j] the coefficient of w1^(d-j) w2^j.
+
+    The degree decision is a fixed threshold with NO returned diagnostic:
+    strong squeezing can push genuine top coefficients under rel_tol and
+    silently lower d (see the module docstring's epistemic-status note).
     """
     P = state.P
     mx = np.max(np.abs(P))
@@ -471,7 +487,9 @@ def top_partition(state, tol=1e-6):
     is at most one cluster. NUMERICAL caveat: np.roots scatters an exact
     m-fold root by ~eps^(1/m), so tol must sit above that scatter, and a
     min_intercluster_distance below ~10 tol means the clustering was
-    ambiguous -- callers must check it.
+    ambiguous -- callers must check it. The margin does NOT guard the
+    degree decision of top_form: a degree undershoot collapses roots and
+    reports np.inf, the maximally-confident signal (module docstring).
     """
     d, coeffs = top_form(state)
     if d == 0:
