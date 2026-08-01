@@ -118,6 +118,7 @@ provenance:
   handoff_from: []
   artifact:
     git_commit: b89f9dc...
+    artifact_scope: [experiments/27_row1_classical/results.json]
     content_digest: sha256:...
   based_on: [https://github.com/orangewk/wigner-splat/issues/126]
   epistemic_status: reported
@@ -129,13 +130,19 @@ provenance:
 - `actor_id`
 - `activity`
 - `delegated_by`またはorangeによる直接実行の表示
+- `delegation_chain`（`verification` / `validation`では必須。ただし`delegated_by`の記録グラフから一意に導出できる場合は省略可）
 - `handoff_from`（handoffでなければ空list）
 - 対象artifactのexact commitまたはcontent digest
+- `artifact_scope`（同じcommitに複数actorの成果が入る場合は対象pathまたはcontent digest）
 - `reported / proposed / verified / validated / decided / withdrawn`の`epistemic_status`
 
 `activity`はactorが行った行為、`epistemic_status`はその記録が運ぶclaimを現在どう扱うかを示す。たとえば`activity: validation`かつ`epistemic_status: reported`は「validation結果が提出されたが、独立gateへ採用済みとはまだ扱わない」という意味である。
 
 `handoff_from`は全記録で必須とし、handoffでなければ空list、handoff記録では旧actorから現在actorまでを追跡できる非空の祖先listとする。これによりfieldの書き忘れと「handoffなし」を区別する。`based_on`は親記録のURLまたはdigestを持ち、`decision` / `withdrawal`では必須、`verification` / `validation`が以前のevidenceを採用する場合にも必須とする。
+
+過去の記録にactor、delegation、handoff、対象digestがない場合、placeholderをこれらのfieldへ埋めて現行schemaへ再署名しない。代わりにsource URLと欠損fieldを持つ`provenance_completeness: incomplete`のlegacy projectionとして記録し、独立gateには数えない。
+
+Git commitのauthor / committerをcommit内の全artifactのauthorとみなさない。brief、生成物、packagingが同一commitに入る場合は、activityごとに同じcommitと異なる`artifact_scope`を参照する。
 
 `vendor_ref`は取得できる場合だけprivateに保存する。これは電子署名ではなく、偶発的な役割混同を可視化するactivity stampである。「執事」等の役割名だけを署名として使わない。
 
@@ -156,7 +163,7 @@ provenance:
 1. reviewerのactor IDがartifact authorと異なる。
 2. reviewerのdelegation chainにartifact authorが含まれない。
 3. reviewerが対象版のspecまたはacceptance criteriaを作成・変更していない。
-4. reviewがexact artifact SHA/digestを指定し、それが判定時点の対象版と一致する。
+4. reviewがexact artifact SHA/digestと`artifact_scope`を指定し、それらが判定時点の対象版と一致する。
 5. activityが`verification`または`validation`である。
 6. reviewerの`handoff_from`祖先にartifact authorが含まれない。
 
@@ -207,9 +214,10 @@ publish authorityはorangeだけが発生させる。メインランナーは記
 
 ### 10.1 単一PC
 
-- free-form messageとread状態は現行`agmsg` SQLiteへ保存する。
-- SQLiteはそのPC内のmailbox正本であり、project全体のauthority sourceではない。
+- free-form messageとread状態は、ユーザー環境で共有する現行`agmsg` SQLiteへ保存する。
+- SQLiteはそのPC・ユーザー内のmailbox正本であり、個別projectのauthority sourceではない。messageはteam / actor間で配送し、projectとの対応はagent registrationで解決する。
 - gateに使うartifact、review、decisionはGitまたはGitHubの参照を持つ。
+- `agmsg`のversion / commitはPC側の運用環境inventoryに置き、各taskのprovenanceへ複写しない。
 - `agmsg`へ同じclaimを再記述せず、正本URLまたはartifact refを送る。
 
 ### 10.2 PC外のrunner
@@ -235,9 +243,9 @@ GitHub不足が三task以上で再現した場合だけhosted transport adapter�
 
 ## 11. 現行`agmsg`についての証拠境界
 
-installed copyを調べた記録はあるが、canonical source repositoryのcommitまたはdigestを本PRから検証できない。現行`agmsg`の内部schema、`--force`、role-session挙動に関する従来記述は`reported`扱いとする。
+Phase 0でcanonical sourceを[`fujibee/agmsg@caed5a4`](https://github.com/fujibee/agmsg/commit/caed5a461eb0cfd373188545351f79dd56f13fb8)へ固定した。ただしinstalled `VERSION`とtagの対応だけではinstalled tree全体のbyte同一性を証明しない。この固定版はgap analysis用の運用環境inventoryであり、project taskのauthority sourceではない。
 
-本設計は未検証の内部実装へ依存しない。実装前にcanonical repositoryを特定し、対象commitを固定してgap analysisを行う。
+本設計は`agmsg`の内部schemaやidentity保証へ依存しない。必要なのはtask URL、artifact ref、request / status / receiptを配送できることだけであり、durableなreviewとdecisionはGit / GitHubへ置く。
 
 ## 12. task状態とgate
 
@@ -306,15 +314,18 @@ privateなvendor session ID、local path、secret、未公開artifact URIは出�
 
 ### Phase 0 — record-only pilot
 
-- canonical `agmsg` repositoryと対象commitを特定する。
-- provenance recordのtemplateを定める。
-- 既存transportとGitHubだけを使い、新serviceやDB migrationは行わない。
-- `exp/27-row1-numerics`をHOLDのまま、記録形式だけpilotする。
+[Issue #143](https://github.com/orangewk/wigner-splat/issues/143)で完了・accept済み。
+
+- canonical `agmsg`はproject recordでなくPC側の運用環境inventoryへ分離した。
+- #126 / `b89f9dc`はtaskとartifactまで復元できたが、actor、review対象版、artifact decisionは復元不能だった。
+- legacy記録は現行actorへ再署名せず、欠損を明示して独立gate不採用とした。
 
 ### Phase 1 — 三taskで運用
 
+[Issue #146](https://github.com/orangewk/wigner-splat/issues/146)で追跡する。
+
 - authorとreviewerをメインランナーから別々に委譲する。
-- exact SHA付きのevidence、review、decisionを記録する。
+- exact SHAと`artifact_scope`付きのevidence、review、decisionを記録する。
 - HOLDから新証拠による再開を試す。
 - cloud runnerを使うtaskをGitHubだけでhandoffできるか確認する。
 
@@ -351,6 +362,7 @@ GitHub待ちの停止時間、取りこぼし、private remote message件数、o
 11. pilotに新しい常駐serviceやidentity providerを要しない。
 12. decisionとwithdrawalから`based_on`を辿り、親記録を復元できる。
 13. 独立経路claimをentry point、code digest、call target、input digestで検査できる。
+14. 同一commitに複数actorの成果がある場合、`artifact_scope`で対象を区別できる。
 
 ## 17. リスク
 
