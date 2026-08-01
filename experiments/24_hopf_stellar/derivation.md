@@ -8,18 +8,23 @@ fixed here. Measured numbers live only in `hopf_link_results.json`; this memo
 contains none.
 
 Motivation. The K_ε theory note (`docs/kepsilon-note/note.md`) certifies
-one-mode lower bounds on approximate Gaussian rank by **counting** robust
-zeros of a state's stellar function. In two modes the zero set of the stellar
+one-mode lower bounds on approximate rank over its **restricted** bounded
+common-squeezing dictionary (note §2.2, row D2) by **counting** robust zeros
+of a state's stellar function; for the unrestricted quantity (row D1) the
+note claims no disk-zero bound. In two modes the zero set of the stellar
 function is a complex curve; its intersection with a phase-space 3-sphere is a
 closed 1-dimensional curve system — a **link**. Links carry more than a count:
 components can wind and be mutually linked, the simplest nontrivial case being
 the Hopf link (the fibers of the Hopf fibration `S^3 -> S^2`). This memo asks
 whether that topology is (a) computable, (b) partially invariant under
 passive linear optics (see P2 for the exact scope — component count and
-linking are; core windings are not), and (c) an obstruction that separates
-Gaussian dictionaries at fixed term budget `K` — a **topological K–ε
-obstruction**, the 2-mode sibling of the note's zero counting. One mode
-counts zeros; two modes can also link them.
+linking are; core windings are not), and (c) an obstruction **candidate**
+against the specific dictionaries fixed in §1 (`D_coh`, `D_G`) at fixed term
+budget `K` — a **restricted-dictionary topological K–ε obstruction program**,
+the 2-mode sibling of the note's restricted-dictionary zero counting. No
+bound on unrestricted Gaussian rank (or on the unrestricted `K_ε` of the
+note's row D1) is claimed anywhere in this memo. One mode counts zeros; two
+modes can also link them.
 
 ## 1. Conventions
 
@@ -42,9 +47,12 @@ Zeros of the Husimi function correspond to zeros of `f_psi`. Building blocks
   subfamily). A `K`-term state is `f = sum_{k<=K} z_k exp(q_k(w))`. Pure-state
   superpositions only; no mixed states anywhere in this experiment.
 
-These dictionaries are the 2-mode analogs of the note's §2.2 restricted
-dictionaries; no equivalence with the note's bounded common-squeezing
-dictionary is claimed.
+These dictionaries are fixed per-experiment families in the spirit of the
+note's restricted-dictionary approach; all results below are per-dictionary,
+per-`K` statements. `D_G` as defined here carries **no** squeezing bound, so
+it is not the note's §2.2 bounded common-squeezing dictionary, and no
+equivalence is claimed (dictionary alignment is a Gate T′ design item,
+issue #137).
 
 Sphere `S3_r = {|w1|^2 + |w2|^2 = r^2}`; the census sphere is `r = 1` unless
 stated. The **zero link** is `L_r(psi) = f_psi^{-1}(0) ∩ S3_r`. Each component
@@ -185,15 +193,17 @@ No prediction is declared; whatever appears is recorded.
 
 ## 3. Why this connects to the K–ε program
 
-The note's one-mode robust-zero bound (its Theorem B′) certifies rank from
-zeros that **survive an ε-ball**. Linking is the topological form of that
+The note's one-mode robust-zero bound (its Theorem B′) certifies approximate
+rank **over the restricted bounded common-squeezing dictionary** (note §2.2,
+row D2) from zeros that **survive an ε-ball**; it does not bound the
+unrestricted quantity (note row D1). Linking is the topological form of that
 robustness: a linked pair cannot be unlinked by any perturbation that keeps
 the curves disjoint — the link can only die by zeros colliding or leaving the
 sphere, which is exactly the event a K–ε curve tracks. The ladder is:
 
 | modes | zero set on sphere | invariant | certificate style |
 | --- | --- | --- | --- |
-| 1 | points in the disk | count | note §4–5 (certified there) |
+| 1 | points in the disk | count | note §4–5 (certified there for the restricted bounded common-squeezing dictionary only; unrestricted: no disk-zero bound, note row D1) |
 | 2 | link in `S^3` | count + windings + linking matrix | this memo (P3/P5/P6: proved/sketch) |
 | n>=3 | surfaces in `S^{2n-1}` | not touched here | open |
 
@@ -265,7 +275,8 @@ topic in structured-light optics; stellar-rank robustness is established in
 the references already recorded in `docs/kepsilon-note/note.md` §9. Per
 `AGENTS.md`, none of these are cited here with specific content claims — no
 primary source was re-read for this memo. Before any novelty language is used
-for "linking as a Gaussian-rank obstruction", a Gate-S-style survey must check
-at minimum: singularity-link literature, optical vortex-knot literature, and
+for "linking as a restricted-dictionary K–ε obstruction", a Gate-S-style
+survey must check at minimum: singularity-link literature, optical
+vortex-knot literature, and
 the stellar-formalism cluster. Until then this experiment claims only its
 self-contained derivations and measurements.

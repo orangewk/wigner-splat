@@ -27,6 +27,14 @@ K–ε curve**, i.e. the expensive part of the approximation is topological.
     else the parameter point is rejected. This parallels the K_ε note's
     bounded-dictionary discipline; no equivalence with its one-mode
     common-squeezing dictionary is claimed.
+  - Note: `D_G^b` is **not** the `D_G` of
+    `experiments/24_hopf_stellar/derivation.md`. The exp24 `D_G` is the
+    unbounded pure-Gaussian family (no squeezing or norm constraint), while
+    `D_G^b` is a bounded operational subfamily (`D_G^b ⊂ D_G`). Exp24's
+    per-dictionary statements and this experiment's best-found cells
+    therefore quantify over different families; dictionary alignment
+    (including with the note's §2.2 dictionary) is a Gate T′ design item
+    (issue #137).
 - `K = 1..4` for `|11>`, `K = 1..6` for the trefoil.
 
 ## Method
