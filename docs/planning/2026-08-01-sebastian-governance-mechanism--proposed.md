@@ -69,7 +69,7 @@ GitHub投稿者とGit authorもorangeへ集約され、自由記述の役割署�
 
 ### 4.1 A2Aから語彙だけ借りる
 
-[A2A Protocol（commit `2cdf197`）](https://github.com/a2aproject/A2A/blob/2cdf197805cf3eb780714f730cdfd24bce1c9998/docs/specification.md)の`context_id`、`task_id`、`message`、`artifact`、task lifecycleを参照する。
+[A2A Protocol（commit `2cdf197`）](https://github.com/a2aproject/A2A/blob/2cdf197805cf3eb780714f730cdfd24bce1c9998/docs/specification.md)の`contextId`、`taskId`、`Message`、`Artifact`、task lifecycleを参照する。本projectのprovenance fieldでは既存規約へ合わせ、`context_id`、`task_id`のsnake_case表記へ正規化する。
 
 A2A serverは運用しない。Agent Cardは能力と認証方式を宣言できるが、本projectのreview独立性やdecision authorityを発行するものではない。
 
@@ -129,12 +129,13 @@ provenance:
 - `actor_id`
 - `activity`
 - `delegated_by`またはorangeによる直接実行の表示
+- `handoff_from`（handoffでなければ空list）
 - 対象artifactのexact commitまたはcontent digest
 - `reported / proposed / verified / validated / decided / withdrawn`の`epistemic_status`
 
 `activity`はactorが行った行為、`epistemic_status`はその記録が運ぶclaimを現在どう扱うかを示す。たとえば`activity: validation`かつ`epistemic_status: reported`は「validation結果が提出されたが、独立gateへ採用済みとはまだ扱わない」という意味である。
 
-`handoff_from`はhandoff時に必須で、旧actorから現在actorまでの祖先を追跡できるようにする。`based_on`は親記録のURLまたはdigestを持ち、`decision` / `withdrawal`では必須、`verification` / `validation`が以前のevidenceを採用する場合にも必須とする。
+`handoff_from`は全記録で必須とし、handoffでなければ空list、handoff記録では旧actorから現在actorまでを追跡できる非空の祖先listとする。これによりfieldの書き忘れと「handoffなし」を区別する。`based_on`は親記録のURLまたはdigestを持ち、`decision` / `withdrawal`では必須、`verification` / `validation`が以前のevidenceを採用する場合にも必須とする。
 
 `vendor_ref`は取得できる場合だけprivateに保存する。これは電子署名ではなく、偶発的な役割混同を可視化するactivity stampである。「執事」等の役割名だけを署名として使わない。
 
@@ -178,7 +179,7 @@ session、vendor、モデルが異なることや、本文の「独立review」�
 | publish / main昇格の決定 | 可 | 不可 | 不可 | 不可 | 不可 |
 | orange決定済みpublishの実行 | 可 | 明示委譲時のみ | 不可 | 不可 | 不可 |
 
-task作成時に、必要なtaskだけimplementerとは別の`spec-owner`を指定する。routineな明確化とは、承認済みの研究目的と証拠水準を緩めず、判定手順を具体化する変更をいう。研究目的、証拠水準、公開claim、public / private境界を変える変更は高影響としてorangeへ戻す。spec-ownerが変更した版を同じactorが独立reviewすることはできない。
+task作成時に、必要なtaskだけimplementerとは別の`spec-owner`を指定する。routineな明確化とは、承認済みの研究目的と証拠水準を緩めず、判定手順を具体化する変更をいう。研究目的、証拠水準、公開claim、public / private境界を変える変更は高影響としてorangeへ戻す。spec-ownerが変更した版を同じactorが独立reviewすることはできない。spec-ownerをdecision ownerに明示しても§7.2の独立review gateは免除されず、decisionはそのreviewを`based_on`で参照する。
 
 `delegate`はactivityではなく再委譲可能範囲を示すcapabilityとする。task、artifact scope、期限、authorityを親から拡大できない。
 
@@ -261,17 +262,13 @@ stateDiagram-v2
 
 gate規則:
 
-1. authorとverifierのactor IDが同じなら独立gateに数えない。
-2. authorがreviewerのdelegation chainに含まれれば数えない。
-3. authorがreviewerの`handoff_from`祖先に含まれれば数えない。
-4. spec / acceptance criteriaを変更したactorは、その版を独立reviewできない。
-5. exact SHA/digestが変わればreviewをstaleにする。
-6. routerのadviceや自己検算をgateへ加算しない。
-7. decisionは`based_on`で必要なevidence / verification / validationを参照する。
-8. 依存記録がwithdrawnなら`based_on`を辿ってdecisionを再評価する。
-9. HOLDは終端でなく、新証拠または改訂artifactでWorkingへ戻せる。
-10. REJECTEDは元decision ownerの明示的reopenで再開できる。
-11. 完了表示は本文でなく状態遷移から生成する。
+1. 独立reviewには§7.2の全条件を満たす記録だけを採用する。artifact SHA/digestの変更後は条件4不成立としてreviewをstaleにする。
+2. routerのadviceや自己検算をgateへ加算しない。
+3. decisionは`based_on`で必要なevidence / verification / validationを参照する。
+4. 依存記録がwithdrawnなら`based_on`を辿ってdecisionを再評価する。
+5. HOLDは終端でなく、新証拠または改訂artifactでWorkingへ戻せる。
+6. REJECTEDは元decision ownerの明示的reopenで再開できる。
+7. 完了表示は本文でなく状態遷移から生成する。
 
 独立な実行経路を主張するtaskでは、自由記述ラベルを判定に使わない。task固有のacceptance checkerまたはpolicy testが、実行entry point、実行code digest、到達したcall target、入力digestを記録・比較する。この検査は`agmsg` transportではなく、対象実験またはrepository testの責務とする。
 
@@ -326,9 +323,7 @@ privateなvendor session ID、local path、secret、未公開artifact URIは出�
 pilotで有効だった規則だけをcheckerまたはGitHub templateへ実装する。
 
 - 必須provenance fieldの欠落
-- author / reviewer actorの一致
-- authorを含むreview delegation chain
-- authorを含むreviewer handoff ancestry
+- §7.2の全独立性条件の成否（checkerは条件一覧を別定義せず参照する）
 - decision / withdrawalの`based_on`欠落
 - review SHAとcurrent headの不一致
 - 独立経路claimに対するentry point / code / call target / input digestの欠落
@@ -344,19 +339,18 @@ GitHub待ちの停止時間、取りこぼし、private remote message件数、o
 ## 16. acceptance criteria
 
 1. 誰がauthoring / advice / verification / validation / decisionを行ったか区別できる。
-2. 同じactorの新sessionによるreviewを検出し、独立reviewに数えない。
-3. authorから委譲されたreviewer、またはauthorをhandoff祖先に持つreviewerを検出し、独立reviewに数えない。
-4. artifact digest変更後のreviewをstaleにできる。
-5. router本文の「PASS」でtaskがacceptedにならない。
-6. HOLDへ新evidenceを追加してWorkingへ戻せる。
-7. orange由来の記録を欠くpublish / main昇格decisionを検出し、採用しない。
-8. PC外runnerがGitHubだけからtask、artifact、review対象を復元できる。
-9. vendor IDがなくても運用でき、あればprivateな索引として残せる。
-10. local free-form messageを壊さない。
-11. 同じclaimをGit、GitHub、agmsgへ別々に手書きしない。
-12. pilotに新しい常駐serviceやidentity providerを要しない。
-13. decisionとwithdrawalから`based_on`を辿り、親記録を復元できる。
-14. 独立経路claimをentry point、code digest、call target、input digestで検査できる。
+2. §7.2のいずれかの条件を満たさないreviewを検出し、独立reviewに数えない。
+3. artifact digest変更後のreviewをstaleにできる。
+4. router本文の「PASS」でtaskがacceptedにならない。
+5. HOLDへ新evidenceを追加してWorkingへ戻せる。
+6. orange由来の記録を欠くpublish / main昇格decisionを検出し、採用しない。
+7. PC外runnerがGitHubだけからtask、artifact、review対象を復元できる。
+8. vendor IDがなくても運用でき、あればprivateな索引として残せる。
+9. local free-form messageを壊さない。
+10. 同じclaimをGit、GitHub、agmsgへ別々に手書きしない。
+11. pilotに新しい常駐serviceやidentity providerを要しない。
+12. decisionとwithdrawalから`based_on`を辿り、親記録を復元できる。
+13. 独立経路claimをentry point、code digest、call target、input digestで検査できる。
 
 ## 17. リスク
 
