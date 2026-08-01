@@ -1905,7 +1905,8 @@ was reduced to pointers when the Sol audit flagged it (see below).
 
 Acceptance basis (corrected 2026-08-01 after the Sebastian drift audit,
 docs/2026-08-01-sebastian-drift-audit--done.md): the substantive grounds
-are the Sol structural audit, orange's acceptance, and the in-repo referee
+are the Sol structural audit, the separately recorded main-side acceptance
+(main 側の検収, per the audit document), and the in-repo referee
 tests; the 管理役 (Sebastian) 検算 counts as advisory input — valid as
 proposal, anomaly detection, and re-verification request, not as
 acceptance grounds. The PR #138 boundary declaration had counted "both
