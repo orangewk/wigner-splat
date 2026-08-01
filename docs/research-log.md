@@ -1807,30 +1807,28 @@ at first (the line was chartered as issue #137 the same day). Claude session
 This is a side-track, not a gate: nothing here touches measured data or the
 K_ε note's certified one-mode theorems.
 
-The idea is the two-mode extension of the note's zero counting: stellar-
-function zeros meet the phase-space sphere |w1|^2+|w2|^2 = 1 in a link.
-Component count and the pairwise linking matrix are invariant under passive
-linear optics; per-component core windings are frame-fixed diagnostics
-defined against the state's own coordinate cores (this scope was corrected
-during PR #136 review — the entry as first pushed wrongly listed windings
-among the passive invariants). |1,1> realizes the positive Hopf link (two
-Hopf fibers), and linking is the topological form of a robust zero: it can
-only die by zeros colliding or leaving the sphere.
-experiments/24_hopf_stellar/derivation.md pre-declares the propositions
-(P1-P4b proved, P5/P6 sketches, Q1 open) and the falsification gates.
+The idea is the two-mode extension of the note's restricted-dictionary zero
+counting: stellar-function zeros meet the phase-space sphere
+|w1|^2+|w2|^2 = 1 in a link, and linking is the topological form of a robust
+zero — it can only die by zeros colliding or leaving the sphere. Proposition
+statements and their epistemic status live only in
+experiments/24_hopf_stellar/derivation.md §4's claim table (P1-P4b, P5-P6,
+R1, Q1, plus the falsification gates in §6); this log restates neither the
+claims nor their status. (A first version of this entry did restate them,
+and was reduced to pointers by the 2026-08-01 re-review correction; the P2
+winding-scope correction of the PR #136 review is recorded in the memo
+itself.)
 
 Measured (experiments/24_hopf_stellar/hopf_link_results.json, authoritative;
 verdicts computed from data): outcome values, the E1-E3 verdict booleans,
 and a descriptive criterion-free comparison of the E4 ladder's first linked
 pair against its largest fidelity step are reported only through the JSON
 and the README's generated block (policy-tested); this log restates none of
-them. Theorem-backed regardless of the run: coherent K <= 2 cannot link
-(P3), while two TMSV terms reach |11> with the target topology held exactly
-(P4), so squeezing is what buys the link.
+them.
 
 Scope: two-mode, pure states, unit sphere, numerically supported census
-(grid-resolution limited, cap heuristic recorded); P5/P6 remain sketches
-with no certified-lower-bound language; reproduction is same-environment
+(grid-resolution limited, cap heuristic recorded); no
+certified-lower-bound language anywhere; reproduction is same-environment
 (environment recorded in the JSON; cross-platform best-found optima can
 differ, observed in review); novelty unclaimed pending the derivation §7
 prior-art survey. Toolkit: wigner_splat/stellar2.py with proved-prediction
@@ -1883,7 +1881,7 @@ tail-bounded operational dictionary (effective squeezing singular value
 <= ~0.56 at cutoff 36); censuses numerically supported; no certified
 language.
 
-## 2026-07-30 — Experiment 26 / issue #137 Gate T′ slice 1, Gaussian-group action on zero links
+## 2026-07-31 — Experiment 26 / issue #137 Gate T′ slice 1, Gaussian-group action on zero links
 
 Owner/decisions: the 管理役 comment of 2026-07-31 on issue #137 asked (指摘 2)
 whether the zero-link topology is invariant under the full Gaussian unitary
@@ -1891,11 +1889,12 @@ group or only under passive optics; orange asked for the new experiment with
 implementation delegated. A boundary declaration on PR #138 (管理役, orange
 承認済み) fixes ownership — this line owns wigner_splat/gaussact.py (2-mode
 only, no N-mode expansion from this line; that would reopen #30),
-experiments/26_*, and the claim-surface policy extensions — and gates the
-merge on an independent 管理役 re-derivation plus a Sol structural audit, on
-top of the pre-declaration discipline. 指摘 3 of the same comment (isotopy
-stability inside a fidelity ball) is explicitly NOT addressed here and stays
-open as Gate T′ sub-goal (a).
+experiments/26_*, and the claim-surface policy extensions — and, as declared
+at the time, gated the merge on an independent 管理役 re-derivation plus a
+Sol structural audit, on top of the pre-declaration discipline (that
+gate-counting is corrected below, following the 2026-08-01 drift audit).
+指摘 3 of the same comment (isotopy stability inside a fidelity ball) is
+explicitly NOT addressed here and stays open as Gate T′ sub-goal (a).
 
 Pre-declared (experiments/26_gauss_invariance/derivation.md, committed
 before any run output existed): claims G1 through G5 with falsification
@@ -1904,17 +1903,27 @@ in that memo's §4 claim table (quoted verbatim into the README's generated
 block); this log restates neither — a first draft of this entry did, and
 was reduced to pointers when the Sol audit flagged it (see below).
 
-Merge gates (PR #138 boundary declaration): both passed. Sol structural
-audit ran four rounds (BLOCK, BLOCK, PASS WITH CONDITIONS, PASS): six
-plus three blocking findings and one condition, all accepted and fixed.
-The 管理役 independent verification passed in two installments (first
-G2, then G3/G5, the latter with its own 960-orbit numerical sweep and a
-Fock-space G5 probe), recommending two documentation additions — the
-||S|| = 1 clause in the transport corollary's domain argument, and the
-scope of top_partition's ambiguity margin (it guards clustering, not the
-degree decision) — both applied. Every correction is recorded in place in
-derivation.md with an audit note, the claim table (§4 there) is the
-record of any status change, and the PR-thread comments itemize what
+Acceptance basis (corrected 2026-08-01 after the Sebastian drift audit,
+docs/2026-08-01-sebastian-drift-audit--done.md): the substantive grounds
+are the Sol structural audit, orange's acceptance, and the in-repo referee
+tests; the 管理役 (Sebastian) 検算 counts as advisory input — valid as
+proposal, anomaly detection, and re-verification request, not as
+acceptance grounds. The PR #138 boundary declaration had counted "both
+merge gates" as the Sol audit plus the 管理役 independent verification;
+that counting is superseded by this correction (the historical PR text
+stays unedited). Sol structural audit ran four rounds (BLOCK, BLOCK, PASS
+WITH CONDITIONS, PASS): six plus three blocking findings and one
+condition, all accepted and fixed. The 管理役 verification arrived in two
+installments (first G2, then G3/G5, the latter with its own 960-orbit
+numerical sweep and a Fock-space G5 probe), recommending two
+documentation additions — the ||S|| = 1 clause in the transport
+corollary's domain argument, and the scope of top_partition's ambiguity
+margin (it guards clustering, not the degree decision) — both applied;
+its two previously Sebastian-only derivations (the E6 passive optimum and
+the top_form onset observation) were independently re-derived in the
+2026-08-01 re-review (issue #137 comment). Every correction is recorded
+in place in derivation.md with an audit note, the claim table (§4 there)
+is the record of any status change, and the PR-thread comments itemize what
 moved — this log deliberately repeats none of that content (a first
 draft did, and the audit flagged it). Process changes that outlive the
 PR: the claim-surface policy test now scans this log, the memo outside
