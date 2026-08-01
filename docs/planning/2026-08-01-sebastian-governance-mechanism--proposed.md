@@ -156,7 +156,7 @@ provenance:
 1. reviewerのactor IDがartifact authorと異なる。
 2. reviewerのdelegation chainにartifact authorが含まれない。
 3. reviewerが対象版のspecまたはacceptance criteriaを作成・変更していない。
-4. reviewがexact artifact SHA/digestを指定する。
+4. reviewがexact artifact SHA/digestを指定し、それが判定時点の対象版と一致する。
 5. activityが`verification`または`validation`である。
 6. reviewerの`handoff_from`祖先にartifact authorが含まれない。
 
