@@ -69,7 +69,7 @@ GitHub投稿者とGit authorもorangeへ集約され、自由記述の役割署�
 
 ### 4.1 A2Aから語彙だけ借りる
 
-[A2A Protocol](https://github.com/a2aproject/A2A/blob/main/docs/specification.md)の`context_id`、`task_id`、`message`、`artifact`、task lifecycleを参照する。
+[A2A Protocol（commit `2cdf197`）](https://github.com/a2aproject/A2A/blob/2cdf197805cf3eb780714f730cdfd24bce1c9998/docs/specification.md)の`context_id`、`task_id`、`message`、`artifact`、task lifecycleを参照する。
 
 A2A serverは運用しない。Agent Cardは能力と認証方式を宣言できるが、本projectのreview独立性やdecision authorityを発行するものではない。
 
@@ -81,7 +81,7 @@ publicでないIDやURLはGitHubへ出さず、privateな`agmsg`記録またはv
 
 ### 4.3 hosted messagingは必要後に移入する
 
-[Ably token authentication](https://ably.com/docs/auth/token/)は、短命tokenへ固定`clientId`とchannel限定capabilityを付けられる。[identified clients](https://ably.com/docs/auth/identified-clients)では発行側がmessage送信者を固定できる。
+[Ably token authentication](https://ably.com/docs/auth/token/)は、短命tokenへ固定`clientId`とchannel限定capabilityを付けられる。[identified clients](https://ably.com/docs/auth/identified-clients)では発行側がmessage送信者を固定できる（一次資料確認: 2026-08-01）。service仕様は変わり得るため、現時点の候補機能として扱い、採用判断時に再確認する。
 
 次が三task以上で再現した場合だけ候補にする。
 
@@ -94,7 +94,7 @@ publicでないIDやURLはGitHubへ出さず、privateな`agmsg`記録またはv
 
 - **actor**: project内で追跡する作業主体。session再開やcompactionでは同じ`actor_id`を使い、別runnerへのhandoffでは新しいactor IDへ変える。
 - **run**: actorの一回の実行。vendor sessionやcloud taskに対応する。
-- **role**: `main-runner`、`router`、`researcher`、`implementer`、`verifier`等の職務。
+- **role**: `main-runner`、`router`、`spec-owner`、`researcher`、`implementer`、`verifier`等の職務。
 - **activity**: `advice`、`authoring`、`verification`、`validation`、`decision`等、その記録で行ったこと。
 - **delegation chain**: 誰が誰へその作業を渡したか。
 - **artifact**: code、計算結果、report、論文、review等の成果物。
@@ -115,10 +115,12 @@ provenance:
   activity: validation
   delegated_by: main-runner
   delegation_chain: [main-runner, claude-reviewer-01]
+  handoff_from: []
   artifact:
     git_commit: b89f9dc...
     content_digest: sha256:...
-  status: reported
+  based_on: [https://github.com/orangewk/wigner-splat/issues/126]
+  epistemic_status: reported
   vendor_ref: private
 ```
 
@@ -128,7 +130,11 @@ provenance:
 - `activity`
 - `delegated_by`またはorangeによる直接実行の表示
 - 対象artifactのexact commitまたはcontent digest
-- `reported / proposed / verified / validated / decided / withdrawn`のstatus
+- `reported / proposed / verified / validated / decided / withdrawn`の`epistemic_status`
+
+`activity`はactorが行った行為、`epistemic_status`はその記録が運ぶclaimを現在どう扱うかを示す。たとえば`activity: validation`かつ`epistemic_status: reported`は「validation結果が提出されたが、独立gateへ採用済みとはまだ扱わない」という意味である。
+
+`handoff_from`はhandoff時に必須で、旧actorから現在actorまでの祖先を追跡できるようにする。`based_on`は親記録のURLまたはdigestを持ち、`decision` / `withdrawal`では必須、`verification` / `validation`が以前のevidenceを採用する場合にも必須とする。
 
 `vendor_ref`は取得できる場合だけprivateに保存する。これは電子署名ではなく、偶発的な役割混同を可視化するactivity stampである。「執事」等の役割名だけを署名として使わない。
 
@@ -151,24 +157,28 @@ provenance:
 3. reviewerが対象版のspecまたはacceptance criteriaを作成・変更していない。
 4. reviewがexact artifact SHA/digestを指定する。
 5. activityが`verification`または`validation`である。
+6. reviewerの`handoff_from`祖先にartifact authorが含まれない。
 
 session、vendor、モデルが異なることや、本文の「独立review」表記だけでは不足する。メインランナーはauthorとreviewerを別々に直接委譲できるが、authorは自分のreviewerを委譲できない。
 
 ## 8. authority matrix
 
-| 行為 | orange | メインランナー / router | worker | 独立verifier |
-|---|---|---|---|---|
-| project policy承認 | 可 | 不可 | 不可 | 不可 |
-| task作成・担当割当 | 可 | policy内で可 | 原則不可 | 原則不可 |
-| worker / reviewerへの委譲 | 可 | policy内で可 | 明示された再委譲のみ | 原則不可 |
-| request / status / question | 可 | 可 | 可 | 可 |
-| advice / evidence | 可 | 可 | 可 | 可 |
-| 自作artifactのverification / validation | 独立gateに不採用 | 同左 | 同左 | 同左 |
-| 他者artifactのverification / validation | 委任時のみ | 独立条件を満たす時のみ | 同左 | 委譲範囲で可 |
-| acceptance criteria変更 | 可 | proposalのみ | proposalのみ | proposalのみ |
-| accept / hold / reject | 可 | 明示されたdecision owner時のみ | 不可 | 原則recommendationのみ |
-| publish / main昇格の決定 | 可 | 不可 | 不可 | 不可 |
-| orange決定済みpublishの実行 | 可 | 明示委譲時のみ | 不可 | 不可 |
+| 行為 | orange | メインランナー / router | spec-owner | worker | 独立verifier |
+|---|---|---|---|---|---|
+| project policy承認 | 可 | 不可 | 不可 | 不可 | 不可 |
+| task作成・担当割当 | 可 | policy内で可 | 原則不可 | 原則不可 | 原則不可 |
+| worker / reviewerへの委譲 | 可 | policy内で可 | 明示された再委譲のみ | 同左 | 原則不可 |
+| request / status / question | 可 | 可 | 可 | 可 | 可 |
+| advice / evidence | 可 | 可 | 可 | 可 | 可 |
+| 自作artifactのverification / validation | 独立gateに不採用 | 同左 | 同左 | 同左 | 同左 |
+| 他者artifactのverification / validation | 委任時のみ | 独立条件を満たす時のみ | 同左 | 同左 | 委譲範囲で可 |
+| routineなacceptance criteria明確化 | 可 | proposalのみ | 委譲範囲で可 | proposalのみ | proposalのみ |
+| 高影響なacceptance criteria変更 | 可 | proposalのみ | proposalのみ | proposalのみ | proposalのみ |
+| accept / hold / reject | 可 | 明示decision owner時のみ | 同左 | 不可 | 原則recommendationのみ |
+| publish / main昇格の決定 | 可 | 不可 | 不可 | 不可 | 不可 |
+| orange決定済みpublishの実行 | 可 | 明示委譲時のみ | 不可 | 不可 | 不可 |
+
+task作成時に、必要なtaskだけimplementerとは別の`spec-owner`を指定する。routineな明確化とは、承認済みの研究目的と証拠水準を緩めず、判定手順を具体化する変更をいう。研究目的、証拠水準、公開claim、public / private境界を変える変更は高影響としてorangeへ戻す。spec-ownerが変更した版を同じactorが独立reviewすることはできない。
 
 `delegate`はactivityではなく再委譲可能範囲を示すcapabilityとする。task、artifact scope、期限、authorityを親から拡大できない。
 
@@ -207,6 +217,8 @@ publish authorityはorangeだけが発生させる。メインランナーは記
 - artifactはbranch / commit / PRで渡す。
 - reviewは対象commitを指定して投稿する。
 - local SQLiteとの同期をremote taskの前提にしない。
+
+public GitHubを使えるのは、[`2026-07-25-public-private-layer-separation--recorded.md`](../2026-07-25-public-private-layer-separation--recorded.md)の境界を満たすtaskだけである。第三者が本人の同意なく登場するtaskは、private repositoryまたはvendor側の非公開taskを使い、public Issueを既定経路にしない。
 
 この段階では別の身分証を発行しない。GitHub上の投稿主体、activity stamp、delegation record、対象SHAを組み合わせて帰属を記録する。
 
@@ -251,18 +263,21 @@ gate規則:
 
 1. authorとverifierのactor IDが同じなら独立gateに数えない。
 2. authorがreviewerのdelegation chainに含まれれば数えない。
-3. spec / acceptance criteriaを変更したactorは、その版を独立reviewできない。
-4. exact SHA/digestが変わればreviewをstaleにする。
-5. routerのadviceや自己検算をgateへ加算しない。
-6. decisionは必要なevidence / verification / validationを参照する。
-7. 依存記録がwithdrawnならdecisionを再評価する。
-8. HOLDは終端でなく、新証拠または改訂artifactでWorkingへ戻せる。
-9. REJECTEDは元decision ownerの明示的reopenで再開できる。
-10. 完了表示は本文でなく状態遷移から生成する。
+3. authorがreviewerの`handoff_from`祖先に含まれれば数えない。
+4. spec / acceptance criteriaを変更したactorは、その版を独立reviewできない。
+5. exact SHA/digestが変わればreviewをstaleにする。
+6. routerのadviceや自己検算をgateへ加算しない。
+7. decisionは`based_on`で必要なevidence / verification / validationを参照する。
+8. 依存記録がwithdrawnなら`based_on`を辿ってdecisionを再評価する。
+9. HOLDは終端でなく、新証拠または改訂artifactでWorkingへ戻せる。
+10. REJECTEDは元decision ownerの明示的reopenで再開できる。
+11. 完了表示は本文でなく状態遷移から生成する。
+
+独立な実行経路を主張するtaskでは、自由記述ラベルを判定に使わない。task固有のacceptance checkerまたはpolicy testが、実行entry point、実行code digest、到達したcall target、入力digestを記録・比較する。この検査は`agmsg` transportではなく、対象実験またはrepository testの責務とする。
 
 ## 13. public / private projection
 
-public面にはactor label、activity、status、対象SHA/digest、evidence / review / decision ref、必要なdelegation refだけを出す。
+public面にはactor label、activity、epistemic status、対象SHA/digest、evidence / review / decision ref、必要なdelegation refだけを出す。
 
 privateなvendor session ID、local path、secret、未公開artifact URIは出さない。同じclaimを手書きで複製しない。
 
@@ -313,7 +328,10 @@ pilotで有効だった規則だけをcheckerまたはGitHub templateへ実装�
 - 必須provenance fieldの欠落
 - author / reviewer actorの一致
 - authorを含むreview delegation chain
+- authorを含むreviewer handoff ancestry
+- decision / withdrawalの`based_on`欠落
 - review SHAとcurrent headの不一致
+- 独立経路claimに対するentry point / code / call target / input digestの欠落
 - router adviceをdecisionとして数える誤り
 - orange由来でないpublish decision
 
@@ -326,17 +344,19 @@ GitHub待ちの停止時間、取りこぼし、private remote message件数、o
 ## 16. acceptance criteria
 
 1. 誰がauthoring / advice / verification / validation / decisionを行ったか区別できる。
-2. 同じactorの新sessionを自作artifactの独立reviewに数えない。
-3. authorが委譲したreviewerを独立reviewに数えない。
+2. 同じactorの新sessionによるreviewを検出し、独立reviewに数えない。
+3. authorから委譲されたreviewer、またはauthorをhandoff祖先に持つreviewerを検出し、独立reviewに数えない。
 4. artifact digest変更後のreviewをstaleにできる。
 5. router本文の「PASS」でtaskがacceptedにならない。
 6. HOLDへ新evidenceを追加してWorkingへ戻せる。
-7. publish / main昇格decisionがorange以外から発生しない。
+7. orange由来の記録を欠くpublish / main昇格decisionを検出し、採用しない。
 8. PC外runnerがGitHubだけからtask、artifact、review対象を復元できる。
 9. vendor IDがなくても運用でき、あればprivateな索引として残せる。
 10. local free-form messageを壊さない。
 11. 同じclaimをGit、GitHub、agmsgへ別々に手書きしない。
 12. pilotに新しい常駐serviceやidentity providerを要しない。
+13. decisionとwithdrawalから`based_on`を辿り、親記録を復元できる。
+14. 独立経路claimをentry point、code digest、call target、input digestで検査できる。
 
 ## 17. リスク
 
