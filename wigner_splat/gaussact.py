@@ -45,7 +45,10 @@ collapse, and top_partition returns margin = np.inf -- the single-cluster
 moderate squeezing (the experiment-26 declared grid, r_max = 0.6) this
 does not fire; callers probing beyond it must check the top-degree
 coefficient ratio themselves. (Recorded during the PR #138 independent
-verification, which measured the failure onset near r ~ 2.5.)
+verification and reproduced in the 2026-08-01 re-review, issue #137
+comment 5150426165; the measured failure onset near r ~ 2.5 is an
+observation about the chained random-composite probe used there, NOT a
+general threshold — the onset location is construction-dependent.)
 """
 
 from __future__ import annotations
