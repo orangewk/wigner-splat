@@ -322,6 +322,20 @@ def test_tally_excludes_ladders_with_failures_below_transition():
     assert "which coincides" in coherent_lines[0]
 
 
+def test_exp29_status_not_restated_in_research_log():
+    """Second review round of PR #157: exp29's W0-W5 statuses live only in
+    its derivation.md §8 claim table; the research log may not restate
+    them (same backstop strength as the exp24/25/26 patterns)."""
+    text = _normalize(
+        (ROOT / "docs" / "research-log.md").read_text(encoding="utf-8")
+    )
+    found = re.search(r"\bw[0-5]\b[^\n]{0,80}(proved|sketch)\b", text)
+    assert not found, (
+        "docs/research-log.md restates an exp29 claim status outside the "
+        f"authoring location: {found.group(0)!r}"
+    )
+
+
 def test_exp24_status_not_restated_in_research_log():
     """Finding 3 of the PR #145 review (deferred to this line, applied with
     the 2026-08-02 P5 promotion): exp24's P1-P6 statuses live only in its

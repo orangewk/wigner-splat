@@ -68,24 +68,71 @@ transversality follows from W3's bound below being positive at
 
 ## 2. Metric-neighborhood form of the exp28 stability theorem
 
-**W0 (S3′; proved here by inspection of exp28's proof).** Exp28's S3 is
-stated for tube neighborhoods, but its proof (C0/C1 + the boundaryless
-Ehresmann argument + isotopy extension) uses only: `U` a closed subset of
-`S3_1`, `m = min |f_T|` on the closed complement of `int(U)`,
-`sigma = min sigma_2(d(f_T|S3))` on `U`, both positive. Under
-`(C0) delta e^{1/2} < m` and `(C1) delta c1(h) < sigma`, the conclusion
-(smooth zero set, ambient isotopy of pairs) holds verbatim with
-`U = U_rho := {p : dist(p, L_1(T)) <= rho}` the metric neighborhood — no
-solid-torus structure is used. The winding-transfer addendum likewise
-needs only `U_rho ∩ (core circles) = ∅`, which for this target is
-implied by the **declared constraint**
+**W0 (metric-neighborhood stability theorem; proved here as a
+standalone statement).** Let `T` be a unit state whose `f_T` has `0` as
+a regular value of `f_T|S3_1`, let `U` be any closed subset of `S3_1`
+containing `L_1(T)` in its interior, and define
+
+```
+m     = min over the closed set S3_1 \ int(U) of |f_T|,
+sigma = min over U of sigma_2( d(f_T|S3) ),
+```
+
+both assumed positive. Let `g` be a unit state with phase-aligned
+distance `delta` to `T` satisfying, for some `h > 0`,
+
+```
+(C0)  delta e^{1/2} < m        and        (C1)  delta c1(h) < sigma.
+```
+
+Then `Z(f_g) ∩ S3_1` is a smooth closed 1-manifold contained in `U`,
+and `(S3_1, Z(f_g) ∩ S3_1)` is ambient-isotopic to `(S3_1, L_1(T))`
+through an isotopy whose zero-set track stays inside `U`. If moreover
+`U` is disjoint from the two core circles, every component stays
+disjoint from the cores throughout, so core windings transfer as the
+isotopy-stable linking numbers with the cores. **No tube or normal-
+injectivity structure on `U` is assumed.**
+
+Proof (self-contained; the same chain as exp28 §3, reproduced so that
+this statement does not depend on exp28's admissibility wording).
+Interpolate `f_t = f_T + t Delta`, `Delta = f_g - f_T` after phase
+alignment. Exp28 S1 gives `|f_t - f_T| <= |t| delta e^{1/2}` on the
+sphere and exp28 S2 gives the C^1 analogue with constant `c1(h)`; both
+scale linearly in `|t|`. Strictness of (C0)/(C1) therefore yields
+`kappa > 0` such that for all `t in (-kappa, 1 + kappa)`: every zero of
+`f_t|S3` lies in `U` (else `|f_T| >= m` at that point, contradicting
+(C0)-with-slack), and `sigma_2(d(f_t|S3)) >= sigma - (1 + kappa) delta
+c1(h) > 0` on `U`. Hence
+
+```
+Z_open = { (t, w) in (-kappa, 1 + kappa) x S3_1 : f_t(w) = 0 }
+```
+
+is a smooth boundaryless 2-manifold (regular-value theorem at each
+`t`, jointly smooth in `(t, w)`), and the projection to
+`(-kappa, 1 + kappa)` is a submersion (surjectivity of `d_w(f_t|S3)`
+lifts any `dt`-component) and proper (preimages of compact
+subintervals are closed subsets of compact products). Ehresmann's
+fibration theorem trivializes it over `[0, 1]`, giving a smooth isotopy
+from `L_1(T) = Z_0` to `Z(f_g) ∩ S3_1 = Z_1` with every intermediate
+zero set inside `U`; the isotopy extension theorem (textbook input,
+declared: Hirsch, *Differential Topology*, ch. 8) upgrades it to an
+ambient isotopy of `S3_1`. Nothing in this chain references a tubular
+structure of `U`. If `U ∩ (cores) = ∅`, the track stays off the cores,
+each `Z_t` component's linking numbers with the cores are constant in
+`t`, and for components disjoint from the cores these equal the core
+windings (exp24 §1). ∎
+
+For this experiment `U = U_rho := {p : dist(p, L_1(T)) <= rho}` with
+the **declared constraint**
 
 ```
 rho < min(theta*, pi/2 - theta*),
 ```
 
-certified from the E1 enclosure of `theta*`. Exp28's file is not edited;
-this observation is recorded here and holds by that proof. ∎
+which is certified from the E1 enclosure of `theta*` and implies
+`U_rho ∩ (cores) = ∅` since `dist >= |theta - theta*|`. Exp28's file is
+not edited by this memo.
 
 ## 3. Certified clearance
 
@@ -154,10 +201,17 @@ E1 enclosure `s* in [s_lo, s_hi]` (every point of `U_rho` has
 D2_min(rho)  = 4 a^2 cos(theta^+)^2 + 9 b^2 sin(theta^-)^4,
 Gbar(rho)^2  = 4 / cos(theta^+)^2 + 9 / sin(theta^-)^2,
 lam_up       = a + (3/2) b                     (from s c <= 1/2, s <= 1),
-M_f(rho)     = rho * sqrt( lam_up^2 + a b cos(theta^-)^2 Gbar(rho)^2 / 4 ),
+M_f(rho)     = rho * sqrt( lam_up^2 + a b cos(theta^-)^2 Gbar(rho)^2 ),
 E_max(rho)   = 3 M_f(rho) + a cos(theta^-)^2,
 sigma_cert(rho) = sqrt( max(0, D2_min(rho) - E_max(rho)^2) ).
 ```
+
+(Correction, 2026-08-02 second review round: the first draft carried an
+extra `/4` inside `M_f`'s square root. It does not survive the algebra —
+`4 a b c^2 s^3 sin^2(psi/2) <= 4 a b c^2 s^3 * psi^2/4 = a b c^2 s^3
+psi^2` — so the factor cancels exactly; the reviewer exhibited a point
+of `U_0.10` violating the old bound. The formula above and the
+implementation now carry the corrected coefficient.)
 
 Then `sigma_2 >= sigma_cert(rho)` on `U_rho`. Proof: `|d f_T|^2 >=
 D2_min` by the monotonicity of `c^2` (decreasing) and `s^4` (increasing);
@@ -170,12 +224,18 @@ the zero curve), with `sin^2(psi/2) <= psi^2/4`; hence
 
 ## 5. The conic winding bound (the statement of exp24's P6)
 
-**W4 (proved here).** Let `g` be a `K <= 2` superposition from `D_G`
-(exp24 §1: `f_g = z1 e^{q1} + z2 e^{q2}`, `q_k` affine quadratic,
-pure-state terms) with nonempty zero link on some `S3_r`. Then every
-component `gamma` of the zero link that avoids the two coordinate core
-circles and the singular points of its level set satisfies
-`|m1| <= 2` and `|m2| <= 2`.
+**W4 (proved here).** Standing hypotheses, stated in full: `f_g = z1
+e^{q1} + z2 e^{q2}` with `z1 z2 != 0` (a vanishing coefficient reduces
+to `K <= 1`), `q1, q2` holomorphic affine quadratics in `(w1, w2)`
+(exp24 §1's `D_G`; pure-state terms, any displacement and squeezing,
+no boundedness assumed), zero link on some `S3_r` nonempty, and the
+component `gamma` under consideration avoids the two coordinate core
+circles and the singular points of its level set (the census convention
+of exp24 §1; on-core or through-singularity components carry no winding
+claim). All degenerations of the level sets — `Q` affine-linear, `Q`
+constant, reducible conics including line pairs and double lines — are
+covered by the case split below. Conclusion: `|m1| <= 2` and
+`|m2| <= 2`.
 
 Proof. `K = 1` is vacuous (`f = z e^q` has no zeros). For `K = 2`,
 `f_g = 0` iff `Q(w) := q2(w) - q1(w)` lies in the countable level set
@@ -275,19 +335,37 @@ the E1 rational enclosures and combined by the monotone-factor rules of
   constraint) and `eps29_cert` over the `(rho, h)` grid; record the
   certifying pair and the W5 fidelity bound. Gate `F2` (halt
   interpretation): `eps29_cert <= 0` or no admissible `rho`.
-- **E3 (one-sided referee vs grid margins).** Certified values must not
-  exceed grid estimates: recompute exp28-E5-style grid margins for this
-  target and check `m_cert(rho) <= m_grid(rho) + tol` and
-  `sigma_cert(rho) <= sigma_grid(rho) + tol` for every declared `rho`
-  (grid minima over-estimate true minima; certified values lower-bound
-  them — a violation is a derivation or code defect). Gate `F3`
-  (blocking halt) on any violation.
-- **E4 (structure referee).** Census of `T` on the standard grid must
-  show one component with `|windings| = {3, 2}` and no linked pair
-  (matching W1), and every traced loop point must satisfy
-  `min(theta, pi/2 - theta)` within the E1 enclosure of
-  `min(theta*, pi/2 - theta*)` up to a declared tolerance
-  (cores-disjointness). Gate `F4` (blocking halt) on mismatch.
+- **E3 (margin referees; revised in the 2026-08-02 second review round —
+  the first draft's cloud-complement referee was not one-sided, because
+  cloud distance upper-bounds nothing: it over-estimates the true
+  distance to the link, so `d_cloud >= rho` does not certify complement
+  membership).** Two **sound** referees gate F3, plus one recorded
+  diagnostic:
+  - (a) clearance, sound subset: every sphere sample with
+    `|theta - theta*| >= rho` certainly lies outside `int(U_rho)`
+    (`dist >= |Delta theta|`); check `|f_T| >= m_cert(rho) - tol` there.
+  - (b) transversality, sound subsets: (i) samples within cloud distance
+    `rho - tol_cloud` of the polished zero cloud certainly lie in
+    `U_rho` (cloud points sit on the link up to the declared polish
+    slack `tol_cloud`); (ii) targeted phase-normal samples on the
+    `theta*` torus with `|Delta theta| + |psi| / G_lower <= rho`
+    (membership by W2's distance decomposition, with `G_lower <= G`
+    only loosening it). Check `sigma_2 >= sigma_cert(rho) - tol` on
+    both families.
+  - (c) diagnostic, not a gate: the exp28-E5-style cloud-complement grid
+    margins are recorded for comparison only (their complement
+    membership is heuristic).
+  Gate `F3` (blocking halt) on any violation in (a) or (b).
+- **E4 (structure referee; stand-in declared explicitly in the
+  2026-08-02 second review round).** Census of `T` on the standard grid
+  must show one component with `|windings| = {3, 2}` and no linked pair
+  (matching W1). Coordinate checks use the **polished zero cloud as the
+  declared stand-in** for traced loop points (the census exposes loop
+  coordinates only stereographically): every cloud point must satisfy
+  both `theta` inside the E1 enclosure of `theta*` up to the declared
+  tolerance, and `min(theta, pi/2 - theta) >=
+  min(theta*_lo, pi/2 - theta*_hi) - tol` (cores-disjointness, the
+  declared quantity). Gate `F4` (blocking halt) on mismatch.
 - **E5 (exp25 consistency).** The measured best-found fidelities of
   exp25's `trefoil/gaussian/K=1` and `trefoil/gaussian/K=2` cells (read
   from `topological_kcurves.json`, never restated) must satisfy
@@ -309,7 +387,7 @@ authoring location for exp29 statuses.
 | W5 | certified `D_G K<=2` fidelity gap at the trefoil | proved here (uses exp28 S3) | §6 |
 | N1 | exact rational enclosures established | numerical, E1 | run |
 | N2 | `eps29_cert > 0` evaluated, fidelity bound recorded | numerical, E2 | run |
-| N3 | certified margins below grid margins (one-sided referee) | numerical, E3 | run |
+| N3 | sound margin referees pass (theta-complement clearance; cloud-inside and phase-normal transversality) | numerical, E3 | run |
 | N4 | target census matches W1, cores-disjoint | numerical, E4 | run |
 | N5 | exp25 trefoil cells within the certified bound | numerical, E5 | run |
 

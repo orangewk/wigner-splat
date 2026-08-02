@@ -8,17 +8,16 @@ nothing by hand.
 
 ## What this experiment does
 
-`derivation.md` proves certified (exact-enclosure-traceable) clearance
-and transversality margins for the exp25 trefoil target, whose zero
-link is a single `(3,2)`-winding curve disjoint from both coordinate
-cores (W1), and proves the conic winding bound for `K <= 2`
-pure-Gaussian superpositions (W4 — the statement of exp24's P6).
-Together with exp28's stability theorem in metric-neighborhood form
-(W0), these yield a certified fidelity gap for `D_G, K <= 2` at the
-trefoil (W5). The run establishes the exact enclosures (E1), evaluates
-the certified radius (E2), referees the certified margins one-sidedly
-against grid estimates (E3), checks the census structure (E4), and
-cross-checks exp25's measured cells (E5).
+The subject is the exp25 trefoil target and the `K <= 2` pure-Gaussian
+dictionary. What is claimed, and with what status, lives **only** in
+`derivation.md` §8's claim table (rows W0–W5 for the derivation, N1–N5
+for the run) — this README does not restate any of it. Structurally:
+the memo derives margin formulas traced to exact rational enclosures
+and a winding bound for the dictionary side, and the run establishes
+the enclosures (E1), evaluates the certified radius (E2), referees the
+margins on sound sample families (E3), checks the census structure
+(E4), and cross-checks exp25's measured cells (E5), with blocking
+falsification gates as declared in the memo §7.
 
 ## Result surfaces and epistemic status
 
@@ -41,31 +40,31 @@ recorded in the JSON).
 
 <!-- generated-block: do not edit (written by run.py from trefoil_certified.json) -->
 - E1 exact enclosures (fractions; slop 1e-09 on transcendental steps): `s*` in [179174773/209715200, 89587411/104857600], `theta*` in [1.024341, 1.024341]; band contains `theta*`: True; core-disjoint rho cap 0.5465.
-- E2 certified radius: `eps29_cert` = 0.012724 at (rho, h) = (0.12, 0.3240) with margins (m, sigma) = (0.020978, 0.134361); certified fidelity bound (W5) = 0.999838.
+- E2 certified radius: `eps29_cert` = 0.008483 at (rho, h) = (0.08, 0.0541) with margins (m, sigma) = (0.013985, 0.406288); certified fidelity bound (W5) = 0.999928.
 
   | rho | m_cert | sigma_cert |
   | --- | --- | --- |
-  | 0.02 | 0.003496 | 0.738394 |
-  | 0.04 | 0.006993 | 0.684549 |
-  | 0.06 | 0.010489 | 0.615717 |
-  | 0.08 | 0.013985 | 0.524764 |
-  | 0.10 | 0.017482 | 0.394628 |
-  | 0.12 | 0.020978 | 0.134361 |
+  | 0.02 | 0.003496 | 0.731756 |
+  | 0.04 | 0.006993 | 0.662827 |
+  | 0.06 | 0.010489 | 0.563530 |
+  | 0.08 | 0.013985 | 0.406288 |
+  | 0.10 | 0.017482 | 0.000000 |
+  | 0.12 | 0.020978 | 0.000000 |
   | 0.14 | 0.024475 | 0.000000 |
   | 0.16 | 0.027971 | 0.000000 |
   | 0.18 | 0.031467 | 0.000000 |
   | 0.20 | 0.034964 | 0.000000 |
 
-- E3 one-sided referee vs grid margins (2105 polished zero points; certified values must sit at or below grid estimates): violations 0.
-- E4 census structure: 1 component(s), |windings| sorted [2, 3], linking offdiag []; cloud theta deviation from the enclosure 0.00000.
-- E5 `trefoil/gaussian/K=1`: measured best-found F = 0.244044 vs certified bound 0.999838 — within: True.
-- E5 `trefoil/gaussian/K=2`: measured best-found F = 0.646909 vs certified bound 0.999838 — within: True.
+- E3 sound margin referees (2105 polished zero points; clearance on the theta-certain complement, transversality on cloud-inside and phase-normal probe families): violations 0. Cloud-complement grid margins are recorded as a heuristic diagnostic only.
+- E4 census structure: 1 component(s), |windings| sorted [2, 3], linking offdiag []; cloud (declared loop-point stand-in) theta deviation from the enclosure 0.00000, min core distance 0.5465 vs floor 0.5465.
+- E5 `trefoil/gaussian/K=1`: measured best-found F = 0.244044 vs certified bound 0.999928 — within: True.
+- E5 `trefoil/gaussian/K=2`: measured best-found F = 0.646909 vs certified bound 0.999928 — within: True.
 
 Pre-declared verdicts (computed in run.py from the data):
 
 - E1 exact enclosures established (F1 gate): **True**
 - E2 certified radius positive (F2 gate): **True**
-- E3 certified margins below grid margins (F3 gate): **True**
+- E3 sound margin referees pass (F3 gate): **True**
 - E4 census matches the W1 structure (F4 gate): **True**
 - E5 exp25 trefoil cells within the certified bound (F5 gate): **True**
 

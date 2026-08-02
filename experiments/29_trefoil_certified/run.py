@@ -51,6 +51,7 @@ GRID = {"n_eta": 90, "n_xi": 96}  # the exp24/25 standard census grid
 RHO_LIST = [round(0.02 * k, 2) for k in range(1, 11)]
 H_GRID = np.linspace(0.05, 2.5, 600)
 E3_TOL = 1e-9
+E3_CLOUD_SLACK = 1e-8
 E4_THETA_TOL = 0.01
 EXP25_JSON = HERE.parent / "25_topological_kcurves" / "topological_kcurves.json"
 EXP25_CELLS = ("trefoil/gaussian/K=1", "trefoil/gaussian/K=2")
@@ -136,41 +137,113 @@ def main():
         finish(results, t0)
         return
 
-    log("E3: grid-margin one-sided referee")
-    cloud = stability.zero_cloud(trefoil_coeffs())
-    grid_m = stability.grid_margins(trefoil_coeffs(), cloud, RHO_LIST)
+    log("E3: sound margin referees + diagnostic")
+    coeffs = trefoil_coeffs()
+    cloud = stability.zero_cloud(coeffs)
+    p = stability.poly_scaled(coeffs)
+    d1p, d2p = stability.poly_partials(p)
+    th_lo_enc, th_hi_enc = enc["theta_star"]
+    g_lower = w2["G_lower"]
+
+    # shared sphere sample sweep
+    sample_rows, sample_thetas, sample_f, sample_sig = [], [], [], []
+    for th in np.linspace(0.02, math.pi / 2 - 0.02, 60):
+        for aa in np.arange(8) * (2 * math.pi / 8):
+            for bb in np.arange(8) * (2 * math.pi / 8):
+                w1, w2c = stability.sphere_point(th, aa, bb)
+                sample_rows.append([w1.real, w1.imag, w2c.real, w2c.imag])
+                sample_thetas.append(th)
+                sample_f.append(abs(complex(stability.poly_eval(p, w1, w2c))))
+                sample_sig.append(
+                    stability.sigma2_on_sphere(
+                        complex(stability.poly_eval(d1p, w1, w2c)),
+                        complex(stability.poly_eval(d2p, w1, w2c)),
+                        w1,
+                        w2c,
+                    )
+                )
+    sample_thetas = np.array(sample_thetas)
+    sample_f = np.array(sample_f)
+    sample_sig = np.array(sample_sig)
+    cloud_dists = stability.geodesic_dists(np.array(sample_rows), cloud)
+
     e3_rows = []
     violations = 0
     for row in rows:
         rho = row["rho"]
-        pair = grid_m.get(rho)
         entry = {"rho": rho}
-        if not row.get("admissible") or pair is None:
+        if not row.get("admissible") or row["m_cert"] <= 0.0 or row[
+            "sigma_cert"
+        ] <= 0.0:
             entry["checked"] = False
             e3_rows.append(entry)
             continue
-        m_g, s_g = pair
+        # (a) sound clearance referee on the theta-certain complement
+        outside = sample_f[
+            (sample_thetas <= th_lo_enc - rho) | (sample_thetas >= th_hi_enc + rho)
+        ]
+        m_ok = bool(
+            outside.size > 0 and float(np.min(outside)) >= row["m_cert"] - E3_TOL
+        )
+        # (b-i) sound transversality referee inside via cloud membership
+        inside = sample_sig[cloud_dists <= rho - E3_CLOUD_SLACK]
+        s_ok_cloud = bool(
+            inside.size > 0
+            and float(np.min(inside)) >= row["sigma_cert"] - E3_TOL
+        )
+        # (b-ii) targeted phase-normal probes on the theta* torus
+        th_mid = 0.5 * (th_lo_enc + th_hi_enc)
+        dth = th_hi_enc - th_lo_enc
+        probe_sigs = []
+        for frac in (0.2, 0.5, 0.9):
+            psi_mag = max(0.0, (rho - dth) * g_lower * frac)
+            for sign in (1.0, -1.0):
+                for bb in np.arange(12) * (2 * math.pi / 12):
+                    alpha = (math.pi + sign * psi_mag + 3.0 * bb) / 2.0
+                    w1, w2c = (
+                        math.cos(th_mid) * complex(math.cos(alpha), math.sin(alpha)),
+                        math.sin(th_mid) * complex(math.cos(bb), math.sin(bb)),
+                    )
+                    probe_sigs.append(
+                        stability.sigma2_on_sphere(
+                            complex(stability.poly_eval(d1p, w1, w2c)),
+                            complex(stability.poly_eval(d2p, w1, w2c)),
+                            w1,
+                            w2c,
+                        )
+                    )
+        s_ok_probe = bool(
+            probe_sigs and min(probe_sigs) >= row["sigma_cert"] - E3_TOL
+        )
         entry.update(
             {
                 "checked": True,
                 "m_cert": row["m_cert"],
-                "m_grid": m_g,
                 "sigma_cert": row["sigma_cert"],
-                "sigma_grid": s_g,
-                "m_ok": bool(row["m_cert"] <= m_g + E3_TOL),
-                "sigma_ok": bool(max(0.0, row["sigma_cert"]) <= s_g + E3_TOL),
+                "m_ok_theta_complement": m_ok,
+                "sigma_ok_cloud_inside": s_ok_cloud,
+                "sigma_ok_phase_normal": s_ok_probe,
+                "min_sigma_phase_normal": min(probe_sigs) if probe_sigs else None,
             }
         )
-        if not (entry["m_ok"] and entry["sigma_ok"]):
+        if not (m_ok and s_ok_cloud and s_ok_probe):
             violations += 1
         e3_rows.append(entry)
+    # (c) diagnostic only: heuristic cloud-complement grid margins
+    grid_m = stability.grid_margins(coeffs, cloud, RHO_LIST)
+    diag = [
+        {"rho": r, "m_grid": (grid_m[r][0] if grid_m[r] else None),
+         "sigma_grid": (grid_m[r][1] if grid_m[r] else None)}
+        for r in RHO_LIST
+    ]
     results["E3"] = {
         "zero_cloud_points": int(cloud.shape[0]),
         "rows": e3_rows,
         "violations": violations,
+        "diagnostic_grid_margins_heuristic": diag,
     }
-    verdicts["e3_certified_below_grid"] = bool(violations == 0)
-    if not verdicts["e3_certified_below_grid"]:
+    verdicts["e3_sound_referees_pass"] = bool(violations == 0)
+    if not verdicts["e3_sound_referees_pass"]:
         verdicts["halted_at"] = "F3"
         finish(results, t0)
         return
@@ -193,7 +266,9 @@ def main():
         }
     except TraceError as err:
         census_summary = {"census_failed": str(err)}
-    # zero-cloud points stand in for traced loop points for the theta check
+    # polished zero-cloud points are the declared stand-in for traced loop
+    # points (derivation.md E4): both the theta-enclosure check and the
+    # declared min(theta, pi/2 - theta) cores-disjointness check run on them
     th_lo, th_hi = enc["theta_star"]
     if cloud.shape[0]:
         thetas = np.arcsin(
@@ -202,18 +277,28 @@ def main():
         theta_dev = float(
             np.max(np.maximum(th_lo - thetas, thetas - th_hi).clip(min=0.0))
         )
+        core_dist_min = float(
+            np.min(np.minimum(thetas, math.pi / 2.0 - thetas))
+        )
     else:
         theta_dev = math.inf
+        core_dist_min = 0.0
+    core_dist_floor = min(th_lo, math.pi / 2.0 - th_hi)
+    cores_ok = bool(core_dist_min >= core_dist_floor - E4_THETA_TOL)
     structure_ok = (
         "census_failed" not in census_summary
         and census_summary["n_components"] == 1
         and census_summary["abs_windings_sorted"] == [2, 3]
         and census_summary["linking_offdiag"] == []
         and theta_dev <= E4_THETA_TOL
+        and cores_ok
     )
     results["E4"] = {
         "census": census_summary,
         "cloud_theta_max_deviation_from_enclosure": theta_dev,
+        "cloud_min_core_distance": core_dist_min,
+        "core_distance_floor": core_dist_floor,
+        "cores_disjoint_ok": cores_ok,
     }
     verdicts["e4_census_matches_w1"] = bool(structure_ok)
     if not structure_ok:

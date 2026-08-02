@@ -94,10 +94,11 @@ def render(results: dict) -> str:
     if "E3" in results:
         e3 = results["E3"]
         lines.append(
-            f"- E3 one-sided referee vs grid margins "
-            f"({e3['zero_cloud_points']} polished zero points; certified "
-            f"values must sit at or below grid estimates): violations "
-            f"{e3['violations']}."
+            f"- E3 sound margin referees ({e3['zero_cloud_points']} polished "
+            "zero points; clearance on the theta-certain complement, "
+            "transversality on cloud-inside and phase-normal probe "
+            f"families): violations {e3['violations']}. Cloud-complement "
+            "grid margins are recorded as a heuristic diagnostic only."
         )
 
     if "E4" in results:
@@ -109,9 +110,11 @@ def render(results: dict) -> str:
             lines.append(
                 f"- E4 census structure: {c['n_components']} component(s), "
                 f"|windings| sorted {c['abs_windings_sorted']}, linking "
-                f"offdiag {c['linking_offdiag']}; cloud theta deviation from "
-                f"the enclosure "
-                f"{_fmt(e4['cloud_theta_max_deviation_from_enclosure'], 5)}."
+                f"offdiag {c['linking_offdiag']}; cloud (declared loop-point "
+                "stand-in) theta deviation from the enclosure "
+                f"{_fmt(e4['cloud_theta_max_deviation_from_enclosure'], 5)}, "
+                f"min core distance {_fmt(e4['cloud_min_core_distance'], 4)} "
+                f"vs floor {_fmt(e4['core_distance_floor'], 4)}."
             )
 
     if "E5" in results:
@@ -130,7 +133,7 @@ def render(results: dict) -> str:
     label_map = (
         ("e1_enclosures_established", "E1 exact enclosures established (F1 gate)"),
         ("e2_eps29_cert_positive", "E2 certified radius positive (F2 gate)"),
-        ("e3_certified_below_grid", "E3 certified margins below grid margins (F3 gate)"),
+        ("e3_sound_referees_pass", "E3 sound margin referees pass (F3 gate)"),
         ("e4_census_matches_w1", "E4 census matches the W1 structure (F4 gate)"),
         (
             "e5_exp25_within_certified_bound",

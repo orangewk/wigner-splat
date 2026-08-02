@@ -86,9 +86,11 @@ def test_w2_clearance_one_sided_on_samples():
 
 def test_w3_transversality_one_sided_on_samples():
     """Every sphere sample within distance rho of the zero cloud must
-    have sigma_2 >= sigma_cert(rho) (up to the declared slop)."""
+    have sigma_2 >= sigma_cert(rho) (up to the declared slop). rho sits
+    where the corrected formula is still positive (the 2026-08-02 review
+    fixed a /4 coefficient error; sigma_cert(0.10) is now 0)."""
     enc = certified.enclosures()
-    rho = 0.1
+    rho = 0.08
     s_cert = certified.sigma_cert(rho, enc)
     assert s_cert > 0.0
     coeffs = _trefoil()
@@ -114,6 +116,39 @@ def test_w3_transversality_one_sided_on_samples():
     inside = sigs[dists <= rho]
     assert inside.size > 0
     assert float(np.min(inside)) >= s_cert - 1e-9
+
+
+def test_w3_holds_on_torus_normal_probes():
+    """Reviewer-style probe family (second review round): points moved
+    off the zero curve along the in-torus normal by distances up to rho
+    must respect the corrected sigma_cert(rho)."""
+    enc = certified.enclosures()
+    rho = 0.08
+    s_cert = certified.sigma_cert(rho, enc)
+    assert s_cert > 0.0
+    th = 0.5 * (enc["theta_star"][0] + enc["theta_star"][1])
+    cs, sn = math.cos(th), math.sin(th)
+    n_a = 1.0
+    n_b = -(cs * cs * 3.0 * n_a) / (sn * sn * 2.0)
+    norm = math.sqrt(cs * cs * n_a * n_a + sn * sn * n_b * n_b)
+    n_a, n_b = n_a / norm, n_b / norm
+    p = stability.poly_scaled(_trefoil())
+    d1p, d2p = stability.poly_partials(p)
+    for dist_frac in (0.3, 0.6, 0.95):
+        dist = rho * dist_frac
+        for u in np.linspace(0.0, 2.0 * math.pi, 24, endpoint=False):
+            b0 = u
+            a0 = (math.pi + 3.0 * b0) / 2.0
+            aa, bb = a0 + dist * n_a, b0 + dist * n_b
+            w1 = cs * complex(math.cos(aa), math.sin(aa))
+            w2c = sn * complex(math.cos(bb), math.sin(bb))
+            sig = stability.sigma2_on_sphere(
+                complex(stability.poly_eval(d1p, w1, w2c)),
+                complex(stability.poly_eval(d2p, w1, w2c)),
+                w1,
+                w2c,
+            )
+            assert sig >= s_cert - 1e-9
 
 
 def test_g_lower_bounds_the_exact_gradient_norm():

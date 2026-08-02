@@ -192,7 +192,7 @@ def sigma_cert(rho, enc):
     lam_up = _up(a_hi + 1.5 * b_hi)
     cos_minus_sq_up = _up(math.cos(theta_minus)) ** 2
     m_f = rho * _up(
-        math.sqrt(lam_up * lam_up + a_hi * b_hi * cos_minus_sq_up * gbar_sq / 4.0)
+        math.sqrt(lam_up * lam_up + a_hi * b_hi * cos_minus_sq_up * gbar_sq)
     )
     e_max = _up(3.0 * m_f + a_hi * cos_minus_sq_up)
     return _dn(math.sqrt(max(0.0, d2_min - e_max * e_max)))
