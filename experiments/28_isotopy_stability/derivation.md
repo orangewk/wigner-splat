@@ -323,8 +323,10 @@ in diagnostics.
   forms, so the result is **numerically supported only, not certified**
   (a grid minimum over-estimates the true margin, in the unsafe
   direction); the JSON field is named to say so. No dictionary gap is
-  claimed for the trefoil here (that needs P6's winding bound, still
-  sketch).
+  claimed for the trefoil here (that needs P6's winding bound; its
+  status lives in exp24 derivation.md §4's claim table — note updated
+  2026-08-02: at this memo's pre-declaration time the bound was
+  unproven, and the exp29 slice later supplied it).
 
 ## 7. Claim table
 

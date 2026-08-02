@@ -2037,6 +2037,11 @@ before any implementation existed; implementation and run followed with
 no intermediate approval waits per that decision. Independent review of
 the whole slice is pending, and nothing here is accepted until it and
 orange's decision land; exp24's P6 row is untouched until then.
+(Resolved 2026-08-02: after seven report-only review rounds the round-7
+Scientific Claim Review returned PASS with no blocking finding, PR #157
+was merged to dev under orange's blanket approval, and the P6 promotion
+went in a separate change — its status, like all exp24 statuses, lives
+only in exp24 derivation.md §4's claim table.)
 
 Pre-declared (experiments/29_trefoil_certified/derivation.md): claims W0
 through W5 and numerical blocks N1 through N5 with falsification gates
