@@ -1,0 +1,352 @@
+"""Experiment 29 certified evaluator (derivation.md §1, §3, §4, E1-E2).
+
+Every constant is traced to exact rational enclosures (E1, `fractions`
+arithmetic — no floats in the proofs) and combined by the monotone-factor
+rules of derivation.md §3-§4. Transcendental steps (sin, cos, asin, sqrt,
+exp) are evaluated in float and nudged outward by the declared SLOP, in
+the direction that weakens the bound (lower bounds rounded down, upper
+bounds rounded up), so every reported margin is safe up to SLOP-level
+float error. No epistemic status is authored here (derivation.md §8 is
+the sole authoring location).
+"""
+
+from __future__ import annotations
+
+import math
+from fractions import Fraction
+
+# declared outward-rounding slop for transcendental float steps
+SLOP = 1e-9
+
+# exact squares of the target constants (derivation.md §1)
+A_SQ = Fraction(8, 25)
+B_SQ = Fraction(3, 50)
+
+
+def _dn(x):
+    """Round a float down by the declared slop (safe lower bound)."""
+    return x - SLOP * max(1.0, abs(x))
+
+
+def _up(x):
+    """Round a float up by the declared slop (safe upper bound)."""
+    return x + SLOP * max(1.0, abs(x))
+
+
+# ---------------------------------------------------------------------------
+# E1: exact rational enclosures
+# ---------------------------------------------------------------------------
+
+def sqrt_enclosure(square: Fraction, digits=8):
+    """Rational [lo, hi] with lo^2 < square < hi^2, proven exactly."""
+    scale = 10**digits
+    lo_int = int(math.isqrt(square.numerator * scale * scale // square.denominator))
+    lo = Fraction(lo_int, scale)
+    hi = Fraction(lo_int + 2, scale)
+    # exact proofs; widen if the float seed was off
+    while lo * lo >= square:
+        lo -= Fraction(1, scale)
+    while hi * hi <= square:
+        hi += Fraction(1, scale)
+    assert lo * lo < square < hi * hi
+    return lo, hi
+
+
+A_LO, A_HI = sqrt_enclosure(A_SQ)
+B_LO, B_HI = sqrt_enclosure(B_SQ)
+
+
+def cubic_sign_bounds(s: Fraction):
+    """Exact bounds on p(s) = b s^3 + a s^2 - a over the a, b enclosures.
+
+    p is increasing in b and in a-multiplied terms with mixed signs, so
+    bound term-wise: lower uses (b_lo, a_lo s^2, -a_hi), upper the flips.
+    """
+    lower = B_LO * s**3 + A_LO * s * s - A_HI
+    upper = B_HI * s**3 + A_HI * s * s - A_LO
+    return lower, upper
+
+
+def s_star_enclosure(width=Fraction(1, 10**7)):
+    """Certified bracket of the unique root s* in (0, 1) of the cubic
+    (increasing there), by exact-sign bisection."""
+    lo, hi = Fraction(1, 2), Fraction(99, 100)
+    _, up0 = cubic_sign_bounds(lo)
+    lo0, _ = cubic_sign_bounds(hi)
+    assert up0 < 0 < lo0, "initial bracket failed its exact sign checks"
+    while hi - lo > width:
+        mid = (lo + hi) / 2
+        low_b, up_b = cubic_sign_bounds(mid)
+        if up_b < 0:
+            lo = mid
+        elif low_b > 0:
+            hi = mid
+        else:
+            break  # sign indeterminate at this width; stop refining
+    return lo, hi
+
+
+def enclosures():
+    """All E1 enclosures as floats with outward rounding, plus the exact
+    fractions (stringified) for the artifact."""
+    s_lo_f, s_hi_f = s_star_enclosure()
+    th_lo = _dn(math.asin(float(s_lo_f)))
+    th_hi = _up(math.asin(float(s_hi_f)))
+    return {
+        "a": (_dn(float(A_LO)), _up(float(A_HI))),
+        "b": (_dn(float(B_LO)), _up(float(B_HI))),
+        "s_star": (_dn(float(s_lo_f)), _up(float(s_hi_f))),
+        "s_star_exact": (str(s_lo_f), str(s_hi_f)),
+        "a_exact": (str(A_LO), str(A_HI)),
+        "b_exact": (str(B_LO), str(B_HI)),
+        "theta_star": (th_lo, th_hi),
+    }
+
+
+# ---------------------------------------------------------------------------
+# W2: certified clearance (derivation.md §3)
+# ---------------------------------------------------------------------------
+
+# declared band B with rational endpoints (radians)
+THETA_LO_B = 0.9
+THETA_HI_B = 1.15
+
+
+def band_check(enc):
+    """Certified `theta* in B` via monotone sin: sin(theta_lo_B) < s*_lo
+    and s*_hi < sin(theta_hi_B), with outward-rounded float sin."""
+    return (
+        _up(math.sin(THETA_LO_B)) < enc["s_star"][0]
+        and enc["s_star"][1] < _dn(math.sin(THETA_HI_B))
+    )
+
+
+def w2_constants(enc):
+    a_lo, a_hi = enc["a"]
+    b_lo, b_hi = enc["b"]
+    th_lo, th_hi = enc["theta_star"]
+    # |g1| at the band endpoints, safely rounded down
+    g1_at_lo = _dn(
+        a_lo * _dn(math.cos(THETA_LO_B)) ** 2
+        - b_hi * _up(math.sin(THETA_LO_B)) ** 3
+    )
+    g1_at_hi = _dn(
+        b_lo * _dn(math.sin(THETA_HI_B)) ** 3
+        - a_hi * _up(math.cos(THETA_HI_B)) ** 2
+    )
+    m_band = min(g1_at_lo, g1_at_hi)
+    sc_lo_end = _dn(math.sin(THETA_LO_B) * math.cos(THETA_LO_B))
+    sc_hi_end = _dn(math.sin(THETA_HI_B) * math.cos(THETA_HI_B))
+    lam_b = min(sc_lo_end, sc_hi_end) * _dn(
+        2.0 * a_lo + 3.0 * b_lo * _dn(math.sin(THETA_LO_B))
+    )
+    kap_b = _dn(
+        4.0
+        * a_lo
+        * b_lo
+        * _dn(math.cos(THETA_HI_B)) ** 2
+        * _dn(math.sin(THETA_LO_B)) ** 3
+    )
+    # G lower bound: largest c* and s* on the theta* enclosure
+    c_max = _up(math.cos(th_lo))
+    s_max = _up(math.sin(th_hi))
+    g_lower = _dn(math.sqrt(4.0 / (c_max * c_max) + 9.0 / (s_max * s_max)))
+    return {
+        "m_band": m_band,
+        "lam_B": lam_b,
+        "kap_B": kap_b,
+        "G_lower": g_lower,
+    }
+
+
+def m_cert(rho, w2):
+    pi_up = _up(math.pi)
+    return min(
+        w2["m_band"],
+        w2["lam_B"] * rho / 2.0,
+        _dn(math.sqrt(max(0.0, w2["kap_B"]))) * w2["G_lower"] * rho / (2.0 * pi_up),
+    )
+
+
+# ---------------------------------------------------------------------------
+# W3: certified transversality (derivation.md §4)
+# ---------------------------------------------------------------------------
+
+def sigma_cert(rho, enc):
+    a_lo, a_hi = enc["a"]
+    b_lo, b_hi = enc["b"]
+    th_lo, th_hi = enc["theta_star"]
+    theta_minus = th_lo - rho
+    theta_plus = th_hi + rho
+    if theta_minus <= 0.0 or theta_plus >= math.pi / 2.0:
+        return 0.0
+    cos_plus = _dn(math.cos(theta_plus))
+    sin_minus = _dn(math.sin(theta_minus))
+    d2_min = _dn(
+        4.0 * a_lo * a_lo * cos_plus * cos_plus
+        + 9.0 * b_lo * b_lo * sin_minus**4
+    )
+    gbar_sq = _up(
+        4.0 / (cos_plus * cos_plus) + 9.0 / (sin_minus * sin_minus)
+    )
+    lam_up = _up(a_hi + 1.5 * b_hi)
+    cos_minus_sq_up = _up(math.cos(theta_minus)) ** 2
+    m_f = rho * _up(
+        math.sqrt(lam_up * lam_up + a_hi * b_hi * cos_minus_sq_up * gbar_sq)
+    )
+    e_max = _up(3.0 * m_f + a_hi * cos_minus_sq_up)
+    # nonnegativity applied AFTER the outward nudge so a zero certificate is
+    # serialized as exactly 0.0, never a negative sentinel (Sol audit P3)
+    return max(0.0, _dn(math.sqrt(max(0.0, d2_min - e_max * e_max))))
+
+
+# ---------------------------------------------------------------------------
+# E2: the certified radius (eps0_cert semantics of exp28 §3)
+# ---------------------------------------------------------------------------
+
+def c1(h):
+    """exp28 S2 constant, rounded up (it sits in a denominator)."""
+    return _up(math.sqrt(2.0) * math.exp((1.0 + h) ** 2 / 2.0) / h)
+
+
+def rho_cap(enc):
+    """W0 core-disjointness constraint: rho < min(theta*, pi/2 - theta*)."""
+    th_lo, th_hi = enc["theta_star"]
+    return min(th_lo, math.pi / 2.0 - th_hi)
+
+
+def eps29_cert(rho_list, h_list, enc, w2):
+    cap = rho_cap(enc)
+    best = (0.0, None, None, None, None)
+    rows = []
+    for rho in rho_list:
+        if rho >= cap:
+            rows.append({"rho": rho, "admissible": False})
+            continue
+        m_r = m_cert(rho, w2)
+        s_r = sigma_cert(rho, enc)
+        rows.append(
+            {"rho": rho, "admissible": True, "m_cert": m_r, "sigma_cert": s_r}
+        )
+        if m_r <= 0.0 or s_r <= 0.0:
+            continue
+        branch_a = m_r * _dn(math.exp(-0.5))
+        for h in h_list:
+            val = min(branch_a, s_r / c1(h))
+            if val > best[0]:
+                best = (val, rho, float(h), m_r, s_r)
+    return best, rows
+
+
+def fidelity_bound(eps):
+    """Upper bound (1 - eps^2/2)^2, computed exactly in Fraction and
+    converted to float rounded toward +infinity (Sol re-audit: the naive
+    double evaluation nearest-rounds and can strengthen the bound by an
+    ULP)."""
+    exact = (1 - Fraction(float(eps)) ** 2 / 2) ** 2
+    f = float(exact)
+    while Fraction(f) < exact:
+        f = math.nextafter(f, math.inf)
+    return f
+
+
+def cloud_residual_upper(cloud, prec=50):
+    """Outward-safe upper bounds for the committed cloud, in
+    high-precision Decimal (correctly rounded sqrt constants; every
+    float coordinate enters exactly): returns `(residual_upper,
+    norm_gap_upper)` where residual_upper bounds |f_T| at the exact
+    normalizations of the given rows (the r0 of the §3 corollary) and
+    norm_gap_upper bounds | ||row|| - 1 | (an input to the §3 lemma's
+    eps_tot budget). Pass the SAME array the distance selector uses
+    (round-5 re-audit: certificate points and selector points must
+    coincide)."""
+    from decimal import Decimal, localcontext
+
+    with localcontext() as ctx:
+        ctx.prec = prec
+        a = (Decimal(8) / Decimal(25)).sqrt()
+        b = (Decimal(3) / Decimal(50)).sqrt()
+        worst = Decimal(0)
+        worst_gap = Decimal(0)
+        for row in cloud:
+            x1, y1, x2, y2 = (Decimal.from_float(float(v)) for v in row)
+            n = (x1 * x1 + y1 * y1 + x2 * x2 + y2 * y2).sqrt()
+            gap = abs(n - 1)
+            if gap > worst_gap:
+                worst_gap = gap
+            x1, y1, x2, y2 = x1 / n, y1 / n, x2 / n, y2 / n
+            # w1^2 and w2^3 componentwise
+            s1r = x1 * x1 - y1 * y1
+            s1i = 2 * x1 * y1
+            s2r = x2 * x2 - y2 * y2
+            s2i = 2 * x2 * y2
+            c3r = s2r * x2 - s2i * y2
+            c3i = s2r * y2 + s2i * x2
+            fr = a * s1r + b * c3r
+            fi = a * s1i + b * c3i
+            r = (fr * fr + fi * fi).sqrt()
+            if r > worst:
+                worst = r
+        # margin for the Decimal arithmetic itself (~prec-digit correct
+        # rounding per op over ~20 ops; 1e-30 dwarfs it at prec=50)
+        worst += Decimal("1e-30")
+        worst_gap += Decimal("1e-30")
+
+    def _out(dec):
+        target = Fraction(dec)
+        f = float(dec)
+        while Fraction(f) < target:
+            f = math.nextafter(f, math.inf)
+        return f
+
+    return _out(worst), _out(worst_gap)
+
+
+def rows_norm_gap_upper(rows, prec=50):
+    """Outward-safe upper bound of `max_i | ||row_i|| - 1 |` over float
+    rows, in high-precision Decimal (every coordinate enters exactly).
+    Round-6 re-audit: the §3 lemma's `eps_tot` budget covers the
+    unit-norm defects of BOTH the cloud and the sphere samples, so the
+    sample side must be computed and gated too, not assumed."""
+    from decimal import Decimal, localcontext
+
+    with localcontext() as ctx:
+        ctx.prec = prec
+        worst_gap = Decimal(0)
+        for row in rows:
+            x1, y1, x2, y2 = (Decimal.from_float(float(v)) for v in row)
+            n = (x1 * x1 + y1 * y1 + x2 * x2 + y2 * y2).sqrt()
+            gap = abs(n - 1)
+            if gap > worst_gap:
+                worst_gap = gap
+        # margin for the Decimal arithmetic itself (see cloud_residual_upper)
+        worst_gap += Decimal("1e-30")
+
+    target = Fraction(worst_gap)
+    f = float(worst_gap)
+    while Fraction(f) < target:
+        f = math.nextafter(f, math.inf)
+    return f
+
+
+def cloud_error_bound(residual, w2):
+    """Certified geodesic distance from a polished point to the true link.
+
+    W2's corollary (derivation.md §3): a point q with |f_T(q)| <= r0 <
+    m_band has theta(q) in B (outside B, |f_T| >= m_band), so
+    |theta(q) - theta*| <= r0 / lam_B (MVT on B) and
+    |psi(q)| <= pi r0 / sqrt(kap_B); the W2 distance decomposition then
+    gives dist(q, L) <= r0 (1/lam_B + pi / (sqrt(kap_B) G_lower)).
+    Every factor is the certified W2 constant, rounded so the bound only
+    grows.
+    """
+    r0 = float(residual)
+    if r0 >= w2["m_band"]:
+        raise ValueError("residual not below the band clearance")
+    return _up(
+        r0
+        * (
+            1.0 / w2["lam_B"]
+            + math.pi / (math.sqrt(max(1e-300, w2["kap_B"])) * w2["G_lower"])
+        )
+    )

@@ -39,7 +39,7 @@ in the JSON).
 ## Results
 
 <!-- generated-block: do not edit (written by run.py from isotopy_stability.json) -->
-- E2 certified radius (grid per JSON `declared`): `eps0_cert(|11>)` = 0.109964 at (rho, h) = (0.1859, 0.6185); certified fidelity bound (S5 runnable form) = 0.987944.
+- E2 certified radius (grid per JSON `declared`; lower bound displayed rounded down): `eps0_cert(|11>)` = 0.109964 at (rho, h) = (0.1859, 0.6185); certified fidelity bound (S5 runnable form; upper bound displayed rounded up) = 0.987945.
 - E1 one-sided referee (481 thetas x 4^2 phases, tol 1e-09): clearance violations 0, sigma violations 0; min clearance excess over the closed form 0.001 (refinement diagnostic, not an alarm).
 - E3 first-change probe (ascending lattice per JSON `declared`; first census change per direction, bisected in the bracketing interval; census signature = isotopy-invariant content only, components + |linking|):
 
@@ -50,7 +50,7 @@ in the JSON).
   | exp25_endpoint | 1 | 1 | 0.7444 | 6.77 | 0 |
 
   Overall min delta_break: 0.2000 (best-found upper bounds within the probed families; no minimality claim).
-- E4 exp25 consistency: measured best-found F of `t11/coherent/K=2` = 0.367879 vs certified bound 0.987944.
+- E4 exp25 consistency: measured best-found F of `t11/coherent/K=2` = 0.367880 (displayed rounded up) vs certified bound 0.987945 (verdict from raw values).
 - E5 trefoil grid margins (2105 polished zero points; grid minima over-estimate true margins, so these are numerically supported only, NOT certified):
 
   | rho | m_grid | sigma_grid |
