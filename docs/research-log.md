@@ -1962,3 +1962,58 @@ supported, not certified; same-environment reproduction (environment
 recorded in the JSON); novelty unclaimed pending Gate S′ — "link at
 infinity" is a standard singularity-theory notion and the derivation says
 so.
+
+## 2026-08-02 — Experiment 28 / issue #137 Gate T′ sub-goal (a) slice 1, link-type stability inside a fidelity ball
+
+**Happened.** The isotopy rung that 管理役指摘2 (2026-07-31, issue #137)
+isolated — zero-count stability does not by itself give link-type
+stability — got its quantitative treatment: a stability theorem for
+regular zero links on the census sphere with explicit margin conditions,
+closed-form margins for the `|1,1>` target, an exactly evaluable radius
+`eps0_cert` with the `eps0`/`eps0_cert` semantics fixed in the memo, a
+first-change probe of tightness along pre-declared direction families,
+a consistency cross-check against exp25's measured `|11>/D_coh/K=2`
+cell, and grid-only margins for the exp25 trefoil target
+(`experiments/28_isotopy_stability/`).
+
+Owner/decisions: proposed by the Hopf runner as a proposal draft
+(PR #151), with adoption and research-direction selection explicitly NOT
+delegated at first; orange's 2026-08-02 GO decision (relayed via the
+current steward, superseding the earlier stop-and-revise instructions)
+accepted the memo at head `86d33e3` as the pre-declaration and
+authorized implementation and run without intermediate approval waits,
+reserving PR #151's merge, any exp24 P5 status change, and Gate T′
+closure for the final independent review and orange. Two report-only
+independent re-review rounds on the memo preceded the GO; their findings
+and dispositions are recorded in the memo's Review record and the
+PR #151 thread.
+
+Pre-declared (experiments/28_isotopy_stability/derivation.md, committed
+before any implementation or run output existed): claims S1 through S5
+and numerical blocks N1 through N5 with falsification gates F1 through
+F4. Claim statements and their epistemic status live only in that memo's
+§7 claim table (quoted verbatim into the README's generated block); this
+log restates neither. Measured numbers live only in
+`isotopy_stability.json` and the block generated from it.
+
+Run notes: no falsification gate fired and the run completed all five
+blocks. The E3 census signature is restricted to the isotopy-invariant
+census content (component count and |linking| multiset) per the memo's
+S3 conclusion as corrected in review — frame-fixed windings stay
+recorded as diagnostics, since the `|1,1>` components lie on the cores
+where the census reports them as `x`. E3 values are first-change,
+best-found upper bounds within the probed families under the declared
+lattice and seeds; E5's trefoil numbers are grid estimates in the
+unsafe direction and carry a not-certified marker in the artifact.
+Referee tests (`tests/test_isotopy_stability.py`) check the S1/S2
+bounds against direct evaluation, the sigma_2 evaluator against an
+exact closed form, the S4 margins one-sidedly, and the
+reparameterizations; the claim-surface policy test scans this
+experiment's surfaces like exp24/25/26's.
+
+Scope: two modes, pure states, census sphere `r = 1`; the memo's radius
+is a bound from below on the breaking radius, never an estimate of it;
+no unrestricted-dictionary claim and no novelty claim (Gate S′ open);
+acceptance basis: pending — the single final independent review that
+orange's GO decision prescribes had not run when this entry was written,
+and nothing here is accepted until it and orange's decision land.

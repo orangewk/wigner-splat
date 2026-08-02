@@ -66,9 +66,10 @@ hand-written text intentionally repeats none of those outcomes.
   coordinate-core caps rests on a `|f|` floor heuristic recorded in the
   diagnostics. The linking integers themselves are exact crossing counts with
   consistency checks, given the traced curves.
-- E4 fidelities are best-found under a fixed optimizer budget; derivation
-  P5/P6 remain sketches — no certified-lower-bound language applies anywhere
-  in this experiment.
+- E4 fidelities are best-found under a fixed optimizer budget; the epistemic
+  status of every derivation claim lives only in derivation.md §4's claim
+  table — no certified-lower-bound language applies to this experiment's own
+  census and E4 numbers.
 - Two-mode, pure states, unit sphere; no measured data, no mixed states, no
   connection to the note's certified one-mode theorems is claimed, and
   novelty is unclaimed pending the derivation §7 survey (issue #137 Gate S′).

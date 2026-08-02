@@ -100,6 +100,7 @@ TOPO_DIRS = {
     "24_hopf_stellar": "hopf_link_results.json",
     "25_topological_kcurves": "topological_kcurves.json",
     "26_gauss_invariance": "gauss_invariance.json",
+    "28_isotopy_stability": "isotopy_stability.json",
 }
 
 
@@ -318,6 +319,21 @@ def test_tally_excludes_ladders_with_failures_below_transition():
         line for line in text.splitlines() if line.strip().startswith("- coherent:")
     ]
     assert "which coincides" in coherent_lines[0]
+
+
+def test_exp24_status_not_restated_in_research_log():
+    """Finding 3 of the PR #145 review (deferred to this line, applied with
+    the 2026-08-02 P5 promotion): exp24's P1-P6 statuses live only in its
+    derivation.md §4 claim table; the research log may not restate them.
+    Same backstop strength as the exp25/26 patterns."""
+    text = _normalize(
+        (ROOT / "docs" / "research-log.md").read_text(encoding="utf-8")
+    )
+    found = re.search(r"\bp[1-6]b?\b[^\n]{0,80}(proved|sketch)\b", text)
+    assert not found, (
+        "docs/research-log.md restates an exp24 claim status outside the "
+        f"authoring location: {found.group(0)!r}"
+    )
 
 
 def test_topo_readme_generated_blocks_match_artifacts():
