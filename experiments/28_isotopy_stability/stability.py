@@ -74,11 +74,21 @@ def eps0_cert_hopf(rho_grid, h_grid):
 
 
 def fidelity_bound(eps):
-    """Exact inversion of delta^2 = 2(1 - sqrt F) at delta = eps (§5, E4)."""
+    """Exact inversion of delta^2 = 2(1 - sqrt F) at delta = eps (§5, E4).
+
+    Computed exactly in Fraction and converted to float rounded toward
+    +infinity, so the serialized upper bound is never strengthened by a
+    nearest-rounding ULP (fix propagated from the exp29 Sol re-audit)."""
+    from fractions import Fraction
+
     eps = float(eps)
     if not (0.0 <= eps <= math.sqrt(2.0)):
         raise ValueError("eps outside [0, sqrt 2]")
-    return (1.0 - eps * eps / 2.0) ** 2
+    exact = (1 - Fraction(eps) ** 2 / 2) ** 2
+    f = float(exact)
+    while Fraction(f) < exact:
+        f = math.nextafter(f, math.inf)
+    return f
 
 
 # ---------------------------------------------------------------------------
@@ -339,7 +349,12 @@ def zero_cloud(coeffs, n_theta=40, n_phase=24, keep_tol=1e-10, dedup=5e-3):
 
 def geodesic_dists(x_rows, cloud):
     """Geodesic distances on S3_1 from each row of x_rows (N, 4) to the
-    nearest cloud point (M, 4); vectorized arccos of the R^4 dot product."""
+    nearest cloud point (M, 4); vectorized arccos of the R^4 dot product.
+
+    Contract: callers pass unit rows on both sides — this function does
+    not normalize, and non-unit inputs make acos(p . c) a biased distance
+    (exp29 round-5 audit). Certified users must additionally budget the
+    float norm/dot/acos error (exp29 derivation §3 lemma)."""
     dots = np.clip(x_rows @ cloud.T, -1.0, 1.0)
     return np.arccos(np.max(dots, axis=1))
 

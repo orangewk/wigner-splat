@@ -179,7 +179,12 @@ the origin, which is off-sphere). Winding `3 > 2` is topologically
 inaccessible to Gaussian `K = 2`, predicting (via a P5-style stability step,
 also not written out) a fidelity gap **one dictionary level above** the |11>
 obstruction: `|11>` separates `D_coh` from `D_G` at `K = 2`; the trefoil
-family separates `D_G` at `K = 2` from larger budgets. **Status sketch.**
+family separates `D_G` at `K = 2` from larger budgets. **Status: §4's
+table** (originally sketch; promoted 2026-08-02 after
+`experiments/29_trefoil_certified/derivation.md` proved the winding
+bound under its declared standing hypotheses — its W4 — and the
+certified trefoil gap via the exp28 stability step — its W5 with the
+W2–W3 certified margins, run-checked by its gates E1–E5).
 
 **R1 (three-chain remark; conditional sketch).** `|30> + |03>` has three
 mutually `+1`-linked great circles (three lines, pairwise transverse at the
@@ -223,7 +228,7 @@ One row per claim; empty cells would be visible.
 | P4 | TMSV odd cat: exact Hopf link, `F = 1 - lam^4` | 2 | `D_G`, `K=2` | `r = 1` (link claim), fidelity global | proved here |
 | P4b | smooth conic pair: windings `(±1,∓1)`, `lk = +1` | 2 | conic zero families | `|c| < r^2/2` | proved here (homology level) |
 | P5 | fidelity gap `D_coh, K<=2` vs `|11>` | 2 | `D_coh`, `K<=2` | `r = 1` (exp28 proof), ball `r<=1` sketch | proved via exp28 S3–S5 with an explicit constant (promoted 2026-08-02, orange-approved; was: sketch + E4 numeric) |
-| P6 | conic winding `<=2`; trefoil blocked for `D_G, K=2` | 2 | `D_G`, `K=2` | every `r` | sketch |
+| P6 | conic winding `<=2`; trefoil blocked for `D_G, K=2` | 2 | `D_G`, `K=2` | every `r` (winding bound), gap at `r = 1` (exp29 proof) | proved via exp29 W4–W5 with certified margins (promoted 2026-08-02, orange-approved after the round-7 PASS; was: sketch) |
 | R1 | three-chain blocked for `D_G, K=2` | 2 | `D_G`, `K=2` | every `r` | conditional sketch |
 | Q1 | coherent `K=3` vs `|11>` behavior | 2 | `D_coh`, `K=3` | `r = 1` | open, measured only |
 
@@ -264,9 +269,12 @@ note's sampled columns).
 - **F2 (theory alarm):** a linked pair in any E4 `K <= 2` coherent census
   contradicts P3, which is proved; such an outcome is recorded as a tool or
   proof defect, never as a discovery.
-- **F3 (sketch risk):** P5/P6 are sketches; E4 numbers can weaken them but a
-  small measured gap does not certify them. No certified-lower-bound language
-  may be attached to any E4 number.
+- **F3 (sketch risk):** claims at sketch status in §4's table (at
+  pre-declaration time P5/P6; both were later promoted — statuses live in
+  the table — so this condition now covers R1's conditional sketch; note
+  updated 2026-08-02 with the promotions): E4 numbers can weaken them but
+  a small measured gap does not certify them. No certified-lower-bound
+  language may be attached to any E4 number.
 - **Scope:** nothing here touches measured data, mixed states, or the note's
   certified one-mode theorems; no novelty is claimed pending a prior-art
   survey (§7).

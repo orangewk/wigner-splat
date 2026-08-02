@@ -1,0 +1,327 @@
+{
+ "E1": {
+  "a": [
+   0.565685419,
+   0.565685441
+  ],
+  "a_exact": [
+   "28284271/50000000",
+   "1767767/3125000"
+  ],
+  "b": [
+   0.244948969,
+   0.244948991
+  ],
+  "b_exact": [
+   "24494897/100000000",
+   "24494899/100000000"
+  ],
+  "band_contains_theta_star": true,
+  "rho_cap_core_disjoint": 0.5464549183884582,
+  "s_star": [
+   0.8543718947901001,
+   0.8543721304403076
+  ],
+  "s_star_exact": [
+   "179174773/209715200",
+   "89587411/104857600"
+  ],
+  "theta_star": [
+   1.0243409567380726,
+   1.0243414084064384
+  ]
+ },
+ "E2": {
+  "eps29_cert": 0.008482623318894482,
+  "fidelity_bound": 0.9999280463960066,
+  "h_star": 0.054090150250417364,
+  "m_cert_at_star": 0.01398548152025641,
+  "rho_star": 0.08,
+  "rows": [
+   {
+    "admissible": true,
+    "m_cert": 0.0034963703800641025,
+    "rho": 0.02,
+    "sigma_cert": 0.7317564822046201
+   },
+   {
+    "admissible": true,
+    "m_cert": 0.006992740760128205,
+    "rho": 0.04,
+    "sigma_cert": 0.6628265278694427
+   },
+   {
+    "admissible": true,
+    "m_cert": 0.010489111140192308,
+    "rho": 0.06,
+    "sigma_cert": 0.5635302768665258
+   },
+   {
+    "admissible": true,
+    "m_cert": 0.01398548152025641,
+    "rho": 0.08,
+    "sigma_cert": 0.4062884439780568
+   },
+   {
+    "admissible": true,
+    "m_cert": 0.017481851900320512,
+    "rho": 0.1,
+    "sigma_cert": 0.0
+   },
+   {
+    "admissible": true,
+    "m_cert": 0.020978222280384616,
+    "rho": 0.12,
+    "sigma_cert": 0.0
+   },
+   {
+    "admissible": true,
+    "m_cert": 0.02447459266044872,
+    "rho": 0.14,
+    "sigma_cert": 0.0
+   },
+   {
+    "admissible": true,
+    "m_cert": 0.02797096304051282,
+    "rho": 0.16,
+    "sigma_cert": 0.0
+   },
+   {
+    "admissible": true,
+    "m_cert": 0.03146733342057692,
+    "rho": 0.18,
+    "sigma_cert": 0.0
+   },
+   {
+    "admissible": true,
+    "m_cert": 0.034963703800641024,
+    "rho": 0.2,
+    "sigma_cert": 0.0
+   }
+  ],
+  "sigma_cert_at_star": 0.4062884439780568,
+  "w2_constants": {
+   "G_lower": 5.2097722821073935,
+   "kap_B": 0.04445259651449423,
+   "lam_B": 0.6364579771629536,
+   "m_band": 0.09188208461537328
+  }
+ },
+ "E3": {
+  "cloud_error_certified": 1.0004375315511534e-09,
+  "cloud_max_residual_upper": 9.873651197103304e-14,
+  "cloud_membership_valid": true,
+  "cloud_norm_gap_upper": 1.96153191573505e-16,
+  "cloud_residual_precision_digits": 50,
+  "diagnostic_grid_margins_heuristic": [
+   {
+    "m_grid": 0.02846473638331909,
+    "rho": 0.02,
+    "sigma_grid": 0.7739600573214227
+   },
+   {
+    "m_grid": 0.033167416868289085,
+    "rho": 0.04,
+    "sigma_grid": 0.7548092116178605
+   },
+   {
+    "m_grid": 0.04802516884537893,
+    "rho": 0.06,
+    "sigma_grid": 0.7548092116178605
+   },
+   {
+    "m_grid": 0.06698293591552053,
+    "rho": 0.08,
+    "sigma_grid": 0.7331249671644772
+   },
+   {
+    "m_grid": 0.0852737414046432,
+    "rho": 0.1,
+    "sigma_grid": 0.7089625316601343
+   },
+   {
+    "m_grid": 0.09778853111846464,
+    "rho": 0.12,
+    "sigma_grid": 0.6823877496546271
+   },
+   {
+    "m_grid": 0.10283515720819962,
+    "rho": 0.14,
+    "sigma_grid": 0.6823877496546271
+   },
+   {
+    "m_grid": 0.11960689342268688,
+    "rho": 0.16,
+    "sigma_grid": 0.6534768770305336
+   },
+   {
+    "m_grid": 0.13372565385586385,
+    "rho": 0.18,
+    "sigma_grid": 0.6223163027967715
+   },
+   {
+    "m_grid": 0.1426005148138368,
+    "rho": 0.2,
+    "sigma_grid": 0.5890022194166292
+   }
+  ],
+  "rows": [
+   {
+    "checked": true,
+    "m_cert": 0.0034963703800641025,
+    "m_ok_theta_complement": true,
+    "min_sigma_phase_normal": 0.7802711776780962,
+    "rho": 0.02,
+    "sigma_cert": 0.7317564822046201,
+    "sigma_ok_cloud_inside": true,
+    "sigma_ok_phase_normal": true
+   },
+   {
+    "checked": true,
+    "m_cert": 0.006992740760128205,
+    "m_ok_theta_complement": true,
+    "min_sigma_phase_normal": 0.7779092213666761,
+    "rho": 0.04,
+    "sigma_cert": 0.6628265278694427,
+    "sigma_ok_cloud_inside": true,
+    "sigma_ok_phase_normal": true
+   },
+   {
+    "checked": true,
+    "m_cert": 0.010489111140192308,
+    "m_ok_theta_complement": true,
+    "min_sigma_phase_normal": 0.773979806718307,
+    "rho": 0.06,
+    "sigma_cert": 0.5635302768665258,
+    "sigma_ok_cloud_inside": true,
+    "sigma_ok_phase_normal": true
+   },
+   {
+    "checked": true,
+    "m_cert": 0.01398548152025641,
+    "m_ok_theta_complement": true,
+    "min_sigma_phase_normal": 0.7684937543322673,
+    "rho": 0.08,
+    "sigma_cert": 0.4062884439780568,
+    "sigma_ok_cloud_inside": true,
+    "sigma_ok_phase_normal": true
+   },
+   {
+    "checked": false,
+    "rho": 0.1
+   },
+   {
+    "checked": false,
+    "rho": 0.12
+   },
+   {
+    "checked": false,
+    "rho": 0.14
+   },
+   {
+    "checked": false,
+    "rho": 0.16
+   },
+   {
+    "checked": false,
+    "rho": 0.18
+   },
+   {
+    "checked": false,
+    "rho": 0.2
+   }
+  ],
+  "sample_norm_gap_upper": 2.3816463296559474e-16,
+  "violations": 0,
+  "zero_cloud_points": 2105
+ },
+ "E4": {
+  "census": {
+   "abs_windings_sorted": [
+    2,
+    3
+   ],
+   "linking_offdiag": [],
+   "n_components": 1,
+   "windings": [
+    [
+     "3",
+     "2"
+    ]
+   ]
+  },
+  "cloud_min_core_distance": 0.5464551282899623,
+  "cloud_theta_max_deviation_from_enclosure": 0.0,
+  "core_distance_floor": 0.5464549183884582,
+  "cores_disjoint_ok": true,
+  "gated_threshold": 0.5364549183884582
+ },
+ "E5": {
+  "cells": [
+   {
+    "cell": "trefoil/gaussian/K=1",
+    "measured": 0.24404440313033016,
+    "within_bound": true
+   },
+   {
+    "cell": "trefoil/gaussian/K=2",
+    "measured": 0.6469093830634337,
+    "within_bound": true
+   }
+  ],
+  "certified_bound": 0.9999280463960066
+ },
+ "census_grid": {
+  "n_eta": 90,
+  "n_xi": 96
+ },
+ "declared": {
+  "band_B": [
+   0.9,
+   1.15
+  ],
+  "cloud_dedup": 0.005,
+  "cloud_polish_keep_tol": 1e-10,
+  "e3_cloud_slack": 1e-06,
+  "e3_dist_budget": 2e-07,
+  "e3_eps_tot": 1e-14,
+  "e3_norm_gap_max": 1e-15,
+  "e3_tol": 1e-09,
+  "e4_theta_tol": 0.01,
+  "exp25_cells": [
+   "trefoil/gaussian/K=1",
+   "trefoil/gaussian/K=2"
+  ],
+  "h_grid": [
+   0.05,
+   2.5,
+   600
+  ],
+  "rho_list": [
+   0.02,
+   0.04,
+   0.06,
+   0.08,
+   0.1,
+   0.12,
+   0.14,
+   0.16,
+   0.18,
+   0.2
+  ],
+  "slop": 1e-09
+ },
+ "environment": {
+  "numpy": "2.4.6",
+  "platform": "Linux-6.18.5-x86_64-with-glibc2.39",
+  "python": "3.11.15"
+ },
+ "verdicts": {
+  "e1_enclosures_established": true,
+  "e2_eps29_cert_positive": true,
+  "e3_sound_referees_pass": true,
+  "e4_census_matches_w1": true,
+  "e5_exp25_within_certified_bound": true
+ },
+ "wall_seconds": 29.44764542579651
+}
