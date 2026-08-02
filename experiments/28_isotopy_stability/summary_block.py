@@ -54,22 +54,28 @@ def _fmt(x, digits=6):
 
 
 def _fmt_dn(x, digits=6):
-    """Safe display of a LOWER bound: round down (direction-aware display,
-    applied across experiments after the exp29 Sol audit)."""
-    import math as _math
+    """Safe display of a LOWER bound: the exact binary value via
+    Decimal.from_float, quantized with ROUND_FLOOR (direction-aware
+    display, applied across experiments after the exp29 Sol re-audit)."""
+    from decimal import ROUND_FLOOR, Decimal
 
     if x is None:
         return "-"
-    return f"{_math.floor(float(x) * 10**digits) / 10**digits:.{digits}f}"
+    q = Decimal(1).scaleb(-digits)
+    d = Decimal.from_float(float(x)).quantize(q, rounding=ROUND_FLOOR)
+    return f"{d:.{digits}f}"
 
 
 def _fmt_up(x, digits=6):
-    """Safe display of an UPPER bound: round up."""
-    import math as _math
+    """Safe display of an UPPER bound: ROUND_CEILING on the exact binary
+    value."""
+    from decimal import ROUND_CEILING, Decimal
 
     if x is None:
         return "-"
-    return f"{_math.ceil(float(x) * 10**digits) / 10**digits:.{digits}f}"
+    q = Decimal(1).scaleb(-digits)
+    d = Decimal.from_float(float(x)).quantize(q, rounding=ROUND_CEILING)
+    return f"{d:.{digits}f}"
 
 
 def _family_of(label):

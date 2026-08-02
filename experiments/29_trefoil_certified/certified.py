@@ -239,7 +239,55 @@ def eps29_cert(rho_list, h_list, enc, w2):
 
 
 def fidelity_bound(eps):
-    return (1.0 - eps * eps / 2.0) ** 2
+    """Upper bound (1 - eps^2/2)^2, computed exactly in Fraction and
+    converted to float rounded toward +infinity (Sol re-audit: the naive
+    double evaluation nearest-rounds and can strengthen the bound by an
+    ULP)."""
+    exact = (1 - Fraction(float(eps)) ** 2 / 2) ** 2
+    f = float(exact)
+    while Fraction(f) < exact:
+        f = math.nextafter(f, math.inf)
+    return f
+
+
+def cloud_residual_upper(cloud, prec=50):
+    """Outward-safe upper bound on |f_T| at the exactly-normalized
+    committed cloud points, in high-precision Decimal (correctly rounded
+    sqrt constants; every float coordinate enters exactly). This is the
+    r0 the §3 cloud-error corollary needs for the actual committed
+    cloud — the polish filter threshold alone is a nearest-float
+    criterion, not a certificate (Sol re-audit)."""
+    from decimal import Decimal, localcontext
+
+    with localcontext() as ctx:
+        ctx.prec = prec
+        a = (Decimal(8) / Decimal(25)).sqrt()
+        b = (Decimal(3) / Decimal(50)).sqrt()
+        worst = Decimal(0)
+        for row in cloud:
+            x1, y1, x2, y2 = (Decimal.from_float(float(v)) for v in row)
+            n = (x1 * x1 + y1 * y1 + x2 * x2 + y2 * y2).sqrt()
+            x1, y1, x2, y2 = x1 / n, y1 / n, x2 / n, y2 / n
+            # w1^2 and w2^3 componentwise
+            s1r = x1 * x1 - y1 * y1
+            s1i = 2 * x1 * y1
+            s2r = x2 * x2 - y2 * y2
+            s2i = 2 * x2 * y2
+            c3r = s2r * x2 - s2i * y2
+            c3i = s2r * y2 + s2i * x2
+            fr = a * s1r + b * c3r
+            fi = a * s1i + b * c3i
+            r = (fr * fr + fi * fi).sqrt()
+            if r > worst:
+                worst = r
+        # margin for the Decimal arithmetic itself (~prec-digit correct
+        # rounding per op over ~20 ops; 1e-30 dwarfs it at prec=50)
+        worst += Decimal("1e-30")
+    target = Fraction(worst)
+    f = float(worst)
+    while Fraction(f) < target:
+        f = math.nextafter(f, math.inf)
+    return f
 
 
 def cloud_error_bound(residual, w2):

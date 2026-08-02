@@ -33,7 +33,7 @@
  },
  "E2": {
   "eps29_cert": 0.008482623318894482,
-  "fidelity_bound": 0.9999280463960065,
+  "fidelity_bound": 0.9999280463960066,
   "h_star": 0.054090150250417364,
   "m_cert_at_star": 0.01398548152025641,
   "rho_star": 0.08,
@@ -108,8 +108,10 @@
   }
  },
  "E3": {
-  "cloud_error_certified": 1.4431304513588411e-09,
+  "cloud_error_certified": 1.0004375315511534e-09,
+  "cloud_max_residual_upper": 9.873651197103304e-14,
   "cloud_membership_valid": true,
+  "cloud_residual_precision_digits": 50,
   "diagnostic_grid_margins_heuristic": [
    {
     "m_grid": 0.02846473638331909,
@@ -249,7 +251,8 @@
   "cloud_min_core_distance": 0.5464551282899623,
   "cloud_theta_max_deviation_from_enclosure": 0.0,
   "core_distance_floor": 0.5464549183884582,
-  "cores_disjoint_ok": true
+  "cores_disjoint_ok": true,
+  "gated_threshold": 0.5364549183884582
  },
  "E5": {
   "cells": [
@@ -264,7 +267,7 @@
     "within_bound": true
    }
   ],
-  "certified_bound": 0.9999280463960065
+  "certified_bound": 0.9999280463960066
  },
  "census_grid": {
   "n_eta": 90,
@@ -315,5 +318,5 @@
   "e4_census_matches_w1": true,
   "e5_exp25_within_certified_bound": true
  },
- "wall_seconds": 30.82817506790161
+ "wall_seconds": 40.863386392593384
 }

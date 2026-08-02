@@ -184,6 +184,47 @@ def test_zero_curve_parametrization_annihilates_f():
         assert val < 5e-6
 
 
+def test_directional_formatters_are_decimal_safe():
+    """Sol re-audit boundary cases: naive floor/ceil-of-scaled-float
+    formatters fail exactly here."""
+    from decimal import Decimal
+
+    assert summary_block._fmt_dn(0.3, 1) == "0.2"  # binary 0.3 < decimal 0.3
+    assert summary_block._fmt_up(0.1, 1) == "0.2"  # binary 0.1 > decimal 0.1
+    for x in (0.008482623318894482, 0.9999280463960066, 1.0243409567380726):
+        for digits in (4, 6, 7):
+            dn = Decimal(summary_block._fmt_dn(x, digits))
+            up = Decimal(summary_block._fmt_up(x, digits))
+            assert dn <= Decimal.from_float(x) <= up
+
+
+def test_fidelity_bound_is_outward():
+    """The serialized upper bound must never sit below the exact value
+    (Sol re-audit: the naive double chain lost an ULP)."""
+    for eps in (0.008482623318894482, 0.10996407377738154, 0.3, 1.0):
+        fb = certified.fidelity_bound(eps)
+        assert Fraction(fb) >= (1 - Fraction(eps) ** 2 / 2) ** 2
+
+
+def test_cloud_residual_upper_bounds_the_committed_cloud():
+    """The recorded certificate must upper-bound float-evaluated
+    residuals at the normalized cloud points and stay within the slack
+    chain of the §3 corollary."""
+    enc = certified.enclosures()
+    w2 = certified.w2_constants(enc)
+    cloud = stability.zero_cloud(_trefoil(), n_theta=16, n_phase=8)
+    assert cloud.shape[0] > 5
+    upper = certified.cloud_residual_upper(cloud)
+    p = stability.poly_scaled(_trefoil())
+    for row in cloud:
+        w1 = complex(row[0], row[1])
+        w2c = complex(row[2], row[3])
+        n = math.sqrt(abs(w1) ** 2 + abs(w2c) ** 2)
+        resid = abs(complex(stability.poly_eval(p, w1 / n, w2c / n)))
+        assert resid <= upper + 1e-13
+    assert certified.cloud_error_bound(upper, w2) <= 1e-8
+
+
 def test_claim_registry_parses_all_declared_ids():
     registry = summary_block.load_claim_registry()
     assert set(registry) == set(summary_block.CLAIM_IDS)

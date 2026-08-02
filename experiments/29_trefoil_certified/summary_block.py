@@ -54,20 +54,29 @@ def _fmt(x, digits=6):
 
 
 def _fmt_dn(x, digits=6):
-    """Safe display of a LOWER bound: round down, never strengthening
-    (Sol audit P1: certified quantities need direction-aware display)."""
+    """Safe display of a LOWER bound: the exact binary value via
+    Decimal.from_float, quantized with ROUND_FLOOR (Sol re-audit:
+    floor(x*10^d)/10^d is unsafe at binary-decimal boundaries, e.g.
+    float 0.3)."""
+    from decimal import ROUND_FLOOR, Decimal
+
     if x is None:
         return "-"
-    scaled = math.floor(float(x) * 10**digits) / 10**digits
-    return f"{scaled:.{digits}f}"
+    q = Decimal(1).scaleb(-digits)
+    d = Decimal.from_float(float(x)).quantize(q, rounding=ROUND_FLOOR)
+    return f"{d:.{digits}f}"
 
 
 def _fmt_up(x, digits=6):
-    """Safe display of an UPPER bound: round up, never strengthening."""
+    """Safe display of an UPPER bound: ROUND_CEILING on the exact binary
+    value (the naive ceil formatter fails for e.g. float 0.1)."""
+    from decimal import ROUND_CEILING, Decimal
+
     if x is None:
         return "-"
-    scaled = math.ceil(float(x) * 10**digits) / 10**digits
-    return f"{scaled:.{digits}f}"
+    q = Decimal(1).scaleb(-digits)
+    d = Decimal.from_float(float(x)).quantize(q, rounding=ROUND_CEILING)
+    return f"{d:.{digits}f}"
 
 
 def render(results: dict) -> str:
@@ -115,11 +124,14 @@ def render(results: dict) -> str:
     if "E3" in results:
         e3 = results["E3"]
         cloud_err = e3.get("cloud_error_certified")
+        resid = e3.get("cloud_max_residual_upper")
         lines.append(
             f"- E3 sound margin referees ({e3['zero_cloud_points']} polished "
             "zero points; clearance on the theta-certain complement, "
             "transversality on cloud-inside — membership backed by the §3 "
-            f"cloud-error certificate {_fmt_up(cloud_err, 12) if cloud_err is not None else '-'}"
+            "cloud-error certificate from the committed cloud's outward "
+            f"max residual {_fmt_up(resid, 14) if resid is not None else '-'}"
+            f", giving {_fmt_up(cloud_err, 12) if cloud_err is not None else '-'}"
             " <= declared slack — and phase-normal probe families): "
             f"violations {e3['violations']}. Cloud-complement grid margins "
             "are recorded as a heuristic diagnostic only."
@@ -138,8 +150,10 @@ def render(results: dict) -> str:
                 "stand-in) theta deviation from the enclosure "
                 f"{_fmt_up(e4['cloud_theta_max_deviation_from_enclosure'], 5)}, "
                 f"min core distance "
-                f"{_fmt_dn(e4['cloud_min_core_distance'], 4)} vs floor "
-                f"{_fmt_up(e4['core_distance_floor'], 4)}."
+                f"{_fmt_dn(e4['cloud_min_core_distance'], 4)} >= gated "
+                f"threshold (floor - tol) "
+                f"{_fmt_up(e4['gated_threshold'], 4)} (verdict from raw "
+                f"values)."
             )
 
     if "E5" in results:

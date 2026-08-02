@@ -148,9 +148,13 @@ def main():
     d1p, d2p = stability.poly_partials(p)
     th_lo_enc, th_hi_enc = enc["theta_star"]
     g_lower = w2["G_lower"]
-    # §3 corollary: certified residual-to-distance bound for cloud points;
-    # the cloud-inside membership family is valid only under this check
-    cloud_err = certified.cloud_error_bound(CLOUD_KEEP_TOL, w2)
+    # §3 corollary: certified residual-to-distance bound for the ACTUAL
+    # committed cloud — the filter threshold is only a nearest-float
+    # criterion, so the run re-evaluates an outward-safe max residual at
+    # the exactly-normalized cloud points in high-precision Decimal and
+    # feeds THAT into the corollary (Sol re-audit)
+    max_residual_upper = certified.cloud_residual_upper(cloud)
+    cloud_err = certified.cloud_error_bound(max_residual_upper, w2)
     cloud_membership_valid = bool(cloud_err <= E3_CLOUD_SLACK)
 
     # shared sphere sample sweep
@@ -248,6 +252,8 @@ def main():
     ]
     results["E3"] = {
         "zero_cloud_points": int(cloud.shape[0]),
+        "cloud_max_residual_upper": max_residual_upper,
+        "cloud_residual_precision_digits": 50,
         "cloud_error_certified": cloud_err,
         "cloud_membership_valid": cloud_membership_valid,
         "rows": e3_rows,
@@ -296,7 +302,8 @@ def main():
         theta_dev = math.inf
         core_dist_min = 0.0
     core_dist_floor = min(th_lo, math.pi / 2.0 - th_hi)
-    cores_ok = bool(core_dist_min >= core_dist_floor - E4_THETA_TOL)
+    gated_threshold = core_dist_floor - E4_THETA_TOL
+    cores_ok = bool(core_dist_min >= gated_threshold)
     structure_ok = (
         "census_failed" not in census_summary
         and census_summary["n_components"] == 1
@@ -310,6 +317,7 @@ def main():
         "cloud_theta_max_deviation_from_enclosure": theta_dev,
         "cloud_min_core_distance": core_dist_min,
         "core_distance_floor": core_dist_floor,
+        "gated_threshold": gated_threshold,
         "cores_disjoint_ok": cores_ok,
     }
     verdicts["e4_census_matches_w1"] = bool(structure_ok)
