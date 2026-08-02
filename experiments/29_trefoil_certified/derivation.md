@@ -209,9 +209,12 @@ sigma_cert(rho) = sqrt( max(0, D2_min(rho) - E_max(rho)^2) ).
 (Correction, 2026-08-02 second review round: the first draft carried an
 extra `/4` inside `M_f`'s square root. It does not survive the algebra —
 `4 a b c^2 s^3 sin^2(psi/2) <= 4 a b c^2 s^3 * psi^2/4 = a b c^2 s^3
-psi^2` — so the factor cancels exactly; the reviewer exhibited a point
-of `U_0.10` violating the old bound. The formula above and the
-implementation now carry the corrected coefficient.)
+psi^2` — so the factor cancels exactly. The finding is algebraic; a
+numerical witness offered alongside it was later withdrawn by the
+reviewer (wrong phase origin), and probes of `U_0.10` did not violate
+the old value — which was therefore accidentally true, but not proved
+by the old chain. The formula above and the implementation carry the
+corrected coefficient.)
 
 Then `sigma_2 >= sigma_cert(rho)` on `U_rho`. Proof: `|d f_T|^2 >=
 D2_min` by the monotonicity of `c^2` (decreasing) and `s^4` (increasing);

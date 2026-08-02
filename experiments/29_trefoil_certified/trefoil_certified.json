@@ -273,6 +273,9 @@
    0.9,
    1.15
   ],
+  "cloud_dedup": 0.005,
+  "cloud_polish_keep_tol": 1e-10,
+  "e3_cloud_slack": 1e-08,
   "e3_tol": 1e-09,
   "e4_theta_tol": 0.01,
   "exp25_cells": [
@@ -310,5 +313,5 @@
   "e4_census_matches_w1": true,
   "e5_exp25_within_certified_bound": true
  },
- "wall_seconds": 54.844125747680664
+ "wall_seconds": 50.93452429771423
 }
