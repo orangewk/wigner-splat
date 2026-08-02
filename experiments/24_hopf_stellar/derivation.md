@@ -157,8 +157,12 @@ stellar functions would converge uniformly on the closed unit ball to
 curves carrying winding `1` around each tube core, and two such curves in
 complementary Hopf tubes have linking `+1` — contradicting P3. Hence there is
 an `eps0 > 0` with `sup F <= 1 - eps0` over `K <= 2` coherent superpositions.
-The tube/degree step is standard but not written out, and no explicit `eps0`
-is computed here: **status sketch**, with numerical support delegated to E4.
+The tube/degree step is standard but not written out here, and no explicit
+`eps0` is computed here. **Status: §4's table** (originally sketch with
+numerical support delegated to E4; promoted 2026-08-02 after
+`experiments/28_isotopy_stability/derivation.md` proved the stability step
+with an explicit constant at `r = 1` — its S3 with the S4 margins, and S5
+for this gap).
 
 **P6 (conic winding bound; the trefoil needs more than Gaussian K=2; sketch).**
 For a `K = 2` state from `D_G`, the same reduction as P3 makes the zero set a
@@ -204,7 +208,7 @@ sphere, which is exactly the event a K–ε curve tracks. The ladder is:
 | modes | zero set on sphere | invariant | certificate style |
 | --- | --- | --- | --- |
 | 1 | points in the disk | count | note §4–5 (certified there for the restricted bounded common-squeezing dictionary only; unrestricted: no disk-zero bound, note row D1) |
-| 2 | link in `S^3` | count + windings + linking matrix | this memo (P3/P5/P6: proved/sketch) |
+| 2 | link in `S^3` | count + windings + linking matrix | this memo (statuses: §4 claim table) |
 | n>=3 | real (2n-3)-dimensional manifolds in `S^{2n-1}` (Milnor links; for n=3, 3-manifolds in `S^5` — dimension corrected 2026-08-02 to match the #137 Gate L correction, an earlier draft said "surfaces") | not touched here | open |
 
 ## 4. Claim table
@@ -218,7 +222,7 @@ One row per claim; empty cells would be visible.
 | P3 | coherent `K<=2`: parallel lines, no linked pair | 2 | `D_coh`, `K<=2` | every `r` | proved here |
 | P4 | TMSV odd cat: exact Hopf link, `F = 1 - lam^4` | 2 | `D_G`, `K=2` | `r = 1` (link claim), fidelity global | proved here |
 | P4b | smooth conic pair: windings `(±1,∓1)`, `lk = +1` | 2 | conic zero families | `|c| < r^2/2` | proved here (homology level) |
-| P5 | fidelity gap `D_coh, K<=2` vs `|11>` | 2 | `D_coh`, `K<=2` | ball `r<=1` argument | sketch + E4 numeric |
+| P5 | fidelity gap `D_coh, K<=2` vs `|11>` | 2 | `D_coh`, `K<=2` | `r = 1` (exp28 proof), ball `r<=1` sketch | proved via exp28 S3–S5 with an explicit constant (promoted 2026-08-02, orange-approved; was: sketch + E4 numeric) |
 | P6 | conic winding `<=2`; trefoil blocked for `D_G, K=2` | 2 | `D_G`, `K=2` | every `r` | sketch |
 | R1 | three-chain blocked for `D_G, K=2` | 2 | `D_G`, `K=2` | every `r` | conditional sketch |
 | Q1 | coherent `K=3` vs `|11>` behavior | 2 | `D_coh`, `K=3` | `r = 1` | open, measured only |
