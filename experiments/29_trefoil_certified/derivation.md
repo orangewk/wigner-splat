@@ -45,7 +45,7 @@ phi       = 2 alpha - 3 beta   (mod 2 pi),
           = (a c^2 - b s^3)^2 + 4 a b c^2 s^3 cos^2(phi / 2).
 ```
 
-**W1 (structure of the zero link; proved here).** `g1` is strictly
+**W1 (structure of the zero link — status: §8 table).** `g1` is strictly
 decreasing on `(0, pi/2)` (`g1' = -s c (2a + 3 b s) < 0`), from `a > 0`
 to `-b < 0`, so `a c^2 = b s^3` has a unique root `theta* = arcsin(s*)`,
 where `s*` is the unique root in `(0, 1)` of the cubic
@@ -68,8 +68,8 @@ transversality follows from W3's bound below being positive at
 
 ## 2. Metric-neighborhood form of the exp28 stability theorem
 
-**W0 (metric-neighborhood stability theorem; proved here as a
-standalone statement).** Let `T` be a unit state whose `f_T` has `0` as
+**W0 (metric-neighborhood stability theorem; standalone statement —
+status: §8 table).** Let `T` be a unit state whose `f_T` has `0` as
 a regular value of `f_T|S3_1`, let `U` be any closed subset of `S3_1`
 containing `L_1(T)` in its interior, and define
 
@@ -149,7 +149,7 @@ G        = sqrt( 4 / cos(theta*)^2 + 9 / sin(theta*)^2 )   (lower-bounded
            on the enclosure of theta*).
 ```
 
-**W2 (certified clearance; proved here).** For every `rho > 0`,
+**W2 (certified clearance — status: §8 table).** For every `rho > 0`,
 
 ```
 m_cert(rho) = min( m_band,  lam_B * rho / 2,  sqrt(kap_B) * G * rho / (2 pi) )
@@ -180,6 +180,24 @@ second, `sin(|psi|/2) >= |psi| / pi` on `|psi| <= pi` and
 `|f_T| >= sqrt(kap_B) |psi| / pi >= sqrt(kap_B) G rho / (2 pi)`; if
 `G rho / 2 > pi` this case is vacuous and the bound only loosens. ∎
 
+**Corollary (cloud-error certificate; added in the 2026-08-02 Sol audit
+round to close the residual-to-distance gap in E3's membership).** If
+`|f_T(q)| <= r0 < m_band` then `theta(q) in B` (outside `B`,
+`|f_T| >= m_band`), hence `|theta(q) - theta*| <= r0 / lam_B` (MVT on
+`B`) and `|psi(q)| <= pi r0 / sqrt(kap_B)` (the phase term alone is
+below `|f_T|`), and W2's distance decomposition gives
+
+```
+dist(q, L_1(T)) <= r0 * ( 1/lam_B + pi / (sqrt(kap_B) G) ).
+```
+
+Every polished cloud point has residual below the declared keep
+tolerance, so its true distance to the link is certified below
+`cloud_err := keep_tol * (1/lam_B + pi/(sqrt(kap_B) G_lower))`, and a
+sample within cloud distance `rho - cloud_err` of the cloud certainly
+lies in `U_rho`. The run records `cloud_err` and checks
+`cloud_err <= tol_cloud` before using the cloud-inside family. ∎
+
 ## 4. Certified transversality
 
 Let `E(w) = w1 d1 f_T + w2 d2 f_T = 2 a w1^2 + 3 b w2^3 = 3 f_T - a w1^2`
@@ -192,7 +210,7 @@ Let `E(w) = w1 d1 f_T + w2 d2 f_T = 2 a w1^2 + 3 b w2^3 = 3 f_T - a w1^2`
 sigma_2( d(f_T|S3) ) >= sqrt( |d f_T|^2 - |E|^2 )        whenever positive.
 ```
 
-**W3 (certified transversality on `U_rho`; proved here).** With
+**W3 (certified transversality on `U_rho` — status: §8 table).** With
 `theta^- = arcsin(s_lo) - rho`, `theta^+ = arcsin(s_hi) + rho` from the
 E1 enclosure `s* in [s_lo, s_hi]` (every point of `U_rho` has
 `|theta - theta*| <= rho` since `theta` is 1-Lipschitz), define
@@ -227,7 +245,7 @@ the zero curve), with `sin^2(psi/2) <= psi^2/4`; hence
 
 ## 5. The conic winding bound (the statement of exp24's P6)
 
-**W4 (proved here).** Standing hypotheses, stated in full: `f_g = z1
+**W4 (conic winding bound — status: §8 table).** Standing hypotheses, stated in full: `f_g = z1
 e^{q1} + z2 e^{q2}` with `z1 z2 != 0` (a vanishing coefficient reduces
 to `K <= 1`), `q1, q2` holomorphic affine quadratics in `(w1, w2)`
 (exp24 §1's `D_G`; pure-state terms, any displacement and squeezing,
@@ -288,8 +306,8 @@ constraint (E2). The `eps0`/`eps0_cert` semantics of exp28 §3 apply
 verbatim: `eps29_cert` lower-bounds the supremum, which lower-bounds the
 true breaking radius, and every runnable statement uses `eps29_cert`.
 
-**W5 (certified `D_G, K <= 2` gap at the trefoil; proved here,
-conditional only on exp28 S3 + W0–W4).** For every `K <= 2`
+**W5 (certified `D_G, K <= 2` gap at the trefoil — status: §8 table;
+uses W0–W4).** For every `K <= 2`
 superposition `g` from `D_G` (unit-normalized, phase-aligned),
 
 ```
@@ -349,8 +367,10 @@ the E1 rational enclosures and combined by the monotone-factor rules of
     (`dist >= |Delta theta|`); check `|f_T| >= m_cert(rho) - tol` there.
   - (b) transversality, sound subsets: (i) samples within cloud distance
     `rho - tol_cloud` of the polished zero cloud certainly lie in
-    `U_rho` (cloud points sit on the link up to the declared polish
-    slack `tol_cloud`); (ii) targeted phase-normal samples on the
+    `U_rho`, **provided** the cloud-error certificate of §3's corollary
+    is established first (`cloud_err <= tol_cloud`, computed from the
+    polish keep tolerance and the certified W2 constants and recorded
+    in the artifact); (ii) targeted phase-normal samples on the
     `theta*` torus with `|Delta theta| + |psi| / G_lower <= rho`
     (membership by W2's distance decomposition, with `G_lower <= G`
     only loosening it). Check `sigma_2 >= sigma_cert(rho) - tol` on

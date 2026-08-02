@@ -52,6 +52,7 @@ RHO_LIST = [round(0.02 * k, 2) for k in range(1, 11)]
 H_GRID = np.linspace(0.05, 2.5, 600)
 E3_TOL = 1e-9
 E3_CLOUD_SLACK = 1e-8
+CLOUD_KEEP_TOL = 1e-10
 E4_THETA_TOL = 0.01
 EXP25_JSON = HERE.parent / "25_topological_kcurves" / "topological_kcurves.json"
 EXP25_CELLS = ("trefoil/gaussian/K=1", "trefoil/gaussian/K=2")
@@ -84,7 +85,7 @@ def main():
             "band_B": [certified.THETA_LO_B, certified.THETA_HI_B],
             "e3_tol": E3_TOL,
             "e3_cloud_slack": E3_CLOUD_SLACK,
-            "cloud_polish_keep_tol": 1e-10,
+            "cloud_polish_keep_tol": CLOUD_KEEP_TOL,
             "cloud_dedup": 5e-3,
             "e4_theta_tol": E4_THETA_TOL,
             "exp25_cells": list(EXP25_CELLS),
@@ -142,11 +143,15 @@ def main():
 
     log("E3: sound margin referees + diagnostic")
     coeffs = trefoil_coeffs()
-    cloud = stability.zero_cloud(coeffs)
+    cloud = stability.zero_cloud(coeffs, keep_tol=CLOUD_KEEP_TOL)
     p = stability.poly_scaled(coeffs)
     d1p, d2p = stability.poly_partials(p)
     th_lo_enc, th_hi_enc = enc["theta_star"]
     g_lower = w2["G_lower"]
+    # §3 corollary: certified residual-to-distance bound for cloud points;
+    # the cloud-inside membership family is valid only under this check
+    cloud_err = certified.cloud_error_bound(CLOUD_KEEP_TOL, w2)
+    cloud_membership_valid = bool(cloud_err <= E3_CLOUD_SLACK)
 
     # shared sphere sample sweep
     sample_rows, sample_thetas, sample_f, sample_sig = [], [], [], []
@@ -188,10 +193,12 @@ def main():
         m_ok = bool(
             outside.size > 0 and float(np.min(outside)) >= row["m_cert"] - E3_TOL
         )
-        # (b-i) sound transversality referee inside via cloud membership
+        # (b-i) sound transversality referee inside via cloud membership,
+        # valid only under the cloud-error certificate established above
         inside = sample_sig[cloud_dists <= rho - E3_CLOUD_SLACK]
         s_ok_cloud = bool(
-            inside.size > 0
+            cloud_membership_valid
+            and inside.size > 0
             and float(np.min(inside)) >= row["sigma_cert"] - E3_TOL
         )
         # (b-ii) targeted phase-normal probes on the theta* torus
@@ -241,6 +248,8 @@ def main():
     ]
     results["E3"] = {
         "zero_cloud_points": int(cloud.shape[0]),
+        "cloud_error_certified": cloud_err,
+        "cloud_membership_valid": cloud_membership_valid,
         "rows": e3_rows,
         "violations": violations,
         "diagnostic_grid_margins_heuristic": diag,

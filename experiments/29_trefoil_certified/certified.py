@@ -195,7 +195,9 @@ def sigma_cert(rho, enc):
         math.sqrt(lam_up * lam_up + a_hi * b_hi * cos_minus_sq_up * gbar_sq)
     )
     e_max = _up(3.0 * m_f + a_hi * cos_minus_sq_up)
-    return _dn(math.sqrt(max(0.0, d2_min - e_max * e_max)))
+    # nonnegativity applied AFTER the outward nudge so a zero certificate is
+    # serialized as exactly 0.0, never a negative sentinel (Sol audit P3)
+    return max(0.0, _dn(math.sqrt(max(0.0, d2_min - e_max * e_max))))
 
 
 # ---------------------------------------------------------------------------
@@ -238,3 +240,26 @@ def eps29_cert(rho_list, h_list, enc, w2):
 
 def fidelity_bound(eps):
     return (1.0 - eps * eps / 2.0) ** 2
+
+
+def cloud_error_bound(residual, w2):
+    """Certified geodesic distance from a polished point to the true link.
+
+    W2's corollary (derivation.md §3): a point q with |f_T(q)| <= r0 <
+    m_band has theta(q) in B (outside B, |f_T| >= m_band), so
+    |theta(q) - theta*| <= r0 / lam_B (MVT on B) and
+    |psi(q)| <= pi r0 / sqrt(kap_B); the W2 distance decomposition then
+    gives dist(q, L) <= r0 (1/lam_B + pi / (sqrt(kap_B) G_lower)).
+    Every factor is the certified W2 constant, rounded so the bound only
+    grows.
+    """
+    r0 = float(residual)
+    if r0 >= w2["m_band"]:
+        raise ValueError("residual not below the band clearance")
+    return _up(
+        r0
+        * (
+            1.0 / w2["lam_B"]
+            + math.pi / (math.sqrt(max(1e-300, w2["kap_B"])) * w2["G_lower"])
+        )
+    )

@@ -322,18 +322,50 @@ def test_tally_excludes_ladders_with_failures_below_transition():
     assert "which coincides" in coherent_lines[0]
 
 
-def test_exp29_status_not_restated_in_research_log():
-    """Second review round of PR #157: exp29's W0-W5 statuses live only in
-    its derivation.md §8 claim table; the research log may not restate
-    them (same backstop strength as the exp24/25/26 patterns)."""
-    text = _normalize(
-        (ROOT / "docs" / "research-log.md").read_text(encoding="utf-8")
+def test_exp29_status_not_restated_outside_claim_table():
+    """PR #157 review rounds two and three (Sol audit): exp29's W0-W5
+    statuses live only in its derivation.md §8 claim table. Scanned:
+    docs/research-log.md, the exp29 README outside the generated block,
+    the exp29 sources, and derivation.md itself outside table rows
+    (headings and prose may not carry per-claim status tags)."""
+    exp_dir = EXPERIMENTS / "29_trefoil_certified"
+    module = _load_summary_module("29_trefoil_certified")
+    readme = (exp_dir / "README.md").read_text(encoding="utf-8")
+    start = readme.find(module.BEGIN)
+    stop = readme.find(module.END)
+    assert start >= 0 and stop >= 0
+    derivation = (exp_dir / "derivation.md").read_text(encoding="utf-8")
+    outside_table = "\n".join(
+        line
+        for line in derivation.splitlines()
+        if not line.lstrip().startswith("|")
     )
-    found = re.search(r"\bw[0-5]\b[^\n]{0,80}(proved|sketch)\b", text)
-    assert not found, (
-        "docs/research-log.md restates an exp29 claim status outside the "
-        f"authoring location: {found.group(0)!r}"
-    )
+    surfaces = {
+        "docs/research-log.md": (ROOT / "docs" / "research-log.md").read_text(
+            encoding="utf-8"
+        ),
+        "29_trefoil_certified/README.md (outside block)": (
+            readme[:start] + readme[stop + len(module.END):]
+        ),
+        "29_trefoil_certified/derivation.md (outside table rows)": outside_table,
+        "29_trefoil_certified/run.py": (exp_dir / "run.py").read_text(
+            encoding="utf-8"
+        ),
+        "29_trefoil_certified/certified.py": (exp_dir / "certified.py").read_text(
+            encoding="utf-8"
+        ),
+        "29_trefoil_certified/summary_block.py": (
+            exp_dir / "summary_block.py"
+        ).read_text(encoding="utf-8"),
+    }
+    for name, text in surfaces.items():
+        found = re.search(
+            r"\bw[0-5]\b[^\n]{0,80}(proved|sketch)\b", _normalize(text)
+        )
+        assert not found, (
+            f"{name} restates an exp29 claim status outside the authoring "
+            f"location: {found.group(0)!r}"
+        )
 
 
 def test_exp24_status_not_restated_in_research_log():

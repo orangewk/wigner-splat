@@ -47,9 +47,29 @@ def _cell(v):
 
 
 def _fmt(x, digits=6):
+    """Nearest rounding — only for non-claim identifiers and diagnostics."""
     if x is None:
         return "-"
     return f"{float(x):.{digits}f}"
+
+
+def _fmt_dn(x, digits=6):
+    """Safe display of a LOWER bound: round down (direction-aware display,
+    applied across experiments after the exp29 Sol audit)."""
+    import math as _math
+
+    if x is None:
+        return "-"
+    return f"{_math.floor(float(x) * 10**digits) / 10**digits:.{digits}f}"
+
+
+def _fmt_up(x, digits=6):
+    """Safe display of an UPPER bound: round up."""
+    import math as _math
+
+    if x is None:
+        return "-"
+    return f"{_math.ceil(float(x) * 10**digits) / 10**digits:.{digits}f}"
 
 
 def _family_of(label):
@@ -68,11 +88,12 @@ def render(results: dict) -> str:
     if "E2" in results:
         e2 = results["E2"]
         lines.append(
-            f"- E2 certified radius (grid per JSON `declared`): "
-            f"`eps0_cert(|11>)` = {_fmt(e2['eps0_cert'])} at "
+            f"- E2 certified radius (grid per JSON `declared`; lower bound "
+            f"displayed rounded down): `eps0_cert(|11>)` = "
+            f"{_fmt_dn(e2['eps0_cert'])} at "
             f"(rho, h) = ({_fmt(e2['rho_star'], 4)}, {_fmt(e2['h_star'], 4)}); "
-            f"certified fidelity bound (S5 runnable form) = "
-            f"{_fmt(e2['fidelity_bound'])}."
+            f"certified fidelity bound (S5 runnable form; upper bound "
+            f"displayed rounded up) = {_fmt_up(e2['fidelity_bound'])}."
         )
 
     if "E1" in results:
@@ -128,8 +149,9 @@ def render(results: dict) -> str:
         e4 = results["E4"]
         lines.append(
             f"- E4 exp25 consistency: measured best-found F of "
-            f"`{e4['exp25_cell']}` = {_fmt(e4['measured_best_fidelity'])} vs "
-            f"certified bound {_fmt(e4['certified_bound'])}."
+            f"`{e4['exp25_cell']}` = {_fmt_up(e4['measured_best_fidelity'])} "
+            f"(displayed rounded up) vs certified bound "
+            f"{_fmt_up(e4['certified_bound'])} (verdict from raw values)."
         )
 
     if "E5" in results:

@@ -39,26 +39,26 @@ recorded in the JSON).
 ## Results
 
 <!-- generated-block: do not edit (written by run.py from trefoil_certified.json) -->
-- E1 exact enclosures (fractions; slop 1e-09 on transcendental steps): `s*` in [179174773/209715200, 89587411/104857600], `theta*` in [1.024341, 1.024341]; band contains `theta*`: True; core-disjoint rho cap 0.5465.
-- E2 certified radius: `eps29_cert` = 0.008483 at (rho, h) = (0.08, 0.0541) with margins (m, sigma) = (0.013985, 0.406288); certified fidelity bound (W5) = 0.999928.
+- E1 exact enclosures (fractions; slop 1e-09 on transcendental steps): `s*` in [179174773/209715200, 89587411/104857600], `theta*` in [1.0243409, 1.0243415] (outward display); band contains `theta*`: True; core-disjoint rho cap 0.5464.
+- E2 certified radius (lower bounds displayed rounded down): `eps29_cert` = 0.008482 at (rho, h) = (0.08, 0.0541) with margins (m, sigma) = (0.013985, 0.406288); certified fidelity bound (W5, upper bound displayed rounded up) = 0.999929.
 
   | rho | m_cert | sigma_cert |
   | --- | --- | --- |
   | 0.02 | 0.003496 | 0.731756 |
-  | 0.04 | 0.006993 | 0.662827 |
+  | 0.04 | 0.006992 | 0.662826 |
   | 0.06 | 0.010489 | 0.563530 |
   | 0.08 | 0.013985 | 0.406288 |
-  | 0.10 | 0.017482 | 0.000000 |
+  | 0.10 | 0.017481 | 0.000000 |
   | 0.12 | 0.020978 | 0.000000 |
-  | 0.14 | 0.024475 | 0.000000 |
-  | 0.16 | 0.027971 | 0.000000 |
+  | 0.14 | 0.024474 | 0.000000 |
+  | 0.16 | 0.027970 | 0.000000 |
   | 0.18 | 0.031467 | 0.000000 |
-  | 0.20 | 0.034964 | 0.000000 |
+  | 0.20 | 0.034963 | 0.000000 |
 
-- E3 sound margin referees (2105 polished zero points; clearance on the theta-certain complement, transversality on cloud-inside and phase-normal probe families): violations 0. Cloud-complement grid margins are recorded as a heuristic diagnostic only.
-- E4 census structure: 1 component(s), |windings| sorted [2, 3], linking offdiag []; cloud (declared loop-point stand-in) theta deviation from the enclosure 0.00000, min core distance 0.5465 vs floor 0.5465.
-- E5 `trefoil/gaussian/K=1`: measured best-found F = 0.244044 vs certified bound 0.999928 — within: True.
-- E5 `trefoil/gaussian/K=2`: measured best-found F = 0.646909 vs certified bound 0.999928 — within: True.
+- E3 sound margin referees (2105 polished zero points; clearance on the theta-certain complement, transversality on cloud-inside — membership backed by the §3 cloud-error certificate 0.000000001444 <= declared slack — and phase-normal probe families): violations 0. Cloud-complement grid margins are recorded as a heuristic diagnostic only.
+- E4 census structure: 1 component(s), |windings| sorted [2, 3], linking offdiag []; cloud (declared loop-point stand-in) theta deviation from the enclosure 0.00000, min core distance 0.5464 vs floor 0.5465.
+- E5 `trefoil/gaussian/K=1`: measured best-found F = 0.244045 (displayed rounded up) vs certified bound 0.999929 — within: True (verdict from raw values).
+- E5 `trefoil/gaussian/K=2`: measured best-found F = 0.646910 (displayed rounded up) vs certified bound 0.999929 — within: True (verdict from raw values).
 
 Pre-declared verdicts (computed in run.py from the data):
 

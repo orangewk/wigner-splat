@@ -66,37 +66,37 @@
     "admissible": true,
     "m_cert": 0.017481851900320512,
     "rho": 0.1,
-    "sigma_cert": -1e-09
+    "sigma_cert": 0.0
    },
    {
     "admissible": true,
     "m_cert": 0.020978222280384616,
     "rho": 0.12,
-    "sigma_cert": -1e-09
+    "sigma_cert": 0.0
    },
    {
     "admissible": true,
     "m_cert": 0.02447459266044872,
     "rho": 0.14,
-    "sigma_cert": -1e-09
+    "sigma_cert": 0.0
    },
    {
     "admissible": true,
     "m_cert": 0.02797096304051282,
     "rho": 0.16,
-    "sigma_cert": -1e-09
+    "sigma_cert": 0.0
    },
    {
     "admissible": true,
     "m_cert": 0.03146733342057692,
     "rho": 0.18,
-    "sigma_cert": -1e-09
+    "sigma_cert": 0.0
    },
    {
     "admissible": true,
     "m_cert": 0.034963703800641024,
     "rho": 0.2,
-    "sigma_cert": -1e-09
+    "sigma_cert": 0.0
    }
   ],
   "sigma_cert_at_star": 0.4062884439780568,
@@ -108,6 +108,8 @@
   }
  },
  "E3": {
+  "cloud_error_certified": 1.4431304513588411e-09,
+  "cloud_membership_valid": true,
   "diagnostic_grid_margins_heuristic": [
    {
     "m_grid": 0.02846473638331909,
@@ -313,5 +315,5 @@
   "e4_census_matches_w1": true,
   "e5_exp25_within_certified_bound": true
  },
- "wall_seconds": 50.93452429771423
+ "wall_seconds": 30.82817506790161
 }

@@ -11,6 +11,7 @@ table so the block can quote each claim's status and basis verbatim.
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
 
 BEGIN = "<!-- generated-block: do not edit (written by run.py from trefoil_certified.json) -->"
@@ -46,9 +47,27 @@ def _cell(v):
 
 
 def _fmt(x, digits=6):
+    """Nearest rounding — ONLY for non-claim identifiers (rho, h)."""
     if x is None:
         return "-"
     return f"{float(x):.{digits}f}"
+
+
+def _fmt_dn(x, digits=6):
+    """Safe display of a LOWER bound: round down, never strengthening
+    (Sol audit P1: certified quantities need direction-aware display)."""
+    if x is None:
+        return "-"
+    scaled = math.floor(float(x) * 10**digits) / 10**digits
+    return f"{scaled:.{digits}f}"
+
+
+def _fmt_up(x, digits=6):
+    """Safe display of an UPPER bound: round up, never strengthening."""
+    if x is None:
+        return "-"
+    scaled = math.ceil(float(x) * 10**digits) / 10**digits
+    return f"{scaled:.{digits}f}"
 
 
 def render(results: dict) -> str:
@@ -62,21 +81,23 @@ def render(results: dict) -> str:
             f"- E1 exact enclosures (fractions; slop "
             f"{results['declared']['slop']:g} on transcendental steps): "
             f"`s*` in [{e1['s_star_exact'][0]}, {e1['s_star_exact'][1]}], "
-            f"`theta*` in [{_fmt(e1['theta_star'][0])}, "
-            f"{_fmt(e1['theta_star'][1])}]; band contains `theta*`: "
-            f"{_cell(e1['band_contains_theta_star'])}; core-disjoint rho cap "
-            f"{_fmt(e1['rho_cap_core_disjoint'], 4)}."
+            f"`theta*` in [{_fmt_dn(e1['theta_star'][0], 7)}, "
+            f"{_fmt_up(e1['theta_star'][1], 7)}] (outward display); band "
+            f"contains `theta*`: {_cell(e1['band_contains_theta_star'])}; "
+            f"core-disjoint rho cap {_fmt_dn(e1['rho_cap_core_disjoint'], 4)}."
         )
 
     if "E2" in results:
         e2 = results["E2"]
         lines.append(
-            f"- E2 certified radius: `eps29_cert` = {_fmt(e2['eps29_cert'])} "
+            f"- E2 certified radius (lower bounds displayed rounded down): "
+            f"`eps29_cert` = {_fmt_dn(e2['eps29_cert'])} "
             f"at (rho, h) = ({_fmt(e2['rho_star'], 2)}, "
             f"{_fmt(e2['h_star'], 4)}) with margins (m, sigma) = "
-            f"({_fmt(e2['m_cert_at_star'])}, "
-            f"{_fmt(e2['sigma_cert_at_star'])}); certified fidelity bound "
-            f"(W5) = {_fmt(e2['fidelity_bound'])}."
+            f"({_fmt_dn(e2['m_cert_at_star'])}, "
+            f"{_fmt_dn(e2['sigma_cert_at_star'])}); certified fidelity bound "
+            f"(W5, upper bound displayed rounded up) = "
+            f"{_fmt_up(e2['fidelity_bound'])}."
         )
         lines.append("")
         lines.append("  | rho | m_cert | sigma_cert |")
@@ -86,19 +107,22 @@ def render(results: dict) -> str:
                 lines.append(f"  | {row['rho']:.2f} | not admissible | - |")
                 continue
             lines.append(
-                f"  | {row['rho']:.2f} | {_fmt(row['m_cert'])} | "
-                f"{_fmt(max(0.0, row['sigma_cert']))} |"
+                f"  | {row['rho']:.2f} | {_fmt_dn(row['m_cert'])} | "
+                f"{_fmt_dn(row['sigma_cert'])} |"
             )
         lines.append("")
 
     if "E3" in results:
         e3 = results["E3"]
+        cloud_err = e3.get("cloud_error_certified")
         lines.append(
             f"- E3 sound margin referees ({e3['zero_cloud_points']} polished "
             "zero points; clearance on the theta-certain complement, "
-            "transversality on cloud-inside and phase-normal probe "
-            f"families): violations {e3['violations']}. Cloud-complement "
-            "grid margins are recorded as a heuristic diagnostic only."
+            "transversality on cloud-inside — membership backed by the §3 "
+            f"cloud-error certificate {_fmt_up(cloud_err, 12) if cloud_err is not None else '-'}"
+            " <= declared slack — and phase-normal probe families): "
+            f"violations {e3['violations']}. Cloud-complement grid margins "
+            "are recorded as a heuristic diagnostic only."
         )
 
     if "E4" in results:
@@ -112,9 +136,10 @@ def render(results: dict) -> str:
                 f"|windings| sorted {c['abs_windings_sorted']}, linking "
                 f"offdiag {c['linking_offdiag']}; cloud (declared loop-point "
                 "stand-in) theta deviation from the enclosure "
-                f"{_fmt(e4['cloud_theta_max_deviation_from_enclosure'], 5)}, "
-                f"min core distance {_fmt(e4['cloud_min_core_distance'], 4)} "
-                f"vs floor {_fmt(e4['core_distance_floor'], 4)}."
+                f"{_fmt_up(e4['cloud_theta_max_deviation_from_enclosure'], 5)}, "
+                f"min core distance "
+                f"{_fmt_dn(e4['cloud_min_core_distance'], 4)} vs floor "
+                f"{_fmt_up(e4['core_distance_floor'], 4)}."
             )
 
     if "E5" in results:
@@ -122,9 +147,9 @@ def render(results: dict) -> str:
         for cell in e5["cells"]:
             lines.append(
                 f"- E5 `{cell['cell']}`: measured best-found F = "
-                f"{_fmt(cell['measured'])} vs certified bound "
-                f"{_fmt(e5['certified_bound'])} — within: "
-                f"{_cell(cell['within_bound'])}."
+                f"{_fmt_up(cell['measured'])} (displayed rounded up) vs "
+                f"certified bound {_fmt_up(e5['certified_bound'])} — within: "
+                f"{_cell(cell['within_bound'])} (verdict from raw values)."
             )
 
     lines.append("")

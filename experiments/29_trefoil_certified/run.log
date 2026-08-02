@@ -1,6 +1,6 @@
-[exp29 08:32:36] E1: exact enclosures
-[exp29 08:32:36] E2: certified evaluation
-[exp29 08:32:36] E3: sound margin referees + diagnostic
-[exp29 08:33:25] E4: census structure referee
-[exp29 08:33:26] E5: exp25 consistency
-[exp29 08:33:26] done in 50.9s; halted_at=None
+[exp29 09:02:36] E1: exact enclosures
+[exp29 09:02:36] E2: certified evaluation
+[exp29 09:02:36] E3: sound margin referees + diagnostic
+[exp29 09:03:06] E4: census structure referee
+[exp29 09:03:07] E5: exp25 consistency
+[exp29 09:03:07] done in 30.8s; halted_at=None

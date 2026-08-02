@@ -59,42 +59,48 @@ def test_e1_enclosures_reverified_in_exact_arithmetic():
 
 
 def test_w2_clearance_one_sided_on_samples():
-    """Every sphere sample at distance >= rho from the zero cloud must
-    have |f| >= m_cert(rho) (up to the declared slop)."""
+    """Every sphere sample in the theta-certain complement (|theta -
+    theta*| >= rho implies true-link distance >= rho, since theta is
+    1-Lipschitz) must have |f| >= m_cert(rho). The earlier cloud-based
+    selector was withdrawn in the Sol audit round: cloud distance
+    over-estimates link distance and cannot certify complement
+    membership."""
     enc = certified.enclosures()
     w2 = certified.w2_constants(enc)
     rho = 0.1
     m = certified.m_cert(rho, w2)
     assert m > 0.0
-    coeffs = _trefoil()
-    cloud = stability.zero_cloud(coeffs, n_theta=24, n_phase=16)
-    assert cloud.shape[0] > 10
-    p = stability.poly_scaled(coeffs)
-    rows, fvals = [], []
-    for th in np.linspace(0.02, math.pi / 2 - 0.02, 40):
+    th_lo, th_hi = enc["theta_star"]
+    p = stability.poly_scaled(_trefoil())
+    checked = 0
+    for th in np.linspace(0.02, math.pi / 2 - 0.02, 60):
+        if th_lo - rho < th < th_hi + rho:
+            continue
         for a in np.arange(6) * (2 * math.pi / 6):
             for b in np.arange(6) * (2 * math.pi / 6):
                 w1, w2c = stability.sphere_point(th, a, b)
-                rows.append([w1.real, w1.imag, w2c.real, w2c.imag])
-                fvals.append(abs(complex(stability.poly_eval(p, w1, w2c))))
-    dists = stability.geodesic_dists(np.array(rows), cloud)
-    fvals = np.array(fvals)
-    outside = fvals[dists >= rho]
-    assert outside.size > 0
-    assert float(np.min(outside)) >= m - 1e-9
+                fval = abs(complex(stability.poly_eval(p, w1, w2c)))
+                assert fval >= m - 1e-9
+                checked += 1
+    assert checked > 100
 
 
 def test_w3_transversality_one_sided_on_samples():
-    """Every sphere sample within distance rho of the zero cloud must
-    have sigma_2 >= sigma_cert(rho) (up to the declared slop). rho sits
-    where the corrected formula is still positive (the 2026-08-02 review
-    fixed a /4 coefficient error; sigma_cert(0.10) is now 0)."""
+    """Every sphere sample within cloud distance rho - slack of the zero
+    cloud lies in U_rho — sound only under the §3 cloud-error
+    certificate, established first — and must have sigma_2 >=
+    sigma_cert(rho). rho sits where the corrected formula is positive
+    (the 2026-08-02 review fixed a /4 coefficient error)."""
     enc = certified.enclosures()
+    w2 = certified.w2_constants(enc)
+    slack = 1e-8
+    keep_tol = 1e-10
+    assert certified.cloud_error_bound(keep_tol, w2) <= slack
     rho = 0.08
     s_cert = certified.sigma_cert(rho, enc)
     assert s_cert > 0.0
     coeffs = _trefoil()
-    cloud = stability.zero_cloud(coeffs, n_theta=24, n_phase=16)
+    cloud = stability.zero_cloud(coeffs, n_theta=24, n_phase=16, keep_tol=keep_tol)
     p = stability.poly_scaled(coeffs)
     d1p, d2p = stability.poly_partials(p)
     rows, sigs = [], []
@@ -113,7 +119,7 @@ def test_w3_transversality_one_sided_on_samples():
                 )
     dists = stability.geodesic_dists(np.array(rows), cloud)
     sigs = np.array(sigs)
-    inside = sigs[dists <= rho]
+    inside = sigs[dists <= rho - slack]
     assert inside.size > 0
     assert float(np.min(inside)) >= s_cert - 1e-9
 

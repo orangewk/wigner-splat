@@ -2047,8 +2047,9 @@ block); this log restates neither. Evaluated numbers live only in
 
 Run notes: no falsification gate fired in either run round. The
 2026-08-02 second independent review round (report-only) found a
-coefficient error in the transversality formula (an extra `/4`; the
-reviewer exhibited a violating point), an under-stated contract in the
+coefficient error in the transversality formula (an extra `/4` — an
+algebraic finding; a numerical witness offered alongside it was later
+withdrawn by the reviewer), an under-stated contract in the
 stability-theorem variant, an unsound complement-membership step in the
 first margin referee, a contract/implementation mismatch in the census
 coordinate check, and claim restatements on auxiliary surfaces — all
