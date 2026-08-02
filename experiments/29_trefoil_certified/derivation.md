@@ -224,7 +224,15 @@ cloud_err + dist_budget <= tol_cloud        (tol_cloud declared),
 ```
 
 with the selector using `rho - tol_cloud`. Membership then follows:
-`dist(p_hat, L) <= acos(p . c) + dist_budget + cloud_err <= rho`. ∎
+`dist(p_hat, L) <= acos(p . c) + dist_budget + cloud_err <= rho`.
+
+Round-6 re-audit revision: the budget's premise on `p` is not assumed —
+each sphere sample is normalized once and the **same coordinates** feed
+the row, the `|f_T|` referee, and the `sigma_2` referee, so the point
+whose membership this chain certifies is exactly the point the referees
+evaluate; and both unit-norm defects (cloud and sample) are computed
+outward in high-precision Decimal and gated against a declared cap, so
+the `eps_tot` premise is machine-checked on both sides. ∎
 
 ## 4. Certified transversality
 
@@ -401,7 +409,11 @@ the E1 rational enclosures and combined by the monotone-factor rules of
     selector uses, and the gate is `cloud_err + dist_budget <=
     tol_cloud` with the float-distance budget of §3's lemma (round-5
     revision: `tol_cloud = 1e-6`, `eps_tot = 1e-14`; all recorded in
-    the artifact); (ii) targeted phase-normal samples on the
+    the artifact). Round-6 revision: the sphere samples are likewise
+    normalized once, the same coordinates feed the distance selector
+    and both referee evaluations, and the sample-side unit-norm defect
+    is computed outward and gated alongside the cloud's (same declared
+    cap); (ii) targeted phase-normal samples on the
     `theta*` torus with `|Delta theta| + |psi| / G_lower <= rho`
     (membership by W2's distance decomposition, with `G_lower <= G`
     only loosening it). Check `sigma_2 >= sigma_cert(rho) - tol` on

@@ -167,12 +167,21 @@ def main():
         and norm_gap_upper <= E3_NORM_GAP_MAX
     )
 
-    # shared sphere sample sweep
+    # shared sphere sample sweep. Round-6 re-audit: each sample is
+    # normalized ONCE and the SAME coordinates feed the row, |f|, and
+    # sigma_2 — the point whose membership the selector certifies is
+    # exactly the point the referees evaluate (theta is invariant under
+    # the common scale, so the clearance selector is unaffected).
     sample_rows, sample_thetas, sample_f, sample_sig = [], [], [], []
     for th in np.linspace(0.02, math.pi / 2 - 0.02, 60):
         for aa in np.arange(8) * (2 * math.pi / 8):
             for bb in np.arange(8) * (2 * math.pi / 8):
                 w1, w2c = stability.sphere_point(th, aa, bb)
+                nrm = math.sqrt(
+                    w1.real * w1.real + w1.imag * w1.imag
+                    + w2c.real * w2c.real + w2c.imag * w2c.imag
+                )
+                w1, w2c = w1 / nrm, w2c / nrm
                 sample_rows.append([w1.real, w1.imag, w2c.real, w2c.imag])
                 sample_thetas.append(th)
                 sample_f.append(abs(complex(stability.poly_eval(p, w1, w2c))))
@@ -187,8 +196,13 @@ def main():
     sample_thetas = np.array(sample_thetas)
     sample_f = np.array(sample_f)
     sample_sig = np.array(sample_sig)
-    sample_arr = np.array(sample_rows)
-    sample_arr = sample_arr / np.linalg.norm(sample_arr, axis=1, keepdims=True)
+    sample_arr = np.array(sample_rows)  # unit rows by construction
+    # round-6 re-audit: eps_tot assumes near-unit rows on BOTH sides of
+    # the dot product; gate the sample-side defect like the cloud's
+    sample_norm_gap_upper = certified.rows_norm_gap_upper(sample_arr)
+    cloud_membership_valid = bool(
+        cloud_membership_valid and sample_norm_gap_upper <= E3_NORM_GAP_MAX
+    )
     cloud_dists = stability.geodesic_dists(sample_arr, cloud)
 
     e3_rows = []
@@ -266,6 +280,7 @@ def main():
         "zero_cloud_points": int(cloud.shape[0]),
         "cloud_max_residual_upper": max_residual_upper,
         "cloud_norm_gap_upper": norm_gap_upper,
+        "sample_norm_gap_upper": sample_norm_gap_upper,
         "cloud_residual_precision_digits": 50,
         "cloud_error_certified": cloud_err,
         "cloud_membership_valid": cloud_membership_valid,

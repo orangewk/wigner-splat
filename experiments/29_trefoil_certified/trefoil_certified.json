@@ -231,6 +231,7 @@
     "rho": 0.2
    }
   ],
+  "sample_norm_gap_upper": 2.3816463296559474e-16,
   "violations": 0,
   "zero_cloud_points": 2105
  },
@@ -322,5 +323,5 @@
   "e4_census_matches_w1": true,
   "e5_exp25_within_certified_bound": true
  },
- "wall_seconds": 30.546847105026245
+ "wall_seconds": 29.44764542579651
 }

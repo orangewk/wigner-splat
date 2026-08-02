@@ -64,7 +64,9 @@ def test_w2_clearance_one_sided_on_samples():
     1-Lipschitz) must have |f| >= m_cert(rho). The earlier cloud-based
     selector was withdrawn in the Sol audit round: cloud distance
     over-estimates link distance and cannot certify complement
-    membership."""
+    membership. Round-6 cross-fix: |f| is evaluated at the normalized
+    sample (W2's margin theorem is a statement about unit points;
+    theta is invariant under the common scale)."""
     enc = certified.enclosures()
     w2 = certified.w2_constants(enc)
     rho = 0.1
@@ -79,6 +81,11 @@ def test_w2_clearance_one_sided_on_samples():
         for a in np.arange(6) * (2 * math.pi / 6):
             for b in np.arange(6) * (2 * math.pi / 6):
                 w1, w2c = stability.sphere_point(th, a, b)
+                nrm = math.sqrt(
+                    w1.real * w1.real + w1.imag * w1.imag
+                    + w2c.real * w2c.real + w2c.imag * w2c.imag
+                )
+                w1, w2c = w1 / nrm, w2c / nrm
                 fval = abs(complex(stability.poly_eval(p, w1, w2c)))
                 assert fval >= m - 1e-9
                 checked += 1
@@ -89,8 +96,11 @@ def test_w3_transversality_one_sided_on_samples():
     """Every sphere sample within cloud distance rho - slack of the zero
     cloud lies in U_rho — sound only under the §3 cloud-error
     certificate, established first — and must have sigma_2 >=
-    sigma_cert(rho). rho sits where the corrected formula is positive
-    (the 2026-08-02 review fixed a /4 coefficient error)."""
+    sigma_cert(rho). Round-6 re-audit: each sample is normalized once
+    and the SAME coordinates feed the distance selector and the sigma
+    evaluation (the production same-point contract), with both norm
+    gaps gated. rho sits where the corrected formula is positive (the
+    2026-08-02 review fixed a /4 coefficient error)."""
     enc = certified.enclosures()
     w2 = certified.w2_constants(enc)
     slack = 1e-6  # declared round-5 value
@@ -112,6 +122,11 @@ def test_w3_transversality_one_sided_on_samples():
         for a in np.arange(8) * (2 * math.pi / 8):
             for b in np.arange(8) * (2 * math.pi / 8):
                 w1, w2c = stability.sphere_point(th, a, b)
+                nrm = math.sqrt(
+                    w1.real * w1.real + w1.imag * w1.imag
+                    + w2c.real * w2c.real + w2c.imag * w2c.imag
+                )
+                w1, w2c = w1 / nrm, w2c / nrm
                 rows.append([w1.real, w1.imag, w2c.real, w2c.imag])
                 sigs.append(
                     stability.sigma2_on_sphere(
@@ -121,7 +136,9 @@ def test_w3_transversality_one_sided_on_samples():
                         w2c,
                     )
                 )
-    dists = stability.geodesic_dists(np.array(rows), cloud)
+    rows_arr = np.array(rows)
+    assert certified.rows_norm_gap_upper(rows_arr) <= 1e-15
+    dists = stability.geodesic_dists(rows_arr, cloud)
     sigs = np.array(sigs)
     inside = sigs[dists <= rho - slack]
     assert inside.size > 0
@@ -208,6 +225,17 @@ def test_fidelity_bound_is_outward():
     for eps in (0.008482623318894482, 0.10996407377738154, 0.3, 1.0):
         fb = certified.fidelity_bound(eps)
         assert Fraction(fb) >= (1 - Fraction(eps) ** 2 / 2) ** 2
+
+
+def test_rows_norm_gap_upper_bounds_the_defect():
+    """The sample-side norm-gap certificate (round 6) must be an upper
+    bound: tiny on an exactly-unit float row, and at least the true
+    defect on a deliberately off-norm row."""
+    assert certified.rows_norm_gap_upper(
+        np.array([[1.0, 0.0, 0.0, 0.0]])
+    ) <= 1e-25
+    off = np.array([[1.0 + 1e-10, 0.0, 0.0, 0.0]])
+    assert certified.rows_norm_gap_upper(off) >= 1e-10
 
 
 def test_cloud_error_chain_smoke_reduced_cloud():

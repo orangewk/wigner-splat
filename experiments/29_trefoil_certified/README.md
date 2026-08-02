@@ -55,7 +55,7 @@ recorded in the JSON).
   | 0.18 | 0.031467 | 0.000000 |
   | 0.20 | 0.034963 | 0.000000 |
 
-- E3 sound margin referees (2105 polished zero points; clearance on the theta-certain complement, transversality on cloud-inside — membership backed by the §3 chain on the once-normalized cloud: outward max residual 0.00000000000010 gives cloud error 0.000000001001, and cloud error + declared float-distance budget <= declared slack — and phase-normal probe families): violations 0. Cloud-complement grid margins are recorded as a heuristic diagnostic only.
+- E3 sound margin referees (2105 polished zero points; clearance on the theta-certain complement, transversality on cloud-inside — membership backed by the §3 chain at the same once-normalized points the referees evaluate: outward max residual 0.00000000000010 gives cloud error 0.000000001001, cloud error + declared float-distance budget <= declared slack, and cloud/sample norm gaps within the declared cap — and phase-normal probe families): violations 0. Cloud-complement grid margins are recorded as a heuristic diagnostic only.
 - E4 census structure: 1 component(s), |windings| sorted [2, 3], linking offdiag []; cloud (declared loop-point stand-in) theta deviation from the enclosure 0.00000, min core distance 0.5464 >= gated threshold (floor - tol) 0.5365 (verdict from raw values).
 - E5 `trefoil/gaussian/K=1`: measured best-found F = 0.244045 (displayed rounded up) vs certified bound 0.999929 — within: True (verdict from raw values).
 - E5 `trefoil/gaussian/K=2`: measured best-found F = 0.646910 (displayed rounded up) vs certified bound 0.999929 — within: True (verdict from raw values).

@@ -302,6 +302,33 @@ def cloud_residual_upper(cloud, prec=50):
     return _out(worst), _out(worst_gap)
 
 
+def rows_norm_gap_upper(rows, prec=50):
+    """Outward-safe upper bound of `max_i | ||row_i|| - 1 |` over float
+    rows, in high-precision Decimal (every coordinate enters exactly).
+    Round-6 re-audit: the §3 lemma's `eps_tot` budget covers the
+    unit-norm defects of BOTH the cloud and the sphere samples, so the
+    sample side must be computed and gated too, not assumed."""
+    from decimal import Decimal, localcontext
+
+    with localcontext() as ctx:
+        ctx.prec = prec
+        worst_gap = Decimal(0)
+        for row in rows:
+            x1, y1, x2, y2 = (Decimal.from_float(float(v)) for v in row)
+            n = (x1 * x1 + y1 * y1 + x2 * x2 + y2 * y2).sqrt()
+            gap = abs(n - 1)
+            if gap > worst_gap:
+                worst_gap = gap
+        # margin for the Decimal arithmetic itself (see cloud_residual_upper)
+        worst_gap += Decimal("1e-30")
+
+    target = Fraction(worst_gap)
+    f = float(worst_gap)
+    while Fraction(f) < target:
+        f = math.nextafter(f, math.inf)
+    return f
+
+
 def cloud_error_bound(residual, w2):
     """Certified geodesic distance from a polished point to the true link.
 
