@@ -100,6 +100,7 @@ TOPO_DIRS = {
     "24_hopf_stellar": "hopf_link_results.json",
     "25_topological_kcurves": "topological_kcurves.json",
     "26_gauss_invariance": "gauss_invariance.json",
+    "28_isotopy_stability": "isotopy_stability.json",
 }
 
 
