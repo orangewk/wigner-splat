@@ -205,7 +205,7 @@ sphere, which is exactly the event a K–ε curve tracks. The ladder is:
 | --- | --- | --- | --- |
 | 1 | points in the disk | count | note §4–5 (certified there for the restricted bounded common-squeezing dictionary only; unrestricted: no disk-zero bound, note row D1) |
 | 2 | link in `S^3` | count + windings + linking matrix | this memo (P3/P5/P6: proved/sketch) |
-| n>=3 | surfaces in `S^{2n-1}` | not touched here | open |
+| n>=3 | real (2n-3)-dimensional manifolds in `S^{2n-1}` (Milnor links; for n=3, 3-manifolds in `S^5` — dimension corrected 2026-08-02 to match the #137 Gate L correction, an earlier draft said "surfaces") | not touched here | open |
 
 ## 4. Claim table
 
