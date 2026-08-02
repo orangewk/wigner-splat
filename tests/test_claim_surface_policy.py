@@ -101,6 +101,7 @@ TOPO_DIRS = {
     "25_topological_kcurves": "topological_kcurves.json",
     "26_gauss_invariance": "gauss_invariance.json",
     "28_isotopy_stability": "isotopy_stability.json",
+    "29_trefoil_certified": "trefoil_certified.json",
 }
 
 

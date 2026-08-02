@@ -2017,3 +2017,48 @@ no unrestricted-dictionary claim and no novelty claim (Gate S′ open);
 acceptance basis: pending — the single final independent review that
 orange's GO decision prescribes had not run when this entry was written,
 and nothing here is accepted until it and orange's decision land.
+
+## 2026-08-02 — Experiment 29 / issue #137 Gate T′ slice, certified trefoil margins and the conic winding bound
+
+**Happened.** The trefoil target got the exp28 treatment with certified
+inputs end to end: exact rational enclosures for every constant (the
+target's squared amplitudes are rational, so the cubic root `s*` is
+bracketed by exact `fractions` sign checks), certified clearance and
+transversality margins from the phase-resolved closed forms, a certified
+stability radius under exp28's theorem in metric-neighborhood form, a
+proof of the conic winding bound (the statement of exp24's P6), and the
+resulting certified fidelity gap for `K <= 2` pure-Gaussian
+superpositions at the trefoil — one dictionary level above exp28's
+`|1,1>`/coherent gap (`experiments/29_trefoil_certified/`).
+
+Owner/decisions: adopted and executed under orange's blanket approval of
+2026-08-02 (recorded on issue #137); pre-declaration memo committed
+before any implementation existed; implementation and run followed with
+no intermediate approval waits per that decision. Independent review of
+the whole slice is pending, and nothing here is accepted until it and
+orange's decision land; exp24's P6 row is untouched until then.
+
+Pre-declared (experiments/29_trefoil_certified/derivation.md): claims W0
+through W5 and numerical blocks N1 through N5 with falsification gates
+F1 through F5. Claim statements and their epistemic status live only in
+that memo's §8 claim table (quoted verbatim into the README's generated
+block); this log restates neither. Evaluated numbers live only in
+`trefoil_certified.json` and the block generated from it.
+
+Run notes: no falsification gate fired; the one-sided referee against
+grid margins (which can only over-estimate) and the census structure
+referee both passed, and exp25's measured trefoil/gaussian cells sit
+inside the certified bound. Referee tests
+(`tests/test_trefoil_certified.py`) re-prove the enclosures in raw
+exact arithmetic, referee both certified margins one-sidedly on sphere
+samples, check the zero-curve parametrization, and probe the winding
+bound on Gaussian K=2 censuses; the claim-surface policy test scans this
+experiment's surfaces like the other issue-#137 experiments.
+
+Scope: two modes, pure states, census sphere `r = 1`; "certified" refers
+throughout to the exp28 `eps0_cert` semantics (machine-evaluable lower
+bounds traced to exact enclosures with a declared float slop), not to
+the K_ε note's certified-lower-bound language, which stays unavailable
+until Gate T′ closes; the Gaussian dictionary statements quantify over
+the unbounded exp24 `D_G`, which contains exp25's operational `D_G^b`;
+no novelty claims (Gate S′ open).
