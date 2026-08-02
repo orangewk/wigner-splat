@@ -111,6 +111,7 @@
   "cloud_error_certified": 1.0004375315511534e-09,
   "cloud_max_residual_upper": 9.873651197103304e-14,
   "cloud_membership_valid": true,
+  "cloud_norm_gap_upper": 1.96153191573505e-16,
   "cloud_residual_precision_digits": 50,
   "diagnostic_grid_margins_heuristic": [
    {
@@ -280,7 +281,10 @@
   ],
   "cloud_dedup": 0.005,
   "cloud_polish_keep_tol": 1e-10,
-  "e3_cloud_slack": 1e-08,
+  "e3_cloud_slack": 1e-06,
+  "e3_dist_budget": 2e-07,
+  "e3_eps_tot": 1e-14,
+  "e3_norm_gap_max": 1e-15,
   "e3_tol": 1e-09,
   "e4_theta_tol": 0.01,
   "exp25_cells": [
@@ -318,5 +322,5 @@
   "e4_census_matches_w1": true,
   "e5_exp25_within_certified_bound": true
  },
- "wall_seconds": 40.863386392593384
+ "wall_seconds": 30.546847105026245
 }

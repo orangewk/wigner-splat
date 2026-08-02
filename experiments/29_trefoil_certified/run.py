@@ -51,7 +51,12 @@ GRID = {"n_eta": 90, "n_xi": 96}  # the exp24/25 standard census grid
 RHO_LIST = [round(0.02 * k, 2) for k in range(1, 11)]
 H_GRID = np.linspace(0.05, 2.5, 600)
 E3_TOL = 1e-9
-E3_CLOUD_SLACK = 1e-8
+# round-5 revision: the membership slack must absorb BOTH the certified
+# cloud error and the float-distance budget of the §3 lemma
+E3_CLOUD_SLACK = 1e-6
+E3_EPS_TOT = 1e-14
+E3_DIST_BUDGET = 2e-7  # >= sqrt(3 * E3_EPS_TOT), declared literal
+E3_NORM_GAP_MAX = 1e-15  # unit-norm defect the eps_tot budget assumes
 CLOUD_KEEP_TOL = 1e-10
 E4_THETA_TOL = 0.01
 EXP25_JSON = HERE.parent / "25_topological_kcurves" / "topological_kcurves.json"
@@ -85,6 +90,9 @@ def main():
             "band_B": [certified.THETA_LO_B, certified.THETA_HI_B],
             "e3_tol": E3_TOL,
             "e3_cloud_slack": E3_CLOUD_SLACK,
+            "e3_eps_tot": E3_EPS_TOT,
+            "e3_dist_budget": E3_DIST_BUDGET,
+            "e3_norm_gap_max": E3_NORM_GAP_MAX,
             "cloud_polish_keep_tol": CLOUD_KEEP_TOL,
             "cloud_dedup": 5e-3,
             "e4_theta_tol": E4_THETA_TOL,
@@ -144,18 +152,20 @@ def main():
     log("E3: sound margin referees + diagnostic")
     coeffs = trefoil_coeffs()
     cloud = stability.zero_cloud(coeffs, keep_tol=CLOUD_KEEP_TOL)
+    # round-5 re-audit: normalize ONCE and use the SAME array for both the
+    # residual certificate and the distance selector, so the §3 chain
+    # (corollary + float-distance lemma) refers to one set of points
+    cloud = cloud / np.linalg.norm(cloud, axis=1, keepdims=True)
     p = stability.poly_scaled(coeffs)
     d1p, d2p = stability.poly_partials(p)
     th_lo_enc, th_hi_enc = enc["theta_star"]
     g_lower = w2["G_lower"]
-    # §3 corollary: certified residual-to-distance bound for the ACTUAL
-    # committed cloud — the filter threshold is only a nearest-float
-    # criterion, so the run re-evaluates an outward-safe max residual at
-    # the exactly-normalized cloud points in high-precision Decimal and
-    # feeds THAT into the corollary (Sol re-audit)
-    max_residual_upper = certified.cloud_residual_upper(cloud)
+    max_residual_upper, norm_gap_upper = certified.cloud_residual_upper(cloud)
     cloud_err = certified.cloud_error_bound(max_residual_upper, w2)
-    cloud_membership_valid = bool(cloud_err <= E3_CLOUD_SLACK)
+    cloud_membership_valid = bool(
+        cloud_err + E3_DIST_BUDGET <= E3_CLOUD_SLACK
+        and norm_gap_upper <= E3_NORM_GAP_MAX
+    )
 
     # shared sphere sample sweep
     sample_rows, sample_thetas, sample_f, sample_sig = [], [], [], []
@@ -177,7 +187,9 @@ def main():
     sample_thetas = np.array(sample_thetas)
     sample_f = np.array(sample_f)
     sample_sig = np.array(sample_sig)
-    cloud_dists = stability.geodesic_dists(np.array(sample_rows), cloud)
+    sample_arr = np.array(sample_rows)
+    sample_arr = sample_arr / np.linalg.norm(sample_arr, axis=1, keepdims=True)
+    cloud_dists = stability.geodesic_dists(sample_arr, cloud)
 
     e3_rows = []
     violations = 0
@@ -253,6 +265,7 @@ def main():
     results["E3"] = {
         "zero_cloud_points": int(cloud.shape[0]),
         "cloud_max_residual_upper": max_residual_upper,
+        "cloud_norm_gap_upper": norm_gap_upper,
         "cloud_residual_precision_digits": 50,
         "cloud_error_certified": cloud_err,
         "cloud_membership_valid": cloud_membership_valid,

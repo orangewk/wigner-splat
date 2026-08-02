@@ -93,14 +93,18 @@ def test_w3_transversality_one_sided_on_samples():
     (the 2026-08-02 review fixed a /4 coefficient error)."""
     enc = certified.enclosures()
     w2 = certified.w2_constants(enc)
-    slack = 1e-8
+    slack = 1e-6  # declared round-5 value
+    dist_budget = 2e-7
     keep_tol = 1e-10
-    assert certified.cloud_error_bound(keep_tol, w2) <= slack
     rho = 0.08
     s_cert = certified.sigma_cert(rho, enc)
     assert s_cert > 0.0
     coeffs = _trefoil()
     cloud = stability.zero_cloud(coeffs, n_theta=24, n_phase=16, keep_tol=keep_tol)
+    cloud = cloud / np.linalg.norm(cloud, axis=1, keepdims=True)
+    resid_upper, norm_gap = certified.cloud_residual_upper(cloud)
+    assert certified.cloud_error_bound(resid_upper, w2) + dist_budget <= slack
+    assert norm_gap <= 1e-15
     p = stability.poly_scaled(coeffs)
     d1p, d2p = stability.poly_partials(p)
     rows, sigs = [], []
@@ -206,23 +210,62 @@ def test_fidelity_bound_is_outward():
         assert Fraction(fb) >= (1 - Fraction(eps) ** 2 / 2) ** 2
 
 
-def test_cloud_residual_upper_bounds_the_committed_cloud():
-    """The recorded certificate must upper-bound float-evaluated
-    residuals at the normalized cloud points and stay within the slack
-    chain of the §3 corollary."""
+def test_cloud_error_chain_smoke_reduced_cloud():
+    """Fast smoke of the §3 chain on a REDUCED cloud (the production-
+    parameter certificate is pinned by the slow test below)."""
     enc = certified.enclosures()
     w2 = certified.w2_constants(enc)
     cloud = stability.zero_cloud(_trefoil(), n_theta=16, n_phase=8)
     assert cloud.shape[0] > 5
-    upper = certified.cloud_residual_upper(cloud)
-    p = stability.poly_scaled(_trefoil())
+    cloud = cloud / np.linalg.norm(cloud, axis=1, keepdims=True)
+    upper, norm_gap = certified.cloud_residual_upper(cloud)
+    assert norm_gap <= 1e-15
+    assert certified.cloud_error_bound(upper, w2) + 2e-7 <= 1e-6
+
+
+def _independent_residual(row, prec=60):
+    """Independent high-precision referee for |f_T| at the exact
+    normalization of a float row: different operation ordering and
+    precision from certified.cloud_residual_upper."""
+    from decimal import Decimal, localcontext
+
+    with localcontext() as ctx:
+        ctx.prec = prec
+        x1, y1, x2, y2 = (Decimal.from_float(float(v)) for v in row)
+        n2 = x1 * x1 + y1 * y1 + x2 * x2 + y2 * y2
+        # normalize INSIDE the polynomial instead of per coordinate:
+        # f(q) = (a w1^2 + b w2^3 evaluated at raw w) scaled by
+        # 1/n^2 and 1/n^3 per term, n = sqrt(n2)
+        a = (Decimal(8) / Decimal(25)).sqrt()
+        b = (Decimal(3) / Decimal(50)).sqrt()
+        s1r = x1 * x1 - y1 * y1
+        s1i = 2 * x1 * y1
+        s2r = x2 * x2 - y2 * y2
+        s2i = 2 * x2 * y2
+        c3r = s2r * x2 - s2i * y2
+        c3i = s2r * y2 + s2i * x2
+        n = n2.sqrt()
+        n3 = n2 * n
+        fr = a * s1r / n2 + b * c3r / n3
+        fi = a * s1i / n2 + b * c3i / n3
+        return (fr * fr + fi * fi).sqrt()
+
+
+@pytest.mark.slow
+def test_cloud_residual_certificate_on_production_cloud():
+    """Round-5 finding: the certificate must be pinned on the SAME cloud
+    path run.py uses (default zero_cloud parameters, normalized once),
+    refereed by an independent higher-precision evaluation with NO
+    additive allowance."""
+    from decimal import Decimal
+
+    cloud = stability.zero_cloud(_trefoil())  # production defaults
+    cloud = cloud / np.linalg.norm(cloud, axis=1, keepdims=True)
+    upper, norm_gap = certified.cloud_residual_upper(cloud)
+    assert norm_gap <= 1e-15
+    upper_dec = Decimal.from_float(upper)
     for row in cloud:
-        w1 = complex(row[0], row[1])
-        w2c = complex(row[2], row[3])
-        n = math.sqrt(abs(w1) ** 2 + abs(w2c) ** 2)
-        resid = abs(complex(stability.poly_eval(p, w1 / n, w2c / n)))
-        assert resid <= upper + 1e-13
-    assert certified.cloud_error_bound(upper, w2) <= 1e-8
+        assert _independent_residual(row) <= upper_dec
 
 
 def test_claim_registry_parses_all_declared_ids():

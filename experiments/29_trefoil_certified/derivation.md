@@ -191,12 +191,40 @@ below `|f_T|`), and W2's distance decomposition gives
 dist(q, L_1(T)) <= r0 * ( 1/lam_B + pi / (sqrt(kap_B) G) ).
 ```
 
-Every polished cloud point has residual below the declared keep
-tolerance, so its true distance to the link is certified below
-`cloud_err := keep_tol * (1/lam_B + pi/(sqrt(kap_B) G_lower))`, and a
-sample within cloud distance `rho - cloud_err` of the cloud certainly
-lies in `U_rho`. The run records `cloud_err` and checks
-`cloud_err <= tol_cloud` before using the cloud-inside family. ∎
+The run evaluates an outward-safe maximum residual over the **actual
+committed cloud** (high-precision Decimal at exactly normalized points)
+and feeds that value — not the filter threshold — into this bound,
+recording both in the artifact. ∎
+
+**Lemma (float-distance budget; added in the round-5 re-audit to tie
+the certificate points to the distance selector).** For `x in [0, 1]`
+and `eps in [0, 1]`,
+
+```
+arccos( x (1 - eps) ) <= arccos(x) + sqrt(3 eps).
+```
+
+Proof: with `d = arccos(x)` and `delta = sqrt(3 eps)`, `cos(d + delta)
+<= cos d cos delta` (both angles in `[0, pi]`) and `cos delta <= 1 -
+3 eps/2 + 3 eps^2/8 <= 1 - eps`, so `cos(d + delta) <= x (1 - eps)`;
+monotonicity of `cos` gives the claim. ∎
+
+Consequently, when the selector computes `acos(p . c)` on float rows
+`p` (sphere samples) and `c` (the once-normalized cloud, the **same
+array** whose exact normalizations carry the residual certificate), the
+true geodesic distance to the certified point exceeds the computed one
+by at most `dist_budget := sqrt(3 eps_tot)`, where `eps_tot` is a
+declared relative budget covering the unit-norm defects of `p` and `c`
+(a few ulps each) and the float dot/acos rounding — the run declares
+`eps_tot = 1e-14`, giving `dist_budget < 2e-7`, and gates the
+cloud-inside family on
+
+```
+cloud_err + dist_budget <= tol_cloud        (tol_cloud declared),
+```
+
+with the selector using `rho - tol_cloud`. Membership then follows:
+`dist(p_hat, L) <= acos(p . c) + dist_budget + cloud_err <= rho`. ∎
 
 ## 4. Certified transversality
 
@@ -365,12 +393,15 @@ the E1 rational enclosures and combined by the monotone-factor rules of
   - (a) clearance, sound subset: every sphere sample with
     `|theta - theta*| >= rho` certainly lies outside `int(U_rho)`
     (`dist >= |Delta theta|`); check `|f_T| >= m_cert(rho) - tol` there.
-  - (b) transversality, sound subsets: (i) samples within cloud distance
-    `rho - tol_cloud` of the polished zero cloud certainly lie in
-    `U_rho`, **provided** the cloud-error certificate of §3's corollary
-    is established first (`cloud_err <= tol_cloud`, computed from the
-    polish keep tolerance and the certified W2 constants and recorded
-    in the artifact); (ii) targeted phase-normal samples on the
+  - (b) transversality, sound subsets: (i) samples within computed
+    cloud distance `rho - tol_cloud` of the **once-normalized** polished
+    zero cloud certainly lie in `U_rho`, **provided** the full §3 chain
+    is established first: the residual certificate is evaluated on the
+    exact normalizations of the same normalized array the distance
+    selector uses, and the gate is `cloud_err + dist_budget <=
+    tol_cloud` with the float-distance budget of §3's lemma (round-5
+    revision: `tol_cloud = 1e-6`, `eps_tot = 1e-14`; all recorded in
+    the artifact); (ii) targeted phase-normal samples on the
     `theta*` torus with `|Delta theta| + |psi| / G_lower <= rho`
     (membership by W2's distance decomposition, with `G_lower <= G`
     only loosening it). Check `sigma_2 >= sigma_cert(rho) - tol` on
