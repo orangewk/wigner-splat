@@ -40,6 +40,8 @@
     "delta_break": 0.3,
     "direction": "kernel(t0=0.392699,a=0.000000,b=0.000000)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 2.7281637510750976
@@ -66,6 +68,8 @@
     "delta_break": 0.219375,
     "direction": "kernel(t0=0.392699,a=0.000000,b=1.570796)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 1.994969742973665
@@ -86,6 +90,8 @@
     "delta_break": 0.43437499999999996,
     "direction": "kernel(t0=0.392699,a=1.570796,b=0.000000)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 3.9501537645774847
@@ -112,6 +118,8 @@
     "delta_break": 0.3,
     "direction": "kernel(t0=0.392699,a=1.570796,b=1.570796)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 2.7281637510750976
@@ -138,6 +146,8 @@
     "delta_break": 0.25875000000000004,
     "direction": "kernel(t0=1.178097,a=0.000000,b=0.000000)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 2.353041235302272
@@ -164,6 +174,8 @@
     "delta_break": 0.38,
     "direction": "kernel(t0=1.178097,a=0.000000,b=1.570796)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 3.4556740846951235
@@ -184,6 +196,8 @@
     "delta_break": 0.43437499999999996,
     "direction": "kernel(t0=1.178097,a=1.570796,b=0.000000)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 3.9501537645774847
@@ -210,6 +224,8 @@
     "delta_break": 0.2,
     "direction": "kernel(t0=1.178097,a=1.570796,b=1.570796)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 1.818775834050065
@@ -236,6 +252,8 @@
     "delta_break": 1.09,
     "direction": "random(137028,0)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 9.912328295572856
@@ -262,6 +280,8 @@
     "delta_break": 0.43875,
     "direction": "random(137028,1)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 3.98993948594733
@@ -288,6 +308,8 @@
     "delta_break": 1.04,
     "direction": "random(137028,2)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 9.457634337060338
@@ -314,6 +336,8 @@
     "delta_break": 1.31875,
     "direction": "random(137028,3)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 11.992553155767617
@@ -340,6 +364,8 @@
     "delta_break": 0.894375,
     "direction": "random(137028,4)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 8.133338182892635
@@ -360,6 +386,8 @@
     "delta_break": 1.1875,
     "direction": "random(137028,5)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 10.798981514672262
@@ -386,6 +414,8 @@
     "delta_break": 1.259375,
     "direction": "random(137028,6)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 11.452604080034002
@@ -406,6 +436,8 @@
     "delta_break": 1.0818750000000001,
     "direction": "random(137028,7)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 9.838440527314571
@@ -426,6 +458,8 @@
     "delta_break": 1.256875,
     "direction": "random(137028,8)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 11.429869382108377
@@ -452,6 +486,8 @@
     "delta_break": 0.43562500000000004,
     "direction": "random(137028,9)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 3.9615211135402983
@@ -478,6 +514,8 @@
     "delta_break": 0.23812499999999998,
     "direction": "random(137028,10)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 2.1654799774158584
@@ -498,6 +536,8 @@
     "delta_break": 1.108125,
     "direction": "random(137028,11)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 10.077154855533642
@@ -524,6 +564,8 @@
     "delta_break": 0.65375,
     "direction": "random(137028,12)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 5.94512350755115
@@ -544,6 +586,8 @@
     "delta_break": 1.1781249999999999,
     "direction": "random(137028,13)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 10.713726397451163
@@ -570,6 +614,8 @@
     "delta_break": 0.39937500000000004,
     "direction": "random(137028,14)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 3.631867993618724
@@ -596,6 +642,8 @@
     "delta_break": 0.935625,
     "direction": "random(137028,15)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 8.508460698665461
@@ -616,6 +664,8 @@
     "delta_break": 1.35,
     "direction": "random(137028,16)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 12.276736879837939
@@ -636,6 +686,8 @@
     "delta_break": 1.203125,
     "direction": "random(137028,17)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 10.941073376707422
@@ -656,6 +708,8 @@
     "delta_break": 1.27375,
     "direction": "random(137028,18)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 11.583328593106351
@@ -682,6 +736,8 @@
     "delta_break": 0.349375,
     "direction": "random(137028,19)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 3.177174035106207
@@ -708,6 +764,8 @@
     "delta_break": 0.870625,
     "direction": "random(137028,20)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 7.917358552599189
@@ -734,6 +792,8 @@
     "delta_break": 0.35687499999999994,
     "direction": "random(137028,21)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 3.2453781288830843
@@ -754,6 +814,8 @@
     "delta_break": 1.2668750000000002,
     "direction": "random(137028,22)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 11.520808173810883
@@ -780,6 +842,8 @@
     "delta_break": 0.98,
     "direction": "random(137028,23)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 8.912001586845319
@@ -800,6 +864,8 @@
     "delta_break": 0.744375,
     "direction": "exp25_endpoint(t11/coherent/K=2)",
     "failures": [],
+    "failures_below_eps0_cert": [],
+    "has_failure_below_eps0_cert": false,
     "lattice_max": 1.4000000000000001,
     "lattice_step": 0.02,
     "ratio_to_eps0_cert": 6.769256307355086
@@ -937,9 +1003,10 @@
   "e1_no_sample_below_proved_bounds": true,
   "e2_eps0_cert_positive": true,
   "e3_no_census_change_below_eps0_cert": true,
+  "e3_no_census_failure_below_eps0_cert": true,
   "e3_reference_census_is_hopf": true,
   "e4_measured_within_certified_bound": true,
   "e5_margins_recorded": true
  },
- "wall_seconds": 2132.511460542679
+ "wall_seconds": 1923.6335308551788
 }

@@ -74,6 +74,7 @@ Pre-declared verdicts (computed in run.py from the data):
 - E1 no grid sample below a proved bound (F1 gate): **True**
 - E3 reference census is the Hopf link: **True**
 - E3 no census change below eps0_cert (F3 gate): **True**
+- E3 no census failure below eps0_cert (F3 gate): **True**
 - E4 exp25 measured cell within the certified bound (F4 gate): **True**
 - E5 trefoil margins recorded: **True**
 
