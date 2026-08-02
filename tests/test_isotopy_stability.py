@@ -186,6 +186,100 @@ def test_trefoil_zero_cloud_and_margins_smoke():
     assert m_g > 0.0 and s_g > 0.0
 
 
+run_module = _load("run")
+
+
+def _summary(n_components, offdiag):
+    return {
+        "n_components": n_components,
+        "winding_multiset": [["1", "x"], ["x", "1"]][:n_components],
+        "linking_offdiag": offdiag,
+    }
+
+
+def test_reference_acceptance_requires_hopf_linking():
+    """Final-review blocking finding 1: a two-component but unlinked (or
+    linking-degenerate) reference census must NOT be accepted as Hopf."""
+    sig_unlinked = run_module.census_signature(_summary(2, [0]))
+    sig_hopf_pos = run_module.census_signature(_summary(2, [1]))
+    sig_hopf_neg = run_module.census_signature(_summary(2, [-1]))
+    sig_failed = run_module.census_signature({"census_failed": "x"})
+    assert sig_unlinked != run_module.HOPF_SIGNATURE
+    assert sig_hopf_pos == run_module.HOPF_SIGNATURE
+    assert sig_hopf_neg == run_module.HOPF_SIGNATURE
+    assert sig_failed is None and sig_failed != run_module.HOPF_SIGNATURE
+    assert run_module.census_signature(_summary(1, [])) != run_module.HOPF_SIGNATURE
+
+
+def test_census_failure_below_eps0_cert_reaches_the_f3_gate(monkeypatch):
+    """Final-review blocking finding 2: a census failure below eps0_cert is
+    a census defect where S3 guarantees constancy — it must fail the F3
+    gate, not be silently skipped."""
+    c = np.zeros((2, 2), dtype=complex)
+    c[1, 1] = 1.0
+    rng = np.random.default_rng(1)
+    v = stability.unit_orthogonal(
+        rng.normal(size=(4, 4)) + 1j * rng.normal(size=(4, 4)), c
+    )
+    ref_sig = run_module.HOPF_SIGNATURE
+    eps0_cert = 0.11
+
+    monkeypatch.setattr(
+        run_module, "census_of_coeffs", lambda coeffs: {"census_failed": "synthetic"}
+    )
+    entry = run_module.scan_direction("synthetic", v, c, ref_sig, eps0_cert)
+    assert entry["delta_break"] is None
+    assert entry["failures"]  # every lattice point failed
+    assert entry["has_failure_below_eps0_cert"]
+    breaks_ok, failures_ok = run_module.e3_gate([entry])
+    assert breaks_ok and not failures_ok  # F3 must fire on failures alone
+
+    # failures only above eps0_cert do not fire the failure arm
+    calls = {"n": 0}
+
+    def fail_high(coeffs):
+        calls["n"] += 1
+        delta = run_module.LATTICE_STEP * calls["n"]
+        if delta < eps0_cert:
+            return _summary(2, [1])
+        return {"census_failed": "synthetic-high"}
+
+    monkeypatch.setattr(run_module, "census_of_coeffs", fail_high)
+    entry2 = run_module.scan_direction("synthetic-high", v, c, ref_sig, eps0_cert)
+    assert entry2["failures"] and not entry2["has_failure_below_eps0_cert"]
+    _, failures_ok2 = run_module.e3_gate([entry2])
+    assert failures_ok2
+
+
+def test_scan_detects_change_and_bisects(monkeypatch):
+    """First-change semantics referee on a synthetic census: change appears
+    at a known delta; scan must bracket and bisect to it."""
+    c = np.zeros((2, 2), dtype=complex)
+    c[1, 1] = 1.0
+    rng = np.random.default_rng(2)
+    v = stability.unit_orthogonal(
+        rng.normal(size=(4, 4)) + 1j * rng.normal(size=(4, 4)), c
+    )
+    true_break = 0.273
+
+    def synthetic(coeffs):
+        # recover delta from the overlap with the target
+        t = stability.pad_to(c, coeffs.shape)
+        overlap = abs(complex(np.vdot(t, coeffs)))
+        delta = math.sqrt(max(0.0, 2.0 * (1.0 - overlap)))
+        if delta < true_break:
+            return _summary(2, [1])
+        return _summary(2, [0])
+
+    monkeypatch.setattr(run_module, "census_of_coeffs", synthetic)
+    entry = run_module.scan_direction(
+        "synthetic-break", v, c, run_module.HOPF_SIGNATURE, 0.11
+    )
+    assert entry["delta_break"] is not None
+    assert abs(entry["delta_break"] - true_break) <= run_module.BISECT_TOL + 1e-9
+    assert not entry["breaks_below_eps0_cert"]
+
+
 @pytest.mark.slow
 def test_census_reference_is_hopf():
     """The |1,1> census on the standard grid has the Hopf signature."""

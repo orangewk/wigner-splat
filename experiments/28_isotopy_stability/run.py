@@ -126,6 +126,24 @@ def census_signature(summary):
     )
 
 
+# The exact Hopf signature the E3 reference census must reproduce before any
+# probe comparison is meaningful: two components with |linking| = 1
+# (derivation.md E3/F3; components-only acceptance was a blocking finding of
+# the 2026-08-02 final review).
+HOPF_SIGNATURE = (2, (1,))
+
+
+def e3_gate(directions):
+    """F3 gate inputs: no census change below eps0_cert AND no census
+    failure below eps0_cert. A failure below the certified radius is a
+    census defect exactly where S3 guarantees constancy — blocking per
+    derivation.md §6 (and the exp25 failure->indeterminate discipline);
+    silently skipping it was a blocking finding of the final review."""
+    breaks_ok = not any(d["breaks_below_eps0_cert"] for d in directions)
+    failures_ok = not any(d["has_failure_below_eps0_cert"] for d in directions)
+    return breaks_ok, failures_ok
+
+
 def census_of_coeffs(coeffs):
     try:
         res = census(fock_stellar(coeffs), **GRID)
@@ -174,7 +192,10 @@ def scan_direction(label, v, target_c, ref_sig, eps0_cert):
                     )
                 )
                 msig = census_signature(msum)
-                if msig is None or msig == ref_sig:
+                if msig is None:
+                    entry["failures"].append(mid)
+                    lo = mid
+                elif msig == ref_sig:
                     lo = mid
                 else:
                     hi = mid
@@ -190,6 +211,12 @@ def scan_direction(label, v, target_c, ref_sig, eps0_cert):
     else:
         entry["ratio_to_eps0_cert"] = None
         entry["breaks_below_eps0_cert"] = False
+    entry["failures_below_eps0_cert"] = [
+        d for d in entry["failures"] if d < eps0_cert
+    ]
+    entry["has_failure_below_eps0_cert"] = bool(
+        entry["failures_below_eps0_cert"]
+    )
     return entry
 
 
@@ -254,12 +281,11 @@ def main():
     ref = census_of_coeffs(target_c)
     results["E3"] = {"reference_census": ref, "directions": []}
     ref_sig = census_signature(ref)
-    if ref_sig is None or ref["n_components"] != 2:
+    verdicts["e3_reference_census_is_hopf"] = bool(ref_sig == HOPF_SIGNATURE)
+    if not verdicts["e3_reference_census_is_hopf"]:
         verdicts["halted_at"] = "F3"
-        verdicts["e3_reference_census_is_hopf"] = False
         finish(results, t0)
         return
-    verdicts["e3_reference_census_is_hopf"] = True
 
     directions = (
         stability.kernel_direction_list(target_c)
@@ -281,10 +307,10 @@ def main():
         if d["delta_break"] is not None
     ]
     results["E3"]["min_delta_break"] = min(breaks) if breaks else None
-    verdicts["e3_no_census_change_below_eps0_cert"] = bool(
-        not any(d["breaks_below_eps0_cert"] for d in results["E3"]["directions"])
-    )
-    if not verdicts["e3_no_census_change_below_eps0_cert"]:
+    breaks_ok, failures_ok = e3_gate(results["E3"]["directions"])
+    verdicts["e3_no_census_change_below_eps0_cert"] = breaks_ok
+    verdicts["e3_no_census_failure_below_eps0_cert"] = failures_ok
+    if not (breaks_ok and failures_ok):
         verdicts["halted_at"] = "F3"
         finish(results, t0)
         return

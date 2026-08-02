@@ -170,6 +170,10 @@ def render(results: dict) -> str:
             "E3 no census change below eps0_cert (F3 gate)",
         ),
         (
+            "e3_no_census_failure_below_eps0_cert",
+            "E3 no census failure below eps0_cert (F3 gate)",
+        ),
+        (
             "e4_measured_within_certified_bound",
             "E4 exp25 measured cell within the certified bound (F4 gate)",
         ),
