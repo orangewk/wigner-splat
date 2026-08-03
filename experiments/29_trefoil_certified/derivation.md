@@ -468,4 +468,8 @@ bound from below on the breaking radius, never an estimate of it. All
 `D_G` statements quantify over the unbounded exp24 dictionary — which
 contains exp25's operational `D_G^b` — so W5 also bounds every
 `D_G^b` cell (dictionary alignment beyond this containment stays Gate
-T′ (c)).
+T′ (c)). (Resolution note, 2026-08-03: Gate T′ sub-goal (c) was done by
+exp30 — `experiments/30_dictionary_alignment/` — and Gate T′ was closed
+by orange's decision; see the research-log closure entry and issue
+#137. The withholding condition of the previous sentence's scope rule
+is now met; nothing in this memo changes.)
