@@ -2133,13 +2133,23 @@ closure entry below), and no novelty is claimed (Gate S′ open).
 
 Gate T′ (the topological K–ε program's stability-and-alignment gate on
 issue #137) is **closed** by orange's decision of 2026-08-03, adopting
-the runner's assessment; the public record is the issue #137 closure
-comment. Basis, by pointer only: sub-goal (a) via exp28 and exp29 (with
-the exp24 P5/P6 promotions merged through their own reviewed changes),
-and sub-goal (c) via exp30 — each slice passed report-only independent
-review before merging (PR #151/#157/#162 histories). Sub-goal (b)
-(link-at-infinity) was judged **not required** for the gate and is
-recorded as an optional future topic, unstarted.
+the runner's assessment; the canonical public record is issue #137
+comment 5161539936 (the "orange decision 記録" comment of 2026-08-03,
+posted before this entry's review concluded — the round-1 review of PR
+#165 found this entry pointing at a closure comment that did not yet
+exist, and the decision record was created first so this pointer names
+an existing primary record). Basis, by pointer only: sub-goal (a) via
+exp28 and exp29 (with the exp24 P5/P6 promotions merged through their
+own reviewed changes), and sub-goal (c) via exp30. Review timelines,
+kept exact (same round-1 finding): exp29's PR #157 and exp30's PR #162
+passed report-only independent review **before** merging (round-7 and
+round-2 PASS respectively); exp28's PR #151 had its final pre-merge
+review return blocking findings, was merged after those fixes under the
+GO protocol recorded on issue #137, and the fixed head's PASS was
+recorded **post-merge** (PR #151 audit comment 5161190177 of
+2026-08-03). Sub-goal (b) (link-at-infinity) was judged **not
+required** for the gate and is recorded as an optional future topic,
+unstarted.
 
 Effect: the program-level certified-lower-bound language that the
 exp28/exp29/exp30 scope rules withheld "until Gate T′ closes" is now
