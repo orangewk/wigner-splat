@@ -433,6 +433,31 @@ def test_exp30_status_not_restated_outside_claim_table():
             )
 
 
+def test_exp31_classifications_not_restated_in_research_log():
+    """exp31 (Gate S' survey): per-topic prior-art classifications live
+    only in experiments/31_prior_art_survey/findings.md §4; the research
+    log may not restate them."""
+    text = _normalize(
+        (ROOT / "docs" / "research-log.md").read_text(encoding="utf-8")
+    )
+    found = re.search(
+        r"\bt[1-6]\b[^\n]{0,80}(class\b|classified|prior art|adjacent|"
+        r"not found)",
+        text,
+    )
+    assert not found, (
+        "docs/research-log.md restates an exp31 classification outside "
+        f"the authoring location: {found.group(0)!r}"
+    )
+    findings = EXPERIMENTS / "31_prior_art_survey" / "findings.md"
+    table_rows = [
+        line
+        for line in findings.read_text(encoding="utf-8").splitlines()
+        if re.match(r"\| T[1-6] \|", line)
+    ]
+    assert len(table_rows) == 6, "findings.md §4 must carry all six topic rows"
+
+
 def test_exp24_status_not_restated_in_research_log():
     """Finding 3 of the PR #145 review (deferred to this line, applied with
     the 2026-08-02 P5 promotion): exp24's P1-P6 statuses live only in its

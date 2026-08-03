@@ -2163,3 +2163,31 @@ reviewed change with its own build-time claim checker, not part of
 this closure. Dated resolution notes were added at the withholding
 sentences (exp28/exp29/exp30 memos and the two log entries above);
 each states explicitly that nothing else in its memo changes.
+
+## 2026-08-03 — Experiment 31 / issue #137 Gate S′, prior-art survey
+
+Directory: `experiments/31_prior_art_survey/`. Protocol (`protocol.md`)
+committed **before** any search was executed: surveyed claim topics (by
+pointer to the claim tables), literature families, declared query
+families with a stopping rule, the classification scheme, epistemic
+rules (live retrieval only; scope-bounded negatives; retrieval dates on
+citations), and integrity conditions. Execution and results live only
+in `findings.md`: its retrieval log records every executed query
+verbatim, every triaged item with locator and date, and dismissals with
+reasons; its §4 table is the sole authoring location for the per-topic
+classifications, which this log does not restate.
+
+Execution notes: the environment's network policy blocked direct page
+fetches (the egress proxy denied CONNECT to arXiv and related hosts),
+so retrieval ran through the search engine's rendered content only —
+recorded in findings.md §1 as a standing limitation, with a
+primary-source re-read recommended before any outward-facing use. No
+integrity condition fired; the citation-chase stayed within the
+declared families.
+
+Owner/decisions: adopted on orange's direction of 2026-08-03 ("proceed
+with the natural next move") following the Gate T′ closure. Gate S′
+close and any language decision are orange's, on the survey report,
+after report-only independent review. The repo-wide prohibition on
+novelty claims remains in force; this survey neither uses nor unlocks
+any such language.
