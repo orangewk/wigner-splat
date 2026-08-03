@@ -458,6 +458,38 @@ def test_exp31_classifications_not_restated_in_research_log():
     assert len(table_rows) == 6, "findings.md §4 must carry all six topic rows"
 
 
+def test_exp31_classifications_not_restated_outside_findings_table():
+    """Round 1 of the PR #168 review (B2): the §4 table is the sole
+    authoring location *within findings.md too*. Aggregate restatements
+    ("no topic is ...", "every topic ..."), per-topic classification
+    prose outside the table rows, and G3-outcome prose are barred on
+    every non-table line of findings.md."""
+    findings = EXPERIMENTS / "31_prior_art_survey" / "findings.md"
+    non_table = [
+        line
+        for line in findings.read_text(encoding="utf-8").splitlines()
+        if not re.match(r"\| (T[1-6]|Topic|---) \|", line)
+    ]
+    text = _normalize("\n".join(non_table))
+    patterns = (
+        r"\bno topic is\b",
+        r"(all|every)[^\n]{0,30}topics?[^\n]{0,60}(classif|adjacent|"
+        r"neighbor)",
+        r"\bt[1-6]\b[^\n]{0,80}(classif|adjacent\b|prior[- ]art|"
+        r"not found)",
+        r"\bg3\b[^\n]{0,50}\b(not|never)\b",
+        r"(did not find|found no)[^\n]{0,30}prior[- ]art",
+        r"prior[- ]art[^\n]{0,50}\bnot found\b",
+        r"\bt[1-6]\b *\|",
+    )
+    for pattern in patterns:
+        found = re.search(pattern, text)
+        assert not found, (
+            "findings.md restates classification content outside the §4 "
+            f"table rows: {found.group(0)!r}"
+        )
+
+
 def test_exp24_status_not_restated_in_research_log():
     """Finding 3 of the PR #145 review (deferred to this line, applied with
     the 2026-08-02 P5 promotion): exp24's P1-P6 statuses live only in its

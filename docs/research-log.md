@@ -2185,6 +2185,18 @@ primary-source re-read recommended before any outward-facing use. No
 integrity condition fired; the citation-chase stayed within the
 declared families.
 
+*Correction (2026-08-03, round 1 of the PR #168 review):* the
+"standing limitation" framing above understated the defect, and the
+"no integrity condition fired" sentence is withdrawn. Protocol §0's
+retrieval condition is not met by engine-rendered content, so
+findings.md §1 now carries a G1 incident record instead: all content
+notes are engine-tier and provisional, the §4 rows are provisional
+pending a primary-source re-read of every load-bearing citation, and
+that re-read is blocked on an environment/network-policy decision
+(orange's, pending). Round 1 also itemized previously grouped
+citations with per-item locators and revised one row's load-bearing
+basis; details live in findings.md, not here.
+
 Owner/decisions: adopted on orange's direction of 2026-08-03 ("proceed
 with the natural next move") following the Gate T′ closure. Gate S′
 close and any language decision are orange's, on the survey report,
