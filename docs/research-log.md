@@ -2071,7 +2071,8 @@ Scope: two modes, pure states, census sphere `r = 1`; "certified" refers
 throughout to the exp28 `eps0_cert` semantics (machine-evaluable lower
 bounds traced to exact enclosures with a declared float slop), not to
 the K_ε note's certified-lower-bound language, which stays unavailable
-until Gate T′ closes; the Gaussian dictionary statements quantify over
+until Gate T′ closes (resolved 2026-08-03: closed — see the closure
+entry below); the Gaussian dictionary statements quantify over
 the unbounded exp24 `D_G`, which contains exp25's operational `D_G^b`;
 no novelty claims (Gate S′ open).
 
@@ -2125,5 +2126,30 @@ Scope: two modes, pure states; definitions and transfer only — nothing
 here extends the note's one-mode certified theorems to two modes (the
 note's §8 multimode extension stays open), no claim is made about the
 note's row D1 quantity, the note's certified-lower-bound language stays
-unavailable until Gate T′ closes, and no novelty is claimed (Gate S′
-open).
+unavailable until Gate T′ closes (resolved 2026-08-03: closed — see the
+closure entry below), and no novelty is claimed (Gate S′ open).
+
+## 2026-08-03 — issue #137 Gate T′ closed (governance record)
+
+Gate T′ (the topological K–ε program's stability-and-alignment gate on
+issue #137) is **closed** by orange's decision of 2026-08-03, adopting
+the runner's assessment; the public record is the issue #137 closure
+comment. Basis, by pointer only: sub-goal (a) via exp28 and exp29 (with
+the exp24 P5/P6 promotions merged through their own reviewed changes),
+and sub-goal (c) via exp30 — each slice passed report-only independent
+review before merging (PR #151/#157/#162 histories). Sub-goal (b)
+(link-at-infinity) was judged **not required** for the gate and is
+recorded as an optional future topic, unstarted.
+
+Effect: the program-level certified-lower-bound language that the
+exp28/exp29/exp30 scope rules withheld "until Gate T′ closes" is now
+available. Its scope is exactly what those experiments' claim tables
+author (statuses unchanged by this record) together with the
+note-convention thresholds recorded in exp30's committed artifact;
+this record adds no claim, promotes no status, and edits no claim
+table. The K_ε note itself (`docs/kepsilon-note/note.md`) is untouched
+— extending its declaration table to two-mode rows would be a separate
+reviewed change with its own build-time claim checker, not part of
+this closure. Dated resolution notes were added at the withholding
+sentences (exp28/exp29/exp30 memos and the two log entries above);
+each states explicitly that nothing else in its memo changes.
