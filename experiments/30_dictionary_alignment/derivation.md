@@ -319,7 +319,15 @@ Declared constants: `SEEDS = range(64)`, `R_MAX = 0.8`,
   `(2n+1)/(2n+2) sigma^2 < sigma^2` makes the tail dominated by a
   geometric series), must bracket the closed form
   `prod_i (1 - sigma_i^2)^{-1/2}`: closed form in
-  `[partial, partial + tail]`.
+  `[partial, partial + tail]`. (Implementation note, 2026-08-02, after
+  the first run halted at F2: the comparisons are float-valued, and on
+  fully-converged small-sigma pairs the bracket endpoints coincide with
+  the closed form to machine precision, flipping direction by 1–2 ulp —
+  observed `<= 4.5e-16` relative, both sides. The comparisons therefore
+  carry a declared relative slack `E2_REL_SLACK = 1e-12` on each side:
+  four orders above the observed float noise, and far below any genuine
+  closed-form defect this referee is meant to catch, which would enter
+  at percent scale or worse.)
 - **E3 (committed-cell membership and descended bounds; gates F3).**
   From exp25's committed artifact: for every gaussian cell, rebuild
   each atom's `(A_k, b_k)` from `best_params` by exp25's own
@@ -336,9 +344,13 @@ Declared constants: `SEEDS = range(64)`, `R_MAX = 0.8`,
   `t11/gaussian/K=2`'s measured `F` (A3's contrast predicts it can
   approach 1; no bound is claimed there).
 - **E4 (exact conversions; gates F4).** In `Fraction` arithmetic:
-  round-trip identities `F(delta(F)) = F` on `EPS_GRID_E4` (interpreted
-  as exact rational `F` values) and `delta(F(delta)) = delta` on the
-  same grid as rational `delta^2` values; then the outward-rounded
+  round-trip identities `F(delta(F)) = F` on `EPS_GRID_E4` (implementation
+  note, added 2026-08-02 before any implementation ran: this leg runs on
+  the exact rational squares `(k/50)^2` as the `F` values, so both legs
+  stay in exact arithmetic — the square root of a non-square rational
+  has no exact representation, and an enclosure-based round trip would
+  verify only the enclosure) and `delta(F(delta)) = delta` on the
+  grid read as rational `delta^2` values; then the outward-rounded
   note-convention thresholds `eps_note` for exp28's and exp29's
   committed radii per A5's evaluation discipline, recorded in the
   artifact (rounded down) next to the committed fidelity bounds

@@ -1,0 +1,216 @@
+{
+ "E1": {
+  "degree_or_norm_defects": 0,
+  "max_A_norm": 0.8805536989614114,
+  "max_b_residual": 7.385278330912554e-16,
+  "max_state_mismatch": 2.968664154316754e-15,
+  "n_seeds": 64,
+  "sandwich_violations": 0
+ },
+ "E2": {
+  "bracket_failures": 0,
+  "cutoff": 80,
+  "max_rel_bracket_width": 0.009507946486922506,
+  "n_pairs": 36
+ },
+ "E3": {
+  "bound_checks": [
+   {
+    "bound": 0.9999280463960066,
+    "bound_source": "exp29",
+    "cell": "trefoil/gaussian/K=1",
+    "measured": 0.24404440313033016,
+    "within": true
+   },
+   {
+    "bound": 0.9999280463960066,
+    "bound_source": "exp29",
+    "cell": "trefoil/gaussian/K=2",
+    "measured": 0.6469093830634337,
+    "within": true
+   },
+   {
+    "bound": 0.9999280463960066,
+    "bound_source": "exp29",
+    "cell": "trefoil/coherent/K=1",
+    "measured": 0.1732291625425369,
+    "within": true
+   },
+   {
+    "bound": 0.9999280463960066,
+    "bound_source": "exp29",
+    "cell": "trefoil/coherent/K=2",
+    "measured": 0.364673407394257,
+    "within": true
+   },
+   {
+    "bound": 0.9879444571839013,
+    "bound_source": "exp28",
+    "cell": "t11/coherent/K=1",
+    "measured": 0.1353352832363908,
+    "within": true
+   },
+   {
+    "bound": 0.9879444571839013,
+    "bound_source": "exp28",
+    "cell": "t11/coherent/K=2",
+    "measured": 0.36787944115819404,
+    "within": true
+   }
+  ],
+  "bound_violations": 0,
+  "cells": [
+   {
+    "cell": "t11/gaussian/K=1",
+    "refit_gap": 0.0
+   },
+   {
+    "cell": "t11/gaussian/K=2",
+    "refit_gap": 9.43689570931383e-15
+   },
+   {
+    "cell": "t11/gaussian/K=3",
+    "refit_gap": 1.042499420123022e-13
+   },
+   {
+    "cell": "t11/gaussian/K=4",
+    "refit_gap": 2.3647750424515834e-14
+   },
+   {
+    "cell": "trefoil/gaussian/K=1",
+    "refit_gap": 2.7755575615628914e-17
+   },
+   {
+    "cell": "trefoil/gaussian/K=2",
+    "refit_gap": 2.3314683517128287e-15
+   },
+   {
+    "cell": "trefoil/gaussian/K=3",
+    "refit_gap": 1.1102230246251565e-16
+   },
+   {
+    "cell": "trefoil/gaussian/K=4",
+    "refit_gap": 1.965094753586527e-14
+   },
+   {
+    "cell": "trefoil/gaussian/K=5",
+    "refit_gap": 1.7763568394002505e-14
+   },
+   {
+    "cell": "trefoil/gaussian/K=6",
+    "refit_gap": 2.2426505097428162e-14
+   }
+  ],
+  "cutoff": 36,
+  "max_atom_A_norm": 0.707107026638283,
+  "max_fidelity_gap": 1.042499420123022e-13,
+  "membership_ok": true,
+  "n_cells_checked": 10,
+  "quad_norm_max": 0.98,
+  "t11_gaussian_k2_measured": 0.9998677862136094
+ },
+ "E4": {
+  "committed_bounds_outward": true,
+  "eps_note_t11": 0.01205554281609873,
+  "eps_note_trefoil": 7.195360399340255e-05,
+  "fidelity_bound_t11": 0.9879444571839013,
+  "fidelity_bound_trefoil": 0.9999280463960066,
+  "identity_failures": 0
+ },
+ "declared": {
+  "alpha_max": 1.0,
+  "cutoff_e1": 30,
+  "cutoff_e2": 80,
+  "e2_rel_slack": 1e-12,
+  "eps_grid_e4": "k/50, k=1..49",
+  "r_max": 0.8,
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58,
+   59,
+   60,
+   61,
+   62,
+   63
+  ],
+  "sigmas_e2": [
+   0.1,
+   0.3,
+   0.5,
+   0.7,
+   0.9,
+   0.95
+  ],
+  "tol_e1": 1e-09,
+  "tol_e3_f": 1e-06
+ },
+ "environment": {
+  "numpy": "2.4.6",
+  "platform": "Linux-6.18.5-x86_64-with-glibc2.39",
+  "python": "3.11.15"
+ },
+ "verdicts": {
+  "e1_normal_form_ok": true,
+  "e2_norm_bracket_ok": true,
+  "e3_cells_ok": true,
+  "e4_conversions_ok": true
+ },
+ "wall_seconds": 0.24581384658813477
+}

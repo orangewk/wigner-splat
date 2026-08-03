@@ -2074,3 +2074,60 @@ the K_ε note's certified-lower-bound language, which stays unavailable
 until Gate T′ closes; the Gaussian dictionary statements quantify over
 the unbounded exp24 `D_G`, which contains exp25's operational `D_G^b`;
 no novelty claims (Gate S′ open).
+
+## 2026-08-02 — Experiment 30 / issue #137 Gate T′ sub-goal (c), dictionary alignment
+
+Directory: `experiments/30_dictionary_alignment/`. Pre-declaration memo
+`derivation.md` (committed before any implementation existed) aligns the
+repo's two-mode dictionaries (exp24 §1; exp25's operational bounded
+family) with the K_ε note's restricted bounded common-squeezing
+dictionary (note §2.2, declaration rows D1–D2): it defines the two-mode
+tier ladder, derives the Gaussian stellar normal form with its physical
+translation (the two-mode form of the note's one-mode parameter
+translation), transfers the repo's certified two-mode fidelity gaps
+down the ladder by dictionary inclusion, isolates the common-quadratic
+division dichotomy (the common-squeezing tier cannot link at the small
+budget, so the exp28 constant transfers there uniformly, while the
+varying-quadratic tiers reach the Hopf target — the two-mode mirror of
+the note's common-squeezing mechanism, by topological rather than
+counting means), and fixes exact ε-convention conversions with outward
+evaluation discipline.
+
+Owner/decisions: adopted on orange's GO of 2026-08-02 for Gate T′
+sub-goal (c) under the standing blanket approval (recorded on issue
+#137); pre-declaration memo committed before implementation;
+implementation and run followed with no intermediate approval waits.
+Independent review of the slice is pending, and nothing here is
+accepted until it and orange's decision land.
+
+Pre-declared (experiments/30_dictionary_alignment/derivation.md):
+claims A0 through A5 and numerical blocks N1 through N4 with
+falsification gates F1 through F4. Claim statements and their epistemic
+status live only in that memo's §9 claim table (quoted verbatim into
+the README's generated block); this log restates neither. Evaluated
+numbers live only in `dictionary_alignment.json` and the block
+generated from it.
+
+Run notes: the first run halted at the F2 gate — the norm-bracket
+referee's float comparisons flipped by 1–2 ulp on fully-converged
+small-squeezing pairs; diagnosed as a referee-implementation float
+budget omission (not a defect of the norm closed form), fixed by a
+declared relative slack recorded with a dated note in the memo's E2
+declaration, and the run repeated cleanly with no gate firing.
+Referee tests (`tests/test_dictionary_alignment.py`) re-prove the
+Takagi reconstruction and the parameter-translation round trip, pin
+the gaussact coefficient generator against an independently coded
+Taylor recursion, re-prove the one-mode norm series identity in exact
+arithmetic, re-derive a committed exp25 cell from its stored parameters
+through exp25's own estimator (also pinning the committed census-z
+semantics), check the common-quadratic division identity pointwise, and
+verify the committed exp28/exp29 fidelity bounds sit outward of their
+exact forms; the claim-surface policy test scans this experiment's
+surfaces like the other issue-#137 experiments.
+
+Scope: two modes, pure states; definitions and transfer only — nothing
+here extends the note's one-mode certified theorems to two modes (the
+note's §8 multimode extension stays open), no claim is made about the
+note's row D1 quantity, the note's certified-lower-bound language stays
+unavailable until Gate T′ closes, and no novelty is claimed (Gate S′
+open).
