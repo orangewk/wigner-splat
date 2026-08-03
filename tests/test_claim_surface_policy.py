@@ -102,6 +102,7 @@ TOPO_DIRS = {
     "26_gauss_invariance": "gauss_invariance.json",
     "28_isotopy_stability": "isotopy_stability.json",
     "29_trefoil_certified": "trefoil_certified.json",
+    "30_dictionary_alignment": "dictionary_alignment.json",
 }
 
 
@@ -366,6 +367,70 @@ def test_exp29_status_not_restated_outside_claim_table():
             f"{name} restates an exp29 claim status outside the authoring "
             f"location: {found.group(0)!r}"
         )
+
+
+def test_exp30_status_not_restated_outside_claim_table():
+    """Same backstop as exp29's, for exp30: A0-A5 / N1-N4 statuses live
+    only in its derivation.md §9 claim table. Scanned: docs/research-log.md,
+    the exp30 README outside the generated block, the exp30 sources, and
+    derivation.md itself outside table rows."""
+    exp_dir = EXPERIMENTS / "30_dictionary_alignment"
+    module = _load_summary_module("30_dictionary_alignment")
+    readme = (exp_dir / "README.md").read_text(encoding="utf-8")
+    start = readme.find(module.BEGIN)
+    stop = readme.find(module.END)
+    assert start >= 0 and stop >= 0
+    derivation = (exp_dir / "derivation.md").read_text(encoding="utf-8")
+    outside_table = "\n".join(
+        line
+        for line in derivation.splitlines()
+        if not line.lstrip().startswith("|")
+    )
+    surfaces = {
+        "docs/research-log.md": (ROOT / "docs" / "research-log.md").read_text(
+            encoding="utf-8"
+        ),
+        "30_dictionary_alignment/README.md (outside block)": (
+            readme[:start] + readme[stop + len(module.END):]
+        ),
+        "30_dictionary_alignment/derivation.md (outside table rows)": outside_table,
+        "30_dictionary_alignment/run.py": (exp_dir / "run.py").read_text(
+            encoding="utf-8"
+        ),
+        "30_dictionary_alignment/alignment.py": (exp_dir / "alignment.py").read_text(
+            encoding="utf-8"
+        ),
+        "30_dictionary_alignment/summary_block.py": (
+            exp_dir / "summary_block.py"
+        ).read_text(encoding="utf-8"),
+    }
+    for name, text in surfaces.items():
+        found = re.search(
+            r"\b(a[0-5]|n[1-4])\b[^\n]{0,80}(proved|sketch)\b", _normalize(text)
+        )
+        assert not found, (
+            f"{name} restates an exp30 claim status outside the authoring "
+            f"location: {found.group(0)!r}"
+        )
+    # round-1 review of PR #162 (finding 3): status-word scans miss
+    # SEMANTIC copies of claim content. These are high-signal signatures
+    # of this memo's conclusions; they may appear only in derivation.md.
+    content_signatures = (
+        r"common[- ]quadratic[^\n]{0,120}(no linked pair|cannot link|"
+        r"divides out|transfers|uniformly)",
+        r"(certified|fidelity) (bound|gap)s?[^\n]{0,80}(descend|transfer)",
+        r"normal form[^\n]{0,80}(iff|exactly the pure gaussian)",
+    )
+    for name in (
+        "docs/research-log.md",
+        "30_dictionary_alignment/README.md (outside block)",
+    ):
+        for pat in content_signatures:
+            found = re.search(pat, _normalize(surfaces[name]))
+            assert not found, (
+                f"{name} carries a semantic copy of exp30 claim content: "
+                f"{found.group(0)!r}"
+            )
 
 
 def test_exp24_status_not_restated_in_research_log():
