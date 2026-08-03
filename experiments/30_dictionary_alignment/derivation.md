@@ -33,7 +33,10 @@ resulting inclusion ladder. Explicit non-claims, fixed here:
   machine referee.
 - Program-level "certified lower bound" language for the K–ε program
   remains withheld until orange closes Gate T′; this memo states
-  slice-local theorems only.
+  slice-local theorems only. (Resolution note, 2026-08-03: Gate T′ was
+  closed by orange's decision after this memo's review — see the
+  research-log closure entry and issue #137; the withholding condition
+  is now met, and this memo's claims are unchanged.)
 - Pure states only; no mixed-state, ess-sup-roof, or channel statement
   of any kind.
 

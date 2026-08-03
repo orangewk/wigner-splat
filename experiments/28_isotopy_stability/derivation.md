@@ -350,7 +350,10 @@ Epistemic discipline: "proved here" means proved in this pre-declaration
 memo and not yet independently reviewed; no certified-lower-bound
 language is used anywhere until Gate T′ closes (issue #137 scope rule —
 "certified" in E2/E4 qualifies only the internal `eps0_cert` semantics
-of §3, not a Gate-T′-level certified-lower-bound claim). Exp24's claim
+of §3, not a Gate-T′-level certified-lower-bound claim). (Resolution
+note, 2026-08-03: Gate T′ was closed by orange's decision — see the
+research-log closure entry and issue #137; the withholding condition is
+now met, and nothing in this memo changes.) Exp24's claim
 table is not edited by this experiment; any status promotion there (P5)
 is a separate reviewed change. `eps0_cert` values are bounds from below
 on `eps0`, itself a bound from below on the breaking radius — never
