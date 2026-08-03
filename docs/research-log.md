@@ -2078,20 +2078,16 @@ no novelty claims (Gate S′ open).
 ## 2026-08-02 — Experiment 30 / issue #137 Gate T′ sub-goal (c), dictionary alignment
 
 Directory: `experiments/30_dictionary_alignment/`. Pre-declaration memo
-`derivation.md` (committed before any implementation existed) aligns the
-repo's two-mode dictionaries (exp24 §1; exp25's operational bounded
-family) with the K_ε note's restricted bounded common-squeezing
-dictionary (note §2.2, declaration rows D1–D2): it defines the two-mode
-tier ladder, derives the Gaussian stellar normal form with its physical
-translation (the two-mode form of the note's one-mode parameter
-translation), transfers the repo's certified two-mode fidelity gaps
-down the ladder by dictionary inclusion, isolates the common-quadratic
-division dichotomy (the common-squeezing tier cannot link at the small
-budget, so the exp28 constant transfers there uniformly, while the
-varying-quadratic tiers reach the Hopf target — the two-mode mirror of
-the note's common-squeezing mechanism, by topological rather than
-counting means), and fixes exact ε-convention conversions with outward
-evaluation discipline.
+`derivation.md` (committed before any implementation existed). Subject:
+the alignment between the repo's two-mode dictionaries (exp24 §1;
+exp25's operational bounded family) and the K_ε note's restricted
+bounded common-squeezing dictionary (note §2.2, declaration rows
+D1–D2). The claim topics are the memo's §2–§6 section subjects; their
+statements, conclusions, and statuses live only in that memo (§9 claim
+table for status) and are not restated here — the round-1 review of PR
+#162 found this entry's first draft carrying a prose copy of the claim
+contents and it was cut to this pointer form (a claim-surface
+correction, no mathematical content change).
 
 Owner/decisions: adopted on orange's GO of 2026-08-02 for Gate T′
 sub-goal (c) under the standing blanket approval (recorded on issue

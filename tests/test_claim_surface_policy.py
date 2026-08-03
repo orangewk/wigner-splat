@@ -412,6 +412,25 @@ def test_exp30_status_not_restated_outside_claim_table():
             f"{name} restates an exp30 claim status outside the authoring "
             f"location: {found.group(0)!r}"
         )
+    # round-1 review of PR #162 (finding 3): status-word scans miss
+    # SEMANTIC copies of claim content. These are high-signal signatures
+    # of this memo's conclusions; they may appear only in derivation.md.
+    content_signatures = (
+        r"common[- ]quadratic[^\n]{0,120}(no linked pair|cannot link|"
+        r"divides out|transfers|uniformly)",
+        r"(certified|fidelity) (bound|gap)s?[^\n]{0,80}(descend|transfer)",
+        r"normal form[^\n]{0,80}(iff|exactly the pure gaussian)",
+    )
+    for name in (
+        "docs/research-log.md",
+        "30_dictionary_alignment/README.md (outside block)",
+    ):
+        for pat in content_signatures:
+            found = re.search(pat, _normalize(surfaces[name]))
+            assert not found, (
+                f"{name} carries a semantic copy of exp30 claim content: "
+                f"{found.group(0)!r}"
+            )
 
 
 def test_exp24_status_not_restated_in_research_log():

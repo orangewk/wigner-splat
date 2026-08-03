@@ -13,16 +13,11 @@ The subject is the alignment between the repo's two-mode dictionaries
 restricted bounded common-squeezing dictionary (note §2.2, rows D1–D2).
 What is claimed, and with what status, lives **only** in
 `derivation.md` §9's claim table (rows A0–A5 for the derivation, N1–N4
-for the run) — this README does not restate any of it. Structurally:
-the memo defines the two-mode tier ladder, proves the Gaussian stellar
-normal form with its physical translation, transfers the repo's
-certified fidelity gaps down the ladder, proves the common-quadratic
-division dichotomy, and fixes exact ε-convention conversions; the run
-referees the normal form on seeded Gaussian-unitary chains (E1), the
-norm closed form (E2), the committed exp25 cells' membership and
-re-derivation with the descended bounds (E3), and the exact conversion
-identities with the note-convention thresholds (E4), with blocking
-falsification gates as declared in the memo §8.
+for the run) — this README restates none of it, statements or
+conclusions (round-1 review: naming claim topics is the permitted
+maximum here). The claim topics are the memo's §2–§6 section subjects;
+the run's E1–E4 referee those sections' machine-checkable parts with
+blocking falsification gates as declared in the memo §8.
 
 ## Result surfaces and epistemic status
 

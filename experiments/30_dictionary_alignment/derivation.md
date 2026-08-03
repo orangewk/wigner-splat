@@ -63,48 +63,60 @@ stated on the `(A, b)` data itself, so it is convention-independent
 
 ## 2. The two-mode dictionary ladder (claim A0)
 
-All tiers are sets of **normalized** pure two-mode states (statehood up
-to global phase); `K`-term superpositions from a tier are states
-proportional to `sum_{k<=K} z_k g_k` with atoms `g_k` in the tier.
-Atom = state whose stellar function is `c exp((1/2) w^T A w + b^T w)`
-with `A = A^T`, `||A|| < 1` (§3 proves this is exactly the pure
-Gaussian states and that `||A|| < 1` is forced).
+(Revised in the 2026-08-02 round-1 review: the first draft's ladder
+display mixed atom sets with `K`-term classes; the two levels are now
+typed explicitly, and every statement names its type.)
 
-- **T_coh(B)** (bounded coherent): atoms with `A = 0`, `|b| <= B`.
-  exp24's `D_coh` is the union over all `B` (no bound).
-- **T_eq(A0, B)** (common-quadratic instance; the literal two-mode
-  analogue of the note's `A(a, B)`): one fixed `A0` (`||A0|| <= a* <
-  1`) shared by **every** atom of the instance — the full matrix is
-  common, mirroring the note's "same a in modulus and angle" — and
-  `|b_k| <= B`.
-- **T_b(s*)** (bounded, per-atom-varying quadratic; exp25's operational
-  family): atoms with `||A_k|| <= s* < 1`, `A_k` free per atom, `b_k`
-  free. exp25 ran this tier with `s* = 0.98` (its committed
+**Atom sets.** An *atom* is a normalized state whose stellar function
+is `c exp((1/2) w^T A w + b^T w)` with `A = A^T`, `||A|| < 1` (§3
+proves this is exactly the pure Gaussian states and that `||A|| < 1`
+is forced). By the uniqueness lemma of §5 the data `(A, b)` is
+determined by the state, so membership below is well-defined. Each of
+the following is a **set of atoms**:
+
+- **Atoms_coh(B)**: `A = 0`, `|b| <= B`. The union over all `B` is the
+  atom set of exp24's `D_coh`.
+- **Atoms_eq(A0, B)** (common-quadratic instance; the literal two-mode
+  analogue of the note's `A(a, B)`): `A = A0` — one fixed matrix for
+  the whole instance (`||A0|| <= a* < 1`), mirroring the note's "same a
+  in modulus and angle" — and `|b| <= B`.
+- **Atoms_b(s*)** (bounded, per-atom-varying quadratic; exp25's
+  operational family): `||A|| <= s* < 1`, `A` and `b` otherwise free.
+  exp25 ran `s* = 0.98` (its committed
   `bounded_dictionary.quad_norm_max`; its Fock-tail discipline is a
   truncation implementation detail, recorded but not a tier).
-- **D_G** (unrestricted; exp24 §1): atoms with any `||A|| < 1`, any
-  `b`. (exp24's wording "no squeezing bound" means: no bound `s* < 1`
-  imposed uniformly; individual physical atoms always have `||A|| < 1`
-  by §3.)
+- **Atoms_G**: `||A|| < 1`, `b` free — the atom set of exp24's `D_G`
+  (exp24's wording "no squeezing bound" means: no uniform `s* < 1`;
+  individual physical atoms always have `||A|| < 1` by §3).
 
-**A0 (ladder).** For every `K`, every `B`, every `A0` with
-`||A0|| <= s*`, and every `s* < 1`, the `K`-term superposition classes
-nest:
+**K-term classes.** For an atom set `X` and a budget `K`, `S_K(X)` is
+the set of normalized states proportional to `sum_{k<=K} z_k g_k` with
+every `g_k in X`. `S_1(X)` is `X` itself (as states).
+
+**A0 (ladder).**
+(a) *Equality:* `Atoms_eq(0, B) = Atoms_coh(B)` — the common instance
+at `A0 = 0` **is** the bounded coherent atom set (no properness is
+claimed here or anywhere for this pair).
+(b) *Atom-set inclusions:* for every `B <= B'`, `s* <= s*' < 1`, and
+`A0` with `||A0|| <= s*`:
 
 ```
-T_coh(B)  ⊂  T_eq(0, B)-superpositions = bounded-coherent superpositions,
-T_eq(A0, B)  ⊂  T_b(s*)  ⊂  D_G          (atom sets, hence K-term classes),
-D_coh  ⊂  D_G.
+Atoms_coh(B) ⊆ Atoms_coh(B') ⊆ D_coh atoms ⊆ Atoms_G,
+Atoms_eq(A0, B) ⊆ Atoms_b(s*) ⊆ Atoms_b(s*') ⊆ Atoms_G.
 ```
 
-Proof: immediate from the definitions — each inclusion only relaxes
-constraints (`A_k = A0` fixed ⟹ `||A_k|| <= s*`; bounded ⟹
-unbounded). `T_eq(0, B)` atoms are exactly `T_coh(B)` atoms. ∎
+(c) *Class monotonicity:* `X ⊆ Y` implies `S_K(X) ⊆ S_K(Y)` for every
+`K`.
+Proof: (a) and (b) read off the definitions — each step only relaxes a
+constraint. (c): a representation over `X` is a representation over
+`Y`. ∎ Which of these inclusions are **proper** is a separate, typed
+question answered in A4 (§5); nothing downstream of this section uses
+properness.
 
-The tier table mirrors the note §2.4 rows: `T_eq` is the two-mode
-sibling of row D2's dictionary; `D_G` is the two-mode sibling of the
-*family column* of row D1 (the unrestricted pure-Gaussian
-superpositions); `T_b` is strictly between and exists because exp25's
+The ladder mirrors the note §2.4 rows: `Atoms_eq` instances are the
+two-mode sibling of row D2's dictionary; `Atoms_G` is the two-mode
+sibling of the *family column* of row D1 (the unrestricted pure-Gaussian
+superpositions); `Atoms_b` sits between and exists because exp25's
 optimizer needed a compact search box. No quantity-level identification
 with the note's one-mode rows is implied (non-claims, §0).
 
@@ -164,25 +176,47 @@ triangle inequality. (This is verbatim the two-mode form of the note
 sinh^2 r_i` the instance is energy-bounded at fixed `(A0, B)`, and
 neither equivalence is uniform as `||A|| -> 1` — same caveat, same
 reason `a* < 1` is part of the definition.)
-*(iii).* Displacements are unitary, so it suffices to rule out
-`b = 0`. Passive substitutions preserve the Bargmann/Fock norm (they
-implement passive unitaries on states — exp24 P2; exactness pinned in
-exp26's tests), so by Takagi reduce to `A = diag(sigma_1, sigma_2)`,
-`sigma_1 = ||A|| >= 1`. The squared Fock norm of
-`exp((sigma/2) w^2)` in one mode is
+*(iii).* (Corrected in the 2026-08-02 round-1 review: the first draft
+reduced (iii) to `b = 0` via "displacements are unitary", but removing
+`b` needs an `alpha` with `b = alpha - A bar(alpha)`, and that map is
+**not** surjective when `||A|| >= 1` — e.g. `A = diag(1, 0)` makes the
+first component `alpha_1 - bar(alpha_1)`, purely imaginary, so
+`b = (1, 0)` is unreachable. The direct argument below covers every
+`b`.) Suppose `||A|| >= 1` and some normalizable state had stellar
+function `f = exp((1/2) w^T A w + b^T w)`. Square-summable Fock
+coefficients would place `f` in the Bargmann–Segal space
+`HL^2(C^2, pi^{-2} e^{-|w|^2} dV)` with `int |f|^2 e^{-|w|^2} dV /
+pi^2` equal to the squared Fock norm (Bargmann's isometry, imported as
+a named classical fact; the K_ε note's §2 conventions live in the same
+space). The space and its norm are invariant under the unitary
+substitution `w -> U w` (a passive unitary on states, exp24 P2), so
+with `U = bar(V)` from Takagi `A = V Sigma V^T` we may take
+`A = Sigma = diag(sigma_1, sigma_2)`, `sigma_1 = ||A|| >= 1`, at the
+price of replacing `b` by some `b'`. The integrand then factorizes
+over the modes; writing `w_1 = x + i y`, `beta = Re b'_1`,
+`gamma = -Im b'_1`, the mode-1 factor of `|f|^2 e^{-|w|^2}` is
+
+```
+exp( (sigma_1 - 1) x^2 + 2 beta x ) * exp( -(1 + sigma_1) y^2 + 2 gamma y ),
+```
+
+whose `x`-integral diverges for every `beta`: for `sigma_1 > 1` the
+exponent grows, and for `sigma_1 = 1` it is `int exp(2 beta x) dx`,
+infinite for every real `beta` (including `beta = 0`). The `y`-integral
+and the whole mode-2 factor's integral are integrals of strictly
+positive functions, hence positive (finite or not), so by Tonelli the
+full integral diverges — contradicting membership in the Bargmann
+space. Hence no normalizable state has that stellar function, for any
+`b`. For `||A|| < 1` and `b = 0` the squared Fock norm is the product
+of the one-mode series
 
 ```
 sum_{n>=0} sigma^{2n} (2n)! / (4^n (n!)^2)  =  sum_n C(2n, n) (sigma^2/4)^n
-                                            =  (1 - sigma^2)^{-1/2}
+                                            =  (1 - sigma^2)^{-1/2},
 ```
 
-for `sigma < 1`, and the series **diverges** for `sigma >= 1` (its
-terms are `C(2n,n) 4^{-n} sigma^{2n} ~ sigma^{2n} / sqrt(pi n)`).
-The two-mode diagonal case is the product of the two one-mode series,
-so it diverges whenever `sigma_1 >= 1`, and there is no normalizable
-state with that stellar function. For `||A|| < 1` the same product
-`prod_i (1 - sigma_i^2)^{-1/2}` is the finite squared norm of the
-undisplaced atom (used by E2). ∎
+i.e. `prod_i (1 - sigma_i^2)^{-1/2}`, the closed form E2 referees
+(each series converges since its terms are `~ sigma^{2n}/sqrt(pi n)`). ∎
 
 ## 4. Certified-gap transfer (claims A2, A3)
 
@@ -196,8 +230,9 @@ a subset. ∎
 <= 2`: exp29 W5 certifies an upper bound on `sup F` over `D_G` `K <= 2`
 superpositions (its certified constant; value in exp29's artifact, not
 restated here). By A0 + monotonicity, the **same bound holds over every
-tier below `D_G`**: every `T_b(s*)` (`s* < 1`, in particular exp25's
-`s* = 0.98` instance), every `T_eq(A0, B)`, every bounded or unbounded
+class below**: `S_2(Atoms_b(s*))` for every `s* < 1` (in particular
+exp25's `s* = 0.98` instance), `S_2(Atoms_eq(A0, B))` for every
+instance, and every bounded or unbounded
 coherent class. In the note's convention (`K_eps` with `F >= 1 - eps`),
 for every `eps < 1 - (exp29's certified fidelity bound)` and every tier
 `D` in the ladder: no `K <= 2` state from `D` sits in the fidelity
@@ -205,11 +240,11 @@ for every `eps < 1 - (exp29's certified fidelity bound)` and every tier
 converted threshold; the exact-arithmetic conversion rule is A5).
 (b) *Hopf target* `|1,1>`, `K <= 2`, coherent tiers: exp28 S5
 certifies an upper bound on `sup F` over `D_coh` `K <= 2`; by
-monotonicity it descends to every `T_coh(B)`. ∎ (basis: exp29 W5 and
+monotonicity it descends to `S_2(Atoms_coh(B))` for every `B`. ∎ (basis: exp29 W5 and
 exp28 S3–S5 as black-box inputs; nothing here re-proves them.)
 
 **A3 (common-quadratic division and the `|1,1>` gap at every common
-instance).** Let `g` be a `K`-term superposition from `T_eq(A0, B)`
+instance).** Let `g` be a state of `S_K(Atoms_eq(A0, B))`
 (any fixed `A0`, `||A0|| < 1`; the bound `B` plays no role in this
 claim). Its stellar function is
 
@@ -225,8 +260,8 @@ complex lines with no linked pair, on every sphere. Consequently the
 exp28 S5 argument applies verbatim to the common tier: any unit `g`
 with `delta(g, |11>) < ` exp28's certified stability radius would have
 zero link ambient-isotopic to the Hopf link (a linked pair) by exp28
-S3; a `T_eq(A0, B)` `K <= 2` state has no linked pair; hence every such
-`g` has `delta >= ` that radius, and `sup F` over `T_eq(A0, B)`
+S3; a `S_2(Atoms_eq(A0, B))` state has no linked pair; hence every such
+`g` has `delta >= ` that radius, and `sup F` over `S_2(Atoms_eq(A0, B))`
 `K <= 2` obeys **the same certified fidelity bound as exp28's coherent
 case — uniformly in `A0` and `B`**.
 
@@ -234,7 +269,7 @@ Contrast, recorded as part of the same claim: the *varying*-quadratic
 tiers are **not** obstructed at `|1,1>`: exp24 P4's TMSV cats are
 2-term states with `A_k = ± lambda * offdiag` (two *different*
 quadratics), `F = 1 - lambda^4 -> 1`, and `||A_k|| = lambda` is
-arbitrarily small — so for **every** `s* > 0`, `sup F` over `T_b(s*)`
+arbitrarily small — so for **every** `s* > 0`, `sup F` over `S_2(Atoms_b(s*))`
 `K = 2` at `|1,1>` equals `1`. The dichotomy at `|1,1>` is therefore
 **common vs varying quadratic**, not bounded vs unbounded: precisely
 the two-mode mirror of the note's mechanism ("the common-squeezing
@@ -245,22 +280,54 @@ obstructed at `K <= 2`. ∎ (basis: exp24 P3–P4, exp28 S3–S5.)
 
 ## 5. Separations and non-transfer (claim A4)
 
-**A4.** (a) *Strictness.* Every inclusion in A0 is strict at the atom
-level: an atom with `||A|| in (tanh S, 1)` witnesses `T_b(tanh S) ⊊
-D_G`; two atoms with different quadratics witness that a `T_b` pair
-lies in no single `T_eq(A0, ·)` instance; any atom with `A != 0`
-witnesses `T_coh ⊊` gaussian tiers. (b) *Direction of transfer.*
-Fidelity **upper** bounds descend the ladder (monotonicity lemma);
-**constructions** (fidelity lower bounds / optimizer cells) only
-ascend. exp25's measured cells are constructions in `T_b(0.98)` and so
-witness lower bounds for every tier above it, none below. (c)
-*Convention bridge.* The note's `xi`-convention and gaussact's
-`zeta`-convention squeezers differ by `xi = -zeta`; both parametrize
-the same atom sets at any bound, and every tier of §2 is defined on
-`(A, b)` data only, so no statement in this memo depends on the
-convention. (d) *No cross-mode identification.* The one-mode
-`A(a, B)` and two-mode `T_eq(A0, B)` are analogues by construction of
-§3(ii); no theorem of the note is imported for two modes and no
+(Rewritten in the 2026-08-02 round-1 review: the first draft asserted
+atom-level strictness for "every inclusion in A0" — contradicting the
+`Atoms_eq(0, B) = Atoms_coh(B)` equality — used an undefined bound
+symbol in a witness, and offered a two-atom pair as an atom-level
+witness. The claims below are typed, and each properness statement
+carries a witness of its own type.)
+
+**Uniqueness lemma (atom data is state-determined).** If two atoms
+`c exp(q)` and `c' exp(q')` (`q, q'` quadratic-plus-linear exponents)
+are the same state, their stellar functions agree up to a nonzero
+constant, so `exp(q - q')` is a nonvanishing entire constant; then
+`0 = d[exp(q - q')] = (dq - dq') exp(q - q')` forces `dq = dq'`
+identically, hence `A = A'` and `b = b'`. Membership of a state in an
+atom set of §2 is therefore well-defined. ∎
+
+**A4.** (a) *Properness at the atom level (equivalently, of the
+`S_1` classes).* With membership well-defined by the lemma: an atom
+with `||A|| = (1 + s*)/2 in (s*, 1)` lies in `Atoms_G \ Atoms_b(s*)`;
+an atom with `A != A0`, `||A|| <= s*`, `|b| <= B` lies in
+`Atoms_b(s*) \ Atoms_eq(A0, B)`; an atom with `A != 0` lies outside
+every coherent atom set; an atom with `|b| in (B, B']` separates the
+`B`-graded sets. So every A0(b) inclusion between distinct constraint
+tiers is proper at the atom level, while the A0(a) pair is an equality
+and is claimed proper nowhere.
+(b) *Properness at `K = 2`, common vs varying — the one class-level
+properness this memo claims.* Fix any `s* in (0, 1)`, any `B >= 0`,
+and any `A0` with `||A0|| <= s*`. exp24 P4's TMSV cat at squeezing
+parameter `lambda = s*` is a 2-term superposition of atoms with
+`A_k = ± lambda * offdiag` (`||A_k|| = lambda <= s*`, `b_k = 0`), so it
+lies in `S_2(Atoms_b(s*))`; its zero link on `S3_1` contains a linked
+pair (exp24 P4), while by A3 no state of `S_2(Atoms_eq(A0, B))` has
+one. Hence `S_2(Atoms_eq(A0, B)) ⊊ S_2(Atoms_b(s*))` — properness of
+the common tier inside the varying tier as *state classes*, not merely
+as parametrizations. No other class-level properness is claimed
+(whether e.g. `S_K(Atoms_b(s*))` exhausts `S_K(Atoms_G)` through
+alternate representations is not needed by anything here and is left
+open).
+(c) *Direction of transfer.* Fidelity **upper** bounds descend the
+ladder (monotonicity lemma); **constructions** (fidelity lower bounds /
+optimizer cells) only ascend. exp25's measured cells are constructions
+over `Atoms_b(0.98)` and so witness lower bounds for every class above,
+none below. (d) *Convention bridge.* The note's `xi`-convention and
+gaussact's `zeta`-convention squeezers differ by `xi = -zeta`; both
+parametrize the same atom sets at any bound, and every set of §2 is
+defined on `(A, b)` data only, so no statement in this memo depends on
+the convention. (e) *No cross-mode identification.* The one-mode
+`A(a, B)` and two-mode `Atoms_eq(A0, B)` are analogues by construction
+of §3(ii); no theorem of the note is imported for two modes and no
 two-mode result is claimed to bear on the note's one-mode rows. ∎
 
 ## 6. Exact ε-convention conversion (claim A5)
@@ -337,7 +404,7 @@ Declared constants: `SEEDS = range(64)`, `R_MAX = 0.8`,
   cutoff and check agreement with the committed `best_fidelity` within
   `TOL_E3_F` (this pins the parametrization reading); check
   `||A_k|| <= ` the committed `bounded_dictionary.quad_norm_max`
-  (membership in `T_b(0.98)`). Descended-bound checks (A2): trefoil
+  (membership in `Atoms_b(0.98)`). Descended-bound checks (A2): trefoil
   gaussian and coherent `K <= 2` cells against exp29's committed
   fidelity bound; `t11` coherent `K <= 2` cells against exp28's
   committed fidelity bound. Recorded as a diagnostic, **not** a gate:
@@ -381,10 +448,10 @@ authoring location for exp30 epistemic status.
 
 | ID | Claim (headline) | Status | Basis |
 | --- | --- | --- | --- |
-| A0 | two-mode tier definitions; inclusion ladder `T_coh ⊂ T_eq ⊂ T_b ⊂ D_G` (as stated per-K) | proved here | §2 |
+| A0 | typed two-mode ladder: atom sets (`Atoms_coh`, `Atoms_eq`, `Atoms_b`, `Atoms_G`), their inclusions and the one equality, and `S_K` class monotonicity | proved here | §2 |
 | A1 | Gaussian stellar normal form `c exp(w^T A w / 2 + b^T w)`, `\|\|A\|\| < 1` iff normalizable; Takagi/`tanh` translation and `b ↔ alpha` map (two-mode row-D2 analogue) | proved here | §3 |
-| A2 | certified bounds descend: trefoil `K<=2` bound at every tier below `D_G`; `\|11>` coherent bound at every `T_coh(B)` | proved here (uses exp29 W5, exp28 S3–S5) | §4 |
-| A3 | common-quadratic division: `T_eq(A0, B)` `K<=2` has no linked pair; `\|11>` gap holds at every common instance with exp28's constant, while every `T_b(s*)` reaches `F -> 1` there | proved here (uses exp24 P3–P4, exp28 S3–S5) | §4 |
+| A2 | certified bounds descend: trefoil `K<=2` bound at every class below `D_G`'s; `\|11>` coherent bound at every `S_2(Atoms_coh(B))` | proved here (uses exp29 W5, exp28 S3–S5) | §4 |
+| A3 | common-quadratic division: `S_2(Atoms_eq(A0, B))` has no linked pair; `\|11>` gap holds at every common instance with exp28's constant, while every `S_2(Atoms_b(s*))` reaches `F -> 1` there | proved here (uses exp24 P3–P4, exp28 S3–S5) | §4 |
 | A4 | strict separations; transfer directions; convention bridge; no cross-mode identification | proved here | §5 |
 | A5 | exact `delta`/`F`/`eps_note` conversions with outward evaluation discipline | proved here | §6 |
 | N1 | E1 normal-form referee passes | numerical, E1 | run |
