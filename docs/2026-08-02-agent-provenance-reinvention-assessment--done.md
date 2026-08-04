@@ -1,8 +1,11 @@
 # Agent provenance 再発明評価
 
-- 状態: done
+- 状態: done（再発明評価と旧pilot停止の記録）
 - 評価日: 2026-08-02
-- 決定者: orange
+- 処置指示者: orange（private task instruction。GitHub投稿者identityだけでは本人性を証明しない）
+- 後継設計の採否: proposed / pending
+- GitHub側の停止記録: [Issue #146 comment](https://github.com/orangewk/wigner-splat/issues/146#issuecomment-5154361100)
+- GitHub側の設計状態: [Issue #152 comment](https://github.com/orangewk/wigner-splat/issues/152#issuecomment-5154360704)（`DesignReviewPending`）
 - 再設計Issue: [#152](https://github.com/orangewk/wigner-splat/issues/152)
 - 前段監査: [`2026-08-01-sebastian-drift-audit--done.md`](2026-08-01-sebastian-drift-audit--done.md)
 - 評価対象: [Issue #143](https://github.com/orangewk/wigner-splat/issues/143)、[Issue #146](https://github.com/orangewk/wigner-splat/issues/146)、[PR #147](https://github.com/orangewk/wigner-splat/pull/147)
@@ -10,6 +13,8 @@
 ## 結論
 
 GitHubが既に持つagent実行境界、write gate、run記録を、手書きYAMLと運用規則で再構成し始めていた。設計上の重複は大きい。ただし独自service、DB、checkerの実装前に発見しており、コード上のsunk costは小さい。
+
+この文書の`done`は、再発明評価を記録し、手書きprovenance pilotのTask 2 / 3を停止したことだけを表す。gh-awまたは後継設計を採用したという意味ではない。private task instructionは処置の由来として記録するが、第三者がGitHubだけからorange本人の承認を検証できるprimary decision URLは存在しない。この限界を埋めるための自己申告フィールドは追加しない。
 
 セバスチャン監査、科学研究固有のauthority matrix、`verification` / `validation` / `decision`の区別、`agmsg`のlocal配送用途は再発明ではない。今後はGitHub-native control planeと科学policyを分離する。
 
@@ -49,7 +54,7 @@ A2A、Ably、Entra Agent ID、SPIFFE等を調べた一方、durable recordとし
 
 ## 処置
 
-1. Issue #146 Task 2 / 3の手書きprovenance pilotを停止する。
+1. Issue #146 Task 2 / 3の手書きprovenance pilotを停止する（[GitHub側のcanonical pause record](https://github.com/orangewk/wigner-splat/issues/146#issuecomment-5154361100)）。
 2. 独自schema、checker、identity service、relay、approval署名基盤を実装しない。
 3. [Issue #152](https://github.com/orangewk/wigner-splat/issues/152)でGitHub-native capability mappingと低リスクpilotを行う。
 4. GitHubが自動記録するfieldは手書きしない。

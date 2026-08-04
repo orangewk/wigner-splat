@@ -1,7 +1,7 @@
 # セバスチャン責務の機構化案 v1（旧案）
 
 - 状態: dead（後継案へ統合、未実装）
-- 後継: [`2026-08-01-sebastian-governance-mechanism--proposed.md`](2026-08-01-sebastian-governance-mechanism--proposed.md)
+- 後継（現在は置換済み）: [`2026-08-01-sebastian-governance-mechanism--dead.md`](2026-08-01-sebastian-governance-mechanism--dead.md)
 - 決定者: orange
 - 対象: ルーターランナー「セバスチャン」および、引き継ぎで交代する同等ランナー
 - 目的: 有益な助言能力を残しつつ、仕様作成・検収・完了裁定の自己承認を防ぐ

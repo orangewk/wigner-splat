@@ -2,10 +2,11 @@
 
 - 状態: proposed（未実装）
 - 作成日: 2026-08-02
-- 決定者: orange
+- 採否決定者: orange（未決定）
 - 追跡: [Issue #152](https://github.com/orangewk/wigner-splat/issues/152)
 - 再発明評価: [`../2026-08-02-agent-provenance-reinvention-assessment--done.md`](../2026-08-02-agent-provenance-reinvention-assessment--done.md)
-- 旧設計: [`2026-08-01-sebastian-governance-mechanism--proposed.md`](2026-08-01-sebastian-governance-mechanism--proposed.md)
+- 旧設計: [`2026-08-01-sebastian-governance-mechanism--dead.md`](2026-08-01-sebastian-governance-mechanism--dead.md)
+- 公開境界: [`../2026-07-25-public-private-layer-separation--recorded.md`](../2026-07-25-public-private-layer-separation--recorded.md)
 
 ## 1. 決定案
 
@@ -40,10 +41,13 @@ flowchart LR
 
 これらを手書きprovenanceへ複写しない。URLまたはAPIから導出する。
 
+本書で **derive / 導出可能** とは、人間の記憶やagentの自由記述による自己申告に頼らず、一つの安定したGitHub URL、または文書化した一つのGitHub API queryから同じ値を再取得できることをいう。pilotでは取得元URLまたはqueryも記録する。
+
 ### Project scientific policy
 
 - `activity`: authoring / verification / validation / decision
-- `validation_kind`: implementation / numerical / mathematical / citation / scientific-scope
+- `verification_kind`: implementation / reproducibility
+- `validation_kind`: numerical / mathematical / citation / scientific-scope
 - GitHub objectだけでは一意にならないartifact scope
 - spec-ownerとartifact authorの関係
 - reviewerの科学的独立性
@@ -90,6 +94,62 @@ GitHub identityはplatform eventの実行主体を示すが、科学的authority
 
 GitHub Safe Outputが成功しても、それは許可operationが実行されたというplatform factであり、科学的validationではない。
 
+### 5.1 独立reviewの条件
+
+次をすべて満たす場合だけ、reviewを独立gateとして数える。
+
+1. reviewerがartifact authorと異なる作業主体である。
+2. reviewerへの委譲経路にartifact authorが含まれない。
+3. reviewerが対象版のspecまたはacceptance criteriaを作成・変更していない。
+4. reviewがexact artifact SHAまたはcontent digestとartifact scopeを指定し、判定時点の対象版と一致する。
+5. activityが`verification`または`validation`であり、該当するkindを明記する。
+6. reviewerがartifact authorからhandoffされた同一作業の継続主体ではない。
+
+GitHub actor、vendor、model、sessionが異なることや、本文の「独立review」表記だけでは不足する。GitHubから委譲経路やhandoff関係を導出できない場合は、導出不能な関係だけを短いcustom recordとして残す。authorは自分のreviewerを選任しない。
+
+### 5.2 authority matrix
+
+| 行為 | orange | メインランナー / router | spec-owner | worker | 独立verifier |
+|---|---|---|---|---|---|
+| project policy承認 | 可 | 不可 | 不可 | 不可 | 不可 |
+| task作成・担当割当 | 可 | 承認済みpolicy内で可 | 原則不可 | 原則不可 | 原則不可 |
+| worker / reviewerへの委譲 | 可 | 承認済みpolicy内で可 | 明示された再委譲のみ | 同左 | 原則不可 |
+| request / status / question | 可 | 可 | 可 | 可 | 可 |
+| advice / evidence | 可 | 可 | 可 | 可 | 可 |
+| 自作artifactのverification / validation | 独立gateに不採用 | 同左 | 同左 | 同左 | 同左 |
+| 他者artifactのverification / validation | 委任時のみ | §5.1を満たす時のみ | 同左 | 同左 | 委譲範囲で可 |
+| routineなacceptance criteria明確化 | 可 | proposalのみ | 委譲範囲で可 | proposalのみ | proposalのみ |
+| 高影響なacceptance criteria変更 | 可 | proposalのみ | proposalのみ | proposalのみ | proposalのみ |
+| accept / hold / reject | 可 | 明示decision owner時のみ | 同左 | 不可 | 原則recommendationのみ |
+| publish / main昇格の決定 | 可 | 不可 | 不可 | 不可 | 不可 |
+| orange決定済みpublishの実行 | 可 | 明示委譲時のみ | 不可 | 不可 | 不可 |
+
+routineな明確化とは、承認済みの研究目的と証拠水準を緩めず、判定手順を具体化する変更をいう。研究目的、証拠水準、公開claim、public / private境界を変える変更は高影響としてorangeへ戻す。spec-ownerやdecision ownerの指定は、§5.1の独立review条件を免除しない。
+
+publish authorityはorangeだけが発生させる。routerは、GitHub上で参照可能なorangeの決定を実行できるが、自分でpublish decisionを作らない。同じcredentialを共有する投稿しかない場合は、本人承認を機構的に検証済みとは表現しない。
+
+### 5.3 activity語彙
+
+- `request`: taskまたは追加作業の依頼
+- `question`: 不明点・入力要求
+- `status`: 進行状況。採否を含まない
+- `advice`: 指摘・仮説・方向提案。未批准
+- `authoring`: brief、code、report、acceptance criteria等の作成・変更
+- `evidence`: 出典、計算、test結果、artifact参照
+- `verification`: 実装適合性または再現性の確認。`verification_kind`を伴う
+- `validation`: 数学・数値・引用・科学的射程の妥当性確認。`validation_kind`を伴う
+- `decision`: `accept / hold / reject`
+- `publish-execution`: GitHub上で参照可能なorange decisionの実行
+- `withdrawal`: 過去記録またはclaimの撤回
+- `handoff`: 作業主体と未解決taskの引き継ぎ
+- `receipt`: delivery / read / process ACK
+
+本文中の「通過」「GO」「確認済み」は表示文字であり、activityやauthorityを変更しない。
+
+### 5.4 public / private境界
+
+公開面の規範は[`2026-07-25-public-private-layer-separation--recorded.md`](../2026-07-25-public-private-layer-separation--recorded.md)に従う。第三者の同意、非公開vendor session ID、secret、local path、private promptや会話本文をpublic Issue、PR、artifact、Actions logへ出さない。GitHub Actionsのworkflow log、step summary、artifact、cache、annotationは、repository設定と保持期間をPhase Bで確認するまで公開面へ出得るものとして扱う。科学的失敗や自己批判的な研究記録は、この境界だけを理由に非公開化しない。
+
 ## 6. 導入手順
 
 ### Phase A — capability mapping
@@ -98,7 +158,7 @@ Issue #152で、現行fieldをGitHub-nativeからderiveできるか確認する�
 
 ### Phase B — read-only / docs-only pilot
 
-Public Previewであるため、科学claimや本番publishを伴わない一件だけを使う。engineとActions runの対応、agentに渡るpermissionとsecret、Safe Outputを適用したactor、PR / commit author、signature、triggering user、runまたはsessionへの逆参照、未許可write、APPROVE、protected file変更の拒否、exact PR head変更後のreview扱い、費用と運用負荷を確認する。
+Public Previewであるため、科学claimや本番publishを伴わない一件だけを使う。engineとActions runの対応、agentに渡るpermissionとsecret、Safe Outputを適用したactor、PR / commit author、signature、triggering user、runまたはsessionへの逆参照、未許可write、APPROVE、protected file変更の拒否、exact PR head変更後のreview扱いを確認する。加えて、`engine: claude`、`engine: codex`等が要求するvendor API keyの種類・保存先・rotation・fork時の非公開性、既存subscriptionとの関係、API従量課金、budget上限、失敗runの費用を実測する。workflow log、step summary、artifact、cache、annotationの閲覧範囲と保持期間を、public repositoryで実行する前にdocs-only fixtureで確認する。
 
 ### Phase C — policy縮約
 
@@ -119,6 +179,7 @@ orangeが、gh-awを継続利用するか、Issue #146をclose / supersede / 限
 7. agmsgは正本を複写せず参照だけを配送する。
 8. 独自infraを提案する場合、GitHub-nativeで不足した実測事実を最低3件示す。
 9. orange承認前に本番task、main publish、科学claimへ適用しない。
+10. Actionsの公開面へprivate情報を出さず、vendor keyと費用の運用責任を決定前に記録する。
 
 ## 8. 非目標
 
@@ -134,5 +195,7 @@ orangeが、gh-awを継続利用するか、Issue #146をclose / supersede / 限
 - 第三者engineのauthor / session provenanceがCopilot cloud agentと同等とは限らない。
 - local interactive agentをGitHub control planeへ直接載せない場合、その実行主体はGitHubだけでは証明できない。
 - human approvalの強度はcredential分離とrepository ruleに依存する。
+- Claude / Codex等の第三者engineはvendor API keyとAPI課金を要求し得る。既存の対話subscriptionをそのまま利用できるとは仮定しない。
+- public repositoryのActions log、summary、artifact等の可視性と保持期間は、private vendor情報の境界へ直接影響する。
 
 これらは独自設計で穴埋めせず、Phase Bの実測結果を待つ。
