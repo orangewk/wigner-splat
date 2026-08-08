@@ -114,7 +114,12 @@ Epistemic status — quoted verbatim from derivation.md §4, its sole authoring 
   caveat applies verbatim); E5 records trefoil-image windings descriptively
   in that sense only.
 - Two modes, pure states, no measured data; novelty is unclaimed pending the
-  Gate S′ survey (`derivation.md` §7).
+  Gate S′ survey (`derivation.md` §7). *(Resolution note, 2026-08-08:
+  Gate S′ was closed by orange's decision — see the research-log
+  closure entry and issue #137 comment 5225210787; the scope-bounded
+  survey-result language rule recorded there applies, strong novelty
+  judgments remain prohibited, and nothing else in this README
+  changes.)*
 
 ## Reproduce (same-environment determinism)
 

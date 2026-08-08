@@ -26,6 +26,12 @@ their torus-knot links are classical singularity-theory material, and the
 winding-bound argument is an elementary Bezout/argument-principle
 exercise).
 
+*Resolution note (2026-08-08): Gate S′ was closed by orange's decision
+— see the research-log closure entry and issue #137 comment
+5225210787. The scope-bounded survey-result language rule recorded
+there applies; strong novelty judgments remain prohibited. Nothing
+else in this memo changes.*
+
 ## 1. Target and exact constants
 
 ```

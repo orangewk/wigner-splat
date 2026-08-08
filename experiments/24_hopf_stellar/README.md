@@ -73,6 +73,11 @@ hand-written text intentionally repeats none of those outcomes.
 - Two-mode, pure states, unit sphere; no measured data, no mixed states, no
   connection to the note's certified one-mode theorems is claimed, and
   novelty is unclaimed pending the derivation §7 survey (issue #137 Gate S′).
+  *(Resolution note, 2026-08-08: Gate S′ was closed by orange's decision
+  — see the research-log closure entry and issue #137 comment
+  5225210787; the scope-bounded survey-result language rule recorded
+  there applies, strong novelty judgments remain prohibited, and nothing
+  else in this README changes.)*
 
 ## Reproduce (same-environment determinism)
 
