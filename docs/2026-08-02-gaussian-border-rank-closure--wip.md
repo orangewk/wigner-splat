@@ -594,6 +594,55 @@ Z̃ の点 p̃₀ で展開: G = G_{p̃₀} + D_{p̃₀}G·δp + O(|δp|²) = 0 
   長さ 1/ε″ の区間で非一様(e^{λs}−1 の剰余)— 導来 H の大域性だけでは吸収不可。
 - B2+(F1) は不変に open(多クラスタ jet の排除は B2 の守備範囲であることが再確認された)。
 
+#### 4.3.5.3 S4 再設計(v1.8.6 — Sol 建設的査読 2026-08-08 の採用)
+
+Sol(gpt-5.6-sol)による S4 の設計査読を検算の上、以下を採用する。
+
+**訂正(敵対的検証分)**:
+- S2 の正規化は Taylor 積分より**全複素勾配 Λ による一括評価**が簡潔: J_ρ 基点 t₀ で
+  d_j := c_je^{q_j(t₀)}、q_j(t₀+ρs)−q_j(t₀) = β_js + α_js²(α_j = ½ρ²q_j″、β_j = ρq_j′(t₀))—
+  ρΛ = O(1) なら α, β は直接有界。live 条件から d_j/d_{j*} の上下界を明示すれば局所 compactness は閉じる。
+- S3 の Z̃ は partition π ごとの有限方程式系 Z̃_π = {ζ_i = ζ_j (i,j∈B), Σ_{B}d_j = 0} の和で定義
+  (subanalyticity を明示化)。**訂正: Łojasiewicz から出るのは k ≤ rN(正規化 valuation k/r の
+  有界性)であり、raw 消滅次数の有界性ではない**。
+- 要件②の強化: 非孤立層では単一 dist でなく **normal-crossing 因子化 G∘π = x₁^{a₁}…x_r^{a_r}H** が必要
+  (例 G = x(e^{ys}−1): 零集合 {x=0}∪{y=0}、G ~ xys — 支配量は normal 座標の積)。
+- 要件③の修正: **normal distance は連続量で well-founded な帰納指標にならない**。代替 =
+  有限離散 3 つ組 **(W, d, Δ)** の辞書順降下: W = 継承原子総質量、d = 相異指数 support 数、
+  Δ = Σ_B(m_B − 1 − r_B) = 残り jet capacity(r_B = block B の先頭非零 moment jet 次数
+  ≤ |B|−1(Vandermonde))。peeling で W↓、衝突で d↓、高次相殺で Δ↓。
+  **「微分で次数が増える」旧問題は raw degree 帰納の artifacts — jet capacity で再添字すれば
+  導来は capacity を消費する降下になる。**
+- **第 5 障害(新規、採用)**: 再スケール長区間族に e^{(β/ρ)(t−t₀)} が現れ、通常の subanalytic
+  compactification に入らない。三領域: |β| ≲ ρ(compact core)/ |β| ≫ ρ(指数分離 → dominance
+  peeling)/ |β| ≍ ρlog(1/ρ)(遷移 — Puiseux valuation では見えない)。核心 =
+  **algebraic jet filtration と exponential/tropical filtration の接続**。
+
+**採用する一般化帰納命題(S4 の新中心命題)**: quasipolynomial class
+Q = Σ_α P_α e^{q_α}(deg P_α ≤ 2(m_α−1)、Σm_α ≤ c)に対し、moment jet
+M_{B,n} := Σ_{j∈B} d_j(ζ_j−ζ_B)^{⊙n}、valuation r_B := min{n: P_{B,n} ≢ 0} を付し、
+正規化 kernel **‖e^{−U_Q}Q‖_I / ‖e^{−U_Q}Q‖_{J_ρ} ≤ C·ρ^{−Γ(W,d,Δ)}** を (W,d,Δ) 帰納で示す。
+(注: 導来原子 deg P ≤ 2(m−1) は主定理の重み公式と同型 — 閉包定理の構造と首尾一貫。)
+
+**採用する攻略案(Sol 案 1: スケール依存 cluster tree + split-scale Taylor)**:
+D_{ij}(L) := sup_{|x|≤L}|(q_i−q_j)(t₀+x) − (q_i−q_j)(t₀)| は L 単調 ⇒ 閾値 θ < 1 の graph cluster は
+L 増加で分裂するのみ。**Taylor 展開は block の split scale まででしか使わない**(剰余はその範囲で
+一様 — 第 5 障害・長区間剰余の回避)。split が実方向なら e^{−U} 正規化下の dominance peeling、
+虚方向なら B2 へ渡す。分裂木の節点 O(c)、各節点で (W,d,Δ) 降下。
+控え: 案 2(joint curve selection + Newton polygon、ℝ_an,exp definability 要)/
+案 3(衝突 blow-up + moment ideal principalization、Bierstone–Milman 系 — 重い)。
+
+**次の具体タスク(c = 3 の最初の一歩 = 「三原子一遷移補題」)**:
+(i) triple cluster が I まで保たれる場合 — 先頭 moment r ≤ 2、leading polynomial 次数 ≤ 4。
+(ii) 途中分裂は必ず 3 → 2+1 — 二原子 block は K2(または Pe^q + e^{q′} 拡張)へ。
+(iii) sharp test: (1−e^{τt²})² ~ τ²t⁴ ⇒ Γ(3) ≥ 4。
+この三分岐の完全執筆 + 剰余定数の split-scale 一様性検算が最短(Sol 見積り: c=3 核心 3–5 日、
+一般 c 2–4 週。B2/(F1) は別途)。
+
+**状態(v1.8.6)**: S4 は「要件リスト」から「実行可能な帰納プログラム((W,d,Δ) 降下 +
+split-scale Taylor)」へ具体化。数学的 open は不変(B2+(F1)・S4 本体・L2b/L3)だが、
+S4 の次の一手が「三原子一遷移補題」として確定した。
+
 ### 4.3.2 多重スケール再帰(jet 版 — G1′ の残余)
 
 クラスタ木の節点では「原子」が子クラスタの枠要素(多項式因子付き)になる。対応する双対は
