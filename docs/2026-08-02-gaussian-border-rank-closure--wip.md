@@ -65,6 +65,9 @@
 > **authoring location 規約**: 本定理(閉包定理・系 C1–C3)の証明本文の唯一の authoring location は本ファイル。
 > Issue #135 側は claim status とポインタのみを置き、証明を複製しない。査読は本ファイルの draft PR 上で行う。
 > マージ = 査読通過 + orange 承認後(マージは定理の「採用」であり #135 の close を意味しない)。
+> **例外(v1.9)**: 確定成果 K2・E・C′・L2a′(c=2) は独立成果ドラフト
+> [2026-08-08-quadratic-phase-turan-K2.md](2026-08-08-quadratic-phase-turan-K2.md) が authoring location
+> (§4.3.4 は凍結スナップショット)。
 
 > **v1.1 changelog(査読 2026-08-02 対応)**:
 > 1. **共変 gauge 化による再構成**(blocking 2 対応): affine metaplectic 群のパラメタ空間への推移的作用を §1.5 に導入。
@@ -280,6 +283,12 @@ envelope を e^{(1−δ/2)|z|²/2 + C|z|log(2+|z|)} へ再緩和すれば吸収(
 成立(chirp 線形化案は不使用)。一般 c ≥ 3 は open(§4.3.4 末尾の構造記録)。
 
 ### 4.3.4 kernel 補題 — 確定形と c = 2 の完全証明(v1.7)
+
+> **v1.9 移管ノート(orange 裁定 2026-08-08)**: 本節の確定成果(補題 K2・補題 E・補題 C′・
+> 系 L2a′(c=2))は独立成果ドラフト
+> [2026-08-08-quadratic-phase-turan-K2.md](2026-08-08-quadratic-phase-turan-K2.md) へ移管した。
+> **以後そちらが唯一の authoring location。本節は査読文脈保存のための凍結スナップショット**
+> (編集禁止 — 差分が生じた場合は移管先が正)。一般 c の攻略(§4.3.5 系)は本ファイルのまま。
 
 §4.3.3 の v1.6 仕様を次の確定形に置き換える。鍵は 2 つ:
 (i) **rate 不要**: chaining(補題 C′)は固定長 ε = ε(δ) の部分区間比較しか使わない — ε→0 の漸近は不要。
