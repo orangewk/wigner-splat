@@ -31,6 +31,11 @@ resulting inclusion ladder. Explicit non-claims, fixed here:
   form of §3 is standard material; what is recorded is the precise
   in-repo statement, its proof at the level the transfer needs, and its
   machine referee.
+  *(Resolution note, 2026-08-08: Gate S′ was closed by orange's
+  decision — see the research-log closure entry and issue #137 comment
+  5225210787. The scope-bounded survey-result language rule recorded
+  there applies; strong novelty judgments remain prohibited. Nothing
+  else in this memo changes.)*
 - Program-level "certified lower bound" language for the K–ε program
   remains withheld until orange closes Gate T′; this memo states
   slice-local theorems only. (Resolution note, 2026-08-03: Gate T′ was

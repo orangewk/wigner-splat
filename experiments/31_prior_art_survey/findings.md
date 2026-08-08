@@ -8,7 +8,11 @@ classifications; nothing outside its rows (in this file, the research
 log, or the PR body) authors or restates a classification. Everything
 else here is retrieval log, incident record, and limitations. No
 novelty language is used or unlocked by this document; Gate S′
-decisions are orange's on this report.
+decisions are orange's on this report. *(Decision record,
+2026-08-08: Gate S′ was closed by orange — issue #137 comment
+5225210787; the closure and the adopted scope-bounded language rule
+are recorded there and in the research-log closure entry. This
+document is unchanged by that decision.)*
 
 ## 1. Execution record and incident record
 

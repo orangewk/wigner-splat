@@ -30,6 +30,12 @@ stability toolbox — kernel bounds, Cauchy estimates, Ehresmann fibration,
 isotopy extension — is standard); what is recorded is that the explicit
 constants for these targets are now derived and testable in-repo.
 
+*Resolution note (2026-08-08): Gate S′ was closed by orange's decision
+— see the research-log closure entry and issue #137 comment
+5225210787. The scope-bounded survey-result language rule recorded
+there applies; strong novelty judgments remain prohibited. Nothing
+else in this memo changes.*
+
 ## 1. Distance conventions
 
 For unit vectors, `||psi - phi||^2 = 2(1 - Re<psi|phi>)`. Zeros of
