@@ -1831,7 +1831,8 @@ Scope: two-mode, pure states, unit sphere, numerically supported census
 certified-lower-bound language anywhere; reproduction is same-environment
 (environment recorded in the JSON; cross-platform best-found optima can
 differ, observed in review); novelty unclaimed pending the derivation §7
-prior-art survey. Toolkit: wigner_splat/stellar2.py with proved-prediction
+prior-art survey (resolved 2026-08-08: closed — see the closure entry
+below). Toolkit: wigner_splat/stellar2.py with proved-prediction
 tests in tests/test_stellar2.py, including the linking-sign calibration pin.
 
 ## 2026-07-30 — Experiment 25 / issue #137 Gate M, topological K–ε curves
@@ -1959,7 +1960,8 @@ budget over a magnitude-capped factorized family, not the full non-compact
 group — no supremum claims in either direction, and the E6 value can
 neither support nor refute G3 (memo F5 as corrected); censuses numerically
 supported, not certified; same-environment reproduction (environment
-recorded in the JSON); novelty unclaimed pending Gate S′ — "link at
+recorded in the JSON); novelty unclaimed pending Gate S′ (resolved 2026-08-08:
+closed — see the closure entry below) — "link at
 infinity" is a standard singularity-theory notion and the derivation says
 so.
 
@@ -2013,7 +2015,8 @@ experiment's surfaces like exp24/25/26's.
 
 Scope: two modes, pure states, census sphere `r = 1`; the memo's radius
 is a bound from below on the breaking radius, never an estimate of it;
-no unrestricted-dictionary claim and no novelty claim (Gate S′ open);
+no unrestricted-dictionary claim and no novelty claim (Gate S′ open;
+resolved 2026-08-08: closed — see the closure entry below);
 acceptance basis: pending — the single final independent review that
 orange's GO decision prescribes had not run when this entry was written,
 and nothing here is accepted until it and orange's decision land.
@@ -2074,7 +2077,8 @@ the K_ε note's certified-lower-bound language, which stays unavailable
 until Gate T′ closes (resolved 2026-08-03: closed — see the closure
 entry below); the Gaussian dictionary statements quantify over
 the unbounded exp24 `D_G`, which contains exp25's operational `D_G^b`;
-no novelty claims (Gate S′ open).
+no novelty claims (Gate S′ open; resolved 2026-08-08: closed —
+see the closure entry below).
 
 ## 2026-08-02 — Experiment 30 / issue #137 Gate T′ sub-goal (c), dictionary alignment
 
@@ -2127,7 +2131,8 @@ here extends the note's one-mode certified theorems to two modes (the
 note's §8 multimode extension stays open), no claim is made about the
 note's row D1 quantity, the note's certified-lower-bound language stays
 unavailable until Gate T′ closes (resolved 2026-08-03: closed — see the
-closure entry below), and no novelty is claimed (Gate S′ open).
+closure entry below), and no novelty is claimed (Gate S′
+open; resolved 2026-08-08: closed — see the closure entry below).
 
 ## 2026-08-03 — issue #137 Gate T′ closed (governance record)
 
@@ -2209,3 +2214,44 @@ close and any language decision are orange's, on the survey report,
 after report-only independent review. The repo-wide prohibition on
 novelty claims remains in force; this survey neither uses nor unlocks
 any such language.
+
+*Resolution note (2026-08-08): Gate S′ was closed by orange's
+decision — see the closure entry below and issue #137 comment
+5225210787. The scope-bounded survey-result language rule recorded
+there now applies; strong novelty judgments remain prohibited. Nothing
+else in this entry changes.*
+
+## 2026-08-08 — issue #137 Gate S′ closed (decision record)
+
+Canonical public record: issue #137 comment 5225210787 (orange's
+decision of 2026-08-08, posted via the main-line session). This entry
+is a pointer, not a restatement. The decision's meaning is recorded
+there in full: the declared-scope prior-art survey (exp31) is complete
+and its findings §4 classifications and distinctions are adopted —
+explicitly **not** a novelty finding, and deliberately **not** recorded
+as unlocking any novelty claim. The adopted language rule permits only
+scope-bounded survey-result statements generated from findings §4 (two
+fixed forms: adjacency-with-recorded-distinction, and
+no-covering-source-found-within-declared-scope), with external
+surfaces carrying generated sentences or pointers only; strong novelty
+judgments ("novel", "new", "first", "no prior work exists",
+"unprecedented", claims of established novelty) remain prohibited.
+
+Timeline, exact: protocol pre-committed `4fcac58` (2026-08-03, before
+any search) → engine-tier execution `48739f1` → round-1 independent
+review BLOCKED B1–B4 (2026-08-03) → same-day fixes `556b6d9` →
+primary-tier rerun by the network-capable Terra executor `f4da0b8`
+(2026-08-08; findings §1 primary-read register; unreadable sources
+removed from the §4 basis) → round-2 acceptance PASS posted by the
+main-line session as non-author of the rerun diff, with its scope
+limits recorded (PR #168 comment 5225163847) → orange's close
+decision (2026-08-08, #137 comment above) → PR #168 squash-merged to
+dev (`053fb79`), main→dev history sync (#169).
+
+Effect scope: exactly what the #137 comment records — nothing more.
+This entry adds no claim, changes no status, and edits no claim table;
+the findings §4 table remains the sole authoring location for the
+survey's classifications. Dated resolution notes were added at the
+Gate S′ withholding sentences (earlier entries of this log, the exp24
+and exp26 READMEs, the exp26 §7 memo section, and the exp28/29/30
+memos); each states that nothing else in its document changes.

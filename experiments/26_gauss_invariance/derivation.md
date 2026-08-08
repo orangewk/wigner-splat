@@ -384,7 +384,7 @@ propagate as **indeterminate** (`None`) verdict components, never passes
   supported, not certified (exp24 limits verbatim); same-environment
   reproducibility contract (exp25 discipline: seeds fixed, environment
   recorded in the JSON, UTF-8 console); no novelty language pending Gate S′
-  (§7).
+  (§7; resolved 2026-08-08 — see §7's resolution note).
 
 ## 7. Prior-art risk (survey pending; Gate S′ discipline)
 
@@ -397,6 +397,12 @@ primary source was re-read for this memo and none is cited with content
 claims. Until Gate S′ closes, this experiment claims only its
 self-contained derivations and measurements, and the words "new" or
 "novel" appear nowhere.
+
+*Resolution note (2026-08-08): Gate S′ was closed by orange's decision
+— see the research-log closure entry and issue #137 comment
+5225210787. The scope-bounded survey-result language rule recorded
+there applies; strong novelty judgments remain prohibited. Nothing
+else in this memo changes.*
 
 ## Appendix A. Lemma A: precise statement and proof
 
