@@ -40,10 +40,13 @@ decisions are orange's on this report.
   every load-bearing citation is re-read from its primary source**
   (abstract at minimum; relevant section where load-bearing). A source
   that cannot be so re-read must then be removed from the load-bearing
-  basis of its row. The primary-tier re-read requires an execution
-  environment whose network policy permits fetching the scholarly
-  hosts above; that environment change is orange's decision and is
-  pending.
+  basis of its row. *Resolution (2026-08-08, PR #168 primary-tier
+  rerun):* every citation retained as load-bearing in §4 is recorded
+  in the primary-read register below with a stable locator, the date,
+  and the exact text scope read. The unreadable Milnor/Brauner and
+  nested-coding items were removed from §4's load-bearing bases. The
+  engine-tier notes in §2 remain only as the historical search record
+  and are not a basis for a §4 content claim.
 - **Locator caveat (round 1).** DOIs, ISBNs, and URLs recorded below
   were themselves surfaced by the search engine on 2026-08-03;
   in-session resolution of these locators could not be verified (same
@@ -63,6 +66,32 @@ decisions are orange's on this report.
 - **Date.** All retrievals 2026-08-03. Several load-bearing items
   postdate the assistant's knowledge cutoff; nothing below relies on
   background knowledge (protocol §0).
+
+### Primary-read register (2026-08-08)
+
+This register resolves the §0 reading requirement only for the sources
+retained in §4. “Abstract” means the official publisher or arXiv
+abstract page was retrieved and read; the named full-text sections were
+also retrieved and read where the row uses a coverage or method
+distinction. It does not upgrade any non-load-bearing engine-tier note.
+
+| Retained §4 source | Stable primary locator | Text read on 2026-08-08 | Exact scope used in §4 |
+| --- | --- | --- | --- |
+| 2607.04007 | https://arxiv.org/abs/2607.04007; https://arxiv.org/html/2607.04007v1 | abstract; §§1–2 | pure single-mode finite-rank stellar divisors; points in the complex plane and braid monodromy of regular parameterized families; explicit exclusions of multimode zero varieties and isolated-state invariants |
+| Dennis et al. 2010 | https://www.nature.com/articles/nphys1504 | abstract and article text | algebraic-topology construction and observation of nodal knots/links in propagating optical fields in three-dimensional real space |
+| Leach et al. 2005 | https://arxiv.org/abs/physics/0411121 | abstract | experimental vortex loops, links, and knots in a light beam, following a Berry–Dennis model |
+| Berry 2001 | https://doi.org/10.1023/A:1017521126923; https://michaelberryphysics.wordpress.com/wp-content/uploads/2013/07/berry328.pdf | abstract | zero lines of degenerate hydrogen wavefunctions, with explicit torus-knot recipes in real space |
+| 1904.07229 | https://arxiv.org/abs/1904.07229 | abstract | classifying maps from three-space to the complex plane whose zero preimage is a smooth knot; not a phase-space stellar-zero construction |
+| 2605.15008 | https://arxiv.org/abs/2605.15008; https://arxiv.org/html/2605.15008v1 | abstract; §§II, IV.1, IV.3 | Majorana stars for symmetric spin/multi-qubit states as discrete points on the Bloch sphere |
+| 2604.00766 | https://arxiv.org/abs/2604.00766; https://arxiv.org/html/2604.00766v1 | abstract; §§1.1.3 and 4–4.1 | lower bounds on approximate coherent-state rank; lifting to finite superpositions of multimode Fock states and the multimode Fock-state lower bound |
+| 2410.23721 | https://arxiv.org/abs/2410.23721; https://arxiv.org/html/2410.23721v5 | abstract; §§1 and 4–5 | approximate stellar rank and bounds/no-go results for approximate Gaussian state conversion, including fidelity/trace-distance precision |
+| 2404.07115 | https://arxiv.org/abs/2404.07115; https://arxiv.org/html/2404.07115v5 | abstract; §5 | Gaussian-rank/Gaussian-extent decompositions and their simulation-cost resource interpretation |
+| 2111.02391 | https://arxiv.org/abs/2111.02391; https://arxiv.org/html/2111.02391v4 | abstract; §1 | topological impossibility and error bound for superposing unknown quantum states, not approximation by a fixed dictionary |
+| 2305.10277 | https://arxiv.org/abs/2305.10277 | abstract | approximate stabilizer rank of magic states and a probabilistic quadratic lower-bound method; used only as a discrete-variable rank analogue |
+| Pires et al. 2025 | https://www.nature.com/articles/s41467-025-57827-1 | abstract; “Stability of optical knots” and Methods | theoretical/experimental turbulence robustness of real-space optical knots and reconnection-driven topology changes |
+| Annala et al. 2022 | https://www.nature.com/articles/s42005-022-01071-2 | abstract and Introduction | non-Abelian vortex knots/links protected against local reconnections and crossings in ordered media |
+| 1611.02563 | https://arxiv.org/abs/1611.02563 | abstract | explicit complex maps with lemniscate-knot nodal lines and fibrations, a subfamily generalizing torus knots |
+| 2607.02427 | https://arxiv.org/abs/2607.02427; https://arxiv.org/html/2607.02427v1 | abstract; §§III.2–III.3 | stellar-fidelity optimization for single-mode squeezed cat states; invariance under the target squeezing in that common Gaussian-factor setting |
 
 ## 2. Retrieval log (by family)
 
@@ -330,23 +359,19 @@ in §2). No new thematic family was needed; G2 was not triggered.
 
 ## 4. Classification table (sole authoring location)
 
-*Status note (2026-08-03, added in round 1 of the PR #168 review):*
-the rows below are **provisional** pending the primary-tier
-re-verification required by the §1 incident record; until that
-completes they support no outward-facing use. Round-1 revisions to
-individual rows (one load-bearing basis substituted because protocol
-§3 does not admit an in-repo pointer as load-bearing basis;
-re-itemized citations; one extended distinction) are recorded in the
-row cells themselves and in §2's dated notes.
+*Status note (2026-08-08, PR #168 primary-tier rerun):* §1's
+primary-read register resolves the pending read condition for every
+load-bearing citation retained below. It does not alter the protocol's
+scope-bound, report-only character or delegate any Gate S′ decision.
 
 | Topic | Classification | Load-bearing near neighbors (locators in §2) | Recorded distinction |
 | --- | --- | --- | --- |
-| T1 | A | 2607.04007; Dennis et al. 2010; Leach et al. 2005; Berry 2001 / 1904.07229; 2605.15008 | nearest works treat one-mode stellar zeros as point configurations (braid monodromy of families), real-space nodal lines of fields/wavefunctions (designed constructions), or S² point constellations; none treats two-mode stellar zero sets ∩ S³ as links with a census (components, windings, linking matrix) |
-| T2 | A | 2604.00766; 2410.23721 / 2404.07115; 2111.02391; 2305.10277 | the rank-lower-bound line's technique is analytic (no topological technique in the rendered material) **and its outcome overlaps directly in the multimode territory** — 2604.00766 gives approximate coherent-state-rank lower bounds for multimode states, including finite superpositions of multimode core states (§2 round-1 note) — while no retrieved source uses link/knot invariants of phase-space zeros as a restricted-dictionary, fixed-budget approximation obstruction; the retrieved topological items address different tasks; any outward-facing distinction must state the outcome overlap, not only "analytic/non-topological" |
-| T3 | A | Pires et al. 2025; Annala et al. 2022; nested-coding item (doi:10.1038/s41467-022-30381-w); 2607.04007 | retrieved stability work is either experimental robustness of designed real-space knots under turbulence or theoretical protection of non-Abelian vortex links against reconnection; neither is a fidelity-ball isotopy statement with explicit constants for phase-space zero links |
-| T4 | A | Milnor 1968 / Brauner 1928; Berry 2001; 1611.02563 | torus-knot zero sets are classical and constructible in many systems; no retrieved source certifies margins for a torus-knot phase-space target against a Gaussian dictionary via a winding bound |
-| T5 | A | 2607.02427 | the retrieved neighbor is one-mode: stellar approximation fidelity invariant under a squeezing operator common to target and ansatz (engine-rendered; §2 round-1 entry) — the nearest external statement of a common-factor mechanism; the two-mode common-vs-varying quadratic dichotomy with uniform transfer of certified constants (exp30's object) was not covered by any retrieved source (variant queries recorded in §2); the in-repo K_ε note's one-mode mechanism is context only and is no longer cited as load-bearing (round-1 revision) |
-| T6 | A | 2607.04007 | nearest work is deformation monodromy of one-mode zero configurations; Gaussian-unitary invariance of multimode zero-set structure (exp26's object) is not covered in the rendered material |
+| T1 | A | 2607.04007; Dennis et al. 2010; Leach et al. 2005; Berry 2001; 1904.07229; 2605.15008 | the retained neighbors treat one-mode stellar zeros as point configurations and braid monodromy of families, real-space nodal lines of fields/wavefunctions, or Bloch-sphere point constellations; none of the primary-read items treats two-mode stellar zero sets ∩ S³ as links with a census (components, windings, linking matrix) |
+| T2 | A | 2604.00766; 2410.23721; 2404.07115; 2111.02391; 2305.10277 | **Outcome overlap is direct:** 2604.00766 proves approximate coherent-state-rank lower bounds for finite superpositions of multimode Fock states (§§1.1.3, 4–4.1). The distinction is not merely methodological: 2604.00766 uses low-rank approximation/algebraic-complexity methods; 2410.23721 concerns approximate Gaussian conversion; 2404.07115 defines Gaussian-rank simulation resources; 2111.02391 concerns superposing unknown states; and 2305.10277 is a discrete-variable stabilizer-rank analogue. None of these retained primary-read sources supplies a link/knot invariant of phase-space zeros as a fixed-budget, restricted-dictionary approximation obstruction. |
+| T3 | A | Pires et al. 2025; Annala et al. 2022; 2607.04007 | the retained stability work is turbulence robustness of designed real-space optical knots, protection of non-Abelian vortex links against local reconnections/crossings, or homotopy stability of braid monodromy inside a regular one-mode finite-rank stratum; none gives a fidelity-ball isotopy statement with explicit constants for phase-space zero links |
+| T4 | A | Berry 2001; 1611.02563 | retained primary sources give real-space torus-knot recipes in hydrogen wavefunctions and explicit nodal lemniscate-knot fibrations; neither certifies margins for a torus-knot phase-space target against a Gaussian dictionary via a winding bound |
+| T5 | A | 2607.02427 | its §III.3 stellar fidelity for a squeezed single-mode cat target is invariant under the target squeezing, giving a common-Gaussian-factor mechanism; it does not establish the two-mode common-vs-varying quadratic dichotomy or uniform transfer of certified constants in the exp30 topic |
+| T6 | A | 2607.04007 | the retained source studies deformation monodromy of one-mode finite stellar-zero configurations in regular families; it explicitly leaves multimode zero varieties aside, so it does not establish Gaussian-unitary invariance of multimode zero-set structure |
 
 Whether protocol G3's correction duty fires is read off the
 Classification column above; it is not separately authored in prose

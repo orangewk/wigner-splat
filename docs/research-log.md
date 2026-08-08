@@ -2197,6 +2197,12 @@ that re-read is blocked on an environment/network-policy decision
 citations with per-item locators and revised one row's load-bearing
 basis; details live in findings.md, not here.
 
+*Correction (2026-08-08, PR #168 primary-tier rerun):* the exp31
+findings' §1 primary-read register records the resolved locators, date,
+and text scopes for the retained load-bearing sources; items that could
+not meet that reading record were removed from its table basis. The
+findings remain the sole record of source content and classifications.
+
 Owner/decisions: adopted on orange's direction of 2026-08-03 ("proceed
 with the natural next move") following the Gate T′ closure. Gate S′
 close and any language decision are orange's, on the survey report,

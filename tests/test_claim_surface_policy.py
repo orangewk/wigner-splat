@@ -490,6 +490,45 @@ def test_exp31_classifications_not_restated_outside_findings_table():
         )
 
 
+def test_exp31_load_bearing_sources_have_primary_read_records():
+    """PR #168 B1: every source retained in the §4 basis must have a
+    dated primary-tier locator and exact read scope in the §1 register.
+    This makes a later table-only citation edit fail closed rather than
+    silently reviving the engine-tier incident."""
+    text = (EXPERIMENTS / "31_prior_art_survey" / "findings.md").read_text(
+        encoding="utf-8"
+    )
+    register_start = text.index("### Primary-read register (2026-08-08)")
+    table_start = text.index("## 4. Classification table")
+    register = text[register_start:table_start]
+    assert "| Retained §4 source | Stable primary locator | Text read on 2026-08-08 |" in register
+    retained = (
+        "2607.04007",
+        "Dennis et al. 2010",
+        "Leach et al. 2005",
+        "Berry 2001",
+        "1904.07229",
+        "2605.15008",
+        "2604.00766",
+        "2410.23721",
+        "2404.07115",
+        "2111.02391",
+        "2305.10277",
+        "Pires et al. 2025",
+        "Annala et al. 2022",
+        "1611.02563",
+        "2607.02427",
+    )
+    for source in retained:
+        assert f"| {source} | https://" in register, (
+            f"retained exp31 §4 source lacks a primary-tier read record: {source}"
+        )
+    for removed in ("Milnor 1968", "Brauner 1928", "nested-coding item"):
+        assert removed not in text[table_start:], (
+            f"unreadable exp31 source remains load-bearing: {removed}"
+        )
+
+
 def test_exp24_status_not_restated_in_research_log():
     """Finding 3 of the PR #145 review (deferred to this line, applied with
     the 2026-08-02 P5 promotion): exp24's P1-P6 statuses live only in its
