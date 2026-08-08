@@ -1,4 +1,4 @@
-"""Final execution entry point for BRIEF.md experiment 27.
+"""Final execution entry point for experiment 27 (`BRIEF.md` in this directory).
 
 The numerical kernels live in ``_core.py``; this entry point fixes the
 declared energy quadrature and report generation before calling the core

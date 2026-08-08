@@ -1,4 +1,4 @@
-"""Numerical run for BRIEF.md: system A and the parabolic self-check.
+"""Numerical run for `BRIEF.md` in this directory: system A and the parabolic self-check.
 
 The run writes one canonical numerical artifact, ``results.json``.  The
 human-readable report is generated from that artifact and is not an
