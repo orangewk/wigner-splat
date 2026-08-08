@@ -1,11 +1,17 @@
 # セバスチャン責務・agent間協働の機構化案
 
-- 状態: proposed（未実装）
+- 状態: dead（後継設計に置換済み。歴史記録としてのみ保持）
 - 作成・改訂日: 2026-08-01
 - 決定者: orange
 - 対象: セバスチャンおよび、引き継ぎで交代する同等runner
 - 参照監査: [`../2026-08-01-sebastian-drift-audit--done.md`](../2026-08-01-sebastian-drift-audit--done.md)
 - 旧案: [`2026-08-01-sebastian-governance-mechanism-v1--dead.md`](2026-08-01-sebastian-governance-mechanism-v1--dead.md)
+- 後継設計: [`2026-08-02-github-native-agent-governance--proposed.md`](2026-08-02-github-native-agent-governance--proposed.md)
+- 再発明評価: [`../2026-08-02-agent-provenance-reinvention-assessment--done.md`](../2026-08-02-agent-provenance-reinvention-assessment--done.md)
+
+> 本書の手書きprovenance schema、task状態機械、Phase 1 / 2計画は停止した。
+> セバスチャン監査から導いた科学的authority境界の現行規範は後継設計へ移した。
+> 以下の内容は当時案の監査履歴であり、現行policyのauthoring locationではない。
 
 ## 1. 決定
 
