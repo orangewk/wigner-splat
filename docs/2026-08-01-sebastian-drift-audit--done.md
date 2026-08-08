@@ -6,6 +6,7 @@
 - 決定者: orange
 - 対象期間: 2026-07-30T00:09:52Z から 2026-07-31T23:14:16Z までの「管理役」末尾署名コメント、および 2026-08-01 までに push された関連ブランチ
 - 非対象: 所在を取得できなかったローカル scratchpad の内容、ベンダ出力そのものの再査読
+- 後続処置: [`2026-08-02-agent-provenance-reinvention-assessment--done.md`](2026-08-02-agent-provenance-reinvention-assessment--done.md)、[`planning/2026-08-02-github-native-agent-governance--proposed.md`](planning/2026-08-02-github-native-agent-governance--proposed.md)
 
 ## 結論
 
