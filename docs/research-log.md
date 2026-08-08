@@ -1831,7 +1831,8 @@ Scope: two-mode, pure states, unit sphere, numerically supported census
 certified-lower-bound language anywhere; reproduction is same-environment
 (environment recorded in the JSON; cross-platform best-found optima can
 differ, observed in review); novelty unclaimed pending the derivation §7
-prior-art survey. Toolkit: wigner_splat/stellar2.py with proved-prediction
+prior-art survey (resolved 2026-08-08: closed — see the closure entry
+below). Toolkit: wigner_splat/stellar2.py with proved-prediction
 tests in tests/test_stellar2.py, including the linking-sign calibration pin.
 
 ## 2026-07-30 — Experiment 25 / issue #137 Gate M, topological K–ε curves

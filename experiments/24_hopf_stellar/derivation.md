@@ -277,7 +277,7 @@ note's sampled columns).
   language may be attached to any E4 number.
 - **Scope:** nothing here touches measured data, mixed states, or the note's
   certified one-mode theorems; no novelty is claimed pending a prior-art
-  survey (§7).
+  survey (§7; resolved 2026-08-08 — see §7's resolution note).
 
 ## 7. Prior-art risk (survey pending)
 
@@ -292,3 +292,9 @@ survey must check at minimum: singularity-link literature, optical
 vortex-knot literature, and
 the stellar-formalism cluster. Until then this experiment claims only its
 self-contained derivations and measurements.
+
+*Resolution note (2026-08-08): Gate S′ was closed by orange's decision
+— see the research-log closure entry and issue #137 comment
+5225210787. The scope-bounded survey-result language rule recorded
+there applies; strong novelty judgments remain prohibited. Nothing
+else in this memo changes.*
