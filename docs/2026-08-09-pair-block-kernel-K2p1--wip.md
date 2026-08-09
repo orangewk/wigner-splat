@@ -1,10 +1,11 @@
 # K(2)+1: exact pair-block kernel(木包絡)— wip
 
-日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.6: QR5(ρ⁻⁵)= 証明ドラフト到達
-(§3.7 — Sol 起草、本線が消去恒等式・jets・特異閉包・包絡表示を全 spot 検算、
-JF 床 c_J ≈ 0.38 数値確認)。C_T = 3c₁⁻¹ 絶対(c_J・c_WE・N_A は compactness 由来で
-非明示 — interval arithmetic で明示化可能)。残 = 完全執筆 → luna レビュー → 数値検証。
-v0.4: ρ⁻⁴ は五次共鳴で偽(§3.5)。v0.3: QR4-I 恒等式。v0.2: 抽象化 K2QV 反証**
+日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.1: luna R1 = 受理不可(全件受諾)。
+QR5 は「骨格 + 部分証明」に格下げ — 残証明義務 P1(κλ-スケール床への書き直し —
+私の κ-落ち床は反例で偽)/ P2(JF compactification の構成)/ P3(branch bootstrap
+帰納)/ P4(SN 節の完全執筆)。検算通過部: g 表示・JF 内部消去・押し出し換算・帳簿骨格。
+statement 自体への反例はなし(共鳴摂動 18 配置 ratio·ρ⁵ ≤ 10⁻⁴、厳密共鳴 ~1 で飽和)。
+v0.4: ρ⁻⁴ は五次共鳴で偽。v0.3: QR4-I。v0.2: 抽象化 K2QV 反証**
 
 > 位置づけ: [三原子一遷移補題](2026-08-09-three-atom-one-transition--wip.md) §3.7.4 の
 > 残補題 2(Sol C.4 提案を検算の上採用)。pair を Taylor 置換せず exact block のまま保持する
@@ -322,6 +323,35 @@ c₁ := min{c_WE, (5/4N_A)⁴/2, 10⁻²/D_ch, c_WE ℓ⁵/D_ch, (5ℓ/4N_A)⁴/
 **未了(明示)**: c_J・c_WE・N_A の十進値(verified interval arithmetic で将来明示化)。
 JF の (iii) と compact 部排除(WE5 (iii) 前半)が compactness 論法の 2 箇所 —
 luna レビューの重点対象。
+
+### 3.8.6 luna R1 判定(v0.7.1 — 全件受諾)と残証明義務
+
+**判定: 受理不可(定数明示化以前の問題)。** 検算通過: g の厳密表示、場合分けの網羅性、
+押し出し換算(η ≤ (5s/4N_A)⁴ ⇒ M ≤ 8h)、初期損失 32ρ⁻⁵、hop 帳簿の安全側性。
+受諾した指摘と残証明義務:
+
+- **[blocking → P1] WE5 (iii) の κ-落ち**: 私の「‖u‖_S ≥ c_WE s⁵」は**偽** —
+  luna 反例(q = (0, at, at+δ)、c = (−e^{−R}, 1, −e^{−δ})で F ≡ −e^{−R}、
+  ‖u‖_S ~ e^{−R} → 0; 本線数値検証: R = 20 で 2.3·10⁻⁹ vs 主張床 10⁻³、
+  ‖u‖ は κ スケールに正確に追随 — luna_we5_counter_check.py)。
+  修復方向: 床は κλ^m s^m 型に格下げし、compact 部排除は「(c-ii) へ排除」でなく
+  **局所矛盾(その source 配置は存在しない)or low-λs 枝の WE5 適用**として書き直す
+  ([major] 6 と一体)。c₁ menu も連動改訂。
+- **[major → P2] JF の compactification が未構成**: 内部の消去計算は妥当だが、
+  対象空間(E → 0, 1, ∞ の方向付き実 blow-up、ω・D̂・Â の定義、κ-正規化 jets の
+  連続延長)が定義されていない。d = α = 0 退化枝(u が 2 次多項式 — 独立の
+  deg ≤ 2 Remez 分岐)への接続も明示分岐が必要。
+- **[blocking → P3] branch bootstrap の循環**: 「u は大域一枝」は WE5 の適用**結果**で
+  あって前提にできない。luna の 5 段帰納(source の principal 枝 → zero-free tube →
+  tube 上の解析接続に WE5 → |H| < 10⁻² を獲得 → 次窓で押し出し再起動)を明示的に書く。
+- **[blocking → P4] SN 除外の未定義定数**: B₃・c_A(Sol の SN 局所復活の compactness
+  定数)が本文未定義。SN 節を独立に書き切る(境界窓の片側差分・SN 境界極限・
+  N_A の配置非依存性込み)。QR4-T 定数検算(作業計画 3b)もここに合流。
+- **[major] 連鎖 ledger の精密化**: ‖H‖ ≤ (D_ch/4)c₁ の初期因子保持を明記して
+  窓内再押し出し条件を成立させる。
+
+**現状 status(訂正): QR5 = 骨格 + 部分証明**(JF 内部消去・g 表示・押し出し換算・
+帳簿骨格は検算通過)。P1–P4 が閉じるまで「証明ドラフト」を名乗らない。
 
 ## 4. 数値検証(2026-08-09、scratchpad k2p1_numeric.py)
 
