@@ -351,7 +351,7 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 |---|---|---|---|---|
 | P1: WE5 | **PASS**(R-P1-compose、fixed SHA `09ca16f`) | R-P1 R2 の WE5、§3.8.9/R-P2 の JF、§3.8.10/R-P4 R2 の SN/C₆、非循環な依存合成 | P1 内の残証明義務なし | P3 はこの局所 WE5 の後 |
 | P2: JF | **PASS**(R-P2、fixed SHA `f36182e`) | §3.8.9: exact jets、補助正規化、E→0,1,∞ の方向付き compactification、全境界での共通零点排除、d=α=0 の deg≤2 分岐 | JF 内の残証明義務なし。数値 `c_J≈0.38` は引き続き非証拠 | P1 の JF 入力を供給 |
-| P3: branch bootstrap | blocking | g の厳密表示、source 窓の principal 枝 | source→zero-free tube→解析接続→WE5→次窓、の5段帰納 | P1 の WE5 後 |
+| P3: branch bootstrap | **proof draft**(independent review pending) | §3.8.11: source principal branch → P4 collar → analytic continuation → P1 WE5 → next-window principal branch、初回だけρ⁻⁵の ledger | 固定 SHA で branch 一致・両方向 cover・c₁ threshold・最終 g 変換を acceptance 判定する | P1/P2/P4 PASS を入力 |
 | P4: SN/QR4-T | **PASS**(R-P4 R2、fixed SHA `8ce3340`) | §3.8.10: Weierstrass tail の明示定数、one/two-root SN、R2′、zero-free tube、root-ratio による6階上界 | P4 内の残証明義務なし | P1 の SN/C₆ 入力を供給 |
 
 現行の残証明義務は **P3 branch bootstrap**。P1/P2/P4 は独立再査読を通過した。
@@ -454,7 +454,8 @@ B₃ := 2C_tail𝔇_SN とし、
     (4C_tail)^{1/3}})、  h := s/N_A
 と定義する。N_A は c₁・η*・ρ・個別配置に依存しない。
 
-**SN 排除の検算式**: |e^{Δ_h³u}−1| ≤ 9η(η := 3σ_H)と上の tail 評価から、
+**SN 排除の検算式**: source ごとに θ_S := ‖H‖_S、η := 3θ_S と置く。
+`θ_S≤10⁻²` なら `|u|≤θ_S/(1−θ_S)<η` なので |e^{Δ_h³u}−1| ≤ 9η。上の tail 評価から、
 |T_far−1| ≤ 1/2 の下で
   sup_{S₀}|N_ν| ≤ 2𝔇_SN(9η+C_tail h³)+2   (ν = 1)、
   sup_{S₀}|N_ν| ≤ 2𝔇_SN(9η+C_tail h³)     (ν = 2)
@@ -1034,6 +1035,140 @@ G⁽⁶⁾ = L⁽⁶⁾z′⁶+30L⁽⁵⁾z′⁴α+180L⁗z′²α²+120L‴α
 この C₆ は配置、S、W、ρ、c₁ に依存せず、Ω 外の点を compactness 集合へ加えていない。
 以上で §3.8.7 の P4 contract の全項目を覆う。
 
+### 3.8.11 branch bootstrap と窓連鎖(P3、v0.9.0 — 独立再査読待ち)
+
+> **status**: 本節は P1/P2/P4 の accepted local statements だけを使って P3 を証明する draft。
+> 大域的な principal branch を入力にせず、各 hop の出力として次の branch を作る。
+> 現行 state は §3.8.6 の表だけを参照する。
+
+#### 1. interval chain と初期 source
+
+`ℓ*`、`A*`、`B:=4A*`、`N_W:=ceil(1/ℓ*)`、`D_ch:=32B^{N_W+1}` は §3.8.8 と同じ。
+`I_ρ⊂K` から長さ
+
+```
+s₀≥min(ρ,ℓ*)/2
+```
+
+の閉部分区間 S₀ を取る。K の任意の点 x へ、S₀ から左右いずれかへ進む長さ ℓ* の区間列
+`W₁,...,W_r` (`r≤N_W+1`)を取り、各 W_{j+1} は W_j と端点を共有または重なるようにする。
+端点側では K 内へ向けた片側窓を使う。このような列を左右へ別々に取れば K 全体を覆う。
+
+深平坦枝では
+
+```
+θ₀:=‖H‖_{S₀}≤σ_H<c₁ρ⁵≤10⁻².
+```
+
+従って S₀ 上で principal branch
+
+```
+u₀:=Log(1−H)
+```
+
+が一意に定まり、`‖u₀‖_{S₀}≤θ₀/(1−θ₀)<2θ₀`。F2 の恒等式により、この branch は
+S₀ 上で `log(a(e^z−1))+p` 型である。
+
+#### 2. 一 hop の非循環な5段
+
+一般に source S(長さ s≤ℓ*)上で
+
+```
+θ:=‖H‖_S≤D_ch c₁≤10⁻²,
+u:=Log(1−H),
+3θ≤(5s/(4N_A))⁴                                      (P3-source)
+```
+
+が成立しているとする。隣接する target W に対し:
+
+1. **source branch**: `|u|<2θ` なので、u は source 上の一意な principal branch。
+2. **zero-free tube**: §3.8.10(P4)を局所量 `η=3θ` で適用し、Ω_{S,W} 上
+   `e^z−1≠0` と C₆ 上界を得る。
+3. **解析接続**: Ω_{S,W} は単連結なので、source 上の u と一点で一致する
+   `ũ=log(a(e^z−1))+p` の解析枝が一意に存在する。`1−e^{ũ}` と H は source 上で一致するから、
+   恒等定理により Ω_{S,W} 全体で `H=1−e^{ũ}`。
+4. **WE5**: §3.8.8(P1)を ũ に適用して
+
+   ```
+   ‖ũ‖_W≤A*(ℓ*/s)⁵‖u‖_S≤2A*(ℓ*/s)⁵θ.
+   ```
+
+   右辺を下の ledger で `≤1/100` に保つので、`|1−e^{ũ}|≤2|ũ|`。従って
+
+   ```
+   ‖H‖_W≤B(ℓ*/s)⁵θ.                                    (P3-hop)
+   ```
+
+5. **next principal branch**: (P3-hop) は `‖H‖_W≤10⁻²` も保証するため、
+   `u_next:=Log(1−H)` が W 上で一意に定まる。`e^{u_next}=e^{ũ}=1−H` で、重なり部分では
+   両者が source branch と一致する。差は `2πiℤ` 値の連続関数なので0、従って
+   `u_next=ũ|_W`。これで同じ仮定を次窓へ再起動できる。
+
+この順序では大域 branch を仮定していない。branch は各 P4 collar 上で作り、WE5 後の smallness により
+次窓の principal branch と同定している。
+
+#### 3. c₁ ledger と全 hop の再起動
+
+初回は `s=s₀`、その後は `s=ℓ*` である。`s₀≥min(ρ,ℓ*)/2` から
+
+```
+(ℓ*/s₀)⁵≤32ρ⁻⁵.
+```
+
+まず WE5 の出力を H へ戻す前に小ささを確認する。初回は
+
+```
+‖ũ₁‖_{W₁}≤2A*·32ρ⁻⁵σ_H=16Bρ⁻⁵σ_H.
+```
+
+r−1番目まで `θ_{r−1}≤32B^{r−1}ρ⁻⁵σ_H` と仮定すれば、以後の full-window hop では
+
+```
+‖ũ_r‖_{W_r}≤(B/2)θ_{r−1}≤16B^rρ⁻⁵σ_H
+             ≤(D_ch/2)c₁≤1/200.
+```
+
+従って `|1−e^{ũ_r}|≤2|ũ_r|` を循環なく使え、(P3-hop) から帰納的に
+
+```
+θ_r≤32B^r ρ⁻⁵σ_H≤D_ch ρ⁻⁵σ_H<D_ch c₁≤1/100.          (P3-ledger)
+```
+
+を得る。P4 の source threshold は次の通り:
+
+- **initial, ρ≤ℓ***: `s₀≥ρ/2` と c₁ menu 第2項から
+  `3θ₀≤3c₁ρ⁵≤(5s₀/(4N_A))⁴`。
+- **initial, ρ≥ℓ***: `s₀≥ℓ*/2` と第3項から
+  `3θ₀≤3c₁≤(5s₀/(4N_A))⁴`。
+- **later hops**: source 長さは ℓ*、(P3-ledger) と第3項から
+  `3θ_j≤3D_chc₁≤(5ℓ*/(4N_A))⁴`。
+
+よって (P3-source) は全 hop で再生され、左右の chain 全体に帰納が通る。
+
+#### 4. H から tree-envelope norm へ
+
+左右の chain で K を覆うと
+
+```
+‖H‖_K≤D_ch ρ⁻⁵σ_H.                                    (P3-H)
+```
+
+厳密表示 `g=e^{-U_T}|F|=|H|/max(1,|1−H|)` から `g≤|H|`。一方、
+`|H(t_*)|=σ_H` を満たす `t_*∈I_ρ` では `max(1,|1−H(t_*)|)≤1+σ_H≤1.1` なので
+
+```
+‖g‖_{I_ρ}≥σ_H/1.1.
+```
+
+(P3-H) より深平坦枝(c-i)で
+
+```
+‖g‖_K≤1.1D_ch ρ⁻⁵‖g‖_{I_ρ}.                           (P3-QR5-ci)
+```
+
+場合 (a)(b) と (c-ii) は §3.2/§3.8.1 の既証明分岐であるため、P3 が受理されれば QR5 の
+全場合分けが閉じる。
+
 ## 4. 数値検証(2026-08-09、scratchpad k2p1_numeric.py)
 
 > **証拠 status**: この節が参照する `k2p1_numeric.py`、`qr5_resonance_mp.py`、
@@ -1142,3 +1277,7 @@ G⁽⁶⁾ = L⁽⁶⁾z′⁶+30L⁽⁵⁾z′⁴α+180L⁗z′²α²+120L‴α
 - v0.8.3(2026-08-10): 固定 SHA `09ca16f` の R-P1-compose が P2/P4 interface 一致、
   `collar→ZL→C₆→WE5` の非循環性、N_A/c₁ ledger、λ=0/λ>0 分岐を全件 PASS。
   §3.8.6 の P1 を PASS に更新。QR5 の残証明義務は P3 branch bootstrap のみ。
+- v0.9.0(2026-08-10): P3 の5段帰納を §3.8.11 に証明本文化。各 hop で source principal branch、
+  P4 collar、解析接続、P1 WE5、next principal branch の順を守り、大域 branch の循環を除去。
+  c₁ menu の3項で initial(ρ≤ℓ*/ρ≥ℓ*)と later hop の P4 threshold を再生し、ρ⁻⁵を初回だけ
+  支払う D_ch ledger と最終 `g` 変換を記載。固定 SHA の独立再査読待ち。
