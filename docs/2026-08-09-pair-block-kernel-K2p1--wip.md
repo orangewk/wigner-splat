@@ -349,7 +349,7 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 
 | ID | state | 検算済み／生存部品 | 残証明義務 | 論理依存 |
 |---|---|---|---|---|
-| P1: WE5 | blocking(review pending) | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger、§3.8.8 の条件付き WE5 | §3.8.8 の zero-free λ-bound と κ-scale 帳簿の独立検算。P2/P4 契約が閉じるまで無条件化しない | §3.8.7 の P2/P4 入力契約に条件付く |
+| P1: WE5 | **conditional PASS**(R-P1 R2、P2/P4 待ち) | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger、§3.8.8 の zero-free λ-bound + κ-scale 条件付き WE5 | P2/P4 契約が証明されるまで無条件化しない。P3 はこの局所 WE5 の後 | §3.8.7 の P2/P4 入力契約に条件付く |
 | P2: JF | blocking(review severity: major) | jets 明示式、内部消去、E→1 の形式的境界計算 | §3.8.7 JF-contract: directed blow-up、κ-正規化 jets の連続延長、d=α=0 分岐の証明 | 接口定義済み。完全証明は P1 と並行可 |
 | P3: branch bootstrap | blocking | g の厳密表示、source 窓の principal 枝 | source→zero-free tube→解析接続→WE5→次窓、の5段帰納 | P1 の WE5 後 |
 | P4: SN/QR4-T | blocking | 押し出し換算、tube の幾何計算 | §3.8.7 SN-contract: B₃・c_A・N_A、片側差分、配置非依存性、QR4-T 定数の証明 | 接口定義済み。完全証明は P1 と並行可 |
@@ -669,3 +669,6 @@ JF の κ-scale jet floorで6階剰余の余分な1乗を吸収する点にあ�
 - v0.7.6(2026-08-10): 独立 R-P1 R1 の BLOCKED 判定を受諾。ZL の E→1 rescaling を
   z = 2πik の exact 二次方程式と Rouché で書き切り、A = 0/D = 0/重根/虚 gauge を処理。
   ρ ≥ ℓ* の半窓 initial source に合わせ、c₁ menu 第3項を 12D_ch → 48D_ch に修正した。
+- v0.7.7(2026-08-10): 固定 SHA 85bb2c2 の独立 R-P1 R2 が条件付き WE5 を PASS 判定。
+  §3.8.6 の P1 state を conditional PASS(P2/P4 待ち)へ更新。QR5 全体は P2/P3/P4 により
+  BLOCKED のまま。
