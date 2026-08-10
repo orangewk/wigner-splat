@@ -349,13 +349,13 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 
 | ID | state | 検算済み／生存部品 | 残証明義務 | 論理依存 |
 |---|---|---|---|---|
-| P1: WE5 | **proof complete**(dependency-composition review pending) | R-P1 R2 の WE5、§3.8.9/R-P2 の JF、§3.8.10/R-P4 R2 の SN/C₆ | P2/P4 の accepted inputs を合成した最終 status gate | P3 はこの局所 WE5 の後 |
+| P1: WE5 | **PASS**(R-P1-compose、fixed SHA `09ca16f`) | R-P1 R2 の WE5、§3.8.9/R-P2 の JF、§3.8.10/R-P4 R2 の SN/C₆、非循環な依存合成 | P1 内の残証明義務なし | P3 はこの局所 WE5 の後 |
 | P2: JF | **PASS**(R-P2、fixed SHA `f36182e`) | §3.8.9: exact jets、補助正規化、E→0,1,∞ の方向付き compactification、全境界での共通零点排除、d=α=0 の deg≤2 分岐 | JF 内の残証明義務なし。数値 `c_J≈0.38` は引き続き非証拠 | P1 の JF 入力を供給 |
 | P3: branch bootstrap | blocking | g の厳密表示、source 窓の principal 枝 | source→zero-free tube→解析接続→WE5→次窓、の5段帰納 | P1 の WE5 後 |
 | P4: SN/QR4-T | **PASS**(R-P4 R2、fixed SHA `8ce3340`) | §3.8.10: Weierstrass tail の明示定数、one/two-root SN、R2′、zero-free tube、root-ratio による6階上界 | P4 内の残証明義務なし | P1 の SN/C₆ 入力を供給 |
 
-現行の残順序は **P1 dependency-composition gate → P3**。P2/P4 は独立再査読を通過した。
-QR5 全体は P3 の branch bootstrap を閉じるまで完了扱いにしない。
+現行の残証明義務は **P3 branch bootstrap**。P1/P2/P4 は独立再査読を通過した。
+QR5 全体は P3 を閉じるまで完了扱いにしない。
 
 受諾した指摘の詳細:
 
@@ -489,18 +489,18 @@ QR4-T の根換算から、全零点と Ω_{S,W} の距離が δ₀ 以上であ
 - P2 の c_J と、P4 の c_A、B₃、N_A、zero-free collar を先に定める。collar から ZL の
   Λ_Z、その後 C₆ を定めてから P1 が q₀、ℓ*、A*、D_ch、c₁ を選ぶ。P2/P4 は c₁ を仮定しない。
 - P2 の JF-contract は §3.8.9、P4 の SN-contract は §3.8.10 で証明済み。
-  R-P1 R2 が通した条件付き WE5 との依存合成だけを最終 status gate に残す。
+  固定 SHA `09ca16f` の R-P1-compose が WE5 との依存合成を PASS 判定した。
 - P3 の global principal branch は入力にしない。P1 の局所 WE5 後に、source branch →
   Ω_{S,W} 上の解析接続 → 次窓の smallness、の順で帰納する。
 - P2 の acceptance は3 chart の境界列と `d=α=0` 列、P4 は端点/片側窓と near/far 境界列を
   含めて通過済み。有限 random search は補助であり、
   compactness または非消滅の証明を代替しない。
 
-### 3.8.8 WE5(P1、v0.8.2 — P2/P4 入力証明済み、合成 gate 待ち)
+### 3.8.8 WE5(P1、v0.8.3 — P2/P4 入力との合成通過)
 
 > 固定 SHA `85bb2c2` の R-P1 R2 は本節を conditional PASS と判定した。JF-contract は
 > §3.8.9/R-P2、SN-contract は §3.8.10/R-P4 R2 で証明済み。P3 の branch bootstrap を
-> 閉じたとは主張しない。
+> 閉じたとは主張しない。固定 SHA `09ca16f` の R-P1-compose が依存合成を PASS 判定した。
 > 現行 state は §3.8.6 の表だけを参照する。
 
 #### ZL: zero-free λ-bound
@@ -1139,3 +1139,6 @@ G⁽⁶⁾ = L⁽⁶⁾z′⁶+30L⁽⁵⁾z′⁴α+180L⁗z′²α²+120L‴α
 - v0.8.2(2026-08-10): 固定 SHA `8ce3340` の R-P4 R2 が実Ω限定、root-ratio、B(q)、
   κ/Δ_g weight、6階 chain、非循環を全件 PASS。§3.8.6 の P4 を PASS に更新し、P1 を
   dependency-composition gate だけが残る proof complete へ進めた。QR5 全体は P3 により BLOCKED。
+- v0.8.3(2026-08-10): 固定 SHA `09ca16f` の R-P1-compose が P2/P4 interface 一致、
+  `collar→ZL→C₆→WE5` の非循環性、N_A/c₁ ledger、λ=0/λ>0 分岐を全件 PASS。
+  §3.8.6 の P1 を PASS に更新。QR5 の残証明義務は P3 branch bootstrap のみ。
