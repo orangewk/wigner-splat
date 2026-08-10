@@ -1,8 +1,9 @@
 # 三原子一遷移補題(c = 3)— wip v0.1(骨格)
 
-日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7: intended QR5 child への old DC bridge を反例で撤回。
+日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.1: intended QR5 child への old DC bridge を反例で撤回。
 五次共鳴が直接反証するのは tree envelope QR5 の指数 4 で、tree 指数の sharp 予想は 5。
 tree QR5 は固定 SHA 27a1817 の R-P3 まで PASS。direct U_T→U_F 一様比較は phantom 反例で偽。
+DC-NG は固定 SHA 1392266 の R-DCNG(A1–A7) PASS。
 次の本体 = cancellation-aware exact block-frame preparation (FR)、多重遷移。旧「Γ(3) ≥ 5」主張は撤回のまま。**
 
 > 位置づけ: 閉包ドラフト §4.3.5.3 の「次の具体タスク」。kernel は
@@ -355,6 +356,9 @@ tree QR5 の閉鎖は有効だが、旧 DC へ接続する設計図は撤回す�
 **命題 DC-NG (near-phantom witness)**: 旧計画の二枝、すなわち「parent U_F で direct transfer」または
 「exact 2+1 tree を QR5 child とし、§3.7.1 の DC で parent U_F へ戻す」は同時に失敗し得る。
 
+**査読 status**: 固定 SHA `1392266` の R-DCNG(A1–A7) **PASS**。以下の計算、one-transition 適合性、
+frequency allowance、結論の scope、FR の未証明表示に finding なし。
+
 *証明*: ρ ↓ 0、K = [0,1]、E_ρ = [1−ρ,1]、M_ρ := (16ρ)⁻¹、δ_ρ := e^{−2M_ρ} とし、
 
 - c₁ = 1、q₁ = 0、c₂ = −1、q₂(t) = δ_ρt、
@@ -488,3 +492,5 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
   reduction 後も保持する要求を捨て、
   exact cancellation-aware block-frame contract (FR: span exactness / tree envelope / N2 / N3′–N4)
   を次の authoring target とした。QR5 は FR の 2+1 内部節点 kernel として保持。
+- v0.7.1(2026-08-10): 固定 SHA `1392266` の R-DCNG(A1–A7) **PASS**。near-phantom witness の
+  held 条件・weighted ratio・tree discount・frequency allowance と、別 child 未排除という scope を再検算。
