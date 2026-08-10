@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.4、nested cluster と flex witness を追加、R-FRSPEC R4待ち、FR-S1未証明**
+日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.4.1、R-FRSPEC R4 PASS、FR-S1未証明**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -33,7 +33,8 @@ constant-gauge quotient 後の基点について
 
 を仮定する。s_m が 0 へ行かない別 cluster は入力前に分離し、L3/cluster tree の別節点で扱う。
 
-outer cluster 内の normalized distance d(ξ_{i,m},ξ_{j,m})/s_m は部分列で全対収束させる。極限 0 の pair は
+leaf weight w=1 は再帰の終端とし、距離正規化を行わない。w≥2 の active cluster node では、
+normalized distance d(ξ_{i,m},ξ_{j,m})/s_m を部分列で全対収束させる。極限 0 の pair は
 proper child cluster とし、その child scale で同じ操作を再帰する。c=3 では tree shape は single-scale triple または
 2+1(root scale)の pair child(single scale)だけで、再帰深さは高々2。各 active node では非零 pair-distance ratio が
 正の下限を持つ。この nested tree、r := dim V_m、pivot permutation を部分列で固定する。
@@ -138,3 +139,6 @@ FR3/FR4が出る」という素朴な Route B は不十分。scheme route を使
 - v0.4(2026-08-10): R-FRSPEC R3 の H1 を受諾。outer cluster内のzero-ratio pairをproper childへ再帰し、
   c=3でdepth≤2の各active nodeをsingle-scale化。加えて single-scale curvilinear族でも素朴な length-3 evaluation が
   rank dropする Flex witness F3を追加。FR-S1はrate flagに加えてevaluation-rank flagも必要。
+- v0.4.1(2026-08-10): 固定 SHA `26106ac` の R-FRSPEC R4 **PASS**。nested tree、F3 の級数と
+  Fock norm cubic limit、scheme-route 反証の限定scopeを再検算。非blocking注を反映し、距離正規化を
+  w≥2 の active node に限定、w=1 leafを再帰終端と明記。
