@@ -347,10 +347,10 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 
 | ID | state | 検算済み／生存部品 | 残証明義務 | 論理依存 |
 |---|---|---|---|---|
-| P1: WE5 | blocking | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger | κλ^m s^m 型の床、局所矛盾または low-λs 分岐、c₁ と初期因子の再構成 | P2 の正規化接口と P4 の zero-free/SN 接口を先に固定 |
-| P2: JF | blocking(review severity: major) | jets 明示式、内部消去、E→1 の形式的境界計算 | directed blow-up、ω・D̂・Â、κ-正規化 jets の連続延長、d=α=0 分岐 | P1 が使う接口を先に定義。完全証明は P1 と並行可 |
+| P1: WE5 | blocking | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger | κλ^m s^m 型の床、局所矛盾または low-λs 分岐、c₁ と初期因子の再構成 | §3.8.7 の P2/P4 入力契約を先に固定 |
+| P2: JF | blocking(review severity: major) | jets 明示式、内部消去、E→1 の形式的境界計算 | §3.8.7 JF-contract: directed blow-up、κ-正規化 jets の連続延長、d=α=0 分岐の証明 | 接口定義済み。完全証明は P1 と並行可 |
 | P3: branch bootstrap | blocking | g の厳密表示、source 窓の principal 枝 | source→zero-free tube→解析接続→WE5→次窓、の5段帰納 | P1 の WE5 後 |
-| P4: SN/QR4-T | blocking | 押し出し換算、tube の幾何計算 | B₃・c_A・N_A、片側差分、配置非依存性、QR4-T 定数 | P1 が使う zero-free/SN 接口を先に固定。完全証明は P1 と並行可 |
+| P4: SN/QR4-T | blocking | 押し出し換算、tube の幾何計算 | §3.8.7 SN-contract: B₃・c_A・N_A、片側差分、配置非依存性、QR4-T 定数の証明 | 接口定義済み。完全証明は P1 と並行可 |
 
 したがって執筆の入口は **P2/P4 の接口定義 → P1 → P3**。P1 の調査着手は可能だが、
 P2/P4 を未定義のまま P1 を完了扱いにはしない。
@@ -378,6 +378,69 @@ P2/P4 を未定義のまま P1 を完了扱いにはしない。
   窓内再押し出し条件を成立させる。
 
 **現状 status**: §3.8.6 の台帳だけを参照する。
+
+### 3.8.7 P1 が消費する P2/P4 入力契約(v0.7.2 — 仕様のみ、未証明)
+
+> 本節は P1 の依存を循環なく固定する **interface specification** であり、P2・P4 の証明ではない。
+> state の authoring location は §3.8.6 の表のまま。以下の契約を仮定して得る P1 は、P2・P4 が
+> 閉じるまで条件付きである。
+
+共通設定は §3.8.1–3.8.4 と同じとする。深平坦 source 窓を S(長さ s)、隣接窓を
+W(長さ ℓ = 1/16)、t₀ ∈ S、η* := ‖u‖_S とする。P2/P4 の定数は **c₁・ρ・窓番号より先に**
+定義し、これらに依存してはならない。
+
+#### JF-contract(P2 → P1)
+
+E := e^{z(t₀)}、d := z′(t₀)、α := z″/2、
+Δ_g := min(1, |E−1|/(1+|E|))、κ := |E|/(1+|E|)² とする。
+
+1. **退化枝 JF-0**: d = α = 0 なら z は定数で、u = log(e^z−1)+p+C は次数 ≤ 2 の
+   複素多項式である。この枝は JF の割り算を使わず、独立な deg-2 Chebyshev/Remez 枝へ送る。
+2. **非退化枝 JF-1**: (d,α) ≠ (0,0) では
+   λ := max(|d|/Δ_g, √(|α|/Δ_g)) > 0 と置く。絶対定数 c_J > 0 が存在して
+     max_{3≤n≤5} |u⁽ⁿ⁾(t₀)|/(κλⁿ) ≥ c_J
+   を満たす。
+3. **chart 一様性 JF-2**: J_n := u⁽ⁿ⁾(t₀)/(κλⁿ)(3 ≤ n ≤ 5) は、
+   D := d/(Δ_gλ)、A := α/(Δ_gλ²) と方向変数を用いた次の chart へ連続延長する:
+   E → 1 では (|E−1|,(E−1)/|E−1|,D,A)、E → 0 では
+   (|E|,E/|E|,D,A)、E → ∞ では (|E|⁻¹,E/|E|,D,A)。各 chart の閉包を貼った
+   正規化空間が compact で、JF-1 の左辺がその上で零にならないことを証明する。
+
+P2 の完了条件は、上の compactification/貼り合わせを実際に構成し、c_J が E,d,α,t₀,S に
+依存しないことを示すこと。scratchpad の c_J ≈ 0.38 はこの条件の証拠に数えない。
+
+#### SN-contract(P4 → P1)
+
+P4 はまず、正規化された near-root 配置空間 X_SN と、その上の明示関数 A_SN、B_SN を定義する。
+A_SN は cleared finite-difference numerator の配置非依存な先頭係数、B_SN は tail と低次項の
+絶対値上界を記録するものとし、
+  c_A := inf_{X_SN}|A_SN| > 0、  B₃ := sup_{X_SN} B_SN < ∞
+を証明する。記号だけを導入して compactness/非消滅を省略してはならない。その後
+  N_A := ceil(max{1,(10B₃/c_A)^{1/3}})、 h := s/N_A
+と定義する。N_A は c₁・η*・ρ・個別配置に依存しない。
+
+P4 が P1 へ渡す結論は次の 4 点:
+
+1. **QR4-T**: pair-held β_B ≤ 1/8 の全配置と、端点窓での片側差分を含む全基点について、
+   k ≠ 0 tail の絶対収束と |T₃| ≤ 3.1h³、|T₄| ≤ 8.6h⁴ を証明する。別の安全側定数を
+   採る場合は、P1 の C₆ と閾値帳簿を同時に更新する。
+2. **SN 排除**: η := 3σ_H が η ≤ (5s/4N_A)⁴ を満たす深平坦窓では、near-root 配置を
+   A_SN/B_SN の不等式で排除し、k = 0 の全零点について dist(x⁽⁰⁾,S) ≥ 1/8 を得る。
+3. **zero-free tube**: 上の距離評価と k ≠ 0 の幾何評価から、S から W への解析接続路を含む
+   単連結近傍 Ω_{S,W} を構成し、e^z−1 が Ω_{S,W} で零を持たないことを示す。Ω_{S,W} の
+   collar 幅は絶対定数で、窓番号や配置に依存しない。
+4. **解析上界**: Ω_{S,W} 上の同じ枝 G = log(e^z−1)∘z について、P1 が用いる
+   |G⁽⁶⁾| ≤ C₆κλ⁶ を絶対定数 C₆ で供給する。
+
+#### 非循環条件と acceptance checks
+
+- c_J、c_A、B₃、N_A、C₆ を定めてから P1 が A*、D_ch、c₁ を選ぶ。P2/P4 は c₁ を仮定しない。
+- P1 は JF-contract と SN-contract を**仮定した条件付き WE5**まで書ける。P2/P4 の完全証明は
+  P1 と並行できるが、契約未証明のまま QR5 を完了扱いにしない。
+- P3 の global principal branch は入力にしない。P1 の局所 WE5 後に、source branch →
+  Ω_{S,W} 上の解析接続 → 次窓の smallness、の順で帰納する。
+- P2 は 3 chart の境界列と d = α = 0 列、P4 は端点/片側窓と near/far 境界列を acceptance
+  sequence に含める。有限 random search は補助であり、compactness または非消滅の証明を代替しない。
 
 ## 4. 数値検証(2026-08-09、scratchpad k2p1_numeric.py)
 
@@ -446,3 +509,6 @@ P2/P4 を未定義のまま P1 を完了扱いにはしない。
   現行証明から撤回。
 - v0.7.1(2026-08-09): luna R1 を全件受諾。QR5 を「骨格 + 部分証明」へ格下げし、
   §3.8.6 の P1–P4 台帳を現行 status の唯一の authoring location とした。
+- v0.7.2(2026-08-10): 独立 R-QR5 R1 の論理依存判定を反映。P2/P4 の完全証明を先行必須とはせず、
+  P1 が消費する JF/zero-free/SN 契約を §3.8.7 に先に固定した。契約は未証明で、P1–P4 の
+  blocking state は不変。
