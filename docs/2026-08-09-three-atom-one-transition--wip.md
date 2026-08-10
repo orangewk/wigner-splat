@@ -6,7 +6,7 @@
 v0.5: wrapper 分解(bridge/(DC)、残 2 補題)。残 = QR5、envelope bridge、preparation lemma、多重遷移**
 
 > 位置づけ: 閉包ドラフト §4.3.5.3 の「次の具体タスク」。kernel は
-> [K2](2026-08-08-quadratic-phase-turan-K2.md)(c = 2、確立済み)と
+> [K2](2026-08-08-quadratic-phase-turan-K2.md)(c = 2、他の open 補題に非依存の証明ドラフト、R-K2 R2 待ち)と
 > [K2Q](2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md)(重み (2,1)、レビュー 3 巡通過)。
 > 仕様の土台 = Sol 研究協力回答(2026-08-09、B 節)+ §4.3.5.3 三分岐仕様。
 
