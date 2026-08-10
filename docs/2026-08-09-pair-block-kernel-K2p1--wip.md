@@ -341,21 +341,22 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 
 ### 3.8.6 luna R1 判定(v0.7.1 — 全件受諾)と残証明義務
 
-**判定: 受理不可(定数明示化以前の問題)。** 検算通過: g の厳密表示、場合分けの網羅性、
-押し出し換算(η ≤ (5s/4N_A)⁴ ⇒ M ≤ 8h)、初期損失 32ρ⁻⁵、hop 帳簿の安全側性。
+**現行判定:** tree-envelope QR5 は P1–P4 の独立再査読を通過。適用範囲は U_T のみで、
+U_F への bridge と wrapper Γ(3) は別義務として open のまま。
 
 **この表を QR5 status の唯一の authoring location とする。** 他節・他文書はこの表を参照し、
 状態を再記述しない。
 
 | ID | state | 検算済み／生存部品 | 残証明義務 | 論理依存 |
 |---|---|---|---|---|
+| QR5(U_T) | **PASS**(R-P3、fixed SHA `27a1817`) | 場合 (a)(b)(c-ii)、P1–P4、深平坦 c-i の窓連鎖、`g` への最終変換 | tree-envelope kernel 内の残証明義務なし | U_T→U_F bridge には使用できるが、それ自体を証明しない |
 | P1: WE5 | **PASS**(R-P1-compose、fixed SHA `09ca16f`) | R-P1 R2 の WE5、§3.8.9/R-P2 の JF、§3.8.10/R-P4 R2 の SN/C₆、非循環な依存合成 | P1 内の残証明義務なし | P3 はこの局所 WE5 の後 |
 | P2: JF | **PASS**(R-P2、fixed SHA `f36182e`) | §3.8.9: exact jets、補助正規化、E→0,1,∞ の方向付き compactification、全境界での共通零点排除、d=α=0 の deg≤2 分岐 | JF 内の残証明義務なし。数値 `c_J≈0.38` は引き続き非証拠 | P1 の JF 入力を供給 |
-| P3: branch bootstrap | **proof draft**(independent review pending) | §3.8.11: source principal branch → P4 collar → analytic continuation → P1 WE5 → next-window principal branch、初回だけρ⁻⁵の ledger | 固定 SHA で branch 一致・両方向 cover・c₁ threshold・最終 g 変換を acceptance 判定する | P1/P2/P4 PASS を入力 |
+| P3: branch bootstrap | **PASS**(R-P3、fixed SHA `27a1817`) | §3.8.11: source principal branch → P4 collar → analytic continuation → P1 WE5 → next-window principal branch、初回だけρ⁻⁵の ledger | P3 内の残証明義務なし | P1/P2/P4 PASS を入力 |
 | P4: SN/QR4-T | **PASS**(R-P4 R2、fixed SHA `8ce3340`) | §3.8.10: Weierstrass tail の明示定数、one/two-root SN、R2′、zero-free tube、root-ratio による6階上界 | P4 内の残証明義務なし | P1 の SN/C₆ 入力を供給 |
 
-現行の残証明義務は **P3 branch bootstrap**。P1/P2/P4 は独立再査読を通過した。
-QR5 全体は P3 を閉じるまで完了扱いにしない。
+P1–P4 と tree-envelope QR5 は独立再査読を通過した。次の義務は QR5 の外側にある
+**U_T→U_F envelope bridge** であり、wrapper Γ(3) はそれまで open とする。
 
 受諾した指摘の詳細:
 
@@ -369,13 +370,13 @@ QR5 全体は P3 を閉じるまで完了扱いにしない。
 - **[closed → P2] JF compactification**: この finding は §3.8.9 で、方向付き blow-up、
   正規化 jets の連続延長、全 chart の非消滅、`d=α=0` の deg≤2 分岐を証明して閉じた。
   固定 SHA `f36182e` の R-P2 は finding なしで PASS。
-- **[blocking → P3] branch bootstrap の循環**: 「u は大域一枝」は WE5 の適用**結果**で
-  あって前提にできない。luna の 5 段帰納(source の principal 枝 → zero-free tube →
-  tube 上の解析接続に WE5 → |H| < 10⁻² を獲得 → 次窓で押し出し再起動)を明示的に書く。
+- **[closed → P3] branch bootstrap の循環**: §3.8.11 で source principal branch →
+  zero-free tube → 解析接続 → WE5 → next principal branch の5段帰納を書き、固定 SHA
+  `27a1817` の R-P3 が PASS。
 - **[closed → P4] SN/QR4-T**: B₃・c_A・N_A、片側差分、tail、R2′、zero-free/C₆ を
   §3.8.10 に証明し、R-P4 R1 の C₆ finding を修正。固定 SHA `8ce3340` の R2 が PASS。
-- **[major] 連鎖 ledger の精密化**: ‖H‖ ≤ (D_ch/4)c₁ の初期因子保持を明記して
-  窓内再押し出し条件を成立させる。
+- **[closed → P3] 連鎖 ledger**: §3.8.11 で WE5 出力を H 変換前に `≤1/200` へ抑え、
+  初回だけρ⁻⁵を払う `D_ch=32B^{N_W+1}` 帳簿と全 hop の P4 threshold を閉じた。
 
 **現状 status**: §3.8.6 の台帳だけを参照する。
 
@@ -1035,9 +1036,9 @@ G⁽⁶⁾ = L⁽⁶⁾z′⁶+30L⁽⁵⁾z′⁴α+180L⁗z′²α²+120L‴α
 この C₆ は配置、S、W、ρ、c₁ に依存せず、Ω 外の点を compactness 集合へ加えていない。
 以上で §3.8.7 の P4 contract の全項目を覆う。
 
-### 3.8.11 branch bootstrap と窓連鎖(P3、v0.9.0 — 独立再査読待ち)
+### 3.8.11 branch bootstrap と窓連鎖(P3、v0.9.1)
 
-> **status**: 本節は P1/P2/P4 の accepted local statements だけを使って P3 を証明する draft。
+> 固定 SHA `27a1817` の R-P3 は本節を全 gate PASS、finding なしと判定した。
 > 大域的な principal branch を入力にせず、各 hop の出力として次の branch を作る。
 > 現行 state は §3.8.6 の表だけを参照する。
 
@@ -1190,14 +1191,11 @@ r−1番目まで `θ_{r−1}≤32B^{r−1}ρ⁻⁵σ_H` と仮定すれば、�
    成立部分((a)(b)(c1)(c2)(c-ii)・T1・限定 D1/D2)は §3.2 に確保。
 3. ~~QR4(四次)~~ **五次共鳴反例で偽(§3.5)— QR5(ρ⁻⁵)へ目標変更**。
    3a. ~~基本恒等式~~ **完了(§3.4 QR4-I、4 階版込み)**。
-   3b. QR4-T の厳密定数勘定(3.1h³ / 8.6h⁴)を §3.8.10 に proof draft 化、独立再査読待ち。
-   3c. SN/R2′・片側 stencil・zero-free/C₆ を §3.8.10 に統合して proof draft 化。
-   無限遠押し出しは共鳴により不可能(構造的)だが、絶対距離 1/8 で P1 には足りる。
-   3d. **QR5 本体**: generic 枝 = 従来 3・4 階解析 / resonant 枝 = 5 次 jet 処理。
-   5 階恒等式(ρ₅)と deg-5 Remez の接続、共鳴近傍の一様性が新規作業。
-4. K(2)+1 確定後: 三原子 wrapper(§3.7)の再設計 — (iii) 証明書の消滅範囲の確定、
-  bridge (DC) の残り(preparation lemma の守備範囲縮小)。
-5. 敵対的レビュー(luna)→ 受諾判定。
+   3b. ~~QR4-T の厳密定数勘定~~ **完了(§3.8.10、R-P4 R2)**。
+   3c. ~~SN/R2′・片側 stencil・zero-free/C₆~~ **完了(§3.8.10、R-P4 R2)**。
+   3d. ~~QR5 本体~~ **完了(P1–P4、R-P3)**。tree-envelope U_T の指数5で確定。
+4. **次工程**: U_T→U_F envelope bridge。これが閉じるまで三原子 wrapper Γ(3) は open。
+5. K2Q fixed-head 独立再査読。
 
 ## 6. 版履歴
 
@@ -1281,3 +1279,6 @@ r−1番目まで `θ_{r−1}≤32B^{r−1}ρ⁻⁵σ_H` と仮定すれば、�
   P4 collar、解析接続、P1 WE5、next principal branch の順を守り、大域 branch の循環を除去。
   c₁ menu の3項で initial(ρ≤ℓ*/ρ≥ℓ*)と later hop の P4 threshold を再生し、ρ⁻⁵を初回だけ
   支払う D_ch ledger と最終 `g` 変換を記載。固定 SHA の独立再査読待ち。
+- v0.9.1(2026-08-10): 固定 SHA `27a1817` の R-P3 が interval chain、局所 P4 再起動、
+  branch matching、非循環 ledger、c₁ thresholds、最終 H→g と全場合分けを PASS。
+  §3.8.6 に QR5(U_T) の PASS row を追加。U_T→U_F bridge と wrapper Γ(3) は open のまま。
