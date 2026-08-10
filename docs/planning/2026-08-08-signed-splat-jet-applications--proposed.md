@@ -6,14 +6,14 @@ status: **proposed（アイデア記録。実装・有効性・novelty は未確
 
 ## 0. 一言
 
-正の Gaussian splat と負の Gaussian splat は、同位置・同形なら消滅する。位置差を (h) に縮めながら係数を (1/h) で拡大すると、極限には何も残らないのではなく Gaussian の方向微分が残る。三項なら二階微分が残る。
+正の Gaussian splat と負の Gaussian splat は、同位置・同形なら消滅する。位置差を \(h\) に縮めながら係数を \(1/h\) で拡大すると、極限には何も残らないのではなく Gaussian の方向微分が残る。三項なら二階微分が残る。
 
-[
-rac{G(x+h)-G(x)}{h}	o G'(x),qquad
-rac{G(x+h)-2G(x)+G(x-h)}{h^2}	o G''(x).
-]
+\[
+\frac{G(x+h)-G(x)}{h}\to G'(x),\qquad
+\frac{G(x+h)-2G(x)+G(x-h)}{h^2}\to G''(x).
+\]
 
-これは PR #158 の閉包候補に現れる (P(x)e^{q(x)})（衝突した Gaussian 原子から生じる jet）を、splat 表現として可視化・利用する案である。
+これは PR #158 の閉包候補に現れる \(P(x)e^{q(x)}\)（衝突した Gaussian 原子から生じる jet）を、splat 表現として可視化・利用する案である。
 
 ## 1. 既存成果との距離
 
@@ -69,16 +69,16 @@ NegGS (Kasymov et al., arXiv:2405.18163) は negative Gaussian を負の色と�
 - 元クラスタと jet 置換の画面誤差
 - primitive 数と描画時間
 - 視点変更時の誤差
-- 衝突距離 (h) に対する収束率
+- 衝突距離 \(h\) に対する収束率
 - K2 型上界と実測 worst-case の差
 
 ### C. Cancellation certificate
 
 小さい観測領域 (J) で残差が小さいことだけを理由に splat を prune すると、別領域 (I) で大きな残差が現れる恐れがある。K2 は二次位相二項和について
 
-[
-sup_I|F|le 300arepsilon^{-2}e^{A+Lambdaarepsilon}sup_J|F|
-]
+\[
+\sup_I|F|\le 300\varepsilon^{-2}e^{A+\Lambda\varepsilon}\sup_J|F|
+\]
 
 を与える。ray 上の加法的 signed field に特殊化できれば、相殺クラスタの安全な削除・jet 化を認証する候補になる。
 
@@ -89,15 +89,15 @@ sup_I|F|le 300arepsilon^{-2}e^{A+Lambdaarepsilon}sup_J|F|
 既存 dark-flashlight は画像上の減算効果であり、物理的な負の光を主張しない。次段階は二系統に分ける。
 
 - **表現系**: signed radiance residual を3D空間に置き、視点を変えても一貫した暗部投影になるか検証する。
-- **波動系**: 負の係数を位相差 (pi) と読み替え、複素 Gaussian beam の破壊的干渉として扱う。こちらは「負のエネルギー」ではなく、通常の波の位相相殺なので物理的意味を持つ。
+- **波動系**: 負の係数を位相差 \(\pi\) と読み替え、複素 Gaussian beam の破壊的干渉として扱う。こちらは「負のエネルギー」ではなく、通常の波の位相相殺なので物理的意味を持つ。
 
 PR #158 の複素二次位相 K2 に近いのは後者。
 
 ## 3. 最小実験案（未承認・未実装）
 
-1. 1D/2D の加法的 renderer で (+G/h) と (-G(cdot-h)/h) を表示。
-2. (h	o0) で解析的な (G') へ収束するか、L²・sup 誤差を測る。
-3. 三項 ((1,-2,1)/h^2) と (G'') も同様に測る。
+1. 1D/2D の加法的 renderer で \(+G/h\) と \(-G(\cdot-h)/h\) を表示。
+2. \(h\to0\) で解析的な \(G'\) へ収束するか、L²・sup 誤差を測る。
+3. 三項 \((1,-2,1)/h^2\) と \(G''\) も同様に測る。
 4. 既存 cactus scene の別 signed buffer 上で jet primitive を投影する。
 5. 通常3DGS画像への合成は最後に行い、alpha/transmittance 本体とは分離する。
 
@@ -112,9 +112,9 @@ PR #158 の複素二次位相 K2 に近いのは後者。
 公開時に分離する主張:
 
 - **実演済み**: eraser / dark-flashlight / annihilation の動画表現。
-- **数学ドラフトあり**: 二項二次位相 K2 と (c=2) の弱増大度評価。
+- **数学ドラフトあり**: 二項二次位相 K2 と \(c=2\) の弱増大度評価。
 - **未実証の応用仮説**: jet splat 圧縮、K2によるpruning認証、物理波動への適用。
-- **未完成**: 一般 (c) の閉包定理、半直線状態の発散結論。
+- **未完成**: 一般 \(c\) の閉包定理、半直線状態の発散結論。
 
 ## 5. 概念図
 
