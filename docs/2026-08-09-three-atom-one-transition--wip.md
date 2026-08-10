@@ -1,12 +1,12 @@
 # 三原子一遷移補題(c = 3)— wip v0.1(骨格)
 
-日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.6.1: envelope scope を訂正。
+日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.6.2: tree QR5 閉鎖後のwrapper経路を訂正。
 五次共鳴が直接反証するのは tree envelope QR5 の指数 4 で、tree 指数の sharp 予想は 5。
-三原子 wrapper の指数 Γ(3) へ移す U_T→U_F bridge は未執筆のため、旧「Γ(3) ≥ 5」主張は撤回。
-v0.5: wrapper 分解(bridge/(DC)、残 2 補題)。残 = QR5、envelope bridge、preparation lemma、多重遷移**
+tree QR5 は固定 SHA 27a1817 の R-P3 まで PASS。direct U_T→U_F 一様比較は phantom 反例で偽。
+wrapper の残本体 = quantitative preparation/DC、多重遷移。旧「Γ(3) ≥ 5」主張は撤回のまま。**
 
 > 位置づけ: 閉包ドラフト §4.3.5.3 の「次の具体タスク」。kernel は
-> [K2](2026-08-08-quadratic-phase-turan-K2.md)(c = 2、他の open 補題に非依存の証明ドラフト、R-K2 R2 待ち)と
+> [K2](2026-08-08-quadratic-phase-turan-K2.md)(c = 2、他の open 補題に非依存、R-K2 R2 PASS)と
 > [K2Q](2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md)(重み (2,1)、レビュー 3 巡通過)。
 > 仕様の土台 = Sol 研究協力回答(2026-08-09、B 節)+ §4.3.5.3 三分岐仕様。
 
@@ -25,9 +25,10 @@ U_F を虚偽に膨らませる)。正しい主張形は「**転送 or 簡約証
 tree envelope U_T を使う QR5 の指数を γ_T(2+1) と書けば **γ_T(2+1) ≥ 5**。
 反例 (c₁,c₂,c₃) = (1, −e^{iπ/3}, 1)(1 の原始 6 乗根係数)は**三原子 held(保持枝の内部)**で
 比 ~ 0.998·ε⁻⁵(mpmath 検証)。既証明の部分枝(r=2: 8000ε⁻⁴ / r=1(A): 61ε⁻² /
-分裂 (i): 100C₂₁s⁻⁴)は**そのまま真**。ただし held 条件だけでは
-U_T で測ったノルム比を U_F へ移せない。U_T→U_F の weighted sup 比較を証明するまで、
-この例から三原子 wrapper の Γ(3) ≥ 5 は結論しない。Γ(3) の目標指数は open。
+分裂 (i): 100C₂₁s⁻⁴)は**そのまま真**。ただし held 条件だけでは U_T で測ったノルム比を
+U_F へ移せず、§3.6.0 の phantom 反例は direct U_T→U_F 一様比較そのものを否定する。
+tree QR5 は preparation/DC が構成する簡約子に使い、この例から三原子 wrapper の Γ(3) ≥ 5 は
+結論しない。Γ(3) の目標指数は open。
 「一遷移」= スケール走査 [ℓ, L] で cluster 分裂事象を高々 1 回に
 制限した形から始める(§4.3.5.3 (ii): c = 3 の分裂は必ず 3→2+1。三重同時分裂は
 閾値の一般位置選択で排除できる見込み — 要検証)。
@@ -334,14 +335,14 @@ valuation の新定義**とその principal-part kernel が必要。カスケー
 1. **c = 3 quantitative preparation lemma**(主 blocker、Sol 自信度 0.95 で open):
    証明書(開条件)から lower stratum の principal part と (DC) を満たす remainder bridge を
    構成する。§3.7.2 の第三枝(scale-dependent blow-up valuation)を含む。
-2. **exact pair-block kernel K(2)+1**(修復候補、Sol 自信度 0.70):
+2. ~~**exact pair-block kernel K(2)+1**~~ **完了**(tree QR5、固定 SHA `27a1817` の R-P3 PASS):
    pair を Taylor 置換せず exact block B₁₂ = c₁e^{q₁} + c₂e^{q₂} のまま保持し、
    tree envelope U_T := max(log|B₁₂|, log|c₃| + Re q₃) で
-   **N_{U_T}(F;K) ≤ Cρ⁻⁴N_{U_T}(F;E)** を主張する新 kernel(K2Q ではない —
+   **N_{U_T}(F;K) ≤ Cρ⁻⁵N_{U_T}(F;E)** を与える新 kernel(K2Q ではない —
    振幅 c₁+c₂e^η は deg 2 多項式でない)。phantom pair は包絡から消え、
    e^{−U_T}|F| ≤ 2 が exact、W = 3 帳簿も保存。局所分割案: |P_B| ≳ c_Bβ_B² で
    K2Q + 剰余吸収 / |P_B| ≲ c_Bβ_B² で exact K2 block chart。零点近傍の interval cover と
-   telescoping が未証明。**ST1 を避けつつ weight 3 を守る最小修復と評価。**
+   P1–P4 と窓 telescoping は独立再査読を通過。direct U_F 比較ではなく preparation の子 kernel。
 
 これらが立たない限り、状態機械は well-founded でも「証明書から次状態へ進めない」。
 L3a 本体(転送 or 証明書)の確立状態は不変 — 変わったのは証明書の下流の設計図。
@@ -368,8 +369,8 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
 3. ~~分裂枝の執筆~~ **完了(§3.6、v0.4 — 未レビュー)**: 外側 = K2Q-wt + 天井 2 による剰余遮断、
    三者択一(転送 / 深消滅証明書 / pair 縮退証明書)。envelope 損失 ≤ e⁴、無限損失は反例と同一現象。
    副産物: §1 の無条件形は偽(phantom envelope 反例)— 二者択一形へ訂正。
-4. prepared chart・一遷移の降下 wrapper の正確な定義(証明書 3 系統の受け渡し契約 —
-   内側 r=1(B) / 外側 (ii) / 外側 (iii)(表現簡約含む)— と §4.3.5.3 の整合)。
+4. **次工程**: c=3 quantitative preparation lemma。direct-transfer または、DC を満たして
+   tree QR5 子へ入る strict reduction edge を、内側 r=1(B) / 外側(ii)/(iii)から構成する。
 5. 敵対的レビュー(luna)→ 数値検証 → 受諾判定(保持枝 R1 済み、分裂枝 §3.6 が対象)。
 6. 一遷移制限の除去(多重遷移帰納)— 本補題では扱わない。
 
@@ -422,3 +423,7 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
   ただし U_T→U_F bridge を示さず wrapper の Γ(3) へ移した点がscope過大だった。
 - v0.6.1(2026-08-10): **envelope namespaceを分離**。五次共鳴が直接示すのは
   tree envelope QR5 の γ_T(2+1) ≥ 5。三原子 wrapper の Γ(3) はbridge待ちのopenへ戻した。
+- v0.6.2(2026-08-10): tree QR5(U_T) は固定 SHA `27a1817` の R-P3 まで PASS。
+  phantom 反例が direct U_T→U_F 一様比較を禁止するため、「bridge待ち」を quantitative
+  preparation/DC 待ちへ訂正。exact pair-block kernel を残2補題から閉鎖し、wrapper の残本体を
+  preparation lemma(plus 多重遷移)へ縮小。

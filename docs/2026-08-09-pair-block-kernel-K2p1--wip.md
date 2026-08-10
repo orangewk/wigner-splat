@@ -158,8 +158,8 @@ k = 0 根は K から距離 ~9.3 — 近接零点の問題ではなく**超越�
 **帰結**:
 1. **tree envelope U_T に対する K(2)+1(ρ⁻⁴)と QR4 は偽**。QR5 の tree 指数を
    γ_T(2+1) と書けば γ_T(2+1) ≥ 5。反例が三原子 held に入ることだけでは
-   individual envelope U_F のノルム比へ移らないため、三原子 wrapper の Γ(3) への帰結は
-   U_T→U_F bridge 待ちである。
+   individual envelope U_F のノルム比へ移らない。direct U_T→U_F 比較は phantom 反例で偽なので、
+   三原子 wrapper の Γ(3) への帰結は quantitative preparation/DC 待ちである。
 2. **生存部品**: QR4-I 恒等式(4 階版 e^{Δ⁴u} = Ππρ₄ も成立)、QR4-T、
    SN 局所復活(根 O(h) は排除 — 細分 h = ε/N_A で絶対定数閉じ、Sol 0.95)、
    R2′ の絶対距離押し出し **M ≤ 4η^{1/4} + 3h**(tail 4 階 |T₄| ≤ 8.6h⁴ 込み、
@@ -341,22 +341,22 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 
 ### 3.8.6 luna R1 判定(v0.7.1 — 全件受諾)と残証明義務
 
-**現行判定:** tree-envelope QR5 は P1–P4 の独立再査読を通過。適用範囲は U_T のみで、
-U_F への bridge と wrapper Γ(3) は別義務として open のまま。
+**現行判定:** tree-envelope QR5 は P1–P4 の独立再査読を通過。適用範囲は U_T のみ。
+phantom 反例により直接の U_T→U_F 一様比較は偽で、wrapper は quantitative preparation/DC 待ち。
 
 **この表を QR5 status の唯一の authoring location とする。** 他節・他文書はこの表を参照し、
 状態を再記述しない。
 
 | ID | state | 検算済み／生存部品 | 残証明義務 | 論理依存 |
 |---|---|---|---|---|
-| QR5(U_T) | **PASS**(R-P3、fixed SHA `27a1817`) | 場合 (a)(b)(c-ii)、P1–P4、深平坦 c-i の窓連鎖、`g` への最終変換 | tree-envelope kernel 内の残証明義務なし | U_T→U_F bridge には使用できるが、それ自体を証明しない |
+| QR5(U_T) | **PASS**(R-P3、fixed SHA `27a1817`) | 場合 (a)(b)(c-ii)、P1–P4、深平坦 c-i の窓連鎖、`g` への最終変換 | tree-envelope kernel 内の残証明義務なし | quantitative preparation/DC が作る簡約子に使用。直接 U_F 比較はしない |
 | P1: WE5 | **PASS**(R-P1-compose、fixed SHA `09ca16f`) | R-P1 R2 の WE5、§3.8.9/R-P2 の JF、§3.8.10/R-P4 R2 の SN/C₆、非循環な依存合成 | P1 内の残証明義務なし | P3 はこの局所 WE5 の後 |
 | P2: JF | **PASS**(R-P2、fixed SHA `f36182e`) | §3.8.9: exact jets、補助正規化、E→0,1,∞ の方向付き compactification、全境界での共通零点排除、d=α=0 の deg≤2 分岐 | JF 内の残証明義務なし。数値 `c_J≈0.38` は引き続き非証拠 | P1 の JF 入力を供給 |
 | P3: branch bootstrap | **PASS**(R-P3、fixed SHA `27a1817`) | §3.8.11: source principal branch → P4 collar → analytic continuation → P1 WE5 → next-window principal branch、初回だけρ⁻⁵の ledger | P3 内の残証明義務なし | P1/P2/P4 PASS を入力 |
 | P4: SN/QR4-T | **PASS**(R-P4 R2、fixed SHA `8ce3340`) | §3.8.10: Weierstrass tail の明示定数、one/two-root SN、R2′、zero-free tube、root-ratio による6階上界 | P4 内の残証明義務なし | P1 の SN/C₆ 入力を供給 |
 
-P1–P4 と tree-envelope QR5 は独立再査読を通過した。次の義務は QR5 の外側にある
-**U_T→U_F envelope bridge** であり、wrapper Γ(3) はそれまで open とする。
+P1–P4 と tree-envelope QR5 は独立再査読を通過した。wrapper 側の次義務は、direct transfer
+または QR5 子へ入る簡約 edge を与える **c=3 quantitative preparation/DC**。直接 U_T→U_F 比較は偽。
 
 受諾した指摘の詳細:
 
@@ -1194,7 +1194,8 @@ r−1番目まで `θ_{r−1}≤32B^{r−1}ρ⁻⁵σ_H` と仮定すれば、�
    3b. ~~QR4-T の厳密定数勘定~~ **完了(§3.8.10、R-P4 R2)**。
    3c. ~~SN/R2′・片側 stencil・zero-free/C₆~~ **完了(§3.8.10、R-P4 R2)**。
    3d. ~~QR5 本体~~ **完了(P1–P4、R-P3)**。tree-envelope U_T の指数5で確定。
-4. **次工程**: U_T→U_F envelope bridge。これが閉じるまで三原子 wrapper Γ(3) は open。
+4. **次工程**: c=3 quantitative preparation/DC。direct transfer または QR5 子への簡約を作る。
+   直接 U_T→U_F 一様比較は phantom 反例で偽。wrapper Γ(3) は preparation 完成まで open。
 5. K2Q fixed-head 独立再査読。
 
 ## 6. 版履歴
@@ -1281,4 +1282,7 @@ r−1番目まで `θ_{r−1}≤32B^{r−1}ρ⁻⁵σ_H` と仮定すれば、�
   支払う D_ch ledger と最終 `g` 変換を記載。固定 SHA の独立再査読待ち。
 - v0.9.1(2026-08-10): 固定 SHA `27a1817` の R-P3 が interval chain、局所 P4 再起動、
   branch matching、非循環 ledger、c₁ thresholds、最終 H→g と全場合分けを PASS。
-  §3.8.6 に QR5(U_T) の PASS row を追加。U_T→U_F bridge と wrapper Γ(3) は open のまま。
+  §3.8.6 に QR5(U_T) の PASS row を追加。wrapper Γ(3) は open のまま。
+- v0.9.2(2026-08-10): 次工程の表現を訂正。phantom 反例により direct U_T→U_F 一様比較は
+  不可能であり、QR5 は quantitative preparation/DC が構成する簡約子に使う。wrapper の残本体を
+  direct-transfer or reduction certificate の preparation lemma と明記。

@@ -6,6 +6,11 @@
 > §4.3.5 新設: K_c を 3 段(B1 振幅 peeling / B2 位相 block 非相殺 / B3 compact core)に帰着。
 > 設計思想 =「compactness の前に周波数を量子化」(v1.3 型失敗の回避)。
 >
+> **v1.8.9 changelog(tree QR5 閉鎖とwrapper経路訂正、2026-08-10)**: tree-envelope QR5(U_T) は
+> P1–P4 と固定 SHA `27a1817` の R-P3 まで PASS。phantom 反例により direct U_T→U_F
+> 一様比較は偽なので、次工程を envelope 比較から c=3 quantitative preparation/DC へ訂正。
+> QR5 は preparation が構成する簡約子に使用し、wrapper Γ(3) と一般 Γ 表は open のまま。
+>
 > **v1.8.8 changelog(envelope scope 訂正、2026-08-10)**: v1.8.7 の裸の「Γ(3) ≥ 5」は
 > scope 過大として撤回。六乗根五次共鳴が直接示すのは tree envelope U_T の QR5 指数
 > γ_T(2+1) ≥ 5。三原子 wrapper の individual envelope U_F へ移す比較 bridge は未執筆で、
@@ -651,13 +656,14 @@ L 増加で分裂するのみ。**Taylor 展開は block の split scale まで�
 (iii) U_F-flat test: (1−e^{τt²})² ~ τ²t⁴。この族を転送する評価は ε⁻⁴ を消費する。
 この三分岐の完全執筆 + 剰余定数の split-scale 一様性検算が最短(Sol 見積り: c=3 核心 3–5 日、
 一般 c 2–4 週。B2/(F1) は別途)。
-**(v1.8.8 scope 訂正: 五次共鳴が直接反証するのは tree envelope QR5。三原子 wrapper の
-Γ(3) へ移す U_T→U_F bridge は未執筆なので、上記 test から先の Γ 表は open。)**
+**(v1.8.9 scope/route 訂正: 五次共鳴が直接反証するのは tree envelope QR5。tree QR5 は
+R-P3 まで PASS したが、direct U_T→U_F 一様比較は phantom 反例で偽。三原子 wrapper は
+quantitative preparation/DC 待ちなので、上記 test から先の Γ 表は open。)**
 
 **状態(v1.8.8)**: S4 は「要件リスト」から「実行可能な帰納プログラム((W,d,Δ) 降下 +
 split-scale Taylor)」へ具体化。数学的 open は不変(B2+(F1)・S4 本体・L2b/L3)だが、
-S4 の次の一手が「三原子一遷移補題」として確定した。五次共鳴のwrapperへの移送は
-envelope bridge として残証明義務へ戻した。
+S4 の次の一手が「三原子一遷移補題」として確定した。tree QR5 子は閉じたため、次は
+証明書から direct transfer または strict reduction edge を作る quantitative preparation/DC である。
 
 **v1.8.8 追記(2026-08-10 — 五次共鳴のenvelope scope訂正)**:
 
@@ -668,14 +674,15 @@ envelope bridge として残証明義務へ戻した。
    (G⁽⁵⁾ = ±2id⁵/√3)⇒ 正規化比 ~ 0.998·ε⁻⁵(mpmath 50 桁検証)。三原子 held の
    保持領域内部の現象であり、近接零点でも表現退化でもない(k = 0 零点は距離 ~9)。
    この比は U_T で測ったものなので、三原子 individual envelope U_F のwrapperへは
-   そのまま移らない。**一般 (W,d,Δ) の Γ 表と予算勘定は未改訂**とし、U_T→U_F の
-   weighted sup比較を独立bridgeとして証明する。二原子系は不変で、
+   そのまま移らない。phantom 反例により direct weighted sup比較は偽である。
+   **一般 (W,d,Δ) の Γ 表と予算勘定は未改訂**とし、quantitative preparation/DC により
+   transfer-or-reduction を構成する。二原子系は不変で、
    K2 = 2、K2Q (2,1) = 4 は sharp のまま。
 2. **補題の正しい形は「転送 or 簡約証明書」の二者択一**: 無条件 U_F-転送は
    phantom envelope 反例(pair 恒等相殺 + singleton 別形状生存 — c ≥ 3 で初めて可能)で
    偽。証明書(開条件)から strict (W,d,Δ) 降下(閉代数条件)への橋 =
    quantitative preparation は独立補題として open(bridge 補題 + 降下契約 (DC) の
-   枠組は確立 — 補題文書 §3.7.1)。
+   枠組は確立、tree QR5 子は PASS — 補題文書 §3.7.1)。
 3. **確立済み部分成果**(いずれもレビュー通過・数値検証済み、詳細は各文書):
    K2Q(重み (2,1)、C₀ ≤ 10⁴²、luna 3 巡 + 9,568 配置)/ 保持枝 r = 2(8000ε⁻⁴)/
    r = 1(A)(61ε⁻²)/ 分裂転送枝(100C₂₁s⁻⁴、telescoping で ρ⁻⁴)/
