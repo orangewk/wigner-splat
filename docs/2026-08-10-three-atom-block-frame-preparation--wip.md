@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.3、衝突cluster入力を明示、R-FRSPEC R3待ち、FR-S1未証明**
+日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.4、nested cluster と flex witness を追加、R-FRSPEC R4待ち、FR-S1未証明**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -32,7 +32,11 @@ constant-gauge quotient 後の基点について
   s_m := max_{i,j} d(ξ_{i,m},ξ_{j,m}) → 0、ξ_{j,m} → ξ*  (全 j)
 
 を仮定する。s_m が 0 へ行かない別 cluster は入力前に分離し、L3/cluster tree の別節点で扱う。
-部分列で r := dim V_m を固定する。
+
+outer cluster 内の normalized distance d(ξ_{i,m},ξ_{j,m})/s_m は部分列で全対収束させる。極限 0 の pair は
+proper child cluster とし、その child scale で同じ操作を再帰する。c=3 では tree shape は single-scale triple または
+2+1(root scale)の pair child(single scale)だけで、再帰深さは高々2。各 active node では非零 pair-distance ratio が
+正の下限を持つ。この nested tree、r := dim V_m、pivot permutation を部分列で固定する。
 constant gauge を先に quotient する。すなわち radial 表現で q_i−q_j≡const(同値に対応する
 Fock 原子が非零定数比)なら、その定数を係数へ吸収して同一原子として exact に合算する。
 合算係数が 0 なら削除し、併合後の leaf weight w ∈ {1,2,3}、r := dim V_m ≤ w、tree を再固定する。
@@ -92,7 +96,7 @@ FR3/FR4/FR6 を閉じない。
 ## 6. 最小の証明順
 
 1. **FR-S1 (coefficient-flag compactification)**: 三原子係数空間の exact flag を rate 情報込みで有限 chart 化し、
-   h_{ℓ,m} の pivot 規則を定義する。
+   nested cluster tree の各 active single-scale nodeで h_{ℓ,m} の pivot 規則を定義する。
 2. **FR-S2 (limit identification)**: 各 chart で正規化 exact block が非零 jet 極限を持つことを示す。
 3. **FR-S3 (frame gate)**: 極限 jet の独立性から FR4 を得る。ここで零極限や重複極限が出たら chart を分割する。
 4. **FR-S4 (envelope assembly)**: K2/K2Q/QR5 を node ごとに使い、parent U_F へ戻らず FR6 を導く。
@@ -103,6 +107,20 @@ FR3/FR4/FR6 を閉じない。
 最初の未解決点は FR-S1。旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の
 非零/零だけでなく、相対 valuation または同値な flag/blow-up 座標を含まなければならない。
+
+**Flex witness F3 (single-scaleでも生じる evaluation-rank drop)**: parameter path
+
+  ξ(t) = (A(t),B(t)) = (−t²,t)、φ_t(z) := exp(tz−t²z²/2)
+
+の三点 t=0,s,2s は parameter distance が single-scale。exact second difference
+
+  h_s := φ_0−2φ_s+φ_{2s} = −2s³z³−(7/6)s⁴z⁴+O(s⁵)
+
+なので h_s/‖h_s‖ は cubic jet へ向かう。一方 φ′′_0=0 であり、path の length-3 truncation
+mod t³ をそのまま evaluation すると三次元枠を見失う。従って「長さ3の点スキームを取れば自動的に
+FR3/FR4が出る」という素朴な Route B は不十分。scheme route を使う場合も、evaluation map の rank-drop locus を
+追加 blow-up/Fitting flagで解消するか、この witnessを拾う高次 coefficient flagが必要である。
+（表示係数は Taylor 展開で厳密に導出。SymPy series は補助検算で一致。）
 
 ## 8. 版履歴
 
@@ -117,3 +135,6 @@ FR3/FR4/FR6 を閉じない。
 - v0.3(2026-08-10): 本線の仕様自己監査で、FR3 の共通基点を保証する入力条件が暗黙だったと判定。
   補題 N の一つの衝突cluster `s_m→0`, `ξ_{j,m}→ξ*` を明示し、非衝突clusterはL3側へ分離。
   R2通過部分は維持するが、入力domain変更を R-FRSPEC R3 で再確認するまで specification review pending。
+- v0.4(2026-08-10): R-FRSPEC R3 の H1 を受諾。outer cluster内のzero-ratio pairをproper childへ再帰し、
+  c=3でdepth≤2の各active nodeをsingle-scale化。加えて single-scale curvilinear族でも素朴な length-3 evaluation が
+  rank dropする Flex witness F3を追加。FR-S1はrate flagに加えてevaluation-rank flagも必要。
