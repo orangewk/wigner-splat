@@ -349,7 +349,7 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 
 | ID | state | 検算済み／生存部品 | 残証明義務 | 論理依存 |
 |---|---|---|---|---|
-| P1: WE5 | blocking | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger | κλ^m s^m 型の床、局所矛盾または low-λs 分岐、c₁ と初期因子の再構成 | §3.8.7 の P2/P4 入力契約を先に固定 |
+| P1: WE5 | blocking(review pending) | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger、§3.8.8 の条件付き WE5 | §3.8.8 の zero-free λ-bound と κ-scale 帳簿の独立検算。P2/P4 契約が閉じるまで無条件化しない | §3.8.7 の P2/P4 入力契約に条件付く |
 | P2: JF | blocking(review severity: major) | jets 明示式、内部消去、E→1 の形式的境界計算 | §3.8.7 JF-contract: directed blow-up、κ-正規化 jets の連続延長、d=α=0 分岐の証明 | 接口定義済み。完全証明は P1 と並行可 |
 | P3: branch bootstrap | blocking | g の厳密表示、source 窓の principal 枝 | source→zero-free tube→解析接続→WE5→次窓、の5段帰納 | P1 の WE5 後 |
 | P4: SN/QR4-T | blocking | 押し出し換算、tube の幾何計算 | §3.8.7 SN-contract: B₃・c_A・N_A、片側差分、配置非依存性、QR4-T 定数の証明 | 接口定義済み。完全証明は P1 と並行可 |
@@ -493,6 +493,89 @@ G = log(e^z−1)∘z について、P1 が用いる |G⁽⁶⁾| ≤ C₆κλ⁶
 - P2 は 3 chart の境界列と d = α = 0 列、P4 は端点/片側窓と near/far 境界列を acceptance
   sequence に含める。有限 random search は補助であり、compactness または非消滅の証明を代替しない。
 
+### 3.8.8 条件付き WE5(P1、v0.7.5 — P2/P4 contract を仮定)
+
+> **status**: 本節は §3.8.7 の JF-contract と SN-contract を仮定した P1 の証明候補で、
+> 独立再査読前である。P2/P4 の未証明部分や P3 の branch bootstrap を閉じたとは主張しない。
+
+#### ZL: zero-free λ-bound
+
+§3.8.7 の contract の下で、絶対定数 Λ_Z < ∞ が存在し、zero-free tube を持つ全 source 窓で
+λ ≤ Λ_Z とする。
+
+*条件付き証明*: pair-held から |z′|、|z″| は絶対有界。E → 0 または E → ∞ では
+Δ_g ≍ 1 なので λ も有界。従って λ_n → ∞ となる反例列があれば E_n → 1 である。
+t = t₀+τ/λ_n と拡大し、
+  w_n(τ) := [z_n(t₀+τ/λ_n)−z_n(t₀)]/Δ_{g,n}
+と置く。JF-2 の方向付き chart で部分列を取ると、w_n は compact τ 集合上一様に
+w(τ) = Dτ+Aτ² へ収束し、max(|D|,√|A|) = 1。さらに
+(E_n−1)/[(1+|E_n|)Δ_{g,n}] は単位円上の方向へ収束する。従って非定数二次方程式
+e^{z_n(t₀+τ/λ_n)}−1 = 0 は有界な τ に解を持つ(極限では w(τ) が上の非零方向の負を取る)。
+物理 t 距離は O(λ_n⁻¹) → 0 となり、P4 の δ₀ zero-free collar に反する。よって Λ_Z は有限。
+この議論の厳密化(方向 chart 上の Rouché、A = 0/ D = 0 を含む)は P2/P4 contract の証明に
+含める。
+
+#### WE5 の局所不等式
+
+D₅ を §3.8.4 の次数 5 有限次元ノルム同値定数、C₆ を P4 の6階上界定数、c_J を P2 の
+jet 床とする。安全側に
+  q₀ := min{1, c_J/(4D₅C₆)}、
+  ℓ* := min{1/16, q₀/(2Λ_Z)}
+と置く。source S の長さ 0 < s ≤ ℓ*、隣接 W の長さ ℓ* とし、t₀ は W 側の S の端点に取る。
+η* := ‖u‖_S、q := λs と書く。ZL より q ≤ λℓ* ≤ q₀/2。
+
+- **λ = 0**: JF-0 より u は次数 ≤ 2。複素 Chebyshev から
+    ‖u‖_W ≤ 18(ℓ*/s)²η* ≤ 18(ℓ*/s)⁵η*。
+- **λ > 0**: JF-1 で、ある m ∈ {3,4,5} が
+    |u⁽ᵐ⁾(t₀)| ≥ c_Jκλᵐ
+  を満たす。§3.8.4 のノルム同値と6階剰余を S 上で使うと
+    c_Jκqᵐ ≤ D₅(η*+C₆κq⁶)。
+  q ≤ q₀ と m ≤ 5 より D₅C₆q^{6−m} ≤ c_J/4。右辺の剰余項を左へ移して
+    κqᵐ ≤ C_Jη*、  C_J := 2D₅/c_J
+  を得る。従って κq⁶ ≤ C_Jη* であり、全 0 ≤ j ≤ 5 について
+    |u⁽ʲ⁾(t₀)| ≤ C_der η*s^{−j}
+  (C_der := D₅(1+C₆C_J))。
+
+Ω_{S,W} 上で t₀ まわりに5次 Taylor 展開する。多項式部は
+  ‖T₅u‖_W ≤ C_pol(ℓ*/s)⁵η*。
+剰余は、上で選んだ m に対し
+  C₆κλ⁶ℓ*⁶
+  = C₆(κqᵐ)(λℓ*)^{6−m}(ℓ*/s)ᵐ
+  ≤ C₆C_Jq₀^{6−m}(ℓ*/s)⁵η*。
+ここで m ≤ 5 と ℓ*/s ≥ 1 を使った。従って絶対定数
+  A* := 18+C_pol+C₆C_J max(1,q₀³)
+を安全側に取れば
+  **‖u‖_W ≤ A*(ℓ*/s)⁵‖u‖_S**
+を得る。κ を落としていないため、§3.8.6 の定数反例とは両立する。
+
+#### 条件付き hop ledger と c₁
+
+K を長さ ≤ ℓ* の N_W := ceil(1/ℓ*) 個の窓に分ける。u↔H 変換を含め B := 4A*、
+  D_ch := 32B^{N_W+1}
+と置く。I_ρ と交わる最初の窓に長さ s₀ ≥ min(ρ,ℓ*)/2 の source を取れば、従来どおり
+(ℓ*/s₀)⁵ ≤ 32ρ⁻⁵。P3 の branch bootstrap が各 hop で上の WE5 を再起動できるなら
+  ‖H‖_K ≤ D_ch ρ⁻⁵‖H‖_{I_ρ}。
+
+定数の循環を避けるため、A*、D_ch、N_A の後に
+  c₁ := min{
+    1/(100D_ch),
+    (5/(8N_A))⁴/12,
+    (5ℓ*/(4N_A))⁴/(12D_ch)}
+と置く。第一項は全窓で |H| < 10⁻² を保つ。ρ ≤ ℓ* では第二項が initial source の
+3c₁ρ⁵ ≤ (5s₀/(4N_A))⁴ を保証する。ρ ≥ ℓ* では第三項が initial source と後続窓の双方で
+3D_ch c₁ ≤ (5ℓ*/(4N_A))⁴ を安全側に保証する。この ledger は P3 の5段帰納に条件付く。
+
+#### 既存 Remez 文献との関係(採用しない循環の記録)
+
+- Friedland, *A Disk-Growth Remez Principle...* (2026, arXiv:2606.24823) は、局所
+  disk-growth に r^{-d} を仮定して指数 d の Remez を導く。本件で d = 5 を入れるには局所 WE5
+  自体の検証が必要なので、その定理を P1 の代替証明として直接引用すると循環する。
+- Friedland–Yomdin, *(s,p)-Valent Functions* (2015, arXiv:1503.00325) は valency 上界から
+  polynomial Remez を移すが、本族の一様 (s,p)-valency は未証明。現段階では証拠に数えない。
+
+従って本節の新しい実質は、P4 の zero-free collar から ZL を経て λℓ* を絶対有界にし、
+JF の κ-scale jet floorで6階剰余の余分な1乗を吸収する点にある。
+
 ## 4. 数値検証(2026-08-09、scratchpad k2p1_numeric.py)
 
 > **証拠 status**: この節が参照する `k2p1_numeric.py`、`qr5_resonance_mp.py`、
@@ -570,3 +653,6 @@ G = log(e^z−1)∘z について、P1 が用いる |G⁽⁶⁾| ≤ C₆κλ⁶
 - v0.7.4(2026-08-10): 独立 interface R3 の BLOCKED 判定を受諾。各 k = 0 零点について
   M_i := sup_{t∈S}|h/(t−r_i⁽⁰⁾)| を定義し、near 排除の補集合で R2′ を全根・全基点に量化。
   M_S ≤ 8h ⇒ dist(r_i⁽⁰⁾,S) ≥ 1/8 を明記し、中間距離の抜けを interface から除いた。
+- v0.7.5(2026-08-10): interface R4 PASS 後、P1 の条件付き WE5 を §3.8.8 に起草。zero-free
+  collar から λ ≤ Λ_Z を得る ZL、κ-scale の jet floor、固定細窓 ℓ*、6階剰余の5乗吸収、
+  非循環な D_ch/c₁ ledger を記載。P2/P4/P3 と本節の独立再査読は未了。
