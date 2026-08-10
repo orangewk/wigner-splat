@@ -352,7 +352,7 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 | P1: WE5 | **conditional PASS**(R-P1 R2、P4 待ち) | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger、§3.8.8 の zero-free λ-bound + κ-scale 条件付き WE5 | P4 の SN/QR4-T 契約が証明されるまで無条件化しない。P3 はこの局所 WE5 の後 | §3.8.9 の P2 と、§3.8.7 の P4 入力契約 |
 | P2: JF | **PASS**(R-P2、fixed SHA `f36182e`) | §3.8.9: exact jets、補助正規化、E→0,1,∞ の方向付き compactification、全境界での共通零点排除、d=α=0 の deg≤2 分岐 | JF 内の残証明義務なし。数値 `c_J≈0.38` は引き続き非証拠 | P1 の JF 入力を供給。P1 の残条件は P4 のみ |
 | P3: branch bootstrap | blocking | g の厳密表示、source 窓の principal 枝 | source→zero-free tube→解析接続→WE5→次窓、の5段帰納 | P1 の WE5 後 |
-| P4: SN/QR4-T | **proof draft**(independent review pending) | §3.8.10: Weierstrass tail の明示定数、one/two-root SN、R2′、zero-free tube、6階上界 | 固定 SHA で独立再査読し、片側 stencil・tail 吸収・C₆ compactness を acceptance 判定する | P2 から独立。受理後 P1 の条件が外れ、P3 へ進む |
+| P4: SN/QR4-T | **proof draft**(independent review pending) | §3.8.10: Weierstrass tail の明示定数、one/two-root SN、R2′、zero-free tube、root-ratio による6階上界 | 固定 SHA で独立再査読し、片側 stencil・tail 吸収・C₆ denominator 比較を acceptance 判定する | P2 から独立。受理後 P1 の条件が外れ、P3 へ進む |
 
 現行の残順序は **P4 → P3**。P2 は §3.8.9/R-P2 で閉じ、P1 は P4 契約だけに条件付く。
 P4 を未証明のまま P1 または QR5 全体を無条件に完了扱いにはしない。
@@ -752,7 +752,7 @@ c₀ := min_𝓧 max(|Ψ₃|,|Ψ₄|,|Ψ₅|) > 0
 従って JF-0 は独立な deg-2 Chebyshev/Remez 枝へ送られる。これで §3.8.7 の
 JF-contract の全分岐を覆う。未追跡 scratchpad の数値 `c_J≈0.38` はこの証明に使用しない。
 
-### 3.8.10 SN/QR4-T と zero-free tube の証明(P4、v0.8.0 — 独立再査読待ち)
+### 3.8.10 SN/QR4-T と zero-free tube の証明(P4、v0.8.1 — 独立再査読待ち)
 
 > **status**: 本節は §3.8.7 の P4 contract を証明する draft である。P3 の branch bootstrap は
 > 使用せず、QR5 全体を閉じたとは主張しない。現行 state は §3.8.6 の表だけを参照する。
@@ -947,35 +947,90 @@ k≠0 について、最寄りの実点 t∈S∪W に対し
 #### 6. 6階上界
 
 上の collar だけを使う §3.8.8 ZL により `λ≤Λ_Z`。この段階では C₆ をまだ使用していないので
-循環はない。`τ:=ζ−t₀` とすると Ω_{S,W} 上 `|τ|≤9/64` であり、
+循環はない。`τ:=ζ−t₀` とすると Ω_{S,W} 上 `|τ|≤R_Ω:=9/64` であり、pair-held から
+
+```
+|z(t₀+τ)−z(t₀)|≤(5/4)R_Ω+R_Ω²=:B_Ω<0.196.             (P4-zmove)
+```
+
+ここで全円板へ領域を広げず、実際の `ζ∈Ω_{S,W}` だけで denominator を比較する。
+現在の gauge では k=0 方程式は `z(t)=0` である。`q₀:=z(t₀)`、`q_ζ:=z(ζ)` とし、
+非退化枝の k=0 根を重複度込みで `r_i` (`1≤ν₀≤2`) と書く。(P4-push) と collar から
+
+```
+|t₀−r_i|≥1/8,   |ζ−r_i|≥3/64,   |ζ−t₀|≤9/64.
+```
+
+各 i について、`|t₀−r_i|≤1` なら比は 3/64 以上、`|t₀−r_i|>1` なら逆三角不等式で
+比は `1−9/64=55/64` 以上である。従って
+
+```
+|q_ζ/q₀|=Π_i |(ζ−r_i)/(t₀−r_i)|≥(3/64)²=:c_r.          (P4-root-ratio)
+```
+
+`B(q):=(e^q−1)/q` (`B(0)=1`) とする。拡大 strip `|Im q|≤π+1/4+0.020` には
+B の零点がなく、
+
+```
+B′/B = e^q/(e^q−1)−1/q
+```
+
+は q=0 で可除、`Re q→+∞` で1、`Re q→−∞` で0へ一様に近づく。従って同 strip 上
+`|B′/B|≤M_B<∞`。線分積分、(P4-zmove)、(P4-root-ratio) から
+
+```
+|e^{q_ζ}−1|
+=|q_ζB(q_ζ)|
+≥c_r e^{−M_B B_Ω}|q₀B(q₀)|
+=:c_B|e^{q₀}−1|.                                        (P4-denom)
+```
+
+また (P4-zmove) より `e^{-B_Ω}≤|e^{q_ζ}|/|e^{q₀}|≤e^{B_Ω}`。従って
+`E₀:=e^{q₀}`, `E_ζ:=e^{q_ζ}` に対し
+
+```
+κ_ζ ≍ κ₀,   Δ_{g,ζ}≥c_g Δ_{g,0}                         (P4-weight)
+```
+
+が絶対定数で成り立つ。ここで `κ(E)=|E|/(1+|E|)²`、
+`Δ_g(E)=|E−1|/(1+|E|)` である。
+
+`L(q)=log(e^q−1)` の `j≥2` 階導関数は
+
+```
+L⁽ʲ⁾(q)=E P_{j−2}(E)/(E−1)^j
+```
+
+(`P_{j−2}` は固定多項式)なので
+
+```
+|L⁽ʲ⁾(q_ζ)|≤C_j κ_ζ Δ_{g,ζ}^{−j}
+             ≤C′_j κ₀ Δ_{g,0}^{−j}.                     (P4-Lj)
+```
+
+一方 JF の変数 `D=d/(Δ_{g,0}λ)`, `A=α/(Δ_{g,0}λ²)` と ZL から
+
+```
+z′(t₀+τ)=Δ_{g,0}λ(D+2λAτ),
+|D+2λAτ|≤1+2Λ_ZR_Ω.
+```
+
+6階 chain rule は
 
 ```
 G⁽⁶⁾ = L⁽⁶⁾z′⁶+30L⁽⁵⁾z′⁴α+180L⁗z′²α²+120L‴α³.    (P4-six)
 ```
 
-JF の変数 `D=d/(Δ_gλ)`, `A=α/(Δ_gλ²)` を使えば
+(P4-Lj) を各項へ代入すると、Δ_g の冪はそれぞれ正確に相殺され、λ の総次数は全て6となる。
+従って λ>0 の枝で絶対定数
 
 ```
-z′(t₀+τ)=Δ_gλ(D+2λAτ).
+|G⁽⁶⁾(ζ)|≤C₆κ₀λ⁶       (ζ∈Ω_{S,W}).                    (P4-C6)
 ```
 
-(P4-six) を `κλ⁶` で割った式は、
-
-```
-(E の 0/1/∞ 方向付き compactification)
-×𝓝×[0,Λ_Z]×{|τ|≤9/64}
-```
-
-上の連続関数へ延長する。E→0,∞ では `L⁽ʲ⁾` の有理式から直接有限極限を持つ。
-E→1 で延長が発散すると、scaled denominator が零になる境界列を与えるが、§3.8.8 ZL と同じ
-二次方程式/Rouché の議論で `e^z−1` の零点が Ω_{S,W} に入る。これは上の一様 collar と矛盾する。
-従って zero-free 条件を課した閉部分集合上で
-
-```
-C₆:=sup |G⁽⁶⁾|/(κλ⁶)<∞.                               (P4-C6)
-```
-
-この C₆ は配置、S、W、ρ、c₁ に依存しない。以上で §3.8.7 の P4 contract の全項目を覆う。
+を得る。λ=0 なら `d=α=0` で z は定数、従って `G⁽⁶⁾=0` と別に定義する。
+この C₆ は配置、S、W、ρ、c₁ に依存せず、Ω 外の点を compactness 集合へ加えていない。
+以上で §3.8.7 の P4 contract の全項目を覆う。
 
 ## 4. 数値検証(2026-08-09、scratchpad k2p1_numeric.py)
 
@@ -1075,3 +1130,7 @@ C₆:=sup |G⁽⁶⁾|/(κλ⁶)<∞.                               (P4-C6)
   `|T₃|≤3.1h³`, `|T₄|≤8.6h⁴` を導出。片側 stencil の長さ漏れを `N_A≥12`、
   Laurent 適用域を `R_SN=10⁴` で修正し、one/two-root SN、R2′、zero-free tube、
   ZL 後の compactness による C₆ を接続。固定 SHA の独立再査読待ち。
+- v0.8.1(2026-08-10): 固定 SHA `0fa2017` の R-P4 R1 は P4-1〜6を PASS、C₆ compactness
+  だけを BLOCKED。全円板を誤って対象にした証明を撤回し、実際の `Ω_{S,W}` 上で
+  `|q_ζ/q₀|≥(3/64)²` と zero-free 因子 `B(q)=(e^q−1)/q` の log-derivative 上界から
+  denominator を直接比較する証明へ置換。λ=0 は定数 z の枝として分離。R2待ち。
