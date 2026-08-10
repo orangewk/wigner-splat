@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.2.1、R-FRSPEC R2 PASS、FR-S1未証明**
+日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.3、衝突cluster入力を明示、R-FRSPEC R3待ち、FR-S1未証明**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -26,7 +26,13 @@ near-phantom 族では direct U_F transfer と、予定していた QR5 child �
 
   u_{j,m} = Φ(ξ_{j,m})  (j=1,2,3),
 
-と V_m := span{u_{1,m},u_{2,m},u_{3,m}} を取る。部分列で r := dim V_m を固定する。
+と V_m := span{u_{1,m},u_{2,m},u_{3,m}} を取る。本仕様は補題 N の**一つの衝突cluster**を入力とし、
+constant-gauge quotient 後の基点について
+
+  s_m := max_{i,j} d(ξ_{i,m},ξ_{j,m}) → 0、ξ_{j,m} → ξ*  (全 j)
+
+を仮定する。s_m が 0 へ行かない別 cluster は入力前に分離し、L3/cluster tree の別節点で扱う。
+部分列で r := dim V_m を固定する。
 constant gauge を先に quotient する。すなわち radial 表現で q_i−q_j≡const(同値に対応する
 Fock 原子が非零定数比)なら、その定数を係数へ吸収して同一原子として exact に合算する。
 合算係数が 0 なら削除し、併合後の leaf weight w ∈ {1,2,3}、r := dim V_m ≤ w、tree を再固定する。
@@ -108,3 +114,6 @@ FR3/FR4/FR6 を閉じない。
   採用せず、closure v1.8.11 で N1 を per-element order + cardinality 帳簿へ訂正。
 - v0.2.1(2026-08-10): 固定 SHA `4b071c0` の R-FRSPEC R2 **PASS**。非blocking注を反映し、
   post-quotient leaf weight w を定義して FR3 を `o′≤w−1`, `r≤w≤3` と一般 N1 に直結。
+- v0.3(2026-08-10): 本線の仕様自己監査で、FR3 の共通基点を保証する入力条件が暗黙だったと判定。
+  補題 N の一つの衝突cluster `s_m→0`, `ξ_{j,m}→ξ*` を明示し、非衝突clusterはL3側へ分離。
+  R2通過部分は維持するが、入力domain変更を R-FRSPEC R3 で再確認するまで specification review pending。
