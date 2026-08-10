@@ -357,7 +357,7 @@ phantom 反例により直接の U_T→U_F 一様比較は偽。さらに near-p
 | P4: SN/QR4-T | **PASS**(R-P4 R2、fixed SHA `8ce3340`) | §3.8.10: Weierstrass tail の明示定数、one/two-root SN、R2′、zero-free tube、root-ratio による6階上界 | P4 内の残証明義務なし | P1 の SN/C₆ 入力を供給 |
 
 P1–P4 と tree-envelope QR5 は独立再査読を通過した。wrapper 側の次義務は、direct transfer
-三原子 span から N1/N2/N3′/N4 を満たす exact block frame を選ぶ **c=3 FR preparation**。direct U_T→U_F 比較と
+三原子 span の **[c=3 FR preparation](2026-08-10-three-atom-block-frame-preparation--wip.md)**。direct U_T→U_F 比較と
 intended QR5 child への旧 DC bridge はともに near-phantom family で破れる。QR5 は 2+1 内部節点 kernel として使う。
 
 受諾した指摘の詳細:
@@ -1196,8 +1196,8 @@ r−1番目まで `θ_{r−1}≤32B^{r−1}ρ⁻⁵σ_H` と仮定すれば、�
    3b. ~~QR4-T の厳密定数勘定~~ **完了(§3.8.10、R-P4 R2)**。
    3c. ~~SN/R2′・片側 stencil・zero-free/C₆~~ **完了(§3.8.10、R-P4 R2)**。
    3d. ~~QR5 本体~~ **完了(P1–P4、R-P3)**。tree-envelope U_T の指数5で確定。
-4. **次工程**: c=3 exact block-frame preparation (FR)。span exactness、正規化 Gram の一様可逆性、
-   各枠要素の N3′/N4 envelope を同時に示す。QR5 は exact 2+1 節点に使う。
+4. **次工程**: [c=3 exact block-frame preparation (FR)](2026-08-10-three-atom-block-frame-preparation--wip.md)
+   の FR-S1。QR5 は exact 2+1 節点に使う。
    直接 U_T→U_F 比較と intended QR5 child への旧 DC bridge は near-phantom 族で破れる。
    wrapper Γ(3) は FR 完成まで open。
 5. K2Q fixed-head 独立再査読。

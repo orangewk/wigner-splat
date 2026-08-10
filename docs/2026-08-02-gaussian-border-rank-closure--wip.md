@@ -9,7 +9,7 @@
 > **v1.8.10 changelog(intended QR5 child への old DC bridge 撤回、2026-08-10)**: 三原子文書の
 > 命題 DC-NG (§3.7.5)が one-transition 内の near-phantom witness で direct transfer と予定していた
 > QR5 child への旧 DC bridge を同時に反駁(別種の child 契約までは排除しない)。
-> 次工程を exact cancellation-aware block-frame preparation (FR: span exactness / N2 / N3′–N4)へ訂正。
+> 次工程を [exact cancellation-aware block-frame preparation (FR)](2026-08-10-three-atom-block-frame-preparation--wip.md)へ訂正。
 > tree QR5 は FR の 2+1 内部節点 kernel として保持し、親 U_F への逆比較は要求しない。
 >
 > **v1.8.9 changelog(tree QR5 閉鎖とwrapper経路訂正、2026-08-10)**: tree-envelope QR5(U_T) は
@@ -670,7 +670,7 @@ exact cancellation-aware block-frame preparation (FR) 待ちなので、上記 t
 split-scale Taylor)」へ具体化。数学的 open は不変(B2+(F1)・S4 本体・L2b/L3)だが、
 S4 の次の一手が「三原子一遷移補題」として確定した。tree QR5 子は閉じた。
 ただし三原子文書 §3.7.5 の near-phantom witness により、親 U_F の discount を要求する intended QR5 bridge は
-偽。次は三原子 span から cancellation-aware exact block frame を選び、N2 と N3′/N4 を同時に示す FR である。
+偽。次は [FR authoring document](2026-08-10-three-atom-block-frame-preparation--wip.md) の FR-S1 である。
 
 **v1.8.8 追記(2026-08-10 — 五次共鳴のenvelope scope訂正)**:
 
@@ -689,7 +689,8 @@ S4 の次の一手が「三原子一遷移補題」として確定した。tree 
    phantom envelope 反例(pair 恒等相殺 + singleton 別形状生存 — c ≥ 3 で初めて可能)で
    偽。さらに命題 DC-NG の非定数 near-phantom one-transition 族は direct transfer と旧 DC bridge を
    同時に破る。bridge 不等式自体は正しいが、全 reduction edge の契約にはできない(補題文書 §3.7.5)。
-   replacement target は span を exact に保つ cancellation-aware block frame であり、親 U_F は retire する。
+   replacement target は [FR authoring document](2026-08-10-three-atom-block-frame-preparation--wip.md) に移管した。
+   親 U_F は retire し、ここでは FR statement を再記述しない。
 3. **確立済み部分成果**(いずれもレビュー通過・数値検証済み、詳細は各文書):
    K2Q(重み (2,1)、C₀ ≤ 10⁴²、luna 3 巡 + 9,568 配置)/ 保持枝 r = 2(8000ε⁻⁴)/
    r = 1(A)(61ε⁻²)/ 分裂転送枝(100C₂₁s⁻⁴、telescoping で ρ⁻⁴)/
@@ -700,7 +701,7 @@ S4 の次の一手が「三原子一遷移補題」として確定した。tree 
    x⁴/192 二次法線相殺(r = 1 カスケード反駁)/ C³-tame 単位の E 局在平坦こぶ
    (滑らかさは有限次元性の代替にならない)。
 5. **現在の攻略順**: QR5(pair-block kernel、ρ⁻⁵ — PASS)→
-   c=3 exact block-frame preparation (FR: span exactness + N2 + N3′/N4)→ 多重遷移帰納。
+   [c=3 exact block-frame preparation](2026-08-10-three-atom-block-frame-preparation--wip.md) の FR-S1→ 多重遷移帰納。
 
 ### 4.3.2 多重スケール再帰(jet 版 — G1′ の残余)
 

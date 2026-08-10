@@ -391,16 +391,9 @@ log|B₁₂| ≤ −2M_ρ+log 2 < −M_ρt なので U_T = −M_ρt。この edg
 **判断**: 失敗したのは exact reduction ではなく、「簡約後も親の phantom envelope へ戻す」要求である。
 親 U_F は redundant representation が作った解析上の量なので、reduction 出力では retire しなければならない。
 
-**置換候補 FR (exact block-frame replacement contract、未証明)**:
-
-1. **span exactness**: 現在の原子 span 内で exact な基底変換を行う。恒等零 block / 同一指数は exact に併合し、
-   真に次元が落ちる場合だけ削除する。
-2. **cancellation-aware envelope**: 各新枠要素を exact block tree で表し、各節点には子の individual envelope
-   でなく exact block magnitude から作る tree envelope を割り当てる。旧親 U_F への逆比較を要求しない。
-3. **frame obligation**: 正規化後 Gram の一様可逆性 (N2) と、各枠要素の global envelope (N3′/N4) を
-   同じ chart で示す。基底変換係数の発散は N3′ により許容する。
-4. **kernel obligation**: 各内部節点で、その節点固有 envelope に対する kernel を使う。2+1 節点は
-   QR5(U_T) が PASS。QR5 は FR の 2 と 4 を部分的に満たすが、1 と 3 は未証明。
+**置換候補 FR**: exact block-frame replacement contract の statement と受理条件 FR1–FR7 は
+[FR authoring document](2026-08-10-three-atom-block-frame-preparation--wip.md)へ移管した。ここでは再記述しない。
+status は **specification only / 未証明**。QR5 は FR5 の 2+1 node kernel だけを供給する。
 
 従って c=3 の次の blocker は「証明書 → 旧 DC」ではなく、**三原子 span から N1/N2/N3′/N4 を満たす
 exact cancellation-aware block frame を選ぶ preparation lemma**である。§3.5/§3.6 の証明書は
@@ -428,8 +421,8 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
 3. ~~分裂枝の執筆~~ **完了(§3.6、v0.4 — 未レビュー)**: 外側 = K2Q-wt + 天井 2 による剰余遮断、
    三者択一(転送 / 深消滅証明書 / pair 縮退証明書)。envelope 損失 ≤ e⁴、無限損失は反例と同一現象。
    副産物: §1 の無条件形は偽(phantom envelope 反例)— 二者択一形へ訂正。
-4. **次工程**: c=3 exact block-frame preparation (FR)。内側 r=1(B) / 外側(ii)/(iii)を
-   pivot/chart 選択に用い、span exactness・Gram 一様可逆性・各枠要素の N3′/N4 envelope を同時に示す。
+4. **次工程**: [c=3 exact block-frame preparation (FR)](2026-08-10-three-atom-block-frame-preparation--wip.md)
+   の FR-S1(coefficient-flag compactification)。内側 r=1(B) / 外側(ii)/(iii)は pivot/chart 選択に用いる。
 5. 敵対的レビュー(luna)→ 数値検証 → 受諾判定(保持枝 R1 済み、分裂枝 §3.6 が対象)。
 6. 一遷移制限の除去(多重遷移帰納)— 本補題では扱わない。
 
