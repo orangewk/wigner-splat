@@ -493,7 +493,7 @@ G = log(e^z−1)∘z について、P1 が用いる |G⁽⁶⁾| ≤ C₆κλ⁶
 - P2 は 3 chart の境界列と d = α = 0 列、P4 は端点/片側窓と near/far 境界列を acceptance
   sequence に含める。有限 random search は補助であり、compactness または非消滅の証明を代替しない。
 
-### 3.8.8 条件付き WE5(P1、v0.7.5 — P2/P4 contract を仮定)
+### 3.8.8 条件付き WE5(P1、v0.7.6 — P2/P4 contract を仮定)
 
 > **status**: 本節は §3.8.7 の JF-contract と SN-contract を仮定した P1 の証明候補で、
 > 独立再査読前である。P2/P4 の未証明部分や P3 の branch bootstrap を閉じたとは主張しない。
@@ -570,7 +570,8 @@ K を長さ ≤ ℓ* の N_W := ceil(1/ℓ*) 個の窓に分ける。u↔H 変�
     (5/(8N_A))⁴/12,
     (5ℓ*/(4N_A))⁴/(48D_ch)}
 と置く。第一項は全窓で |H| < 10⁻² を保つ。ρ ≤ ℓ* では第二項が initial source の
-3c₁ρ⁵ ≤ (5s₀/(4N_A))⁴ を保証する。ρ ≥ ℓ* では第三項が initial source と後続窓の双方で
+3c₁ρ⁵ ≤ (5s₀/(4N_A))⁴ を保証し、第三項は ρ の大小によらず後続窓を保証する。
+ρ ≥ ℓ* では第三項が initial source と後続窓の双方で
 3D_ch c₁ ≤ (5ℓ*/(8N_A))⁴ を安全側に保証する(後続窓の長さ ℓ* に対してはさらに安全側)。
 この ledger は P3 の5段帰納に条件付く。
 
