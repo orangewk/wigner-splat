@@ -6,6 +6,12 @@
 > §4.3.5 新設: K_c を 3 段(B1 振幅 peeling / B2 位相 block 非相殺 / B3 compact core)に帰着。
 > 設計思想 =「compactness の前に周波数を量子化」(v1.3 型失敗の回避)。
 >
+> **v1.8.10 changelog(intended QR5 child への old DC bridge 撤回、2026-08-10)**: 三原子文書の
+> 命題 DC-NG (§3.7.5)が one-transition 内の near-phantom witness で direct transfer と予定していた
+> QR5 child への旧 DC bridge を同時に反駁(別種の child 契約までは排除しない)。
+> 次工程を exact cancellation-aware block-frame preparation (FR: span exactness / N2 / N3′–N4)へ訂正。
+> tree QR5 は FR の 2+1 内部節点 kernel として保持し、親 U_F への逆比較は要求しない。
+>
 > **v1.8.9 changelog(tree QR5 閉鎖とwrapper経路訂正、2026-08-10)**: tree-envelope QR5(U_T) は
 > P1–P4 と固定 SHA `27a1817` の R-P3 まで PASS。phantom 反例により direct U_T→U_F
 > 一様比較は偽なので、次工程を envelope 比較から c=3 quantitative preparation/DC へ訂正。
@@ -658,12 +664,13 @@ L 増加で分裂するのみ。**Taylor 展開は block の split scale まで�
 一般 c 2–4 週。B2/(F1) は別途)。
 **(v1.8.9 scope/route 訂正: 五次共鳴が直接反証するのは tree envelope QR5。tree QR5 は
 R-P3 まで PASS したが、direct U_T→U_F 一様比較は phantom 反例で偽。三原子 wrapper は
-quantitative preparation/DC 待ちなので、上記 test から先の Γ 表は open。)**
+exact cancellation-aware block-frame preparation (FR) 待ちなので、上記 test から先の Γ 表は open。)**
 
-**状態(v1.8.8)**: S4 は「要件リスト」から「実行可能な帰納プログラム((W,d,Δ) 降下 +
+**状態(v1.8.10)**: S4 は「要件リスト」から「実行可能な帰納プログラム((W,d,Δ) 降下 +
 split-scale Taylor)」へ具体化。数学的 open は不変(B2+(F1)・S4 本体・L2b/L3)だが、
-S4 の次の一手が「三原子一遷移補題」として確定した。tree QR5 子は閉じたため、次は
-証明書から direct transfer または strict reduction edge を作る quantitative preparation/DC である。
+S4 の次の一手が「三原子一遷移補題」として確定した。tree QR5 子は閉じた。
+ただし三原子文書 §3.7.5 の near-phantom witness により、親 U_F の discount を要求する intended QR5 bridge は
+偽。次は三原子 span から cancellation-aware exact block frame を選び、N2 と N3′/N4 を同時に示す FR である。
 
 **v1.8.8 追記(2026-08-10 — 五次共鳴のenvelope scope訂正)**:
 
@@ -675,14 +682,14 @@ S4 の次の一手が「三原子一遷移補題」として確定した。tree 
    保持領域内部の現象であり、近接零点でも表現退化でもない(k = 0 零点は距離 ~9)。
    この比は U_T で測ったものなので、三原子 individual envelope U_F のwrapperへは
    そのまま移らない。phantom 反例により direct weighted sup比較は偽である。
-   **一般 (W,d,Δ) の Γ 表と予算勘定は未改訂**とし、quantitative preparation/DC により
-   transfer-or-reduction を構成する。二原子系は不変で、
+   **一般 (W,d,Δ) の Γ 表と予算勘定は未改訂**とする。予定していた transfer-or-QR5/DC route は
+   near-phantom family で破れるため、exact block-frame preparation (FR) を次候補とする。二原子系は不変で、
    K2 = 2、K2Q (2,1) = 4 は sharp のまま。
-2. **補題の正しい形は「転送 or 簡約証明書」の二者択一**: 無条件 U_F-転送は
+2. **親 U_F に戻す intended QR5 bridge は偽**: 無条件 U_F-転送は
    phantom envelope 反例(pair 恒等相殺 + singleton 別形状生存 — c ≥ 3 で初めて可能)で
-   偽。証明書(開条件)から strict (W,d,Δ) 降下(閉代数条件)への橋 =
-   quantitative preparation は独立補題として open(bridge 補題 + 降下契約 (DC) の
-   枠組は確立、tree QR5 子は PASS — 補題文書 §3.7.1)。
+   偽。さらに命題 DC-NG の非定数 near-phantom one-transition 族は direct transfer と旧 DC bridge を
+   同時に破る。bridge 不等式自体は正しいが、全 reduction edge の契約にはできない(補題文書 §3.7.5)。
+   replacement target は span を exact に保つ cancellation-aware block frame であり、親 U_F は retire する。
 3. **確立済み部分成果**(いずれもレビュー通過・数値検証済み、詳細は各文書):
    K2Q(重み (2,1)、C₀ ≤ 10⁴²、luna 3 巡 + 9,568 配置)/ 保持枝 r = 2(8000ε⁻⁴)/
    r = 1(A)(61ε⁻²)/ 分裂転送枝(100C₂₁s⁻⁴、telescoping で ρ⁻⁴)/
@@ -692,8 +699,8 @@ S4 の次の一手が「三原子一遷移補題」として確定した。tree 
    **(T-5) 六乗根五次共鳴(本追記 1)**/ phantom envelope(表現簡約の強制)/
    x⁴/192 二次法線相殺(r = 1 カスケード反駁)/ C³-tame 単位の E 局在平坦こぶ
    (滑らかさは有限次元性の代替にならない)。
-5. **現在の攻略順**: QR5(pair-block kernel、ρ⁻⁵ — generic/resonant 二枝)→
-   preparation lemma(指数 5 版)→ 一遷移 wrapper 完成 → 多重遷移帰納。
+5. **現在の攻略順**: QR5(pair-block kernel、ρ⁻⁵ — PASS)→
+   c=3 exact block-frame preparation (FR: span exactness + N2 + N3′/N4)→ 多重遷移帰納。
 
 ### 4.3.2 多重スケール再帰(jet 版 — G1′ の残余)
 

@@ -1,9 +1,9 @@
 # 三原子一遷移補題(c = 3)— wip v0.1(骨格)
 
-日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.6.2: tree QR5 閉鎖後のwrapper経路を訂正。
+日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7: intended QR5 child への old DC bridge を反例で撤回。
 五次共鳴が直接反証するのは tree envelope QR5 の指数 4 で、tree 指数の sharp 予想は 5。
 tree QR5 は固定 SHA 27a1817 の R-P3 まで PASS。direct U_T→U_F 一様比較は phantom 反例で偽。
-wrapper の残本体 = quantitative preparation/DC、多重遷移。旧「Γ(3) ≥ 5」主張は撤回のまま。**
+次の本体 = cancellation-aware exact block-frame preparation (FR)、多重遷移。旧「Γ(3) ≥ 5」主張は撤回のまま。**
 
 > 位置づけ: 閉包ドラフト §4.3.5.3 の「次の具体タスク」。kernel は
 > [K2](2026-08-08-quadratic-phase-turan-K2.md)(c = 2、他の open 補題に非依存、R-K2 R2 PASS)と
@@ -27,7 +27,7 @@ tree envelope U_T を使う QR5 の指数を γ_T(2+1) と書けば **γ_T(2+1) 
 比 ~ 0.998·ε⁻⁵(mpmath 検証)。既証明の部分枝(r=2: 8000ε⁻⁴ / r=1(A): 61ε⁻² /
 分裂 (i): 100C₂₁s⁻⁴)は**そのまま真**。ただし held 条件だけでは U_T で測ったノルム比を
 U_F へ移せず、§3.6.0 の phantom 反例は direct U_T→U_F 一様比較そのものを否定する。
-tree QR5 は preparation/DC が構成する簡約子に使い、この例から三原子 wrapper の Γ(3) ≥ 5 は
+tree QR5 は cancellation-aware block frame の 2+1 節点 kernel に使い、この例から三原子 wrapper の Γ(3) ≥ 5 は
 結論しない。Γ(3) の目標指数は open。
 「一遷移」= スケール走査 [ℓ, L] で cluster 分裂事象を高々 1 回に
 制限した形から始める(§4.3.5.3 (ii): c = 3 の分裂は必ず 3→2+1。三重同時分裂は
@@ -267,7 +267,11 @@ r = 2: 8000(s/ρ)⁴ / r = 1(A): 61(s/ρ)² / r = 1(B): 証明書。
 Δ* > 3 のときは「損失」でなく**構造(pair 縮退)**として証明書化される。
 「損失無限大 ⇔ 表現が虚偽包絡」であり §3.6.0 の反例と整合 — 損失と反例は同一現象の二つの顔。
 
-## 3.7 降下 wrapper の設計(v0.5 — Sol xhigh 協力 2026-08-09 を検算の上採用)
+## 3.7 降下 wrapper の設計(v0.5 の履歴 + v0.7 の仕様撤回)
+
+> **現行 status (v0.7)**: §3.7.1 の bridge 不等式自体は正しいが、予定していた exact QR5 child は
+> §3.7.5 の near-phantom 族で discount 条件を破る。§3.7.1–3.7.4 は
+> 証明書から旧 DC を作ろうとした履歴として保存し、現行の次工程は exact block-frame contract (FR) とする。
 
 目的: 証明書 3 系統(保持 r=1(B) / 分裂 (ii) / 分裂 (iii))を §4.3.5.3 の (W,d,Δ) 降下に
 接続する契約。**Sol の中心判定(検算の上受諾)**: 現行の 3 証明書だけから有限状態の strict な
@@ -330,11 +334,11 @@ valuation の新定義**とその principal-part kernel が必要。カスケー
   **「degeneration variety への接近証明書」**(漸近極限は係数消滅 / support 衝突 /
   blow-up 後 moment 消滅の和集合に入る — 条件付き compactness、Sol 自信度 0.90)。
 
-### 3.7.4 残る 2 補題(wrapper 完成の必要十分な分解 — Sol E 節採用)
+### 3.7.4 v0.5 時点の残る 2 補題(v0.7 で分解を撤回)
 
-1. **c = 3 quantitative preparation lemma**(主 blocker、Sol 自信度 0.95 で open):
+1. ~~**c = 3 quantitative preparation lemma**~~ **旧 DC で QR5 child へ渡す形は撤回**:
    証明書(開条件)から lower stratum の principal part と (DC) を満たす remainder bridge を
-   構成する。§3.7.2 の第三枝(scale-dependent blow-up valuation)を含む。
+   構成する旧目標。§3.7.5 の反例により、少なくとも意図した QR5 edge は成立しない。
 2. ~~**exact pair-block kernel K(2)+1**~~ **完了**(tree QR5、固定 SHA `27a1817` の R-P3 PASS):
    pair を Taylor 置換せず exact block B₁₂ = c₁e^{q₁} + c₂e^{q₂} のまま保持し、
    tree envelope U_T := max(log|B₁₂|, log|c₃| + Re q₃) で
@@ -344,8 +348,59 @@ valuation の新定義**とその principal-part kernel が必要。カスケー
    K2Q + 剰余吸収 / |P_B| ≲ c_Bβ_B² で exact K2 block chart。零点近傍の interval cover と
    P1–P4 と窓 telescoping は独立再査読を通過。direct U_F 比較ではなく preparation の子 kernel。
 
-これらが立たない限り、状態機械は well-founded でも「証明書から次状態へ進めない」。
-L3a 本体(転送 or 証明書)の確立状態は不変 — 変わったのは証明書の下流の設計図。
+tree QR5 の閉鎖は有効だが、旧 DC へ接続する設計図は撤回する。
+
+### 3.7.5 old DC→QR5 bridge の no-go と置換先(v0.7 — 現行)
+
+**命題 DC-NG (near-phantom witness)**: 旧計画の二枝、すなわち「parent U_F で direct transfer」または
+「exact 2+1 tree を QR5 child とし、§3.7.1 の DC で parent U_F へ戻す」は同時に失敗し得る。
+
+*証明*: ρ ↓ 0、K = [0,1]、E_ρ = [1−ρ,1]、M_ρ := (16ρ)⁻¹、δ_ρ := e^{−2M_ρ} とし、
+
+- c₁ = 1、q₁ = 0、c₂ = −1、q₂(t) = δ_ρt、
+- c₃ = 1、q₃(t) = −M_ρt
+
+と置く。pair は K 全体で held(sup_K|q₂−q₁| = δ_ρ ≤ 1/8)。E_ρ 中心で recenter すると
+triple も held であり、q₃−q₁ の非定数部は E_ρ 上 M_ρρ/2 = 1/32 以下。従ってこの族は
+one-transition 入口を満たし、q₁,q₂ は非定数差なので exact duplicate の前処理では消えない。
+
+F_ρ = 1−e^{δ_ρt}+e^{−M_ρt}、individual envelope は
+U_F(t) = max(0,δ_ρt,−M_ρt) = δ_ρt on K。t=0 で e^{−U_F}|F_ρ|=1。一方 E_ρ 上
+|1−e^{δ_ρt}| ≤ 2δ_ρ ≤ 2e^{−M_ρ(1−ρ)} かつ e^{−M_ρt} ≤ e^{−M_ρ(1−ρ)} なので
+
+  N_{U_F}(F_ρ;K) / N_{U_F}(F_ρ;E_ρ) ≥ (1/3)exp(M_ρ(1−ρ)).
+
+これは任意の固定 C,γ に対する Cρ⁻γ transfer を破る。元の kernel が許す周波数項
+e^{κΛρ} も Λρ = M_ρρ = 1/16 で定数に留まり、救済しない。
+
+旧ルートが意図した exact QR5 child は B₁₂ := 1−e^{δ_ρt} と singleton e^{−M_ρt} の
+F_ρ = B₁₂+e^{−M_ρt}、U_T := max(log|B₁₂|,−M_ρt)、R=0。E_ρ 上では
+log|B₁₂| ≤ −2M_ρ+log 2 < −M_ρt なので U_T = −M_ρt。この edge では D_K⁺ = 0 だが
+
+  D_{E_ρ}⁻ = sup_{E_ρ}(U_F−U_T) = M_ρ+δ_ρ ≍ ρ⁻¹,
+
+なので、旧 DC②の D ≤ b+a log(1/ρ) をどの固定 a,b でも満たさない。remainder は 0 であり、
+閾値調整では修復できない。従って direct branch と、予定していた QR5 child への旧 DC bridge が
+同時に失敗する。これは別種の child 契約の存在までは否定しないが、現行仕様のままでは次の証明を
+開始できないことを示す。∎
+
+**判断**: 失敗したのは exact reduction ではなく、「簡約後も親の phantom envelope へ戻す」要求である。
+親 U_F は redundant representation が作った解析上の量なので、reduction 出力では retire しなければならない。
+
+**置換候補 FR (exact block-frame replacement contract、未証明)**:
+
+1. **span exactness**: 現在の原子 span 内で exact な基底変換を行う。恒等零 block / 同一指数は exact に併合し、
+   真に次元が落ちる場合だけ削除する。
+2. **cancellation-aware envelope**: 各新枠要素を exact block tree で表し、各節点には子の individual envelope
+   でなく exact block magnitude から作る tree envelope を割り当てる。旧親 U_F への逆比較を要求しない。
+3. **frame obligation**: 正規化後 Gram の一様可逆性 (N2) と、各枠要素の global envelope (N3′/N4) を
+   同じ chart で示す。基底変換係数の発散は N3′ により許容する。
+4. **kernel obligation**: 各内部節点で、その節点固有 envelope に対する kernel を使う。2+1 節点は
+   QR5(U_T) が PASS。QR5 は FR の 2 と 4 を部分的に満たすが、1 と 3 は未証明。
+
+従って c=3 の次の blocker は「証明書 → 旧 DC」ではなく、**三原子 span から N1/N2/N3′/N4 を満たす
+exact cancellation-aware block frame を選ぶ preparation lemma**である。§3.5/§3.6 の証明書は
+pivot/chart 選択の診断には使えるが、それだけで reduction 完了とは数えない。
 
 ## 4. sharp test(検証条項)
 
@@ -369,8 +424,8 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
 3. ~~分裂枝の執筆~~ **完了(§3.6、v0.4 — 未レビュー)**: 外側 = K2Q-wt + 天井 2 による剰余遮断、
    三者択一(転送 / 深消滅証明書 / pair 縮退証明書)。envelope 損失 ≤ e⁴、無限損失は反例と同一現象。
    副産物: §1 の無条件形は偽(phantom envelope 反例)— 二者択一形へ訂正。
-4. **次工程**: c=3 quantitative preparation lemma。direct-transfer または、DC を満たして
-   tree QR5 子へ入る strict reduction edge を、内側 r=1(B) / 外側(ii)/(iii)から構成する。
+4. **次工程**: c=3 exact block-frame preparation (FR)。内側 r=1(B) / 外側(ii)/(iii)を
+   pivot/chart 選択に用い、span exactness・Gram 一様可逆性・各枠要素の N3′/N4 envelope を同時に示す。
 5. 敵対的レビュー(luna)→ 数値検証 → 受諾判定(保持枝 R1 済み、分裂枝 §3.6 が対象)。
 6. 一遷移制限の除去(多重遷移帰納)— 本補題では扱わない。
 
@@ -427,3 +482,9 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
   phantom 反例が direct U_T→U_F 一様比較を禁止するため、「bridge待ち」を quantitative
   preparation/DC 待ちへ訂正。exact pair-block kernel を残2補題から閉鎖し、wrapper の残本体を
   preparation lemma(plus 多重遷移)へ縮小。
+- v0.7(2026-08-10): **intended QR5 child への old DC bridge を撤回**。§3.7.5 の非定数
+  near-phantom one-transition family は direct transfer と D=O(log(1/ρ)) の QR5 bridge を
+  同時に破る(別種の child 契約までは排除しない)。親 U_F を
+  reduction 後も保持する要求を捨て、
+  exact cancellation-aware block-frame contract (FR: span exactness / tree envelope / N2 / N3′–N4)
+  を次の authoring target とした。QR5 は FR の 2+1 内部節点 kernel として保持。
