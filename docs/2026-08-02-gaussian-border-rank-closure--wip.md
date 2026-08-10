@@ -651,7 +651,7 @@ L 増加で分裂するのみ。**Taylor 展開は block の split scale まで�
 (iii) U_F-flat test: (1−e^{τt²})² ~ τ²t⁴。この族を転送する評価は ε⁻⁴ を消費する。
 この三分岐の完全執筆 + 剰余定数の split-scale 一様性検算が最短(Sol 見積り: c=3 核心 3–5 日、
 一般 c 2–4 週。B2/(F1) は別途)。
-**(v1.8.8 scope 訂正: 五次共鳴が直接反証するのは tree envelope QR4。三原子 wrapper の
+**(v1.8.8 scope 訂正: 五次共鳴が直接反証するのは tree envelope QR5。三原子 wrapper の
 Γ(3) へ移す U_T→U_F bridge は未執筆なので、上記 test から先の Γ 表は open。)**
 
 **状態(v1.8.8)**: S4 は「要件リスト」から「実行可能な帰納プログラム((W,d,Δ) 降下 +
