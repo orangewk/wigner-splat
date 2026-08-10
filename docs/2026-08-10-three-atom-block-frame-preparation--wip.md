@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **specification only — 未証明**
+日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.2、R-FRSPEC R1 の S1/S3 修正、R2待ち**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -27,8 +27,10 @@ near-phantom 族では direct U_F transfer と、予定していた QR5 child �
   u_{j,m} = Φ(ξ_{j,m})  (j=1,2,3),
 
 と V_m := span{u_{1,m},u_{2,m},u_{3,m}} を取る。部分列で r := dim V_m を固定する。
-同一原子・恒等零結合は入力前に exact に併合する。基底変換係数の m 一様有界性は要求しない
-(補題 N の N3′ と整合)。
+constant gauge を先に quotient する。すなわち radial 表現で q_i−q_j≡const(同値に対応する
+Fock 原子が非零定数比)なら、その定数を係数へ吸収して同一原子として exact に合算する。
+合算係数が 0 なら削除し、併合後に r と tree を再固定する。基底変換係数の m 一様有界性は
+要求しない(補題 N の N3′ と整合)。
 
 radial restriction z=te^{iθ} では各 exact 結合を二次位相指数和として読む。one-transition chart では、
 pair が全 K 上 held、triple が source interval 上 held という三原子文書の規約を用いる。
@@ -59,10 +61,10 @@ v_{ℓ,m}:=h_{ℓ,m}/‖h_{ℓ,m}‖ と置くと、次を同時に満たせる�
 |---|---|---|
 | FR1 | exact span | span{h_{ℓ,m}:ℓ≤r}=V_m。削除は exact rank drop のときだけ |
 | FR2 | finite chart | permutation・tree shape・moment/jet label が部分列上で固定。rate degeneration を label に含める |
-| FR3 | limit type | 各 v_{ℓ,m} は Fock norm で非零の generalized Gaussian jet に収束し、総重みは 3 以下 |
+| FR3 | generalized-atom type | 共通 cluster base ξ_{*,m}→ξ* と label o′_ℓ≤2 を持ち、各有限 v_{ℓ,m} が一般化原子の (E-o′)/(X)/(L-o′) を満たす。特に非零 P_ℓΦ(ξ*) (deg P_ℓ≤2o′_ℓ) へ norm 収束。枠本数 r≤3 |
 | FR4 | Gram | Gram(v_{1,m},…,v_{r,m}) の最小固有値が m 一様に正 |
 | FR5 | node kernel | 各 radial internal node はその node envelope 固有の reviewed kernel を、m と θ に一様な定数で持つ。2+1 held node は QR5(U_T) |
-| FR6 | global envelope | 各 v_{ℓ,m} が補題 N の N3′/N4 envelope を m 一様定数で満たす |
+| FR6 | global envelope | 各 v_{ℓ,m} が補題 N の N3′/N4 envelope を満たす。定数は (c=3,δ,R,one-transition/flag の安定化定数) のみに依存し m,θ に非依存 |
 | FR7 | no return | FR5–FR6 の証明で旧 parent U_F への逆比較または旧 DC discount を使わない |
 
 FR1–FR7 が揃って初めて c=3 の補題 N 枠として受理する。QR5 PASS は FR5 の一つの row を供給するだけで、
@@ -100,3 +102,7 @@ FR3/FR4/FR6 を閉じない。
 
 - v0.1(2026-08-10): DC-NG 後の replacement target を single-F wrapper から exact block-frame 問題へ移し、
   FR1–FR7 と最小証明順を定義。証明 claim は置かない。
+- v0.2(2026-08-10): R-FRSPEC R1 の S1/S3 を受諾して修正。constant-gauge exact 併合・零和削除後に
+  rank/tree を再固定。FR3 に共通基点、per-element order o′≤2、(E-o′)/(X)/(L-o′)、r≤3 を明記し、
+  FR6 の N4 許容依存を固定。査読が要求した `Σ(o′+1)≤3` は既存 N1 自体が c=2 Newton 枠に反するため
+  採用せず、closure v1.8.11 で N1 を per-element order + cardinality 帳簿へ訂正。
