@@ -349,13 +349,13 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 
 | ID | state | 検算済み／生存部品 | 残証明義務 | 論理依存 |
 |---|---|---|---|---|
-| P1: WE5 | **conditional PASS**(R-P1 R2、P4 待ち) | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger、§3.8.8 の zero-free λ-bound + κ-scale 条件付き WE5 | P4 の SN/QR4-T 契約が証明されるまで無条件化しない。P3 はこの局所 WE5 の後 | §3.8.9 の P2 と、§3.8.7 の P4 入力契約 |
-| P2: JF | **PASS**(R-P2、fixed SHA `f36182e`) | §3.8.9: exact jets、補助正規化、E→0,1,∞ の方向付き compactification、全境界での共通零点排除、d=α=0 の deg≤2 分岐 | JF 内の残証明義務なし。数値 `c_J≈0.38` は引き続き非証拠 | P1 の JF 入力を供給。P1 の残条件は P4 のみ |
+| P1: WE5 | **proof complete**(dependency-composition review pending) | R-P1 R2 の WE5、§3.8.9/R-P2 の JF、§3.8.10/R-P4 R2 の SN/C₆ | P2/P4 の accepted inputs を合成した最終 status gate | P3 はこの局所 WE5 の後 |
+| P2: JF | **PASS**(R-P2、fixed SHA `f36182e`) | §3.8.9: exact jets、補助正規化、E→0,1,∞ の方向付き compactification、全境界での共通零点排除、d=α=0 の deg≤2 分岐 | JF 内の残証明義務なし。数値 `c_J≈0.38` は引き続き非証拠 | P1 の JF 入力を供給 |
 | P3: branch bootstrap | blocking | g の厳密表示、source 窓の principal 枝 | source→zero-free tube→解析接続→WE5→次窓、の5段帰納 | P1 の WE5 後 |
-| P4: SN/QR4-T | **proof draft**(independent review pending) | §3.8.10: Weierstrass tail の明示定数、one/two-root SN、R2′、zero-free tube、root-ratio による6階上界 | 固定 SHA で独立再査読し、片側 stencil・tail 吸収・C₆ denominator 比較を acceptance 判定する | P2 から独立。受理後 P1 の条件が外れ、P3 へ進む |
+| P4: SN/QR4-T | **PASS**(R-P4 R2、fixed SHA `8ce3340`) | §3.8.10: Weierstrass tail の明示定数、one/two-root SN、R2′、zero-free tube、root-ratio による6階上界 | P4 内の残証明義務なし | P1 の SN/C₆ 入力を供給 |
 
-現行の残順序は **P4 → P3**。P2 は §3.8.9/R-P2 で閉じ、P1 は P4 契約だけに条件付く。
-P4 を未証明のまま P1 または QR5 全体を無条件に完了扱いにはしない。
+現行の残順序は **P1 dependency-composition gate → P3**。P2/P4 は独立再査読を通過した。
+QR5 全体は P3 の branch bootstrap を閉じるまで完了扱いにしない。
 
 受諾した指摘の詳細:
 
@@ -372,18 +372,18 @@ P4 を未証明のまま P1 または QR5 全体を無条件に完了扱いに�
 - **[blocking → P3] branch bootstrap の循環**: 「u は大域一枝」は WE5 の適用**結果**で
   あって前提にできない。luna の 5 段帰納(source の principal 枝 → zero-free tube →
   tube 上の解析接続に WE5 → |H| < 10⁻² を獲得 → 次窓で押し出し再起動)を明示的に書く。
-- **[authoring → P4] SN/QR4-T**: 元 finding の B₃・c_A・N_A、片側差分、tail 定数、
-  R2′、zero-free/C₆ は §3.8.10 に proof draft 化した。固定 SHA の独立再査読までは閉じない。
+- **[closed → P4] SN/QR4-T**: B₃・c_A・N_A、片側差分、tail、R2′、zero-free/C₆ を
+  §3.8.10 に証明し、R-P4 R1 の C₆ finding を修正。固定 SHA `8ce3340` の R2 が PASS。
 - **[major] 連鎖 ledger の精密化**: ‖H‖ ≤ (D_ch/4)c₁ の初期因子保持を明記して
   窓内再押し出し条件を成立させる。
 
 **現状 status**: §3.8.6 の台帳だけを参照する。
 
-### 3.8.7 P1 が消費する入力契約(v0.7.9 — JF 証明済み、SN は仕様)
+### 3.8.7 P1 が消費する入力契約(v0.8.2 — P2/P4 証明済み)
 
 > 本節は P1 の依存を循環なく固定する **interface specification** である。JF の証明本体は
-> §3.8.9、SN/QR4-T の証明は P4 の残義務である。state の authoring location は §3.8.6 の表のまま。
-> P1 は P4 が閉じるまで条件付きである。
+> §3.8.9、SN/QR4-T の証明本体は §3.8.10。両方とも独立再査読を通過した。
+> state の authoring location は §3.8.6 の表のまま。
 
 共通設定は §3.8.1–3.8.4 と同じとする。深平坦 source 窓を S(長さ s)、隣接窓を
 W(長さ ℓ = 1/16)、t₀ ∈ S、η* := ‖u‖_S とする。P2/P4 の定数は **c₁・ρ・窓番号より先に**
@@ -488,18 +488,19 @@ QR4-T の根換算から、全零点と Ω_{S,W} の距離が δ₀ 以上であ
 
 - P2 の c_J と、P4 の c_A、B₃、N_A、zero-free collar を先に定める。collar から ZL の
   Λ_Z、その後 C₆ を定めてから P1 が q₀、ℓ*、A*、D_ch、c₁ を選ぶ。P2/P4 は c₁ を仮定しない。
-- P2 の JF-contract は §3.8.9 で証明済み。P1 は SN-contract を**仮定した条件付き WE5**まで
-  通過しているが、P4 未証明のまま P1 または QR5 を無条件に完了扱いにしない。
+- P2 の JF-contract は §3.8.9、P4 の SN-contract は §3.8.10 で証明済み。
+  R-P1 R2 が通した条件付き WE5 との依存合成だけを最終 status gate に残す。
 - P3 の global principal branch は入力にしない。P1 の局所 WE5 後に、source branch →
   Ω_{S,W} 上の解析接続 → 次窓の smallness、の順で帰納する。
-- P2 の acceptance は3 chart の境界列と `d=α=0` 列を含めて通過済み。P4 は端点/片側窓と
-  near/far 境界列を acceptance sequence に含める。有限 random search は補助であり、
+- P2 の acceptance は3 chart の境界列と `d=α=0` 列、P4 は端点/片側窓と near/far 境界列を
+  含めて通過済み。有限 random search は補助であり、
   compactness または非消滅の証明を代替しない。
 
-### 3.8.8 条件付き WE5(P1、v0.7.9 — JF 証明済み、P4 contract を仮定)
+### 3.8.8 WE5(P1、v0.8.2 — P2/P4 入力証明済み、合成 gate 待ち)
 
 > 固定 SHA `85bb2c2` の R-P1 R2 は本節を conditional PASS と判定した。JF-contract は
-> §3.8.9/R-P2 で証明済み。P4 の SN-contract と P3 の branch bootstrap を閉じたとは主張しない。
+> §3.8.9/R-P2、SN-contract は §3.8.10/R-P4 R2 で証明済み。P3 の branch bootstrap を
+> 閉じたとは主張しない。
 > 現行 state は §3.8.6 の表だけを参照する。
 
 #### ZL: zero-free λ-bound
@@ -752,10 +753,11 @@ c₀ := min_𝓧 max(|Ψ₃|,|Ψ₄|,|Ψ₅|) > 0
 従って JF-0 は独立な deg-2 Chebyshev/Remez 枝へ送られる。これで §3.8.7 の
 JF-contract の全分岐を覆う。未追跡 scratchpad の数値 `c_J≈0.38` はこの証明に使用しない。
 
-### 3.8.10 SN/QR4-T と zero-free tube の証明(P4、v0.8.1 — 独立再査読待ち)
+### 3.8.10 SN/QR4-T と zero-free tube の証明(P4、v0.8.2)
 
-> **status**: 本節は §3.8.7 の P4 contract を証明する draft である。P3 の branch bootstrap は
-> 使用せず、QR5 全体を閉じたとは主張しない。現行 state は §3.8.6 の表だけを参照する。
+> 固定 SHA `8ce3340` の R-P4 R2 は本節を全 gate PASS、追加 finding なしと判定した。
+> P3 の branch bootstrap は使用せず、QR5 全体を閉じたとは主張しない。
+> 現行 state は §3.8.6 の表だけを参照する。
 
 #### 1. k=0 因子と解析 tail の厳密分離
 
@@ -1134,3 +1136,6 @@ G⁽⁶⁾ = L⁽⁶⁾z′⁶+30L⁽⁵⁾z′⁴α+180L⁗z′²α²+120L‴α
   だけを BLOCKED。全円板を誤って対象にした証明を撤回し、実際の `Ω_{S,W}` 上で
   `|q_ζ/q₀|≥(3/64)²` と zero-free 因子 `B(q)=(e^q−1)/q` の log-derivative 上界から
   denominator を直接比較する証明へ置換。λ=0 は定数 z の枝として分離。R2待ち。
+- v0.8.2(2026-08-10): 固定 SHA `8ce3340` の R-P4 R2 が実Ω限定、root-ratio、B(q)、
+  κ/Δ_g weight、6階 chain、非循環を全件 PASS。§3.8.6 の P4 を PASS に更新し、P1 を
+  dependency-composition gate だけが残る proof complete へ進めた。QR5 全体は P3 により BLOCKED。
