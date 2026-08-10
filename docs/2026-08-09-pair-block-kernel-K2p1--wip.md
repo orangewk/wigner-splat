@@ -349,13 +349,13 @@ hop 帳簿の形である。残証明義務と依存関係は次節の台帳だ�
 
 | ID | state | 検算済み／生存部品 | 残証明義務 | 論理依存 |
 |---|---|---|---|---|
-| P1: WE5 | **conditional PASS**(R-P1 R2、P2/P4 待ち) | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger、§3.8.8 の zero-free λ-bound + κ-scale 条件付き WE5 | P2/P4 契約が証明されるまで無条件化しない。P3 はこの局所 WE5 の後 | §3.8.7 の P2/P4 入力契約に条件付く |
-| P2: JF | **proof draft**(independent review pending) | §3.8.9: exact jets、補助正規化、E→0,1,∞ の方向付き compactification、全境界での共通零点排除、d=α=0 の deg≤2 分岐 | 固定 SHA で独立再査読し、JF-contract の一様定数を acceptance 判定する | P1 から独立。受理後も P1 は P4 待ち |
+| P1: WE5 | **conditional PASS**(R-P1 R2、P4 待ち) | 6階剰余、有限次元ノルム同値、deg-5 Remez 3888、初期 ledger、§3.8.8 の zero-free λ-bound + κ-scale 条件付き WE5 | P4 の SN/QR4-T 契約が証明されるまで無条件化しない。P3 はこの局所 WE5 の後 | §3.8.9 の P2 と、§3.8.7 の P4 入力契約 |
+| P2: JF | **PASS**(R-P2、fixed SHA `f36182e`) | §3.8.9: exact jets、補助正規化、E→0,1,∞ の方向付き compactification、全境界での共通零点排除、d=α=0 の deg≤2 分岐 | JF 内の残証明義務なし。数値 `c_J≈0.38` は引き続き非証拠 | P1 の JF 入力を供給。P1 の残条件は P4 のみ |
 | P3: branch bootstrap | blocking | g の厳密表示、source 窓の principal 枝 | source→zero-free tube→解析接続→WE5→次窓、の5段帰納 | P1 の WE5 後 |
 | P4: SN/QR4-T | blocking | 押し出し換算、tube の幾何計算 | §3.8.7 SN-contract: B₃・c_A・N_A、片側差分、配置非依存性、QR4-T 定数の証明 | 接口定義済み。完全証明は P1 と並行可 |
 
-したがって執筆の入口は **P2/P4 の接口定義 → P1 → P3**。P1 の調査着手は可能だが、
-P2/P4 を未定義のまま P1 を完了扱いにはしない。
+現行の残順序は **P4 → P3**。P2 は §3.8.9/R-P2 で閉じ、P1 は P4 契約だけに条件付く。
+P4 を未証明のまま P1 または QR5 全体を無条件に完了扱いにはしない。
 
 受諾した指摘の詳細:
 
@@ -366,10 +366,9 @@ P2/P4 を未定義のまま P1 を完了扱いにはしない。
   修復方向: 床は κλ^m s^m 型に格下げし、compact 部排除は「(c-ii) へ排除」でなく
   **局所矛盾(その source 配置は存在しない)or low-λs 枝の WE5 適用**として書き直す
   ([major] 6 と一体)。c₁ menu も連動改訂。
-- **[major → P2] JF の compactification が未構成**: 内部の消去計算は妥当だが、
-  対象空間(E → 0, 1, ∞ の方向付き実 blow-up、ω・D̂・Â の定義、κ-正規化 jets の
-  連続延長)が定義されていない。d = α = 0 退化枝(u が 2 次多項式 — 独立の
-  deg ≤ 2 Remez 分岐)への接続も明示分岐が必要。
+- **[closed → P2] JF compactification**: この finding は §3.8.9 で、方向付き blow-up、
+  正規化 jets の連続延長、全 chart の非消滅、`d=α=0` の deg≤2 分岐を証明して閉じた。
+  固定 SHA `f36182e` の R-P2 は finding なしで PASS。
 - **[blocking → P3] branch bootstrap の循環**: 「u は大域一枝」は WE5 の適用**結果**で
   あって前提にできない。luna の 5 段帰納(source の principal 枝 → zero-free tube →
   tube 上の解析接続に WE5 → |H| < 10⁻² を獲得 → 次窓で押し出し再起動)を明示的に書く。
@@ -381,11 +380,11 @@ P2/P4 を未定義のまま P1 を完了扱いにはしない。
 
 **現状 status**: §3.8.6 の台帳だけを参照する。
 
-### 3.8.7 P1 が消費する P2/P4 入力契約(v0.7.3 — 仕様のみ、未証明)
+### 3.8.7 P1 が消費する入力契約(v0.7.9 — JF 証明済み、SN は仕様)
 
-> 本節は P1 の依存を循環なく固定する **interface specification** であり、P2・P4 の証明ではない。
-> state の authoring location は §3.8.6 の表のまま。以下の契約を仮定して得る P1 は、P2・P4 が
-> 閉じるまで条件付きである。
+> 本節は P1 の依存を循環なく固定する **interface specification** である。JF の証明本体は
+> §3.8.9、SN/QR4-T の証明は P4 の残義務である。state の authoring location は §3.8.6 の表のまま。
+> P1 は P4 が閉じるまで条件付きである。
 
 共通設定は §3.8.1–3.8.4 と同じとする。深平坦 source 窓を S(長さ s)、隣接窓を
 W(長さ ℓ = 1/16)、t₀ ∈ S、η* := ‖u‖_S とする。P2/P4 の定数は **c₁・ρ・窓番号より先に**
@@ -408,8 +407,8 @@ E := e^{z(t₀)} ≠ 1、d := z′(t₀)、α := z″/2 とする。従って Δ
    (|E|,E/|E|,D,A)、E → ∞ では (|E|⁻¹,E/|E|,D,A)。各 chart の閉包を貼った
    正規化空間が compact で、JF-1 の左辺がその上で零にならないことを証明する。
 
-P2 の完了条件は、上の compactification/貼り合わせを実際に構成し、c_J が E,d,α,t₀,S に
-依存しないことを示すこと。scratchpad の c_J ≈ 0.38 はこの条件の証拠に数えない。
+この compactification/貼り合わせと `c_J` の一様性は §3.8.9 で証明し、固定 SHA `f36182e` の
+R-P2 が PASS 判定した。scratchpad の `c_J≈0.38` は証明に使用していない。
 
 #### SN-contract(P4 → P1)
 
@@ -485,18 +484,21 @@ G = log(e^z−1)∘z について、P1 が用いる |G⁽⁶⁾| ≤ C₆κλ⁶
 
 #### 非循環条件と acceptance checks
 
-- c_J、c_A、B₃、N_A、C₆ を定めてから P1 が A*、D_ch、c₁ を選ぶ。P2/P4 は c₁ を仮定しない。
-- P1 は JF-contract と SN-contract を**仮定した条件付き WE5**まで書ける。P2/P4 の完全証明は
-  P1 と並行できるが、契約未証明のまま QR5 を完了扱いにしない。
+- P2 の c_J と、P4 の c_A、B₃、N_A、C₆ を定めてから P1 が A*、D_ch、c₁ を選ぶ。
+  P2/P4 は c₁ を仮定しない。
+- P2 の JF-contract は §3.8.9 で証明済み。P1 は SN-contract を**仮定した条件付き WE5**まで
+  通過しているが、P4 未証明のまま P1 または QR5 を無条件に完了扱いにしない。
 - P3 の global principal branch は入力にしない。P1 の局所 WE5 後に、source branch →
   Ω_{S,W} 上の解析接続 → 次窓の smallness、の順で帰納する。
-- P2 は 3 chart の境界列と d = α = 0 列、P4 は端点/片側窓と near/far 境界列を acceptance
-  sequence に含める。有限 random search は補助であり、compactness または非消滅の証明を代替しない。
+- P2 の acceptance は3 chart の境界列と `d=α=0` 列を含めて通過済み。P4 は端点/片側窓と
+  near/far 境界列を acceptance sequence に含める。有限 random search は補助であり、
+  compactness または非消滅の証明を代替しない。
 
-### 3.8.8 条件付き WE5(P1、v0.7.6 — P2/P4 contract を仮定)
+### 3.8.8 条件付き WE5(P1、v0.7.9 — JF 証明済み、P4 contract を仮定)
 
-> **status**: 本節は §3.8.7 の JF-contract と SN-contract を仮定した P1 の証明候補で、
-> 独立再査読前である。P2/P4 の未証明部分や P3 の branch bootstrap を閉じたとは主張しない。
+> 固定 SHA `85bb2c2` の R-P1 R2 は本節を conditional PASS と判定した。JF-contract は
+> §3.8.9/R-P2 で証明済み。P4 の SN-contract と P3 の branch bootstrap を閉じたとは主張しない。
+> 現行 state は §3.8.6 の表だけを参照する。
 
 #### ZL: zero-free λ-bound
 
@@ -586,11 +588,11 @@ K を長さ ≤ ℓ* の N_W := ceil(1/ℓ*) 個の窓に分ける。u↔H 変�
 従って本節の新しい実質は、P4 の zero-free collar から ZL を経て λℓ* を絶対有界にし、
 JF の κ-scale jet floorで6階剰余の余分な1乗を吸収する点にある。
 
-### 3.8.9 JF の compactification 証明(P2、v0.7.8 — 独立再査読待ち)
+### 3.8.9 JF の compactification 証明(P2、v0.7.9)
 
-> **status**: 本節は §3.8.7 の JF-contract を証明する draft である。P4 の SN/QR4-T と
-> P3 の branch bootstrap は使用せず、それらを閉じたとは主張しない。P2 の state は
-> §3.8.6 の表だけで管理し、固定 SHA の独立再査読までは proof draft とする。
+> 本節の proof body は固定 SHA `f36182e` の R-P2 で全 gate PASS、finding なし。
+> P4 の SN/QR4-T と P3 の branch bootstrap は使用せず、それらを閉じたとは主張しない。
+> 現行 state は §3.8.6 の表だけを参照する。
 
 #### 1. exact jets
 
@@ -838,3 +840,6 @@ JF-contract の全分岐を覆う。未追跡 scratchpad の数値 `c_J≈0.38` 
   `δ₀=min(1,|E−1|)` を用い、現行 `Δ_g` との差を3倍以内に固定。`E→0,1,∞` の方向付き
   compactification と内部消去恒等式により全 chart の共通零点を排除し、compactness から
   一様 `c_J>0` を得た。`d=α=0` は deg≤2 枝へ接続。固定 SHA の独立再査読待ち。
+- v0.7.9(2026-08-10): 固定 SHA `f36182e` の R-P2 が JF の exact jets、scale 移送、
+  方向付き compactification、三境界と内部の非消滅、deg≤2 分岐を全件 PASS。§3.8.6 の P2 を
+  PASS に更新し、P1 の残条件を P4 のみに縮小。R-P1 の stale な「再査読前」表記も参照形へ修正。
