@@ -114,6 +114,7 @@ K2_STATUS_POINTER_DOCS = (
 )
 
 K2Q_STATUS_POINTER_DOCS = (
+    ROOT / "docs" / "2026-08-02-gaussian-border-rank-closure--wip.md",
     ROOT / "docs" / "2026-08-09-three-atom-one-transition--wip.md",
     FR_SPEC_DOC,
 )

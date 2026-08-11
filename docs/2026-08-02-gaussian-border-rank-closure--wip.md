@@ -723,8 +723,8 @@ S4 の次の一手が「三原子一遷移補題」として確定した。tree 
    同時に破る。bridge 不等式自体は正しいが、全 reduction edge の契約にはできない(補題文書 §3.7.5)。
    replacement target は [FR authoring document](2026-08-10-three-atom-block-frame-preparation--wip.md) に移管した。
    親 U_F は retire し、ここでは FR statement を再記述しない。
-3. **確立済み部分成果**(いずれもレビュー通過・数値検証済み、詳細は各文書):
-   K2Q(重み (2,1)、C₀ ≤ 10⁴²、luna 3 巡 + 9,568 配置)/ 保持枝 r = 2(8000ε⁻⁴)/
+3. **確立済み部分成果**(各主張の現行status・定数・証拠区分はauthoring文書を参照):
+   [K2Q(重み (2,1))](2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md)/ 保持枝 r = 2(8000ε⁻⁴)/
    r = 1(A)(61ε⁻²)/ 分裂転送枝(100C₂₁s⁻⁴、telescoping で ρ⁻⁴)/
    F2 因数分解(pair block = 真零点 2 次多項式 × tame 単位)/
    QR4-I 恒等式(e^{Δ³u} = Π_{k∈ℤ}Πρ₃ — pair-block の全零点分岐、K2Q §5.2 の一般化)。
