@@ -1,6 +1,6 @@
 # 補題 W/W′: 三原子 Wronskian valuation 上界
 
-日付: 2026-08-11 / 著者: 本線 / status: **v0.2 — plain W accepted (R-W PASS)、static generalized W′ proof draft (R-W′ pending)**
+日付: 2026-08-11 / 著者: 本線 / status: **v0.2.1 — plain W accepted (R-W PASS)、static generalized W′ accepted (R-W′ PASS)**
 
 > 本ファイルを plain c=3 の補題 W、static nested-limit の補題 W′、その直接帰結の唯一の authoring location とする。
 > F3′ witness の式と border-rank 帰結は
@@ -84,7 +84,7 @@ adapted basis を
   =(c_1c_2c_3)Π_{i<j}(v_j−v_i)
     z^{v_1+v_2+v_3−3}+higher terms.
 
-`v_i` は相異なるので先頭係数は非零。従って
+`v_i` は相異なるので先頭係数は非零。
 
 ここで higher terms が同じ位数へ戻って先頭項を消すことはない。Wronskian の多重線形展開で、
 各単項式組の位数は「三列の次数和 − 3」であり、いずれかの列を `v_i` より高い Taylor 項へ
@@ -204,9 +204,9 @@ root-scale tail は FR-S1″ 側の別義務である。
 | `Σv_i=3+ord_0V≤6`, `v_3≤5` | accepted (R-W PASS) | (W1)–(W3) |
 | `T_5` injective / compact-family lower bound | accepted (R-W PASS) | 補題 W + compactness |
 | sharpness `v_3=5` | referenced | FR仕様 F3′ が authoring location |
-| static generalized W′ factorization / `Σw_i≤6` | proof draft | (W′1)–(W′3) |
-| static generalized bound `w_3≤4` | proof draft | §6.2 case split |
-| static generalized `J⁴` compact floor | proof draft | W′ + compactness |
+| static generalized W′ factorization / `Σw_i≤6` | accepted (R-W′ PASS) | (W′1)–(W′3) |
+| static generalized bound `w_3≤4` | accepted (R-W′ PASS) | §6.2 case split |
+| static generalized `J⁴` compact floor | accepted (R-W′ PASS) | W′ + compactness |
 | finite-m nested 2+1 / ν-chart | open, not claimed | FR-S1″ が必要 |
 | 一般 c の次数公式 | open, not claimed | 本書から外挿しない |
 | FR3 envelope / FR5–FR7 | open, not claimed | FR-S4 の義務 |
@@ -217,3 +217,7 @@ root-scale tail は FR-S1″ 側の別義務である。
   §4 の higher-term 非相殺と §5 の `ord_0f≤v_3` を明記する nonblocking minor 2 件を v0.1.1 で反映。
 - v0.2(2026-08-11): Fable consultation #2 の GO を受け、static generalized W′ を proof draft として追加。
   finite-m nested chartやFR-S1″の閉鎖には数えず、固定 SHA R-W′ 待ち。
+- v0.2.1(2026-08-11): 固定 SHA `57ff88d` の Fable response `5250516558` で
+  R-W′1–R-W′5 が全 PASS、blocking なし。
+  nonblocking minor 1 件として §4 の宙に浮いた「従って」を削除。static generalized W′ と
+  `J⁴` compact floor を accepted に昇格した。finite-m nested 2+1 / FR-S1″ は open のまま。
