@@ -207,7 +207,7 @@ root-scale tail は FR-S1″ 側の別義務である。
 | static generalized W′ factorization / `Σw_i≤6` | accepted (R-W′ PASS) | (W′1)–(W′3) |
 | static generalized bound `w_3≤4` | accepted (R-W′ PASS) | §6.2 case split |
 | static generalized `J⁴` compact floor | accepted (R-W′ PASS) | W′ + compactness |
-| finite-m nested 2+1 / ν-chart | open, not claimed here | [FR文書 §9](2026-08-10-three-atom-block-frame-preparation--wip.md)に proof draft、R-A″ pending |
+| finite-m nested 2+1 / ν-chart | referenced (R-A″ PASS) | [FR文書 §9](2026-08-10-three-atom-block-frame-preparation--wip.md)が authoring location |
 | 一般 c の次数公式 | open, not claimed | 本書から外挿しない |
 | FR3 envelope / FR5–FR7 | open, not claimed | FR-S4 の義務 |
 

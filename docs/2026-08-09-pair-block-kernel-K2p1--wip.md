@@ -1197,7 +1197,7 @@ r−1番目まで `θ_{r−1}≤32B^{r−1}ρ⁻⁵σ_H` と仮定すれば、�
    3c. ~~SN/R2′・片側 stencil・zero-free/C₆~~ **完了(§3.8.10、R-P4 R2)**。
    3d. ~~QR5 本体~~ **完了(P1–P4、R-P3)**。tree-envelope U_T の指数5で確定。
 4. **次工程**: [c=3 exact block-frame preparation (FR)](2026-08-10-three-atom-block-frame-preparation--wip.md)
-   の plain single-scale FR-S1′ は R-A′ PASS。次は nested 2+1 の一般化原子接続、続いて FR-S4。
+   の plain FR-S1′ / nested FR-S1″ は R-A′ / R-A″ PASS。次は FR-S4。
    QR5 は exact 2+1 節点 kernel として使う。
    直接 U_T→U_F 比較と intended QR5 child への旧 DC bridge は near-phantom 族で破れる。
    wrapper Γ(3) は FR 完成まで open。
@@ -1294,3 +1294,5 @@ r−1番目まで `θ_{r−1}≤32B^{r−1}ρ⁻⁵σ_H` と仮定すれば、�
 - v0.9.3(2026-08-10): 三原子文書 §3.7.5 の near-phantom witness により、intended QR5 child への
   D=O(log(1/ρ)) bridge が破れると判定(別種の child 契約までは排除しない)。QR5 の数学的 status は
   PASS のまま、用途を exact cancellation-aware block frame の 2+1 内部節点 kernel に限定。
+- v0.9.4(2026-08-11): 下流 FR の nested 2+1 FR-S1″ が固定 SHA `61111cc` の R-A″で PASS。
+  QR5 自体の statusは変えず、次工程の参照を FR-S4へ更新。

@@ -6,10 +6,10 @@
 > §4.3.5 新設: K_c を 3 段(B1 振幅 peeling / B2 位相 block 非相殺 / B3 compact core)に帰着。
 > 設計思想 =「compactness の前に周波数を量子化」(v1.3 型失敗の回避)。
 >
-> **v1.8.13 FR partial promotion(2026-08-11)**: plain c=3 補題 W は R-W PASS (`1b3e337`)、
-> plain single-scale triple の weighted J⁵-SVD frame FR-S1′ は R-A′ PASS (`ed25401`)。
-> これで同branchの FR1/FR2/FR4/FR3(X)(L-d) を閉じた。残る c=3 blocker は
-> nested 2+1 の一般化原子接続と `(E-d)`/FR5–FR7(FR-S4)。一般 c の B2/S4、L2b/L3 は不変に open。
+> **v1.8.14 FR nested promotion(2026-08-11)**: plain FR-S1′ は R-A′ PASS (`ed25401`)、
+> static generalized W′ と finite-m nested 2+1 FR-S1″ は R-W′ / R-A″ PASS (`57ff88d` / `61111cc`)。
+> これで post-quotient `w=r=3` の全tree shapeについて FR1/FR2/FR4/FR3(X)(L-d) を閉じた。
+> 残る c=3 blocker は `(E-d)`/FR5–FR7(FR-S4)。一般 c の B2/S4、L2b/L3 は不変に open。
 >
 > **v1.8.12 claim correction(F3′、2026-08-11)**: 三原子 flex 配置の exact divided difference が
 > `h_β/‖h_β‖→z⁵/√(5!)` を与えることを独立検算した。従って旧主定理候補の
@@ -212,8 +212,8 @@
 
 改訂後は少なくとも実際の jet degree `d` を独立に持ち、`(L-d)` を
 `P·Φ(ξ*)` (`P≢0`, `deg P=d`) への norm 収束、`(E-d)` を対応する多項式 envelope として管理する必要がある。
-plain c=3 の `d≤5` は補題 W、nested 2+1 と m 一様 envelope は別義務であり、唯一の現行仕様は
-[三原子 FR 文書](2026-08-10-three-atom-block-frame-preparation--wip.md)に置く。
+plain c=3 の `d≤5` は補題 W、nested 2+1 の (X)/(L-d) は FR-S1″ が担う。m 一様 envelope は
+引き続き別義務であり、唯一の現行仕様は [三原子 FR 文書](2026-08-10-three-atom-block-frame-preparation--wip.md)に置く。
 
 ### 4.3 補題 N(階層枠 — F3′ 後の statement 改訂待ち、一般証明は G1′ = open)
 
@@ -853,7 +853,7 @@ t≥2 の偶数側 equality と奇数側 lower bound は F3′ により撤回�
 
 | # | 箇所 | 内容 | 状態 |
 |---|---|---|---|
-| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書で accepted。c=3 plain single-scale は補題 W + FR-S1′ が R-W/R-A′ PASS。**残余 = ①nested 2+1 一般化原子接続 ②(E-d)/FR5–FR7(FR-S4) ③一般 c の B2+(F1)/S4 ④L2b/L3 枠置換**。 | **open(主 blocker)** |
+| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書で accepted。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。**残余 = ①(E-d)/FR5–FR7(FR-S4) ②一般 c の B2+(F1)/S4 ③L2b/L3 枠置換**。 | **open(主 blocker)** |
 | G2 | L1 符号 | 査読提供の不等式で閉鎖 | **closed(v1.1)** |
 | G3 | 脱出混在 | gauge 化再構成で場合分け自体が消滅(再査読で blocking 2 は resolve 判定、前提 = 補題 N + G8) | **closed(v1.1、再査読確認済み)** |
 | G4 | C2 quantitative | F3′ により旧次数下界を撤回。t≥2 の偶奇 sharp 値を再導出(|5⟩は上界 3) — C1 に影響なし | open(副産物) |

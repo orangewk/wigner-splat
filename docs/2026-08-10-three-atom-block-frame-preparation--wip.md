@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.7 — plain FR-S1′ R-A′ PASS、static generalized W′ R-W′ PASS、finite-m FR-S1″ proof draft (R-A″ pending)、FR-S4 open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.7.1 — plain FR-S1′ R-A′ PASS、static generalized W′ R-W′ PASS、finite-m FR-S1″ R-A″ PASS、FR-S4 open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -85,7 +85,7 @@ v_{ℓ,m}:=h_{ℓ,m}/‖h_{ℓ,m}‖ と置くと、次を同時に満たせる�
 |---|---|---|
 | FR1 | exact span | span{h_{ℓ,m}:ℓ≤r}=V_m。削除は exact rank drop のときだけ |
 | FR2 | finite chart | permutation・tree shape・valuation profile が部分列上で固定。F3′ 後の Route A′ では rate degeneration は SVD の特異値が担い、有限 label へ列挙しない |
-| FR3 | generalized-atom type | 共通 cluster base ξ_{*,m}→ξ* と jet-degree label d_ℓ を持ち、各有限 v_{ℓ,m} が改訂後の (E-d)/(X)/(L-d) を満たす。特に非零 P_ℓΦ(ξ*) (deg P_ℓ=d_ℓ) へ norm 収束。旧 `o′_ℓ≤w−1, deg P_ℓ≤2o′_ℓ` 帳簿は F3′ により撤回。plain c=3 の上界 d_ℓ≤5 は [補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) が R-W PASS (`1b3e337`)。nested 2+1 は別義務。枠本数 r≤w≤3 |
+| FR3 | generalized-atom type | 共通 cluster base ξ_{*,m}→ξ* と jet-degree label d_ℓ を持ち、各有限 v_{ℓ,m} が改訂後の (E-d)/(X)/(L-d) を満たす。特に非零 P_ℓΦ(ξ*) (deg P_ℓ=d_ℓ) へ norm 収束。旧 `o′_ℓ≤w−1, deg P_ℓ≤2o′_ℓ` 帳簿は F3′ により撤回。plain c=3 の上界 d_ℓ≤5 は [補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) が R-W PASS (`1b3e337`)。nested 2+1 の (X)/(L-d) は FR-S1″ が R-A″ PASS (`61111cc`)。(E-d) は FR-S4 の別義務。枠本数 r≤w≤3 |
 | FR4 | Gram | Gram(v_{1,m},…,v_{r,m}) の最小固有値が m 一様に正 |
 | FR5 | node kernel | 各 radial internal node はその node envelope 固有の reviewed kernel を、m と θ に一様な定数で持つ。2+1 held node は QR5(U_T) |
 | FR6 | global envelope | 各 v_{ℓ,m} が補題 N の N3′/N4 envelope を満たす。定数は (c=3,δ,R,one-transition/flag の安定化定数) のみに依存し m,θ に非依存 |
@@ -111,15 +111,15 @@ FR3/FR4/FR6 を閉じない。
 
 1. **[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) (plain c=3 valuation 上界)**: F3′ と独立に、相異三原子 span の最大 valuation が 5 以下であることを自己完結に証明する。
 2. **FR-S1′ (weighted SVD frame、R-A′ PASS)**: 真空 gauge 後の (2,1)-weighted 距離と J⁵-SVD で、plain single-scale triple の exact 枠を定義する。
-3. **nested 2+1 接続**: [static generalized 補題 W′](2026-08-11-three-atom-wronskian-valuation-W--wip.md) は R-W′ PASS。ν-chart を持つ finite-m FR-S1″ を §9 に proof draft として置き、固定 SHA の R-A″ 待ち。
+3. **nested 2+1 接続**: [static generalized 補題 W′](2026-08-11-three-atom-wronskian-valuation-W--wip.md) と §9 の finite-m FR-S1″ は R-W′ / R-A″ PASS。
 4. **FR-S4 (envelope assembly)**: K2/K2Q/QR5 を node ごとに使い、parent U_F へ戻らず FR6 を導く。
 5. 固定 SHA で FR1–FR7 を独立再査読する。
 
 ## 7. 現在の blocker
 
-plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′で PASS。現在の最初の未解決点は
-**nested 2+1 接続**である。static generalized W′ は R-W′ PASS、finite-m ν-chart は §9 の
-FR-S1″ proof draftとして起草済みだが、R-A″ 判定前なので accepted には数えない。
+plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′、nested 2+1 の FR-S1″ は
+固定 SHA `61111cc` の R-A″で PASS。現在の最初の未解決点は **FR-S4 envelope assembly**、すなわち
+`(E-d)` と FR5–FR7 である。
 旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の
 非零/零だけでなく、相対 valuation または同値な flag/blow-up 座標を含まなければならない。
@@ -283,7 +283,7 @@ tree shape と pivot permutation も有限なので、さらに部分列を取�
 | A′-2 head floor `σ_3≥c₀s⁵` | accepted (R-A′ PASS) | 補題 W + compactness + exact factorization |
 | A′-3 Fock tail `O(s⁶)` | accepted (R-A′ PASS) | (S4) の一様級数定数 |
 | A′-4 norm limit / Gram / exact span | accepted (R-A′ PASS) | SVD と head-tail 直交性 |
-| nested 2+1 | proof draft (R-A″ pending) | static generalized W′ は R-W′ PASS。finite-m ν-chart / FR-S1″ は §9 |
+| nested 2+1 | accepted (R-A″ PASS) | static generalized W′ + §9 finite-m ν-chart / FR-S1″ |
 | `(E-d)` / FR5–FR7 | open, not claimed | FR-S4 |
 
 ## 9. FR-S1″ (nested 2+1 の continuous ν-chart frame)
@@ -470,11 +470,11 @@ plain FR-S1′ と合わせれば、post-quotient `w=r=3` の single-collision-c
 
 | ID | 本節での状態 | 証拠 / 残余 |
 |---|---|---|
-| A″-1 `ν̂,t` compact chart | proof draft (R-A″ pending) | (A″1)、graded `d_w` chart を不採用 |
-| A″-2 exact factorization / head floor | proof draft (R-A″ pending) | (A″3)–(A″4)、W / W′ |
-| A″-3 difference-column Fock tail | proof draft (R-A″ pending) | (A″5)–(A″6) |
-| A″-4 limit Gram / exact span / tree | proof draft (R-A″ pending) | SVD + exact column変換 |
-| A″-5 FR1/FR2/FR4/FR3(X)(L-d) | proof draft (R-A″ pending) | plain FR-S1′との全tree-shape合成 |
+| A″-1 `ν̂,t` compact chart | accepted (R-A″ PASS) | (A″1)、graded `d_w` chart を不採用 |
+| A″-2 exact factorization / head floor | accepted (R-A″ PASS) | (A″3)–(A″4)、W / W′ |
+| A″-3 difference-column Fock tail | accepted (R-A″ PASS) | (A″5)–(A″6) |
+| A″-4 limit Gram / exact span / tree | accepted (R-A″ PASS) | SVD + exact column変換 |
+| A″-5 FR1/FR2/FR4/FR3(X)(L-d) | accepted (R-A″ PASS) | plain FR-S1′との全tree-shape合成 |
 | `(E-d)` / FR5–FR7 | open, not claimed | FR-S4 |
 
 ## 10. 版履歴
@@ -521,3 +521,6 @@ plain FR-S1′ と合わせれば、post-quotient `w=r=3` の single-collision-c
   normalized Newton difference、`ν=(δB̄,δĀ/2)` の continuous compactification、root-scale exact
   factorization、W/W′を用いるhead floor、difference-column tail、exact pair+singleton treeを記載。
   consultation #2 の設計を実装したため、固定 SHA の R-A″ は別モデルによる独立検算を要求する。
+- v0.7.1(2026-08-11): 固定 SHA `61111cc` を Luna/xhigh が独立査読し、R-A″1–R-A″6 は
+  findingなしで全 PASS (`5252797923`)。FR-S1″を accepted に昇格し、次 blocker を
+  `(E-d)` / FR5–FR7 (FR-S4)へ移した。

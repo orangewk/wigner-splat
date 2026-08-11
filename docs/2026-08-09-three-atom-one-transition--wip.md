@@ -1,6 +1,6 @@
 # 三原子一遷移補題(c = 3)— wip
 
-日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.3: plain single-scale FR-S1′ R-A′ PASS、次は nested 2+1 / FR-S4。
+日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.4: plain FR-S1′ R-A′ / nested FR-S1″ R-A″ PASS、次は FR-S4。
 F3′ により旧 held 分岐の次数4帳簿は撤回済み。
 intended QR5 child への old DC bridge は反例で撤回済み。
 五次共鳴が直接反証するのは tree envelope QR5 の指数 4 で、tree 指数の sharp 予想は 5。
@@ -394,11 +394,11 @@ log|B₁₂| ≤ −2M_ρ+log 2 < −M_ρt なので U_T = −M_ρt。この edg
 
 **置換候補 FR**: exact block-frame replacement contract の statement と受理条件 FR1–FR7 は
 [FR authoring document](2026-08-10-three-atom-block-frame-preparation--wip.md)へ移管した。ここでは再記述しない。
-status は **plain single-scale FR-S1′まで accepted / FR全体は未証明**。残りは nested 2+1 と
-`(E-d)`/FR5–FR7。QR5 は FR5 の 2+1 node kernel だけを供給する。
+status は **plain FR-S1′とnested FR-S1″まで accepted / FR全体は未証明**。残りは
+`(E-d)`/FR5–FR7 (FR-S4)。QR5 は FR5 の 2+1 node kernel だけを供給する。
 
-従って c=3 の次の blocker は「証明書 → 旧 DC」ではなく、**三原子 span から N1/N2/N3′/N4 を満たす
-exact cancellation-aware block frame を選ぶ preparation lemma**である。§3.5/§3.6 の証明書は
+従って c=3 の次の blocker は frame 選択そのものではなく、**選択済みの exact cancellation-aware
+block frame に `(E-d)` と N3′/N4 envelope を与える FR-S4**である。§3.5/§3.6 の証明書は
 pivot/chart 選択の診断には使えるが、それだけで reduction 完了とは数えない。
 
 ## 4. sharp test(検証条項)
@@ -424,7 +424,7 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
    三者択一(転送 / 深消滅証明書 / pair 縮退証明書)。envelope 損失 ≤ e⁴、無限損失は反例と同一現象。
    副産物: §1 の無条件形は偽(phantom envelope 反例)— 二者択一形へ訂正。
 4. **次工程**: [c=3 exact block-frame preparation (FR)](2026-08-10-three-atom-block-frame-preparation--wip.md)
-   の plain single-scale FR-S1′ は R-A′ PASS。次は nested 2+1 の一般化原子接続。
+   の plain FR-S1′ / nested FR-S1″ は R-A′ / R-A″ PASS。次は FR-S4。
    内側 r=1(B) / 外側(ii)/(iii)は FR-S4 の pivot/chart 診断に用いる。
 5. 敵対的レビュー(luna)→ 数値検証 → 受諾判定(保持枝 R1 済み、分裂枝 §3.6 が対象)。
 6. 一遷移制限の除去(多重遷移帰納)— 本補題では扱わない。
@@ -494,3 +494,5 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
   `moment order≤2 ⇒ jet degree≤4` ルートを撤回。F3′の式はFR文書だけに置き、本書は参照に限定。
 - v0.7.3(2026-08-11): FR 文書の plain single-scale FR-S1′ が固定 SHA `ed25401` の
   R-A1–R-A6 で全 PASS。次工程を nested 2+1 一般化原子接続→FR-S4へ更新。
+- v0.7.4(2026-08-11): FR 文書の nested 2+1 FR-S1″ が固定 SHA `61111cc` の
+  R-A″1–R-A″6 で全 PASS。次工程を `(E-d)` / FR5–FR7 (FR-S4)へ更新。
