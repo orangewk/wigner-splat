@@ -1,17 +1,21 @@
 # K2Q: 2 次位相 Turán の quasipolynomial 拡張(重み (2,1))— wip
 
-日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.4.2: 敵対的レビュー 3 巡(luna R1–R3)+
+日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.4.3: K2Q/K2Q-wt/K2Q-aff accepted
+(R-K2Q-ACCEPT PASS、reviewed SHA `96671e6`)。敵対的レビュー 3 巡(luna R1–R3)+
 数値検証(9,568 配置違反ゼロ)通過。R3 指摘([major] §6.2 転記符号 + minor 4 件)修正済み。
-R-K2Q-FRESH R1 の FAR 丸めfindingを修正。残 = 定数最適化(open、成立に影響なし)と R2再査読**
+R-K2Q-FRESH R1 の FAR 丸めfindingを修正。残 = 定数最適化(open、成立に影響なし)**
 
 > 位置づけ: [2026-08-08-quadratic-phase-turan-K2.md](2026-08-08-quadratic-phase-turan-K2.md)(定理 K2)の
 > 拡張。閉包ドラフト §4.3.5.3 の三原子一遷移補題・分裂枝 3→2+1 が二原子 block(導来多項式因子付き)を
 > 渡す先の前提部品。orange 裁定 2026-08-09: 三原子補題より先に本拡張を書く。
 > epistemic status: 本文中に明記(証明済み / 検算済み事実 / 予想 / open を区別)。
 >
-> **R-K2Q-FRESH R1(gpt-5.6-luna xhigh、固定 head `3cc579b`)**: BLOCKED。
+> **履歴 — R-K2Q-FRESH R1(gpt-5.6-luna xhigh、固定 head `3cc579b`)**: BLOCKED。
 > Q1/Q3/Q4はPASS。Q2のFAR下向き丸め3件を受諾し、v0.4.2で上向き修正。R2待ち。
-> 本欄をK2Q/K2Q-wt/K2Q-affの査読status authoring locationとする。
+>
+> **現行 — R-K2Q-ACCEPT(gpt-5.6-luna xhigh、reviewed head `96671e6`)**: **PASS**。
+> standalone K2Q/K2Q-wt/K2Q-aff の受理を許可。定数最適化はopen、数値9,568配置は非証拠、
+> S4 source/split witnessは別packet。本欄だけを査読status authoring locationとする。
 
 ## 1. 設定と主張
 
@@ -309,3 +313,6 @@ C′ は kernel を (γ,κ) 抽象で受けるため、kernel(2,1) = (γ,κ) = (
 - v0.4.2(2026-08-12): 固定 SHA `3cc579b` の R-K2Q-FRESH R1 は Q1/Q3/Q4 PASS、Q2/Q5/Q6 BLOCKED。
   FAR の下向き丸め `2.1/0.021/1.011` を `2.11/0.0211/1.012` へ上向き修正し、連動する
   `1.022/1329/1330/1346/4038` を再計算。最終 4100/4700/10⁴² は不変。R2待ち。
+- v0.4.3(2026-08-12): fixed SHA `96671e6` の R-K2Q-FRESH R2でQ1–Q4 PASS、続く
+  R-K2Q-ACCEPT gateでA1–A4 PASS・standalone status promotion authorized YES。
+  K2Q/K2Q-wt/K2Q-affをacceptedへ更新。S4 source/split witnessは別openのまま。

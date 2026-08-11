@@ -113,6 +113,11 @@ K2_STATUS_POINTER_DOCS = (
     FR_SPEC_DOC,
 )
 
+K2Q_STATUS_POINTER_DOCS = (
+    ROOT / "docs" / "2026-08-09-three-atom-one-transition--wip.md",
+    FR_SPEC_DOC,
+)
+
 
 def test_k2_review_status_is_not_reauthored_on_pointer_surfaces():
     """The canonical R-K2 block lives only in the standalone K2 draft."""
@@ -125,6 +130,20 @@ def test_k2_review_status_is_not_reauthored_on_pointer_surfaces():
         found = status_restatement.search(text)
         assert found is None, (
             f"{surface}: noncanonical K2 status returned: {found.group(0)!r}"
+        )
+
+
+def test_k2q_review_status_is_not_reauthored_on_pointer_surfaces():
+    """The canonical R-K2Q block lives only in the standalone K2Q draft."""
+
+    status_restatement = re.compile(
+        r"R-K2Q[\s\S]{0,160}?(?:R\d+\s*)?(?:PASS|待ち)", re.IGNORECASE
+    )
+    for surface in K2Q_STATUS_POINTER_DOCS:
+        text = surface.read_text(encoding="utf-8")
+        found = status_restatement.search(text)
+        assert found is None, (
+            f"{surface}: noncanonical K2Q status returned: {found.group(0)!r}"
         )
 
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
