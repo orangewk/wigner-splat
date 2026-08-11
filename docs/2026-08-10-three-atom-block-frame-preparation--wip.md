@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.9 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8.10 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′ source accepted (`965fd3a`)、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -658,14 +658,14 @@ S4a はこれとは別に
   CprimeSourceRule := (C-prime,
                        docs/2026-08-08-quadratic-phase-turan-K2.md,
                        §3 補題 C′,
-                       UNRESOLVED, unresolved)
+                       965fd3a38049f982ce795102a2c8285533a23f0c, PASS)
   Cprime_ref := validated source_ref.external matching CprimeSourceRule
 
 を必須inputとする。K2 theoremを使わないrouteだけの列でも、C′の chaining calculationを参照するなら
 このrefを省略しない。従って `source_ref.external` と同じ検証で、指定 fixed SHA の canonical authoring
 location が実際に PASS かを照合する。文字列 `PASS` の自己申告だけでは有効にならず、authoring statusが
-不一致または未受理ならS4aを開始しない。現行ruleは `UNRESOLVED` なのでrefは無効であり、固定SHAの
-再査読後にrule自体を concrete SHA/PASSへ改訂するまでS4aは開始不能である。
+不一致または未受理ならS4aを開始しない。現行ruleは R-K2-STATUS R4 が確認した canonical
+fixed SHA/PASSを参照する。
 
 `split_i_witness_ref` も validated external ref とし、現行 source ruleを
 `(split-i,docs/2026-08-09-three-atom-one-transition--wip.md,§3.6.2,UNRESOLVED,unresolved)`
@@ -731,7 +731,7 @@ route 選択の前に exact zero-pruning を行う。任意の child functionが
 
 | route ID / shape | arity | mode / inequality | source rule | domain schema | `(C̄,γ,κ̄)` | A-ledger / assembly rule | current obligation |
 |---|---|---|---|---|---|---|---|
-| `K2-u`: `c₁e^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2,docs/2026-08-08-quadratic-phase-turan-K2.md,§2 主結果,UNRESOLVED,unresolved)` | D-K2 | `(C_K2,2,1)` | phase-lipschitz / accepted | M-K2-STATUS unresolved |
+| `K2-u`: `c₁e^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2,docs/2026-08-08-quadratic-phase-turan-K2.md,§2 主結果,965fd3a38049f982ce795102a2c8285533a23f0c,PASS)` | D-K2 | `(C_K2,2,1)` | phase-lipschitz / accepted | interval domain witness |
 | `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-aff,UNRESOLVED,unresolved)` | D-K2Q-AFF | `(C_K2Q,4,1)` | polynomial-envelope / proof-required | M-K2Q-STATUS unresolved; ΣA proof別途 |
 | `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-GENERALIZED-SINGLETON | `(1,0,0)` | polynomial-envelope / proof-required | ΣA proofが別途必要 |
 | `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)` | D-QR5-HELD | `(C_T,5,0)` | weighted-no-A / accepted | interval-wide held witness |
@@ -754,7 +754,8 @@ S4b は「frame の singular-value floorで当該rowが排除される」「新�
 
 K2 の査読statusは canonical
 [K2 authoring file](2026-08-08-quadratic-phase-turan-K2.md)の R-K2 欄だけを参照する。
-同欄が fixed-SHA PASSへ更新されるまで `K2-u` は unresolved であり、S4b-α を通過しない。
+`K2-u` と `Cprime_ref` は R-K2-STATUS R4 が確認した同じ canonical fixed SHAを参照する。
+K2Q系は別statusで未受理のまま。
 
 ### 10.6 Coefficient-free constants
 
@@ -874,3 +875,6 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 - v0.8.9(2026-08-11): 固定 SHA `56498bb` の R-S4-0 R9 は T1–T6 **PASS**。
   S4-0 interfaceだけをacceptedへ昇格し、同SHAをintrinsic source refへ記入。K2/C′/K2Q、root-far、
   split(ii)/(iii)、polynomial ΣA、S4b/a/c、(E-w)、FR-S4全体は未受理/openのまま維持した。
+- v0.8.10(2026-08-12): 固定 SHA `965fd3a` の R-K2-STATUS R4 が canonical K2/C′/L2a′ statusをPASS。
+  `K2-u` と `Cprime_ref`を同SHA/PASSへ接続。K2Q、root-far、split(ii)/(iii)、polynomial ΣA、
+  S4b/a/c、(E-w)、FR-S4全体はopenのまま。
