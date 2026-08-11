@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.6.3 — plain FR-S1′ R-A′ PASS、static generalized W′ R-W′ PASS、finite-m nested 2+1 / FR-S4 open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.7 — plain FR-S1′ R-A′ PASS、static generalized W′ R-W′ PASS、finite-m FR-S1″ proof draft (R-A″ pending)、FR-S4 open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -111,14 +111,15 @@ FR3/FR4/FR6 を閉じない。
 
 1. **[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) (plain c=3 valuation 上界)**: F3′ と独立に、相異三原子 span の最大 valuation が 5 以下であることを自己完結に証明する。
 2. **FR-S1′ (weighted SVD frame、R-A′ PASS)**: 真空 gauge 後の (2,1)-weighted 距離と J⁵-SVD で、plain single-scale triple の exact 枠を定義する。
-3. **nested 2+1 接続**: [static generalized 補題 W′](2026-08-11-three-atom-wronskian-valuation-W--wip.md) は R-W′ PASS。次に ν-chart を持つ finite-m FR-S1″ を証明する。
+3. **nested 2+1 接続**: [static generalized 補題 W′](2026-08-11-three-atom-wronskian-valuation-W--wip.md) は R-W′ PASS。ν-chart を持つ finite-m FR-S1″ を §9 に proof draft として置き、固定 SHA の R-A″ 待ち。
 4. **FR-S4 (envelope assembly)**: K2/K2Q/QR5 を node ごとに使い、parent U_F へ戻らず FR6 を導く。
 5. 固定 SHA で FR1–FR7 を独立再査読する。
 
 ## 7. 現在の blocker
 
 plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′で PASS。現在の最初の未解決点は
-**nested 2+1 接続**である。static generalized W′ は R-W′ PASS、finite-m ν-chart は未執筆。
+**nested 2+1 接続**である。static generalized W′ は R-W′ PASS、finite-m ν-chart は §9 の
+FR-S1″ proof draftとして起草済みだが、R-A″ 判定前なので accepted には数えない。
 旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の
 非零/零だけでなく、相対 valuation または同値な flag/blow-up 座標を含まなければならない。
@@ -282,10 +283,201 @@ tree shape と pivot permutation も有限なので、さらに部分列を取�
 | A′-2 head floor `σ_3≥c₀s⁵` | accepted (R-A′ PASS) | 補題 W + compactness + exact factorization |
 | A′-3 Fock tail `O(s⁶)` | accepted (R-A′ PASS) | (S4) の一様級数定数 |
 | A′-4 norm limit / Gram / exact span | accepted (R-A′ PASS) | SVD と head-tail 直交性 |
-| nested 2+1 | open, not claimed | static generalized W′ は R-W′ PASS。finite-m ν-chart / FR-S1″ が必要 |
+| nested 2+1 | proof draft (R-A″ pending) | static generalized W′ は R-W′ PASS。finite-m ν-chart / FR-S1″ は §9 |
 | `(E-d)` / FR5–FR7 | open, not claimed | FR-S4 |
 
-## 9. 版履歴
+## 9. FR-S1″ (nested 2+1 の continuous ν-chart frame)
+
+本節の入力は §2 の `w=r=3` のうち、leaf 1,2 が proper pair child、leaf 3 が singleton となる
+nested 2+1 active node に限定する。pair child scale を
+
+  τ_m:=d_w(ξ_{1,m},ξ_{2,m}),
+
+root scale を §2 の `s_m` とし、`τ_m/s_m→0` とする。child anchor `u_{1,m}` を pivot にして真空へ
+移した gauge で、scalar を吸収した三原子を
+
+  ū_{1,m}=1,
+  ū_{2,m}=exp(δA_m z²/2+δB_m z),
+  ū_{3,m}=exp(A_m z²/2+B_m z)
+
+と書く。root-scale normalized parameter を
+
+  δĀ_m:=δA_m/s_m²,  δB̄_m:=δB_m/s_m,
+  Ā_m:=A_m/s_m²,    B̄_m:=B_m/s_m
+
+とする。定義から `|Ā_m|,|B̄_m|≤1` で、部分列上の root separation として
+
+  max(|Ā_m|^{1/2},|B̄_m|)≥η>0                              (N0)
+
+を固定できる。また
+
+  |δB̄_m|≤τ_m/s_m,  |δĀ_m|≤(τ_m/s_m)²,
+
+なので、次の `t_m` は rate の仮定なしに 0 へ行く。
+
+### 9.1 Continuous ν-chart and exact child frame
+
+root-normalized child exponentの一次・二次係数を同じ線形空間で保持するため
+
+  ν_m:=(δB̄_m,δĀ_m/2)∈ℂ²,
+  t_m:=‖ν_m‖₂>0,  ν̂_m:=ν_m/t_m∈S³:={ν∈ℂ²:‖ν‖₂=1}
+
+と置く。`t_m>0` は constant-gauge quotient 後の child leaf が相異なることから従う。部分列上で
+`ν̂_m→ν̂_*` としてよい。`ν̂=(ν_1,ν_2)` に対して
+
+  L_{ν̂}(x):=ν_1x+ν_2x²,
+  G_{ν̂,t}(x):=(exp(tL_{ν̂}(x))−1)/t       (t>0),
+  G_{ν̂,0}(x):=L_{ν̂}(x)                                   (A″1)
+
+と定義する。積分表示
+
+  G_{ν̂,t}=L_{ν̂}∫_0^1 exp(utL_{ν̂})du
+
+により `G` は `S³×[0,t₀]` 上で coefficientwise、`J⁵`、Fock tail のいずれでも `t=0` まで連続である。
+finite m の child frameは
+
+  f_{1,m}:=ū_{1,m}=1,
+  f_{2,m}:=(ū_{2,m}−ū_{1,m})/t_m,
+  f_{3,m}:=ū_{3,m}                                          (A″2)
+
+とする。これは anchor + normalized Newton difference であり、正規化子 `t_m` は root-normalized
+parameter だけから作るので `s_m` に依存しない。`t_m>0` では元の三列からの可逆な exact column
+変換である。
+
+ここで `ε_m:=d_w(ξ_{1,m},ξ_{2,m})/s_m` として
+`δĀ_m=ε_m²χ_{A,m}`, `δB̄_m=ε_mχ_{B,m}` と置く graded chart は採用しない。その差分を `ε_m` で
+割ると、`χ_{B,m}` が同時に零へ行く mixed rate で quadratic direction が消え、`t=0` face への
+連続性を失う。`ν̂_m` は child profile `(0,1)` と pure quadratic `(0,2)` を同じ compact sphere の
+点として保持する。
+
+### 9.2 Compact chart and statement
+
+`0<η≤1` とし
+
+  0<t₀≤min(1/4,η²/8)
+
+を固定する。compact parameter setを
+
+  𝒦_{η,t₀}:={ (Ā,B̄,ν̂,t): |Ā|,|B̄|≤1,
+      max(|Ā|^{1/2},|B̄|)≥η, ν̂∈S³, 0≤t≤t₀ }
+
+と置く。child の normalized parameter は `(2tν_2,tν_1)` であり
+
+  d_w((2tν_2,tν_1),(0,0))≤max(√(2t),t)≤η/2.
+
+従って (N0) と三角不等式から singleton は child の両 leaf から `η/2` 以上離れる。
+
+`J⁵` と `π₅` は §8 と同じとする。head map
+
+  S_m:ℂ³→J⁵,  a↦π₅(Σ_{j=1}^3 a_jf_{j,m})
+
+の SVD を取り、特異値を `σ_{1,m}≥σ_{2,m}≥σ_{3,m}`、unit right singular vector を
+`a_m^(ℓ)` とする。
+
+  h_{ℓ,m}:=Σ_j a_{j,m}^{(ℓ)}f_{j,m},
+  v_{ℓ,m}:=h_{ℓ,m}/‖h_{ℓ,m}‖.
+
+**FR-S1″ target (nested 2+1, c=3)**: m が十分大きいとき、定数 `c₀,C>0` が存在して
+
+1. `σ_{3,m}≥c₀s_m⁵`;
+2. `‖(1−π₅)h_{ℓ,m}‖≤Cs_m⁶≤(C/c₀)s_mσ_{ℓ,m}` (全 ℓ);
+3. 部分列上で `v_{ℓ,m}→P_ℓ∈J⁵` in ℱ、`{P_1,P_2,P_3}` は正規直交;
+4. `span{h_{1,m},h_{2,m},h_{3,m}}=span{ū_{1,m},ū_{2,m},ū_{3,m}}` exact;
+5. `Gram(v_{1,m},v_{2,m},v_{3,m})=I+O(s_m)`。
+
+定数依存は compact input class、`η,t₀`、固定 pivot/tree chart のみで、`m,θ` と
+`t_m→0` の rateには依存させない。
+
+### 9.3 Exact root factorization and singular-value floor
+
+`(Ā,B̄,ν̂,t)∈𝒦_{η,t₀}` に対して
+
+  Ṫ(Ā,B̄,ν̂,t)a
+  :=π₅(a_1+a_2G_{ν̂,t}(x)+a_3exp(Āx²/2+B̄x))
+
+と定義する。`D(s)e_k:=s^ke_k` とすると、(A″1)–(A″2) と weighted homogeneity から exact に
+
+  S_m=D(s_m)Ṫ(Ā_m,B̄_m,ν̂_m,t_m).                         (A″3)
+
+右辺に誤差項はなく、`t_m` の任意 rate は `Ṫ` の compact parameter として残る。
+
+`t>0` では三つの parameter pair は相異なり、(A″2) は可逆 column 変換なので、補題 W の
+`J⁵` injectivity から `Ṫ` は単射。`t=0` では列空間は
+
+  span{1,L_{ν̂},exp(Āx²/2+B̄x)}
+
+である。`‖ν̂‖₂=1` と (N0) により [static generalized 補題 W′](2026-08-11-three-atom-wronskian-valuation-W--wip.md)
+の `J⁴` injectivity が適用でき、従って `J⁵` map `Ṫ` も単射である。`Ṫ` は
+`𝒦_{η,t₀}` 上で連続なので compactness より
+
+  inf_{𝒦_{η,t₀}} σ_min(Ṫ)=:c₀>0.                              (A″4)
+
+`0<s_m≤1` で `‖D(s_m)y‖≥s_m⁵‖y‖` (`y∈J⁵`) だから、(A″3)–(A″4) が target 1 を与える。
+
+### 9.4 Uniform Fock tail
+
+singleton columnには §8.3 の
+
+  C_k:=[x^k]exp(x+x²/2)
+
+を使う。difference column は (A″1) の積分表示と `|ν_1|,|ν_2|≤1` から coefficientwise に
+
+  |[x^k]G_{ν̂,t}|≤D_k,
+  D_k:=[x^k](x+x²)exp(t₀(x+x²)).                              (A″5)
+
+`M_k:=max(C_k,D_k)` とする。`‖a_m^(ℓ)‖₁≤√3` なので、`k≥6` の `h_{ℓ,m}` の係数は
+`≤√3M_ks_m^k`。固定 `s_*∈(0,1)` を `2t₀s_*²<1` となるよう取り、十分大きい m で
+`s_m≤s_*` とすれば
+
+  Σ_{k≥6}3M_k²k!s_m^{2k}
+  ≤s_m^{12}Σ_{k≥6}3M_k²k!s_*^{2(k−6)}
+  =:C²s_m^{12}.                                                (A″6)
+
+右辺の級数は有限である。`C_k` 部分は §8.3 と同じで、`D_k` 部分は
+
+  (s_*z+s_*²z²)exp(t₀s_*z+t₀s_*²z²)
+
+の Fock normで支配され、quadratic parameter の絶対値 `2t₀s_*²<1` により有限。
+(A″6) と target 1 が target 2 を与える。
+
+### 9.5 Limit frame, exact tree, and scope
+
+`p_{ℓ,m}:=π₅h_{ℓ,m}/σ_{ℓ,m}` は `J⁵` 内で正規直交。§8.4 と同じ head-tail 直交性から
+
+  ‖v_{ℓ,m}−p_{ℓ,m}‖=O(s_m),
+
+従って部分列上の正規直交極限、target 3、target 5 を得る。finite m では (A″2) の column変換と
+SVD right matrix がともに可逆なので target 4 も exact。
+
+各 `h_{ℓ,m}` は明示的に
+
+  h_{ℓ,m}
+  =(a_{1,m}^{(ℓ)}−a_{2,m}^{(ℓ)}/t_m)ū_{1,m}
+   +(a_{2,m}^{(ℓ)}/t_m)ū_{2,m}+a_{3,m}^{(ℓ)}ū_{3,m}
+
+と書ける。従って child pair の exact combination と singleton を二子とする pair+singleton tree を持つ。
+係数の `1/t_m` 発散は許容され、正規化後frameとtailは(A″4)–(A″6)で一様に制御される。
+
+元の gauge へは §8.4 と同じ strong-continuous unitary sectionで戻す。よって nested 2+1 に対する
+FR1、FR4、FR3 の (X)/(L-d) を得る。limit span の valuation profile は `{0,…,5}` から選ぶ有限集合で、
+pair+singleton tree と pivot permutation も固定済みなので、さらに部分列を取れば FR2 label も固定できる。
+plain FR-S1′ と合わせれば、post-quotient `w=r=3` の single-collision-cluster
+入力のこれら四義務を全 tree shape で覆う。`w≤2` は §2 の leaf/c=2 assetsへ送る。ただし
+`(E-d)`、FR5–FR7、FR-S4、wrapper Γ(3)、一般 c は
+本節から主張しない。
+
+### 9.6 Acceptance ledger
+
+| ID | 本節での状態 | 証拠 / 残余 |
+|---|---|---|
+| A″-1 `ν̂,t` compact chart | proof draft (R-A″ pending) | (A″1)、graded `d_w` chart を不採用 |
+| A″-2 exact factorization / head floor | proof draft (R-A″ pending) | (A″3)–(A″4)、W / W′ |
+| A″-3 difference-column Fock tail | proof draft (R-A″ pending) | (A″5)–(A″6) |
+| A″-4 limit Gram / exact span / tree | proof draft (R-A″ pending) | SVD + exact column変換 |
+| A″-5 FR1/FR2/FR4/FR3(X)(L-d) | proof draft (R-A″ pending) | plain FR-S1′との全tree-shape合成 |
+| `(E-d)` / FR5–FR7 | open, not claimed | FR-S4 |
+
+## 10. 版履歴
 
 - v0.1(2026-08-10): DC-NG 後の replacement target を single-F wrapper から exact block-frame 問題へ移し、
   FR1–FR7 と最小証明順を定義。証明 claim は置かない。
@@ -324,3 +516,8 @@ tree shape と pivot permutation も有限なので、さらに部分列を取�
 - v0.6.3(2026-08-11): 固定 SHA `57ff88d` の Fable response `5250516558` で
   R-W′1–R-W′5 が全 PASS。static generalized W′ を
   accepted に昇格し、次の未解決点を finite-m ν-chart / FR-S1″ に限定した。
+- v0.7(2026-08-11): Fable consultation #2 response `5249981331` に基づき、finite-m nested 2+1 の
+  FR-S1″ proof draft を追加。child anchor + s-free
+  normalized Newton difference、`ν=(δB̄,δĀ/2)` の continuous compactification、root-scale exact
+  factorization、W/W′を用いるhead floor、difference-column tail、exact pair+singleton treeを記載。
+  consultation #2 の設計を実装したため、固定 SHA の R-A″ は別モデルによる独立検算を要求する。
