@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.5.2、F3′ により旧次数帳簿を撤回、plain補題W R-W PASS、R-FRSPEC R5 pending、FR-S1′未証明**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.6 — plain補題W R-W PASS、single-scale FR-S1′ proof draft、nested 2+1 / FR-S4 open、R-FRSPEC R5 pending**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -27,14 +27,27 @@ near-phantom 族では direct U_F transfer と、予定していた QR5 child �
   u_{j,m} = Φ(ξ_{j,m})  (j=1,2,3),
 
 と V_m := span{u_{1,m},u_{2,m},u_{3,m}} を取る。本仕様は補題 N の**一つの衝突cluster**を入力とし、
-constant-gauge quotient 後の基点について
+constant-gauge quotient 後に一つの `d_Ω`-衝突 cluster (`ξ_{j,m}→ξ*`、全 j)を入力とする。
+`d_Ω` は粗い cluster 分離にだけ使い、衝突内部の scale は次の weighted metric で測る。
 
-  s_m := max_{i,j} d(ξ_{i,m},ξ_{j,m}) → 0、ξ_{j,m} → ξ*  (全 j)
+active node ごとに pivot leaf `j_0` を固定し、共通 metaplectic gauge `U_m` で
+`Φ(ξ_{j_0,m})` を真空へ移す。生じる非零 scalar は原子係数へ exact に吸収し、gauge 後の parameter を
+`(A_{j,m},B_{j,m})`、pivot を `(0,0)` と書く。真空 stabilizer は
+`(A,B)↦(e^{2iφ}A,e^{iφ}B)` なので、
 
-を仮定する。s_m が 0 へ行かない別 cluster は入力前に分離し、L3/cluster tree の別節点で扱う。
+  d_w((A,B),(A′,B′)) := max(|A−A′|^{1/2}, |B−B′|)
+
+は residual gauge に依存しない。`|·|^{1/2}` の snowflake 三角不等式と max 構成から `d_w` は metric である。
+以下 `d_w(ξ_{i,m},ξ_{j,m})` は、この共通 gauge 後の parameter 座標間距離の略記とする。
+node scale を
+
+  s_m := max_{i,j} d_w((A_{i,m},B_{i,m}),(A_{j,m},B_{j,m})) → 0
+
+と定義する。pivot の選択は permutation/chart data に含める。`s_m` が 0 へ行かない別 cluster は
+入力前に `d_Ω` で分離し、L3/cluster tree の別節点で扱う。
 
 leaf weight w=1 は再帰の終端とし、距離正規化を行わない。w≥2 の active cluster node では、
-normalized distance d(ξ_{i,m},ξ_{j,m})/s_m を部分列で全対収束させる。極限 0 の pair は
+normalized distance `d_w(ξ_{i,m},ξ_{j,m})/s_m` を部分列で全対収束させる。極限 0 の pair は
 proper child cluster とし、その child scale で同じ操作を再帰する。c=3 では tree shape は single-scale triple または
 2+1(root scale)の pair child(single scale)だけで、再帰深さは高々2。各 active node では非零 pair-distance ratio が
 正の下限を持つ。この nested tree、r := dim V_m、pivot permutation を部分列で固定する。
@@ -136,10 +149,132 @@ FR3/FR4が出る」という素朴な Route B は不十分。scheme route を使
 `deg P≤2o′≤4` は**偽**である。この exact 構成は `κ_border^G(|5⟩)≤3` も与える。
 
 F3′ が確立するのは「三原子には次数 5 が必要」という下側だけである。plain c=3 の上界 5 は
-Wronskian 補題 W の執筆・固定 SHA 査読後に採否を決める。一般 `w` の候補
+[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) が R-W PASS (`1b3e337`)。
+一般 `w` の候補
 `D(w)=(w−1)(w+2)/2`、nested 2+1 への拡張、FR5–FR7 はここでは主張しない。
 
-## 8. 版履歴
+## 8. FR-S1′ (plain single-scale triple の weighted J⁵-SVD frame)
+
+本節の入力は §2 のうち、proper child を持たない `w=r=3` の single-scale active node に限定する。
+従って部分列上で、ある `η>0` に対し全ての相異 pair が
+
+  d_w(ξ_{i,m},ξ_{j,m})/s_m ≥ η
+
+を満たす。pivot を真空にした座標では exact に
+
+  A_{j,m}=s_m²Ā_{j,m},  B_{j,m}=s_m B̄_{j,m},
+
+かつ `|Ā_{j,m}|≤1`, `|B̄_{j,m}|≤1`。部分列を取り、正規化配置
+`ϑ_m:=((Ā_{j,m},B̄_{j,m}))_{j=1}^3` は pairwise distinct な `ϑ*` へ収束するとする。
+
+### 8.1 Statement
+
+`J⁵:=span{e_k:=z^k/√(k!):0≤k≤5}`、`π₅` をその ℱ-直交射影とする。gauge 後の
+unnormalized atom を
+
+  ū_{j,m}(z):=exp(A_{j,m}z²/2+B_{j,m}z)
+
+とし、
+
+  T_m:ℂ³→J⁵,  a↦π₅(Σ_j a_jū_{j,m})
+
+の SVD を取る。特異値を `σ_{1,m}≥σ_{2,m}≥σ_{3,m}`、右特異ベクトルを
+`a_m^(ℓ)` (`‖a_m^(ℓ)‖₂=1`) とし、
+
+  h_{ℓ,m}:=Σ_j a_{j,m}^{(ℓ)}ū_{j,m},
+  v_{ℓ,m}:=h_{ℓ,m}/‖h_{ℓ,m}‖
+
+と置く。重複特異値内の基底は一意でなくてよい。有限次元 unitary 群の compactness で、必要なら
+さらに部分列を取る。
+
+**FR-S1′ target (plain single-scale c=3)**: m が十分大きいとき、定数 `c₀,C>0` が存在して
+
+1. `σ_{3,m}≥c₀s_m⁵`;
+2. `‖(1−π₅)h_{ℓ,m}‖≤Cs_m⁶≤(C/c₀)s_mσ_{ℓ,m}` (全 ℓ);
+3. 部分列上で `v_{ℓ,m}→P_ℓ∈J⁵` in ℱ、`{P_1,P_2,P_3}` は正規直交;
+4. `span{h_{1,m},h_{2,m},h_{3,m}}=span{ū_{1,m},ū_{2,m},ū_{3,m}}` exact;
+5. `Gram(v_{1,m},v_{2,m},v_{3,m})=I+O(s_m)`。
+
+定数依存は compact input class、`η`、固定 pivot/chart のみで、m と radial angle θ には依存させない。
+元の gauge 前枠は `U_m^{-1}` で戻す。unitarity と吸収済み nonzero scalar により exact span、norm、Gram は保たれる。
+
+### 8.2 Head factorization and singular-value floor
+
+weighted homogeneous coefficientを `W_k(A,B):=[z^k]exp(Az²/2+Bz)` とすると
+
+  W_k(s²Ā,sB̄)=s^kW_k(Ā,B̄).
+
+正規化配置 `ϑ=((Ā_j,B̄_j))_j` に対して
+
+  T(ϑ)a:=π₅(Σ_j a_j exp(Ā_jz²/2+B̄_jz))
+
+と定義する。`D(s)e_k:=s^ke_k` と置けば exact に
+
+  T_m=D(s_m)T(ϑ_m).                                               (S1)
+
+正規化配置は compact かつ pairwise separation `η` を持つ。[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md)
+の `J⁵` injectivity と compact-family corollary より
+
+  σ_min(T(ϑ_m))≥c₀>0.                                             (S2)
+
+`0<s_m≤1` では `‖D(s_m)y‖≥s_m⁵‖y‖` (`y∈J⁵`) なので、(S1)–(S2) から
+
+  σ_{3,m}=σ_min(T_m)≥c₀s_m⁵.                                     (S3)
+
+### 8.3 Fock tail
+
+`|Ā|,|B̄|≤1` 上で
+
+  |W_k(Ā,B̄)|≤C_k,  C_k:=[x^k]exp(x+x²/2).
+
+`‖a_m^(ℓ)‖₁≤√3` と weighted homogeneity より、`k≥6` の係数は
+`≤√3 C_k s_m^k`。固定 `s_*∈(0,1)` を取り、十分大きい m で `s_m≤s_*` とすれば
+
+  Σ_{k≥6} 3C_k²k!s_m^{2k}
+  ≤s_m^{12} Σ_{k≥6}3C_k²k!s_*^{2(k−6)}
+  =:C²s_m^{12}.                                                   (S4)
+
+右辺の級数は有限である。実際、`Σ_k C_k²k!s_*^{2k}` は
+`exp(s_*z+s_*²z²/2)` の Fock norm の二乗であり、`s_*²<1` だから有限。
+(S4) と (S3) が statement 2 を与える。
+
+### 8.4 Limit frame and exactness
+
+`p_{ℓ,m}:=π₅h_{ℓ,m}/σ_{ℓ,m}` は SVD の左特異ベクトルなので `J⁵` 内で正規直交。
+statement 2 と head/tail の直交性から
+
+  ‖v_{ℓ,m}−p_{ℓ,m}‖=O(s_m).
+
+`J⁵` の unit sphere は compact なので部分列上で `p_{ℓ,m}→P_ℓ`、極限も正規直交。
+従って gauge 後には `v_{ℓ,m}→P_ℓ`、Gram は `I+O(s_m)`。右特異ベクトル行列は unitary なので
+`{h_{ℓ,m}}` と `{ū_{j,m}}` の span は exact に一致する。
+
+残留真空位相を chart で固定すれば、pivot `ξ_{j_0,m}→ξ*` に対応する gauge は部分列上で
+`U_m→U_*` strongly と取れる。従って
+
+  U_m^{-1}v_{ℓ,m}→U_*^{-1}P_ℓ=:Q_ℓΦ(ξ*)  in ℱ.
+
+affine metaplectic 変換は creation operator を `a,a†,1` の一次結合へ移し、Bargmann 表示では
+`∂Φ=(Az+B)Φ` だから `deg Q_ℓ≤deg P_ℓ≤5`。これが gauge 前の (L-d) を与える。
+
+limit span は `J⁵` の三次元部分空間なので、その valuation profile は `{0,…,5}` から選ぶ有限集合に属する。
+tree shape と pivot permutation も有限なので、さらに部分列を取れば全 label を固定できる。
+
+ここまでで plain single-scale triple に対する FR1、FR2、FR4、FR3 の (X)/(L-d) を与える。
+ただし基点から離れた `(E-d)` envelope、FR5、FR6、FR7 は出ないため、FR全体を closed としない。
+
+### 8.5 Acceptance ledger
+
+| ID | 本節での状態 | 残余 |
+|---|---|---|
+| A′-1 relative `d_w` chart | proof draft | residual vacuum stabilizer invariance と pivot固定を§2で明示 |
+| A′-2 head floor `σ_3≥c₀s⁵` | proof draft | 補題 W + compactness + exact factorization |
+| A′-3 Fock tail `O(s⁶)` | proof draft | (S4) の一様級数定数を検算 |
+| A′-4 norm limit / Gram / exact span | proof draft | SVD と head-tail 直交性 |
+| nested 2+1 | open, not claimed | generalized-atom W が必要 |
+| `(E-d)` / FR5–FR7 | open, not claimed | FR-S4 |
+
+## 9. 版履歴
 
 - v0.1(2026-08-10): DC-NG 後の replacement target を single-F wrapper から exact block-frame 問題へ移し、
   FR1–FR7 と最小証明順を定義。証明 claim は置かない。
@@ -166,3 +301,7 @@ Wronskian 補題 W の執筆・固定 SHA 査読後に採否を決める。一�
 - v0.5.2(2026-08-11): 補題 W の R-W1–R-W5 が固定 SHA `1b3e337` で全 PASS。
   nonblocking minor 2 件を補題文書へ反映。plain c=3 の valuation 上界 5 だけを accepted に昇格し、
   nested 2+1・weighted tail・FR-S4 は open のまま維持。
+- v0.6(2026-08-11): coarse cluster 分離の `d_Ω` と、真空 gauge 後の局所 weighted metric
+  `d_w=max(|ΔA|^{1/2},|ΔB|)` を分離。plain single-scale triple について、J⁵-SVD、補題 W の
+  singular-value floor、Fock tail `O(s⁶)`、norm limit/Gram/exact span を FR-S1′ proof draft として追加。
+  nested 2+1 と FR-S4 は non-claim のまま。
