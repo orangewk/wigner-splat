@@ -117,13 +117,15 @@ K2_STATUS_POINTER_DOCS = (
 def test_k2_review_status_is_not_reauthored_on_pointer_surfaces():
     """The canonical R-K2 block lives only in the standalone K2 draft."""
 
-    stale_statuses = ("R-K2 R2 PASS", "R-K2 R2 待ち")
+    status_restatement = re.compile(
+        r"R-K2[\s\S]{0,160}?R2\s*(?:PASS|待ち)", re.IGNORECASE
+    )
     for surface in K2_STATUS_POINTER_DOCS:
         text = surface.read_text(encoding="utf-8")
-        for stale_status in stale_statuses:
-            assert stale_status not in text, (
-                f"{surface}: noncanonical K2 status returned: {stale_status!r}"
-            )
+        found = status_restatement.search(text)
+        assert found is None, (
+            f"{surface}: noncanonical K2 status returned: {found.group(0)!r}"
+        )
 
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
     "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",
