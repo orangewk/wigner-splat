@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.7.1 — plain FR-S1′ R-A′ PASS、static generalized W′ R-W′ PASS、finite-m FR-S1″ R-A″ PASS、FR-S4 open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface specification draft (R-S4-0 pending)、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -85,10 +85,10 @@ v_{ℓ,m}:=h_{ℓ,m}/‖h_{ℓ,m}‖ と置くと、次を同時に満たせる�
 |---|---|---|
 | FR1 | exact span | span{h_{ℓ,m}:ℓ≤r}=V_m。削除は exact rank drop のときだけ |
 | FR2 | finite chart | permutation・tree shape・valuation profile が部分列上で固定。F3′ 後の Route A′ では rate degeneration は SVD の特異値が担い、有限 label へ列挙しない |
-| FR3 | generalized-atom type | 共通 cluster base ξ_{*,m}→ξ* と jet-degree label d_ℓ を持ち、各有限 v_{ℓ,m} が改訂後の (E-d)/(X)/(L-d) を満たす。特に非零 P_ℓΦ(ξ*) (deg P_ℓ=d_ℓ) へ norm 収束。旧 `o′_ℓ≤w−1, deg P_ℓ≤2o′_ℓ` 帳簿は F3′ により撤回。plain c=3 の上界 d_ℓ≤5 は [補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) が R-W PASS (`1b3e337`)。nested 2+1 の (X)/(L-d) は FR-S1″ が R-A″ PASS (`61111cc`)。(E-d) は FR-S4 の別義務。枠本数 r≤w≤3 |
+| FR3 | generalized-atom type | 共通 cluster base ξ_{*,m}→ξ* と jet-degree label d_ℓ を持ち、各有限 v_{ℓ,m} が (X)/(L-d) を満たす。特に非零 P_ℓΦ(ξ*) (deg P_ℓ=d_ℓ) へ norm 収束。旧 `o′_ℓ≤w−1, deg P_ℓ≤2o′_ℓ` 帳簿は F3′ により撤回。plain c=3 の上界 d_ℓ≤5 は [補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) が R-W PASS (`1b3e337`)。nested 2+1 の (X)/(L-d) は FR-S1″ が R-A″ PASS (`61111cc`)。c=3 の遠方成長 target は §10 の弱形 (E-w)へ仕様改訂中。(E-d) は一般 c の再帰義務として残す。枠本数 r≤w≤3 |
 | FR4 | Gram | Gram(v_{1,m},…,v_{r,m}) の最小固有値が m 一様に正 |
 | FR5 | node kernel | 各 radial internal node はその node envelope 固有の reviewed kernel を、m と θ に一様な定数で持つ。2+1 held node は QR5(U_T) |
-| FR6 | global envelope | 各 v_{ℓ,m} が補題 N の N3′/N4 envelope を満たす。定数は (c=3,δ,R,one-transition/flag の安定化定数) のみに依存し m,θ に非依存 |
+| FR6 | global envelope | c=3 では各 v_{ℓ,m} が §10 の (E-w) と、改訂後の N3′/N4 acceptance を満たす。定数は (c=3,δ,R,per-node segmentation/flag の安定化定数) のみに依存し m,θ に非依存。(E-d) は一般 c の義務 |
 | FR7 | no return | FR5–FR6 の証明で旧 parent U_F への逆比較または旧 DC discount を使わない |
 
 FR1–FR7 が揃って初めて c=3 の補題 N 枠として受理する。QR5 PASS は FR5 の一つの row を供給するだけで、
@@ -112,14 +112,17 @@ FR3/FR4/FR6 を閉じない。
 1. **[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) (plain c=3 valuation 上界)**: F3′ と独立に、相異三原子 span の最大 valuation が 5 以下であることを自己完結に証明する。
 2. **FR-S1′ (weighted SVD frame、R-A′ PASS)**: 真空 gauge 後の (2,1)-weighted 距離と J⁵-SVD で、plain single-scale triple の exact 枠を定義する。
 3. **nested 2+1 接続**: [static generalized 補題 W′](2026-08-11-three-atom-wronskian-valuation-W--wip.md) と §9 の finite-m FR-S1″ は R-W′ / R-A″ PASS。
-4. **FR-S4 (envelope assembly)**: K2/K2Q/QR5 を node ごとに使い、parent U_F へ戻らず FR6 を導く。
-5. 固定 SHA で FR1–FR7 を独立再査読する。
+4. **FR-S4-0 (interface specification)**: §10 で per-node segmentation、U_H-ledger、(E-w)、kernel/constant 契約を固定する。proof claim は置かない。
+5. **FR-S4b (FR5 kernel routing)**: K2/K2Q/QR5 を node ごとに割り当て、split-row を U_H-ledger 下で監査する。
+6. **FR-S4a (FR6-core envelope assembly)**: S4b の kernel と C′ chaining から (E-w) を導く。
+7. **FR-S4c (FR6/FR7 closure)**: N3′/N4 台帳と no-return audit を閉じる。
+8. 固定 SHA で FR1–FR7 を独立再査読する。
 
 ## 7. 現在の blocker
 
 plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′、nested 2+1 の FR-S1″ は
-固定 SHA `61111cc` の R-A″で PASS。現在の最初の未解決点は **FR-S4 envelope assembly**、すなわち
-`(E-d)` と FR5–FR7 である。
+固定 SHA `61111cc` の R-A″で PASS。現在の最初の未解決点は **FR-S4-0 interface specification**。
+§10 は specification draft であり、R-S4-0 判定前には c=3 の (E-w) 改訂や FR5–FR7 の閉鎖に数えない。
 旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の
 非零/零だけでなく、相対 valuation または同値な flag/blow-up 座標を含まなければならない。
@@ -475,9 +478,151 @@ plain FR-S1′ と合わせれば、post-quotient `w=r=3` の single-collision-c
 | A″-3 difference-column Fock tail | accepted (R-A″ PASS) | (A″5)–(A″6) |
 | A″-4 limit Gram / exact span / tree | accepted (R-A″ PASS) | SVD + exact column変換 |
 | A″-5 FR1/FR2/FR4/FR3(X)(L-d) | accepted (R-A″ PASS) | plain FR-S1′との全tree-shape合成 |
-| `(E-d)` / FR5–FR7 | open, not claimed | FR-S4 |
+| c=3 `(E-w)` / FR5–FR7 | open, not claimed | §10 S4-0 specification draft、S4b→S4a→S4c が必要 |
+| 一般 c `(E-d)` | open, not claimed | 親 node が polynomial generalized atom を消費する再帰義務 |
 
-## 10. 版履歴
+## 10. FR-S4-0 shared interface specification (proof claim なし)
+
+本節を c=3 FR-S4 の shared interface と packet 順序の唯一の authoring location とする。
+[Fable consultation #3](https://github.com/orangewk/wigner-splat/pull/178#issuecomment-5252973388) の
+REVISE を入力とするが、本線で次を補正した。実二次式の差から交差数 `≤2` が自動で従うのは
+**二つの原子 exponential を比較する pair node だけ**である。root の pair-block `B₁₂` は指数和なので
+`log|B₁₂|−log|c₃e^{q₃}|` は二次式ではない。従って root segmentation は既知事実として採用せず、
+S4b の split-row audit が供給すべき明示 obligation とする。
+
+本節は仕様だけを固定し、segmentation、kernel routing、(E-w)、N3′/N4 のいずれも証明しない。
+
+### 10.1 Non-circular packet order
+
+依存順を
+
+  S4-0(spec) → S4b(FR5 routing) → S4a(FR6-core) → S4c(FR6/FR7 closure)
+
+と固定する。
+
+| packet | consumes | produces | current state |
+|---|---|---|---|
+| S4-0 | FR-S1′/S1″、K2/K2Q/QR5、C′ | 本節の interface のみ | specification draft (R-S4-0 pending) |
+| S4b | S4-0 + reviewed node kernels | per-segment FR5 routing、split-row audit | open, not claimed |
+| S4a | S4b + C′ | c=3 weak envelope (E-w) | open, not claimed |
+| S4c | S4a + FR1–FR5 | N3′/N4 ledger、FR7 no-return、c=3 FR acceptance | open, not claimed |
+
+S4a は S4b の kernelを消費するため、旧案 S4a→S4b の順では書かない。
+
+### 10.2 c=3 weak envelope target (E-w)
+
+c=3 milestone で FR6 が要求する遠方成長 target を次の弱形に限定する。
+
+**(E-w)**: compact input class `K_{δ,R}` に対し定数 `C_w,C_lin>0` と `m₀` が存在して、
+全 `m≥m₀`、frame index `ℓ`、`z∈ℂ` について
+
+  |(U_m^{-1}v_{ℓ,m})(z)|
+  ≤ C_w exp((1−δ/2)|z|²/2 + C_lin|z|).                         (S4-Ew)
+
+定数は `m,ℓ,z,θ` と SVD/Newton coefficient に依存させない。§4 冒頭の L2a′ 消費者監査により、
+c=3 の下流で envelope が使われる一様可積分尾部には (S4-Ew) で十分。これは多項式形 (E-d) を
+一般に含意しない。一般 c の再帰では親 node が `PΦ` 型 child を消費するので、(E-d) は一般 c の
+open obligation として残す。補題 N の N3′/N4 文言は S4c でこの c=3/general-c 分離へ同期する。
+
+### 10.3 Two-level radial segmentation contract
+
+固定 ray `z=te^{iθ}` と終点半径 `T≥3` を取る。第一層は accepted C′ と同じ長さ1の区間列
+`I_k=[a_k,a_k+1]`、overlap `J_k=I_k∩I_{k+1}` で、個数は `N≤2T+1`。
+
+第二層として、各 `(I_k,J_k)` と各 internal node `H=A+B` に route dataを付す。S4b は必要なら
+`I_k` 内を有限 cell `𝒫_{H,k}` に分けてよいが、S4aへ渡す出力は内部cellを畳み込んだ次の
+**composite unit-step kernel**だけとする。
+
+  sup_{I_k}|H|
+  ≤ C_step ε^{−γ_H} exp(A_{H,k}+κ_HΛ_{H,k}ε) sup_{J_k}|H|.       (S4-step)
+
+acceptance 条件は次の三つ。
+
+1. `C_step,γ_H,κ_H` は compact class、node type、route labelだけに依存し `m,θ,k,T` に非依存。
+2. cell分割を使う証明では `#𝒫_{H,k}≤N_cell` と内部overlapを示し、その積を一つの `C_step` へ
+   吸収する。分割なしの直接 unit-step kernelでもよい。
+3. pair leaf nodeでは `Re(q_1−q_2)+log|c_1/c_2|` が実二次以下なので dominance cellは高々3。
+   root pair-block vs singleton ではこの推論を使わず、S4b の **split-row audit under U_H-ledger** が
+   一様な (S4-step) を直接証明する。rootで `N_cell` を導入する場合だけ、その一様性も証明する。
+
+この route dataは既存 one-transition cluster tree 内の radial kernel routingを細分するだけで、
+多重 cluster transition を扱う L3 や一般 c の multi-transition 帰納を閉じない。root で一様な
+(S4-step) が偽なら、S4b は counterexampleとともにS4-0を改訂し、S4aへ進まない。
+
+### 10.4 Node-envelope ledger and no-return vocabulary
+
+internal node `H=A+B` ごとに
+
+  U_H(t):=max(log|A(t)|,log|B(t)|),
+  A_{H,k}:=sup_{I_k}U_H−sup_{J_k}U_H ≥ 0
+
+を使う。root 2+1 node では `U_H=U_T`。S4b の kernel input は
+
+  (node functions A,B, node envelope U_H, frequency allowance Λ_{H,k}, I_k, J_k, route label)
+
+だけとする。S4a は (S4-step) の `A_{H,k}+κ_HΛ_{H,k}ε` を telescopingし、C′ と同じ
+quadratic coefficient budget `(1−δ/2)T²/2+O(T)` に収めることを acceptance 条件とする。
+
+finite routing table上で
+
+  κ_*:=max_H κ_H,  γ_*:=max_H γ_H,  C_*:=max_H C_step,
+  ε:=min(1/2,δ/[8(κ_*+1)])
+
+を一度だけ固定する。S4a は各stepを `C_*ε^{−γ_*}` と `κ_*` で上から押さえ、C′の係数計算を
+routeごとに変更しない。これらのmaxが有限であることもS4bの出力条件に含める。
+
+FR7 auditで合成式に現れてよい量は
+
+  {node functions, U_H, compact-class envelope, Fock norm, named constants}
+
+だけ。旧 flat parent `U_F`、旧 DC discount、raw 原子係数、SVD coefficient、`1/t_m` を
+global comparison の入力にしてはならない。係数は node functions と `U_H` を通じてのみ kernelへ入る。
+
+### 10.5 Kernel routing interface
+
+| node / segment | function shape | intended kernel | S4b obligation |
+|---|---|---|---|
+| pair node (plain / nested child) | `c₁e^{q₁}+c₂e^{q₂}` | K2 (`γ=2`) | scale/rate-free適用を確認 |
+| generalized pair | `Pe^{q₁}+c₂e^{q₂}`, `deg P≤2` | K2Q (`γ=4`) | chart入力とweightを照合 |
+| root 2+1 held cell | `B₁₂+c₃e^{q₃}`, envelope `U_T` | QR5 (`γ=5`) | held条件とnode envelopeを照合 |
+| root split cell (i) | transfer branch | K2Q-wt | 既存仮定をnode語彙へ移す |
+| root split cell (ii)/(iii) | deep cancellation / pair degeneration | **kernel未指定** | U_H-ledgerで残るかを反例込みで判定 |
+| singleton leaf | `ce^q` | trivial `(P1)′` | class envelopeのみ |
+
+split(ii)/(iii) は旧 wrapper 用 certificate であって転送 kernelではない。S4-0 では port 可能と仮定しない。
+S4b は「frame の singular-value floorで当該rowが排除される」「新しいnode-local kernelが要る」
+「S4-0 segmentation自体を改訂する」のいずれかを証明する。
+
+### 10.6 Coefficient-free constants
+
+FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed/compact dataだけに依存し、
+表示係数には依存させない。
+
+| name | meaning / permitted dependency | supplied by |
+|---|---|---|
+| `c_head` | plain/nested head singular floor (`η,t₀` 等のchart data) | FR-S1′/S1″ |
+| `C_tail` | normalized frameのFock tail | FR-S1′/S1″ |
+| `C_K2,C_K2Q,C_T` | pair/generalized/root kernel constants | K2/K2Q/QR5 |
+| `C_step,γ_H,κ_H` | composite unit-step kernel data | S4b output |
+| `N_cell` | cell分割を実際に使う場合のunit interval・node当たりcell数 | pairは高々3、rootは導入時だけS4b obligation |
+| `C_chain` | C′ product/telescoping constant | S4aで上記kernel dataから構成 |
+| `C_w,C_lin` | (S4-Ew) constants | S4a output |
+
+tree depthは高々2なので tree方向の合成は node constantの有限積だけを許す。stopping-time/Bellman
+quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定する。
+
+### 10.7 S4-0 acceptance ledger
+
+| ID | specification | current state |
+|---|---|---|
+| S4-0.1 | packet順 S4b→S4a→S4c と非循環input/output | specification draft (R-S4-0 pending) |
+| S4-0.2 | c=3 (E-w)、一般 c (E-d) 保持 | specification draft (R-S4-0 pending) |
+| S4-0.3 | C′ unit chain + composite unit-step契約 | specification draft (R-S4-0 pending) |
+| S4-0.4 | U_H-ledger / FR7 allowed-forbidden vocabulary | specification draft (R-S4-0 pending) |
+| S4-0.5 | coefficient-free routing / constant ledger | specification draft (R-S4-0 pending) |
+| S4b/a/c proofs | none | open, not claimed |
+
+## 11. 版履歴
 
 - v0.1(2026-08-10): DC-NG 後の replacement target を single-F wrapper から exact block-frame 問題へ移し、
   FR1–FR7 と最小証明順を定義。証明 claim は置かない。
@@ -524,3 +669,9 @@ plain FR-S1′ と合わせれば、post-quotient `w=r=3` の single-collision-c
 - v0.7.1(2026-08-11): 固定 SHA `61111cc` を Luna/xhigh が独立査読し、R-A″1–R-A″6 は
   findingなしで全 PASS (`5252797923`)。FR-S1″を accepted に昇格し、次 blocker を
   `(E-d)` / FR5–FR7 (FR-S4)へ移した。
+- v0.8(2026-08-11): Fable consultation #3 の REVISEを受け、FR-S4を
+  S4-0→S4b→S4a→S4cへ再分割。c=3 target (E-w)、C′ unit chain、per-node segmentation、
+  U_H-ledger、coefficient-free kernel/constant契約をS4-0 specification draftとして追加。
+  consultationの交差数根拠はpair nodeにだけ採用し、root pair-block segmentationはS4b obligationへ戻した。
+  accepted C′との照合で `A=sup_IU_H−sup_JU_H` を採用し、S4b出力をcell内部を畳み込んだ
+  composite unit-step kernelに固定した。
