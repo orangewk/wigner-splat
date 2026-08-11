@@ -745,8 +745,9 @@ S4 の次の一手が「三原子一遷移補題」として確定した。tree 
 **単一スケールが未証明である以上、jet 版も同様に未証明**(a fortiori)。「単一スケール完結・
 残余は jet 版のみ」という旧記述は撤回。G1′ = 単一スケール込みの補題 N 証明本体(修復ルートは
 §4.3.3)。補題 N 全体が閉じるまで、L2a・L2b・主定理・系 C1 は**条件付き**。
-c = 2 の弱形 L2a′ は、他の open 補題には依存しない証明ドラフトだが、R-K2 R2 待ち
-(authoring location = 独立文書 K2。§4.3.4 は historical snapshot)。
+c = 2 の弱形 L2a′ は他の open 補題に依存しない独立成果ドラフトへ移管済みである。
+現行の査読statusは [独立文書 K2 の R-K2 欄](2026-08-08-quadratic-phase-turan-K2.md)だけを参照し、
+§4.3.4 は historical snapshotとする。
 
 ### 4.4 Gram 一様可逆性と L2a の結論(**補題 N 条件付き**)
 
@@ -853,7 +854,7 @@ t≥2 の偶数側 equality と奇数側 lower bound は F3′ により撤回�
 
 | # | 箇所 | 内容 | 状態 |
 |---|---|---|---|
-| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書で accepted。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。**残余 = ①(E-d)/FR5–FR7(FR-S4) ②一般 c の B2+(F1)/S4 ③L2b/L3 枠置換**。 | **open(主 blocker)** |
+| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。**残余 = ①(E-d)/FR5–FR7(FR-S4) ②一般 c の B2+(F1)/S4 ③L2b/L3 枠置換**。 | **open(主 blocker)** |
 | G2 | L1 符号 | 査読提供の不等式で閉鎖 | **closed(v1.1)** |
 | G3 | 脱出混在 | gauge 化再構成で場合分け自体が消滅(再査読で blocking 2 は resolve 判定、前提 = 補題 N + G8) | **closed(v1.1、再査読確認済み)** |
 | G4 | C2 quantitative | F3′ により旧次数下界を撤回。t≥2 の偶奇 sharp 値を再導出(|5⟩は上界 3) — C1 に影響なし | open(副産物) |
@@ -863,7 +864,7 @@ t≥2 の偶数側 equality と奇数側 lower bound は F3′ により撤回�
 | G8 | §1.5/§9.1 | 共変性のパラメタ変換式の完全清書(方針は標準) | open(清書) |
 
 **主張の階層(v1.8.8 更新)**: 系 C1 は G1′・G6・G8 に依存し、**G1′ は清書系ではなく未証明の
-proof-body blocker**(kernel: c = 2 は独立した証明ドラフトで R-K2 R2 待ち / c ≥ 3 open。加えて L2b・L3 の補題 N 枠依存の置換執筆が
+proof-body blocker**(kernel: c = 2 の査読statusは独立文書 K2 のcanonical R-K2欄参照 / c ≥ 3 open。加えて L2b・L3 の補題 N 枠依存の置換執筆が
 残る — Opus レビュー D1)。したがって主定理・系 C1(任意 k)は現時点で**未確立(条件付き主張)**
 である。G6・G8 は清書系。G4–G5 は副産物のみ。
 
@@ -875,7 +876,8 @@ proof-body blocker**(kernel: c = 2 は独立した証明ドラフトで R-K2 R2 
 2. 査読 1 巡目(blocking 2 件)→ v1.1 対応 → 再査読: blocking 2 = resolve / **blocking 1 = 未解消
    (旧 N3 への反例)**。v1.2 = (N3)→(N3′) 差し替え + 補題 N を「主張 + 部分的構成」に降格 + §9.6 表記修正。
 3. **現在の主 blocker = G1′**: c = 2 kernel(K2)と c 一様 chaining(C′)は、他の open 補題に
-   依存しない証明ドラフト(R-K2 R2 待ち)。v1.8 で一般 c は 3 段アーキテクチャ(§4.3.5)に帰着 — **数学的 open は
+   依存しない独立成果ドラフトへ移管済み(査読statusは独立文書 K2 のcanonical R-K2欄参照)。
+   v1.8 で一般 c は 3 段アーキテクチャ(§4.3.5)に帰着 — **数学的 open は
    B2(block 非相殺)+(F1)のみ**。ほかに L2b/L3 の補題 N 枠依存の置換執筆(D1)。閉じるまで
    主定理・系 C1(任意 k)は条件付き。novelty(2026-08-08 検索): 2 次位相の区間型 Turán は
    直接先行なし — kernel 自体に独立の新規性見込み。

@@ -96,13 +96,34 @@ def test_no_withdrawn_claim_reappears_on_a_generated_surface():
 
 # --- PR #158 F3-prime correction surfaces ----------------------------------
 
+FR_SPEC_DOC = ROOT / "docs" / "2026-08-10-three-atom-block-frame-preparation--wip.md"
+
 PR158_CLAIM_DOCS = (
     ROOT / "docs" / "2026-08-02-gaussian-border-rank-closure--wip.md",
+    ROOT / "docs" / "2026-08-08-quadratic-phase-turan-K2.md",
     ROOT / "docs" / "2026-08-09-three-atom-one-transition--wip.md",
     ROOT / "docs" / "2026-08-10-three-atom-block-frame-preparation--wip.md",
     ROOT / "docs" / "2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md",
     ROOT / "docs" / "2026-08-11-three-atom-wronskian-valuation-W--wip.md",
 )
+
+K2_STATUS_POINTER_DOCS = (
+    ROOT / "docs" / "2026-08-02-gaussian-border-rank-closure--wip.md",
+    ROOT / "docs" / "2026-08-09-three-atom-one-transition--wip.md",
+    FR_SPEC_DOC,
+)
+
+
+def test_k2_review_status_is_not_reauthored_on_pointer_surfaces():
+    """The canonical R-K2 block lives only in the standalone K2 draft."""
+
+    stale_statuses = ("R-K2 R2 PASS", "R-K2 R2 待ち")
+    for surface in K2_STATUS_POINTER_DOCS:
+        text = surface.read_text(encoding="utf-8")
+        for stale_status in stale_statuses:
+            assert stale_status not in text, (
+                f"{surface}: noncanonical K2 status returned: {stale_status!r}"
+            )
 
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
     "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",
@@ -133,7 +154,7 @@ def test_f3prime_withdrawn_degree_ledger_is_not_reintroduced():
         surface: surface.read_text(encoding="utf-8").count(witness_heading)
         for surface in PR158_CLAIM_DOCS
     }
-    assert occurrences[PR158_CLAIM_DOCS[2]] == 1
+    assert occurrences[FR_SPEC_DOC] == 1
     assert sum(occurrences.values()) == 1
 
 

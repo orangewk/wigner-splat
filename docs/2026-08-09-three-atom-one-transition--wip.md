@@ -9,7 +9,7 @@ DC-NG は固定 SHA 1392266 の R-DCNG(A1–A7) PASS。
 次の本体 = cancellation-aware exact block-frame preparation (FR)、多重遷移。旧「Γ(3) ≥ 5」主張は撤回のまま。**
 
 > 位置づけ: 閉包ドラフト §4.3.5.3 の「次の具体タスク」。kernel は
-> [K2](2026-08-08-quadratic-phase-turan-K2.md)(c = 2、他の open 補題に非依存、R-K2 R2 PASS)と
+> [K2](2026-08-08-quadratic-phase-turan-K2.md)(c = 2。査読statusは同文書の canonical R-K2 欄を参照)と
 > [K2Q](2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md)(重み (2,1)、レビュー 3 巡通過)。
 > 仕様の土台 = Sol 研究協力回答(2026-08-09、B 節)+ §4.3.5.3 三分岐仕様。
 

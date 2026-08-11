@@ -752,9 +752,9 @@ split(ii)/(iii) は旧 wrapper 用 certificate であって転送 kernelでは�
 S4b は「frame の singular-value floorで当該rowが排除される」「新しいnode-local kernelが要る」
 「S4-0 segmentation自体を改訂する」のいずれかを証明する。
 
-K2 の authoring file は現時点で `R-K2 R1 BLOCKED / R2待ち`、別参照面には `R-K2 R2 PASS` があり、
-source statusが不一致である。本節はどちらも裁定しない。固定 SHA の再査読または K2 authoring locationの
-status修復が終わるまで `K2-u` は unresolved であり、S4b-α を通過しない。
+K2 の査読statusは canonical
+[K2 authoring file](2026-08-08-quadratic-phase-turan-K2.md)の R-K2 欄だけを参照する。
+同欄が fixed-SHA PASSへ更新されるまで `K2-u` は unresolved であり、S4b-α を通過しない。
 
 ### 10.6 Coefficient-free constants
 

@@ -10,8 +10,13 @@
 > Hermite 結合 spectral 不等式(arXiv:2007.08169 系)は共通固定 Gaussian のみで別物。
 > 限界: MathSciNet 未走査・露仏語圏未確認。
 
-> **独立再査読 R-K2 R1(gpt-5.6-luna xhigh、固定 head b50e008)**: BLOCKED。
+> **履歴 — 独立再査読 R-K2 R1(gpt-5.6-luna xhigh、固定 head b50e008)**: BLOCKED。
 > 補題 E の区間内部評価と、C′ の κ < 1 の定数帳簿を受諾して下記で修正。R2 待ち。
+>
+> **fresh 固定SHA再査読 R-K2-FRESH R1(gpt-5.6-luna xhigh、固定 head `f5dd8f9`)**: BLOCKED。
+> K1(補題E)・K2(主定理)・K3(C′)は PASS。L2a′ の active rank-2 domain/fallback欠落と
+> 非canonical status不一致を受諾して下記で修正。R-K2-FRESH R2 待ち。本欄だけを
+> K2・C′・L2a′ の査読status authoring locationとする。
 
 ## 1. 設定
 
@@ -110,10 +115,15 @@ A_k ≤ Lip_{I_k}(V)·diam(I_k) ≤ Λ_k — V は Lipschitz 定数 ≤ max_j su
 底の積算: (Cε^{−γ})^{N} = e^{C(c,δ)T}。終端: sup_{I_N}|g| ≤ sup_{[0,2]}|g| ≤ e²‖f‖。
  ⇒ **|f(z₀)| ≤ e^{(1−δ/2)T²/2 + C(c,δ,R)T}‖f‖**。∎
 
-**系(L2a′、c = 2、他の open 補題に非依存)**: K2 は kernel(2)(γ = 2、κ = 1)を与えるので、2 原子重ね合わせ
-f = c₁Φ(ξ₁) + c₂Φ(ξ₂)(ξ_j ∈ K_{δ,R})に対し
+**系(L2a′、c = 2、他の open 補題に非依存)**: active rank-2、すなわち
+`c₁c₂≠0`, `ξ₁≠ξ₂` の 2 原子重ね合わせ
+f = c₁Φ(ξ₁) + c₂Φ(ξ₂)(ξ_j ∈ K_{δ,R})に対し、K2 は kernel(2)(γ = 2、κ = 1)を与えるので
   **|f(z)| ≤ e^{(1−δ/2)|z|²/2 + C(δ,R)|z|}·‖f‖  (∀z ∈ ℂ)**。
-これは依存関係上、一般閉包の open 補題を使わない帰結である。証明ドラフトとして R2 待ち。
+`c_j=0` または `ξ₁=ξ₂` の場合は、zero-pruningまたは係数のexact併合を先に行う。係数和が0なら
+`f=0`。それ以外はrank-1であり、`Φ(A,B)(0)=1` から `‖Φ(A,B)‖≥1`、また
+`|Φ(A,B)(z)|≤exp((1−δ)|z|²/2+R|z|)` なので、同じ弱形が直接従う。
+従って系の最終statementはrank≤2全体を覆うが、K2を直接適用するのはactive rank-2だけである。
+これは依存関係上、一般閉包の open 補題を使わない帰結である。証明ドラフトとして R-K2-FRESH R2 待ち。
 (注: これは閉包定理ドラフト §4 の L2a(多項式 × e^{(1−δ)|z|²/2+R|z|})より真に弱い弱形だが、
 そちらの下流で envelope が効く唯一の箇所(§5 一様可積分尾部)には十分。)
 
