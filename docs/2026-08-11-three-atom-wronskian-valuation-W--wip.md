@@ -1,6 +1,6 @@
-# 補題 W: 三原子 Wronskian valuation 上界 — proof draft
+# 補題 W: 三原子 Wronskian valuation 上界 — accepted plain-c=3 proof
 
-日付: 2026-08-11 / 著者: 本線 / status: **v0.1 proof draft — fixed-SHA review pending**
+日付: 2026-08-11 / 著者: 本線 / status: **v0.1.1 proof accepted (plain c=3) — R-W PASS at `1b3e337`、nonblocking minor 2 件反映**
 
 > 本ファイルを plain c=3 の補題 W とその帰結の唯一の authoring location とする。
 > F3′ witness の式と border-rank 帰結は
@@ -85,6 +85,11 @@ adapted basis を
 
 `v_i` は相異なるので先頭係数は非零。従って
 
+ここで higher terms が同じ位数へ戻って先頭項を消すことはない。Wronskian の多重線形展開で、
+各単項式組の位数は「三列の次数和 − 3」であり、いずれかの列を `v_i` より高い Taylor 項へ
+置き換えれば次数和は狭義に増える。次数が重複する単項式組の determinant は零なので、表示した
+falling-factorial Vandermonde が最低位数の非零係数として残る。
+
   ord_0 Wr(u_1,u_2,u_3)=v_1+v_2+v_3−3.                         (W3)
 
 また `u_j(0)=1` なので `W` 上の `z=0` 評価は非零であり `v_1=0`。valuation profile は
@@ -96,7 +101,10 @@ adapted basis を
 
 ## 5. J⁵ injectivity and compact-family corollary
 
-`T_5 f=0` なら `ord_0 f≥6`。補題 W の `v_3≤5` に反するので `f=0`、従って `T_5` は単射。
+任意の非零 `f=Σ_i a_i g_i` では、`v_i` が相異なるため、最小の
+`v_i` を持つ非零係数の先頭項は他項と相殺しない。従って `ord_0f` はその `v_i` に等しく、特に
+`ord_0f≤v_3` である。`T_5 f=0` なら `ord_0 f≥6` だが、補題 W の `v_3≤5` に反するので
+`f=0`。従って `T_5` は単射。
 
 さらに、parameter triple の compact 集合 `Θ` が pairwise collision を避けるとする。係数空間に
 標準 `ℓ²`、`J^5` に Bargmann–Fock 計量を入れ、
@@ -114,11 +122,16 @@ rescaling、Fock tail、nested 2+1 は本補題の外で、FR-S1′ 側の別証
 
 | claim | status | dependency / non-claim |
 |---|---|---|
-| Wronskian factorization (W1) | proof draft | 直接微分と determinant 恒等式 |
-| `V≢0`, `deg V≤3` | proof draft | `A_j` 一致型の三場合 |
-| `Σv_i=3+ord_0V≤6`, `v_3≤5` | proof draft | (W1)–(W3) |
-| `T_5` injective / compact-family lower bound | proof draft | 補題 W + compactness |
+| Wronskian factorization (W1) | accepted (R-W PASS) | 直接微分と determinant 恒等式 |
+| `V≢0`, `deg V≤3` | accepted (R-W PASS) | `A_j` 一致型の三場合 |
+| `Σv_i=3+ord_0V≤6`, `v_3≤5` | accepted (R-W PASS) | (W1)–(W3) |
+| `T_5` injective / compact-family lower bound | accepted (R-W PASS) | 補題 W + compactness |
 | sharpness `v_3=5` | referenced | FR仕様 F3′ が authoring location |
 | nested 2+1 / generalized atoms | open, not claimed | 別補題が必要 |
 | 一般 c の次数公式 | open, not claimed | 本書から外挿しない |
 | FR3 envelope / FR5–FR7 | open, not claimed | FR-S4 の義務 |
+
+## 7. Review history
+
+- R-W (`1b3e337`, Fable response `5249273110`): R-W1–R-W5 全 PASS、blocking なし。
+  §4 の higher-term 非相殺と §5 の `ord_0f≤v_3` を明記する nonblocking minor 2 件を v0.1.1 で反映。
