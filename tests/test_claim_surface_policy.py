@@ -94,6 +94,49 @@ def test_no_withdrawn_claim_reappears_on_a_generated_surface():
             assert not found, f"{surface}: withdrawn claim {found.group(0)!r} ({record})"
 
 
+# --- PR #158 F3-prime correction surfaces ----------------------------------
+
+PR158_CLAIM_DOCS = (
+    ROOT / "docs" / "2026-08-02-gaussian-border-rank-closure--wip.md",
+    ROOT / "docs" / "2026-08-09-three-atom-one-transition--wip.md",
+    ROOT / "docs" / "2026-08-10-three-atom-block-frame-preparation--wip.md",
+    ROOT / "docs" / "2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md",
+    ROOT / "docs" / "2026-08-11-three-atom-wronskian-valuation-W--wip.md",
+)
+
+F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
+    "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",
+    "**系 C2**: κ^G_border(|2t⟩) = t+1",
+    "奇 |2t+1⟩: 下界 r ≥ t+2",
+    "特に非零 P_ℓΦ(ξ*) (deg P_ℓ≤2o′_ℓ) へ norm 収束",
+    "prepared valuation chart 上で\nQ = e^{q*}(P_r + R_{r+1})",
+)
+
+
+def test_f3prime_withdrawn_degree_ledger_is_not_reintroduced():
+    """F3-prime makes the old c=3 degree-4 ledger and its C2 lower
+    bounds false.  Historical withdrawal records may quote formulas, but the
+    former active statement sentences must not return on a current surface.
+    The exact witness itself is authored only in the FR specification.
+    """
+
+    for surface in PR158_CLAIM_DOCS:
+        text = surface.read_text(encoding="utf-8")
+        for sentence in F3PRIME_WITHDRAWN_ACTIVE_SENTENCES:
+            assert sentence not in text, (
+                f"{surface}: F3-prime-withdrawn active sentence returned: "
+                f"{sentence!r}"
+            )
+
+    witness_heading = "**Flex witness F3′ (旧次数4帳簿の反例・本 witness の唯一の authoring location)**"
+    occurrences = {
+        surface: surface.read_text(encoding="utf-8").count(witness_heading)
+        for surface in PR158_CLAIM_DOCS
+    }
+    assert occurrences[PR158_CLAIM_DOCS[2]] == 1
+    assert sum(occurrences.values()) == 1
+
+
 # --- issue #137 (topological K-epsilon) surfaces -----------------------------
 
 TOPO_DIRS = {
