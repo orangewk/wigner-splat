@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.6 — plain補題W R-W PASS、single-scale FR-S1′ proof draft、nested 2+1 / FR-S4 open、R-FRSPEC R5 pending**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.6.1 — plain補題W R-W PASS、single-scale FR-S1′ R-A′ PASS、nested 2+1 / FR-S4 open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -110,14 +110,15 @@ FR3/FR4/FR6 を閉じない。
 ## 6. 最小の証明順
 
 1. **[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) (plain c=3 valuation 上界)**: F3′ と独立に、相異三原子 span の最大 valuation が 5 以下であることを自己完結に証明する。
-2. **FR-S1′ (weighted SVD frame)**: 真空 gauge 後の (2,1)-weighted 距離と J⁵-SVD で、各 active single-scale node の exact 枠を定義する。
+2. **FR-S1′ (weighted SVD frame、R-A′ PASS)**: 真空 gauge 後の (2,1)-weighted 距離と J⁵-SVD で、plain single-scale triple の exact 枠を定義する。
 3. **nested 2+1 接続**: pair child の一般化原子を入力にした補題 W 版を別義務として証明する。
 4. **FR-S4 (envelope assembly)**: K2/K2Q/QR5 を node ごとに使い、parent U_F へ戻らず FR6 を導く。
 5. 固定 SHA で FR1–FR7 を独立再査読する。
 
 ## 7. 現在の blocker
 
-最初の未解決点は FR-S1。旧 moment order だけでは消滅速度を記録できず、
+plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′で PASS。現在の最初の未解決点は
+**nested 2+1 接続**である。旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の
 非零/零だけでなく、相対 valuation または同値な flag/blow-up 座標を含まなければならない。
 
@@ -212,8 +213,13 @@ weighted homogeneous coefficientを `W_k(A,B):=[z^k]exp(Az²/2+Bz)` とすると
 
   T_m=D(s_m)T(ϑ_m).                                               (S1)
 
-正規化配置は compact かつ pairwise separation `η` を持つ。[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md)
-の `J⁵` injectivity と compact-family corollary より
+compact collision-free 集合を
+
+  Θ_η:={ϑ=((Ā_j,B̄_j))_j: |Ā_j|,|B̄_j|≤1,
+         pairwise d_w((Ā_i,B̄_i),(Ā_j,B̄_j))≥η}
+
+と置く。`ϑ_m∈Θ_η` であり、[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md)
+の `J⁵` injectivity と compact-family corollary より、`c₀=c₀(η)` として
 
   σ_min(T(ϑ_m))≥c₀>0.                                             (S2)
 
@@ -252,6 +258,10 @@ statement 2 と head/tail の直交性から
 残留真空位相を chart で固定すれば、pivot `ξ_{j_0,m}→ξ*` に対応する gauge は部分列上で
 `U_m→U_*` strongly と取れる。従って
 
+  ‖(U_m^{-1}−U_*^{-1})x‖=‖x−U_mU_*^{-1}x‖→0
+
+で逆元も strongly 収束し、
+
   U_m^{-1}v_{ℓ,m}→U_*^{-1}P_ℓ=:Q_ℓΦ(ξ*)  in ℱ.
 
 affine metaplectic 変換は creation operator を `a,a†,1` の一次結合へ移し、Bargmann 表示では
@@ -267,10 +277,10 @@ tree shape と pivot permutation も有限なので、さらに部分列を取�
 
 | ID | 本節での状態 | 残余 |
 |---|---|---|
-| A′-1 relative `d_w` chart | proof draft | residual vacuum stabilizer invariance と pivot固定を§2で明示 |
-| A′-2 head floor `σ_3≥c₀s⁵` | proof draft | 補題 W + compactness + exact factorization |
-| A′-3 Fock tail `O(s⁶)` | proof draft | (S4) の一様級数定数を検算 |
-| A′-4 norm limit / Gram / exact span | proof draft | SVD と head-tail 直交性 |
+| A′-1 relative `d_w` chart | accepted (R-A′ PASS) | residual vacuum stabilizer invariance と pivot固定 |
+| A′-2 head floor `σ_3≥c₀s⁵` | accepted (R-A′ PASS) | 補題 W + compactness + exact factorization |
+| A′-3 Fock tail `O(s⁶)` | accepted (R-A′ PASS) | (S4) の一様級数定数 |
+| A′-4 norm limit / Gram / exact span | accepted (R-A′ PASS) | SVD と head-tail 直交性 |
 | nested 2+1 | open, not claimed | generalized-atom W が必要 |
 | `(E-d)` / FR5–FR7 | open, not claimed | FR-S4 |
 
@@ -305,3 +315,6 @@ tree shape と pivot permutation も有限なので、さらに部分列を取�
   `d_w=max(|ΔA|^{1/2},|ΔB|)` を分離。plain single-scale triple について、J⁵-SVD、補題 W の
   singular-value floor、Fock tail `O(s⁶)`、norm limit/Gram/exact span を FR-S1′ proof draft として追加。
   nested 2+1 と FR-S4 は non-claim のまま。
+- v0.6.1(2026-08-11): 固定 SHA `ed25401` の R-A1–R-A6 が全 PASS(blockingなし)。
+  nonblocking minor 2 件(適用集合 `Θ_η`、gauge逆元のstrong収束式)を反映。plain single-scale triple の
+  FR1/FR2/FR4/FR3(X)(L-d) を accepted に昇格し、次 blocker を nested 2+1 接続へ移した。

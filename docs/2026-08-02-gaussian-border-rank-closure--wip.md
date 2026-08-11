@@ -6,6 +6,11 @@
 > §4.3.5 新設: K_c を 3 段(B1 振幅 peeling / B2 位相 block 非相殺 / B3 compact core)に帰着。
 > 設計思想 =「compactness の前に周波数を量子化」(v1.3 型失敗の回避)。
 >
+> **v1.8.13 FR partial promotion(2026-08-11)**: plain c=3 補題 W は R-W PASS (`1b3e337`)、
+> plain single-scale triple の weighted J⁵-SVD frame FR-S1′ は R-A′ PASS (`ed25401`)。
+> これで同branchの FR1/FR2/FR4/FR3(X)(L-d) を閉じた。残る c=3 blocker は
+> nested 2+1 の一般化原子接続と `(E-d)`/FR5–FR7(FR-S4)。一般 c の B2/S4、L2b/L3 は不変に open。
+>
 > **v1.8.12 claim correction(F3′、2026-08-11)**: 三原子 flex 配置の exact divided difference が
 > `h_β/‖h_β‖→z⁵/√(5!)` を与えることを独立検算した。従って旧主定理候補の
 > `deg P_c≤2(r_c−1)`、補題 N/FR3 の order-only jet 帳簿、C2 の同帳簿由来の下界を**撤回**する。
@@ -848,7 +853,7 @@ t≥2 の偶数側 equality と奇数側 lower bound は F3′ により撤回�
 
 | # | 箇所 | 内容 | 状態 |
 |---|---|---|---|
-| G1′ | §4.3 補題 N | c = 2 kernel は、他の open 補題に依存しない証明ドラフト(R-K2 R2 待ち。authoring location = 独立文書 K2、§4.3.4 は historical snapshot)+ 一般 c の 3 段アーキテクチャ(§4.3.5)。確定部品 = B1(V-アンカー)・補題 G(隣接ギャップ版)・補題 As(Ĝ-形への書き換え要)・再スケール変換の観察(jet 層 → 衝突層、検証済み)。**残余 = ①B2+(F1) ②S1–S3 の条件完備化(執筆)③S4 = 層別帰納の本体(方向一様・valuation 減少量・長区間剰余 — 最大 blocker)④L2b 係数爆発帰納 ⑤L3 枠置換**。攻略 = 退化濾過 (a′)(R2 と合流)。 | **open(主 blocker)** |
+| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書で accepted。c=3 plain single-scale は補題 W + FR-S1′ が R-W/R-A′ PASS。**残余 = ①nested 2+1 一般化原子接続 ②(E-d)/FR5–FR7(FR-S4) ③一般 c の B2+(F1)/S4 ④L2b/L3 枠置換**。 | **open(主 blocker)** |
 | G2 | L1 符号 | 査読提供の不等式で閉鎖 | **closed(v1.1)** |
 | G3 | 脱出混在 | gauge 化再構成で場合分け自体が消滅(再査読で blocking 2 は resolve 判定、前提 = 補題 N + G8) | **closed(v1.1、再査読確認済み)** |
 | G4 | C2 quantitative | F3′ により旧次数下界を撤回。t≥2 の偶奇 sharp 値を再導出(|5⟩は上界 3) — C1 に影響なし | open(副産物) |
