@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.4.1、R-FRSPEC R4 PASS、FR-S1未証明**
+日付: 2026-08-10 / 著者: 本線 / status: **specification only — v0.5、F3′ により旧次数帳簿を撤回、R-FRSPEC R5 pending、FR-S1未証明**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -71,8 +71,8 @@ v_{ℓ,m}:=h_{ℓ,m}/‖h_{ℓ,m}‖ と置くと、次を同時に満たせる�
 | ID | obligation | acceptance condition |
 |---|---|---|
 | FR1 | exact span | span{h_{ℓ,m}:ℓ≤r}=V_m。削除は exact rank drop のときだけ |
-| FR2 | finite chart | permutation・tree shape・moment/jet label が部分列上で固定。rate degeneration を label に含める |
-| FR3 | generalized-atom type | 共通 cluster base ξ_{*,m}→ξ* と label o′_ℓ≤w−1 を持ち、各有限 v_{ℓ,m} が一般化原子の (E-o′)/(X)/(L-o′) を満たす。特に非零 P_ℓΦ(ξ*) (deg P_ℓ≤2o′_ℓ) へ norm 収束。枠本数 r≤w≤3 |
+| FR2 | finite chart | permutation・tree shape・valuation profile が部分列上で固定。F3′ 後の Route A′ では rate degeneration は SVD の特異値が担い、有限 label へ列挙しない |
+| FR3 | generalized-atom type | 共通 cluster base ξ_{*,m}→ξ* と jet-degree label d_ℓ を持ち、各有限 v_{ℓ,m} が改訂後の (E-d)/(X)/(L-d) を満たす。特に非零 P_ℓΦ(ξ*) (deg P_ℓ=d_ℓ) へ norm 収束。旧 `o′_ℓ≤w−1, deg P_ℓ≤2o′_ℓ` 帳簿は F3′ により撤回。plain c=3 の目標上界 d_ℓ≤5 は補題 W の固定 SHA 査読待ち、nested 2+1 は別義務。枠本数 r≤w≤3 |
 | FR4 | Gram | Gram(v_{1,m},…,v_{r,m}) の最小固有値が m 一様に正 |
 | FR5 | node kernel | 各 radial internal node はその node envelope 固有の reviewed kernel を、m と θ に一様な定数で持つ。2+1 held node は QR5(U_T) |
 | FR6 | global envelope | 各 v_{ℓ,m} が補題 N の N3′/N4 envelope を満たす。定数は (c=3,δ,R,one-transition/flag の安定化定数) のみに依存し m,θ に非依存 |
@@ -96,10 +96,9 @@ FR3/FR4/FR6 を閉じない。
 
 ## 6. 最小の証明順
 
-1. **FR-S1 (coefficient-flag compactification)**: 三原子係数空間の exact flag を rate 情報込みで有限 chart 化し、
-   nested cluster tree の各 active single-scale nodeで h_{ℓ,m} の pivot 規則を定義する。
-2. **FR-S2 (limit identification)**: 各 chart で正規化 exact block が非零 jet 極限を持つことを示す。
-3. **FR-S3 (frame gate)**: 極限 jet の独立性から FR4 を得る。ここで零極限や重複極限が出たら chart を分割する。
+1. **補題 W (plain c=3 valuation 上界)**: F3′ と独立に、相異三原子 span の最大 valuation が 5 以下であることを自己完結に証明する。
+2. **FR-S1′ (weighted SVD frame)**: 真空 gauge 後の (2,1)-weighted 距離と J⁵-SVD で、各 active single-scale node の exact 枠を定義する。
+3. **nested 2+1 接続**: pair child の一般化原子を入力にした補題 W 版を別義務として証明する。
 4. **FR-S4 (envelope assembly)**: K2/K2Q/QR5 を node ごとに使い、parent U_F へ戻らず FR6 を導く。
 5. 固定 SHA で FR1–FR7 を独立再査読する。
 
@@ -123,6 +122,23 @@ FR3/FR4が出る」という素朴な Route B は不十分。scheme route を使
 追加 blow-up/Fitting flagで解消するか、この witnessを拾う高次 coefficient flagが必要である。
 （表示係数は Taylor 展開で厳密に導出。SymPy series は補助検算で一致。）
 
+**Flex witness F3′ (旧次数4帳簿の反例・本 witness の唯一の authoring location)**:
+`ψ(u):=exp(u−u²/2)`、`ω:=exp(2πi/3)`、`B_j:=βω^j`、`A_j:=−B_j²` と置く。
+二階 divided-difference 係数 `a_j:=1/Π_{i≠j}(B_j−B_i)` に対して
+
+  h_β(z):=Σ_{j=0}^2 a_j exp(B_jz−B_j²z²/2)
+          =(β³/20)z⁵−(11β⁶/3360)z⁸+(13β⁹/554400)z¹¹+⋯ .
+
+これは `ψ₂=0` と三乗根配置の `e₁=e₂=0, e₃=β³` から得られる厳密級数である。
+従って `h_β/‖h_β‖→z⁵/√(5!)` in ℱ。さらに三原子 span の valuation profile は
+`(0,1,5)` で、次数 4 以下の係数行列は rank 2、次数 5 を加えると rank 3 になる。
+よって枠の取り替えによって五次方向を避けることはできず、旧 FR3 の
+`deg P≤2o′≤4` は**偽**である。この exact 構成は `κ_border^G(|5⟩)≤3` も与える。
+
+F3′ が確立するのは「三原子には次数 5 が必要」という下側だけである。plain c=3 の上界 5 は
+Wronskian 補題 W の執筆・固定 SHA 査読後に採否を決める。一般 `w` の候補
+`D(w)=(w−1)(w+2)/2`、nested 2+1 への拡張、FR5–FR7 はここでは主張しない。
+
 ## 8. 版履歴
 
 - v0.1(2026-08-10): DC-NG 後の replacement target を single-F wrapper から exact block-frame 問題へ移し、
@@ -142,3 +158,6 @@ FR3/FR4が出る」という素朴な Route B は不十分。scheme route を使
 - v0.4.1(2026-08-10): 固定 SHA `26106ac` の R-FRSPEC R4 **PASS**。nested tree、F3 の級数と
   Fock norm cubic limit、scheme-route 反証の限定scopeを再検算。非blocking注を反映し、距離正規化を
   w≥2 の active node に限定、w=1 leafを再帰終端と明記。
+- v0.5(2026-08-11): Fable consultation response の F3′ を本線で独立検算し受諾。旧 FR3 の
+  `deg P≤2o′≤4` を撤回し、F3′ を反例 registry として追加。plain c=3 の補題 W、真空 gauge 後の
+  (2,1)-weighted 距離 + J⁵-SVD による FR-S1′、nested 2+1、FR-S4 を別義務へ分離。

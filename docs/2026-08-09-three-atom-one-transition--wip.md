@@ -1,6 +1,7 @@
-# 三原子一遷移補題(c = 3)— wip v0.1(骨格)
+# 三原子一遷移補題(c = 3)— wip
 
-日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.1: intended QR5 child への old DC bridge を反例で撤回。
+日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.2: F3′ により旧 held 分岐の次数4帳簿を撤回。
+intended QR5 child への old DC bridge は反例で撤回済み。
 五次共鳴が直接反証するのは tree envelope QR5 の指数 4 で、tree 指数の sharp 予想は 5。
 tree QR5 は固定 SHA 27a1817 の R-P3 まで PASS。direct U_T→U_F 一様比較は phantom 反例で偽。
 DC-NG は固定 SHA 1392266 の R-DCNG(A1–A7) PASS。
@@ -36,13 +37,12 @@ tree QR5 は cancellation-aware block frame の 2+1 節点 kernel に使い、�
 
 ## 2. 証明アーキテクチャ(三分岐 — Sol B 節を採用)
 
-**分岐 (i) 保持(triple cluster が K まで一体)**: prepared valuation chart 上で
-Q = e^{q*}(P_r + R_{r+1})、r := min{n: M_n ≠ 0} ≤ 2(Vandermonde)、deg P_r ≤ 2r ≤ 4。
-主項 P_r は deg ≤ 4 の多項式 Remez(補題 E4 系、指数 ≤ 4)。
-**核心は主項でなく剰余**(§3)。
-注意(Sol 検証): K2Q の「有限差分 + 羃和剛性」は三 phasor には**伸びない**
-(H = 1 + Pe^p 型の単一 log 正規形が存在しない)。保持枝の主工具は moment Taylor +
-deg 4 Remez であって有限差分ではない。
+**分岐 (i) 保持(triple cluster が K まで一体) — 旧次数4ルート撤回**:
+旧 prepared-moment 帳簿は `r≤2` から jet degree `≤4` を導いたが、F3′ は moment/order label を越える
+cross-degree 相殺で不可避な五次方向を作る。従って「deg 4 Remez を主工具とする」という旧ルートは
+active proof ではない。現行の保持枝は
+[FR仕様](2026-08-10-three-atom-block-frame-preparation--wip.md)の cancellation-aware exact frame、
+plain c=3 補題 W、J⁵-SVD を入口とし、envelope assembly は FR-S4 の open 義務として扱う。
 
 **分岐 (ii) 分裂 3→2+1(split scale s ∈ (ρ, 1))**:
 帳簿: ‖Q‖_K/‖Q‖_E = (‖Q‖_K/‖Q‖_{I_s})·(‖Q‖_{I_s}/‖Q‖_E) ≲ s^{−4}·(s/ρ)⁴ = ρ^{−4}
@@ -322,8 +322,8 @@ valuation の新定義**とその principal-part kernel が必要。カスケー
   Δ* > 3 は上限を与えず N_{U′}(R;I_s) ≤ e^{Δ*}N_U(R;I_s) は非有界。§3.6.2 の天井 2 が
   剰余を遮断するのは転送枝 (i)(Δ* ≤ 3 かつ ω ≥ 2β_B²)に限る。
 - **degree/weight 衝突**: 剰余の二次主部 (c₂/2)η²e^{q₁} は deg 4 — 現行 class の
-  deg P ≤ 2(m_B−1) では m_B = 3 が要り W = 4 に膨れ、W = 3 帳簿を破る。
-  Taylor 置換ベースの子状態は現行 state class と整合しない(構造的障害)。
+  旧 `deg P≤2(m_B−1)` では m_B = 3 が要り W = 4 に膨れ、W = 3 帳簿を破っていた。
+  この order-only class 自体を F3′ により撤回したため、本項は旧 Taylor 置換ルートの historical failure とする。
 - **η ≡ const の exact 併合は closure 簡約にのみ有効**: reduced envelope での d↓(和が 0 なら
   W↓)は exact に成立するが、U_red − U ≤ log 2 の逆向き sup_E(U−U_red) は非有界
   (= phantom envelope 反例)— 旧 U_F-kernel の復元には使えない。
@@ -487,3 +487,5 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
   を次の authoring target とした。QR5 は FR の 2+1 内部節点 kernel として保持。
 - v0.7.1(2026-08-10): 固定 SHA `1392266` の R-DCNG(A1–A7) **PASS**。near-phantom witness の
   held 条件・weighted ratio・tree discount・frequency allowance と、別 child 未排除という scope を再検算。
+- v0.7.2(2026-08-11): FR 文書の F3′ を本線で独立検算し、held 分岐の旧
+  `moment order≤2 ⇒ jet degree≤4` ルートを撤回。F3′の式はFR文書だけに置き、本書は参照に限定。
