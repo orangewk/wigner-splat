@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.5 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface revision (R-S4-0 R6 pending)、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8.6 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface revision (R-S4-0 R7 pending)、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -502,7 +502,7 @@ S4b の split-row audit が供給すべき明示 obligation とする。
 
 | packet | consumes | produces | current state |
 |---|---|---|---|
-| S4-0 | FR-S1′/S1″、K2/K2Q/QR5、C′ の候補 interface | 本節の型付き interface のみ | specification revision (R-S4-0 R6 pending) |
+| S4-0 | FR-S1′/S1″、K2/K2Q/QR5、C′ の候補 interface | 本節の型付き interface のみ | specification revision (R-S4-0 R7 pending) |
 | S4b | S4-0 + reviewed node kernels | per-segment FR5 routing、split-row audit | open, not claimed |
 | S4a | S4b + fixed-SHA PASS の `Cprime_ref` | c=3 weak envelope (E-w) | open, not claimed |
 | S4c | S4a + FR1–FR5 | N3′/N4 ledger、FR7 no-return、c=3 FR acceptance | open, not claimed |
@@ -609,7 +609,7 @@ closed-world category enumを
 
 | variant | required fields |
 |---|---|
-| `resolved` | `(route_id∈CategoryEnum,arity∈{unary,binary},mode∈{unweighted,weighted},source_ref,domain_schema_id∈DomainSchemaEnum,0<C̄_route<∞,0≤γ_route<∞,0≤κ̄_route<∞,inequality_id∈{S4-step-u,S4-step-w},A_ledger_kind∈{phase-lipschitz,weighted-no-A,polynomial-envelope},assembly_status∈{accepted,open})`; modeとinequality suffixは一致 |
+| `resolved` | `(route_id∈CategoryEnum,route_spec_ref,source_ref,assembly_state)`。`(arity,mode,source rule,domain schema,C̄,γ,κ̄,inequality,A-ledger rule,assembly rule)` は §10.5 の同じ `route_id` の唯一の `RouteSpec` 行と**全field完全一致**し、個別override不可 |
 | `unresolved` | `(route_id∈CategoryEnum,expected_arity∈{unary,binary},missing_obligation_id∈MissingObligationEnum)` のみ。`mode/source_ref/constants/inequality_id` を仮置きしない |
 | `excluded` | `(route_id∈CategoryEnum,exclusion_proof_ref)`。`exclusion_proof_ref` が external/intrinsic fixed-SHA PASS で、当該categoryがdomainに到達不能と受理された場合だけ |
 
@@ -620,8 +620,20 @@ closed-world category enumを
   MissingObligationEnum := {M-K2-STATUS,M-K2Q-STATUS,M-ROOT-FAR-KERNEL,
                             M-SPLIT-II-KERNEL,M-SPLIT-III-KERNEL}
 
-§10.5 の各rowはこのIDの一つを使い、自由文のschema/reasonを新設しない。新しいkeyが必要なら
-まずS4-0を改訂してenumを増やす。
+各 domain schema の key set は次で固定する。
+
+| domain schema | required keys |
+|---|---|
+| `D-K2` | `active_children_nonzero`, `c₁c₂≠0`, `q₁−q₂` nonconstant |
+| `D-K2Q-AFF` | `active_children_nonzero`, `P≢0`, `c₂≠0`, `deg P≤2`, `q₁−q₂` nonconstant |
+| `D-GENERALIZED-SINGLETON` | `P≢0`, `deg P≤2`, unary exact-identity ref |
+| `D-QR5-HELD` | `active_children_nonzero`, `c₁c₂c₃≠0`, `B₁₂≢0`, `sup_{I_k}|q₂−q₁|≤1/8` |
+| `D-K2Q-WT` | `active_children_nonzero`, K2Q非零/次数/非定数 keys, canonical split-(i) witness ref |
+| `D-TRIVIAL` | `c≠0`, unary exact-identity ref |
+
+§10.5 の `RouteSpec` 表を route-specific discriminant の唯一の authoring location とする。各rowは
+このIDの一つを使い、自由文のschema/reasonや field overrideを新設しない。新しいkeyや組合せが必要なら
+まずS4-0と `RouteSpec` 行を改訂する。
 
 registryは `coverage_manifest=(CategoryEnum,entries)` を持ち、各category IDが resolved/unresolved/excluded の
 **ちょうど一つ**として現れること、重複・欠落がともに空集合であることを検査する。この完全性検査の後にだけ
@@ -632,6 +644,9 @@ S4b-α の「unresolvedなし」を判定する。
 - `external=(kernel_name,canonical_file,anchor,fixed_SHA,PASS)`。authoring locationの同一 SHA が PASS の場合だけ有効。
 - `intrinsic=(INTERNAL-EXACT,this-file-anchor,accepted-S4-0-SHA)`。本S4-0が固定 SHA で受理された後だけ、
   trivial identity用に有効。
+
+resolved entry の `source_ref` は RouteSpec の `source rule` に記された kernel name / canonical file / anchor
+と一致しなければ無効である。単に external/intrinsic variantが一致するだけでは足りない。
 
 S4a はこれとは別に
 
@@ -647,8 +662,15 @@ location が実際に PASS かを照合する。文字列 `PASS` の自己申告
 
 `A_ledger_kind` は `phase-lipschitz`、`weighted-no-A`、`polynomial-envelope` のいずれか。
 `phase-lipschitz` は recordごとに `A_{H,k}≤Λ_{H,k}` を要求する。`weighted-no-A` は
-`(S4-step-w)` 専用。`polynomial-envelope` は `log|P|` を含むため、この局所 boundを仮定せず、
-S4a が零点cellを含む別の総和評価を証明するまで `assembly_status=open` とする。
+`(S4-step-w)` と `mode=weighted` 専用、`phase-lipschitz` は `mode=unweighted` 専用。
+`polynomial-envelope` も `mode=unweighted` とし、`log|P|` を含むためこの局所 boundを仮定しない。
+その `assembly_state` は
+
+- `open`、または
+- `accepted(assembly_proof_ref)` (`assembly_proof_ref` は canonical authoring location/fixed SHA/PASSを
+  検証した external/intrinsic source ref)
+
+だけを許す。bare `accepted` は無効。零点cellを含む別の総和評価が未受理なら (E-w) を結論しない。
 
 #### RouteRecord (interval-dependent instance)
 
@@ -656,14 +678,14 @@ S4b-β の `RouteRecord` は resolved `RouteKind` だけから生成し、次を
 
 | field | type / validation |
 |---|---|
-| `kind_ref` | 上の resolved `RouteKind` ID。mode/source/constants/inequality/A-ledger/assembly-statusを継承 |
+| `kind_ref` | 上の resolved `RouteKind` ID。§10.5 RouteSpecとsource/assembly stateを継承しoverride不可 |
 | `node_functions` | `arity=binary` なら exact `(A,B)`、`arity=unary` なら exact `(H)` |
 | `domain_witness` | `domain_schema_id` の全 key に対する式またはidentity ref。自由文は禁止 |
 | `node_path` | fixed tree上の有限 path。公開stepは `root` で終わる |
 | `envelope_id` | 上記 `U_H`; root 2+1 は `U_T` |
 | `interval_id` | `(k,I_k,J_k,ε_chain)` |
 | `frequency_allowance` | `(frequency_source,Λ_{H,k},bound_witness)`。`leaf_phase_max` なら `Λ_{H,k}:=max_j sup_{I_k}|q_j′|≤(1−δ)(a_k+1)+R`; 不使用なら `NONE` と `κ_H=0` |
-| `A_ledger_witness` | `phase-lipschitz` の式、`weighted-no-A`、または `polynomial-envelope/open` |
+| `A_ledger_witness` | `phase-lipschitz` の式、`weighted-no-A`、`polynomial-envelope/open`、または `polynomial-envelope/accepted(assembly_proof_ref)` |
 | `named_constants` | `(C_step≤C̄_route,γ_H=γ_route,κ_H≤κ̄_route,source_ref)`。raw係数依存は禁止 |
 
 `RootStep_k` はこの recordを持つ root `node_path` の唯一の公開出力で、child routeは
@@ -693,17 +715,27 @@ route 選択の前に exact zero-pruning を行う。任意の child functionが
 両 child functionが恒等非零であり、その witness `active_children_nonzero=true` を必須 fieldとする。
 この前処理は係数の小ささを閾値判定せず、恒等式としてだけ行う。
 
-| route ID / category | function shape | required RouteKind variant | domain / remaining obligation |
-|---|---|---|---|
-| `K2-u` pair node | `c₁e^{q₁}+c₂e^{q₂}` | binary/unweighted/external K2, `κ̄=1`, `A_ledger=phase-lipschitz` | `D-K2`: `c₁c₂≠0`, `q₁−q₂`非定数。status修復までは `M-K2-STATUS` unresolved |
-| `K2Q-aff-u` generalized pair | `Pe^{q₁}+c₂e^{q₂}` | binary/unweighted/external K2Q-aff, `κ̄=1`, `A_ledger=polynomial-envelope` | `D-K2Q-AFF`: `P≢0`, `c₂≠0`, `deg P≤2`, `q₁−q₂`非定数。source未受理なら `M-K2Q-STATUS`; polynomial `ΣA` は別検証 |
-| `REFIX` exact fallback | `q₁−q₂≡const`, `P≡0`, `c₂=0`, または child恒等零 | **RouteKindでなく前処理 transition** | 定数因子を係数/多項式へ吸収し、零和削除後にrank/treeを再固定 |
-| `generalized-singleton-u` | `Pe^q`, `P≢0`, `deg P≤2` | unary/unweighted/intrinsic exact identity, `C̄=1,γ=κ̄=0`, `A_ledger=polynomial-envelope` | `D-GENERALIZED-SINGLETON`: exact sup identity。`log|P|` を含む `ΣA` はS4aでopen |
-| `QR5-w` root 2+1 held | `B₁₂+c₃e^{q₃}`, `U_T` | binary/weighted/external QR5, `γ=5,κ̄=0`, `A_ledger=weighted-no-A` | `D-QR5-HELD`: `c₁c₂c₃≠0`, `B₁₂≢0`, interval-wide held witness |
-| `root-far` root 2+1 far/unheld | 同上、held witnessなし | **unresolved** | `M-ROOT-FAR-KERNEL`: kernel または accepted exclusion。mode/inequalityは未指定 |
-| `K2Q-wt-w` root split (i) | transfer branch | binary/weighted/external K2Q-wt, `κ̄=0`, `A_ledger=weighted-no-A` | `D-K2Q-WT`: 非零/次数/非定数/split witness。source未受理なら `M-K2Q-STATUS` |
-| `split-ii`, `split-iii` | deep cancellation / pair degeneration | **unresolved** | 各々 `M-SPLIT-II-KERNEL`, `M-SPLIT-III-KERNEL`; mode/inequalityは未指定 |
-| `trivial-u` singleton leaf | `ce^q`, `c≠0` | unary/unweighted/intrinsic exact identity, `C̄=1,γ=κ̄=0`, `A_ledger=phase-lipschitz` | `D-TRIVIAL`: `A_{H,k}≤sup_{I_k}|q′|` |
+次表を `RouteSpec` の唯一の authoring location とする。resolved rowの数値欄は必ず
+`0<C̄<∞`, `0≤γ<∞`, `0≤κ̄<∞` を満たす。`—` は unresolved であり値を補ってはならない。
+
+| route ID / shape | arity | mode / inequality | source rule | domain schema | `(C̄,γ,κ̄)` | A-ledger / assembly rule | current obligation |
+|---|---|---|---|---|---|---|---|
+| `K2-u`: `c₁e^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | external K2 | D-K2 | `(C_K2,2,1)` | phase-lipschitz / accepted | source修復まで M-K2-STATUS unresolved |
+| `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | external K2Q-aff | D-K2Q-AFF | `(C_K2Q,4,1)` | polynomial-envelope / proof-required | source未受理なら M-K2Q-STATUS; ΣA proof別途 |
+| `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | intrinsic exact identity | D-GENERALIZED-SINGLETON | `(1,0,0)` | polynomial-envelope / proof-required | exact sup identity; ΣA proof別途 |
+| `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | external QR5 | D-QR5-HELD | `(C_T,5,0)` | weighted-no-A / accepted | interval-wide held witness |
+| `root-far`: root 2+1 far/unheld | binary | — | — | — | — | — | M-ROOT-FAR-KERNEL unresolved または accepted exclusion |
+| `K2Q-wt-w`: split (i) | binary | weighted / S4-step-w | external K2Q-wt | D-K2Q-WT | `(C_21,4,0)` | weighted-no-A / accepted | source未受理なら M-K2Q-STATUS |
+| `split-ii`: deep cancellation | binary | — | — | — | — | — | M-SPLIT-II-KERNEL unresolved |
+| `split-iii`: pair degeneration | binary | — | — | — | — | — | M-SPLIT-III-KERNEL unresolved |
+| `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | intrinsic exact identity | D-TRIVIAL | `(1,0,0)` | phase-lipschitz / accepted | `A_{H,k}≤sup_{I_k}|q′|` witness |
+
+`REFIX` は RouteSpec rowでなく前処理 transitionである。`q₁−q₂≡const`, `P≡0`, `c₂=0`、または
+child恒等零を exact 併合/zero-pruningし、残った spanで rank/treeを再固定する。
+
+`RouteSpec` の assembly rule `accepted` は対応する intrinsic/external根拠でそのまま受理、`proof-required` は
+`assembly_state=open` または `accepted(assembly_proof_ref)` だけを許す。従って K2Q-aff と
+generalized-singletonを bare accepted に変更できない。
 
 split(ii)/(iii) は旧 wrapper 用 certificate であって転送 kernelではない。S4-0 では port 可能と仮定しない。
 S4b は「frame の singular-value floorで当該rowが排除される」「新しいnode-local kernelが要る」
@@ -738,11 +770,11 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 
 | ID | specification | current state |
 |---|---|---|
-| S4-0.1 | packet順 S4b→S4a→S4c と非循環input/output | specification revision (R-S4-0 R6 pending) |
-| S4-0.2 | c=3 (E-w)、一般 c (E-d) 保持 | specification revision (R-S4-0 R6 pending) |
-| S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | specification revision (R-S4-0 R6 pending) |
-| S4-0.4 | closed-world union / root-only積算 / FR7 vocabulary | specification revision (R-S4-0 R6 pending) |
-| S4-0.5 | coverage manifest・typed obligation・C′/source status fail-closed | specification revision (R-S4-0 R6 pending) |
+| S4-0.1 | packet順 S4b→S4a→S4c と非循環input/output | specification revision (R-S4-0 R7 pending) |
+| S4-0.2 | c=3 (E-w)、一般 c (E-d) 保持 | specification revision (R-S4-0 R7 pending) |
+| S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | specification revision (R-S4-0 R7 pending) |
+| S4-0.4 | RouteSpec完全一致 / root-only積算 / FR7 vocabulary | specification revision (R-S4-0 R7 pending) |
+| S4-0.5 | route-specific discriminant・assembly proof・status fail-closed | specification revision (R-S4-0 R7 pending) |
 | S4b/a/c proofs | none | open, not claimed |
 
 ## 11. 版履歴
@@ -816,3 +848,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 - v0.8.5(2026-08-11): 固定 SHA `7db8dff` の R-S4-0 R5 は T1–T4/T6 PASS、T5 BLOCKED。
   resolved/unresolved tupleへDomain/A-ledger/Missing enum membershipを直接付与。`Cprime_ref`を
   literal PASS tupleからvalidated external `source_ref`の特殊化へ変更し、authoring-status照合を必須化した。
+- v0.8.6(2026-08-11): 固定 SHA `6fa5cf3` の R-S4-0 R6 は T1–T4/T6 PASS、T5 BLOCKED。
+  route IDと合法だが別route用のfieldを混ぜられる反例を受諾し、§10.5のclosed-world `RouteSpec` 行との
+  full-discriminant一致を必須化。polynomial-envelopeはbare acceptedを禁止し、fixed-SHA PASSの
+  `assembly_proof_ref`がある場合だけopenからacceptedへ移せる型にした。
