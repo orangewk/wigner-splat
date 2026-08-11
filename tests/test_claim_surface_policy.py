@@ -101,6 +101,7 @@ PR158_CLAIM_DOCS = (
     ROOT / "docs" / "2026-08-09-three-atom-one-transition--wip.md",
     ROOT / "docs" / "2026-08-10-three-atom-block-frame-preparation--wip.md",
     ROOT / "docs" / "2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md",
+    ROOT / "docs" / "2026-08-11-three-atom-wronskian-valuation-W--wip.md",
 )
 
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (

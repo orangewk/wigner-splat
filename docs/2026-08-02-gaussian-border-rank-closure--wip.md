@@ -12,7 +12,8 @@
 > witness の唯一の authoring location は
 > [三原子 FR 仕様 F3′](2026-08-10-three-atom-block-frame-preparation--wip.md)。本稿では結論だけを参照する。
 > 安全に残る現行 target は「有限指数多項式型」であり、一般 weight の次数上限は open。
-> plain c=3 の上界 5 は補題 W の執筆・固定 SHA 査読待ち。F3′ は C1 の実解析性機構を反証しないが、
+> plain c=3 の上界 5 は [補題 W proof draft](2026-08-11-three-atom-wronskian-valuation-W--wip.md) の
+> 固定 SHA review pending。F3′ は C1 の実解析性機構を反証しないが、
 > C1 は従来どおり一般閉包分類に依存する条件付き・未確立のままである。
 >
 > **v1.8.11 changelog(N1 重み帳簿訂正、2026-08-10)**: 旧 N1 の
