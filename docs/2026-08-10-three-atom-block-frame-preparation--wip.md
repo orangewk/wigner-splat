@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.7 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface revision (R-S4-0 R8 pending)、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8.8 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface revision (R-S4-0 R9 pending)、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -502,7 +502,7 @@ S4b の split-row audit が供給すべき明示 obligation とする。
 
 | packet | consumes | produces | current state |
 |---|---|---|---|
-| S4-0 | FR-S1′/S1″、K2/K2Q/QR5、C′ の候補 interface | 本節の型付き interface のみ | specification revision (R-S4-0 R8 pending) |
+| S4-0 | FR-S1′/S1″、K2/K2Q/QR5、C′ の候補 interface | 本節の型付き interface のみ | specification revision (R-S4-0 R9 pending) |
 | S4b | S4-0 + reviewed node kernels | per-segment FR5 routing、split-row audit | open, not claimed |
 | S4a | S4b + fixed-SHA PASS の `Cprime_ref` | c=3 weak envelope (E-w) | open, not claimed |
 | S4c | S4a + FR1–FR5 | N3′/N4 ledger、FR7 no-return、c=3 FR acceptance | open, not claimed |
@@ -647,8 +647,8 @@ S4b-α の「unresolvedなし」を判定する。
 `source_ref` も discriminated union とする。
 
 - `external=(kernel_name,canonical_file,anchor,fixed_SHA,PASS)`。authoring locationの同一 SHA が PASS の場合だけ有効。
-- `intrinsic=(INTERNAL-EXACT,this-file-anchor,accepted-S4-0-SHA)`。本S4-0が固定 SHA で受理された後だけ、
-  trivial identity用に有効。
+- `intrinsic=(INTERNAL-EXACT,canonical_file,anchor,fixed_SHA,PASS)`。externalと同じ5要素形とし、
+  `canonical_file` は本ファイル、`fixed_SHA` は accepted S4-0 SHA。本S4-0が固定 SHA で受理された後だけ有効。
 
 resolved entry の `source_ref` は RouteSpec の `source rule` に記された kernel name / canonical file / anchor
 と一致しなければ無効である。単に external/intrinsic variantが一致するだけでは足りない。
@@ -733,13 +733,13 @@ route 選択の前に exact zero-pruning を行う。任意の child functionが
 |---|---|---|---|---|---|---|---|
 | `K2-u`: `c₁e^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2,docs/2026-08-08-quadratic-phase-turan-K2.md,§2 主結果,UNRESOLVED,unresolved)` | D-K2 | `(C_K2,2,1)` | phase-lipschitz / accepted | M-K2-STATUS unresolved |
 | `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-aff,UNRESOLVED,unresolved)` | D-K2Q-AFF | `(C_K2Q,4,1)` | polynomial-envelope / proof-required | M-K2Q-STATUS unresolved; ΣA proof別途 |
-| `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,UNRESOLVED-S4-0-SHA)` | D-GENERALIZED-SINGLETON | `(1,0,0)` | polynomial-envelope / proof-required | S4-0 accepted SHA と ΣA proofが別途必要 |
+| `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,UNRESOLVED-S4-0-SHA,unresolved)` | D-GENERALIZED-SINGLETON | `(1,0,0)` | polynomial-envelope / proof-required | S4-0 accepted SHA と ΣA proofが別途必要 |
 | `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)` | D-QR5-HELD | `(C_T,5,0)` | weighted-no-A / accepted | interval-wide held witness |
 | `root-far`: root 2+1 far/unheld | binary | — | — | — | — | — | M-ROOT-FAR-KERNEL unresolved または accepted exclusion |
 | `K2Q-wt-w`: split (i) | binary | weighted / S4-step-w | `(K2Q-wt,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-wt,UNRESOLVED,unresolved)` | D-K2Q-WT | `(C_21,4,0)` | weighted-no-A / accepted | M-K2Q-STATUS + split_i_witness_ref 未受理 |
 | `split-ii`: deep cancellation | binary | — | — | — | — | — | M-SPLIT-II-KERNEL unresolved |
 | `split-iii`: pair degeneration | binary | — | — | — | — | — | M-SPLIT-III-KERNEL unresolved |
-| `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 trivial-u,UNRESOLVED-S4-0-SHA)` | D-TRIVIAL | `(1,0,0)` | phase-lipschitz / accepted | S4-0 accepted SHA + `A_{H,k}≤sup_{I_k}|q′|` witness |
+| `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 trivial-u,UNRESOLVED-S4-0-SHA,unresolved)` | D-TRIVIAL | `(1,0,0)` | phase-lipschitz / accepted | S4-0 accepted SHA + `A_{H,k}≤sup_{I_k}|q′|` witness |
 
 `REFIX` は RouteSpec rowでなく前処理 transitionである。`q₁−q₂≡const`, `P≡0`, `c₂=0`、または
 child恒等零を exact 併合/zero-pruningし、残った spanで rank/treeを再固定する。
@@ -781,11 +781,11 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 
 | ID | specification | current state |
 |---|---|---|
-| S4-0.1 | packet順 S4b→S4a→S4c と非循環input/output | specification revision (R-S4-0 R8 pending) |
-| S4-0.2 | c=3 (E-w)、一般 c (E-d) 保持 | specification revision (R-S4-0 R8 pending) |
-| S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | specification revision (R-S4-0 R8 pending) |
-| S4-0.4 | RouteSpec literal source / root-only積算 / FR7 vocabulary | specification revision (R-S4-0 R8 pending) |
-| S4-0.5 | complete domain keys・category-bound exclusion・status fail-closed | specification revision (R-S4-0 R8 pending) |
+| S4-0.1 | packet順 S4b→S4a→S4c と非循環input/output | specification revision (R-S4-0 R9 pending) |
+| S4-0.2 | c=3 (E-w)、一般 c (E-d) 保持 | specification revision (R-S4-0 R9 pending) |
+| S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | specification revision (R-S4-0 R9 pending) |
+| S4-0.4 | RouteSpec literal source / root-only積算 / FR7 vocabulary | specification revision (R-S4-0 R9 pending) |
+| S4-0.5 | complete domain keys・category-bound exclusion・status fail-closed | specification revision (R-S4-0 R9 pending) |
 | S4b/a/c proofs | none | open, not claimed |
 
 ## 11. 版履歴
@@ -867,3 +867,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   `D-K2Q-WT` keyを完全列挙し、split witnessをvalidated fixed-SHA ref化。各 RouteSpec source ruleへ
   canonical file/anchor/SHA/statusをliteral記載し、未受理sourceはUNRESOLVEDのまま固定。excluded proofは
   category IDと到達不能statementへ型結合し、現行 `ExclusionWitnessEnum=∅` により迂回を禁止した。
+- v0.8.8(2026-08-11): 固定 SHA `f7d6d2c` の R-S4-0 R8 は T1–T4/T6 PASS、T5 BLOCKED。
+  intrinsic source unionとRouteSpec source ruleの3要素/4要素不一致を受諾。externalと同型の
+  `(name,canonical file,anchor,fixed SHA,status)` 5要素へ統一し、現在はUNRESOLVED/unresolved、
+  S4-0固定SHA受理後だけconcrete SHA/PASSへ遷移する規則にした。
