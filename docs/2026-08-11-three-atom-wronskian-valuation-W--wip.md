@@ -1,11 +1,12 @@
-# 補題 W: 三原子 Wronskian valuation 上界 — accepted plain-c=3 proof
+# 補題 W/W′: 三原子 Wronskian valuation 上界
 
-日付: 2026-08-11 / 著者: 本線 / status: **v0.1.1 proof accepted (plain c=3) — R-W PASS at `1b3e337`、nonblocking minor 2 件反映**
+日付: 2026-08-11 / 著者: 本線 / status: **v0.2 — plain W accepted (R-W PASS)、static generalized W′ proof draft (R-W′ pending)**
 
-> 本ファイルを plain c=3 の補題 W とその帰結の唯一の authoring location とする。
+> 本ファイルを plain c=3 の補題 W、static nested-limit の補題 W′、その直接帰結の唯一の authoring location とする。
 > F3′ witness の式と border-rank 帰結は
 > [FR仕様 §7](2026-08-10-three-atom-block-frame-preparation--wip.md)を参照し、本書では複製しない。
-> 本書は nested 2+1 の一般化原子、一般 c、FR-S4 envelope を主張しない。
+> W′ は `{e^p,Pe^p,e^q}` という静的極限だけを扱う。finite-m nested 2+1 の ν-chart/exact factorization、
+> 一般 c、FR-S4 envelope は主張しない。
 
 ## 1. Statement
 
@@ -118,7 +119,83 @@ falling-factorial Vandermonde が最低位数の非零係数として残る。
 (W4) は single-scale triple の weighted SVD route で使う head bound である。ただし weighted
 rescaling、Fock tail、nested 2+1 は本補題の外で、FR-S1′ 側の別証明義務とする。
 
-## 6. Scope ledger
+## 6. 補題 W′: static generalized 2+1 limit
+
+二つの child-limit 関数が同じ指数 `e^p` を共有し、singleton が `e^q` である静的空間を考える。
+`p,q` は複素二次以下、`r:=q−p` は非定数とする。`P` は非定数多項式 `deg P≤2` とし、
+
+  W_gen:=span{e^p,Pe^p,e^q}
+
+と置く。`P` から定数項を引いても `span{e^p,Pe^p}` は変わらず、`r` の定数項は
+singleton の非零 scalar に吸収できるので、wlog
+
+  P(z)=c_2z²+c_1z,  (c_1,c_2)≠(0,0),
+  r(z)=az²/2+bz,     (a,b)≠(0,0)
+
+とする。共通の nonvanishing factor `e^p` を掛け外しても各関数の `ord_0` は変わらないため、
+`W_gen` の valuation profile は `span{1,P,e^r}` の profile `w_1<w_2<w_3` と同じである。
+
+**補題 W′ (static generalized 2+1)**:
+
+  w_1=0,  w_1+w_2+w_3=3+ord_0H≤6,  特に w_3≤4,
+
+ここで `L:=r′=az+b`、
+
+  H(z):=P′(r″+(r′)²)−P″r′.
+
+上界 `w_3≤4` は `P∝z²`, `r∝z²` の profile `(0,2,4)` で sharp。
+
+### 6.1 Wronskian factorization and nonvanishing
+
+直接計算で
+
+  Wr(1,P,e^r)=e^r H(z),                                         (W′1)
+
+かつ
+
+  H(z)=2a²c_2z³+a(ac_1+4bc_2)z²
+       +2b(ac_1+bc_2)z+(ac_1+b²c_1−2bc_2).                     (W′2)
+
+`H` は常に非零である。
+
+1. `a≠0, c_2≠0`: `z³` 係数 `2a²c_2≠0`。
+2. `a≠0, c_2=0`: `c_1≠0` なので `z²` 係数 `a²c_1≠0`。
+3. `a=0`: `b≠0` で
+   `H=b(2bc_2z+bc_1−2c_2)`。`c_2≠0` なら一次係数、`c_2=0` なら定数 `b²c_1` が非零。
+
+従って `dim W_gen=3`、`deg H≤3`。§4 と同じ adapted-basis Wronskian 恒等式から
+
+  w_1+w_2+w_3=3+ord_0H≤6.                                      (W′3)
+
+また `1∈W_gen` なので `w_1=0`。
+
+### 6.2 Refinement from 5 to 4
+
+`ord_0H≤2` なら (W′3) と `w_2≥1` から直ちに `w_3≤4`。
+
+`ord_0H=3` とする。このとき `a,c_2≠0` で、(W′2) の一次・二次係数の消滅から
+
+  b(ac_1+bc_2)=0,  a(ac_1+4bc_2)=0.
+
+もし `b≠0` なら `ac_1+bc_2=ac_1+4bc_2=0` から `3bc_2=0` となり矛盾。
+従って `b=0`、さらに `ac_1=0` から `c_1=0`。よって
+
+  P=c_2z²,  r=az²/2,
+
+であり、`e^{az²/2}=1+(a/2)z²+(a²/8)z⁴+⋯` から profile は exact に `(0,2,4)`。
+従って全場合で `w_3≤4`、かつ上界は sharp。∎
+
+### 6.3 J⁴ and compact-family corollary
+
+§5 と同様、非零元の消滅次数は `w_3≤4` なので `J⁴` 切断は `W_gen` 上で単射。
+さらに `‖(c_1,c_2)‖_2=1` と正規化し、`|a|,|b|≤R`、
+`max(|a|^{1/2},|b|)≥η>0` とする compact family 上では、対応する `J⁴` map の
+最小特異値は連続・各点正なので一様に正である。
+
+この corollary は finite-m nested chart の `t=0` face にだけ使う。`t>0` child column、ν-chart、
+root-scale tail は FR-S1″ 側の別義務である。
+
+## 7. Scope ledger
 
 | claim | status | dependency / non-claim |
 |---|---|---|
@@ -127,11 +204,16 @@ rescaling、Fock tail、nested 2+1 は本補題の外で、FR-S1′ 側の別証
 | `Σv_i=3+ord_0V≤6`, `v_3≤5` | accepted (R-W PASS) | (W1)–(W3) |
 | `T_5` injective / compact-family lower bound | accepted (R-W PASS) | 補題 W + compactness |
 | sharpness `v_3=5` | referenced | FR仕様 F3′ が authoring location |
-| nested 2+1 / generalized atoms | open, not claimed | 別補題が必要 |
+| static generalized W′ factorization / `Σw_i≤6` | proof draft | (W′1)–(W′3) |
+| static generalized bound `w_3≤4` | proof draft | §6.2 case split |
+| static generalized `J⁴` compact floor | proof draft | W′ + compactness |
+| finite-m nested 2+1 / ν-chart | open, not claimed | FR-S1″ が必要 |
 | 一般 c の次数公式 | open, not claimed | 本書から外挿しない |
 | FR3 envelope / FR5–FR7 | open, not claimed | FR-S4 の義務 |
 
-## 7. Review history
+## 8. Review history
 
 - R-W (`1b3e337`, Fable response `5249273110`): R-W1–R-W5 全 PASS、blocking なし。
   §4 の higher-term 非相殺と §5 の `ord_0f≤v_3` を明記する nonblocking minor 2 件を v0.1.1 で反映。
+- v0.2(2026-08-11): Fable consultation #2 の GO を受け、static generalized W′ を proof draft として追加。
+  finite-m nested chartやFR-S1″の閉鎖には数えず、固定 SHA R-W′ 待ち。

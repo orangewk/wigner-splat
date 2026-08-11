@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.6.1 — plain補題W R-W PASS、single-scale FR-S1′ R-A′ PASS、nested 2+1 / FR-S4 open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.6.2 — plain FR-S1′ R-A′ PASS、static generalized W′ proof draft、finite-m nested 2+1 / FR-S4 open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -111,14 +111,15 @@ FR3/FR4/FR6 を閉じない。
 
 1. **[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) (plain c=3 valuation 上界)**: F3′ と独立に、相異三原子 span の最大 valuation が 5 以下であることを自己完結に証明する。
 2. **FR-S1′ (weighted SVD frame、R-A′ PASS)**: 真空 gauge 後の (2,1)-weighted 距離と J⁵-SVD で、plain single-scale triple の exact 枠を定義する。
-3. **nested 2+1 接続**: pair child の一般化原子を入力にした補題 W 版を別義務として証明する。
+3. **nested 2+1 接続**: [static generalized 補題 W′](2026-08-11-three-atom-wronskian-valuation-W--wip.md) を固定 SHA で判定後、ν-chart を持つ finite-m FR-S1″ を証明する。
 4. **FR-S4 (envelope assembly)**: K2/K2Q/QR5 を node ごとに使い、parent U_F へ戻らず FR6 を導く。
 5. 固定 SHA で FR1–FR7 を独立再査読する。
 
 ## 7. 現在の blocker
 
 plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′で PASS。現在の最初の未解決点は
-**nested 2+1 接続**である。旧 moment order だけでは消滅速度を記録できず、
+**nested 2+1 接続**である。static generalized W′ は proof draft/R-W′ pending、finite-m ν-chart は未執筆。
+旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の
 非零/零だけでなく、相対 valuation または同値な flag/blow-up 座標を含まなければならない。
 
@@ -318,3 +319,5 @@ tree shape と pivot permutation も有限なので、さらに部分列を取�
 - v0.6.1(2026-08-11): 固定 SHA `ed25401` の R-A1–R-A6 が全 PASS(blockingなし)。
   nonblocking minor 2 件(適用集合 `Θ_η`、gauge逆元のstrong収束式)を反映。plain single-scale triple の
   FR1/FR2/FR4/FR3(X)(L-d) を accepted に昇格し、次 blocker を nested 2+1 接続へ移した。
+- v0.6.2(2026-08-11): Fable consultation #2 の GO を受け、static generalized W′ を補題W文書に
+  proof draftとして追加。finite-m nested 2+1 はW′の固定SHA判定後にFR-S1″として書く。
