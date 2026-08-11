@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.4 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface revision (R-S4-0 R5 pending)、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8.5 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface revision (R-S4-0 R6 pending)、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -502,7 +502,7 @@ S4b の split-row audit が供給すべき明示 obligation とする。
 
 | packet | consumes | produces | current state |
 |---|---|---|---|
-| S4-0 | FR-S1′/S1″、K2/K2Q/QR5、C′ の候補 interface | 本節の型付き interface のみ | specification revision (R-S4-0 R5 pending) |
+| S4-0 | FR-S1′/S1″、K2/K2Q/QR5、C′ の候補 interface | 本節の型付き interface のみ | specification revision (R-S4-0 R6 pending) |
 | S4b | S4-0 + reviewed node kernels | per-segment FR5 routing、split-row audit | open, not claimed |
 | S4a | S4b + fixed-SHA PASS の `Cprime_ref` | c=3 weak envelope (E-w) | open, not claimed |
 | S4c | S4a + FR1–FR5 | N3′/N4 ledger、FR7 no-return、c=3 FR acceptance | open, not claimed |
@@ -609,8 +609,8 @@ closed-world category enumを
 
 | variant | required fields |
 |---|---|
-| `resolved` | `(route_id∈CategoryEnum,arity∈{unary,binary},mode∈{unweighted,weighted},source_ref,domain_schema_id,0<C̄_route<∞,0≤γ_route<∞,0≤κ̄_route<∞,inequality_id∈{S4-step-u,S4-step-w},A_ledger_kind,assembly_status∈{accepted,open})`; modeとinequality suffixは一致 |
-| `unresolved` | `(route_id∈CategoryEnum,expected_arity∈{unary,binary},missing_obligation_id)` のみ。`mode/source_ref/constants/inequality_id` を仮置きしない |
+| `resolved` | `(route_id∈CategoryEnum,arity∈{unary,binary},mode∈{unweighted,weighted},source_ref,domain_schema_id∈DomainSchemaEnum,0<C̄_route<∞,0≤γ_route<∞,0≤κ̄_route<∞,inequality_id∈{S4-step-u,S4-step-w},A_ledger_kind∈{phase-lipschitz,weighted-no-A,polynomial-envelope},assembly_status∈{accepted,open})`; modeとinequality suffixは一致 |
+| `unresolved` | `(route_id∈CategoryEnum,expected_arity∈{unary,binary},missing_obligation_id∈MissingObligationEnum)` のみ。`mode/source_ref/constants/inequality_id` を仮置きしない |
 | `excluded` | `(route_id∈CategoryEnum,exclusion_proof_ref)`。`exclusion_proof_ref` が external/intrinsic fixed-SHA PASS で、当該categoryがdomainに到達不能と受理された場合だけ |
 
 `DomainSchemaEnum` と `MissingObligationEnum` も有限に固定する。
@@ -635,10 +635,15 @@ S4b-α の「unresolvedなし」を判定する。
 
 S4a はこれとは別に
 
-  Cprime_ref=(C-prime,canonical-K2-file,C-prime-anchor,fixed_SHA,PASS)
+  Cprime_ref := source_ref.external
+                with (kernel_name=C-prime,
+                      canonical_file=canonical-K2-file,
+                      anchor=C-prime-anchor)
 
 を必須inputとする。K2 theoremを使わないrouteだけの列でも、C′の chaining calculationを参照するなら
-このrefを省略しない。authoring statusが不一致または未受理ならS4aを開始しない。
+このrefを省略しない。従って `source_ref.external` と同じ検証で、指定 fixed SHA の canonical authoring
+location が実際に PASS かを照合する。文字列 `PASS` の自己申告だけでは有効にならず、authoring statusが
+不一致または未受理ならS4aを開始しない。
 
 `A_ledger_kind` は `phase-lipschitz`、`weighted-no-A`、`polynomial-envelope` のいずれか。
 `phase-lipschitz` は recordごとに `A_{H,k}≤Λ_{H,k}` を要求する。`weighted-no-A` は
@@ -721,7 +726,7 @@ FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed
 | `C̄_route,γ_route,κ̄_route,mode` | interval-independent RouteKind template | S4b-α registry |
 | `C_step,γ_H,κ_H,ε_chain` | typed RouteRecord / composite unit-step data | S4b-β output |
 | `N_cell` | cell分割を実際に使う場合のunit interval・node当たりcell数 | pairは高々3、rootは導入時だけS4b obligation |
-| `Cprime_ref` | C′ authoring file/anchor/fixed SHA/PASS | S4a required external input |
+| `Cprime_ref` | validated external source_ref specialized to C′ | S4a required external input |
 | `C_chain,u`, `C_chain,w` | mode別 product/telescoping constants | S4aでtyped kernel dataから別々に構成 |
 | `C_w,C_lin` | (S4-Ew) constants | S4a output |
 
@@ -733,11 +738,11 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 
 | ID | specification | current state |
 |---|---|---|
-| S4-0.1 | packet順 S4b→S4a→S4c と非循環input/output | specification revision (R-S4-0 R5 pending) |
-| S4-0.2 | c=3 (E-w)、一般 c (E-d) 保持 | specification revision (R-S4-0 R5 pending) |
-| S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | specification revision (R-S4-0 R5 pending) |
-| S4-0.4 | closed-world union / root-only積算 / FR7 vocabulary | specification revision (R-S4-0 R5 pending) |
-| S4-0.5 | coverage manifest・typed obligation・C′/source status fail-closed | specification revision (R-S4-0 R5 pending) |
+| S4-0.1 | packet順 S4b→S4a→S4c と非循環input/output | specification revision (R-S4-0 R6 pending) |
+| S4-0.2 | c=3 (E-w)、一般 c (E-d) 保持 | specification revision (R-S4-0 R6 pending) |
+| S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | specification revision (R-S4-0 R6 pending) |
+| S4-0.4 | closed-world union / root-only積算 / FR7 vocabulary | specification revision (R-S4-0 R6 pending) |
+| S4-0.5 | coverage manifest・typed obligation・C′/source status fail-closed | specification revision (R-S4-0 R6 pending) |
 | S4b/a/c proofs | none | open, not claimed |
 
 ## 11. 版履歴
@@ -808,3 +813,6 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 - v0.8.4(2026-08-11): 固定 SHA `54f1eca` の R-S4-0 R4 は T1–T4/T6 PASS、T5 BLOCKED。
   finite `C̄/γ/κ̄` constraints、closed-world `CategoryEnum` と coverage manifest、typed domain/missing-obligation
   enumを追加。C′自体のstatusをkernel routeから独立した `Cprime_ref` で監査し、未受理ならS4aを停止する。
+- v0.8.5(2026-08-11): 固定 SHA `7db8dff` の R-S4-0 R5 は T1–T4/T6 PASS、T5 BLOCKED。
+  resolved/unresolved tupleへDomain/A-ledger/Missing enum membershipを直接付与。`Cprime_ref`を
+  literal PASS tupleからvalidated external `source_ref`の特殊化へ変更し、authoring-status照合を必須化した。
