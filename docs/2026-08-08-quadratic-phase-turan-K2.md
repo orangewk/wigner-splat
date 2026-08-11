@@ -1,6 +1,7 @@
 # 2 次位相指数和の区間型 Turán 不等式(c = 2)と Fock 空間一様増大度への応用
 
-日付: 2026-08-08 / 著者: 本線 / status: **wip — 独立成果ドラフト(orange 裁定 2026-08-08 により
+日付: 2026-08-08 / 著者: 本線 / status: **wip — 独立成果ドラフト、K2/C′/L2a′ accepted
+(R-K2-FRESH R3 PASS、fixed SHA `eb1804a`。orange 裁定 2026-08-08 により
 閉包定理ドラフト §4.3.4 から移管。以後、K2・C′・L2a′(c=2) の唯一の authoring location は本ファイル。
 閉包定理ドラフト側 §4.3.4 は凍結スナップショット — 差分が生じた場合は本ファイルが正)**
 
@@ -13,9 +14,13 @@
 > **履歴 — 独立再査読 R-K2 R1(gpt-5.6-luna xhigh、固定 head b50e008)**: BLOCKED。
 > 補題 E の区間内部評価と、C′ の κ < 1 の定数帳簿を受諾して下記で修正。R2 待ち。
 >
-> **fresh 固定SHA再査読 R-K2-FRESH R1(gpt-5.6-luna xhigh、固定 head `f5dd8f9`)**: BLOCKED。
+> **履歴 — fresh 固定SHA再査読 R-K2-FRESH R1(gpt-5.6-luna xhigh、固定 head `f5dd8f9`)**: BLOCKED。
 > K1(補題E)・K2(主定理)・K3(C′)は PASS。L2a′ の active rank-2 domain/fallback欠落と
-> 非canonical status不一致を受諾して下記で修正。R-K2-FRESH R2 待ち。本欄だけを
+> 非canonical status不一致を受諾して下記で修正。
+>
+> **現行 — R-K2-FRESH R3(gpt-5.6-luna xhigh、固定 head `eb1804a`)**: **PASS**。
+> K1–K6(補題E、K2全case、C′、L2a′、degenerate domain、status/one-authoring)を全件再検算。
+> 本欄だけを
 > K2・C′・L2a′ の査読status authoring locationとする。
 
 ## 1. 設定
@@ -123,7 +128,7 @@ f = c₁Φ(ξ₁) + c₂Φ(ξ₂)(ξ_j ∈ K_{δ,R})に対し、K2 は kernel(2)
 `f=0`。それ以外はrank-1であり、`Φ(A,B)(0)=1` から `‖Φ(A,B)‖≥1`、また
 `|Φ(A,B)(z)|≤exp((1−δ)|z|²/2+R|z|)` なので、同じ弱形が直接従う。
 従って系の最終statementはrank≤2全体を覆うが、K2を直接適用するのはactive rank-2だけである。
-これは依存関係上、一般閉包の open 補題を使わない帰結である。証明ドラフトとして R-K2-FRESH R2 待ち。
+これは依存関係上、一般閉包の open 補題を使わない帰結であり、R-K2-FRESH R3 PASS。
 (注: これは閉包定理ドラフト §4 の L2a(多項式 × e^{(1−δ)|z|²/2+R|z|})より真に弱い弱形だが、
 そちらの下流で envelope が効く唯一の箇所(§5 一様可積分尾部)には十分。)
 
