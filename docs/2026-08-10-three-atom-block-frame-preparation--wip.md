@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.11 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′ source accepted (`965fd3a`)、K2Q source / split(i) witness unresolved、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8.12 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′ source accepted (`965fd3a`)、K2Q source accepted (`bffc3ea`)、split(i) witness・FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -617,7 +617,7 @@ closed-world category enumを
 
   DomainSchemaEnum := {D-K2,D-K2Q-AFF,D-GENERALIZED-SINGLETON,
                        D-QR5-HELD,D-K2Q-WT,D-TRIVIAL}
-  MissingObligationEnum := {M-K2-STATUS,M-K2Q-STATUS,M-SPLIT-I-WITNESS,M-ROOT-FAR-KERNEL,
+  MissingObligationEnum := {M-K2-STATUS,M-SPLIT-I-WITNESS,M-ROOT-FAR-KERNEL,
                              M-SPLIT-II-KERNEL,M-SPLIT-III-KERNEL}
   ExclusionWitnessEnum := ∅   (現行S4-0では accepted exclusionなし)
 
@@ -671,7 +671,7 @@ fixed SHA/PASSを参照する。
 `(split-i,docs/2026-08-09-three-atom-one-transition--wip.md,§3.6.2,UNRESOLVED,unresolved)`
 とする。固定SHA再査読後にrule自体が concrete SHA/PASSへ改訂されるまで `K2Q-wt-w` のdomainは未受理である。
 この未受理状態は `M-SPLIT-I-WITNESS` で表し、同obligationは上のsource ruleが concrete SHA/PASSに
-なった場合だけ解消する。`M-K2Q-STATUS` と代用・併合しない。
+なった場合だけ解消する。受理済みK2Q sourceのstatusとは代用・併合しない。
 
 `A_ledger_kind` は `phase-lipschitz`、`weighted-no-A`、`polynomial-envelope` のいずれか。
 `phase-lipschitz` は recordごとに `A_{H,k}≤Λ_{H,k}` を要求する。`weighted-no-A` は
@@ -734,11 +734,11 @@ route 選択の前に exact zero-pruning を行う。任意の child functionが
 | route ID / shape | arity | mode / inequality | source rule | domain schema | `(C̄,γ,κ̄)` | A-ledger / assembly rule | current obligation |
 |---|---|---|---|---|---|---|---|
 | `K2-u`: `c₁e^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2,docs/2026-08-08-quadratic-phase-turan-K2.md,§2 主結果,965fd3a38049f982ce795102a2c8285533a23f0c,PASS)` | D-K2 | `(C_K2,2,1)` | phase-lipschitz / accepted | interval domain witness |
-| `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-aff,UNRESOLVED,unresolved)` | D-K2Q-AFF | `(C_K2Q,4,1)` | polynomial-envelope / proof-required | M-K2Q-STATUS unresolved; ΣA proof別途 |
+| `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-aff,bffc3ea13cf10595890f239e15fb6070be5cecd3,PASS)` | D-K2Q-AFF | `(C_K2Q,4,1)` | polynomial-envelope / proof-required | ΣA proof別途 |
 | `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-GENERALIZED-SINGLETON | `(1,0,0)` | polynomial-envelope / proof-required | ΣA proofが別途必要 |
 | `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)` | D-QR5-HELD | `(C_T,5,0)` | weighted-no-A / accepted | interval-wide held witness |
 | `root-far`: root 2+1 far/unheld | binary | — | — | — | — | — | M-ROOT-FAR-KERNEL unresolved または accepted exclusion |
-| `K2Q-wt-w`: split (i) | binary | weighted / S4-step-w | `(K2Q-wt,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-wt,UNRESOLVED,unresolved)` | D-K2Q-WT | `(C_21,4,0)` | weighted-no-A / accepted | M-K2Q-STATUS + M-SPLIT-I-WITNESS unresolved |
+| `K2Q-wt-w`: split (i) | binary | weighted / S4-step-w | `(K2Q-wt,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-wt,bffc3ea13cf10595890f239e15fb6070be5cecd3,PASS)` | D-K2Q-WT | `(C_21,4,0)` | weighted-no-A / accepted | M-SPLIT-I-WITNESS unresolved |
 | `split-ii`: deep cancellation | binary | — | — | — | — | — | M-SPLIT-II-KERNEL unresolved |
 | `split-iii`: pair degeneration | binary | — | — | — | — | — | M-SPLIT-III-KERNEL unresolved |
 | `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 trivial-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-TRIVIAL | `(1,0,0)` | phase-lipschitz / accepted | `A_{H,k}≤sup_{I_k}|q′|` witness |
@@ -884,3 +884,6 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   `M-SPLIT-I-WITNESS`をclosed-world obligation enumへ追加。validated `split_i_witness_ref`だけで
   解消する規則を定め、`K2Q-wt-w`を`M-K2Q-STATUS + M-SPLIT-I-WITNESS`でfail-closedにした。
   K2Q source rule自体はUNRESOLVEDのまま。
+- v0.8.12(2026-08-12): 固定 SHA `bffc3ea` のcanonical K2Q source refと接続gateを根拠に、
+  `K2Q-aff-u` / `K2Q-wt-w` のsource refを同SHA/PASSへ接続し、`M-K2Q-STATUS`を除去。
+  前者のpolynomial ΣA proof、後者の`M-SPLIT-I-WITNESS`、S4b/a/c、(E-w)、FR-S4全体はopenのまま。
