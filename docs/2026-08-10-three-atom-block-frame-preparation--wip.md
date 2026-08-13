@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.13 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′ source accepted (`965fd3a`)、K2Q source accepted (`bffc3ea`)、S4b split-row audit proof draft・FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8.14 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′ source accepted (`965fd3a`)、K2Q source accepted (`bffc3ea`)、typed S4b split-row audit proof draft・FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -633,7 +633,7 @@ excluded variantを一つも生成できない。将来 category-specific exclus
 | `D-K2Q-AFF` | `active_children_nonzero`, `P≢0`, `c₂≠0`, `deg P≤2`, `q₁−q₂` nonconstant |
 | `D-GENERALIZED-SINGLETON` | `P≢0`, `deg P≤2`, unary exact-identity ref |
 | `D-QR5-HELD` | `active_children_nonzero`, `c₁c₂c₃≠0`, `B₁₂≢0`, `sup_{I_k}|q₂−q₁|≤1/8` |
-| `D-K2Q-WT` | `active_children_nonzero`, `P_nonzero`, `c2_nonzero`, `deg_P_le_2`, `qdiff_nonconstant`, `split_i_witness_ref` |
+| `D-K2Q-WT` | `active_children_nonzero`, `pair_polynomial_nonzero`, `singleton_coeff_nonzero`, `eta_nonconstant`, `mu_nonconstant`, `deg_P_B_le_2`, `pair_held_ref`, `recenter_ref`, `split_i_witness_ref` |
 | `D-TRIVIAL` | `c≠0`, unary exact-identity ref |
 
 §10.5 の `RouteSpec` 表を route-specific discriminant の唯一の authoring location とする。各rowは
@@ -667,8 +667,23 @@ location が実際に PASS かを照合する。文字列 `PASS` の自己申告
 不一致または未受理ならS4aを開始しない。現行ruleは R-K2-STATUS R4 が確認した canonical
 fixed SHA/PASSを参照する。
 
+`D-K2Q-WT` のcanonical variable mappingは、まず
+
+    η₀:=q₂−q₁,  μ₀:=q₃−q₁,
+    c̃₂:=c₂e^{η₀(t_{c,k})},  c̃₃:=c₃e^{μ₀(t_{c,k})},
+    η̃:=η₀−η₀(t_{c,k}),      μ̃:=μ₀−μ₀(t_{c,k})
+
+とrecenterし、その後 `(c̃₂,c̃₃,η̃,μ̃)` を `(c₂,c₃,η,μ)` とrenameして
+
+    P_B:=(c₁+c₂)+c₂η,  S:=c₃e^{q₁+μ}
+
+と固定する。従って `singleton_coeff_nonzero` はrecenter後の `c₃≠0`、`eta_nonconstant` /
+`mu_nonconstant` はそれぞれこの `η` / `μ` を指し、別の pair差で代用しない。`pair_held_ref` は
+interval 全体の `sup_{I_k}|η|≤1/8`、`recenter_ref` は上の係数吸収が `H,B₁₂,S,U_T` を
+exactに不変に保つidentity refである。どのkeyも `split_i_witness_ref` の自由文へ隠してはならない。
+
 `split_i_witness_ref` も validated external ref とし、現行 source ruleを
-`(split-i,docs/2026-08-09-three-atom-one-transition--wip.md,§3.6.2,UNRESOLVED,unresolved)`
+`(S4-split-i,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5.1,UNRESOLVED,unresolved)`
 とする。固定SHA再査読後にrule自体が concrete SHA/PASSへ改訂されるまで `K2Q-wt-w` のdomainは未受理である。
 この未受理状態は `M-SPLIT-I-WITNESS` で表し、同obligationは上のsource ruleが concrete SHA/PASSに
 なった場合だけ解消する。受理済みK2Q sourceのstatusとは代用・併合しない。
@@ -699,7 +714,8 @@ S4b-β の `RouteRecord` は resolved `RouteKind` だけから生成し、次を
 | `interval_id` | `(k,I_k,J_k,ε_chain)` |
 | `frequency_allowance` | `(frequency_source,Λ_{H,k},bound_witness)`。`leaf_phase_max` なら `Λ_{H,k}:=max_j sup_{I_k}|q_j′|≤(1−δ)(a_k+1)+R`; 不使用なら `NONE` と `κ_H=0` |
 | `A_ledger_witness` | `phase-lipschitz` の式、`weighted-no-A`、`polynomial-envelope/open`、または `polynomial-envelope/accepted(assembly_proof_ref)` |
-| `named_constants` | `(C_step≤C̄_route,γ_H=γ_route,κ_H≤κ̄_route,source_ref)`。raw係数依存は禁止 |
+| `constant_provenance_ref` | `C_step≤C̄_route`を証明するvalidated fixed-SHA source ref。canonical kernelが直接stepを供給するrouteでは`source_ref`、composite routeでは別のreviewed proof ref |
+| `named_constants` | `(C_step≤C̄_route,γ_H=γ_route,κ_H≤κ̄_route,source_ref,constant_provenance_ref)`。raw係数依存は禁止 |
 
 `RootStep_k` はこの recordを持つ root `node_path` の唯一の公開出力で、child routeは
 `kind_ref/domain_witness` の内部 provenanceに畳み込む。S4a は root outputだけを一度ずつ消費する。
@@ -782,6 +798,16 @@ K2Q の査読statusは canonical
 表示係数、ray、`k,T` に依存しない。現行 RouteSpec の `C̄=C₂₁` を超える定数しか得られない場合は、
 witnessを接続する前にRouteSpecの定数欄を改訂して再査読する。
 
+root cell coverの型を
+
+    SplitCellData := (N_split,c_width,c_overlap,M_overlap,composition_ref)
+
+と固定する。`N_split∈ℕ`, `c_width,c_overlap>0`, `M_overlap∈ℕ` は `(δ,R,K2Q-wt-w)` だけに
+依存し、`ε_chain`, ray, `k,T,m`、表示係数に依存しない。各非空cellの幅は
+`≥c_width ε_chain`、合成に使う隣接overlapは `≥c_overlap ε_chain`、cover multiplicityは
+`≤M_overlap` とする。これらの局所条件だけでは指数4の保存を自動主張せず、`composition_ref` が
+全cell積を直接評価して最終 `ε_chain^{-4}` と `C_split` に収めることを要求する。
+
 証明内部では recenter 後の
 
     η=q₂−q₁,
@@ -798,20 +824,20 @@ RouteRecord出力またはS4a入力へ出してはならない。`η` または 
 
 | ID | split-row audit が示すこと | current state |
 |---|---|---|
-| SI-1 domain | `D-K2Q-WT` の全key、pair-held/recenter条件、上記REFIX排他を interval 全体で式として供給 | open |
-| SI-2 finite cells | `I_k` を regular-linearization / pair-dip の有限cellへ被覆し、`#𝒫_{H,k}≤N_split`、非退化な内部overlap、各cell幅の帳簿を係数非依存に示す | open |
+| SI-1 domain | canonical mappingに従う `D-K2Q-WT` の全keyと上記REFIX排他を interval 全体で式として供給 | open |
+| SI-2 finite cells | `I_k` を regular-linearization / pair-dip cellへ被覆し、`SplitCellData` の全fieldと許容依存を供給 | open |
 | SI-3 regular cells | `U_T` と `U′` の二側比較を定量化し、同じ local `(I,J)` 上のK2Q-wtと剰余吸収から `U_T`-weighted stepを導く | open |
 | SI-4 pair-dip cells | `U′→U_T` の暗黙変換を使わず、exact nodeに対する直接stepまたは reviewed QR5-w へのtyped再分類を示す | open |
 | SI-5 count mechanism | `deg P_B≤2` から零点補集合が高々3成分になる事実と、exact `B₁₂` vs singleton dominanceの一様cell数との間の橋を証明する | open |
-| SI-6 composite ledger | 全cell定数とoverlapを一つの `C_split` へ吸収し、指数を `4N_split` に増やさず `ε_chain^{-4}` を保ち、child/rootを二重積算せず一つの `RootStep_k`だけを出力 | open |
+| SI-6 composite ledger | `composition_ref`で全cell積を `C_split ε_chain^{-4}` へ評価し、`C_split≤C̄_route=C₂₁`、`constant_provenance_ref=split_i_witness_ref`を満たし、child/rootを二重積算せず一つの `RootStep_k`だけを出力 | open |
 | SI-7 adversarial audit | phantom、near-phantom、pair零点が`J_k`に入る配置、重根、constant-gauge境界で反例がないことを検査 | open |
-| SI-8 provenance | 固定SHAの独立再査読PASSを持つ本節anchorだけを concrete `split_i_witness_ref` にできる | open |
+| SI-8 provenance | 固定SHAの独立再査読PASSを持つ本節anchorだけを concrete `split_i_witness_ref` / `constant_provenance_ref` にできる | open |
 
 `P_B` の次数だけから root dominance crossing 数を断定しない。SI-4/5 が偽なら、許される結論は
 `K2Q-wt-w` を QR5-w へ再分類する、別の node-local kernelを立てる、またはcounterexample付きで
 RouteSpecを改訂する、のいずれかであり、`M-SPLIT-I-WITNESS` を解消せず S4aへ進まない。
-また SI-1 で必要なpair-held/recenter fieldが現行 `D-K2Q-WT` key setに不足すると判明した場合は、
-それを自由文や `split_i_witness_ref` 内へ隠さず、domain schemaとRouteSpecを先に改訂して再査読する。
+また SI-1 で追加fieldが必要と判明した場合は、それを自由文や `split_i_witness_ref` 内へ隠さず、
+domain schemaとRouteSpecを先に改訂して再査読する。
 
 ### 10.6 Coefficient-free constants
 
@@ -826,6 +852,8 @@ FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed
 | `C̄_route,γ_route,κ̄_route,mode` | interval-independent RouteKind template | S4b-α registry |
 | `C_step,γ_H,κ_H,ε_chain` | typed RouteRecord / composite unit-step data | S4b-β output |
 | `N_cell` | cell分割を実際に使う場合のunit interval・node当たりcell数 | pairは高々3、rootは導入時だけS4b obligation |
+| `N_split,c_width,c_overlap,M_overlap` | root split cell cover。`(δ,R,route)`だけに依存 | accepted §10.5.1 witness |
+| `C_split` | exact root composite定数。`C_split≤C̄_route`とfixed-SHA provenanceを要求 | accepted §10.5.1 witness |
 | `Cprime_ref` | validated external source_ref specialized to C′ | S4a required external input |
 | `C_chain,u`, `C_chain,w` | mode別 product/telescoping constants | S4aでtyped kernel dataから別々に構成 |
 | `C_w,C_lin` | (S4-Ew) constants | S4a output |
@@ -946,3 +974,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   exact root `U_T` unit-stepを対象とするS4b split-row audit SI-1–SI-8をproof draftとして追加。
   regular/pair-dip cell、係数非依存cell数、composite root-only ledger、反例時のQR5-w再分類を
   acceptance条件に固定。`M-SPLIT-I-WITNESS`、S4b/a/c、(E-w)、FR-S4全体はopenのまま。
+- v0.8.14(2026-08-13): R-SPLITSPEC R1のtyped gap三件を受諾。`D-K2Q-WT`にη/μ、singleton係数、
+  held/recenterのcanonical mappingを追加。`SplitCellData`の許容依存・幅・overlap・multiplicityと
+  exponent-4 composition refを固定し、`C_split≤C̄_route`をfixed-SHA `constant_provenance_ref`へ結合。
+  witness anchorを旧§3.6.2から本節へ移した。証明と`M-SPLIT-I-WITNESS`はopenのまま。
