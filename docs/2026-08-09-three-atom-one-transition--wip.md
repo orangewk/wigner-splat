@@ -1,6 +1,6 @@
 # 三原子一遷移補題(c = 3)— wip
 
-日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.4: plain FR-S1′ R-A′ / nested FR-S1″ R-A″ PASS、次は FR-S4。
+日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.5: plain FR-S1′ R-A′ / nested FR-S1″ R-A″ PASS、split(i) の S4 witnessはopen、次は FR-S4。
 F3′ により旧 held 分岐の次数4帳簿は撤回済み。
 intended QR5 child への old DC bridge は反例で撤回済み。
 五次共鳴が直接反証するのは tree envelope QR5 の指数 4 で、tree 指数の sharp 予想は 5。
@@ -233,7 +233,9 @@ U′ := U_{F_{≤1}} = max(log|P_B| + Re q₁, m₃)、c_B := max(|c₁|,|c₂|)
 (退化 η ≡ const は K2Q §6.2 の d = 1 正規化: 係数併合で 2 原子に落ち K2 へ;
 併合が深い(|c₁ + c₂e^{η}| < e^{−3}c_B)ときは (iii) と同じ簡約 slot。)
 
-*証明 (i)*: 場合分けの前提として **η 非定数**(recenter 後 η ≢ 0)とする — このとき c₂ ≠ 0 より
+*証明 (i)*: 場合分けの前提として **η と μ := q₃−q₁ はともに非定数**とする。μ が定数なら
+`c₃e^{q₃}` を exact に `c₁e^{q₁}` へ係数吸収し、残る二原子表示で rank/tree を REFIX するため
+K2Q-wt 分岐へ入れない。η は recenter 後 η ≢ 0 と読む — このとき c₂ ≠ 0 より
 **P_B = (c₁+c₂) + c₂η ≢ 0** で K2Q-wt の適用条件(P ≢ 0、deg ≤ 2)が満たされる
 (η ≡ const は下の併合 slot へ — luna R2 [major] 対応で証明分岐として明示)。
 系 K2Q-wt(L/ℓ = 1/s)を (F_{≤1}, U′) に適用:
@@ -496,3 +498,6 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
   R-A1–R-A6 で全 PASS。次工程を nested 2+1 一般化原子接続→FR-S4へ更新。
 - v0.7.4(2026-08-11): FR 文書の nested 2+1 FR-S1″ が固定 SHA `61111cc` の
   R-A″1–R-A″6 で全 PASS。次工程を `(E-d)` / FR5–FR7 (FR-S4)へ更新。
+- v0.7.5(2026-08-13): split(i) のK2Q domainを明確化。`μ=q₃−q₁` が定数なら
+  `c₃e^{q₃}` を `c₁e^{q₁}` へexact係数吸収して二原子へREFIXし、K2Q-wt分岐へ入れない。
+  §3.6.2の旧U_F転送はS4のU_T unit-step witnessではなく、`M-SPLIT-I-WITNESS`はopenのまま。
