@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.12 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′ source accepted (`965fd3a`)、K2Q source accepted (`bffc3ea`)、split(i) witness・FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8.13 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′ source accepted (`965fd3a`)、K2Q source accepted (`bffc3ea`)、S4b split-row audit proof draft・FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -738,7 +738,7 @@ route 選択の前に exact zero-pruning を行う。任意の child functionが
 | `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-GENERALIZED-SINGLETON | `(1,0,0)` | polynomial-envelope / proof-required | ΣA proofが別途必要 |
 | `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)` | D-QR5-HELD | `(C_T,5,0)` | weighted-no-A / accepted | interval-wide held witness |
 | `root-far`: root 2+1 far/unheld | binary | — | — | — | — | — | M-ROOT-FAR-KERNEL unresolved または accepted exclusion |
-| `K2Q-wt-w`: split (i) | binary | weighted / S4-step-w | `(K2Q-wt,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-wt,bffc3ea13cf10595890f239e15fb6070be5cecd3,PASS)` | D-K2Q-WT | `(C_21,4,0)` | weighted-no-A / accepted | M-SPLIT-I-WITNESS unresolved |
+| `K2Q-wt-w`: split (i) | binary | weighted / S4-step-w | `(K2Q-wt,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-wt,bffc3ea13cf10595890f239e15fb6070be5cecd3,PASS)` | D-K2Q-WT | `(C_21,4,0)` | weighted-no-A / accepted | M-SPLIT-I-WITNESS unresolved (§10.5.1 proof draft) |
 | `split-ii`: deep cancellation | binary | — | — | — | — | — | M-SPLIT-II-KERNEL unresolved |
 | `split-iii`: pair degeneration | binary | — | — | — | — | — | M-SPLIT-III-KERNEL unresolved |
 | `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 trivial-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-TRIVIAL | `(1,0,0)` | phase-lipschitz / accepted | `A_{H,k}≤sup_{I_k}|q′|` witness |
@@ -757,7 +757,61 @@ S4b は「frame の singular-value floorで当該rowが排除される」「新�
 K2 の査読statusは canonical
 [K2 authoring file](2026-08-08-quadratic-phase-turan-K2.md)の R-K2 欄だけを参照する。
 `K2-u` と `Cprime_ref` は R-K2-STATUS R4 が確認した同じ canonical fixed SHAを参照する。
-K2Q系は別statusで未受理のまま。
+K2Q の査読statusは canonical
+[K2Q authoring file](2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md)だけを参照する。
+上表のsource refと split-row witnessは別状態であり、source受理だけから後者を解消しない。
+
+#### 10.5.1 `K2Q-wt-w` の `U_T` split-row audit (proof draft、未受理)
+
+[R-SPLIT-I](https://github.com/orangewk/wigner-splat/pull/178#issuecomment-5274572746) は、
+三原子一遷移文書 §3.6.2 の旧転送が自身の flat `U_F` / linearized `U′` に対する global
+`K→I_s` estimateであり、root `U_T` に対する `(S4-step-w)` ではないことを指摘した。本節はこの
+型差を埋める S4b proof packet の仕様であり、証明・witness受理を主張しない。
+
+対象となる exact root nodeを
+
+    H=B₁₂+S,  B₁₂=c₁e^{q₁}+c₂e^{q₂},  S=c₃e^{q₃},
+    U_T=max(log|B₁₂|,log|S|)
+
+とする。各 unit interval record `(I_k,J_k,ε_chain)` で示すべき出力は、§10.3 と同じ
+
+    ‖e^{−U_T}H‖_{∞,I_k}
+      ≤ C_split ε_chain^{−4} ‖e^{−U_T}H‖_{∞,J_k}              (S4-split-i)
+
+という一つの composite `RootStep_k` である。`C_split` は compact classとroute labelだけに依存し、
+表示係数、ray、`k,T` に依存しない。現行 RouteSpec の `C̄=C₂₁` を超える定数しか得られない場合は、
+witnessを接続する前にRouteSpecの定数欄を改訂して再査読する。
+
+証明内部では recenter 後の
+
+    η=q₂−q₁,
+    P_B=(c₁+c₂)+c₂η,
+    Q=P_Be^{q₁}+S,
+    R=B₁₂−P_Be^{q₁},
+    U′=max(log|P_B|+Re q₁,log|S|)
+
+を使ってよい。ただしこれらは内部 provenanceに限り、flat `U_F`、raw係数、`U′`、旧 `I_s` を
+RouteRecord出力またはS4a入力へ出してはならない。`η` または `q₃−q₁` が定数、`P_B≡0`、child恒等零の
+場合は §10.5 の exact REFIX / zero-pruning を先に適用し、このrowへ入れない。
+
+受理条件を次で固定する。
+
+| ID | split-row audit が示すこと | current state |
+|---|---|---|
+| SI-1 domain | `D-K2Q-WT` の全key、pair-held/recenter条件、上記REFIX排他を interval 全体で式として供給 | open |
+| SI-2 finite cells | `I_k` を regular-linearization / pair-dip の有限cellへ被覆し、`#𝒫_{H,k}≤N_split`、非退化な内部overlap、各cell幅の帳簿を係数非依存に示す | open |
+| SI-3 regular cells | `U_T` と `U′` の二側比較を定量化し、同じ local `(I,J)` 上のK2Q-wtと剰余吸収から `U_T`-weighted stepを導く | open |
+| SI-4 pair-dip cells | `U′→U_T` の暗黙変換を使わず、exact nodeに対する直接stepまたは reviewed QR5-w へのtyped再分類を示す | open |
+| SI-5 count mechanism | `deg P_B≤2` から零点補集合が高々3成分になる事実と、exact `B₁₂` vs singleton dominanceの一様cell数との間の橋を証明する | open |
+| SI-6 composite ledger | 全cell定数とoverlapを一つの `C_split` へ吸収し、指数を `4N_split` に増やさず `ε_chain^{-4}` を保ち、child/rootを二重積算せず一つの `RootStep_k`だけを出力 | open |
+| SI-7 adversarial audit | phantom、near-phantom、pair零点が`J_k`に入る配置、重根、constant-gauge境界で反例がないことを検査 | open |
+| SI-8 provenance | 固定SHAの独立再査読PASSを持つ本節anchorだけを concrete `split_i_witness_ref` にできる | open |
+
+`P_B` の次数だけから root dominance crossing 数を断定しない。SI-4/5 が偽なら、許される結論は
+`K2Q-wt-w` を QR5-w へ再分類する、別の node-local kernelを立てる、またはcounterexample付きで
+RouteSpecを改訂する、のいずれかであり、`M-SPLIT-I-WITNESS` を解消せず S4aへ進まない。
+また SI-1 で必要なpair-held/recenter fieldが現行 `D-K2Q-WT` key setに不足すると判明した場合は、
+それを自由文や `split_i_witness_ref` 内へ隠さず、domain schemaとRouteSpecを先に改訂して再査読する。
 
 ### 10.6 Coefficient-free constants
 
@@ -789,6 +843,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | **PASS (R9、`56498bb`)** |
 | S4-0.4 | RouteSpec literal source / root-only積算 / FR7 vocabulary | **PASS (R9、`56498bb`)** |
 | S4-0.5 | complete domain keys・category-bound exclusion・status fail-closed | **PASS (R9、`56498bb`)** |
+| S4b split-(i) audit | §10.5.1 SI-1–SI-8 | proof draft、`M-SPLIT-I-WITNESS` open |
 | S4b/a/c proofs | none | open, not claimed |
 
 ## 11. 版履歴
@@ -887,3 +942,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 - v0.8.12(2026-08-12): 固定 SHA `bffc3ea` のcanonical K2Q source refと接続gateを根拠に、
   `K2Q-aff-u` / `K2Q-wt-w` のsource refを同SHA/PASSへ接続し、`M-K2Q-STATUS`を除去。
   前者のpolynomial ΣA proof、後者の`M-SPLIT-I-WITNESS`、S4b/a/c、(E-w)、FR-S4全体はopenのまま。
+- v0.8.13(2026-08-13): R-SPLIT-Iの型不一致findingを受諾。旧§3.6.2をwitnessへ直結せず、
+  exact root `U_T` unit-stepを対象とするS4b split-row audit SI-1–SI-8をproof draftとして追加。
+  regular/pair-dip cell、係数非依存cell数、composite root-only ledger、反例時のQR5-w再分類を
+  acceptance条件に固定。`M-SPLIT-I-WITNESS`、S4b/a/c、(E-w)、FR-S4全体はopenのまま。
