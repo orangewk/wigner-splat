@@ -158,9 +158,14 @@ def test_retired_split_i_root_route_is_absent_from_current_fr_spec():
         "M-SPLIT-I-WITNESS",
         "split_i_witness_ref",
         "SplitCellData",
+        "C_split",
+        "constant_provenance_ref",
     )
     for token in retired_tokens:
         assert token not in current, f"{FR_SPEC_DOC}: retired route token returned: {token}"
+    assert re.search(r"K2Q-wt[^\n]{0,120}S4-step-w", current) is None, (
+        f"{FR_SPEC_DOC}: retired K2Q-wt root step returned"
+    )
 
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
     "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",

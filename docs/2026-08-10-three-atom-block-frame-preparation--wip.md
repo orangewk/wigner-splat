@@ -557,7 +557,8 @@ S4b-β は必要なら `I_k` 内を有限 cell `𝒫_{H,k}` に分けてよい�
       ≤ C_step ε_chain^{−γ_H} exp(κ_HΛ_{H,k}ε_chain)
         ‖e^{−U_H}H‖_{∞,J_k}.                                  (S4-step-w)
 
-reviewed QR5(U_T) と K2Q-wt は `(S4-step-w)` 型であり、`(S4-step-u)` を直接供給しない。
+現行のreviewed weighted root routeである QR5(U_T) は `(S4-step-w)` 型であり、
+`(S4-step-u)` を直接供給しない。
 特に weighted estimate から unweighted estimate への変換を暗黙に行ってはならない。その変換には
 `sup_{I_k}U_H−inf_{J_k}U_H` が必要で、現在の `A_{H,k}=sup_{I_k}U_H−sup_{J_k}U_H` では足りない。
 pair-block の零点近傍ではこの差を一様に抑えられない可能性がある。S4a は mode ごとに別の assembly を
@@ -756,7 +757,8 @@ K2Q の査読statusは canonical
 
 三原子一遷移文書 §3.6.2 の旧転送は flat `U_F` / linearized `U′` に対する global estimateとして
 保持するが、S4 root `U_T` の unit-stepへは移さない。canonical
-[五次共鳴 §3.5](2026-08-09-pair-block-kernel-K2p1--wip.md) は、former routeのheld・非定数差・
+[五次共鳴 §3.5](2026-08-09-pair-block-kernel-K2p1--wip.md)(fixed SHA
+`27a1817150ab7a857cdd00320ed3809c73e3c1bd`)は、former routeのheld・非定数差・
 非零child/linearized polynomial条件を満たしながら tree-envelope exponent 4 を反証する。
 従って former category/domain/obligationをregistryから削除し、held 2+1 rootは `QR5-w` だけへ送る。
 far/unheld rootは `M-ROOT-FAR-KERNEL` のまま残し、旧 `U_F` 転送を別名で再導入しない。
