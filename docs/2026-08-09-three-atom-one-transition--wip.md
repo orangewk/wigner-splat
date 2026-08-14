@@ -1,6 +1,6 @@
 # 三原子一遷移補題(c = 3)— wip
 
-日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.5: plain FR-S1′ R-A′ / nested FR-S1″ R-A″ PASS、split(i) の S4 witnessはopen、次は FR-S4。
+日付: 2026-08-09 / 著者: 本線 / status: **wip — v0.7.6: plain FR-S1′ R-A′ / nested FR-S1″ R-A″ PASS、旧split(i)はU_F chart限定、S4 held rootはQR5、次は FR-S4。
 F3′ により旧 held 分岐の次数4帳簿は撤回済み。
 intended QR5 child への old DC bridge は反例で撤回済み。
 五次共鳴が直接反証するのは tree envelope QR5 の指数 4 で、tree 指数の sharp 予想は 5。
@@ -245,6 +245,9 @@ I_s 側の重み変換: sup_{I_s} e^{−U′}|F_{≤1}| ≤ e^{Δ*} sup_{I_s} e^
 e³·1.33 = 26.714 は 26.7 を超えるため係数は 1.325 で読む — luna R2 minor 対応)。
 K 側の重み変換: sup_K e^{−U}|F| ≤ e^{sup_K(U′−U)} sup_K e^{−U′}|F_{≤1}| + 0.65β_B²
 ≤ e · C₂₁ s⁻⁴ · 26.7 ω + 0.33 ω ≤ 73 C₂₁ s⁻⁴ ω ≤ 100 C₂₁ s⁻⁴ ω。∎
+**S4 scope**: 本項は flat `U_F` の旧wrapper/chart評価であり、exact root `U_T` の指数4 stepを
+主張しない。canonical [五次共鳴 §3.5](2026-08-09-pair-block-kernel-K2p1--wip.md)によりそのS4 routeは
+偽なので、held rootはFR文書の `QR5-w` へ送る。
 *証明 (iii) の witness 抽出*: U(t₀) − U′(t₀) > 3 の点で U′ ≥ m₃ より U > m₃ + 3 > m₃、
 よって U(t₀) = max(m₁,m₂) ≤ m_B + β_B。U′(t₀) < U − 3 ≤ m_B + β_B − 3 を U′ の両成分に読むと
 |P_B(t₀)| < c_B e^{β_B−3} ≤ 0.06 c_B と m_B − m₃ > 3 − β_B ≥ 2.8。
@@ -501,3 +504,5 @@ U_F-transfer/wrapper への帰結は bridge 待ちである。
 - v0.7.5(2026-08-13): split(i) のK2Q domainを明確化。`μ=q₃−q₁` が定数なら
   `c₃e^{q₃}` を `c₁e^{q₁}` へexact係数吸収して二原子へREFIXし、K2Q-wt分岐へ入れない。
   §3.6.2の旧U_F転送はS4のU_T unit-step witnessではなく、`M-SPLIT-I-WITNESS`はopenのまま。
+- v0.7.6(2026-08-14): canonical五次共鳴がexact `U_T` exponent-4 root routeを反証するため、
+  S4側の同routeを退役。§3.6.2の旧`U_F`転送はwrapper/chart観測量として保持し、held rootはQR5へ送る。

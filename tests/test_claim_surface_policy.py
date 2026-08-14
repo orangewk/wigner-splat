@@ -147,6 +147,21 @@ def test_k2q_review_status_is_not_reauthored_on_pointer_surfaces():
             f"{surface}: noncanonical K2Q status returned: {found.group(0)!r}"
         )
 
+
+def test_retired_split_i_root_route_is_absent_from_current_fr_spec():
+    """Retired route identifiers may survive only in version history."""
+
+    current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
+    retired_tokens = (
+        "K2Q-wt-w",
+        "D-K2Q-WT",
+        "M-SPLIT-I-WITNESS",
+        "split_i_witness_ref",
+        "SplitCellData",
+    )
+    for token in retired_tokens:
+        assert token not in current, f"{FR_SPEC_DOC}: retired route token returned: {token}"
+
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
     "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",
     "**系 C2**: κ^G_border(|2t⟩) = t+1",
