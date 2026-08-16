@@ -235,7 +235,12 @@ def test_root_far_graded_candidate_stays_fail_closed():
         re.MULTILINE,
     ) is None, f"{FR_SPEC_DOC}: unresolved root-far was promoted in active RouteSpec"
     assert "| S4-0.RF |" in current
-    assert current.count("**specification draft (R-RFSPEC pending)**") == 1
+    accepted_status = (
+        "**PASS (R-RFSPEC R3、fixed SHA "
+        "`25afe6ebb54f93845d48b8993ff7523f0f2643d8`)**"
+    )
+    assert current.count(accepted_status) == 1
+    assert "R-RFSPEC pending" not in current
 
 
 def test_root_far_domain_schema_binds_all_required_keys():

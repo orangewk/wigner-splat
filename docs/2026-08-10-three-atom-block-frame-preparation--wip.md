@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.9 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、RF graded-interface extensionは§10.7 S4-0.RF参照、root-far unresolved、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.9.1 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、RF graded-interface extensionは§10.7 S4-0.RF参照、root-far unresolved、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -124,8 +124,8 @@ plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′、nest
 固定 SHA `61111cc` の R-A″で PASS。base FR-S4-0 interface も固定 SHA `56498bb` の R9 で accepted。
 現在の最初の未解決点は **FR-S4b route closure** であり、§10 の typed registryでは到達可能な
 `root-far` / `M-ROOT-FAR-KERNEL` が unresolvedとして残る。§10.5.2 はこのrowを exact cell
-recenter + QR5-w chainで閉じるための graded-interface候補を仕様化するが、固定SHAのR-RFSPECと
-続くRF proofを通るまではresolved routeへ昇格しない。これをclosedにした後も S4a の
+recenter + QR5-w chainで閉じるための graded-interface候補を仕様化する。§10.7 `S4-0.RF`を入力とし、
+続くRF proofをfixed SHAで受理するまではresolved routeへ昇格しない。これをclosedにした後も S4a の
 polynomial-envelope assemblyと S4c の N3′/N4・no-return auditはopenであり、c=3 の (E-w) や
 FR5–FR7 の閉鎖はまだ主張しない。
 
@@ -872,7 +872,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | **PASS (R9、`56498bb`)** |
 | S4-0.4 | RouteSpec literal source / root-only積算 / FR7 vocabulary | **PASS (R9、`56498bb`)** |
 | S4-0.5 | complete domain keys・category-bound exclusion・status fail-closed | **PASS (R9、`56498bb`)** |
-| S4-0.RF | RECENTER exact transition、graded-root cost、D-ROOT-FAR、RF-1–RF-4 fail-closed extension | **specification draft (R-RFSPEC pending)**。base R9 PASSを本拡張のPASSへ流用しない |
+| S4-0.RF | RECENTER exact transition、graded-root cost、D-ROOT-FAR、RF-1–RF-4 fail-closed extension | **PASS (R-RFSPEC R3、fixed SHA `25afe6ebb54f93845d48b8993ff7523f0f2643d8`)**。specificationだけを受理し、root-farはRF proof待ちのunresolved |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4b/a/c proofs | none | open, not claimed |
 
@@ -996,3 +996,6 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   RF-1–RF-4のspecification draftとして追加した。一様fixed `N_cell` は遠方chirpで不可能なため、
   `N_cell,k≤4+8Λ_{η,k}` と `ΣΛ_{η,k}` のquadratic-budget吸収へ改訂。root-far routeは
   R-RFSPECとRF proofのfixed-SHA acceptanceまでunresolvedのまま維持する。
+- v0.9.1(2026-08-17): 固定 SHA `25afe6e` の R-RFSPEC R3でS1–S7が全PASS。RECENTER、cell geometry、
+  `C_RF`、ray-wide budget、template/record分離、fail-closed schemaをspecificationとして受理した。
+  RF proofは未執筆なので、active `root-far` rowとS4b/a/cはunresolved/openのまま維持する。
