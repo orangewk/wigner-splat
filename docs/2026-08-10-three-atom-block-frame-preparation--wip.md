@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.9.1 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、RF graded-interface extensionは§10.7 S4-0.RF参照、root-far unresolved、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.9.2 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、RF graded-interface extension accepted(§10.7 S4-0.RF)、補題 RF proof draft(§10.5.3、R-RF 待ち)、root-far unresolved、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -841,6 +841,92 @@ RF-2のchainは新しい三項解析kernelを仮定せず、fixed SHA `27a1817` 
 境界cell、overlap multiplicity、hop数、上の候補定数の全てをRF proofで検算する。
 real/oscillatoryのfar witnessは `RECENTER` 後の局所変動と `B₁₂` 零点を同時に含むacceptance fixtureとする。
 
+#### 10.5.3 補題 RF の証明(proof draft — R-RF fixed-SHA review 待ち)
+
+本節を RF proof の唯一の authoring location とする。受理judgementは §10.7 `S4-0.RF` 行に従い、
+R-RF が fixed SHA で PASS するまで `root-far` row と `M-ROOT-FAR-KERNEL` は unresolved のまま維持する。
+
+**補題 RF**: S4b-β の radial 窓 `I_k`(長さ 1)、overlap `J_k ⊆ I_k`(長さ `ε_chain`、`I_k` の
+片端に接する)、衝突 cluster 入力の exact root 2+1 node `H = B₁₂ + c₃e^{q₃}`(active tree:
+`c_j ≠ 0`、`q_j` 相異なる複素 2 次、`η := q₂−q₁` 非定数 — 定数は constant-gauge `REFIX` へ)、
+`U_T = max(log|B₁₂|, m₃)`、`Λ_{η,k} := sup_{I_k}|η′|` に対し
+
+  ‖e^{−U_T}H‖_{∞,I_k}
+  ≤ exp(C_RF(1+Λ_{η,k}))·ε_chain^{−5}·‖e^{−U_T}H‖_{∞,J_k},          (RF)
+
+`C_RF := 8L_T`、`L_T := log max(e, 32C_T)`(`C_T` = accepted QR5 定数)。mode = weighted
+(S4-step-w 型)、`γ = 5`、`κ_H = 0`、`frequency_source = NONE`。定数依存は `(C_T, cell 幾何)` のみで、
+raw 係数・SVD/frame 係数・`m,θ,k,T` に依存しない。
+
+*証明*
+
+**(1) cell cover(RF-2 幾何)**: `h_k := min(1, (4Λ_{η,k})^{−1})`(`Λ_{η,k} = 0` は `h_k = 1`)。
+`J_k` の接する端点を `e₀` とし、cell を `e₀` から反対端へ向けて
+`C_i := [x_i, x_i+h_k] ∩ I_k`、`x_i := e₀ + i·h_k/2`(`J_k` が右端なら鏡映)と取り、最後の cell
+だけは遠端 anchor `C_last := [端−h_k, 端]` に取り替える(全長 `h_k` を保ち、直前 cell との
+overlap ≥ `h_k/2`)。cell 数は `N_k ≤ ⌈2/h_k⌉+1`: `h_k = 1` なら `N_k ≤ 3`、
+`h_k = (4Λ)^{−1} < 1` なら `⌈8Λ⌉+1 ≤ 8Λ+2`。いずれも **`N_k ≤ 4+8Λ_{η,k}`** ✓(RF-2 の上界)。
+seed は `E₀ := J_k ∩ C₀`、長さ `min(ε_chain, h_k)`。隣接 overlap `E_i := C_{i−1} ∩ C_i` は
+長さ ≥ `h_k/2`(相対 aperture ≥ 1/2)。
+
+**(2) RECENTER と held(RF-1)**: 各 `C_i` の中心 `t_i` で `RECENTER(C_i, t_i)`:
+`q₂^{C_i} := q₂ − η(t_i)`、`c₂^{C_i} := c₂e^{η(t_i)}` は exact 恒等式
+`c₂^{C_i}e^{q₂^{C_i}} = c₂e^{q₂}` を満たし、`B₁₂`・`H`・`U_T`・weighted norm は**関数として不変**、
+pair 差だけが `η^{C_i} = η − η(t_i)` に変わる。mean value と `C_i ⊆ I_k` から
+
+  sup_{C_i}|η^{C_i}| ≤ Λ_{η,k}·(h_k/2) ≤ 1/8.
+
+変換後表示 `(c₁, c₂^{C_i}, c₃; q₁, q₂^{C_i}, q₃)` は QR5(fixed SHA `27a1817`)の **raw 仮定**を
+`C_i` 上で満たす: `c_j ≠ 0` ✓ / atoms 相異(`η^{C_i}` は非定数 2 次の定数シフトなので非定数;
+`q₃` との相異は active tree から継承)✓ / pair held `β_B = sup_{C_i}|η^{C_i}| ≤ 1/8` ✓。
+source statement 自体は書き換えず、変換後表示を渡すだけである(RF-1 の規約)。
+affine 正規化 `φ_i: [0,1] → C_i` は複素 2 次 class・held 値・`U_T` の pointwise 定義・
+相対 aperture を保つので、QR5 は `(K, E) = (C_i, E_i)` に長さ正規化して適用できる。
+
+**(3) QR5 連鎖(RF-2 帳簿)**: 各 `i` で QR5-w:
+
+  ‖e^{−U_T}H‖_{∞,C_i} ≤ C_T·(|E_i|/|C_i|)^{−5}·‖e^{−U_T}H‖_{∞,E_i}.
+
+`i = 0`: `(|E₀|/h_k)^{−5} = max(1, h_k/ε_chain)^5 ≤ ε_chain^{−5}`(`h_k ≤ 1`)。
+`i ≥ 1`(最後の anchor cell 込み): aperture ≥ 1/2 ⇒ 定数 ≤ `32C_T`。
+`M_i := ‖e^{−U_T}H‖_{∞,C₀∪…∪C_i}` の帰納で(`32C_T ≥ 1`、`E_i` は被覆済み領域内)
+
+  M_0 ≤ C_T ε_chain^{−5}‖·‖_{J_k},  M_i ≤ 32C_T·M_{i−1},
+
+  ‖e^{−U_T}H‖_{∞,I_k} ≤ M_{N_k−1}
+  ≤ ε_chain^{−5}(32C_T)^{N_k}‖·‖_{J_k}
+  ≤ ε_chain^{−5}·exp(L_T(4+8Λ_{η,k}))‖·‖_{J_k}
+  ≤ ε_chain^{−5}·exp(C_RF(1+Λ_{η,k}))‖·‖_{J_k}                    (4+8Λ ≤ 8(1+Λ))
+
+で (RF) が従う。step cost は `Λ_{η,k}` のみを介して graded であり、原子位相 `Λ_{H,k}` の
+allowance は使わない(`κ_H = 0`)。∎
+
+**(4) graded ledger の吸収(RF-3)**: 衝突 cluster 入力(`d_w(ξ₁,ξ₂) ≤ s_m`)から
+`|ΔA| ≤ s_m²`、`|ΔB| ≤ s_m`、ray `z = te^{iθ}` 上 `η′(t) = ΔA e^{2iθ}t + ΔB e^{iθ}` なので
+
+  Λ_{η,k} ≤ s_m²(a_k+1) + s_m.
+
+S4b-β の窓数は ≤ `2T+1 ≤ 2(T+1)`、`a_k+1 ≤ T+1` だから
+
+  Σ_k Λ_{η,k} ≤ 2(T+1)[s_m²(T+1)+s_m] ≤ 4[s_m²(T+1)² + s_m(T+1)]   (余裕側; RF-3 の上界)。
+
+`s_m ≤ s_RF := min(1, √(δ/(64C_RF)))` なら `4C_RF s_m²(T+1)² ≤ (δ/16)(T+1)²` で、`T ≥ 3` では
+`(T+1)² ≤ (16/9)T²` より第一項 ≤ `(δ/9)T² ≤ (δ/8)T²`。残余は `C_RF(2+4s_m)(T+1) = O(T)`。従って
+
+  Σ_k log C_step,k ≤ C_RF·Σ_k(1+Λ_{η,k}) ≤ (δ/8)T² + O(T)
+
+で (E-w) の spare budget に入る。`s_m → 0` なので有限個を除く全 m で `s_m ≤ s_RF` が成立し、
+threshold 未満の m は FR-S1 系と同じ「m 十分大」条項に畳む。∎
+
+**(5) acceptance fixture(§10.5.2 末尾の要求 — 局所検証、証明には数えない)**:
+real witness(`q=(0, s²z, sz)`、`c=(1,1,1)`、`s=0.01`、窓 `[1251,1252]`、`θ=0`):
+`Λ_η = 10^{−4}` ⇒ `h = 1`、`N ≤ 4.001`、recentered `sup|η^C| = 5·10^{−5} ≤ 1/8`、
+天井 `sup g = 1.0 ≤ 2`、窓比 `sup_I g/sup_J g = 1.0`(`ε = 0.1`)。
+oscillatory witness(`q=(0, is²z, isz)`、`c=(1,−1,1)`、窓 `[t*−0.45, t*+0.55]`、
+`t* = 2π/s² ≈ 62831.85` = `B₁₂` 零点): `min_I|B₁₂| = 3·10^{−31}`(零点跨ぎ)でも
+`min_I U_T = 0`(singleton 床)、天井 `sup g = 1.0 ≤ 2`、recentered held ✓、窓比 1.0。
+grid 4000 点・mpmath dps 30(session-local 検証。head からの再実行 fixture 化は R-RF の指示に従う)。
+
 ### 10.6 Coefficient-free constants
 
 FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed/compact dataだけに依存し、
@@ -999,3 +1085,9 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 - v0.9.1(2026-08-17): 固定 SHA `25afe6e` の R-RFSPEC R3でS1–S7が全PASS。RECENTER、cell geometry、
   `C_RF`、ray-wide budget、template/record分離、fail-closed schemaをspecificationとして受理した。
   RF proofは未執筆なので、active `root-far` rowとS4b/a/cはunresolved/openのまま維持する。
+- v0.9.2(2026-08-17): 補題 RF の proof draft を §10.5.3 に執筆(担当交代後の本線 = Fable)。
+  RF-1 = exact RECENTER 恒等式と QR5 raw 仮定の cell 上検証、RF-2 = cell cover 幾何
+  (`N_k ≤ 4+8Λ_{η,k}`)+ seed/anchor cell 込みの QR5-w 連鎖帳簿、RF-3 = graded ledger の
+  (E-w) budget 吸収(`s_RF` 閾値、`(δ/8)T²+O(T)`)。real/oscillatory witness の acceptance
+  fixture(B₁₂ 零点跨ぎ・recentered held・天井)を局所検証として記録。R-RF fixed-SHA review
+  まで root-far row と `M-ROOT-FAR-KERNEL` は unresolved のまま。
