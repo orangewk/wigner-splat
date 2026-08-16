@@ -148,8 +148,8 @@ def test_k2q_review_status_is_not_reauthored_on_pointer_surfaces():
         )
 
 
-def test_retired_split_i_root_route_is_absent_from_current_fr_spec():
-    """Retired route identifiers may survive only in version history."""
+def test_retired_split_route_ids_are_absent_from_current_fr_spec():
+    """Retired root routes and chart-only certificate IDs stay out of S4b."""
 
     current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
     retired_tokens = (
@@ -160,12 +160,18 @@ def test_retired_split_i_root_route_is_absent_from_current_fr_spec():
         "SplitCellData",
         "C_split",
         "constant_provenance_ref",
+        "split-ii",
+        "split-iii",
+        "M-SPLIT-II-KERNEL",
+        "M-SPLIT-III-KERNEL",
     )
     for token in retired_tokens:
         assert token not in current, f"{FR_SPEC_DOC}: retired route token returned: {token}"
     assert re.search(r"K2Q-wt[^\n]{0,120}S4-step-w", current) is None, (
         f"{FR_SPEC_DOC}: retired K2Q-wt root step returned"
     )
+    assert "`root-far`" in current
+    assert "M-ROOT-FAR-KERNEL" in current
 
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
     "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",

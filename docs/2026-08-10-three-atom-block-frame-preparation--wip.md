@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.15 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′・K2Q-aff source accepted、root exponent-4 split route retired、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8.16 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′・K2Q-aff source accepted、旧 split(ii)/(iii) certificate route IDs retired、root-far unresolved、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -604,7 +604,7 @@ binary node `H=A+B` では `U_H=max(log|A|,log|B|)`、unary node `H` では
 closed-world category enumを
 
   CategoryEnum := {K2-u,K2Q-aff-u,generalized-singleton-u,QR5-w,
-                   root-far,split-ii,split-iii,trivial-u}
+                   root-far,trivial-u}
 
 と固定する(`REFIX` は routeでなく前処理 transitionなので含めない)。`RouteKind` は次の三variantである。
 
@@ -618,8 +618,7 @@ closed-world category enumを
 
   DomainSchemaEnum := {D-K2,D-K2Q-AFF,D-GENERALIZED-SINGLETON,
                        D-QR5-HELD,D-TRIVIAL}
-  MissingObligationEnum := {M-K2-STATUS,M-ROOT-FAR-KERNEL,
-                             M-SPLIT-II-KERNEL,M-SPLIT-III-KERNEL}
+  MissingObligationEnum := {M-K2-STATUS,M-ROOT-FAR-KERNEL}
   ExclusionWitnessEnum := ∅   (現行S4-0では accepted exclusionなし)
 
 `excluded` は `unreachable_domain_witness_id∈ExclusionWitnessEnum` も要求する。従って現行registryでは
@@ -732,8 +731,6 @@ route 選択の前に exact zero-pruning を行う。任意の child functionが
 | `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-GENERALIZED-SINGLETON | `(1,0,0)` | polynomial-envelope / proof-required | ΣA proofが別途必要 |
 | `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)` | D-QR5-HELD | `(C_T,5,0)` | weighted-no-A / accepted | interval-wide held witness |
 | `root-far`: root 2+1 far/unheld | binary | — | — | — | — | — | M-ROOT-FAR-KERNEL unresolved または accepted exclusion |
-| `split-ii`: deep cancellation | binary | — | — | — | — | — | M-SPLIT-II-KERNEL unresolved |
-| `split-iii`: pair degeneration | binary | — | — | — | — | — | M-SPLIT-III-KERNEL unresolved |
 | `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 trivial-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-TRIVIAL | `(1,0,0)` | phase-lipschitz / accepted | `A_{H,k}≤sup_{I_k}|q′|` witness |
 
 `REFIX` は RouteSpec rowでなく前処理 transitionである。`q₁−q₂≡const`, `P≡0`, `c₂=0`、または
@@ -743,9 +740,16 @@ child恒等零を exact 併合/zero-pruningし、残った spanで rank/treeを�
 `assembly_state=open` または `accepted(assembly_proof_ref)` だけを許す。従って K2Q-aff と
 generalized-singletonを bare accepted に変更できない。
 
-split(ii)/(iii) は旧 wrapper 用 certificate であって転送 kernelではない。S4-0 では port 可能と仮定しない。
-S4b は「frame の singular-value floorで当該rowが排除される」「新しいnode-local kernelが要る」
-「S4-0 segmentation自体を改訂する」のいずれかを証明する。
+split(ii)/(iii) は旧 flat `U_F` 三者択一が `I_s` 全体から返す chart 観測であり、exact node function の
+shape、unit interval の domain schema、`S4-step` inequality のいずれも供給しない。従って
+`RouteKind` / `RouteRecord` categoryではなく、§5 と三原子一遷移文書の chart-only certificateとしてだけ残す。
+certificateからFR2 chartへの接続が必要になっても、それはS4bのmissing kernelではなく別のpreparation義務である。
+
+`root-far` はこれと異なり、現行exact treeで到達する。例えば nested 2+1族
+`q₁=0`, `q₂=s_m²z`, `q₃=s_mz` (`s_m→0`) のactive pairでは、ray `z=te^{iθ}` 上
+`|q₂−q₁|=s_m²t` なので十分遠いunit intervalで `sup|q₂−q₁|>1/8` となり、
+`D-QR5-HELD` は適用できない。従ってこのrowと `M-ROOT-FAR-KERNEL` はaccepted exclusionまたは
+新しいnode-local kernelが得られるまでunresolvedのまま維持する。
 
 K2 の査読statusは canonical
 [K2 authoring file](2026-08-08-quadratic-phase-turan-K2.md)の R-K2 欄だけを参照する。
@@ -903,3 +907,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 - v0.8.15(2026-08-14): feasibility/counterexample auditで canonical 五次共鳴をformer typed domainへ
   代入し、exact `U_T` exponent-4 root stepが偽と判定。category、domain、obligation、cell/constant
   proof draftを退役し、held rootをreviewed `QR5-w`へ一本化。旧§3.6.2の`U_F`転送とK2Q-wt自体は不変。
+- v0.8.16(2026-08-16): reachability auditで、split(ii)/(iii) は旧 flat `U_F` 三者択一のchart-only
+  certificateであり、exact node-local `RouteKind`ではないと判定。両route IDとmissing-kernel obligationを
+  registryから退役した。非定数pairが遠方でheld条件を外れる明示族により `root-far` は到達可能なので、
+  `M-ROOT-FAR-KERNEL`を唯一のunresolved exact-root routing categoryとして維持した。
