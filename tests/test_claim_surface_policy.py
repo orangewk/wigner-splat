@@ -237,6 +237,35 @@ def test_root_far_graded_candidate_stays_fail_closed():
     assert "| S4-0.RF |" in current
     assert current.count("**specification draft (R-RFSPEC pending)**") == 1
 
+
+def test_root_far_domain_schema_binds_all_required_keys():
+    """D-ROOT-FAR must not survive after losing one of its six witnesses."""
+
+    current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
+    domain_table = current.split("各 domain schema の key set は次で固定する。", 1)[
+        1
+    ].split("`D-ROOT-FAR` は §10.5.2", 1)[0]
+    rows = re.findall(r"^\| `D-ROOT-FAR` \|[^\n]*\|$", domain_table, re.MULTILINE)
+    expected_row = (
+        "| `D-ROOT-FAR` | `active_children_nonzero`, `c₁c₂c₃≠0`, "
+        "`B₁₂≢0`, `η=q₂−q₁` nonconstant, collision-scale witness "
+        "`(|ΔA|≤s_m²,|ΔB|≤s_m)`, `Λ_{η,k}=sup_{I_k}|η′|` witness |"
+    )
+    assert rows == [expected_row]
+    actual_row = rows[0]
+
+    required_keys = (
+        "`active_children_nonzero`",
+        "`c₁c₂c₃≠0`",
+        "`B₁₂≢0`",
+        "`η=q₂−q₁` nonconstant",
+        "collision-scale witness `(|ΔA|≤s_m²,|ΔB|≤s_m)`",
+        "`Λ_{η,k}=sup_{I_k}|η′|` witness",
+    )
+    for key in required_keys:
+        assert actual_row.count(key) == 1
+
+
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
     "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",
     "**系 C2**: κ^G_border(|2t⟩) = t+1",
