@@ -181,19 +181,61 @@ def test_retired_split_route_ids_are_absent_from_current_fr_spec():
         return [item.strip() for item in match.group("body").split(",")]
 
     category_items = enum_items("CategoryEnum")
+    cost_items = enum_items("CostSpecEnum")
+    domain_items = enum_items("DomainSchemaEnum")
     missing_items = enum_items("MissingObligationEnum")
     assert category_items.count("root-far") == 1
+    assert cost_items == ["uniform", "graded-root"]
+    assert domain_items.count("D-ROOT-FAR") == 1
     assert missing_items.count("M-ROOT-FAR-KERNEL") == 1
 
-    route_spec = current.split("次表を `RouteSpec`", 1)[1].split(
+    route_spec = current.split("次表を active `RouteSpec`", 1)[1].split(
         "`REFIX` は RouteSpec", 1
     )[0]
     root_far_row = re.compile(
         r"^\| `root-far`: root 2\+1 far/unheld \| binary \| — \| — \| — \| — \| — "
-        r"\| M-ROOT-FAR-KERNEL unresolved または accepted exclusion \|$",
+        r"\| M-ROOT-FAR-KERNEL unresolved; RF candidate §10\.5\.2 \|$",
         re.MULTILINE,
     )
     assert len(root_far_row.findall(route_spec)) == 1
+
+
+def test_root_far_graded_candidate_stays_fail_closed():
+    """The RF interface may be specified without resolving the active route."""
+
+    current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
+    rf_spec = current.split(
+        "#### 10.5.2 RF graded-interface candidate (specification only)", 1
+    )[1].split("### 10.6 Coefficient-free constants", 1)[0]
+
+    required_contract = (
+        "review statusの唯一のauthoring locationは\n§10.7 `S4-0.RF` row",
+        "`root-far` は引き続きunresolved",
+        "RECENTER(C,t_c)",
+        "D-ROOT-FAR",
+        "graded-root(C_RF,pair-difference-derivative)",
+        "N_cell,k≤4+8Λ_{η,k}",
+        "Σ_kΛ_{η,k}",
+        "RF-1 exact recenter",
+        "RF-2 cell chain",
+        "RF-3 graded ledger",
+        "RF-4 fail-closed schema",
+    )
+    for token in required_contract:
+        assert token in rf_spec, f"{FR_SPEC_DOC}: missing RF contract token: {token}"
+
+    assert rf_spec.count("| proof obligation |") == 3
+    assert "| status pointer: §10.7 `S4-0.RF` |" in rf_spec
+    route_spec = current.split("次表を active `RouteSpec`", 1)[1].split(
+        "`REFIX` は RouteSpec", 1
+    )[0]
+    assert re.search(
+        r"^\| `root-far`:[^\n]*\| weighted / S4-step-w \|",
+        route_spec,
+        re.MULTILINE,
+    ) is None, f"{FR_SPEC_DOC}: unresolved root-far was promoted in active RouteSpec"
+    assert "| S4-0.RF |" in current
+    assert current.count("**specification draft (R-RFSPEC pending)**") == 1
 
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
     "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",

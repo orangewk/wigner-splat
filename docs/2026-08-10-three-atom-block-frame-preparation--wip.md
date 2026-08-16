@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.17 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′・K2Q-aff source accepted、旧 split(ii)/(iii) certificate route IDs retired、root-far unresolved、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.9 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、RF graded-interface extensionは§10.7 S4-0.RF参照、root-far unresolved、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -121,9 +121,11 @@ FR3/FR4/FR6 を閉じない。
 ## 7. 現在の blocker
 
 plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′、nested 2+1 の FR-S1″ は
-固定 SHA `61111cc` の R-A″で PASS。FR-S4-0 interface も固定 SHA `56498bb` の R9 で accepted。
+固定 SHA `61111cc` の R-A″で PASS。base FR-S4-0 interface も固定 SHA `56498bb` の R9 で accepted。
 現在の最初の未解決点は **FR-S4b route closure** であり、§10 の typed registryでは到達可能な
-`root-far` / `M-ROOT-FAR-KERNEL` が unresolvedとして残る。これをclosedにした後も S4a の
+`root-far` / `M-ROOT-FAR-KERNEL` が unresolvedとして残る。§10.5.2 はこのrowを exact cell
+recenter + QR5-w chainで閉じるための graded-interface候補を仕様化するが、固定SHAのR-RFSPECと
+続くRF proofを通るまではresolved routeへ昇格しない。これをclosedにした後も S4a の
 polynomial-envelope assemblyと S4c の N3′/N4・no-return auditはopenであり、c=3 の (E-w) や
 FR5–FR7 の閉鎖はまだ主張しない。
 
@@ -569,18 +571,26 @@ S4b-β は必要なら `I_k` 内を有限 cell `𝒫_{H,k}` に分けてよい�
 pair-block の零点近傍ではこの差を一様に抑えられない可能性がある。S4a は mode ごとに別の assembly を
 与え、weighted routeから (E-w) へ進む場合は、そのための新しい比較を明示的に証明する。
 
-acceptance 条件は次の七つ。
+step cost は §10.4 の `CostSpecEnum` で型付けする。現行resolved routeはすべて `uniform(C̄_route)`、
+§10.5.2 のRF候補だけが将来 `graded-root(C_RF,pair-difference-derivative)` を使える。後者は route ID が
+`root-far`、modeがweighted、`κ_H=0`、fixed-SHA accepted RF proofを持つ場合に限る。
 
-1. `C_step,γ_H,κ_H≤κ̄_route` は compact class、node type、route labelだけに依存し
-   `m,θ,k,T` に非依存。
-2. cell分割を使う証明では `#𝒫_{H,k}≤N_cell` と内部overlapを示し、その積を一つの `C_step` へ
-   吸収する。分割なしの直接 unit-step kernelでもよい。
+acceptance 条件は次の八つ。
+
+1. `uniform(C̄_route)` では `C_step≤C̄_route`、`γ_H`、`κ_H≤κ̄_route` は compact class、node type、
+   route labelだけに依存し `m,θ,k,T` に非依存。`graded-root` では interval依存を
+   `log C_step,k≤C_RF(1+Λ_{η,k})` の一形だけに限定し、`C_RF` は同じ非依存条件を満たす。
+2. uniform routeがcell分割を使う証明では `#𝒫_{H,k}≤N_cell` を一様に示し、その積を一つの
+   `C_step` へ吸収する。graded-root候補では一様 `N_cell` を要求せず、代わりに
+   `N_cell,k≤C_cell(1+Λ_{η,k})` と §10.5.2 RF-2/RF-3 の局所・大域ledgerを証明する。
+   分割なしの直接 unit-step kernelでもよい。
 3. pair leaf nodeでは `Re(q_1−q_2)+log|c_1/c_2|` が実二次以下なので dominance cellは高々3。
    root pair-block vs singleton ではこの推論を使わず、S4b の **split-row audit under U_H-ledger** が
    一様な root stepを直接証明する。rootで `N_cell` を導入する場合だけ、その一様性も証明する。
-4. 各 `I_k` は root level でちょうど一つの resolved route recordに覆われる。QR5 routeを使うなら pair-held 条件
-   `sup_{I_k}|q_2−q_1|≤1/8` の witnessを interval 全体について添付する。far/unheld intervalを
-   held cellへ読み替えず、別 routeまたは未解決 obligationとして残す。
+4. 各 `I_k` は root level でちょうど一つの resolved route recordに覆われる。direct QR5 routeを使うなら
+   raw pair-held 条件 `sup_{I_k}|q_2−q_1|≤1/8` の witnessを interval 全体について添付する。
+   `RECENTER(C,t_c)` 後のheld cellを使うのは、RF-1/RF-2のexact transition・cell cover・composite
+   `RootStep_k` がfixed-SHAで受理された場合だけであり、far/unheld intervalを無証拠にheldへ読み替えない。
 5. `κ_H>0` または `A_ledger_kind=phase-lipschitz` の routeは `Λ_{H,k}` を underlying Gaussian
    phase derivativeへ結ぶ `frequency_source/bound_witness` を持ち、
    `Λ_{H,k}≤(1−δ)(a_k+1)+R` を示す。`κ_H=0` かつ `weighted-no-A` の routeだけ
@@ -589,6 +599,9 @@ acceptance 条件は次の七つ。
    内部 provenanceであり、S4a が child stepとancestor/root stepを別々に積算してはならない。
 7. `coverage_manifest` の重複/欠落、`state=unresolved` の `RouteKind`、未受理 dependency、有限定数の欠落は
    S4b-α を停止させる。unresolved entryを interval recordや仮の modeへ coercionしてはならない。
+8. `graded-root` recordをS4aへ渡すには、各recordの `Λ_{η,k}` witnessに加え、同じray全体で
+   `Σ_kΛ_{η,k}` を compact collision scaleから抑える accepted ledger refが必要。局所cell数だけを示して
+   quadratic growth budgetを未検証のまま (E-w) へ進まない。
 
 この route dataは既存 one-transition cluster tree 内の radial kernel routingを細分するだけで、
 多重 cluster transition を扱う L3 や一般 c の multi-transition 帰納を閉じない。root で一様な
@@ -610,19 +623,20 @@ closed-world category enumを
 
   CategoryEnum := {K2-u,K2Q-aff-u,generalized-singleton-u,QR5-w,
                    root-far,trivial-u}
+  CostSpecEnum := {uniform,graded-root}
 
 と固定する(`REFIX` は routeでなく前処理 transitionなので含めない)。`RouteKind` は次の三variantである。
 
 | variant | required fields |
 |---|---|
-| `resolved` | `(route_id∈CategoryEnum,route_spec_ref,source_ref,assembly_state)`。`(arity,mode,source rule,domain schema,C̄,γ,κ̄,inequality,A-ledger rule,assembly rule)` は §10.5 の同じ `route_id` の唯一の `RouteSpec` 行と**全field完全一致**し、個別override不可 |
+| `resolved` | `(route_id∈CategoryEnum,route_spec_ref,source_ref,assembly_state)`。`(arity,mode,source rule,domain schema,cost spec∈CostSpecEnum,γ,κ̄,inequality,A-ledger rule,assembly rule)` は §10.5 の同じ `route_id` の唯一の `RouteSpec` 行と**全field完全一致**し、個別override不可 |
 | `unresolved` | `(route_id∈CategoryEnum,expected_arity∈{unary,binary},missing_obligation_id∈MissingObligationEnum)` のみ。`mode/source_ref/constants/inequality_id` を仮置きしない |
 | `excluded` | `(route_id∈CategoryEnum,exclusion_proof_ref)`。`exclusion_proof_ref=(category_id,unreachable_domain_witness_id,canonical_file,anchor,fixed_SHA,PASS)`、`category_id=route_id`、かつ証明statementが「全inputで当該categoryへ到達不能」と受理された場合だけ |
 
 `DomainSchemaEnum` と `MissingObligationEnum` も有限に固定する。
 
   DomainSchemaEnum := {D-K2,D-K2Q-AFF,D-GENERALIZED-SINGLETON,
-                       D-QR5-HELD,D-TRIVIAL}
+                       D-QR5-HELD,D-ROOT-FAR,D-TRIVIAL}
   MissingObligationEnum := {M-K2-STATUS,M-ROOT-FAR-KERNEL}
   ExclusionWitnessEnum := ∅   (現行S4-0では accepted exclusionなし)
 
@@ -638,7 +652,11 @@ excluded variantを一つも生成できない。将来 category-specific exclus
 | `D-K2Q-AFF` | `active_children_nonzero`, `P≢0`, `c₂≠0`, `deg P≤2`, `q₁−q₂` nonconstant |
 | `D-GENERALIZED-SINGLETON` | `P≢0`, `deg P≤2`, unary exact-identity ref |
 | `D-QR5-HELD` | `active_children_nonzero`, `c₁c₂c₃≠0`, `B₁₂≢0`, `sup_{I_k}|q₂−q₁|≤1/8` |
+| `D-ROOT-FAR` | `active_children_nonzero`, `c₁c₂c₃≠0`, `B₁₂≢0`, `η=q₂−q₁` nonconstant, collision-scale witness `(|ΔA|≤s_m²,|ΔB|≤s_m)`, `Λ_{η,k}=sup_{I_k}|η′|` witness |
 | `D-TRIVIAL` | `c≠0`, unary exact-identity ref |
+
+`D-ROOT-FAR` は §10.5.2 のcandidate専用予約schemaである。`root-far` がunresolvedの間は
+`RouteRecord.domain_witness`に現れてはならず、accepted RF proofと同時にresolved RouteSpecへ接続する。
 
 §10.5 の `RouteSpec` 表を route-specific discriminant の唯一の authoring location とする。各rowは
 このIDの一つを使い、自由文のschema/reasonや field overrideを新設しない。新しいkeyや組合せが必要なら
@@ -671,6 +689,18 @@ location が実際に PASS かを照合する。文字列 `PASS` の自己申告
 不一致または未受理ならS4aを開始しない。現行ruleは R-K2-STATUS R4 が確認した canonical
 fixed SHA/PASSを参照する。
 
+`cost spec` も discriminated union とする。
+
+- `uniform(C̄_route)`: `0<C̄_route<∞`、全recordで `C_step,k≤C̄_route`。
+- `graded-root(C_RF,pair-difference-derivative)`: `0<C_RF<∞` のinterval-independent template。
+  各RouteRecordが `Λ_{η,k}:=sup_{I_k}|η′|` をinstantiationし、
+  `log C_step,k≤C_RF(1+Λ_{η,k})`。route ID=`root-far`、mode=weighted、`γ=5`、`κ̄=0`、
+  `D-ROOT-FAR`、accepted RF proof refに限る。他routeへの流用と自由な k 依存は禁止する。
+
+`graded-root` の `Λ_{η,k}` は raw coefficientでなく exact exponent difference `η=q₂−q₁` から計算する
+node-function level dataである。ただし個別recordの値だけでは足りず、§10.5.2 RF-3のray-wide ledger refを
+必須とする。
+
 `A_ledger_kind` は `phase-lipschitz`、`weighted-no-A`、`polynomial-envelope` のいずれか。
 `phase-lipschitz` は recordごとに `A_{H,k}≤Λ_{H,k}` を要求する。`weighted-no-A` は
 `(S4-step-w)` と `mode=weighted` 専用、`phase-lipschitz` は `mode=unweighted` 専用。
@@ -697,19 +727,21 @@ S4b-β の `RouteRecord` は resolved `RouteKind` だけから生成し、次を
 | `interval_id` | `(k,I_k,J_k,ε_chain)` |
 | `frequency_allowance` | `(frequency_source,Λ_{H,k},bound_witness)`。`leaf_phase_max` なら `Λ_{H,k}:=max_j sup_{I_k}|q_j′|≤(1−δ)(a_k+1)+R`; 不使用なら `NONE` と `κ_H=0` |
 | `A_ledger_witness` | `phase-lipschitz` の式、`weighted-no-A`、`polynomial-envelope/open`、または `polynomial-envelope/accepted(assembly_proof_ref)` |
-| `named_constants` | `(C_step≤C̄_route,γ_H=γ_route,κ_H≤κ̄_route,source_ref)`。raw係数依存は禁止 |
+| `step_cost_witness` | `uniform(C̄_route): C_step,k≤C̄_route`、または `graded-root(C_RF,Λ_{η,k},N_cell,k,RF_proof_ref,ray_ledger_ref)`。後者は§10.5.2受理後だけ |
+| `named_constants` | `(cost spec,γ_H=γ_route,κ_H≤κ̄_route,source_ref)`。raw係数依存は禁止 |
 
 `RootStep_k` はこの recordを持つ root `node_path` の唯一の公開出力で、child routeは
 `kind_ref/domain_witness` の内部 provenanceに畳み込む。S4a は root outputだけを一度ずつ消費する。
 
-S4a は mode別に
+S4a は uniform routeについて mode別に
 
   γ_{*,u/w}:=max_{mode=u/w}γ_route,  C_{*,u/w}:=max_{mode=u/w}C̄_route
 
 を取り(empty modeは `(γ_*,C_*)=(0,1)`)、同じ `ε_chain` を使う。unweighted `phase-lipschitz` recordは
 C′ と同じ `ΣA+ΣκΛε_chain` の計算に入れる。`polynomial-envelope/open` が一つでもあれば、
 `ΣA` の別証明なしに (E-w) を結論しない。weighted recordは `(S4-step-w)` の積とpointwise envelope growthを
-別に帳簿化し、unweighted ledgerへ混ぜない。
+別に帳簿化し、unweighted ledgerへ混ぜない。graded-root recordが受理された場合は
+`Σ_k log C_step,k≤C_RF(N+Σ_kΛ_{η,k})` を別行で積算し、uniform の `C_{*,w}^N` へ偽装しない。
 
 FR7 auditで合成式に現れてよい量は
 
@@ -726,20 +758,32 @@ route 選択の前に exact zero-pruning を行う。任意の child functionが
 両 child functionが恒等非零であり、その witness `active_children_nonzero=true` を必須 fieldとする。
 この前処理は係数の小ささを閾値判定せず、恒等式としてだけ行う。
 
-次表を `RouteSpec` の唯一の authoring location とする。resolved rowの数値欄は必ず
-`0<C̄<∞`, `0≤γ<∞`, `0≤κ̄<∞` を満たす。`—` は unresolved であり値を補ってはならない。
+次表を active `RouteSpec` の唯一の authoring location とする。resolved rowの数値欄は必ず
+`uniform(C̄)` またはaccepted RF proofに結合した
+`graded-root(C_RF,pair-difference-derivative)`、
+`0≤γ<∞`, `0≤κ̄<∞` を満たす。`—` は unresolved であり値を補ってはならない。
 
-| route ID / shape | arity | mode / inequality | source rule | domain schema | `(C̄,γ,κ̄)` | A-ledger / assembly rule | current obligation |
+| route ID / shape | arity | mode / inequality | source rule | domain schema | `(cost spec,γ,κ̄)` | A-ledger / assembly rule | current obligation |
 |---|---|---|---|---|---|---|---|
-| `K2-u`: `c₁e^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2,docs/2026-08-08-quadratic-phase-turan-K2.md,§2 主結果,965fd3a38049f982ce795102a2c8285533a23f0c,PASS)` | D-K2 | `(C_K2,2,1)` | phase-lipschitz / accepted | interval domain witness |
-| `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-aff,bffc3ea13cf10595890f239e15fb6070be5cecd3,PASS)` | D-K2Q-AFF | `(C_K2Q,4,1)` | polynomial-envelope / proof-required | ΣA proof別途 |
-| `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-GENERALIZED-SINGLETON | `(1,0,0)` | polynomial-envelope / proof-required | ΣA proofが別途必要 |
-| `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)` | D-QR5-HELD | `(C_T,5,0)` | weighted-no-A / accepted | interval-wide held witness |
-| `root-far`: root 2+1 far/unheld | binary | — | — | — | — | — | M-ROOT-FAR-KERNEL unresolved または accepted exclusion |
-| `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 trivial-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-TRIVIAL | `(1,0,0)` | phase-lipschitz / accepted | `A_{H,k}≤sup_{I_k}|q′|` witness |
+| `K2-u`: `c₁e^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2,docs/2026-08-08-quadratic-phase-turan-K2.md,§2 主結果,965fd3a38049f982ce795102a2c8285533a23f0c,PASS)` | D-K2 | `(uniform(C_K2),2,1)` | phase-lipschitz / accepted | interval domain witness |
+| `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-aff,bffc3ea13cf10595890f239e15fb6070be5cecd3,PASS)` | D-K2Q-AFF | `(uniform(C_K2Q),4,1)` | polynomial-envelope / proof-required | ΣA proof別途 |
+| `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-GENERALIZED-SINGLETON | `(uniform(1),0,0)` | polynomial-envelope / proof-required | ΣA proofが別途必要 |
+| `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)` | D-QR5-HELD | `(uniform(C_T),5,0)` | weighted-no-A / accepted | interval-wide raw-held witness |
+| `root-far`: root 2+1 far/unheld | binary | — | — | — | — | — | M-ROOT-FAR-KERNEL unresolved; RF candidate §10.5.2 |
+| `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 trivial-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-TRIVIAL | `(uniform(1),0,0)` | phase-lipschitz / accepted | `A_{H,k}≤sup_{I_k}|q′|` witness |
 
 `REFIX` は RouteSpec rowでなく前処理 transitionである。`q₁−q₂≡const`, `P≡0`, `c₂=0`、または
 child恒等零を exact 併合/zero-pruningし、残った spanで rank/treeを再固定する。
+
+`RECENTER(C,t_c)` もrouteではなく、RF candidateが各cell `C` でだけ使うexact表示transitionとする。
+`η:=q₂−q₁` に対し
+
+  q₂^C(t):=q₂(t)−η(t_c),   c₂^C:=c₂e^{η(t_c)}
+
+と置けば `c₂^Ce^{q₂^C}=c₂e^{q₂}`、従って `B₁₂`、root function `H`、`U_T`、weighted normは
+関数として不変で、pair差だけが `η^C(t)=η(t)−η(t_c)` となる。transition recordは
+`(cell_id,t_c,exact_identity_ref)` だけを持ち、変換後のraw係数をS4a/FR7出力へ渡さない。
+`η` が定数なら本transitionでheld扱いせず、先にconstant-gauge `REFIX`へ送る。
 
 `RouteSpec` の assembly rule `accepted` は対応する intrinsic/external根拠でそのまま受理、`proof-required` は
 `assembly_state=open` または `accepted(assembly_proof_ref)` だけを許す。従って K2Q-aff と
@@ -753,8 +797,9 @@ certificateからFR2 chartへの接続が必要になっても、それはS4bの
 `root-far` はこれと異なり、現行exact treeで到達する。例えば nested 2+1族
 `q₁=0`, `q₂=s_m²z`, `q₃=s_mz` (`s_m→0`) のactive pairでは、ray `z=te^{iθ}` 上
 `|q₂−q₁|=s_m²t` なので十分遠いunit intervalで `sup|q₂−q₁|>1/8` となり、
-`D-QR5-HELD` は適用できない。従ってこのrowと `M-ROOT-FAR-KERNEL` はaccepted exclusionまたは
-新しいnode-local kernelが得られるまでunresolvedのまま維持する。
+raw `D-QR5-HELD` は適用できない。§10.5.2 は `RECENTER` 後の短cellへ既存QR5-wを適用する
+graded候補を定義するが、candidate specificationとRF proofのfixed-SHA acceptanceまでは
+このrowと `M-ROOT-FAR-KERNEL` をunresolvedのまま維持する。
 
 K2 の査読statusは canonical
 [K2 authoring file](2026-08-08-quadratic-phase-turan-K2.md)の R-K2 欄だけを参照する。
@@ -772,6 +817,30 @@ K2Q の査読statusは canonical
 従って former category/domain/obligationをregistryから削除し、held 2+1 rootは `QR5-w` だけへ送る。
 far/unheld rootは `M-ROOT-FAR-KERNEL` のまま残し、旧 `U_F` 転送を別名で再導入しない。
 
+#### 10.5.2 RF graded-interface candidate (specification only)
+
+本節を `RF-CandidateSpec` の唯一のauthoring locationとする。review statusの唯一のauthoring locationは
+§10.7 `S4-0.RF` rowである。これはactive `RouteSpec` rowではなく、`root-far` は引き続きunresolvedである。
+以下の RF-1–RF-4 と後続RF proofがfixed SHAで受理されるまで、resolved `RouteKind`、
+`RouteRecord`、S4a inputを生成してはならない。
+
+受理後に意図するdiscriminantは route ID=`root-far`、arity=binary、mode=weighted / S4-step-w、
+source rule=`(QR5 accepted ref + RF INTERNAL proof ref)`、domain=`D-ROOT-FAR`、
+`(graded-root(C_RF,pair-difference-derivative),γ=5,κ̄=0)`、A-ledger=`weighted-no-A` である。
+`frequency_source=NONE` とし、`Λ_{η,k}` は原子位相 allowanceでなくgraded step costだけへ入れる。
+
+| ID | specification / acceptance target | current state |
+|---|---|---|
+| RF-1 exact recenter | 各cell `C` の中心 `t_c` で上の `RECENTER(C,t_c)` を行い、`B₁₂,H,U_T` の不変性と `η^C=η−η(t_c)` をidentityとして検証する。accepted QR5 sourceのraw held keyへは変換後表示を渡し、source statement自体をrecentered-heldへ書換えない | proof obligation |
+| RF-2 cell chain | `Λ_{η,k}:=sup_{I_k}|η′|`、`h_k:=min(1,(4Λ_{η,k})^{-1})` (`Λ=0` では `h_k=1`)。長さ高々 `h_k`、shift高々 `h_k/2` のoverlap cellで `I_k` を覆い、各cellで `sup|η^C|≤1/8`、`N_cell,k≤4+8Λ_{η,k}` を示す。`J_k` 内のseedからrelative aperture `≥min(1,ε_chain/h_k)`、以後aperture `≥1/2` でQR5-wをchainする | proof obligation |
+| RF-3 graded ledger | `L_T:=log(max(e,32C_T))`, `C_RF:=8L_T` を候補定数とし、RF-2から `C_step,k≤exp(C_RF(1+Λ_{η,k}))` を導く。collision witnessから全rayで `Λ_{η,k}≤s_m²(a_k+1)+s_m`、`Σ_kΛ_{η,k}≤4[s_m²(T+1)²+s_m(T+1)]` を示す。`s_m≤s_RF:=min(1,sqrt(δ/(64C_RF)))` なら `Σlog C_step,k≤(δ/8)T²+O(T)` として(E-w)のspare budgetへ入る | proof obligation |
+| RF-4 fail-closed schema | `CostSpecEnum`、`D-ROOT-FAR`、`step_cost_witness`、ray-wide ledger ref、constants tableを同時に検査する。いずれかの欠落、R-RFSPEC未受理、RF proof ref未受理ならactive root-far rowの全discriminantを `—` のまま保つ | status pointer: §10.7 `S4-0.RF` |
+
+RF-2のchainは新しい三項解析kernelを仮定せず、fixed SHA `27a1817` で受理されたQR5の
+`C_Tρ^{-5}` aperture形だけを消費する。ただし「短cellを作れば自動で閉じる」とは扱わず、seed cell、
+境界cell、overlap multiplicity、hop数、上の候補定数の全てをRF proofで検算する。
+real/oscillatoryのfar witnessは `RECENTER` 後の局所変動と `B₁₂` 零点を同時に含むacceptance fixtureとする。
+
 ### 10.6 Coefficient-free constants
 
 FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed/compact dataだけに依存し、
@@ -782,9 +851,10 @@ FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed
 | `c_head` | plain/nested head singular floor (`η,t₀` 等のchart data) | FR-S1′/S1″ |
 | `C_tail` | normalized frameのFock tail | FR-S1′/S1″ |
 | `C_K2,C_K2Q,C_T` | pair/generalized/root kernel constants | K2/K2Q/QR5 |
-| `C̄_route,γ_route,κ̄_route,mode` | interval-independent RouteKind template | S4b-α registry |
-| `C_step,γ_H,κ_H,ε_chain` | typed RouteRecord / composite unit-step data | S4b-β output |
-| `N_cell` | cell分割を実際に使う場合のunit interval・node当たりcell数 | pairは高々3、rootは導入時だけS4b obligation |
+| `cost spec,γ_route,κ̄_route,mode` | interval-independent RouteKind template。uniformまたはaccepted graded-root | S4b-α registry |
+| `C_step,k,γ_H,κ_H,ε_chain` | typed RouteRecord / composite unit-step data | S4b-β output |
+| `N_cell` / `N_cell,k` | uniform routeの一様cell数 / RF候補のgraded cell数 | pairは高々3。RFは `≤4+8Λ_{η,k}` がproof obligation |
+| `Λ_{η,k},C_RF,s_RF` | root pair差のcell変動、graded cost定数、large-m threshold | §10.5.2 RF-2/RF-3 (pending) |
 | `Cprime_ref` | validated external source_ref specialized to C′ | S4a required external input |
 | `C_chain,u`, `C_chain,w` | mode別 product/telescoping constants | S4aでtyped kernel dataから別々に構成 |
 | `C_w,C_lin` | (S4-Ew) constants | S4a output |
@@ -802,6 +872,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | **PASS (R9、`56498bb`)** |
 | S4-0.4 | RouteSpec literal source / root-only積算 / FR7 vocabulary | **PASS (R9、`56498bb`)** |
 | S4-0.5 | complete domain keys・category-bound exclusion・status fail-closed | **PASS (R9、`56498bb`)** |
+| S4-0.RF | RECENTER exact transition、graded-root cost、D-ROOT-FAR、RF-1–RF-4 fail-closed extension | **specification draft (R-RFSPEC pending)**。base R9 PASSを本拡張のPASSへ流用しない |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4b/a/c proofs | none | open, not claimed |
 
@@ -920,3 +991,8 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   accepted済みS4-0からS4b `root-far`へ同期し、F3 witnessを解決済み設計制約として明示した。
   claim-surface testは `root-far` の文字列存在でなく、CategoryEnum・MissingObligationEnum・
   RouteSpec rowの三面結合を検査するよう強化した。
+- v0.9(2026-08-17): Fable consultation #4のGOを本線で条件付き受諾。raw held keyを暗黙に
+  recentered読みせず、exact `RECENTER(C,t_c)`、`D-ROOT-FAR`、`graded-root` cost、cell/全ray ledgerを
+  RF-1–RF-4のspecification draftとして追加した。一様fixed `N_cell` は遠方chirpで不可能なため、
+  `N_cell,k≤4+8Λ_{η,k}` と `ΣΛ_{η,k}` のquadratic-budget吸収へ改訂。root-far routeは
+  R-RFSPECとRF proofのfixed-SHA acceptanceまでunresolvedのまま維持する。
