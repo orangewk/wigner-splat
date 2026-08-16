@@ -170,8 +170,30 @@ def test_retired_split_route_ids_are_absent_from_current_fr_spec():
     assert re.search(r"K2Q-wt[^\n]{0,120}S4-step-w", current) is None, (
         f"{FR_SPEC_DOC}: retired K2Q-wt root step returned"
     )
-    assert "`root-far`" in current
-    assert "M-ROOT-FAR-KERNEL" in current
+
+    def enum_items(enum_name: str) -> list[str]:
+        match = re.search(
+            rf"{re.escape(enum_name)}\s*:=\s*\{{(?P<body>[^}}]*)\}}",
+            current,
+            re.DOTALL,
+        )
+        assert match is not None, f"{FR_SPEC_DOC}: missing {enum_name}"
+        return [item.strip() for item in match.group("body").split(",")]
+
+    category_items = enum_items("CategoryEnum")
+    missing_items = enum_items("MissingObligationEnum")
+    assert category_items.count("root-far") == 1
+    assert missing_items.count("M-ROOT-FAR-KERNEL") == 1
+
+    route_spec = current.split("次表を `RouteSpec`", 1)[1].split(
+        "`REFIX` は RouteSpec", 1
+    )[0]
+    root_far_row = re.compile(
+        r"^\| `root-far`: root 2\+1 far/unheld \| binary \| — \| — \| — \| — \| — "
+        r"\| M-ROOT-FAR-KERNEL unresolved または accepted exclusion \|$",
+        re.MULTILINE,
+    )
+    assert len(root_far_row.findall(route_spec)) == 1
 
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
     "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",

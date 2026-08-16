@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.8.16 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′・K2Q-aff source accepted、旧 split(ii)/(iii) certificate route IDs retired、root-far unresolved、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.8.17 — FR-S1′/FR-S1″ accepted、FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、K2/C′・K2Q-aff source accepted、旧 split(ii)/(iii) certificate route IDs retired、root-far unresolved、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -121,11 +121,16 @@ FR3/FR4/FR6 を閉じない。
 ## 7. 現在の blocker
 
 plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′、nested 2+1 の FR-S1″ は
-固定 SHA `61111cc` の R-A″で PASS。現在の最初の未解決点は **FR-S4-0 interface specification**。
-§10 は specification draft であり、R-S4-0 判定前には c=3 の (E-w) 改訂や FR5–FR7 の閉鎖に数えない。
-旧 moment order だけでは消滅速度を記録できず、
+固定 SHA `61111cc` の R-A″で PASS。FR-S4-0 interface も固定 SHA `56498bb` の R9 で accepted。
+現在の最初の未解決点は **FR-S4b route closure** であり、§10 の typed registryでは到達可能な
+`root-far` / `M-ROOT-FAR-KERNEL` が unresolvedとして残る。これをclosedにした後も S4a の
+polynomial-envelope assemblyと S4c の N3′/N4・no-return auditはopenであり、c=3 の (E-w) や
+FR5–FR7 の閉鎖はまだ主張しない。
+
+FR-S1′/S1″の設計時に解決した制約として、旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の
 非零/零だけでなく、相対 valuation または同値な flag/blow-up 座標を含まなければならない。
+以下の F3 witnessはその設計制約の記録であり、現在の追加 blockerではない。
 
 **Flex witness F3 (single-scaleでも生じる evaluation-rank drop)**: parameter path
 
@@ -911,3 +916,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   certificateであり、exact node-local `RouteKind`ではないと判定。両route IDとmissing-kernel obligationを
   registryから退役した。非定数pairが遠方でheld条件を外れる明示族により `root-far` は到達可能なので、
   `M-ROOT-FAR-KERNEL`を唯一のunresolved exact-root routing categoryとして維持した。
+- v0.8.17(2026-08-16): R-REACH-CLEANUP R1のsurface findingsを受諾。§7 の current blockerを
+  accepted済みS4-0からS4b `root-far`へ同期し、F3 witnessを解決済み設計制約として明示した。
+  claim-surface testは `root-far` の文字列存在でなく、CategoryEnum・MissingObligationEnum・
+  RouteSpec rowの三面結合を検査するよう強化した。
