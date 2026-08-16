@@ -244,7 +244,7 @@ def test_root_far_graded_candidate_stays_fail_closed():
 
 
 def test_root_far_domain_schema_binds_all_required_keys():
-    """D-ROOT-FAR must not survive after losing one of its six witnesses."""
+    """D-ROOT-FAR must not survive after losing one of its seven witnesses."""
 
     current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
     domain_table = current.split("各 domain schema の key set は次で固定する。", 1)[
@@ -254,7 +254,8 @@ def test_root_far_domain_schema_binds_all_required_keys():
     rows = re.findall(row_pattern, domain_table, re.MULTILINE)
     expected_row = (
         "| `D-ROOT-FAR` | `active_children_nonzero`, `c₁c₂c₃≠0`, "
-        "`B₁₂≢0`, `η=q₂−q₁` nonconstant, collision-scale witness "
+        "`B₁₂≢0`, `η=q₂−q₁` nonconstant, `q₁−q₃`/`q₂−q₃` nonconstant"
+        "(§2 constant-gauge quotient witness), collision-scale witness "
         "`(|ΔA|≤s_m²,|ΔB|≤s_m)`, `Λ_{η,k}=sup_{I_k}|η′|` witness |"
     )
     assert rows == [expected_row]
@@ -266,6 +267,7 @@ def test_root_far_domain_schema_binds_all_required_keys():
         "`c₁c₂c₃≠0`",
         "`B₁₂≢0`",
         "`η=q₂−q₁` nonconstant",
+        "`q₁−q₃`/`q₂−q₃` nonconstant(§2 constant-gauge quotient witness)",
         "collision-scale witness `(|ΔA|≤s_m²,|ΔB|≤s_m)`",
         "`Λ_{η,k}=sup_{I_k}|η′|` witness",
     )

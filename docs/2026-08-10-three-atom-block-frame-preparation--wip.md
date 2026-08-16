@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.9.2 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、RF graded-interface extension accepted(§10.7 S4-0.RF)、補題 RF proof draft(§10.5.3、R-RF 待ち)、root-far unresolved、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.9.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、RF graded-interface extension accepted(§10.7 S4-0.RF)、補題 RF proof draft(§10.5.3 — R-RF R1 受理不可を全件受諾し修正済み、R2 待ち)、root-far unresolved、FR-S4b/a/c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -652,7 +652,7 @@ excluded variantを一つも生成できない。将来 category-specific exclus
 | `D-K2Q-AFF` | `active_children_nonzero`, `P≢0`, `c₂≠0`, `deg P≤2`, `q₁−q₂` nonconstant |
 | `D-GENERALIZED-SINGLETON` | `P≢0`, `deg P≤2`, unary exact-identity ref |
 | `D-QR5-HELD` | `active_children_nonzero`, `c₁c₂c₃≠0`, `B₁₂≢0`, `sup_{I_k}|q₂−q₁|≤1/8` |
-| `D-ROOT-FAR` | `active_children_nonzero`, `c₁c₂c₃≠0`, `B₁₂≢0`, `η=q₂−q₁` nonconstant, collision-scale witness `(|ΔA|≤s_m²,|ΔB|≤s_m)`, `Λ_{η,k}=sup_{I_k}|η′|` witness |
+| `D-ROOT-FAR` | `active_children_nonzero`, `c₁c₂c₃≠0`, `B₁₂≢0`, `η=q₂−q₁` nonconstant, `q₁−q₃`/`q₂−q₃` nonconstant(§2 constant-gauge quotient witness), collision-scale witness `(|ΔA|≤s_m²,|ΔB|≤s_m)`, `Λ_{η,k}=sup_{I_k}|η′|` witness |
 | `D-TRIVIAL` | `c≠0`, unary exact-identity ref |
 
 `D-ROOT-FAR` は §10.5.2 のcandidate専用予約schemaである。`root-far` がunresolvedの間は
@@ -848,8 +848,9 @@ R-RF が fixed SHA で PASS するまで `root-far` row と `M-ROOT-FAR-KERNEL` 
 
 **補題 RF**: S4b-β の radial 窓 `I_k`(長さ 1)、overlap `J_k ⊆ I_k`(長さ `ε_chain`、`I_k` の
 片端に接する)、衝突 cluster 入力の exact root 2+1 node `H = B₁₂ + c₃e^{q₃}`(active tree:
-`c_j ≠ 0`、`q_j` 相異なる複素 2 次、`η := q₂−q₁` 非定数 — 定数は constant-gauge `REFIX` へ)、
-`U_T = max(log|B₁₂|, m₃)`、`Λ_{η,k} := sup_{I_k}|η′|` に対し
+`c_j ≠ 0`、`q_j` 複素 2 次で **全 pair の差 `q_i−q_j` が非定数** — §2 constant-gauge quotient 済み
+入力の domain witness を必須消費する。いずれかの差が定数なら本補題の適用前に `REFIX` 併合へ)、
+`U_T = max(log|B₁₂|, m₃)`、`Λ_{η,k} := sup_{I_k}|η′|`(`η := q₂−q₁`)に対し
 
   ‖e^{−U_T}H‖_{∞,I_k}
   ≤ exp(C_RF(1+Λ_{η,k}))·ε_chain^{−5}·‖e^{−U_T}H‖_{∞,J_k},          (RF)
@@ -877,8 +878,12 @@ pair 差だけが `η^{C_i} = η − η(t_i)` に変わる。mean value と `C_i
   sup_{C_i}|η^{C_i}| ≤ Λ_{η,k}·(h_k/2) ≤ 1/8.
 
 変換後表示 `(c₁, c₂^{C_i}, c₃; q₁, q₂^{C_i}, q₃)` は QR5(fixed SHA `27a1817`)の **raw 仮定**を
-`C_i` 上で満たす: `c_j ≠ 0` ✓ / atoms 相異(`η^{C_i}` は非定数 2 次の定数シフトなので非定数;
-`q₃` との相異は active tree から継承)✓ / pair held `β_B = sup_{C_i}|η^{C_i}| ≤ 1/8` ✓。
+`C_i` 上で満たす: `c_j ≠ 0` ✓ / atoms 相異 — `q₂^{C_i}−q₁ = η^{C_i}` は非定数(非定数 2 次の
+定数シフト)、`q₂^{C_i}−q₃ = (q₂−q₃)−η(t_i)` は **domain witness の `q₂−q₃` 非定数**から非定数、
+`q₁−q₃` 非定数は witness から直接。従って 3 exponent は pairwise 相異 ✓(注意: `q₂−q₃ ≡ const` の
+入力では `η(t_i)` がその定数に一致し `q₂^{C_i} = q₃` となり得る — luna R-RF R1 反例
+`q=(t², 2t², 2t²−1/256)`。この入力は §2 quotient で上流併合されるため domain 外であり、
+witness の必須消費がこの穴を fail-closed に塞ぐ)/ pair held `β_B = sup_{C_i}|η^{C_i}| ≤ 1/8` ✓。
 source statement 自体は書き換えず、変換後表示を渡すだけである(RF-1 の規約)。
 affine 正規化 `φ_i: [0,1] → C_i` は複素 2 次 class・held 値・`U_T` の pointwise 定義・
 相対 aperture を保つので、QR5 は `(K, E) = (C_i, E_i)` に長さ正規化して適用できる。
@@ -915,17 +920,20 @@ S4b-β の窓数は ≤ `2T+1 ≤ 2(T+1)`、`a_k+1 ≤ T+1` だから
 
   Σ_k log C_step,k ≤ C_RF·Σ_k(1+Λ_{η,k}) ≤ (δ/8)T² + O(T)
 
-で (E-w) の spare budget に入る。`s_m → 0` なので有限個を除く全 m で `s_m ≤ s_RF` が成立し、
-threshold 未満の m は FR-S1 系と同じ「m 十分大」条項に畳む。∎
+で (E-w) の spare budget に入る。`s_m → 0` なので `m_RF := min{m₀: ∀m≥m₀, s_m ≤ s_RF}` が存在し、
+本補題は `m ≥ m₀ := max(m_{FR-S1′/S1″}, m_RF)` で適用する(threshold 未満の有限個の m は
+FR-S1 系と同じ「m 十分大」条項に畳む)。∎
 
 **(5) acceptance fixture(§10.5.2 末尾の要求 — 局所検証、証明には数えない)**:
 real witness(`q=(0, s²z, sz)`、`c=(1,1,1)`、`s=0.01`、窓 `[1251,1252]`、`θ=0`):
 `Λ_η = 10^{−4}` ⇒ `h = 1`、`N ≤ 4.001`、recentered `sup|η^C| = 5·10^{−5} ≤ 1/8`、
-天井 `sup g = 1.0 ≤ 2`、窓比 `sup_I g/sup_J g = 1.0`(`ε = 0.1`)。
+天井 `sup g = 1.000007871 ≤ 2`(sampled)、窓比 `sup_I g/sup_J g ≈ 1.0`(`ε = 0.1`)。
 oscillatory witness(`q=(0, is²z, isz)`、`c=(1,−1,1)`、窓 `[t*−0.45, t*+0.55]`、
-`t* = 2π/s² ≈ 62831.85` = `B₁₂` 零点): `min_I|B₁₂| = 3·10^{−31}`(零点跨ぎ)でも
-`min_I U_T = 0`(singleton 床)、天井 `sup g = 1.0 ≤ 2`、recentered held ✓、窓比 1.0。
-grid 4000 点・mpmath dps 30(session-local 検証。head からの再実行 fixture 化は R-RF の指示に従う)。
+`t* = 2π/s² ≈ 62831.85` = `B₁₂` 零点): 解析的には `t* ∈ I` なので `min_I|B₁₂| = 0`。
+grid(刻み 1/4000、4001 点)は `t*` を格子点 k=1800 に**厳密に含み**、sampled 値
+`3·10^{−31}` はその点の mp 丸めである。零点上でも `U_T = 0`(singleton 床)で有限、
+天井 `sup g ≤ 2` ✓、recentered held ✓、窓比 ≈ 1.0。
+mpmath dps 30(session-local 検証で証明には数えない。head からの再実行 fixture 化は R-RF の指示に従う)。
 
 ### 10.6 Coefficient-free constants
 
@@ -1091,3 +1099,10 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   (E-w) budget 吸収(`s_RF` 閾値、`(δ/8)T²+O(T)`)。real/oscillatory witness の acceptance
   fixture(B₁₂ 零点跨ぎ・recentered held・天井)を局所検証として記録。R-RF fixed-SHA review
   まで root-far row と `M-ROOT-FAR-KERNEL` は unresolved のまま。
+- v0.9.3(2026-08-17): luna R-RF R1(受理不可)を全件受諾して修正。[blocking RF-B1] 再中心化は
+  q₂ の定数シフトなので `q₂−q₃ ≡ const` 入力で `q₂^C = q₃` となり QR5 相異性が破れる
+  (反例 `q=(t²,2t²,2t²−1/256)`)— §2 constant-gauge quotient 済みの domain witness
+  (`q₁−q₃`/`q₂−q₃` nonconstant)を `D-ROOT-FAR` の必須 key に追加し、補題 RF が明示消費する形へ
+  修正(schema binding test も同時改訂)。[minor RF-M1] fixture 数値を精密化(real sup g =
+  1.000007871、oscillatory は解析的 min|B₁₂| = 0 と grid が t* を格子点に含むことを明記)。
+  [minor RF-M2] 適用閾値 `m₀ = max(m_{FR-S1′/S1″}, m_RF)` を明示。R-RF R2 待ち。
