@@ -245,13 +245,15 @@ def test_root_far_domain_schema_binds_all_required_keys():
     domain_table = current.split("各 domain schema の key set は次で固定する。", 1)[
         1
     ].split("`D-ROOT-FAR` は §10.5.2", 1)[0]
-    rows = re.findall(r"^\| `D-ROOT-FAR` \|[^\n]*\|$", domain_table, re.MULTILINE)
+    row_pattern = r"^\| `D-ROOT-FAR` \|[^\n]*\|$"
+    rows = re.findall(row_pattern, domain_table, re.MULTILINE)
     expected_row = (
         "| `D-ROOT-FAR` | `active_children_nonzero`, `c₁c₂c₃≠0`, "
         "`B₁₂≢0`, `η=q₂−q₁` nonconstant, collision-scale witness "
         "`(|ΔA|≤s_m²,|ΔB|≤s_m)`, `Λ_{η,k}=sup_{I_k}|η′|` witness |"
     )
     assert rows == [expected_row]
+    assert re.findall(row_pattern, current, re.MULTILINE) == [expected_row]
     actual_row = rows[0]
 
     required_keys = (
