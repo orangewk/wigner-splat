@@ -920,7 +920,7 @@ S4b-β の窓数は ≤ `2T+1 ≤ 2(T+1)`、`a_k+1 ≤ T+1` だから
 
   Σ_k log C_step,k ≤ C_RF·Σ_k(1+Λ_{η,k}) ≤ (δ/8)T² + O(T)
 
-で (E-w) の spare budget に入る。`s_m → 0` なので `m_RF := min{m₀: ∀m≥m₀, s_m ≤ s_RF}` が存在し、
+で (E-w) の spare budget に入る。`s_m → 0` なので `m_RF := min{M ∈ ℕ: ∀m≥M, s_m ≤ s_RF}` が存在し、
 本補題は `m ≥ m₀ := max(m_{FR-S1′/S1″}, m_RF)` で適用する(threshold 未満の有限個の m は
 FR-S1 系と同じ「m 十分大」条項に畳む)。∎
 
@@ -1103,6 +1103,10 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   q₂ の定数シフトなので `q₂−q₃ ≡ const` 入力で `q₂^C = q₃` となり QR5 相異性が破れる
   (反例 `q=(t²,2t²,2t²−1/256)`)— §2 constant-gauge quotient 済みの domain witness
   (`q₁−q₃`/`q₂−q₃` nonconstant)を `D-ROOT-FAR` の必須 key に追加し、補題 RF が明示消費する形へ
-  修正(schema binding test も同時改訂)。[minor RF-M1] fixture 数値を精密化(real sup g =
-  1.000007871、oscillatory は解析的 min|B₁₂| = 0 と grid が t* を格子点に含むことを明記)。
-  [minor RF-M2] 適用閾値 `m₀ = max(m_{FR-S1′/S1″}, m_RF)` を明示。R-RF R2 待ち。
+  修正(schema binding test も同時改訂)。[minor RF-M1] fixture 数値を精密化(§10.5.3 (5) 参照 —
+  数値の authoring location はそちらに一本化)。[minor RF-M2] 適用閾値
+  `m₀ = max(m_{FR-S1′/S1″}, m_RF)` を明示。R-RF R2 待ち。
+- v0.9.4(2026-08-17): luna R-RF R2 = **受理可**(blocking/major なし)。minor 3 件を反映:
+  [RF-M2-N1] `m_RF` の束縛変数名衝突を解消(`min{M ∈ ℕ: …}`)。[RF-TEST-1] binding test に
+  negative path(witness 1 個欠落の synthetic row が equality guard で落ちること)を追加。
+  [SURF-1] 版履歴の sampled 数値再記載を §10.5.3 への参照に一本化。

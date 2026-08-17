@@ -274,6 +274,17 @@ def test_root_far_domain_schema_binds_all_required_keys():
     for key in required_keys:
         assert actual_row.count(key) == 1
 
+    # negative path (luna R-RF R2, RF-TEST-1): a row that silently drops any
+    # single witness is still a syntactically valid table row, so the guard is
+    # the exact-match equality above, not the row regex. Exercise that guard.
+    for key in required_keys:
+        mutated = actual_row.replace(key, "`dropped`", 1)
+        assert mutated != actual_row
+        assert re.fullmatch(r"\| `D-ROOT-FAR` \|[^\n]*\|", mutated), (
+            "mutated row must remain regex-valid so only the equality catches it"
+        )
+        assert mutated != expected_row
+
 
 F3PRIME_WITHDRAWN_ACTIVE_SENTENCES = (
     "の形を持ち、クラスタ重み r_c(≥ 1, Σ_c r_c ≤ k)により deg P_c ≤ 2(r_c − 1)",
