@@ -775,7 +775,7 @@ c = 2 の弱形 L2a′ は他の open 補題に依存しない独立成果ドラ
 現行の査読statusは [独立文書 K2 の R-K2 欄](2026-08-08-quadratic-phase-turan-K2.md)だけを参照し、
 §4.3.4 は historical snapshotとする。
 
-### 4.3.6 補題 N(c≤3)の量化 program(v1.9 — statement 手術。証明 packet は全て査読待ち)
+### 4.3.6 補題 N(c≤3)の量化 program(v1.9 — N-P0 accepted、証明 packet は査読待ち)
 
 > **位置づけ**: 本節を補題 N の **c≤3 特化版の量化 statement・coarse case 台帳・packet
 > acceptance status の唯一の authoring location** とする。§4.3 冒頭の target 記述は obligations の
@@ -837,7 +837,7 @@ nested 2+1 は coarse `3`(全原子が同一極限点へ収束)の**内部 rate 
 
 | packet | statement / output | state |
 |---|---|---|
-| N-P0 statement 手術 | 本節(前処理・coarse 台帳・量化 target・語彙分離) | 査読待ち(R-NP0) |
+| N-P0 statement 手術 | 本節(前処理・coarse 台帳・量化 target・語彙分離) | **accepted**(R-NP0 R3 PASS、fixed SHA `2619b10`) |
 | N-P1 Gram 連続性 + 極限独立性 | (i) ℱ-norm 収束枠 `v_{ℓ,m} → v_ℓ*`、極限系 `{v_ℓ*}` が線形独立 ⇒ `Gram(v_{·,m})` 最小固有値が m 一様に正(標準の連続性論法の明文化)。(ii) 極限独立性の供給規約: **相異基点間**は L0(相異指数)、**同一基点内**は jet(多項式)独立性 — `{P_iΦ(ξ*)}` は `{P_i}` が多項式として独立なら独立(`ΣP_i` 係数比較の初等命題、本 packet で明文化。L0 は同一指数へ直接適用しない) | 査読待ち |
 | N-P2 相異極限点(全分離)| 枠 = 正規化原子 `Φ̂(ξ_{j,m})` 自身。N1: `d_ℓ = 0` 自明、N2: L0(相異基点)+ N-P1(i)、N3′: per-atom 自明包絡 `E(z) ≤ (E-w)` 形、N4: `(δ,R)`。coarse `1\|1\|1`, `1\|1`, `1` を一括で覆う | 査読待ち |
 | N-P3 c=2 衝突 pair 枠 | **unnormalized** divided difference `ψ_m := (Φ(ξ_{1,m})−Φ(ξ_{2,m}))/ρ_m`(pair scale `ρ_m := max(|ΔA_m|,|ΔB_m|)`、`ΔA_m := A_{1,m}−A_{2,m}` 等は**原座標** `(A,B)` の差。rank `r` とは別記号)、枠 = `{Φ̂(ξ_{2,m}), ψ_m/‖ψ_m‖}`。N1: `ψ_m → Q(z)Φ(ξ*)`、`Q(z) := a z²/2 + b z`(部分列で `(ΔA_m/ρ_m, ΔB_m/ρ_m) → (a,b)`、`max(|a|,|b|)=1`。`Q(0)=0` かつ `Q ≢ 0`、`deg Q ∈ {1,2}` — 2(`a≠0`)または 1(`a=0`)、0 に落ちない。線分積分表示 + 優収束)、N2: W2 の jet 二分法(非消滅下界)+ **同一基点 jet 独立性(N-P1(ii)、`{Φ(ξ*), QΦ(ξ*)}` は `Q(0)=0`・`Q ≢ 0` すなわち `deg Q ≥ 1` で独立)** + N-P1(i) の**分業**(W2 は Gram 下界を直接主張しない。L0 は同一指数対に使わない)、N3′: 枠元は 2 原子結合なので W2(FR 文書 §10.8、引用)で (E-w) 形、N4: `(δ,R)` | 査読待ち |
