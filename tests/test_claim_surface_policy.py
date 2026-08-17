@@ -665,8 +665,15 @@ def test_s4a_program_states_fail_closed():
     assert "**accepted**(R-C0 R2 PASS、fixed SHA `f31cca0`)" in c0_rows[0], (
         f"{FR_SPEC_DOC}: C0 row lost acceptance record"
     )
+    m1_rows = [
+        line for line in s4a.splitlines()
+        if line.startswith("| M1 mode audit |")
+    ]
+    assert len(m1_rows) == 1, f"{FR_SPEC_DOC}: M1 row count != 1"
+    assert "proof draft(R-M1 待ち)" in m1_rows[0], (
+        f"{FR_SPEC_DOC}: M1 row state drifted before R-M1 acceptance"
+    )
     for prefix in (
-        "| M1 mode audit |",
         "| W3 Weighted chain |",
         "| W4 Terminal-cancelled exit |",
         "| EW final |",
