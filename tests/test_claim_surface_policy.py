@@ -543,21 +543,37 @@ def test_s4b_cov0_selection_schema_spec_surfaces():
         "`TerminalRecord`** へ送り",
         "RayCoverageManifest_{θ,T}",
         "coverage 用の有限再分割は行わない",
-        "`QR5-w`⇒held、`root-far`⇒far を必須",
-        "threshold_certificate",
         "far 条件は schema でなく selector witness が",
         "`A_{H,N}`/`C_step,N` は**定義しない**",
+        "`k∈K_T` 上で主張する",
     ):
         assert fragment in current, (
             f"{FR_SPEC_DOC}: COV0 spec fragment missing: {fragment}"
         )
 
-    # ledger index sync: PS-3 claims the K_T sum, RF-3 carries the index note
-    assert "Σ_{k∈K_T} [A_{H,k} + κ_H Λ_{H,k} ε_chain]" in current, (
-        f"{FR_SPEC_DOC}: PS-3 ledger sum not restricted to K_T"
+    # the selection_witness FIELD ROW itself must carry the 4-tuple and the
+    # guard coupling (luna R-COV0 R2: section-wide token search is not enough)
+    sw_rows = [
+        line for line in current.splitlines()
+        if line.startswith("| `selection_witness` |")
+    ]
+    assert len(sw_rows) == 1, f"{FR_SPEC_DOC}: selection_witness row count != 1"
+    assert (
+        "(canonical_node_form,degree_class,root_held_guard,threshold_certificate)"
+        in sw_rows[0]
+    ), f"{FR_SPEC_DOC}: selection_witness row lost the 4-tuple"
+    assert "`QR5-w`⇒held、`root-far`⇒far を必須" in sw_rows[0], (
+        f"{FR_SPEC_DOC}: selection_witness row lost guard coupling"
     )
-    assert "`C_step,N` は定義せず `J_N` を再導入しない" in current, (
-        f"{FR_SPEC_DOC}: RF-3 index note missing"
+
+    # accepted proof bodies stay untouched: PS-3 keeps its accepted k=1..N sum
+    # (the K_T restriction lives ONLY in the §10.5.5 consumer-side contract,
+    # per the source_ref content-SHA rule — luna R-COV0 R2 PROV-01)
+    assert "Σ_{k=1}^{N} [A_{H,k} + κ_H Λ_{H,k} ε_chain]" in current, (
+        f"{FR_SPEC_DOC}: accepted PS-3 ledger sum drifted"
+    )
+    assert "v0.12.2 index 注" not in current, (
+        f"{FR_SPEC_DOC}: in-body index note reintroduced into accepted proof"
     )
 
     # the coverage lemma must remain unclaimed until R-COV1 passes, and no
@@ -570,8 +586,14 @@ def test_s4b_cov0_selection_schema_spec_surfaces():
     assert "R-COV1 PASS" not in current, (
         f"{FR_SPEC_DOC}: premature R-COV1 acceptance token"
     )
-    assert "(COV-0)" in cov_section, (
-        f"{FR_SPEC_DOC}: COV-0 canonical-form-closure obligation missing"
+    lemma_block = cov_section.split("**補題 S4b-COV", 1)[1].split(
+        "| ID | scope | state |", 1
+    )[0]
+    assert "(COV-0) canonical form closure" in lemma_block, (
+        f"{FR_SPEC_DOC}: COV-0 obligation missing from the lemma block itself"
+    )
+    assert "(COV-1)" in lemma_block and "(COV-2)" in lemma_block, (
+        f"{FR_SPEC_DOC}: COV-1/COV-2 missing from the lemma block"
     )
     rows = [
         line for line in cov_section.splitlines()

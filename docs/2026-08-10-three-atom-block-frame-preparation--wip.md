@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.12.2 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 spec 手術 = R-COV0 査読待ち(§10.5.5)、S4b closure(COV1)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.12.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 spec 手術 = R-COV0 査読待ち(§10.5.5)、S4b closure(COV1)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -938,9 +938,7 @@ S4b-β の窓数は ≤ `2T+1 ≤ 2(T+1)`、`a_k+1 ≤ T+1` だから
 
   Σ_k log C_step,k ≤ C_RF·Σ_k(1+Λ_{η,k}) ≤ (δ/8)T² + O(T)
 
-で (E-w) の spare budget に入る。(v0.12.2 index 注: record 和は `k∈K_T = {1,…,N−1}`
-(§10.5.5)。`C_step,N` は定義せず `J_N` を再導入しない。上の Σ_k は全窓 k=1..N の majorant
-であり、各項非負(`log C_step,k = C_RF(1+Λ_{η,k}) ≥ 0`)より `K_T` 部分和を押さえる。)`s_m → 0` なので `m_RF := min{M ∈ ℕ: ∀m≥M, s_m ≤ s_RF}` が存在し、
+で (E-w) の spare budget に入る。`s_m → 0` なので `m_RF := min{M ∈ ℕ: ∀m≥M, s_m ≤ s_RF}` が存在し、
 本補題は `m ≥ m₀ := max(m_{FR-S1′/S1″}, m_RF)` で適用する(threshold 未満の有限個の m は
 FR-S1 系と同じ「m 十分大」条項に畳む)。∎
 
@@ -1032,8 +1030,7 @@ grid 501/201 点)で違反なし、bound との最小余裕 3.62。
        `a_1 = T−1`、`a_{k+1} = a_k − β`(`k = 1..N`)、停止は最初の `a_N ≤ 1`。
        全窓 `I_k = [a_k, a_k+1]` は切断なしの長さ 1、`a_k ≥ ε_chain > 0`、`N ≤ 2T+1`。
 
-record を持つ各窓 `k∈K_T = {1,…,N−1}`(§10.5.5。`J_N` 不存在のため `k=N` は record を
-持たず `A_{H,N}` は定義しない)の unweighted record が次を満たすとする:
+各窓の unweighted record が次を満たすとする:
 
   (h1) A_ledger_kind ∈ {phase-lipschitz, polynomial-envelope}。前者は `A_{H,k} ≤ Λ_{H,k}`
        (§10.4 の record 義務)、後者は補題 PΣ-2 の premise(deg ≤ 2、2 次 phase)を満たし
@@ -1045,7 +1042,7 @@ record を持つ各窓 `k∈K_T = {1,…,N−1}`(§10.5.5。`J_N` 不存在の�
 
 このとき ray 全体の unweighted ledger は
 
-  Σ_{k∈K_T} [A_{H,k} + κ_H Λ_{H,k} ε_chain]
+  Σ_{k=1}^{N} [A_{H,k} + κ_H Λ_{H,k} ε_chain]
   ≤ (1−δ/2)·T²/2 + C_ΣA·(T+1),   C_ΣA := 2log(8ε_chain^{−2}) + 4R + 2,
 
 を満たし、`C_ΣA` は `(δ, R, κ_chain)` のみに依存(`m, θ, k, T` 非依存)。
@@ -1059,9 +1056,7 @@ record を持つ各窓 `k∈K_T = {1,…,N−1}`(§10.5.5。`J_N` 不存在の�
   Σ_{k=1}^{N}(a_k+1) = NT − βN(N−1)/2 = −(β/2)N² + (T+β/2)N。
 
 この二次式の実数上の最大値は `(T+β/2)²/(2β) = T²/(2β) + T/2 + β/8 ≤ T²/(2β) + T` であり、
-bound は停止規則の定める `N` に依らず**全ての `N ≥ 1` で成立**する。record 和は
-`K_T ⊆ {1,…,N}` 上で各項非負だから、この k=1..N の等差 majorant が部分和を押さえる
-(v0.12.2 index 注、§10.5.5 の index 契約に同期)。
+bound は停止規則の定める `N` に依らず**全ての `N ≥ 1` で成立**する。
 `1/β ≤ 1 + 2ε_chain`(`ε_chain ≤ 1/2`)と (h2)(`R ≥ 0`)より
 
   Σ_k Λ_{H,k} ≤ (1−δ)[(1+2ε_chain)T²/2 + T] + RN。
@@ -1452,3 +1447,11 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   schema でなく selector witness 供給と明記。[COV0-LEDGER-04] 安全側注記を unweighted
   subledger に限定、RF-3 は独立帳簿。[COV0-TEST-05] tests: COV1 premature acceptance の
   active region 全域禁止、closed-world/guard/index fragment binding を追加。R-COV0 R2 待ち。
+- v0.12.3(2026-08-17): luna R-COV0 R2 = blocking 1 + major 1 を全受諾。[COV0R2-PROV-01]
+  v0.12.2 で accepted proof body(§10.5.3/§10.5.4)へ加えた index 編集は source_ref の
+  content-SHA 契約違反 → **全て revert**(PΣ-3 は `Σ_{k=1}^{N}` の accepted 本文へ、RF-3 の
+  in-body 注を削除。機械検証: 両 section は pre-COV0 監査状態 `b878577` と一致)。K_T 制限は
+  §10.5.5 の consumer-side index 契約のみが掌理する。[COV0R2-TEST-01] tests:
+  `selection_witness` field row の完全一致束縛(4-tuple + guard coupling)、補題 S4b-COV
+  block 内での (COV-0) 直接検査、accepted PΣ-3 本文の drift 監視と in-body 注の再導入禁止を
+  追加。R-COV0 R3 待ち。
