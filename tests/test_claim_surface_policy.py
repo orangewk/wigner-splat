@@ -681,8 +681,15 @@ def test_s4a_program_states_fail_closed():
     assert "**accepted**(R-W3 R2 PASS、fixed SHA `4086ef9`)" in w3_rows[0], (
         f"{FR_SPEC_DOC}: W3 row lost acceptance record"
     )
+    w4_rows = [
+        line for line in s4a.splitlines()
+        if line.startswith("| W4 Terminal-cancelled exit |")
+    ]
+    assert len(w4_rows) == 1, f"{FR_SPEC_DOC}: W4 row count != 1"
+    assert "proof draft(R-W4 待ち)" in w4_rows[0], (
+        f"{FR_SPEC_DOC}: W4 row state drifted before R-W4 acceptance"
+    )
     for prefix in (
-        "| W4 Terminal-cancelled exit |",
         "| EW final |",
     ):
         rows = [line for line in s4a.splitlines() if line.startswith(prefix)]

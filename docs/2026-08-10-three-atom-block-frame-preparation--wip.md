@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.14 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1/W3 accepted、W4/EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.15 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1/W3 accepted、W4/EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1474,6 +1474,34 @@ domain witness の成立は accepted 面(§10.5.3、K2p1 §3.8.6、S4b-COV (COV-
 消費するのみで、本補題は再証明しない。混在 ray(held 窓と far 窓が交互に現れる場合)も
 同じ積算で覆われる(step は窓ごとに独立で、weight `U_T` は共通)。
 
+**補題 W4(Terminal-cancelled exit — proof draft、R-W4 待ち)**: 補題 M1 の manifest、
+`m ≥ m₀`、`T ≥ 3`、root `H = X + Y`(`X = B₁₂`、`Y = c₃Φ(ξ₃)`)、`z₀ = Te^{iθ}` とする。
+
+  |H(z₀)| ≤ 2C₂(R)·C_anc·R_H·(1+T)²·exp((1−3δ/4)T²/2 + (R+C_ch)(T+1)).      (W4-exit)
+
+*証明*: §10.3 の pinned 規約より `a₁ = T−1`、`I₁ = [T−1, T]` なので `t = T` は `I₁` の右端点
+として含まれ、`|H(z₀)| = e^{U_T(z₀)}·|G(z₀)| ≤ e^{U_T(z₀)}·‖G‖_{∞,I₁}`。三 accepted 補題を
+順に掛ける:
+- **exit(W1+W2)**: pair child `X` は W2 より per-child strong bound(`C = C₂(R)`、
+  `P_X = (1+t)²` — premise `c₁c₂ ≠ 0`、`ξ₁ ≠ ξ₂` は root record の domain witness
+  `c₁c₂c₃≠0`、`B₁₂≢0`、`η` nonconstant が供給)、singleton child `Y` は W1 より
+  `C = 1`、`P_Y = 1`。(W1-exit) で `C_res = C₂(R)`(`C₂ ≥ 1`)、
+  `P(T) = (1+T)² + 1 ≤ 2(1+T)²`:
+
+    e^{U_T(z₀)} ≤ 2C₂(R)(1+T)²·E_{δ,R}(T)·M,   M := max(‖X‖,‖Y‖) = D_H R_H;
+
+- **chain(W3)**: `‖G‖_{∞,I₁} ≤ exp((δ/8)T² + C_ch(T+1))·‖G‖_{∞,I_N}`;
+- **anchor(C0)**: `M·‖G‖_{∞,I_N} ≤ C_anc·R_H`。
+
+合成して(`E_{δ,R}(T) = e^{(1−δ)T²/2+RT}`、`RT ≤ R(T+1)`、
+`(1−δ)/2 + δ/8 = (1−3δ/4)/2`)
+
+  |H(z₀)| ≤ 2C₂(1+T)²e^{(1−δ)T²/2+RT}·e^{(δ/8)T²+C_ch(T+1)}·(M‖G‖_{∞,I_N})
+  ≤ 2C₂C_anc·R_H(1+T)²·e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}. ∎
+
+定数 `2C₂(R)C_anc` と指数は `(δ, R, ε_chain, C_T, C_RF)` のみに依存(`m, ℓ, θ, T` 非依存)。
+二次係数 `(1−3δ/4)/2` は (E-w) target `(1−δ/2)/2` より `δ/8` だけ強い。
+
 **program 表**(state は fail-closed: 受理は fixed-SHA 査読後のみ。依存順は
 C0 → M1 → W3 → W4 → EW に改訂 — Sol consultation 第 4 回、M1 の weighted-only 監査を
 W3 が消費するため):
@@ -1485,7 +1513,7 @@ W3 が消費するため):
 | C0 Terminal two-anchor | (C0-product) `M‖G‖_{∞,I_N} ≤ C_anc·R_H` ⇔ Anchor-D | **accepted**(R-C0 R2 PASS、fixed SHA `f31cca0`) |
 | M1 mode audit | RayCoverageManifest 監査: `k∈K_T` の root record は weighted-only(`QR5-w`/`root-far`)、weighted/PΣ ledger 非加算、`I_N` は TerminalRecord のみ | **accepted**(R-M1 R2 PASS、fixed SHA `fd18e9d`) |
 | W3 Weighted chain | `G=e^{−U_T}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{∞,I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{∞,I_N}`(`m ≥ m₀`、M1/COV 消費) | **accepted**(R-W3 R2 PASS、fixed SHA `4086ef9`) |
-| W4 Terminal-cancelled exit | W1/W2 × W3 × (C0-product) の合成で `|H(Te^{iθ})| ≤ 2C₂C_anc·R_H(1+T)²e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}` | open, not claimed |
+| W4 Terminal-cancelled exit | W1/W2 × W3 × (C0-product) の合成で `|H(Te^{iθ})| ≤ 2C₂C_anc·R_H(1+T)²e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}` | proof draft(R-W4 待ち) |
 | EW final | `R_H = ‖h_{ℓ,m}‖` で正規化、`T≥3` は W4・`T<3` は再生核評価、(S4-Ew) | open, not claimed |
 
 **U1 の退役(design 決定)**: 現 c=3 の public root record は weighted(`QR5-w`/`root-far`)
@@ -1862,3 +1890,7 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   `C_T` は上界としてのみ使用され正規化で全不等式保存、§10.6 追記は consumer-side contract
   として precedent 整合と確認)。W3 を accepted へ昇格、tests・status 同期。
   S4a 残余 = W4 → EW。
+- v0.13.15(2026-08-17): 補題 W4(Terminal-cancelled exit)を proof draft として執筆
+  (R-W4 待ち)。accepted 済み W1/W2(exit)× W3(chain)× C0(anchor)の三積で
+  `|H(z₀)| ≤ 2C₂C_anc·R_H(1+T)²e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}`。endpoint 被覆
+  (`T = a₁+1 ∈ I₁`)、W2 premise の witness 供給、`M‖G‖` 相殺を明示。新しい解析なし。
