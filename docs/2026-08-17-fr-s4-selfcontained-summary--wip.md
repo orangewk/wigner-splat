@@ -3,7 +3,9 @@
 日付: 2026-08-17 / 著者: 本線 / status: **wip — 要約・非規範**
 
 > **地位**: 本稿が述べる結果は**証明ドラフト・複数 LLM 検算済み・fixed-SHA 内部査読済み・独立外部再査読待ち**である。
-> 証明の唯一の authoring location は [FR 文書](2026-08-10-three-atom-block-frame-preparation--wip.md) §10(v0.15)であり、
+> 本稿が要約する S4 program(S4a/S4b/S4c)の証明ドラフトの唯一の authoring location は
+> [FR 文書](2026-08-10-three-atom-block-frame-preparation--wip.md) §10(v0.15)であり
+> (QR5/K2 等の先行 kernel の証明は各先行文書が authoring location、§8 参照)、
 > 本稿と齟齬がある場合は FR 文書が優先する。本稿は新しい主張を導入しない。
 
 ## 1. 背景
@@ -38,8 +40,10 @@ rooted binary block tree を付す: leaf = 原子、internal node `H = X + Y`、
 「pair block + singleton」= 2+1 のみで、root envelope を `U_T` と書く。正規化 frame を
 `v_{ℓ,m} := h_{ℓ,m}/‖h_{ℓ,m}‖_ℱ`(`r = dim V_m ≤ 3` 本)とする(構成は FR-S1′/S1″、accepted)。
 
-**難所.** 衝突族では結合 norm が原子 norm よりはるかに小さくなり得る(deep cancellation)。実際
-`D_H := max(‖X‖,‖Y‖)/‖H‖` は `s̃_m^{−2}` order で発散する witness がある(FR 文書 §10.8 design note)。
+**難所.** 衝突族では結合 norm が原子 norm よりはるかに小さくなり得る(deep cancellation)。
+`D_H := max(‖X‖,‖Y‖)/‖H‖` は非有界と見込まれる — FR 文書 §10.8 の design note は二階差分型の
+配置で `s̃_m^{−2}` order の発散を**期待**として記録する(この rate 自体は未証明の設計動機。
+数値診断では `D_H ≈ 7×10⁵` の配置を確認)。
 従って「各原子の自明評価の和」では m 一様の包絡は出ず、cancellation を保つ機構が必要になる。
 
 ## 3. 主結果
@@ -76,8 +80,9 @@ radial ray `z = te^{iθ}` を固定し `T := |z|` とする。近原点 `T < 3` 
    (QR5)、far 窓は graded 費用 `exp(C_RF(1+Λ_{η,k}))`(RF)。far 費用の総和は RF の大域台帳により
    `(δ/8)T² + O(T)` に収まる。
 3. **終端 anchor (C0)**: 最終窓 `I_N ⊂ [0,2]` で `M·‖G‖_{∞,I_N} ≤ C_anc·‖H‖`
-   (`M := max(‖X‖,‖Y‖)`)。singleton child は zero-free なので下から押さえられ、これが
-   `D_H` の発散を**厳密に相殺**する(`D_H ~ s̃^{−2}` に対し `‖G‖_{∞,I_N} = O(s̃²)`)。
+   (`M := max(‖X‖,‖Y‖)`)。singleton child は zero-free なので下から押さえられる。accepted な
+   同値形 `‖G‖_{∞,I_N} ≤ C_anc·D_H^{−1}` が、`D_H` がどれほど大きくても相殺を供給する
+   (設計動機の `D_H ~ s̃^{−2}` 見込みの下では `‖G‖_{∞,I_N} = O(s̃²)` を意味する)。
 4. **合成 (W4→EW)**: 三段を掛け合わせ `|H(Te^{iθ})| ≤ 2C₂C_anc·‖H‖·(1+T)²·e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}`。
    `(1+T)² ≤ e^{2T}` と `(1−3δ/4) ≤ (1−δ/2)` で (S4-Ew) の形に落とす。rank 2 は W2 で、rank 1 は
    自明評価で直接出る。
@@ -178,7 +183,8 @@ effective rank(1/2/3)× `T ≥ 3` / `T < 3` の場合分けで (S4-Ew)。
 | 主結果と S4a 全証明(W1–EW) | FR 文書 §10.8 |
 | target (E-w) の正確な仕様 | FR 文書 §10.2 |
 | 分割・台帳・route 契約 | FR 文書 §10.3–10.6 |
-| QR5 / RF kernel の証明 | FR 文書 §10.5.2–10.5.3(+ K2 系文書) |
+| RF kernel の interface / 証明 | FR 文書 §10.5.2(interface)/ §10.5.3(証明、FR 文書内部) |
+| QR5 / K2 系 kernel の証明 | 先行文書(K2p1 §3.8.6 ほか)— FR 文書は accepted 結果を引用消費のみ |
 | 被覆補題(S4b-COV) | FR 文書 §10.5.5 |
 | acceptance 台帳・版履歴 | FR 文書 §10.7 / §11 |
 | program 上の位置づけ(補題 N、FR1–FR7) | 閉包文書 §4.3、FR 文書 §1–§4 |

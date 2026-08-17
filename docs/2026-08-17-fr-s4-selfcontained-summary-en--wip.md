@@ -4,8 +4,9 @@ Date: 2026-08-17 / Author: mainline / status: **wip — summary, non-normative**
 
 > **Status of the result.** Everything stated here is a **proof draft: cross-checked by multiple LLMs,
 > internally reviewed at fixed commit SHAs, and awaiting independent external re-review.**
-> The sole authoring location of the proofs is the
+> The sole authoring location of the S4-program proof drafts (S4a/S4b/S4c) summarized here is the
 > [FR document](2026-08-10-three-atom-block-frame-preparation--wip.md) §10 (v0.15, in Japanese);
+> the predecessor kernels (QR5, the K2 family) are authored in their own predecessor documents (§8);
 > in case of any discrepancy the FR document prevails. This summary introduces no new claims.
 
 ## 1. Background
@@ -46,8 +47,10 @@ nontrivial shape (up to permutation) is "pair block + singleton" (2+1); its root
 (construction: FR-S1′/S1″, accepted).
 
 **The difficulty.** In a colliding family the norm of a combination can be far smaller than the norms of
-its atoms (deep cancellation). Indeed there is a witness along which
-`D_H := max(‖X‖,‖Y‖)/‖H‖` blows up at rate `s̃_m^{−2}` (FR document §10.8, design note). So summing
+its atoms (deep cancellation). The ratio `D_H := max(‖X‖,‖Y‖)/‖H‖` is expected to be unbounded — a
+design note in FR document §10.8 records the *expectation* of blow-up at rate `s̃_m^{−2}` along a
+second-difference configuration (the rate itself is an unproven design motivation; numerical
+diagnostics exhibit configurations with `D_H ≈ 7×10⁵`). So summing
 trivial per-atom bounds cannot give an m-uniform envelope for the *normalized* combinations; a mechanism
 that preserves cancellation is required.
 
@@ -91,8 +94,9 @@ is rank 3 with `T ≥ 3`, handled by a four-stage pipeline:
    `exp(C_RF(1+Λ_{η,k}))` on *far* windows (kernel RF). The far costs sum to `(δ/8)T² + O(T)` by RF's
    global ledger.
 3. **Terminal anchor (C0).** On the last window `I_N ⊂ [0,2]`:
-   `max(‖X‖,‖Y‖)·‖G‖_{∞,I_N} ≤ C_anc·‖H‖`. The singleton child is zero-free and bounded below there,
-   and this *exactly cancels* the blow-up of `D_H` (against `D_H ~ s̃^{−2}` one gets
+   `max(‖X‖,‖Y‖)·‖G‖_{∞,I_N} ≤ C_anc·‖H‖`. The singleton child is zero-free and bounded below there.
+   The accepted equivalent form `‖G‖_{∞,I_N} ≤ C_anc·D_H^{−1}` supplies the cancellation however large
+   `D_H` may be (under the design-note expectation `D_H ~ s̃^{−2}` it would give
    `‖G‖_{∞,I_N} = O(s̃²)`).
 4. **Composition (W4→EW).** Multiplying the three stages:
    `|H(Te^{iθ})| ≤ 2C₂C_anc·‖H‖·(1+T)²·e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}`; then `(1+T)² ≤ e^{2T}` and
@@ -205,7 +209,8 @@ Lemma N itself, general c ((E-d), B2/S4, L2b/L3), and Corollary C1. This note cl
 | main result and all S4a proofs (W1–EW) | FR document §10.8 |
 | exact specification of the target (E-w) | FR document §10.2 |
 | segmentation, ledgers, route contracts | FR document §10.3–10.6 |
-| proofs of the QR5 / RF kernels | FR document §10.5.2–10.5.3 (+ the K2 documents) |
+| RF kernel: interface / proof | FR document §10.5.2 (interface) / §10.5.3 (proof, internal to the FR document) |
+| QR5 / K2-family kernels: proofs | predecessor documents (K2p1 §3.8.6 and others) — the FR document only cites and consumes the accepted results |
 | coverage lemma (S4b-COV) | FR document §10.5.5 |
 | acceptance ledger and version history | FR document §10.7 / §11 |
 | position in the program (Lemma N, FR1–FR7) | closure draft §4.3; FR document §1–§4 |
