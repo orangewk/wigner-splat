@@ -580,8 +580,10 @@ def test_s4b_cov0_selection_schema_spec_surfaces():
     # premature acceptance may appear anywhere in the active region
     cov_section = current.split("#### 10.5.5", 1)[1].split("### 10.6", 1)[0]
     assert "open, not claimed" in cov_section
-    assert "**accepted**" not in cov_section, (
-        f"{FR_SPEC_DOC}: premature acceptance inside §10.5.5"
+    # the ONLY acceptance marker allowed in §10.5.5 is the COV0 row's record;
+    # COV1 must never carry one until R-COV1 passes
+    assert cov_section.count("**accepted**") == 1, (
+        f"{FR_SPEC_DOC}: unexpected acceptance count inside §10.5.5"
     )
     assert "R-COV1 PASS" not in current, (
         f"{FR_SPEC_DOC}: premature R-COV1 acceptance token"
@@ -594,6 +596,26 @@ def test_s4b_cov0_selection_schema_spec_surfaces():
     )
     assert "(COV-1)" in lemma_block and "(COV-2)" in lemma_block, (
         f"{FR_SPEC_DOC}: COV-1/COV-2 missing from the lemma block"
+    )
+    cov0_rows = [
+        line for line in cov_section.splitlines()
+        if line.startswith("| COV0 selection schema 手術 |")
+    ]
+    assert len(cov0_rows) == 1, f"{FR_SPEC_DOC}: COV0 row count != 1"
+    assert "R-COV0 R3 PASS、fixed SHA `256ab38`" in cov0_rows[0], (
+        f"{FR_SPEC_DOC}: COV0 row lost acceptance record"
+    )
+    assert "R-COV0 査読待ち" not in current, (
+        f"{FR_SPEC_DOC}: stale R-COV0 audit-wait marker after acceptance"
+    )
+    ledger_section = current.split("### 10.7 S4-0 acceptance ledger", 1)[1]
+    cov0_ledger = [
+        line for line in ledger_section.splitlines()
+        if line.startswith("| S4-0.COV0 |")
+    ]
+    assert len(cov0_ledger) == 1, f"{FR_SPEC_DOC}: S4-0.COV0 row count != 1"
+    assert "**PASS (R-COV0 R3、fixed SHA `256ab38`)**" in cov0_ledger[0], (
+        f"{FR_SPEC_DOC}: S4-0.COV0 row lost acceptance record"
     )
     rows = [
         line for line in cov_section.splitlines()

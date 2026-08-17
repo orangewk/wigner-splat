@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.12.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 spec 手術 = R-COV0 査読待ち(§10.5.5)、S4b closure(COV1)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.12.4 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1082,7 +1082,7 @@ PΣ-4 として §10.5/§10.4 に実施済み(R-PS4 R3 PASS `58b9c9f`)。数値�
 | PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | **accepted**(R-PS3 R2 PASS、fixed SHA `65bb02e`) |
 | PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | **accepted**(R-PS4 R3 PASS、fixed SHA `58b9c9f`) |
 
-#### 10.5.5 S4b-COV: canonical route selector と ray coverage(COV0 spec 手術 / COV1 open)
+#### 10.5.5 S4b-COV: canonical route selector と ray coverage(COV0 accepted / COV1 open)
 
 本節を S4b coverage program の唯一の authoring location とする。program は
 COV0(selection schema 手術、proof claim なし)→ COV1(canonical coverage lemma)の 2 packet
@@ -1155,7 +1155,7 @@ compact-class input を exact `REFIX`/zero-pruning して canonical form を固�
 
 | ID | scope | state |
 |---|---|---|
-| COV0 selection schema 手術 | 本節 + §10.4 `selection_witness`/manifest 分離 | spec 手術 = 本 version、R-COV0 査読待ち |
+| COV0 selection schema 手術 | 本節 + §10.4 `selection_witness`/manifest 分離 | **accepted**(R-COV0 R3 PASS、fixed SHA `256ab38`) |
 | COV1 canonical coverage lemma | (COV-0)(COV-1)(COV-2) の証明 + fail-closed mutation tests | open, not claimed |
 
 ### 10.6 Coefficient-free constants
@@ -1194,6 +1194,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.RF-PROMOTE | `root-far` row の registry 昇格手術(§10.5 row、status surface 同期、fail-closed tests) | **PASS (R-RF-PROMOTE R3、fixed SHA `9cca48d`)**(R1/R2 findings は v0.10.1–v0.10.3 で全件受諾、R4 で tests 確認) |
 | S4-0.PS | polynomial ΣA program(§10.5.4 補題 PΣ-1/PΣ-2/PΣ-3) | **PASS**(R-PS1 fixed SHA `f875d76`、minors `050156b`; R-PS2 fixed SHA `540d0c1`、minors `4d0f636`; R-PS3 R2 fixed SHA `65bb02e`) |
 | S4-0.PS-PROMOTE | `K2Q-aff-u`/`generalized-singleton-u` の polynomial-envelope 昇格手術(§10.5 rows、§10.4 witness 必須化、fail-closed tests) | **PASS (R-PS4 R3、fixed SHA `58b9c9f`)**(R1/R2 findings は v0.11.8–v0.11.9 で全件受諾、R3 で revert fail-closure を実地確認) |
+| S4-0.COV0 | S4b-COV0 selection schema 手術(§10.5.5、§10.4 `selection_witness`、manifest 分離、K_T index 契約) | **PASS (R-COV0 R3、fixed SHA `256ab38`)**(R1/R2 findings は v0.12.2–v0.12.3 で全件受諾。accepted body への in-body 編集は revert し、SHA-256 バイト一致を双方検証) |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4b/a/c proofs | none | open, not claimed |
 
@@ -1455,3 +1456,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   `selection_witness` field row の完全一致束縛(4-tuple + guard coupling)、補題 S4b-COV
   block 内での (COV-0) 直接検査、accepted PΣ-3 本文の drift 監視と in-body 注の再導入禁止を
   追加。R-COV0 R3 待ち。
+- v0.12.4(2026-08-17): luna R-COV0 R3 = **PASS**(reviewed SHA `256ab38`、findings なし。
+  §10.5.3/§10.5.4 の SHA-256 バイト一致・mutation 再プローブ 3 種の捕捉・24 passed を確認)。
+  COV0 を accepted へ昇格、§10.7 に S4-0.COV0 行を新設、tests を acceptance 状態へ同期。
+  S4b closure の残余は COV1(canonical coverage lemma、(COV-0)(COV-1)(COV-2))のみ。
