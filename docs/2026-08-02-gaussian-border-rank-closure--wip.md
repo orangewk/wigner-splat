@@ -841,7 +841,7 @@ nested 2+1 は coarse `3`(全原子が同一極限点へ収束)の**内部 rate 
 | N-P1 Gram 連続性 + 極限独立性 | (i) ℱ-norm 収束枠 `v_{ℓ,m} → v_ℓ*`、極限系 `{v_ℓ*}` が線形独立 ⇒ `Gram(v_{·,m})` 最小固有値が m 一様に正(標準の連続性論法の明文化)。(ii) 極限独立性の供給規約: **相異基点間**は L0(相異指数)、**同一基点内**は jet(多項式)独立性 — `{P_iΦ(ξ*)}` は `{P_i}` が多項式として独立なら独立(`ΣP_i` 係数比較の初等命題、本 packet で明文化。L0 は同一指数へ直接適用しない) | **accepted**(R-NP1 R2 PASS、fixed SHA `c893f04`) |
 | N-P2 相異極限点(全分離)| 枠 = 正規化原子 `Φ̂(ξ_{j,m})` 自身。N1: `d_ℓ = 0` 自明、N2: N-P1(ii)(singleton group、実質 L0)+ N-P1(i)、N3′: per-atom 自明包絡 `E(z) ≤ (E-w)` 形、N4: `(δ,R)`。coarse `1\|1\|1`, `1\|1`, `1` を一括で覆う | **accepted**(R-NP2 R2 PASS、fixed SHA `8f64cd0`) |
 | N-P3 c=2 衝突 pair 枠 | **unnormalized** divided difference `ψ_m := (Φ(ξ_{1,m})−Φ(ξ_{2,m}))/ρ_m`(pair scale `ρ_m := max(|ΔA_m|,|ΔB_m|)`、`ΔA_m := A_{1,m}−A_{2,m}` 等は**原座標** `(A,B)` の差。rank `r` とは別記号)、枠 = `{Φ̂(ξ_{2,m}), ψ_m/‖ψ_m‖}`。N1: `ψ_m → Q(z)Φ(ξ*)`、`Q(z) := a z²/2 + b z`(部分列で `(ΔA_m/ρ_m, ΔB_m/ρ_m) → (a,b)`、`max(|a|,|b|)=1`。`Q(0)=0` かつ `Q ≢ 0`、`deg Q ∈ {1,2}` — 2(`a≠0`)または 1(`a=0`)、0 に落ちない。線分積分表示 + 優収束)、N2: W2 の jet 二分法(非消滅下界)+ **同一基点 jet 独立性(N-P1(ii)、`{Φ(ξ*), QΦ(ξ*)}` は `Q(0)=0`・`Q ≢ 0` すなわち `deg Q ≥ 1` で独立)** + N-P1(i) の**分業**(W2 は Gram 下界を直接主張しない。L0 は同一指数対に使わない)、N3′: 枠元は 2 原子結合なので W2(FR 文書 §10.8、引用)で (E-w) 形、N4: `(δ,R)` | **accepted**(R-NP3 R1 PASS、fixed SHA `f86acae`) |
-| N-P4 coarse `2\|1` | 枠 = N-P3 の pair 枠 ∪ `Φ̂(ξ_{3,m})`。極限 3 系 `{Φ(ξ*), QΦ(ξ*), Φ(η*)}`(`ξ* ≠ η*`)の線形独立性を、**同一基点内は jet 独立性(N-P1(ii))・相異基点間は L0** の分業で示し、**full Gram** に N-P1(i) を適用(cross block は一般に 0 へ行かないので L1-a/L3 の減衰論法は**使わない**) | 査読待ち |
+| N-P4 coarse `2\|1` | 枠 = N-P3 の pair 枠 ∪ `Φ̂(ξ_{3,m})`。極限 3 系 `{Φ(ξ*), QΦ(ξ*), Φ(η*)}`(`ξ* ≠ η*`)の線形独立性を、**同一基点内は jet 独立性(N-P1(ii))・相異基点間は L0** の分業で示し、**full Gram** に N-P1(i) を適用(cross block は一般に 0 へ行かないので L1-a/L3 の減衰論法は**使わない**) | **accepted**(R-NP4 R1 PASS、fixed SHA `1058eda`) |
 | N-P5 組み立て | coarse `3` は FR 文書 §10.9 の acceptance(FR1–FR7、original 座標の exact span・norm limit・Gram・(E-w))を **black box として引用消費**(gauge 収束の再導出はしない。N1 norm limit の原座標移送は FR §8.4 の strong convergence 主張を引用。pointwise envelope の gauge 移送は行わない — (E-w) は補題 EW が original 座標で供給済み)。全 coarse case の分岐総合で補題 N(c≤3) | 査読待ち |
 
 #### 4.3.6.1 補題 N-P1(Gram 連続性 + 極限独立性供給 — accepted、R-NP1 R2 PASS `c893f04`)
@@ -971,7 +971,7 @@ norm 1 の 2 原子 exact 結合で、係数 `±(ρ_m‖ψ_m‖)^{−1} ≠ 0`�
 **scope(非主張)**: coarse `2|1` の singleton との結合(N-P4)、coarse `3`(N-P5)、
 W2 本体の再証明(FR 文書の accepted 面を引用消費のみ)。
 
-#### 4.3.6.4 補題 N-P4(coarse `2|1` — 査読待ち R-NP4)
+#### 4.3.6.4 補題 N-P4(coarse `2|1` — accepted、R-NP4 R1 PASS `1058eda`)
 
 **補題 N-P4**: 前処理(N-pre)後の `w = 3` で、labels 1,2 が同一極限点へ衝突し
 (`ξ_{1,m}, ξ_{2,m} → ξ^*`、各 m で相異)、label 3 が**別の**極限点へ収束
@@ -1003,6 +1003,49 @@ W2 本体の再証明(FR 文書の accepted 面を引用消費のみ)。
 Gram 下界のみ部分列の極限配置(`ξ^*, η^*, Q`)に依存(許容)。∎
 
 **scope(非主張)**: coarse `3`(N-P5)、一般 c。N-P3/N-P1 の再証明はしない(引用消費)。
+
+#### 4.3.6.5 補題 N-P5(組み立て — 査読待ち R-NP5)
+
+**補題 N-P5(= 補題 N の c≤3 特化版)**: §4.3.6 の量化 target (N1)–(N4)_{c≤3} は、前処理
+(N-pre)後の任意の入力について成立する。**地位**: 本補題の証明は accepted packet
+N-P1〜N-P4 と、FR 文書の program 内 acceptance(FR1–FR7、複数 LLM 査読のみ・人間査読未実施)
+を引用消費する組み立てであり、その全体も同じ地位(証明ドラフト・人間査読未実施)に留まる。
+
+*証明*: N-pre で部分列・quotient・極限点・coarse partition を固定する(各 case packet 内の
+追加の部分列抽出は有限回の入れ子なので、最終的に一つの部分列に統合できる)。coarse partition
+台帳の全 class を場合分けし尽くす(排他・網羅は N-P0 accepted):
+
+- **全極限点相異**(coarse `1|1|1`, `1|1`, `1`): 補題 N-P2。
+- **coarse `2`**(w=2 衝突): 補題 N-P3。
+- **coarse `2|1`**: 補題 N-P4。
+- **coarse `3`**(単一衝突 cluster): 入力は FR 文書 §2 の入力仕様(全 j で `ξ_{j,m} → ξ*`、
+  `s_m → 0`)をそのまま満たす(nested 2+1 の内部 rate tree も §2 の再帰で FR 側が処理)。
+  FR 文書 §10.9(S4c acceptance、fixed SHA `b6bbe01`)の FR1–FR7 acceptance を **black box
+  として引用消費**し、枠を `v_{ℓ,m} := U_m^{-1}v^{FR}_{ℓ,m}`(原座標、N-P0 の座標束縛注意)
+  と取る:
+  - (N1) ← FR1(exact span)+ FR2(有限 chart)+ FR3(X)(L-d)(`P_ℓΦ(ξ*)` への norm 収束、
+    plain は `d_ℓ ≤ 5`(補題 W)、nested 2+1 は FR-S1″)。原座標での norm limit は
+    FR §8.4/§9.5 の chart 固定つき strong convergence 主張を引用する(本補題で gauge 収束を
+    再導出しない)。`r = dim V_m = 3 = w` は N-pre(quotient 後の L0 独立性)と整合;
+  - (N2) ← FR4(Gram 一様下界)。`U_m^{-1}` は unitary なので
+    `Gram(U_m^{-1}v^{FR}) = Gram(v^{FR})` — 下界は不変;
+  - (N3′) ← FR6 = (E-w) = (S4-Ew)(補題 EW、fixed SHA `b39216f`)が**正に原座標の
+    `U_m^{-1}v_{ℓ,m}` へ** supply する(pointwise の gauge 移送は発生しない — FR 補題 EW-B
+    の設計どおり)。枠元が入力原子の exact 有限結合であることは FR1/§3(exact block tree);
+  - (N4) ← 補題 EW の定数保証: `C_w, C_lin` は `(δ, R, ε_chain, C_T, C_RF)` のみに依存、
+    `m, ℓ, θ, z` と表示係数に非依存。`m₀ = max(m_{FR-S1′/S1″}, m̃_RF)`(存在のみ要求、
+    収束速度依存可)。
+
+全 case で (N1)–(N4)_{c≤3} が成立する。∎
+
+**定数の総括**: coarse `3` 以外は `C_w = C₂(R)`(分離 case は 1)、`C_lin = R+2`(同 `R`)、
+`m₀ = 1`。coarse `3` は FR の `C_w = 2C₂(R)C_anc e^L`、`C_lin = L+2`(`L = R + C_ch`)。
+全 case を単一定数で覆うなら両者の max を取ればよい(いずれも `(δ,R,ε_chain,C_T,C_RF)` のみ)。
+
+**scope(非主張)**: FR 文書の accepted 面(FR1–FR7、EW、W2)・N-P1〜N-P4 の再証明はしない。
+一般 c は不変に open — 本補題は G1′ を閉じない(G1′ = 一般 c の補題 N 証明本体)。
+消費側(§4.4/§6/§7)への効果は「全 cluster の leaf weight ≤ 3 の場合に補題 N 条件が外れる」
+ことに限られ、その接続の適用は本補題の範囲外(別途 §4.4 側の監査を要する)。
 
 **非主張**: 一般 c の補題 N(G1′ 本体)、(E-d) 多項式形、L2a/L2b/主定理/系 C1 の無条件化。
 全 packet が受理された場合に主張できるのは上の量化形(c≤3 特化)のみであり、その場合も
