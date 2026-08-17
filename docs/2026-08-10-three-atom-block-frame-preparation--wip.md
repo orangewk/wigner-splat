@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.11.7 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/2/3 accepted、polynomial-envelope 昇格手術 = R-PS4 査読待ち(§10.5.4/§10.7)、S4b closure(coverage)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.11.8 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/2/3 accepted、polynomial-envelope 昇格手術 = R-PS4 査読待ち(§10.5.4/§10.7)、S4b closure(coverage)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -124,8 +124,9 @@ plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′、nest
 固定 SHA `61111cc` の R-A″で PASS。base FR-S4-0 interface も固定 SHA `56498bb` の R9 で accepted。
 補題 RF(§10.5.3)は R-RF R2(fixed SHA `9f19389`、minors `c271919`)で受理され、
 `root-far` row は §10.5 の resolved discriminant へ昇格した(`M-ROOT-FAR-KERNEL` 解消)。
-現在の最初の未解決点は **S4b closure の残余**(K2Q-aff/generalized-singleton の polynomial ΣA proof、
-interval coverage の RouteRecord 検証)であり、S4a の polynomial-envelope assembly と
+polynomial ΣA program は PΣ-1/2/3 が accepted(§10.5.4)、PΣ-4 の registry 昇格手術は実施済み。
+現在の最初の未解決点は **R-PS4 promotion audit の完了と S4b closure の残余**(interval coverage の
+RouteRecord 検証)であり、S4a の polynomial-envelope assembly と
 S4c の N3′/N4・no-return audit は open のまま。c=3 の (E-w) や FR5–FR7 の閉鎖はまだ主張しない。
 
 FR-S1′/S1″の設計時に解決した制約として、旧 moment order だけでは消滅速度を記録できず、
@@ -953,8 +954,8 @@ mpmath dps 30(session-local 検証で証明には数えない。head からの�
 本節を polynomial ΣA program の唯一の authoring location とする。program は
 PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ-4(route 昇格:
 `K2Q-aff-u`/`generalized-singleton-u` の `polynomial-envelope/open` を accepted へ)の 4 packet
-に分割し(Sol consultation 2026-08-17 の分割案を採用)、本節は **PΣ-1(accepted)と
-PΣ-2(accepted)**を主張し、PΣ-3/PΣ-4 は非主張とする。
+に分割し(Sol consultation 2026-08-17 の分割案を採用)、本節は **PΣ-1/PΣ-2/PΣ-3 を
+accepted として主張**する。PΣ-4 は本 version で手術済みだが、R-PS4 査読完了まで未受理とする。
 
 > **RetiredClaim: naive-sup-split(設計段階撤回・機械検算可能形)**: 不等式
 > `sup_J(log|P|+r) ≥ log sup_J|P| + sup_J r` は**偽**。witness: `I = [0,1]`、`J = [0,ε]`、
@@ -1066,7 +1067,7 @@ bound は停止規則の定める `N` に依らず**全ての `N ≥ 1` で成�
 D-相殺・coverage・(E-w) 本体・近原点領域(半径 ≲ 2、C′ 同様 S4a の compact initial estimate
 が掌理)は本補題の非主張。route 昇格(`polynomial-envelope/open` → accepted)は (h2) の
 frequency witness を polynomial-envelope record の必須 field に追加する registry 手術を要し、
-PΣ-4 で行う。数値診断(非証拠): 窓和二次式 bound は
+PΣ-4 として本 version で §10.5/§10.4 に実施済み(R-PS4 査読待ち)。数値診断(非証拠): 窓和二次式 bound は
 `T ∈ {3..1000} × ε ∈ {0.5..0.01} × 全 N ≤ 3T+3` の掃引で余裕最小 1.39、停止規則の実 N でも
 違反なし、係数不等式は `δ ∈ (0,1]` 掃引で余裕最小 1.25×10⁻⁴(δ = 10⁻³)。
 
@@ -1332,3 +1333,10 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   §10.5.4 表の minors SHA を明示(PΣ-1 `050156b`、PΣ-2 `4d0f636`)。§10.7 に S4-0.PS
   (acceptance 記録)と S4-0.PS-PROMOTE(手術、R-PS4 査読待ち)を新設。fail-closed tests に
   昇格 row の positional binding・stale token 検査・intrinsic SHA prefix 検査を追加。
+- v0.11.8(2026-08-17): luna R-PS4 R1 = blocking 1 + major 1 を全受諾。[PS4-B1] stale consumer
+  prose 3 箇所を修正(§7 の残余 blocker を「R-PS4 audit + coverage」へ、§10.5.4 冒頭を
+  「PΣ-1/2/3 accepted 主張・PΣ-4 手術済み未受理」へ、PΣ-3 scope の「PΣ-4 で行う」を
+  「本 version で実施済み(R-PS4 査読待ち)」へ)。[PS4-M1] tests を拡張: active region の
+  stale prose 検査、§10.5.4 状態表・§10.7 ledger の行単位 binding(S4-0.PS の 5 SHA、
+  S4-0.PS-PROMOTE の査読待ち marker)、promoted row 内の intrinsic SHA tuple を PS-4 専用
+  テストへ複製(RF テスト非依存化)。R-PS4 R2 待ち。

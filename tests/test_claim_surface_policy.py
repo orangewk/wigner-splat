@@ -441,7 +441,11 @@ def test_polynomial_sigma_a_promotion_surfaces_agree():
             f"{FR_SPEC_DOC}: RouteSpec missing intrinsic PS SHA {full}"
         )
 
-    # both promoted rows demand the accepted ledger and the frequency witness
+    # both promoted rows demand the accepted ledger, the frequency witness,
+    # and their own intrinsic SHA tuples (positional, independent of the RF
+    # test's row_source_expectations)
+    ps2_full = "4d0f636c6b4c2e05bd09912164f97ff06e35ba41"
+    ps3_full = "65bb02ef9f410460f127ad2339e49d8c903fe377"
     for prefix in ("| `K2Q-aff-u`:", "| `generalized-singleton-u`:"):
         rows = [
             line
@@ -451,12 +455,66 @@ def test_polynomial_sigma_a_promotion_surfaces_agree():
         assert len(rows) == 1, f"{FR_SPEC_DOC}: row {prefix} count != 1"
         assert "polynomial-envelope / accepted(assembly_proof_ref)" in rows[0]
         assert "`leaf_phase_max` witness 必須" in rows[0]
+        assert f"§10.5.4 補題 PΣ-2,{ps2_full},PASS" in rows[0], (
+            f"{FR_SPEC_DOC}: row {prefix} lost PS-2 intrinsic ref"
+        )
+        assert f"§10.5.4 補題 PΣ-3,{ps3_full},PASS" in rows[0], (
+            f"{FR_SPEC_DOC}: row {prefix} lost PS-3 intrinsic ref"
+        )
 
-    # §10.4 record vocabulary forbids NONE for accepted polynomial-envelope,
-    # and §10.7 carries both the acceptance row and the surgery row
+    # active-region stale prose (luna R-PS4 M1): consumer sentences must not
+    # keep describing the ΣA proof as an open blocker or PΣ-3 as unclaimed
+    for token in (
+        "PΣ-3/PΣ-4 は非主張",
+        "polynomial ΣA proof、",
+        "の polynomial ΣA proofが",
+    ):
+        assert token not in current, (
+            f"{FR_SPEC_DOC}: stale ΣA consumer prose: {token}"
+        )
+
+    # §10.5.4 state table, bound row-by-row
+    ps_table_rows = {
+        "| PΣ-1 局所補題 |": "R-PS1 PASS、fixed SHA `f875d76`; minors `050156b`",
+        "| PΣ-2 max-envelope lift |": (
+            "R-PS2 PASS、fixed SHA `540d0c1`; minors `4d0f636`"
+        ),
+        "| PΣ-3 ray-wide ledger |": "R-PS3 R2 PASS、fixed SHA `65bb02e`",
+        "| PΣ-4 route 昇格 |": "R-PS4 査読待ち",
+    }
+    ps_section = current.split("#### 10.5.4", 1)[1]
+    for prefix, fragment in ps_table_rows.items():
+        rows = [
+            line for line in ps_section.splitlines() if line.startswith(prefix)
+        ]
+        assert len(rows) == 1, f"{FR_SPEC_DOC}: PS table row {prefix} count != 1"
+        assert fragment in rows[0], (
+            f"{FR_SPEC_DOC}: PS table row {prefix} lost record {fragment}"
+        )
+
+    # §10.4 record vocabulary forbids NONE for accepted polynomial-envelope
     assert "`NONE` を許さない" in current
-    assert "| S4-0.PS |" in current
-    assert "| S4-0.PS-PROMOTE |" in current
+
+    # §10.7 ledger rows, bound row-by-row: acceptance names all five SHAs,
+    # surgery row stays 査読待ち until the audit passes
+    ledger_section = current.split("### 10.7 S4-0 acceptance ledger", 1)[1]
+    ps_rows = [
+        line for line in ledger_section.splitlines()
+        if line.startswith("| S4-0.PS |")
+    ]
+    assert len(ps_rows) == 1, f"{FR_SPEC_DOC}: S4-0.PS row count != 1"
+    for sha in ("`f875d76`", "`050156b`", "`540d0c1`", "`4d0f636`", "`65bb02e`"):
+        assert sha in ps_rows[0], f"{FR_SPEC_DOC}: S4-0.PS row lost SHA {sha}"
+    promote_rows = [
+        line for line in ledger_section.splitlines()
+        if line.startswith("| S4-0.PS-PROMOTE |")
+    ]
+    assert len(promote_rows) == 1, (
+        f"{FR_SPEC_DOC}: S4-0.PS-PROMOTE row count != 1"
+    )
+    assert "R-PS4 査読待ち" in promote_rows[0], (
+        f"{FR_SPEC_DOC}: S4-0.PS-PROMOTE row lost audit-wait marker"
+    )
 
 
 def test_root_far_domain_schema_binds_all_required_keys():
