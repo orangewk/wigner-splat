@@ -2,8 +2,10 @@
 
 Date: 2026-08-17 / Author: mainline / status: **wip — summary, non-normative**
 
-> **Status of the result.** Everything stated here is a **proof draft: cross-checked by multiple LLMs,
-> internally reviewed at fixed commit SHAs, and awaiting independent external re-review.**
+> **Status of the result.** Everything stated here is a **proof draft**. Verification to date consists
+> solely of adversarial fixed-SHA reviews by multiple LLMs plus numerical diagnostics; **no human
+> review has taken place** (the repository is public, but no external review process is underway or
+> scheduled).
 > The sole authoring location of the S4-program proof drafts (S4a/S4b/S4c) summarized here is the
 > [FR document](2026-08-10-three-atom-block-frame-preparation--wip.md) §10 (v0.15, in Japanese);
 > the predecessor kernels (QR5, the K2 family) are authored in their own predecessor documents (§8);
@@ -199,8 +201,9 @@ All constants assemble in closed form from `(δ,R)` and three uniform kernel con
   (25 tests). These tests monitor the normative documents (the FR document and the closure draft);
   this summary itself is not among their targets.
 
-**Open items:** independent external re-review of the entire c=3 FR arc, the quantified completion of
-Lemma N itself, general c ((E-d), B2/S4, L2b/L3), and Corollary C1. This note claims none of them.
+**Open items:** human review of the entire c=3 FR arc (none has taken place, and no review process
+currently exists), the quantified completion of Lemma N itself, general c ((E-d), B2/S4, L2b/L3), and
+Corollary C1. This note claims none of them.
 
 ## 8. Where the full proofs live
 

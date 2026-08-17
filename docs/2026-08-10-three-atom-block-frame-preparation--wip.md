@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.15 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、**S4a program 完結・(S4-Ew) 閉鎖**(§10.8 全 8 packet accepted、R-EW R2 PASS `b39216f`)、**S4c accepted(R-S4C R3 PASS `b6bbe01`、§10.9)— FR-S4 全 program 完結、program 内 c=3 FR ledger 閉鎖(外部再査読 caveat 維持)****
+日付: 2026-08-10 / 著者: 本線 / status: **v0.15.1 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、**S4a program 完結・(S4-Ew) 閉鎖**(§10.8 全 8 packet accepted、R-EW R2 PASS `b39216f`)、**S4c accepted(R-S4C R3 PASS `b6bbe01`、§10.9)— FR-S4 全 program 完結、program 内 c=3 FR ledger 閉鎖(caveat: **人間による査読は未実施** — 検証は複数 LLM の adversarial fixed-SHA 査読 + 数値診断のみ。公開リポジトリだが外部査読体制は現存しない。v0.15.1 で caveat 文言を実態同期)****
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -2060,3 +2060,9 @@ FR7 = 本節 (ii) の audit。
   program 内 c=3 FR ledger(FR1–FR7)閉鎖**。表現は保守的に維持: これは複数 LLM 検算 +
   fixed-SHA 査読つきの program 内 acceptance であり、閉包文書側の残余(補題 N 量化完備化、
   外部独立再査読、一般 c、系 C1)は open のまま。tests・status surface 同期。
+- v0.15.1(2026-08-17): caveat 文言の実態同期(orange 指示)。旧文言「外部再査読待ち/
+  外部再査読 caveat 維持」は進行中の査読 process を示唆するが、そのような体制は現存しない
+  (リポジトリは公開済みだが読者・査読者は不在)。正確な地位 =「人間による査読は未実施。
+  検証は複数 LLM の adversarial fixed-SHA 査読 + 数値診断のみ」。status surface(header・
+  閉包文書 status 行・G1′ 残余行・外部向け要約 2 本)のみ更新し、accepted body・acceptance
+  record・履歴 entry の字句は不変(歴史記録として保存)。

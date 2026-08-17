@@ -1,6 +1,6 @@
-# ガウス border rank 閉包定理 — ドラフト v1.8.13(N3′/N4 の c=3/(E-w) 同期・独立査読中)
+# ガウス border rank 閉包定理 — ドラフト v1.8.13(N3′/N4 の c=3/(E-w) 同期・人間査読未実施)
 
-日付: 2026-08-02(v1.8.13 = 2026-08-17)/ 著者: 本線 / status: **wip(draft PR #178 で独立査読中)**
+日付: 2026-08-02(v1.8.13 = 2026-08-17)/ 著者: 本線 / status: **wip(draft PR #178。検証は複数 LLM の fixed-SHA 査読 + 数値診断のみ — 人間による査読は未実施)**
 
 > **v1.8 changelog(一般 c ≥ 3 の攻略アーキテクチャ、2026-08-08)**:
 > §4.3.5 新設: K_c を 3 段(B1 振幅 peeling / B2 位相 block 非相殺 / B3 compact core)に帰着。
@@ -9,8 +9,9 @@
 > **v1.8.14 FR nested promotion(2026-08-11)**: plain FR-S1′ は R-A′ PASS (`ed25401`)、
 > static generalized W′ と finite-m nested 2+1 FR-S1″ は R-W′ / R-A″ PASS (`57ff88d` / `61111cc`)。
 > これで post-quotient `w=r=3` の全tree shapeについて FR1/FR2/FR4/FR3(X)(L-d) を閉じた。
-> c=3 の FR-S4(FR5–FR7、弱形 (E-w) 経由)は FR 文書 v0.14.1 の program 内で全 packet が
-> fixed-SHA 査読つき draft 完了(S4c = R-S4C 外部査読待ち)。`(E-d)` は c=3 blocker ではなく
+> c=3 の FR-S4(FR5–FR7、弱形 (E-w) 経由)は FR 文書 §10 の program 内で全 packet が
+> fixed-SHA 査読つきで accepted(S4c は R-S4C R3 PASS `b6bbe01`。人間による査読は未実施 —
+> 査読体制は複数 LLM のみ)。`(E-d)` は c=3 blocker ではなく
 > **一般 c の義務**。一般 c の B2/S4、L2b/L3 は不変に open。
 >
 > **v1.8.12 claim correction(F3′、2026-08-11)**: 三原子 flex 配置の exact divided difference が
@@ -870,7 +871,7 @@ t≥2 の偶数側 equality と奇数側 lower bound は F3′ により撤回�
 
 | # | 箇所 | 内容 | 状態 |
 |---|---|---|---|
-| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で draft 完了(S4c = R-S4C 待ち、(E-w) 経由)。**残余 = ①c=3 FR の外部査読完了(R-S4C)と補題 N 量化完備化 ②一般 c の (E-d)・B2+(F1)/S4 ③L2b/L3 枠置換**。 | **open(主 blocker)** |
+| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で全 packet accepted(R-S4C R3 PASS `b6bbe01`、(E-w) 経由。人間による査読は未実施 — 査読体制は複数 LLM のみ)。**残余 = ①補題 N 量化完備化 ②一般 c の (E-d)・B2+(F1)/S4 ③L2b/L3 枠置換**。 | **open(主 blocker)** |
 | G2 | L1 符号 | 査読提供の不等式で閉鎖 | **closed(v1.1)** |
 | G3 | 脱出混在 | gauge 化再構成で場合分け自体が消滅(再査読で blocking 2 は resolve 判定、前提 = 補題 N + G8) | **closed(v1.1、再査読確認済み)** |
 | G4 | C2 quantitative | F3′ により旧次数下界を撤回。t≥2 の偶奇 sharp 値を再導出(|5⟩は上界 3) — C1 に影響なし | open(副産物) |

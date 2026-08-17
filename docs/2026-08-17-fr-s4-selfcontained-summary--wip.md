@@ -2,7 +2,9 @@
 
 日付: 2026-08-17 / 著者: 本線 / status: **wip — 要約・非規範**
 
-> **地位**: 本稿が述べる結果は**証明ドラフト・複数 LLM 検算済み・fixed-SHA 内部査読済み・独立外部再査読待ち**である。
+> **地位**: 本稿が述べる結果は**証明ドラフト**である。検証はこれまでのところ複数 LLM による
+> adversarial fixed-SHA 査読と数値診断のみで、**人間による査読は未実施**(リポジトリは公開済みだが、
+> 進行中あるいは予定された外部査読 process は存在しない)。
 > 本稿が要約する S4 program(S4a/S4b/S4c)の証明ドラフトの唯一の authoring location は
 > [FR 文書](2026-08-10-three-atom-block-frame-preparation--wip.md) §10(v0.15)であり
 > (QR5/K2 等の先行 kernel の証明は各先行文書が authoring location、§8 参照)、
@@ -173,7 +175,8 @@ effective rank(1/2/3)× `T ≥ 3` / `T < 3` の場合分けで (S4-Ew)。
   [claim-surface tests](../tests/test_claim_surface_policy.py)(25 件)で機械監視。
   監視対象は規範文書(FR 文書・閉包文書)であり、本要約自体は対象外。
 
-**残余(open)**: c=3 FR arc 全体の外部独立再査読、補題 N 本体の量化完備化、一般 c
+**残余(open)**: c=3 FR arc 全体の人間による査読(未実施 — 現存する査読体制なし)、
+補題 N 本体の量化完備化、一般 c
 ((E-d)、B2/S4、L2b/L3)、系 C1。本稿の結果はこれらを主張しない。
 
 ## 8. 全証明の所在
