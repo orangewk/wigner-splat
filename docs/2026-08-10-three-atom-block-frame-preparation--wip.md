@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.12.8 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -124,10 +124,11 @@ plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′、nest
 固定 SHA `61111cc` の R-A″で PASS。base FR-S4-0 interface も固定 SHA `56498bb` の R9 で accepted。
 補題 RF(§10.5.3)は R-RF R2(fixed SHA `9f19389`、minors `c271919`)で受理され、
 `root-far` row は §10.5 の resolved discriminant へ昇格した(`M-ROOT-FAR-KERNEL` 解消)。
-polynomial ΣA program は PΣ-1/2/3/4 の全てが accepted(§10.5.4、R-PS4 R3 PASS `58b9c9f`)。
-現在の最初の未解決点は **S4b closure の残余**(interval coverage の
-RouteRecord 検証)であり、S4a の polynomial-envelope assembly と
-S4c の N3′/N4・no-return audit は open のまま。c=3 の (E-w) や FR5–FR7 の閉鎖はまだ主張しない。
+polynomial ΣA program は PΣ-1/2/3/4 の全てが accepted(§10.5.4、R-PS4 R3 PASS `58b9c9f`)、
+S4b coverage は補題 S4b-COV(§10.5.5、R-COV1 R4 PASS `c36d818`)で閉鎖し、**S4b closure は
+完結**した。現在の最初の未解決点は **S4a の envelope assembly**(W1 Child-reserve 以降、
+§10.5.4/§10.5.5 の帳簿を消費)であり、S4c の N3′/N4・no-return audit も open のまま。
+c=3 の (E-w) や FR5–FR7 の閉鎖はまだ主張しない。
 
 FR-S1′/S1″の設計時に解決した制約として、旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の
@@ -510,7 +511,7 @@ S4b の split-row audit が供給すべき明示 obligation とする。
 | packet | consumes | produces | current state |
 |---|---|---|---|
 | S4-0 | FR-S1′/S1″、K2/K2Q/QR5、C′ の候補 interface | 本節の型付き interface のみ | **accepted (R-S4-0 R9、fixed SHA `56498bb`)** |
-| S4b | S4-0 + reviewed node kernels | per-segment FR5 routing、split-row audit | open, not claimed |
+| S4b | S4-0 + reviewed node kernels | per-segment FR5 routing、split-row audit | **closed**(全 6 route resolved + PΣ/RF ledgers + 補題 S4b-COV accepted `c36d818`。旧 exponent-4 split-row audit は v0.8.15 反例で退役し held root は QR5-w へ一本化) |
 | S4a | S4b + fixed-SHA PASS の `Cprime_ref` | c=3 weak envelope (E-w) | open, not claimed |
 | S4c | S4a + FR1–FR5 | N3′/N4 ledger、FR7 no-return、c=3 FR acceptance | open, not claimed |
 
@@ -1082,12 +1083,12 @@ PΣ-4 として §10.5/§10.4 に実施済み(R-PS4 R3 PASS `58b9c9f`)。数値�
 | PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | **accepted**(R-PS3 R2 PASS、fixed SHA `65bb02e`) |
 | PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | **accepted**(R-PS4 R3 PASS、fixed SHA `58b9c9f`) |
 
-#### 10.5.5 S4b-COV: canonical route selector と ray coverage(COV0 accepted / COV1 proof draft)
+#### 10.5.5 S4b-COV: canonical route selector と ray coverage(COV0/COV1 accepted — S4b-COV closed)
 
 本節を S4b coverage program の唯一の authoring location とする。program は
 COV0(selection schema 手術、proof claim なし)→ COV1(canonical coverage lemma)の 2 packet
-に分割する(Sol consultation 2026-08-17 第 2 回の設計を採用)。COV0 は accepted、
-補題 S4b-COV は proof draft であり R-COV1 の fixed-SHA 査読完了まで未受理とする。
+に分割する(Sol consultation 2026-08-17 第 2 回の設計を採用)。COV0/COV1 とも accepted
+(下表)であり、S4b coverage program は閉鎖済み。
 
 **動機(DomainSchema は selector ではない)**: §10.4 の 6 schema は kernel の適用前提であり、
 排他的 partition ではない。実際 (i) `deg P=0` の `P` は `D-K2` と `D-K2Q-AFF` の両方で表現可能、
@@ -1142,7 +1143,7 @@ PΣ-3(unweighted subledger)と RF-3(weighted ledger、独立帳簿)の record �
 manifest は各 `R_k` の mode を `ray_mode` witness として出力し、S4a-M1 が weighted/unweighted の
 二次 ledger を同一 ray で加算しないことの検査入力とする。
 
-**補題 S4b-COV(canonical root coverage — proof draft、R-COV1 待ち)**:
+**補題 S4b-COV(canonical root coverage — accepted)**:
 compact-class input を exact `REFIX`/zero-pruning して canonical form を固定すると、任意の ray・
 `T≥3`・§10.3 pinned segmentation に対し
 
@@ -1153,7 +1154,7 @@ compact-class input を exact `REFIX`/zero-pruning して canonical form を固�
   (COV-2) 各 k∈K_T にちょうど一つの RouteRecord `R_k` が構成され、全 required witness を持ち、
           {interval_id(R_k)} = K_T(重複判定は幾何学的点でなく `interval_id`)。
 
-**補題 S4b-COV の証明(proof draft — R-COV1 待ち)**:
+**補題 S4b-COV の証明(accepted — R-COV1 R4 PASS、fixed SHA `c36d818`)**:
 
 *(COV-0) canonical form closure.* 主張は **`S4b RouteRecord` に到達する exact finite-m node**
 に限定した reachability invariant であり、全 chart construction の閉世界性ではない。
@@ -1223,7 +1224,7 @@ PΣ program の acceptance は capability の証明として有効なまま)。u
 | ID | scope | state |
 |---|---|---|
 | COV0 selection schema 手術 | 本節 + §10.4 `selection_witness`/manifest 分離 | **accepted**(R-COV0 R3 PASS、fixed SHA `256ab38`) |
-| COV1 canonical coverage lemma | (COV-0)(COV-1)(COV-2) の証明 + fail-closed mutation tests | proof draft(R-COV1 待ち) |
+| COV1 canonical coverage lemma | (COV-0)(COV-1)(COV-2) の証明 + fail-closed mutation tests | **accepted**(R-COV1 R4 PASS、fixed SHA `c36d818`) |
 
 ### 10.6 Coefficient-free constants
 
@@ -1262,6 +1263,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.PS | polynomial ΣA program(§10.5.4 補題 PΣ-1/PΣ-2/PΣ-3) | **PASS**(R-PS1 fixed SHA `f875d76`、minors `050156b`; R-PS2 fixed SHA `540d0c1`、minors `4d0f636`; R-PS3 R2 fixed SHA `65bb02e`) |
 | S4-0.PS-PROMOTE | `K2Q-aff-u`/`generalized-singleton-u` の polynomial-envelope 昇格手術(§10.5 rows、§10.4 witness 必須化、fail-closed tests) | **PASS (R-PS4 R3、fixed SHA `58b9c9f`)**(R1/R2 findings は v0.11.8–v0.11.9 で全件受諾、R3 で revert fail-closure を実地確認) |
 | S4-0.COV0 | S4b-COV0 selection schema 手術(§10.5.5、§10.4 `selection_witness`、manifest 分離、K_T index 契約) | **PASS (R-COV0 R3、fixed SHA `256ab38`)**(R1/R2 findings は v0.12.2–v0.12.3 で全件受諾。accepted body への in-body 編集は revert し、SHA-256 バイト一致を双方検証) |
+| S4-0.COV1 | 補題 S4b-COV((COV-0) reachability invariant、(COV-1) selector 被覆、(COV-2) witness 構成) | **PASS (R-COV1 R4、fixed SHA `c36d818`)**(R1–R3 findings は v0.12.6–v0.12.8 で全件受諾)。**S4b closure 完結** |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4b/a/c proofs | none | open, not claimed |
 
@@ -1550,3 +1552,8 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   (`m₀ := max(m_{FR-S1′/S1″}, m_RF)` より `m₀ ≥ m_RF`)へ本文・履歴とも修正。R-COV1 R3 待ち。
 - v0.12.8(2026-08-17): luna R-COV1 R3 = BLOCKED 1 件([COV1R3-01] v0.12.7 履歴が誤記法を
   引用形で再掲)。引用を撤去し全ファイルで集合記号の残存 0 を確認。R-COV1 R4 待ち。
+- v0.13(2026-08-17): luna R-COV1 R4 = **PASS**(reviewed SHA `c36d818`、findings なし)。
+  補題 S4b-COV を accepted へ昇格、§10.7 に S4-0.COV1 行を新設 — **S4b closure 完結**
+  (全 6 route resolved、PΣ-1..4/RF/COV0/COV1 accepted。旧 exponent-4 split-row audit は
+  v0.8.15 反例退役で QR5-w へ一本化済み)。§7/§10.1 の blocker 記述を S4a へ更新、tests を
+  acceptance 状態へ同期。次 = S4a-W1(Child-reserve)。
