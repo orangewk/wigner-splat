@@ -1,6 +1,11 @@
-# ガウス border rank 閉包定理 — ドラフト v1.9(補題 N(c≤3) 量化 program 着工・人間査読未実施)
+# ガウス border rank 閉包定理 — ドラフト v1.9.1(補題 N(c≤3) program 内完結・人間査読未実施)
 
-日付: 2026-08-02(v1.9 = 2026-08-17)/ 著者: 本線 / status: **wip(draft PR #178。検証は複数 LLM の fixed-SHA 査読 + 数値診断のみ — 人間による査読は未実施)**
+日付: 2026-08-02(v1.9.1 = 2026-08-17)/ 著者: 本線 / status: **wip(draft PR #178。検証は複数 LLM の fixed-SHA 査読 + 数値診断のみ — 人間による査読は未実施)**
+
+> **v1.9.1 changelog(補題 N(c≤3) program 完結、2026-08-17)**: §4.3.6 の全 packet
+> N-P0(`2619b10`)/N-P1(`c893f04`)/N-P2(`8f64cd0`)/N-P3(`f86acae`)/N-P4(`1058eda`)/
+> N-P5(`ef9d463`)が fixed-SHA 査読で accepted — **補題 N の c≤3 特化版が program 内で閉鎖**
+> (証明ドラフト地位)。一般 c(G1′)は不変に open。残余は G1′ 行を参照。
 
 > **v1.9 changelog(補題 N(c≤3) 量化 program 着工、2026-08-17)**: §4.3.6 新設 —
 > 補題 N の c≤3 特化版の量化 statement・coarse partition 台帳(`1|1|1` / `2|1` / `3`、w≤2 各型)・
@@ -775,7 +780,7 @@ c = 2 の弱形 L2a′ は他の open 補題に依存しない独立成果ドラ
 現行の査読statusは [独立文書 K2 の R-K2 欄](2026-08-08-quadratic-phase-turan-K2.md)だけを参照し、
 §4.3.4 は historical snapshotとする。
 
-### 4.3.6 補題 N(c≤3)の量化 program(v1.9 — N-P0 accepted、証明 packet は査読待ち)
+### 4.3.6 補題 N(c≤3)の量化 program(v1.9.1 — **全 packet N-P0〜N-P5 accepted、program 内完結**。人間査読未実施)
 
 > **位置づけ**: 本節を補題 N の **c≤3 特化版の量化 statement・coarse case 台帳・packet
 > acceptance status の唯一の authoring location** とする。§4.3 冒頭の target 記述は obligations の
@@ -815,7 +820,8 @@ c = 2 の弱形 L2a′ は他の open 補題に依存しない独立成果ドラ
 nested 2+1 は coarse `3`(全原子が同一極限点へ収束)の**内部 rate tree**(pair が root scale より
 速く衝突)であり、別概念。本台帳の分岐は極限基点の一致関係のみで判定する。
 
-**補題 N(c≤3) target(量化形 — 証明は packet N-P1〜N-P5。全 packet 受理まで claim しない)**:
+**補題 N(c≤3) target(量化形 — 証明は packet N-P1〜N-P5、**全 packet accepted・program 内
+クローズ**(証明ドラフト地位、人間査読未実施))**:
 前処理後の入力に対し、部分列と `r` 本の exact 結合枠 `v_{1,m},…,v_{r,m} ⊂ V_m` が存在して:
 
 > **座標束縛の注意**: 枠元は常に**原座標**の `V_m` の元(残存原子の exact 結合)として読む。
@@ -842,7 +848,7 @@ nested 2+1 は coarse `3`(全原子が同一極限点へ収束)の**内部 rate 
 | N-P2 相異極限点(全分離)| 枠 = 正規化原子 `Φ̂(ξ_{j,m})` 自身。N1: `d_ℓ = 0` 自明、N2: N-P1(ii)(singleton group、実質 L0)+ N-P1(i)、N3′: per-atom 自明包絡 `E(z) ≤ (E-w)` 形、N4: `(δ,R)`。coarse `1\|1\|1`, `1\|1`, `1` を一括で覆う | **accepted**(R-NP2 R2 PASS、fixed SHA `8f64cd0`) |
 | N-P3 c=2 衝突 pair 枠 | **unnormalized** divided difference `ψ_m := (Φ(ξ_{1,m})−Φ(ξ_{2,m}))/ρ_m`(pair scale `ρ_m := max(|ΔA_m|,|ΔB_m|)`、`ΔA_m := A_{1,m}−A_{2,m}` 等は**原座標** `(A,B)` の差。rank `r` とは別記号)、枠 = `{Φ̂(ξ_{2,m}), ψ_m/‖ψ_m‖}`。N1: `ψ_m → Q(z)Φ(ξ*)`、`Q(z) := a z²/2 + b z`(部分列で `(ΔA_m/ρ_m, ΔB_m/ρ_m) → (a,b)`、`max(|a|,|b|)=1`。`Q(0)=0` かつ `Q ≢ 0`、`deg Q ∈ {1,2}` — 2(`a≠0`)または 1(`a=0`)、0 に落ちない。線分積分表示 + 優収束)、N2: W2 の jet 二分法(非消滅下界)+ **同一基点 jet 独立性(N-P1(ii)、`{Φ(ξ*), QΦ(ξ*)}` は `Q(0)=0`・`Q ≢ 0` すなわち `deg Q ≥ 1` で独立)** + N-P1(i) の**分業**(W2 は Gram 下界を直接主張しない。L0 は同一指数対に使わない)、N3′: 枠元は 2 原子結合なので W2(FR 文書 §10.8、引用)で (E-w) 形、N4: `(δ,R)` | **accepted**(R-NP3 R1 PASS、fixed SHA `f86acae`) |
 | N-P4 coarse `2\|1` | 枠 = N-P3 の pair 枠 ∪ `Φ̂(ξ_{3,m})`。極限 3 系 `{Φ(ξ*), QΦ(ξ*), Φ(η*)}`(`ξ* ≠ η*`)の線形独立性を、**同一基点内は jet 独立性(N-P1(ii))・相異基点間は L0** の分業で示し、**full Gram** に N-P1(i) を適用(cross block は一般に 0 へ行かないので L1-a/L3 の減衰論法は**使わない**) | **accepted**(R-NP4 R1 PASS、fixed SHA `1058eda`) |
-| N-P5 組み立て | coarse `3` は FR 文書 §10.9 の acceptance(FR1–FR7、original 座標の exact span・norm limit・Gram・(E-w))を **black box として引用消費**(gauge 収束の再導出はしない。N1 norm limit の原座標移送は FR §8.4 の strong convergence 主張を引用。pointwise envelope の gauge 移送は行わない — (E-w) は補題 EW が original 座標で供給済み)。全 coarse case の分岐総合で補題 N(c≤3) | 査読待ち |
+| N-P5 組み立て | coarse `3` は FR 文書 §10.9 の acceptance(FR1–FR7、original 座標の exact span・norm limit・Gram・(E-w))を **black box として引用消費**(gauge 収束の再導出はしない。N1 norm limit の原座標移送は FR §8.4 の strong convergence 主張を引用。pointwise envelope の gauge 移送は行わない — (E-w) は補題 EW が original 座標で供給済み)。全 coarse case の分岐総合で補題 N(c≤3) | **accepted**(R-NP5 R1 PASS、fixed SHA `ef9d463`)— **program 完結** |
 
 #### 4.3.6.1 補題 N-P1(Gram 連続性 + 極限独立性供給 — accepted、R-NP1 R2 PASS `c893f04`)
 
@@ -1004,7 +1010,7 @@ Gram 下界のみ部分列の極限配置(`ξ^*, η^*, Q`)に依存(許容)。�
 
 **scope(非主張)**: coarse `3`(N-P5)、一般 c。N-P3/N-P1 の再証明はしない(引用消費)。
 
-#### 4.3.6.5 補題 N-P5(組み立て — 査読待ち R-NP5)
+#### 4.3.6.5 補題 N-P5(組み立て — accepted、R-NP5 R1 PASS `ef9d463`)
 
 **補題 N-P5(= 補題 N の c≤3 特化版)**: §4.3.6 の量化 target (N1)–(N4)_{c≤3} は、前処理
 (N-pre)後の任意の入力について成立する。**地位**: 本補題の証明は accepted packet
@@ -1157,7 +1163,7 @@ t≥2 の偶数側 equality と奇数側 lower bound は F3′ により撤回�
 
 | # | 箇所 | 内容 | 状態 |
 |---|---|---|---|
-| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で全 packet accepted(R-S4C R3 PASS `b6bbe01`、(E-w) 経由。人間による査読は未実施 — 査読体制は複数 LLM のみ)。**残余 = ①補題 N 量化完備化 ②一般 c の (E-d)・B2+(F1)/S4 ③L2b/L3 枠置換**。 | **open(主 blocker)** |
+| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で全 packet accepted(R-S4C R3 PASS `b6bbe01`、(E-w) 経由。人間による査読は未実施 — 査読体制は複数 LLM のみ)。**c≤3 特化版の量化・証明は §4.3.6 の N-P0〜N-P5 が全て accepted(R-NP5 R1 PASS `ef9d463`)で program 内完結**。**残余 = ①一般 c の (E-d)・B2+(F1)/S4 ②L2b/L3 枠置換 ③消費側(§4.4/§6/§7)の c≤3 接続監査**。 | **open(主 blocker)** |
 | G2 | L1 符号 | 査読提供の不等式で閉鎖 | **closed(v1.1)** |
 | G3 | 脱出混在 | gauge 化再構成で場合分け自体が消滅(再査読で blocking 2 は resolve 判定、前提 = 補題 N + G8) | **closed(v1.1、再査読確認済み)** |
 | G4 | C2 quantitative | F3′ により旧次数下界を撤回。t≥2 の偶奇 sharp 値を再導出(|5⟩は上界 3) — C1 に影響なし | open(副産物) |

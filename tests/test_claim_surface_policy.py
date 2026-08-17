@@ -1331,3 +1331,41 @@ def test_run_logs_are_excluded_from_the_scan():
     logs = _issue_71_paths(".log")
     assert logs, "expected committed run logs under the issue #71 experiments"
     assert not any(log in _issue_71_paths(".py") for log in logs)
+
+
+def test_lemma_n_c3_program_states_fail_closed():
+    """§4.3.6 Lemma N (c<=3) packet ledger must keep its acceptance records.
+
+    Each packet row carries a fixed-SHA review record; losing one silently
+    would let the quantified c<=3 claim float free of its evidence. The
+    non-claim boundary (general c / G1' stays open, no human review) must
+    also survive edits.
+    """
+    closure = (
+        ROOT / "docs" / "2026-08-02-gaussian-border-rank-closure--wip.md"
+    ).read_text(encoding="utf-8")
+    section = closure.split("### 4.3.6 補題 N(c≤3)の量化 program", 1)[1]
+    section = section.split("### 4.4 ", 1)[0]
+    expected = {
+        "| N-P0 ": "R-NP0 R3 PASS、fixed SHA `2619b10`",
+        "| N-P1 ": "R-NP1 R2 PASS、fixed SHA `c893f04`",
+        "| N-P2 ": "R-NP2 R2 PASS、fixed SHA `8f64cd0`",
+        "| N-P3 ": "R-NP3 R1 PASS、fixed SHA `f86acae`",
+        "| N-P4 ": "R-NP4 R1 PASS、fixed SHA `1058eda`",
+        "| N-P5 ": "R-NP5 R1 PASS、fixed SHA `ef9d463`",
+    }
+    for prefix, record in expected.items():
+        rows = [
+            line for line in section.splitlines() if line.startswith(prefix)
+        ]
+        assert len(rows) == 1, f"closure doc: packet row {prefix} count != 1"
+        assert record in rows[0], (
+            f"closure doc: packet row {prefix} lost acceptance record {record}"
+        )
+    # non-claim boundary stays conservative
+    assert "一般 c の補題 N(G1′ 本体)" in section
+    assert "人間査読未実施" in section or "人間による査読は未実施" in section
+    # vocabulary split: coarse 2|1 is not the FR-internal nested 2+1
+    assert "内部 rate tree" in section
+    # coordinate binding note survives
+    assert "U_m^{-1}v^{FR}_{ℓ,m}" in section
