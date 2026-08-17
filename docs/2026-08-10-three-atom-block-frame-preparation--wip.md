@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.1 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.2 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1274,30 +1274,42 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 
 **予算の確定(consultation 検算、本線で数値確認)**: accepted L2a′(c=2) の出口係数は
 `(1−δ/2)` であり、(E-w) target `(1−δ/2)T²/2` を使い切るため、weighted chain の RF 二次費用
-`(δ/8)T²` を加算する余地がない(D-相殺で消えるのは `D_H⁻¹D_H` のみ)。従って本 program は
+`(δ/8)T²` を加算する余地が**現行の「L2a′ 出口 + RF 加算 ledger」architecture では**ない
+(D-相殺で消えるのは `D_H⁻¹D_H` のみ。別 architecture の論理的可能性は排除しないが、
+いずれも未証明であり本 program は採らない)。従って本 program は
 **c=2 強形出口(係数 `(1−δ)` + 多項式因子)** を W2 で証明する。強形出口では
-`(1−δ)T²/2 + (δ/8)T² = (1−3δ/4)T²/2` となり、target までなお `(δ/8)T²` の余裕がある。
+`(1−δ)T²/2 + (δ/8)T² = (1−3δ/4)T²/2` となり、target まで**二次係数に**なお `(δ/8)T²` の
+余裕がある(線形項・多項式因子は別途 `C_lin(T+1)` へ吸収する)。
 
-**語彙**: node `H = X + Y`(unary は `H = X`)に対し
+**語彙**: 全 node は zero-pruning 後で `R_H := ‖H‖_ℱ > 0` とする。binary node `H = X + Y` に
 
-  R_H := ‖H‖_ℱ,   D_H := max(‖X‖_ℱ, ‖Y‖_ℱ)/R_H,   E_{δ,R}(t) := exp((1−δ)t²/2 + Rt)。
+  D_H := max(‖X‖_ℱ, ‖Y‖_ℱ)/R_H,   E_{δ,R}(t) := exp((1−δ)t²/2 + Rt),
 
-per-child strong bound とは `|X(z)| ≤ C_X P_X(t) E_{δ,R}(t) ‖X‖_ℱ`(`P_X` は m 非依存の固定
-次数多項式)の形をいう。raw 原子係数はいずれの statement にも現れない(proof-local に導入し
-即座に norm で消去する。FR7 audit 語彙は不変)。
+unary node `H = X` には `e^{U_H(t)} = |X(z)|`、`D_H := ‖X‖_ℱ/R_H = 1` とする。
+per-child strong bound とは `|X(z)| ≤ C_X P_X(t) E_{δ,R}(t) ‖X‖_ℱ`(`C_X > 0` 定数、
+`P_X: [0,∞) → [0,∞)` は m 非依存・固定次数の非負係数多項式)の形をいう。raw 原子係数は
+いずれの statement にも現れない(proof-local に導入し即座に norm で消去する。
+FR7 audit 語彙は不変)。原子 parameter は compact class
+`K_{δ,R} = {|A| ≤ 1−δ} × {|B| ≤ R}`(定義の authoring location は K2 文書
+`docs/2026-08-08-quadratic-phase-turan-K2.md` §設定)に属するとする。
 
-**補題 W1(Child-reserve interface — proof draft、R-W1 待ち)**: node `H = X + Y` の各 child が
-per-child strong bound を満たすなら、ray 上
+**補題 W1(Child-reserve interface — proof draft、R-W1 待ち)**: binary node `H = X + Y` の
+各 child が per-child strong bound を満たすなら、ray `z = te^{iθ}` 上
 
   e^{U_H(t)} = max(|X(z)|, |Y(z)|)
-  ≤ C_res·P(t)·E_{δ,R}(t)·D_H·R_H,   C_res := max(C_X, C_Y)、P := max(P_X, P_Y)。   (W1-exit)
+  ≤ C_res·P(t)·E_{δ,R}(t)·D_H·R_H,   C_res := max(C_X, C_Y)、P := P_X + P_Y。   (W1-exit)
 
-さらに **singleton child は per-child strong bound を `C = 1、P = 1` で満たす**:
-`|cΦ(A,B)(z)| = |c|e^{Re(Az²/2+Bz)} ≤ |c|E_{δ,R}(t) ≤ |c|·‖Φ(A,B)‖_ℱ·E_{δ,R}(t)
-= ‖cΦ‖_ℱ·E_{δ,R}(t)`(`‖Φ(A,B)‖_ℱ ≥ |Φ(A,B)(0)| = 1`)。
+unary node は `e^{U_H} = |X(z)| ≤ C_X P_X E‖X‖ = C_X P_X E·D_H R_H` で同形(`D_H = 1`)。
+さらに **singleton child `cΦ(A,B)`(`(A,B) ∈ K_{δ,R}`、`c ≠ 0`)は per-child strong bound を
+`C = 1、P = 1` で満たす**:
+`|cΦ(A,B)(z)| = |c|e^{Re(Az²/2+Bz)} ≤ |c|e^{|A|t²/2+|B|t} ≤ |c|E_{δ,R}(t)
+≤ |c|·‖Φ(A,B)‖_ℱ·E_{δ,R}(t) = ‖cΦ‖_ℱ·E_{δ,R}(t)`
+(`‖Φ(A,B)‖_ℱ ≥ |Φ(A,B)(0)| = 1` — 再生核評価 `|f(0)| ≤ ‖f‖e⁰`)。
 
-*証明*: `max(|X(z)|,|Y(z)|) ≤ max(C_XP_XE‖X‖, C_YP_YE‖Y‖) ≤ C_res·P·E·max(‖X‖,‖Y‖)
-= C_res·P·E·D_H R_H`。singleton は上の 2 行。∎
+*証明*: 各因子は非負(`C_X, C_Y > 0`、`P_X, P_Y ≥ 0`、`E > 0`、norm ≥ 0)なので
+`max(C_XP_XE‖X‖, C_YP_YE‖Y‖) ≤ max(C_X,C_Y)·(P_X+P_Y)·E·max(‖X‖,‖Y‖)
+= C_res·P·E·D_H R_H`(非負量の pointwise max ≤ 和で `P` は固定次数多項式のまま)。
+singleton は上の 2 行。∎
 
 pair child(`B₁₂` 型)の per-child strong bound は **W2 の義務であり本補題は主張しない**。
 W1 は帰着と語彙のみを供給する。
@@ -1319,10 +1331,13 @@ W1 は帰着と語彙のみを供給する。
 外す。accepted PΣ program は capability として保持する(削除しない)。将来 S4-0 改訂で
 unweighted root route が到達可能化された場合は U1 を復帰させ、COV-0 再証明と同時に扱う。
 
-**D_H 非有界の witness(Anchor-D が必要な理由)**: `H_s = Φ₀ − 2Φ_s + Φ_{2s}`
-(二階差分)を `X_s = Φ₀ − 2Φ_s`、`Y_s = Φ_{2s}` と分けると `‖H_s‖ = O(s²)`、
-`‖X_s‖, ‖Y_s‖ ≍ 1` なので `D_{H_s} ≍ s⁻²`。従って (W1-exit) 単独では m 一様 exit に
-ならず、C0 の `D_H⁻¹` reserve との相殺(W4)が必須である。
+**D_H 非有界の witness(design note — 証明ではない)**: path `Φ_s := Φ(0,s) = e^{sz}`
+(`s → 0⁺`)で `H_s = Φ₀ − 2Φ_s + Φ_{2s}`(二階差分)を `X_s = Φ₀ − 2Φ_s`、
+`Y_s = Φ_{2s}` と分けると、smooth Fock-valued path の二階差分として `‖H_s‖ = O(s²)` が
+期待され(非零二階微分 `‖∂_s²Φ(0,s)|_{s=0}‖ = ‖z²‖ > 0` から同 order の下界も期待)、
+`‖X_s‖, ‖Y_s‖ → 1` なので `D_{H_s}` は `s⁻²` order で発散すると見込まれる。厳密化は C0
+packet の義務とし、ここでは「(W1-exit) 単独では m 一様 exit にならず、C0 の `D_H⁻¹`
+reserve との相殺(W4)が必須」という設計判断の根拠としてのみ記録する。
 
 ## 11. 版履歴
 
@@ -1619,7 +1634,16 @@ unweighted root route が到達可能化された場合は U1 を復帰させ、
   (D-相殺で消えるのは `D_H⁻¹D_H` のみ、conf 0.98)→ W2 = c=2 強形(exact divided
   difference + 0–2 jet norming、`(1+t)²` 因子、`η_sep`/`s_m` 非依存、conf 0.97)を新設。
   U1 は critical path から退役(現 public root は weighted-only、PΣ は capability 保持)、
-  M1 は mode audit に縮小、Anchor-D(C0)は存続(witness `D_{H_s} ≍ s⁻²`)。§10.8 を新設し
-  W1(Child-reserve interface)を proof draft として執筆(R-W1 待ち)。W2 の jet 計算
-  (`ψ₀=0`、`ψ₁=b`、`ψ₂=(a+(B₁+B₂)b)/√2`、二分法下界 `1/(2√2)`、`K_β(R)`)と予算恒等式
-  `(1−δ)/2 + δ/8 = (1−3δ/4)/2` は本線で独立検算済み。
+  M1 は mode audit に縮小、Anchor-D(C0)は存続(design note の `D_{H_s} ~ s⁻²` 見込み)。
+  §10.8 を新設し W1(Child-reserve interface)を proof draft として執筆(R-W1 待ち)。
+  W2 の jet 計算(`ψ₀=0`、`ψ₁=b`、`ψ₂=(a+(B₁+B₂)b)/√2`、二分法下界 `1/(2√2)`、`K_β(R)`)
+  と予算恒等式 `(1−δ)/2 + δ/8 = (1−3δ/4)/2` は本線で算術的に予備検算した(W2 の proof/
+  acceptance を意味しない。W2 は open, not claimed のまま)。
+- v0.13.2(2026-08-17): luna R-W1 R1 = blocking 2 + minor 3 を全受諾。[W1-01] 符号・多項式
+  仮定を明示(`C_X > 0`、`P_X: [0,∞)→[0,∞)` 非負係数固定次数、`P := P_X + P_Y` — pointwise
+  max は多項式でないため和に変更)、`K_{δ,R} = {|A|≤1−δ}×{|B|≤R}` の定義と authoring
+  location(K2 文書)を明記。[W1-02] unary case を式として定義(`e^{U_H}=|X|`、`D_H=1`)、
+  `R_H > 0`(zero-pruning 後)を仮定に追加。[W1-03] 「余地がない」を現行 architecture 限定に
+  修正、margin は二次係数のみと明示。[W1-04] `D_H` witness を design note(非証明)へ降格、
+  path `Φ_s = e^{sz}` を固定、厳密化は C0 義務。[W1-05] 履歴の jet 検算を「予備検算・W2 の
+  proof/acceptance ではない」と注記。R-W1 R2 待ち。
