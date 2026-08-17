@@ -944,6 +944,47 @@ grid(刻み 1/4000、4001 点)は `t*` を格子点 k=1800 に**厳密に含み*
 天井 `sup g ≤ 2` ✓、recentered held ✓、窓比 ≈ 1.0。
 mpmath dps 30(session-local 検証で証明には数えない。head からの再実行 fixture 化は R-RF の指示に従う)。
 
+#### 10.5.4 補題 PΣ-1(polynomial ΣA の局所補題 — proof draft、R-PS1 待ち)
+
+本節を polynomial ΣA program の唯一の authoring location とする。program は
+PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ-4(route 昇格:
+`K2Q-aff-u`/`generalized-singleton-u` の `polynomial-envelope/open` を accepted へ)の 4 packet
+に分割し(Sol consultation 2026-08-17 の分割案を採用)、本節は **PΣ-1 のみ**を主張する。
+
+> **撤回記録(設計段階)**: 本線の当初案「`A_U ≤ (log|P| 部) + (Re q 部)` の直接 sup 分解」は
+> **偽** — sup は劣加法の向きが逆で、`|P|` と `r` の maximizer が J 上で分離する損失を見落とす
+> (Sol 反例: `P = t`、`r = −Mt`、`J = [0,ε]` で `log(Mε)` 級の損失)。正しい形は下の (ii) の
+> とおり `osc_J r ≤ Λε` 項を伴う。
+
+**補題 PΣ-1**: `I ⊂ ℝ` 長さ 1、`J ⊆ I` 長さ `ε ∈ (0,1]`。`P ≢ 0` 複素係数 `deg P ≤ 2`、
+`r: I → ℝ` は `sup_I|r′| ≤ Λ`、`U := log|P| + r`(`log 0 := −∞`)とする。このとき
+
+  (i) sup_I|P| ≤ 8ε^{−2}·sup_J|P|;
+  (ii) A_U := sup_I U − sup_J U ≤ log(8ε^{−2}) + (sup_I r − sup_J r) + Λε.
+
+*証明*: (i) `J` の両端 `t₀, t₂` と中点 `t₁` の 3 点 Lagrange 補間で
+`P(t) = Σ_i P(t_i)ℓ_i(t)`。`t ∈ I` で分子因子は各 ≤ 1(`|I| = 1`)、分母は
+`|t₀−t₁| = |t₁−t₂| = ε/2`、`|t₀−t₂| = ε` なので
+`|ℓ₀| ≤ 2ε^{−2}`、`|ℓ₁| ≤ 4ε^{−2}`、`|ℓ₂| ≤ 2ε^{−2}`、合計 `8ε^{−2}`。複素係数は
+三角不等式でそのまま通る。
+(ii) `sup_I U ≤ log sup_I|P| + sup_I r`。`J` 上の `|P|` の maximizer `t*` で
+`sup_J U ≥ U(t*) = log sup_J|P| + r(t*) ≥ log sup_J|P| + sup_J r − osc_J r`、
+`osc_J r ≤ Λε`。両者の差に (i) を代入。∎
+
+`P ≡ 0` は route 適用前の exact zero-pruning が排除する。孤立零点は (i)(ii) に影響しない
+(`sup_J|P| > 0`)。定数 8 は ε → 0 で漸近的に sharp(下の数値)。
+
+**局所数値検証(session-local、証明には数えない)**: Lagrange 係数和 × ε² は
+ε = 0.5 / 0.1 / 0.01 で 4.25 / 7.21 / 7.92(→ 8)。ランダム複素 deg ≤ 2 の 2×10⁴ 配置で
+`(sup_I|P|/sup_J|P|)·ε²` の最大 1.13 ≤ 8。
+
+| ID | scope | state |
+|---|---|---|
+| PΣ-1 局所補題 | 本節 (i)(ii) | proof draft(R-PS1 待ち) |
+| PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | open, not claimed |
+| PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | open, not claimed |
+| PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | open, not claimed |
+
 ### 10.6 Coefficient-free constants
 
 FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed/compact dataだけに依存し、
@@ -1148,3 +1189,10 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 - v0.10.4(2026-08-17): R-RF-PROMOTE R4 = 条件付き受理(R3 修正の tests 検証 PASS)。luna 指定の
   記載で §10.7 S4-0.RF-PROMOTE 行を PASS(fixed SHA `9cca48d`)へ更新し、pending marker を全廃、
   tests を acceptance 状態へ同期。**root-far 昇格 arc 完結** — S4 route 表は全 6 row resolved。
+- v0.11(2026-08-17): Sol high consultation(polynomial ΣA + S4a 設計)を受け、PΣ program を
+  4 packet に分割して §10.5.4 に PΣ-1(局所補題)を proof draft として執筆。本線当初の
+  直接 sup 分解は Sol 反例(P=t, r=−Mt)で偽と判明し撤回・registry 化。3 点 Lagrange の
+  定数 8ε⁻² と osc 項付き (ii) を採用、数値検証(係数和 → 8、2×10⁴ 配置)を記録。
+  S4a 側は Sol の D-相殺機構(anchor D⁻¹ × weighted chain × exit D)を設計候補として採用予定
+  だが、低自信度 2 補題(Norming/Anchor-D 0.86、mode-coherence 0.88)は本線書き下しと
+  独立査読を経るまで非主張。PΣ-2/3/4・S4a-W*/U1/M1/EW・S4c は open。
