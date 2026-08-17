@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.11.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/PΣ-2 accepted(§10.5.4)、S4b closure(PΣ-3/4・coverage)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.11.5 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/PΣ-2 accepted、PΣ-3 proof draft(§10.5.4)、S4b closure(PΣ-3/4・coverage)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -545,7 +545,11 @@ S4b は次の二段階で行い、順序を逆転しない。
    を定める(empty registryのmaxは0)。この段階では `I_k,J_k` や held witnessを使わない。
 2. **S4b-β (interval instantiation)**: 固定 ray `z=te^{iθ}`、終点半径 `T≥3` に対し、C′ draftと同じ
    `I_k=[a_k,a_k+1]`, `a_{k+1}=a_k−(1−ε_chain)`,
-   `J_k=I_k∩I_{k+1}` (長さ `ε_chain`)を作る(`N≤2T+1`)。各 `(I_k,J_k)` に
+   `J_k=I_k∩I_{k+1}` (長さ `ε_chain`)を作る(`N≤2T+1`)。endpoint 規約は C′ と同一に固定する:
+   `a_1=T−1` から降順、停止は最初の `a_N≤1`。全窓は切断なしの長さ 1 であり
+   `a_k ≥ 1−(1−ε_chain) = ε_chain > 0` が自動成立する(窓を `[0,∞)` で切る操作は行わない)。
+   半径 ≲ 2 の近原点領域は chaining ledger の外で、C′ 同様 S4a の compact initial estimate が
+   掌理する。逐語形は §10.5.4 補題 PΣ-3 (h0)。各 `(I_k,J_k)` に
    resolved `RouteKind` の `RouteRecord` を割り当て、interval依存の domain witnessをここで検証する。
 
 S4b-β は必要なら `I_k` 内を有限 cell `𝒫_{H,k}` に分けてよいが、S4aへ渡す出力は内部cellを
@@ -1013,10 +1017,15 @@ per-window bound `A_{H,k} ≤ Λ_{H,k}` を、polynomial-envelope record では
 ランダム 8×10³ 配置(seed 7、deg ≤ 2 複素 P、2 次 phase、`ε ∈ {0.5, 0.2, 0.1}`、
 grid 501/201 点)で違反なし、bound との最小余裕 3.62。
 
-**補題 PΣ-3(ray-wide ledger — proof draft、R-PS3 待ち)**: §10.3 S4b-β の segmentation
-(`T ≥ 3`、`a_0 = T`、`a_{k+1} = a_k − (1−ε_chain)`、`a_k ≥ 0`、`k = 0..N−1`、`N ≤ 2T+1`、
-`ε_chain = min(1/2, δ/[8(κ_chain+1)])`)の下で、各窓 `I_k` の unweighted record が
-次を満たすとする:
+**補題 PΣ-3(ray-wide ledger — proof draft、R-PS3 R2 待ち)**: `δ ∈ (0,1]`、`R ≥ 0`、
+`κ_chain ≥ 0`(compact class `K_{δ,R}` 契約から継承)。§10.3 S4b-β の segmentation を
+**C′ と同一の endpoint 規約**で取る:
+
+  (h0) `T ≥ 3`、`β := 1−ε_chain`、`ε_chain = min(1/2, δ/[8(κ_chain+1)])`、
+       `a_1 = T−1`、`a_{k+1} = a_k − β`(`k = 1..N`)、停止は最初の `a_N ≤ 1`。
+       全窓 `I_k = [a_k, a_k+1]` は切断なしの長さ 1、`a_k ≥ ε_chain > 0`、`N ≤ 2T+1`。
+
+各窓の unweighted record が次を満たすとする:
 
   (h1) A_ledger_kind ∈ {phase-lipschitz, polynomial-envelope}。前者は `A_{H,k} ≤ Λ_{H,k}`
        (§10.4 の record 義務)、後者は補題 PΣ-2 の premise(deg ≤ 2、2 次 phase)を満たし
@@ -1028,8 +1037,8 @@ grid 501/201 点)で違反なし、bound との最小余裕 3.62。
 
 このとき ray 全体の unweighted ledger は
 
-  Σ_k [A_{H,k} + κ_H Λ_{H,k} ε_chain]
-  ≤ (1−δ/2)·T²/2 + C_ΣA·(T+1),   C_ΣA := 2log(8ε_chain^{−2}) + 4R + 3,
+  Σ_{k=1}^{N} [A_{H,k} + κ_H Λ_{H,k} ε_chain]
+  ≤ (1−δ/2)·T²/2 + C_ΣA·(T+1),   C_ΣA := 2log(8ε_chain^{−2}) + 4R + 2,
 
 を満たし、`C_ΣA` は `(δ, R, κ_chain)` のみに依存(`m, θ, k, T` 非依存)。
 
@@ -1037,25 +1046,29 @@ grid 501/201 点)で違反なし、bound との最小余裕 3.62。
 `A_{H,k} + κ_HΛ_{H,k}ε_chain ≤ log(8ε_chain^{−2}) + (1 + (κ_chain+1)ε_chain)Λ_{H,k}`
 (phase-lipschitz は `log(8ε_chain^{−2}) ≥ log 8 > 0` により同形へ緩める)。
 `(κ_chain+1)ε_chain ≤ δ/8` だから係数は `1 + δ/8` 以下。
-**窓和の算術**: `a_k + 1 = (T+1) − k(1−ε_chain)` なので、`β := 1−ε_chain` として
-`Σ_{k=0}^{N−1}(a_k+1) = N(T+1) − βN(N−1)/2 = −(β/2)N² + (T+1+β/2)N`。この二次式の最大値は
-`(T+1+β/2)²/(2β) = (T+1)²/(2β) + (T+1)/2 + β/8 ≤ (T+1)²/(2β) + (T+1)`。
-`1/β = 1/(1−ε_chain) ≤ 1 + 2ε_chain`(`ε_chain ≤ 1/2`)と (h2) より
+**窓和の算術**: (h0) より `a_k + 1 = T − (k−1)β` で切断なし(`a_k > 0` は停止規則から自動)。
 
-  Σ_k Λ_{H,k} ≤ (1−δ)[(1+2ε_chain)(T+1)²/2 + (T+1)] + RN。
+  Σ_{k=1}^{N}(a_k+1) = NT − βN(N−1)/2 = −(β/2)N² + (T+β/2)N。
+
+この二次式の実数上の最大値は `(T+β/2)²/(2β) = T²/(2β) + T/2 + β/8 ≤ T²/(2β) + T` であり、
+bound は停止規則の定める `N` に依らず**全ての `N ≥ 1` で成立**する。
+`1/β ≤ 1 + 2ε_chain`(`ε_chain ≤ 1/2`)と (h2)(`R ≥ 0`)より
+
+  Σ_k Λ_{H,k} ≤ (1−δ)[(1+2ε_chain)T²/2 + T] + RN。
 
 `ε_chain ≤ δ/8` から二次係数は `(1+δ/8)(1+δ/4)(1−δ) ≤ 1−δ/2`(展開すると差は
-`−δ/8 − 11δ²/32 − δ³/32 < 0`)。線形項は `N ≤ 2T+1 ≤ 2(T+1)`、`1+δ/8 ≤ 2` で
+`−δ/8 − 11δ²/32 − δ³/32 < 0`)。線形項は `N ≤ 2T+1 ≤ 2(T+1)`、`1+δ/8 ≤ 2`、`R ≥ 0` で
 `N log(8ε_chain^{−2}) ≤ 2(T+1)log(8ε_chain^{−2})`、`(1+δ/8)RN ≤ 4R(T+1)`、
-`(1+δ/8)(1−δ)(T+1) ≤ 2(T+1)`。`(1−δ/2)(T+1)²/2 ≤ (1−δ/2)T²/2 + (T+1)` を合わせて主張の形。∎
+`(1+δ/8)(1−δ)T ≤ 2(T+1)`。合わせて主張の形。∎
 
 **scope(非主張)**: 本補題は unweighted record の per-node ray ledger のみ。weighted route
 (`QR5-w`/`root-far`)の graded ledger は RF-3(accepted)が別掌理。node 間 assembly・
-D-相殺・coverage・(E-w) 本体は S4a/S4c の義務で本補題は主張しない。route 昇格
-(`polynomial-envelope/open` → accepted)は (h2) の frequency witness を polynomial-envelope
-record の必須 field に追加する registry 手術を要し、PΣ-4 で行う。数値診断(非証拠):
-窓和二次式 bound は `T ∈ {3..1000} × ε ∈ {0.5..0.01} × 全 N ≤ 2T+1` の掃引で余裕最小 1.89、
-係数不等式は `δ ∈ (0,1]` 掃引で余裕最小 1.25×10⁻⁴(δ = 10⁻³)、いずれも違反なし。
+D-相殺・coverage・(E-w) 本体・近原点領域(半径 ≲ 2、C′ 同様 S4a の compact initial estimate
+が掌理)は本補題の非主張。route 昇格(`polynomial-envelope/open` → accepted)は (h2) の
+frequency witness を polynomial-envelope record の必須 field に追加する registry 手術を要し、
+PΣ-4 で行う。数値診断(非証拠): 窓和二次式 bound は
+`T ∈ {3..1000} × ε ∈ {0.5..0.01} × 全 N ≤ 3T+3` の掃引で余裕最小 1.39、停止規則の実 N でも
+違反なし、係数不等式は `δ ∈ (0,1]` 掃引で余裕最小 1.25×10⁻⁴(δ = 10⁻³)。
 
 | ID | scope | state |
 |---|---|---|
@@ -1297,3 +1310,10 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   witness + 重なり窓の二次式和 `Σ(a_k+1) ≤ (T+1)²/(2(1−ε)) + (T+1)` + 係数吸収
   `(1+δ/8)(1+δ/4)(1−δ) ≤ 1−δ/2`。weighted 側(RF-3)・assembly・(E-w) は非主張。
   frequency witness の registry 必須化は PΣ-4 の手術義務として明示。
+- v0.11.5(2026-08-17): luna R-PS3 R1 = blocking 2 件を全受諾。[PS3-B1] segmentation 規約が
+  §10.3 と未接続 → PΣ-3 (h0) を C′ の実規約(`a_1 = T−1`、停止 `a_N ≤ 1`、切断なし)へ整合、
+  §10.3 に endpoint 規約 pin を追記。[PS3-B2] 0 切断読みでの窓和 bound 破れ(luna 反例
+  T=3, ε=0.2 で 14.2 > 14.0)→ 停止規則により切断が構成不能となり解消。窓和は
+  `NT − βN(N−1)/2 ≤ T²/(2β) + T`(全 N で成立)へ差し替え、`C_ΣA = 2log(8ε_chain⁻²)+4R+2`
+  に改善。[PS3-m1] `δ ∈ (0,1]`、`R ≥ 0`、`κ_chain ≥ 0` を仮説に明記。[PS3-m2] header 版数
+  同期。R-PS3 R2 待ち。
