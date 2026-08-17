@@ -951,13 +951,15 @@ PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ
 `K2Q-aff-u`/`generalized-singleton-u` の `polynomial-envelope/open` を accepted へ)の 4 packet
 に分割し(Sol consultation 2026-08-17 の分割案を採用)、本節は **PΣ-1 のみ**を主張する。
 
-> **撤回記録(設計段階)**: 本線の当初案「`A_U ≤ (log|P| 部) + (Re q 部)` の直接 sup 分解」は
-> **偽** — sup は劣加法の向きが逆で、`|P|` と `r` の maximizer が J 上で分離する損失を見落とす
-> (Sol 反例: `P = t`、`r = −Mt`、`J = [0,ε]` で `log(Mε)` 級の損失)。正しい形は下の (ii) の
-> とおり `osc_J r ≤ Λε` 項を伴う。
+> **RetiredClaim: naive-sup-split(設計段階撤回・機械検算可能形)**: 不等式
+> `sup_J(log|P|+r) ≥ log sup_J|P| + sup_J r` は**偽**。witness: `I = [0,1]`、`J = [0,ε]`、
+> `P = t`、`r = −Mt`、`Mε > 1` で左辺 = `−log M − 1`、右辺 = `log ε`、gap = `1 + log(Mε)`
+> (非有界)。従って `A_U` を log|P| 部と r 部の sup 差の和で直接押さえる本線当初案は成立せず、
+> 正しい形は下の (ii) のとおり `osc_J r ≤ Λε` 項を伴う(Sol consultation 2026-08-17)。
 
-**補題 PΣ-1**: `I ⊂ ℝ` 長さ 1、`J ⊆ I` 長さ `ε ∈ (0,1]`。`P ≢ 0` 複素係数 `deg P ≤ 2`、
-`r: I → ℝ` は `sup_I|r′| ≤ Λ`、`U := log|P| + r`(`log 0 := −∞`)とする。このとき
+**補題 PΣ-1**: `I = [a, a+1] ⊂ ℝ`、`J = [b, b+ε] ⊆ I` は**閉区間**、`ε ∈ (0,1]`。
+`P ≢ 0` 複素係数 `deg P ≤ 2`、`r: I → ℝ` は連続で `sup_I|r′| ≤ Λ`、`U := log|P| + r`
+(`log 0 := −∞`)、`osc_J r := sup_J r − inf_J r` とする。このとき
 
   (i) sup_I|P| ≤ 8ε^{−2}·sup_J|P|;
   (ii) A_U := sup_I U − sup_J U ≤ log(8ε^{−2}) + (sup_I r − sup_J r) + Λε.
@@ -974,13 +976,16 @@ PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ
 `P ≡ 0` は route 適用前の exact zero-pruning が排除する。孤立零点は (i)(ii) に影響しない
 (`sup_J|P| > 0`)。定数 8 は ε → 0 で漸近的に sharp(下の数値)。
 
-**局所数値検証(session-local、証明には数えない)**: Lagrange 係数和 × ε² は
-ε = 0.5 / 0.1 / 0.01 で 4.25 / 7.21 / 7.92(→ 8)。ランダム複素 deg ≤ 2 の 2×10⁴ 配置で
-`(sup_I|P|/sup_J|P|)·ε²` の最大 1.13 ≤ 8。
+**sharpness**: 配置 `I = [0,1]`、`J = [0,ε]`、評価点 `t = 1` で Lagrange 係数和は厳密に
+`ε²Σ|ℓ_i| = 8 − 8ε + ε²`(ε = 0.5/0.1/0.01 で 4.25/7.21/7.9201 — ε → 0 で 8 に漸近、
+定数 8 は改善不能)。(ii) の全体も `J = [1−ε,1]`、`P_ε = T₂(2(t−1+ε)/ε − 1)`(Chebyshev)、
+`r = −Mt` で漸近 sharp(luna R-PS1 検算: bound との差 `log(8/(8−8ε+ε²)) + Mε → 0`)。
+ランダム複素 deg ≤ 2 の 2×10⁴ 配置探索(seed 2、係数 [−1,1]² 一様、診断用・非証拠)で
+違反なし(最大比 ×ε² = 1.13)。
 
 | ID | scope | state |
 |---|---|---|
-| PΣ-1 局所補題 | 本節 (i)(ii) | proof draft(R-PS1 待ち) |
+| PΣ-1 局所補題 | 本節 (i)(ii) | **accepted**(R-PS1 PASS、fixed SHA `f875d76`; minors 本 version) |
 | PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | open, not claimed |
 | PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | open, not claimed |
 | PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | open, not claimed |
@@ -1196,3 +1201,8 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   S4a 側は Sol の D-相殺機構(anchor D⁻¹ × weighted chain × exit D)を設計候補として採用予定
   だが、低自信度 2 補題(Norming/Anchor-D 0.86、mode-coherence 0.88)は本線書き下しと
   独立査読を経るまで非主張。PΣ-2/3/4・S4a-W*/U1/M1/EW・S4c は open。
+- v0.11.1(2026-08-17): luna R-PS1 = **受理可**(blocking/major なし)。minor 3 件を反映:
+  [PS1-M1] 閉区間前提と osc_J r の定義を明記。[PS1-M2] sharpness を厳密化(係数和の閉形式
+  `8−8ε+ε²`、Chebyshev witness、random 探索の seed/domain と非証拠明示)。[PS1-M3] 撤回記録を
+  RetiredClaim 形式(偽の不等式 + gap `1+log(Mε)` の witness)へ機械検算可能化。
+  PΣ-1 を accepted へ昇格(R-PS1 PASS `f875d76`)。次 = PΣ-2(max-envelope lift)。
