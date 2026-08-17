@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.6 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.7 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1374,13 +1374,14 @@ jet bound がそのまま覆う。数値診断(非証拠): ランダム 4×10³ 
 `A := ‖H‖_ℱ`、`B := ‖Y‖_ℱ`、`M := max(‖X‖_ℱ, ‖Y‖_ℱ)` とする。このとき
 
   M·‖G‖_{∞,I_N} ≤ C_anc·A,   C_anc := max{6, (3/2)C_s},                    (C0-product)
-  C_s := e²/c_Y,   c_Y := C_Φ⁻¹e^{−2(1−δ)−2R},   C_Φ := [δ(2−δ)]^{−1/4}e^{R²/δ},
+  C_s := e²/c_Y,   c_Y := C_Φ⁻¹e^{−2(1−δ)−2R},   C_Φ := [δ(2−δ)]^{−1/4}e^{R²/(2δ)},
 
 同値に `‖G‖_{∞,I_N} ≤ C_anc·D_H⁻¹`(Anchor-D 形)。定数は `(δ,R)` のみに依存。
 
 *証明*: **(1) singleton floor.** atom norm 公式
-`‖Φ(A,B)‖² = (1−|A|²)^{−1/2}exp[(|B|²+Re(AB̄²))/(1−|A|²)]` で `1−|A|² ≥ δ(2−δ)`、
-分子 ≤ `|B|²(1+|A|) ≤ 2R²`、`δ(2−δ) ≥ δ` より `‖Φ(ξ₃)‖ ≤ C_Φ`。また `t ≤ 2` で
+`‖Φ(A,B)‖² = (1−|A|²)^{−1/2}exp[(|B|²+Re(AB̄²))/(1−|A|²)]` で、`a := |A| ≤ 1−δ` として
+`1−a² ≥ δ(2−δ)`、分子 ≤ `|B|²(1+a) ≤ R²(1+a)` より norm の指数は
+`≤ R²(1+a)/(2(1−a)(1+a)) = R²/(2(1−a)) ≤ R²/(2δ)`、よって `‖Φ(ξ₃)‖ ≤ C_Φ`。また `t ≤ 2` で
 `Re q₃ ≥ −(1−δ)t²/2 − Rt ≥ −2(1−δ) − 2R` なので
 
   |Y(z)| = |c₃|e^{Re q₃} ≥ |c₃|·e^{−2(1−δ)−2R} ≥ c_Y·B   (全 t ≤ 2、zero-free)。
@@ -1398,11 +1399,14 @@ jet bound がそのまま覆う。数値診断(非証拠): ランダム 4×10³ 
 
 場合分けは Fock norm のみで判定され、W3 の `G`/`U_T`/record/定数を変更しない(chain との
 干渉なし)。旧 design note の `D_H` 非有界 witness はこの補題により無害化される
-((C0-product) が `D_H⁻¹` 相殺を供給する)。数値診断(非証拠): 3 class 設定
+((C0-product) が `D_H⁻¹` 相殺を供給し、`D_H ~ s⁻²` に対し `‖G‖ = O(s²)`)。
+数値診断(非証拠・サンプル依存): 3 class 設定
 (`(δ,R) ∈ {(0.3,1.5),(0.05,0.5),(0.5,3)}`)× 1500 配置(seed 23、near-cancellation・
-collision・`B₁₂` 零点含む、Gram 閉形式)で floor 余裕 ×141、(C0-product) 余裕 ×2.2×10⁴。
-なお consultation の `C_Φ` 指数 `R²/(2δ)` は不成立(`δ(2−δ) ≥ 2δ` は偽)のため、本線検算で
-安全側 `R²/δ` に修正して採用した。
+collision・`B₁₂` 零点含む、Gram 閉形式)で違反なし。マージンはサンプル依存であり、
+境界配置では floor 比 ~28(`(δ,R)=(0.05,0.5)`)、深い cancellation
+`H = Φ(0,0)−2Φ(0,s)+Φ(0,2s)`(`s=10⁻³`、`D_H ≈ 7×10⁵`)で (C0-product) 余裕 ~1.9×10⁴
+(luna R-C0 独立検算値)。`C_Φ` の指数は、粗い評価(分子 ≤ 2R²)では `R²/δ` までしか
+出ないが、上記の `(1+a)` 相殺により `R²/(2δ)` が成立する(luna R-C0 [C0-01] の鋭化を採用)。
 
 **program 表**(state は fail-closed: 受理は fixed-SHA 査読後のみ。依存順は
 C0 → M1 → W3 → W4 → EW に改訂 — Sol consultation 第 4 回、M1 の weighted-only 監査を
@@ -1756,5 +1760,11 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   成立と裁定(conf 0.99)— **Anchor-D の短い証明が得られ、program 最弱点(0.86)が解消**。
   補題 C0(Terminal two-anchor)を proof draft として執筆(R-C0 待ち)。依存順を
   C0 → M1 → W3 → W4 → EW に改訂、W4 を Terminal-cancelled exit に改名、全 packet
-  conf ≥ 0.97。consultation の `C_Φ` 指数 `R²/(2δ)` は本線検算で不成立と判明し安全側
-  `R²/δ` へ修正。数値診断 3 class × 1500 配置で floor/product とも違反なし。
+  conf ≥ 0.97。`C_Φ` 指数は当初、粗い評価に基づき本線が安全側へ緩めたが、後続 R-C0 で
+  luna が `(1+a)` 相殺による鋭化を提示し consultation 原案の成立を確認(v0.13.7 で採用)。
+  数値診断 3 class × 1500 配置で floor/product とも違反なし。
+- v0.13.7(2026-08-17): luna R-C0 = minor 2 件のみ(本体不等式は全段確認、Gram 相対誤差
+  3.7×10⁻¹⁵ の独立検算つき)。[C0-01] `C_Φ` 指数を鋭化 `R²/(2δ)` へ復帰(分子
+  `≤ R²(1+a)` の `(1+a)` 相殺を証明に追記)。[C0-02] 数値マージンの記載をサンプル依存と
+  明示し、境界配置(floor 比 ~28)・深 cancellation(余裕 ~1.9×10⁴)の luna 独立検算値を
+  併記。R-C0 R2 待ち。
