@@ -252,18 +252,53 @@ def test_root_far_rf_acceptance_surfaces_agree():
         "M-ROOT-FAR-KERNEL unresolved",
         "は引き続きunresolved",
         "RF proof待ちのunresolved",
+        "RF candidate",
+        "RF-CandidateSpec",
     )
     for token in stale_tokens:
         assert token not in current, f"{FR_SPEC_DOC}: stale promoted-state token: {token}"
 
-    # provenance: acceptance records must name the content SHAs used by the row
+    # exactly one pending marker survives in the active region: the promote
+    # re-audit row itself
+    assert current.count("pending") == 1
+    assert "**R2 pending**" in current
+
+    # provenance: every external source_ref SHA in the active RouteSpec (and
+    # the C-prime source rule) must be named PASS/accepted by its canonical
+    # ledger; full SHAs are compared against the ledger's short prefix
     assert "PASS (R-RF R2、fixed SHA `9f19389`; minors v0.9.4 `c271919`)" in current
-    k2p1 = (ROOT / "docs" / "2026-08-09-pair-block-kernel-K2p1--wip.md").read_text(
-        encoding="utf-8"
-    )
-    assert "**PASS**(R-P3、fixed SHA `27a1817`)" in k2p1, (
-        "QR5 acceptance record missing from the canonical K2p1 status ledger"
-    )
+
+    def ledger_names_sha(doc_name: str, full_sha: str, marker: str) -> None:
+        """`marker` is a literal string; the ledger SHA must follow it."""
+        text = (ROOT / "docs" / doc_name).read_text(encoding="utf-8")
+        found = re.search(
+            re.escape(marker) + r"[^`]*`([0-9a-f]{7,40})`", text
+        )
+        assert found, f"{doc_name}: acceptance record marker missing: {marker}"
+        short = found.group(1)
+        assert full_sha.startswith(short), (
+            f"{doc_name}: ledger SHA {short} does not prefix source_ref {full_sha}"
+        )
+
+    external_refs = {
+        "2026-08-08-quadratic-phase-turan-K2.md": (
+            "eb1804acf103d05e3261073405deb1381b44c256",
+            "R-K2-FRESH R3 PASS、fixed SHA ",
+        ),
+        "2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md": (
+            "96671e61ac62fdcf2160f63a03bf4f173f15f14a",
+            "R-K2Q-ACCEPT PASS、reviewed SHA ",
+        ),
+        "2026-08-09-pair-block-kernel-K2p1--wip.md": (
+            "27a1817150ab7a857cdd00320ed3809c73e3c1bd",
+            "**PASS**(R-P3、fixed SHA ",
+        ),
+    }
+    for doc_name, (full_sha, marker) in external_refs.items():
+        # the FR spec must actually cite this full SHA in its active region...
+        assert full_sha in current, f"{FR_SPEC_DOC}: missing source_ref SHA {full_sha}"
+        # ...and the canonical ledger must name a prefix of it as accepted
+        ledger_names_sha(doc_name, full_sha, marker)
 
     # coverage: every category row appears exactly once in the active RouteSpec
     route_spec_full = current.split("次表を active `RouteSpec`", 1)[1].split(
