@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.12.7 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.12.8 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1546,5 +1546,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   (resolved row = capability / current producer = なし / RootStep consumer = weighted のみ、
   polynomial-envelope は dead generality)を scope に追記。R-COV1 R2 待ち。
 - v0.12.7(2026-08-17): luna R-COV1 R2 = minor 1 件のみ(実質 4 指摘は全て修正済みと確認)。
-  [COV1R2-01] `m₀ ⊇ m_RF` の誤記を `m ≥ m₀`(`m₀ := max(m_{FR-S1′/S1″}, m_RF)` より
-  `m₀ ≥ m_RF`)へ本文・履歴とも修正。R-COV1 R3 待ち。
+  [COV1R2-01] RF threshold の集合記号による誤記を撤去し、正しい形 `m ≥ m₀`
+  (`m₀ := max(m_{FR-S1′/S1″}, m_RF)` より `m₀ ≥ m_RF`)へ本文・履歴とも修正。R-COV1 R3 待ち。
+- v0.12.8(2026-08-17): luna R-COV1 R3 = BLOCKED 1 件([COV1R3-01] v0.12.7 履歴が誤記法を
+  引用形で再掲)。引用を撤去し全ファイルで集合記号の残存 0 を確認。R-COV1 R4 待ち。
