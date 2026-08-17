@@ -944,7 +944,7 @@ grid(刻み 1/4000、4001 点)は `t*` を格子点 k=1800 に**厳密に含み*
 天井 `sup g ≤ 2` ✓、recentered held ✓、窓比 ≈ 1.0。
 mpmath dps 30(session-local 検証で証明には数えない。head からの再実行 fixture 化は R-RF の指示に従う)。
 
-#### 10.5.4 polynomial ΣA program(PΣ-1/PΣ-2 accepted、PΣ-3/4 open)
+#### 10.5.4 polynomial ΣA program(PΣ-1/PΣ-2 accepted、PΣ-3 proof draft、PΣ-4 open)
 
 本節を polynomial ΣA program の唯一の authoring location とする。program は
 PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ-4(route 昇格:
@@ -1013,11 +1013,55 @@ per-window bound `A_{H,k} ≤ Λ_{H,k}` を、polynomial-envelope record では
 ランダム 8×10³ 配置(seed 7、deg ≤ 2 複素 P、2 次 phase、`ε ∈ {0.5, 0.2, 0.1}`、
 grid 501/201 点)で違反なし、bound との最小余裕 3.62。
 
+**補題 PΣ-3(ray-wide ledger — proof draft、R-PS3 待ち)**: §10.3 S4b-β の segmentation
+(`T ≥ 3`、`a_0 = T`、`a_{k+1} = a_k − (1−ε_chain)`、`a_k ≥ 0`、`k = 0..N−1`、`N ≤ 2T+1`、
+`ε_chain = min(1/2, δ/[8(κ_chain+1)])`)の下で、各窓 `I_k` の unweighted record が
+次を満たすとする:
+
+  (h1) A_ledger_kind ∈ {phase-lipschitz, polynomial-envelope}。前者は `A_{H,k} ≤ Λ_{H,k}`
+       (§10.4 の record 義務)、後者は補題 PΣ-2 の premise(deg ≤ 2、2 次 phase)を満たし
+       `A_{H,k} ≤ log(8ε_chain^{−2}) + (1+ε_chain)Λ_{H,k}`;
+  (h2) frequency witness(`leaf_phase_max` 形): `Λ_{H,k} ≤ (1−δ)(a_k+1) + R`
+       (polynomial-envelope の `Λ_{H,k} := max_i sup_{I_k}|r_i′|` は
+       `sup_{I_k}|r_i′| ≤ sup_{I_k}|q_i′|` で同じ witness に結ぶ);
+  (h3) `κ_H ≤ κ_chain`。
+
+このとき ray 全体の unweighted ledger は
+
+  Σ_k [A_{H,k} + κ_H Λ_{H,k} ε_chain]
+  ≤ (1−δ/2)·T²/2 + C_ΣA·(T+1),   C_ΣA := 2log(8ε_chain^{−2}) + 4R + 3,
+
+を満たし、`C_ΣA` は `(δ, R, κ_chain)` のみに依存(`m, θ, k, T` 非依存)。
+
+*証明*: (h1)(h3) より各 record で
+`A_{H,k} + κ_HΛ_{H,k}ε_chain ≤ log(8ε_chain^{−2}) + (1 + (κ_chain+1)ε_chain)Λ_{H,k}`
+(phase-lipschitz は `log(8ε_chain^{−2}) ≥ log 8 > 0` により同形へ緩める)。
+`(κ_chain+1)ε_chain ≤ δ/8` だから係数は `1 + δ/8` 以下。
+**窓和の算術**: `a_k + 1 = (T+1) − k(1−ε_chain)` なので、`β := 1−ε_chain` として
+`Σ_{k=0}^{N−1}(a_k+1) = N(T+1) − βN(N−1)/2 = −(β/2)N² + (T+1+β/2)N`。この二次式の最大値は
+`(T+1+β/2)²/(2β) = (T+1)²/(2β) + (T+1)/2 + β/8 ≤ (T+1)²/(2β) + (T+1)`。
+`1/β = 1/(1−ε_chain) ≤ 1 + 2ε_chain`(`ε_chain ≤ 1/2`)と (h2) より
+
+  Σ_k Λ_{H,k} ≤ (1−δ)[(1+2ε_chain)(T+1)²/2 + (T+1)] + RN。
+
+`ε_chain ≤ δ/8` から二次係数は `(1+δ/8)(1+δ/4)(1−δ) ≤ 1−δ/2`(展開すると差は
+`−δ/8 − 11δ²/32 − δ³/32 < 0`)。線形項は `N ≤ 2T+1 ≤ 2(T+1)`、`1+δ/8 ≤ 2` で
+`N log(8ε_chain^{−2}) ≤ 2(T+1)log(8ε_chain^{−2})`、`(1+δ/8)RN ≤ 4R(T+1)`、
+`(1+δ/8)(1−δ)(T+1) ≤ 2(T+1)`。`(1−δ/2)(T+1)²/2 ≤ (1−δ/2)T²/2 + (T+1)` を合わせて主張の形。∎
+
+**scope(非主張)**: 本補題は unweighted record の per-node ray ledger のみ。weighted route
+(`QR5-w`/`root-far`)の graded ledger は RF-3(accepted)が別掌理。node 間 assembly・
+D-相殺・coverage・(E-w) 本体は S4a/S4c の義務で本補題は主張しない。route 昇格
+(`polynomial-envelope/open` → accepted)は (h2) の frequency witness を polynomial-envelope
+record の必須 field に追加する registry 手術を要し、PΣ-4 で行う。数値診断(非証拠):
+窓和二次式 bound は `T ∈ {3..1000} × ε ∈ {0.5..0.01} × 全 N ≤ 2T+1` の掃引で余裕最小 1.89、
+係数不等式は `δ ∈ (0,1]` 掃引で余裕最小 1.25×10⁻⁴(δ = 10⁻³)、いずれも違反なし。
+
 | ID | scope | state |
 |---|---|---|
 | PΣ-1 局所補題 | 本節 (i)(ii) | **accepted**(R-PS1 PASS、fixed SHA `f875d76`; minors 本 version) |
 | PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | **accepted**(R-PS2 PASS、fixed SHA `540d0c1`; minors 本 version) |
-| PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | open, not claimed |
+| PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | proof draft(R-PS3 待ち) |
 | PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | open, not claimed |
 
 ### 10.6 Coefficient-free constants
@@ -1247,3 +1291,9 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   PΣ-1/PΣ-2 主張・PΣ-3/4 非主張へ)。[PS2-m2] interface 注記の `N_s` を「polynomial-envelope
   record を消費する窓数」と定義し `N_s ≤ N ≤ 2T+1 = O(T)` に修正(旧 `N_s ≤ T+1` は根拠なし)。
   PΣ-2 を accepted へ昇格(R-PS2 PASS、fixed SHA `540d0c1`)。次 = PΣ-3(ray-wide ledger)。
+- v0.11.4(2026-08-17): 補題 PΣ-3(ray-wide ledger)を proof draft として執筆(R-PS3 待ち)。
+  unweighted ledger `Σ[A + κΛε] ≤ (1−δ/2)T²/2 + C_ΣA(T+1)`、
+  `C_ΣA = 2log(8ε_chain⁻²) + 4R + 3`。機構 = PΣ-2 の per-window bound + leaf_phase_max
+  witness + 重なり窓の二次式和 `Σ(a_k+1) ≤ (T+1)²/(2(1−ε)) + (T+1)` + 係数吸収
+  `(1+δ/8)(1+δ/4)(1−δ) ≤ 1−δ/2`。weighted 側(RF-3)・assembly・(E-w) は非主張。
+  frequency witness の registry 必須化は PΣ-4 の手術義務として明示。
