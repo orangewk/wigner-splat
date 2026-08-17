@@ -317,10 +317,22 @@ def test_root_far_rf_acceptance_surfaces_agree():
         "| `K2Q-aff-u`:": (
             "(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,"
             "§6.1 K2Q-aff,96671e61ac62fdcf2160f63a03bf4f173f15f14a,PASS)",
+            "(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation"
+            "--wip.md,§10.5.4 補題 PΣ-2,"
+            "4d0f636c6b4c2e05bd09912164f97ff06e35ba41,PASS)",
+            "(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation"
+            "--wip.md,§10.5.4 補題 PΣ-3,"
+            "65bb02ef9f410460f127ad2339e49d8c903fe377,PASS)",
         ),
         "| `generalized-singleton-u`:": (
             "(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation"
             f"--wip.md,§10.5 generalized-singleton-u,{s4_0_sha},PASS)",
+            "(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation"
+            "--wip.md,§10.5.4 補題 PΣ-2,"
+            "4d0f636c6b4c2e05bd09912164f97ff06e35ba41,PASS)",
+            "(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation"
+            "--wip.md,§10.5.4 補題 PΣ-3,"
+            "65bb02ef9f410460f127ad2339e49d8c903fe377,PASS)",
         ),
         "| `QR5-w`:": (
             "(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),"
@@ -392,6 +404,59 @@ def test_root_far_rf_acceptance_surfaces_agree():
     )
     assert current.count(proof_status) == 1
     assert "| S4-0.RF-PROOF |" in current
+
+
+def test_polynomial_sigma_a_promotion_surfaces_agree():
+    """PS-4 surgery: promoted polynomial-envelope rows bind their accepted
+    intrinsic PS-2/PS-3 proofs; no proof-required vocabulary survives."""
+
+    current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
+    route_spec_full = current.split("次表を active `RouteSpec`", 1)[1].split(
+        "`REFIX` は RouteSpec", 1
+    )[0]
+
+    # stale obligation vocabulary must not survive in the active RouteSpec
+    for token in ("proof-required", "ΣA proof別途", "ΣA proofが別途必要"):
+        assert token not in route_spec_full, (
+            f"{FR_SPEC_DOC}: stale ΣA token in RouteSpec: {token}"
+        )
+
+    # canonical acceptance records (short SHA + minors SHA) in §10.5.4/§10.7
+    for marker in (
+        "R-PS1 PASS、fixed SHA `f875d76`; minors `050156b`",
+        "R-PS2 PASS、fixed SHA `540d0c1`; minors `4d0f636`",
+        "R-PS3 R2 PASS、fixed SHA `65bb02e`",
+    ):
+        assert marker in current, (
+            f"{FR_SPEC_DOC}: missing PS acceptance record: {marker}"
+        )
+
+    # row-level intrinsic refs carry full SHAs prefixed by the ledger records
+    for short, full in (
+        ("4d0f636", "4d0f636c6b4c2e05bd09912164f97ff06e35ba41"),
+        ("65bb02e", "65bb02ef9f410460f127ad2339e49d8c903fe377"),
+    ):
+        assert full.startswith(short)
+        assert full in route_spec_full, (
+            f"{FR_SPEC_DOC}: RouteSpec missing intrinsic PS SHA {full}"
+        )
+
+    # both promoted rows demand the accepted ledger and the frequency witness
+    for prefix in ("| `K2Q-aff-u`:", "| `generalized-singleton-u`:"):
+        rows = [
+            line
+            for line in route_spec_full.splitlines()
+            if line.startswith(prefix)
+        ]
+        assert len(rows) == 1, f"{FR_SPEC_DOC}: row {prefix} count != 1"
+        assert "polynomial-envelope / accepted(assembly_proof_ref)" in rows[0]
+        assert "`leaf_phase_max` witness 必須" in rows[0]
+
+    # §10.4 record vocabulary forbids NONE for accepted polynomial-envelope,
+    # and §10.7 carries both the acceptance row and the surgery row
+    assert "`NONE` を許さない" in current
+    assert "| S4-0.PS |" in current
+    assert "| S4-0.PS-PROMOTE |" in current
 
 
 def test_root_far_domain_schema_binds_all_required_keys():

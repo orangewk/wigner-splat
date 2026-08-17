@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.11.6 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/2/3 accepted(§10.5.4)、S4b closure(PΣ-4・coverage)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.11.7 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/2/3 accepted、polynomial-envelope 昇格手術 = R-PS4 査読待ち(§10.5.4/§10.7)、S4b closure(coverage)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -739,7 +739,7 @@ S4b-β の `RouteRecord` は resolved `RouteKind` だけから生成し、次を
 | `envelope_id` | 上記 `U_H`; root 2+1 は `U_T` |
 | `interval_id` | `(k,I_k,J_k,ε_chain)` |
 | `frequency_allowance` | `(frequency_source,Λ_{H,k},bound_witness)`。`leaf_phase_max` なら `Λ_{H,k}:=max_j sup_{I_k}|q_j′|≤(1−δ)(a_k+1)+R`; 不使用なら `NONE` と `κ_H=0` |
-| `A_ledger_witness` | `phase-lipschitz` の式、`weighted-no-A`、`polynomial-envelope/open`、または `polynomial-envelope/accepted(assembly_proof_ref)` |
+| `A_ledger_witness` | `phase-lipschitz` の式、`weighted-no-A`、`polynomial-envelope/open`、または `polynomial-envelope/accepted(assembly_proof_ref)`。後者は `assembly_proof_ref` = accepted PΣ-2/PΣ-3(§10.5.4)に加え `frequency_allowance=leaf_phase_max`(補題 PΣ-3 (h2))を必須とし、`NONE` を許さない |
 | `step_cost_witness` | `uniform(C̄_route): C_step,k≤C̄_route`、または `graded-root(C_RF,Λ_{η,k},N_cell,k,RF_proof_ref,ray_ledger_ref)`。後者は§10.5.2受理後だけ |
 | `named_constants` | `(cost spec,γ_H=γ_route,κ_H≤κ̄_route,source_ref)`。raw係数依存は禁止 |
 
@@ -779,8 +779,8 @@ route 選択の前に exact zero-pruning を行う。任意の child functionが
 | route ID / shape | arity | mode / inequality | source rule | domain schema | `(cost spec,γ,κ̄)` | A-ledger / assembly rule | current obligation |
 |---|---|---|---|---|---|---|---|
 | `K2-u`: `c₁e^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2,docs/2026-08-08-quadratic-phase-turan-K2.md,§2 主結果,eb1804acf103d05e3261073405deb1381b44c256,PASS)` | D-K2 | `(uniform(C_K2),2,1)` | phase-lipschitz / accepted | interval domain witness |
-| `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-aff,96671e61ac62fdcf2160f63a03bf4f173f15f14a,PASS)` | D-K2Q-AFF | `(uniform(C_K2Q),4,1)` | polynomial-envelope / proof-required | ΣA proof別途 |
-| `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-GENERALIZED-SINGLETON | `(uniform(1),0,0)` | polynomial-envelope / proof-required | ΣA proofが別途必要 |
+| `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-aff,96671e61ac62fdcf2160f63a03bf4f173f15f14a,PASS)` | D-K2Q-AFF | `(uniform(C_K2Q),4,1)` | polynomial-envelope / accepted(assembly_proof_ref) | `assembly_proof_ref=(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5.4 補題 PΣ-2,4d0f636c6b4c2e05bd09912164f97ff06e35ba41,PASS)+(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5.4 補題 PΣ-3,65bb02ef9f410460f127ad2339e49d8c903fe377,PASS)`、`leaf_phase_max` witness 必須 |
+| `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-GENERALIZED-SINGLETON | `(uniform(1),0,0)` | polynomial-envelope / accepted(assembly_proof_ref) | `assembly_proof_ref=(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5.4 補題 PΣ-2,4d0f636c6b4c2e05bd09912164f97ff06e35ba41,PASS)+(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5.4 補題 PΣ-3,65bb02ef9f410460f127ad2339e49d8c903fe377,PASS)`、`leaf_phase_max` witness 必須 |
 | `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)` | D-QR5-HELD | `(uniform(C_T),5,0)` | weighted-no-A / accepted | interval-wide raw-held witness |
 | `root-far`: root 2+1 far/unheld | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)+(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5.3 補題 RF,c271919d330c718a8e6f7d76af7fc1f052aa9d71,PASS)` | D-ROOT-FAR | `(graded-root(C_RF,pair-difference-derivative),5,0)` | weighted-no-A / accepted | interval domain witness(全 7 key)+ `step_cost_witness` |
 | `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 trivial-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-TRIVIAL | `(uniform(1),0,0)` | phase-lipschitz / accepted | `A_{H,k}≤sup_{I_k}|q′|` witness |
@@ -948,7 +948,7 @@ grid(刻み 1/4000、4001 点)は `t*` を格子点 k=1800 に**厳密に含み*
 天井 `sup g ≤ 2` ✓、recentered held ✓、窓比 ≈ 1.0。
 mpmath dps 30(session-local 検証で証明には数えない。head からの再実行 fixture 化は R-RF の指示に従う)。
 
-#### 10.5.4 polynomial ΣA program(PΣ-1/2/3 accepted、PΣ-4 open)
+#### 10.5.4 polynomial ΣA program(PΣ-1/2/3 accepted、PΣ-4 手術 = R-PS4 査読待ち)
 
 本節を polynomial ΣA program の唯一の authoring location とする。program は
 PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ-4(route 昇格:
@@ -1072,10 +1072,10 @@ PΣ-4 で行う。数値診断(非証拠): 窓和二次式 bound は
 
 | ID | scope | state |
 |---|---|---|
-| PΣ-1 局所補題 | 本節 (i)(ii) | **accepted**(R-PS1 PASS、fixed SHA `f875d76`; minors 本 version) |
-| PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | **accepted**(R-PS2 PASS、fixed SHA `540d0c1`; minors 本 version) |
+| PΣ-1 局所補題 | 本節 (i)(ii) | **accepted**(R-PS1 PASS、fixed SHA `f875d76`; minors `050156b`) |
+| PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | **accepted**(R-PS2 PASS、fixed SHA `540d0c1`; minors `4d0f636`) |
 | PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | **accepted**(R-PS3 R2 PASS、fixed SHA `65bb02e`) |
-| PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | open, not claimed |
+| PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | registry 手術 = 本 version、R-PS4 査読待ち(§10.7 `S4-0.PS-PROMOTE`) |
 
 ### 10.6 Coefficient-free constants
 
@@ -1111,6 +1111,8 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.RF | RECENTER exact transition、graded-root cost、D-ROOT-FAR、RF-1–RF-4 fail-closed extension | **PASS (R-RFSPEC R3、fixed SHA `25afe6ebb54f93845d48b8993ff7523f0f2643d8`)** |
 | S4-0.RF-PROOF | 補題 RF(§10.5.3): RECENTER 恒等式、cell cover/chain、graded ledger 吸収、fixture | **PASS (R-RF R2、fixed SHA `9f19389`; minors v0.9.4 `c271919`)**。`root-far` row resolved、`M-ROOT-FAR-KERNEL` 解消 |
 | S4-0.RF-PROMOTE | `root-far` row の registry 昇格手術(§10.5 row、status surface 同期、fail-closed tests) | **PASS (R-RF-PROMOTE R3、fixed SHA `9cca48d`)**(R1/R2 findings は v0.10.1–v0.10.3 で全件受諾、R4 で tests 確認) |
+| S4-0.PS | polynomial ΣA program(§10.5.4 補題 PΣ-1/PΣ-2/PΣ-3) | **PASS**(R-PS1 fixed SHA `f875d76`、minors `050156b`; R-PS2 fixed SHA `540d0c1`、minors `4d0f636`; R-PS3 R2 fixed SHA `65bb02e`) |
+| S4-0.PS-PROMOTE | `K2Q-aff-u`/`generalized-singleton-u` の polynomial-envelope 昇格手術(§10.5 rows、§10.4 witness 必須化、fail-closed tests) | 手術 = 本 version、R-PS4 査読待ち |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4b/a/c proofs | none | open, not claimed |
 
@@ -1322,3 +1324,11 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   accepted 定数は endpoint 規約 pin の下でも不変とクロス検証(`a_k+1 ≤ T ≤ T+1` で
   `Σ_kΛ_{η,k} ≤ 4[s_m²(T+1)²+s_m(T+1)]` 成立)。PΣ-3 を accepted へ昇格
   (R-PS3 R2 PASS、fixed SHA `65bb02e`)。次 = PΣ-4(route 昇格手術)。
+- v0.11.7(2026-08-17): PΣ-4 registry 昇格手術(R-PS4 査読待ち)。`K2Q-aff-u`/
+  `generalized-singleton-u` の A-ledger を `polynomial-envelope / accepted(assembly_proof_ref)`
+  へ更新し、obligation 欄に intrinsic assembly_proof_ref(PΣ-2 = `4d0f636`、PΣ-3 = `65bb02e`
+  の full SHA)+ `leaf_phase_max` witness 必須を記載。§10.4 `A_ledger_witness` に
+  polynomial-envelope/accepted の frequency witness 必須化(`NONE` 不許可)を追記。
+  §10.5.4 表の minors SHA を明示(PΣ-1 `050156b`、PΣ-2 `4d0f636`)。§10.7 に S4-0.PS
+  (acceptance 記録)と S4-0.PS-PROMOTE(手術、R-PS4 査読待ち)を新設。fail-closed tests に
+  昇格 row の positional binding・stale token 検査・intrinsic SHA prefix 検査を追加。
