@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.4 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1314,12 +1314,66 @@ singleton は上の 2 行。∎
 pair child(`B₁₂` 型)の per-child strong bound は **W2 の義務であり本補題は主張しない**。
 W1 は帰着と語彙のみを供給する。
 
+**補題 W2(Pair norming、c=2 強形 — proof draft、R-W2 待ち)**: 相異なる
+`ξ_i = (A_i, B_i) ∈ K_{δ,R}`(`i = 1,2`)、`c₁c₂ ≠ 0`、`f = c₁Φ(ξ₁) + c₂Φ(ξ₂)` とする。
+このとき全 `z = te^{iθ}`(`t ≥ 0`)で
+
+  |f(z)| ≤ C₂(R)·(1+t)²·E_{δ,R}(t)·‖f‖_ℱ,                                  (W2-strong)
+  C₂(R) := 1 + K_β(R),   K_β(R) := max{2(1+2R)(1+R), 2√2 + 2(1+R²)}。
+
+定数は `(δ を通さず) R` のみに依存し、`m`、collision scale `s_m`、pair separation いずれにも
+依存しない。従って pair child は per-child strong bound を `C = C₂(R)`、`P(t) = (1+t)²` で
+満たし、W1 の premise が全 child type で閉じる。
+
+*証明*: **(1) exact divided difference.** `ΔA := A₁−A₂`、`ΔB := B₁−B₂`、
+`r := max(|ΔA|, |ΔB|) > 0`(`ξ₁ ≠ ξ₂`)、`ψ := (Φ(ξ₁) − Φ(ξ₂))/r`。線分 path
+`(A_τ, B_τ) := (A₂+τΔA, B₂+τΔB)`(`τ ∈ [0,1]`)は `K_{δ,R}` の凸性より class 内に留まり、
+`∂_τΦ(A_τ,B_τ)(z) = (ΔA·z²/2 + ΔB·z)·Φ(A_τ,B_τ)(z)` から
+
+  ψ(z) = ∫₀¹ ((ΔA/r)·z²/2 + (ΔB/r)·z)·Φ(A_τ,B_τ)(z) dτ,
+  |ψ(z)| ≤ (t²/2 + t)·E_{δ,R}(t).                                          (W2-point)
+
+**(2) 正規化 0–2 jet.** 正規直交基底 `e_k = z^k/√k!` の係数を `f_k := ⟨f, e_k⟩`
+(`|f_k| ≤ ‖f‖_ℱ`)とする。`Φ(A,B) = 1 + Bz + ((A+B²)/2)z² + …` より
+`Φ₀ = 1`、`Φ₁ = B`、`Φ₂ = (A+B²)/√2`。`a := ΔA/r`、`b := ΔB/r`(`max(|a|,|b|) = 1`)で
+
+  ψ₀ = 0,   ψ₁ = b,   ψ₂ = (a + (B₁+B₂)b)/√2。
+
+**(3) 二分法(jet nondegeneracy).**
+- `|b| ≥ [2(1+2R)]⁻¹` なら `|ψ₁| ≥ [2(1+2R)]⁻¹`。
+- そうでなければ `|a| = 1` かつ `|B₁+B₂| ≤ 2R` より
+  `|ψ₂| ≥ (1 − 2R·|b|)/√2 ≥ (1 − R/(1+2R))/√2 = (1+R)/((1+2R)√2) ≥ 1/(2√2)`。
+
+**(4) 係数の norm 消去.** `f = αΦ(ξ₂) + βψ`、`α := c₁+c₂`、`β := c₁r`(展開して恒等)。
+`f₀ = α` より `|α| ≤ ‖f‖`。
+- 第 1 case: `f₁ = αB₂ + βψ₁` より
+  `|β| ≤ (|f₁| + |α||B₂|)/|ψ₁| ≤ (1+R)·2(1+2R)·‖f‖`。
+- 第 2 case: `f₂ = α(A₂+B₂²)/√2 + βψ₂` より(`|A₂| ≤ 1−δ ≤ 1`)
+  `|β| ≤ 2√2·(‖f‖ + ‖f‖(1+R²)/√2) = (2√2 + 2(1+R²))·‖f‖`。
+
+いずれでも `|β| ≤ K_β(R)‖f‖`。
+
+**(5) 合成.** `|f(z)| ≤ |α|·|Φ(ξ₂)(z)| + |β|·|ψ(z)|
+≤ ‖f‖E_{δ,R}(t) + K_β‖f‖·(t + t²/2)·E_{δ,R}(t)
+≤ (1+K_β)·(1 + t + t²/2)·E_{δ,R}(t)·‖f‖ ≤ C₂(R)(1+t)²E_{δ,R}(t)‖f‖`
+(`1+t+t²/2 ≤ (1+t)²`)。∎
+
+`c_i = 0` または `ξ₁ = ξ₂` は exact zero-pruning/係数併合で rank ≤ 1 に落ち、W1 の
+singleton case が覆う。raw 係数 `c₁, r, α, β` は proof-local であり、statement には
+`‖f‖_ℱ` と `(δ,R)` 定数しか現れない(FR7 audit 語彙は不変)。**s_m 相殺の仕組み**:
+A-dominant 方向では `r = |ΔA| ~ s²`、B-dominant 方向では `r = |ΔB| ~ s` だが、いずれも
+分子(W2-point の `ΔA/r, ΔB/r ≤ 1`)と norming(jet 下界は `r` 正規化後の量)の双方で同じ
+`r` が使われるため、`s` 依存因子は statement に残らない。非衝突域 `s ≈ 1` も同一の
+jet bound がそのまま覆う。数値診断(非証拠): ランダム 4×10³ 配置(seed 11、`δ = 0.3`、
+`R = 1.5`、near-cancellation `c₂ ≈ −c₁`・collision scale `s ∈ [10⁻³,1]` 含む、Gram 閉形式で
+`‖f‖` を厳密計算、`t ≤ 10` × 9 方位)で違反なし、bound との最小余裕 ×96。
+
 **program 表**(state は fail-closed: 受理は fixed-SHA 査読後のみ):
 
 | packet | statement / output | state |
 |---|---|---|
 | W1 Child-reserve interface | 語彙 + (W1-exit) + singleton case | **accepted**(R-W1 R2 PASS、fixed SHA `a59768e`) |
-| W2 Pair norming | exact divided difference + 0–2 jet norming で `|f(z)| ≤ C₂(R)(1+t)²E_{δ,R}(t)‖f‖_ℱ`(c=2 強形、`η_sep`/`s_m` 非依存) | open, not claimed |
+| W2 Pair norming | exact divided difference + 0–2 jet norming で `|f(z)| ≤ C₂(R)(1+t)²E_{δ,R}(t)‖f‖_ℱ`(c=2 強形、`η_sep`/`s_m` 非依存) | proof draft(R-W2 待ち) |
 | C0 Compact anchor | terminal `I_N⊂[0,2]` で `‖e^{−U_H}H‖_{∞,I_N} ≤ C_anc·D_H⁻¹`(Anchor-D) | open, not claimed |
 | W3 Weighted chain | `G=e^{−U_H}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{I_N}` | open, not claimed |
 | W4 D-cancelled exit | W1/W2 × C0 × W3 の合成で `|H| ≤ C·R_H(1+T)²e^{(1−3δ/4)T²/2+C(T+1)}` | open, not claimed |
@@ -1647,3 +1701,10 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   修正、margin は二次係数のみと明示。[W1-04] `D_H` witness を design note(非証明)へ降格、
   path `Φ_s = e^{sz}` を固定、厳密化は C0 義務。[W1-05] 履歴の jet 検算を「予備検算・W2 の
   proof/acceptance ではない」と注記。R-W1 R2 待ち。
+- v0.13.3(2026-08-17): luna R-W1 R2 = **PASS**(reviewed SHA `a59768e`、findings なし)。
+  W1 を accepted へ昇格、tests 同期。
+- v0.13.4(2026-08-17): 補題 W2(Pair norming、c=2 強形)を proof draft として執筆
+  (R-W2 待ち)。機構 = exact divided difference(線分 path、`K_{δ,R}` 凸性)+
+  正規化 0–2 jet(`ψ₀=0, ψ₁=b, ψ₂=(a+(B₁+B₂)b)/√2`)+ 二分法(下界 `[2(1+2R)]⁻¹` /
+  `1/(2√2)`)+ 係数の norm 消去(`K_β(R)`)。`C₂(R) = 1+K_β(R)`、`s_m`/separation 非依存。
+  数値診断 4×10³ 配置(Gram 閉形式、near-cancellation・collision 含む)違反なし余裕 ×96。

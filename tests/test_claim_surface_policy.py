@@ -649,8 +649,15 @@ def test_s4a_program_states_fail_closed():
     assert "**accepted**(R-W1 R2 PASS、fixed SHA `a59768e`)" in w1_rows[0], (
         f"{FR_SPEC_DOC}: W1 row lost acceptance record"
     )
+    w2_rows = [
+        line for line in s4a.splitlines()
+        if line.startswith("| W2 Pair norming |")
+    ]
+    assert len(w2_rows) == 1, f"{FR_SPEC_DOC}: W2 row count != 1"
+    assert "proof draft(R-W2 待ち)" in w2_rows[0], (
+        f"{FR_SPEC_DOC}: W2 row state drifted before R-W2 acceptance"
+    )
     for prefix in (
-        "| W2 Pair norming |",
         "| C0 Compact anchor |",
         "| W3 Weighted chain |",
         "| W4 D-cancelled exit |",
