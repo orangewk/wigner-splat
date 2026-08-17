@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.14.2 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、**S4a program 完結・(S4-Ew) 閉鎖**(§10.8 全 8 packet accepted、R-EW R2 PASS `b39216f`)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.14.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、**S4a program 完結・(S4-Ew) 閉鎖**(§10.8 全 8 packet accepted、R-EW R2 PASS `b39216f`)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1645,7 +1645,7 @@ FR7 = 本節 (ii) の audit。
 
 | ID | scope | state |
 |---|---|---|
-| S4c-i N3′/N4 ledger | 閉包文書 §4.3 v1.8.13 注記 + FR6 split 同文性 | proof draft(R-S4C 待ち) |
+| S4c-i N3′/N4 ledger | 閉包文書 §4.3 v1.8.13 注記 + FR6 との split 境界一致(依存集合は注記側が具体化) | proof draft(R-S4C 待ち) |
 | S4c-ii FR7 audit | 禁止入力 5 種 × 最終面の非混入表 + fail-closed tests | proof draft(R-S4C 待ち) |
 | S4c-iii FR acceptance | provenance 同期表 + FR1–FR7 充足根拠 | proof draft(R-S4C 待ち) |
 
@@ -2052,3 +2052,6 @@ FR7 = 本節 (ii) の audit。
   義務、c=3 FR-S4 は program 内 draft 完了・R-S4C 待ち)。[S4C-004] 閉包文書 header の
   版数/日付/PR 参照(#158→#178)と同期注記の v0.14.1 を修正。[S4C-005] FR5 根拠の RF を
   primary SHA `9f19389`(minors `c271919`)へ併記修正。R-S4C R2 待ち。
+- v0.14.3(2026-08-17): luna R-S4C R2 = blocking 1 + minor 1。[S4CR2-001] §10.9 状態表の
+  「FR6 split 同文性」残存を「split 境界一致(依存集合は注記側が具体化)」へ修正。
+  [S4CR2-002] 閉包文書 §11 の PR 参照(#158)を #178 承継の経緯つきで更新。R-S4C R3 待ち。

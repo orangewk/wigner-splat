@@ -888,7 +888,8 @@ proof-body blocker**(kernel: c = 2 の査読statusは独立文書 K2 のcanonica
 
 ## 11. 手続き状態
 
-1. 本ファイルの draft PR #158 = 独立査読の会場(χ_G 証明と同一基準)— orange 裁定 2026-08-02
+1. 本ファイルの独立査読の会場は draft PR #178(旧 #158 は誤 merge → revert #177 の後、
+   #178 へ承継 — 2026-08-16。χ_G 証明と同一基準)— orange 裁定 2026-08-02
 2. 査読 1 巡目(blocking 2 件)→ v1.1 対応 → 再査読: blocking 2 = resolve / **blocking 1 = 未解消
    (旧 N3 への反例)**。v1.2 = (N3)→(N3′) 差し替え + 補題 N を「主張 + 部分的構成」に降格 + §9.6 表記修正。
 3. **現在の主 blocker = G1′**: c = 2 kernel(K2)と c 一様 chaining(C′)は、他の open 補題に
