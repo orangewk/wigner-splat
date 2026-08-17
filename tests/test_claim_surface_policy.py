@@ -1401,3 +1401,34 @@ def test_nc_program_states_fail_closed():
     assert "`T_{k≤3}` の無条件宣言もしない" in section
     # G8 scope extension is recorded in the gap ledger
     assert "affine metaplectic 表現の強連続性" in closure
+
+
+def test_g6_g8_closure_records_fail_closed():
+    """G6/G8 ledger rows must keep acceptance records; draft status must survive.
+
+    G6 (phase alignment, S7) accepted at R-G6 R1 `5d64f36`; G8 (covariance
+    write-up, S9.1, extended scope) accepted at R-G8 R2 `dc76258`. Their
+    closure makes the k<=3 vertical chain condition-free as a *draft* -- the
+    no-human-review caveat must never be dropped from the claim hierarchy.
+    """
+    closure = (
+        ROOT / "docs" / "2026-08-02-gaussian-border-rank-closure--wip.md"
+    ).read_text(encoding="utf-8")
+    for prefix, record in {
+        "| G6 ": "R-G6 R1 ACCEPTED、fixed SHA `5d64f36`",
+        "| G8 ": "R-G8 R2 ACCEPTED、fixed SHA `dc76258`",
+    }.items():
+        rows = [
+            line for line in closure.splitlines() if line.startswith(prefix)
+        ]
+        assert len(rows) == 1, f"closure doc: gap row {prefix} count != 1"
+        assert record in rows[0], (
+            f"closure doc: gap row {prefix} lost acceptance record {record}"
+        )
+        assert "closed" in rows[0], f"closure doc: gap row {prefix} not closed"
+    # claim hierarchy: condition-free k<=3 chain stays a draft, never a theorem
+    assert "G 条件なしの証明ドラフト完全体" in closure
+    hierarchy = closure.split("**主張の階層(G6/G8 受理後更新)**", 1)[1]
+    hierarchy = hierarchy.split("\n\n", 1)[0]
+    assert "人間による査読は未実施" in hierarchy
+    assert "外部査読体制は現存しない" in hierarchy
