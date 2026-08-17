@@ -701,6 +701,41 @@ def test_s4a_program_states_fail_closed():
     assert "R-S4C PASS" not in current, (
         f"{FR_SPEC_DOC}: premature S4c acceptance token"
     )
+    # FR7 no-return: forbidden inputs stay out of the final surfaces (S4a
+    # program text and RouteSpec rows); prohibition-context mentions live in
+    # §10.4/§10.5.5 only
+    route_spec_full = current.split("次表を active `RouteSpec`", 1)[1].split(
+        "`REFIX` は RouteSpec", 1
+    )[0]
+    for token in ("U_F", "1/t_m", "DC discount"):
+        assert token not in s4a.split("### 10.9", 1)[0], (
+            f"{FR_SPEC_DOC}: forbidden FR7 token {token} in §10.8"
+        )
+        assert token not in route_spec_full, (
+            f"{FR_SPEC_DOC}: forbidden FR7 token {token} in RouteSpec"
+        )
+    # S4c rows stay proof draft until R-S4C passes
+    s4c_section = current.split("### 10.9 S4c closure", 1)[1]
+    for prefix in (
+        "| S4c-i N3′/N4 ledger |",
+        "| S4c-ii FR7 audit |",
+        "| S4c-iii FR acceptance |",
+    ):
+        rows = [
+            line for line in s4c_section.splitlines()
+            if line.startswith(prefix)
+        ]
+        assert len(rows) == 1, f"{FR_SPEC_DOC}: S4c row {prefix} count != 1"
+        assert "proof draft(R-S4C 待ち)" in rows[0], (
+            f"{FR_SPEC_DOC}: S4c row {prefix} state drifted before R-S4C"
+        )
+    # the closure-doc c=3 sync block must exist and stay conservative
+    closure_doc = (
+        ROOT / "docs" / "2026-08-02-gaussian-border-rank-closure--wip.md"
+    ).read_text(encoding="utf-8")
+    assert "(N3′/N4 の c=3 具体化 — v1.8.13、FR 文書 v0.14 と同期)" in closure_doc
+    assert "補題 N 本体の量化完備化・一般 c の" in closure_doc
+    assert "証明(G1′)を主張しない" in closure_doc
     # (S4-Ew) closure must be recorded with the reviewed SHA, and S4c stays open
     assert "**S4a program 完結・(S4-Ew) 閉鎖**" in current, (
         f"{FR_SPEC_DOC}: S4a closure record missing from header"

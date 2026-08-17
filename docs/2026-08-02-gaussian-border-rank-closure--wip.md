@@ -1,4 +1,4 @@
-# ガウス border rank 閉包定理 — ドラフト v1.8.12(F3′ claim correction・独立査読中)
+# ガウス border rank 閉包定理 — ドラフト v1.8.13(N3′/N4 の c=3/(E-w) 同期・独立査読中)
 
 日付: 2026-08-02(v1.8.12 = 2026-08-11)/ 著者: 本線 / status: **wip(draft PR #158 で独立査読中)**
 
@@ -228,6 +228,17 @@ acceptance obligations は次だけであり、c=3 の正確な量化は FR 文�
   (N3′) 各 v_l は原子の exact 有限結合で、**結合係数は m とともに発散してよい** — 要求は評価の側にのみ置く:
     envelope (E-d_l) が m 非依存定数で成立すること。
   (N4) envelope 定数 C は (c, leaf-count/degree/tree data, δ, R, 安定化定数) のみに依存(m 非依存)。
+
+> **(N3′/N4 の c=3 具体化 — v1.8.13、FR 文書 v0.14 と同期)**: c=3(plain single-scale /
+> nested 2+1)では、(N3′) の envelope 要求は FR 文書 §10.2 の弱形 **(E-w) = (S4-Ew)** で読む:
+> `|(U_m^{-1}v_{ℓ,m})(z)| ≤ C_w exp((1−δ/2)|z|²/2 + C_lin|z|)`(全 `m ≥ m₀`、`ℓ`、`z`)。
+> この形は FR 文書 §10.8 の S4a program(補題 W1/W2/C0/M1/W3/W4/EW-B/EW、最終
+> R-EW R2 PASS、fixed SHA `b39216f`)で導出済みであり、(N4) の c=3 実体は
+> 「`C_w, C_lin` が `(δ, R, ε_chain, C_T, C_RF)` のみに依存し、`m, ℓ, θ, z` と SVD/Newton
+> 係数に非依存」(`m₀` の存在のみ要求、収束速度依存可)。多項式形 (E-d_ℓ) は**一般 c の
+> open 義務**として維持する(FR 文書 FR6 行の c=3/(E-w) vs 一般 c/(E-d) split と同文)。
+> 本注記は target の c=3 読みを固定する帳簿であり、補題 N 本体の量化完備化・一般 c の
+> 証明(G1′)を主張しない。status の authoring は FR 文書 §10.9(S4c)に従う。
 
 **N1 の旧重み帳簿訂正(v1.8.11、v1.8.12 でさらに supersede)**: 旧条件 `Σ_l(o_l′+1)≤w` は偽。c=2 の衝突 pair で
 v₁→Φ、v₂→P₁Φ(deg P₁≤2)なら重みは 1 と 2 で和 3>w=2 だが、これは本文 §4.3 の正しい

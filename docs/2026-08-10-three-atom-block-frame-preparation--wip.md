@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.14 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、**S4a program 完結・(S4-Ew) 閉鎖**(§10.8 全 8 packet accepted、R-EW R2 PASS `b39216f`)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.14.1 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、**S4a program 完結・(S4-Ew) 閉鎖**(§10.8 全 8 packet accepted、R-EW R2 PASS `b39216f`)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1590,6 +1590,60 @@ unweighted root route が到達可能化された場合は U1 を復帰させ、
 packet の義務とし、ここでは「(W1-exit) 単独では m 一様 exit にならず、C0 の `D_H⁻¹`
 reserve との相殺(W4)が必須」という設計判断の根拠としてのみ記録する。
 
+### 10.9 S4c closure(N3′/N4 ledger・FR7 no-return audit・c=3 FR acceptance — proof draft、R-S4C 待ち)
+
+本節を S4c の唯一の authoring location とする。S4c は新しい解析を含まず、(i) N3′/N4 の
+c=3/(E-w) 同期帳簿、(ii) FR7 no-return audit、(iii) original/gauged provenance 同期と
+c=3 FR acceptance 判定、の三つの監査・同期のみからなる。
+
+**(i) N3′/N4 ledger**: 閉包文書 §4.3 の (N3′)(N4) は一般 `(E-d_ℓ)` 表記だったため、
+c=3 具体化注記(v1.8.13)を同 §4.3 に追加した: (N3′) の envelope 要求は c=3 では
+(E-w) = (S4-Ew) で読み、(N4) の定数依存は `C_w, C_lin` の
+`(δ, R, ε_chain, C_T, C_RF)`-only 依存として実現される(補題 EW、R-EW R2 PASS `b39216f`)。
+(E-d_ℓ) は一般 c の open 義務として不変。FR6 行(§4 表)の split 文言と閉包文書の注記は
+同文である。凍結 snapshot §4.3.4 には触れていない(N3′/N4 は §4.3 本体 = 非凍結)。
+
+**(ii) FR7 no-return audit(実施記録)**: §10.4 の許可語彙
+`{RootStep provenance fields, node functions, U_H, compact-class envelope, Fock norm,
+named constants}` に対し、禁止入力 5 種(旧 flat parent `U_F`、旧 DC discount、
+raw 原子係数、SVD coefficient、`1/t_m`)の**合成式入力としての**出現を、最終面 =
+{§10.8 全 8 補題の statement/proof、§10.5 RouteSpec 全 6 row、§10.5.2–10.5.5 の
+accepted 本体}について機械走査 + 逐語確認した。結果:
+
+| 禁止入力 | 出現 | 判定 |
+|---|---|---|
+| 旧 flat parent `U_F` | §10.8 = 0 件、RouteSpec = 0 件。§10.5.5 (COV-0) に 1 件 — non-producer **排除宣言**の引用のみ | 非混入 |
+| 旧 DC discount | 全最終面 0 件 | 非混入 |
+| raw 原子係数 | statement には 0 件。W2/C0/EW の proof 内は **proof-local 導入 + 即時 norm 消去**(§10.4 の「係数は node functions と `U_H` を通じてのみ」に適合)| 非混入 |
+| SVD coefficient | §10.8 に 1 件 — 「依存**しない**」の非依存宣言のみ | 非混入 |
+| `1/t_m` | 全最終面 0 件 | 非混入 |
+
+排除文脈での言及(禁止対象を禁止と述べる文)は audit 違反に数えない。fail-closed tests が
+§10.8/RouteSpec の禁止 token 不在を固定する。
+
+**(iii) original/gauged provenance 同期と c=3 FR acceptance**:
+
+| witness | 座標系 | 消費者 |
+|---|---|---|
+| `s_m`(§2 `d_w`、gauged) | metaplectic gauge 後 | FR-S1′/S1″ frame construction のみ |
+| `s̃_m`(補題 EW-B、original) | gauge 前(constant-gauge quotient 後) | EW manifest の `D-ROOT-FAR` slot(`s_m^{EW} := s̃_m`)、RF-3 再インスタンス化、`m̃_RF`/`m₀` |
+
+FR ledger の充足根拠(§4 表の各行、fixed SHA):
+FR1/FR2/FR4/FR3(X)(L-d) = R-A″ PASS `61111cc`(+ 補題 W = R-W PASS `1b3e337`);
+FR5 = S4b closed(全 6 route、QR5 `27a1817`、RF `c271919`、COV `c36d818`);
+FR6 = (E-w) core = S4a closed(補題 EW `b39216f`)+ N3′/N4 同期(本節 (i));
+FR7 = 本節 (ii) の audit。
+従って **c=3 FR は本 program 内で全行充足**(§4「FR1–FR7 が揃って初めて c=3 の補題 N 枠
+として受理する」の条件成立)。表現は保守的に保つ: これは「証明ドラフト・複数 LLM 検算済み・
+独立再査読(R-S4C)待ち」の program 内 acceptance であり、閉包文書側の消費(補題 N 本体の
+量化完備化、一般 c、系 C1)は閉包文書の義務として残る。
+
+| ID | scope | state |
+|---|---|---|
+| S4c-i N3′/N4 ledger | 閉包文書 §4.3 v1.8.13 注記 + FR6 split 同文性 | proof draft(R-S4C 待ち) |
+| S4c-ii FR7 audit | 禁止入力 5 種 × 最終面の非混入表 + fail-closed tests | proof draft(R-S4C 待ち) |
+| S4c-iii FR acceptance | provenance 同期表 + FR1–FR7 充足根拠 | proof draft(R-S4C 待ち) |
+
 ## 11. 版履歴
 
 - v0.1(2026-08-10): DC-NG 後の replacement target を single-F wrapper から exact block-frame 問題へ移し、
@@ -1978,3 +2032,10 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   (S4-Ew) 閉鎖**。S4-0 → S4b → S4a の全 packet が fixed-SHA 査読つきで closed。
   残余は S4c(N3′/N4 の c=3/(E-w) 同期、FR7 no-return audit、original/gauged provenance
   同期)のみ。tests・status surface 同期。
+- v0.14.1(2026-08-17): S4c を proof draft として執筆(R-S4C 待ち、§10.9 新設)。
+  (i) 閉包文書 §4.3 に N3′/N4 の c=3/(E-w) 具体化注記(v1.8.13)を追加(§4.3.4 凍結
+  snapshot 不可触を確認済み、非主張境界を注記内に明記)。(ii) FR7 no-return audit を
+  機械走査 + 逐語確認で実施し非混入表を記録(排除文脈の言及は違反に数えない規約を明文化、
+  fail-closed tests で §10.8/RouteSpec の禁止 token 不在を固定)。(iii) original/gauged
+  provenance 同期表と FR1–FR7 充足根拠(各 fixed SHA)を記録 — c=3 FR は program 内
+  全行充足、表現は「証明ドラフト・複数 LLM 検算済み・独立再査読待ち」で保守的に維持。
