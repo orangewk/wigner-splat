@@ -1141,3 +1141,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   [major] 残存 stale 語彙(`RF candidate`・`RF-CandidateSpec`→`RF-Spec`・graded-root候補・
   候補定数)を accepted 語彙へ置換。[major] tests に全 external source_ref の canonical ledger
   照合(short-prefix 規則込み)・stale token 追補・pending marker 件数 = 1 を追加。R3 再監査待ち。
+- v0.10.3(2026-08-17): luna R-RF-PROMOTE R3(tests 残 2 major)を受諾。source_ref の
+  **行別 positional binding**(K2-u/K2Q-aff-u/generalized-singleton-u/QR5-w/root-far/trivial-u の
+  各 row line 内に kernel/file/anchor/full-SHA tuple を逐語 bind、CprimeSourceRule block も同様)と、
+  stale token 追補(`graded-root候補`・`候補定数`)を tests に実装。文書本体は R3 で PASS 済みのため不変。

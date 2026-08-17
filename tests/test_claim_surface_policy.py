@@ -254,6 +254,8 @@ def test_root_far_rf_acceptance_surfaces_agree():
         "RF proof待ちのunresolved",
         "RF candidate",
         "RF-CandidateSpec",
+        "graded-root候補",
+        "候補定数",
     )
     for token in stale_tokens:
         assert token not in current, f"{FR_SPEC_DOC}: stale promoted-state token: {token}"
@@ -300,10 +302,63 @@ def test_root_far_rf_acceptance_surfaces_agree():
         # ...and the canonical ledger must name a prefix of it as accepted
         ledger_names_sha(doc_name, full_sha, marker)
 
-    # coverage: every category row appears exactly once in the active RouteSpec
+    # positional binding (luna R-RF-PROMOTE R3): each source rule must carry
+    # its own kernel/file/anchor/SHA tuple, so reverting one row cannot hide
+    # behind the same SHA appearing at another position
     route_spec_full = current.split("次表を active `RouteSpec`", 1)[1].split(
         "`REFIX` は RouteSpec", 1
     )[0]
+    s4_0_sha = "56498bb6e6e53ec7a07bd4c131dae5ec0575be5c"
+    row_source_expectations = {
+        "| `K2-u`:": (
+            "(K2,docs/2026-08-08-quadratic-phase-turan-K2.md,§2 主結果,"
+            "eb1804acf103d05e3261073405deb1381b44c256,PASS)",
+        ),
+        "| `K2Q-aff-u`:": (
+            "(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,"
+            "§6.1 K2Q-aff,96671e61ac62fdcf2160f63a03bf4f173f15f14a,PASS)",
+        ),
+        "| `generalized-singleton-u`:": (
+            "(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation"
+            f"--wip.md,§10.5 generalized-singleton-u,{s4_0_sha},PASS)",
+        ),
+        "| `QR5-w`:": (
+            "(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),"
+            "27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)",
+        ),
+        "| `root-far`:": (
+            "(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),"
+            "27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)",
+            "(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation"
+            "--wip.md,§10.5.3 補題 RF,"
+            "c271919d330c718a8e6f7d76af7fc1f052aa9d71,PASS)",
+        ),
+        "| `trivial-u`:": (
+            "(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation"
+            f"--wip.md,§10.5 trivial-u,{s4_0_sha},PASS)",
+        ),
+    }
+    for prefix, fragments in row_source_expectations.items():
+        rows = [
+            line
+            for line in route_spec_full.splitlines()
+            if line.startswith(prefix)
+        ]
+        assert len(rows) == 1, f"{FR_SPEC_DOC}: row {prefix} count {len(rows)} != 1"
+        for fragment in fragments:
+            assert fragment in rows[0], (
+                f"{FR_SPEC_DOC}: row {prefix} lost source tuple {fragment[:40]}..."
+            )
+
+    cprime_block = current.split("CprimeSourceRule := (C-prime,", 1)[1].split(
+        "Cprime_ref", 1
+    )[0]
+    assert "docs/2026-08-08-quadratic-phase-turan-K2.md" in cprime_block
+    assert "§3 補題 C′" in cprime_block
+    assert "eb1804acf103d05e3261073405deb1381b44c256" in cprime_block
+    assert "PASS)" in cprime_block
+
+    # coverage: every category row appears exactly once in the active RouteSpec
     for prefix in (
         "| `K2-u`:",
         "| `K2Q-aff-u`:",
