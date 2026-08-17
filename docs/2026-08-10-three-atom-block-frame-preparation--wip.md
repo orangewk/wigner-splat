@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.7 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.8 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1267,7 +1267,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4a/S4c proofs | §10.8 program(W1 以降) | W1 = proof draft、他 open |
 
-### 10.8 S4a envelope assembly program(W1/W2 accepted / C0–EW open)
+### 10.8 S4a envelope assembly program(W1/W2/C0 accepted / M1–EW open)
 
 本節を S4a program の唯一の authoring location とする。Sol consultation 第 3 回
 (2026-08-17、W1 係数予算監査)の改訂設計を採用し、packet を次に固定する。
@@ -1368,7 +1368,7 @@ jet bound がそのまま覆う。数値診断(非証拠): ランダム 4×10³ 
 `R = 1.5`、near-cancellation `c₂ ≈ −c₁`・collision scale `s ∈ [10⁻³,1]` 含む、Gram 閉形式で
 `‖f‖` を厳密計算、`t ≤ 10` × 9 方位)で違反なし、bound との最小余裕 ×96。
 
-**補題 C0(Terminal two-anchor — proof draft、R-C0 待ち)**: root node `H = X + Y`
+**補題 C0(Terminal two-anchor — accepted、R-C0 R2 PASS `f31cca0`)**: root node `H = X + Y`
 (`X = B₁₂` pair block、`Y = c₃Φ(ξ₃)` singleton、`ξ₃ ∈ K_{δ,R}`、`c₃ ≠ 0`、zero-pruning 後
 `R_H = ‖H‖_ℱ > 0`)、`G := e^{−U_T}H`、terminal 窓 `I_N ⊂ [0,2]`(§10.5.5 停止規約)、
 `A := ‖H‖_ℱ`、`B := ‖Y‖_ℱ`、`M := max(‖X‖_ℱ, ‖Y‖_ℱ)` とする。このとき
@@ -1416,7 +1416,7 @@ W3 が消費するため):
 |---|---|---|
 | W1 Child-reserve interface | 語彙 + (W1-exit) + singleton case | **accepted**(R-W1 R2 PASS、fixed SHA `a59768e`) |
 | W2 Pair norming | exact divided difference + 0–2 jet norming で `|f(z)| ≤ C₂(R)(1+t)²E_{δ,R}(t)‖f‖_ℱ`(c=2 強形、`η_sep`/`s_m` 非依存) | **accepted**(R-W2 PASS、fixed SHA `a0fcd10`) |
-| C0 Terminal two-anchor | (C0-product) `M‖G‖_{∞,I_N} ≤ C_anc·R_H` ⇔ Anchor-D | proof draft(R-C0 待ち) |
+| C0 Terminal two-anchor | (C0-product) `M‖G‖_{∞,I_N} ≤ C_anc·R_H` ⇔ Anchor-D | **accepted**(R-C0 R2 PASS、fixed SHA `f31cca0`) |
 | M1 mode audit | RayCoverageManifest 監査: `k∈K_T` の root record は weighted-only(`QR5-w`/`root-far`)、weighted/PΣ ledger 非加算、`I_N` は TerminalRecord のみ | open, not claimed |
 | W3 Weighted chain | `G=e^{−U_T}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{∞,I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{∞,I_N}`(`m ≥ m₀`、M1/COV 消費) | open, not claimed |
 | W4 Terminal-cancelled exit | W1/W2 × W3 × (C0-product) の合成で `|H(Te^{iθ})| ≤ 2C₂C_anc·R_H(1+T)²e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}` | open, not claimed |
@@ -1768,3 +1768,5 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   `≤ R²(1+a)` の `(1+a)` 相殺を証明に追記)。[C0-02] 数値マージンの記載をサンプル依存と
   明示し、境界配置(floor 比 ~28)・深 cancellation(余裕 ~1.9×10⁴)の luna 独立検算値を
   併記。R-C0 R2 待ち。
+- v0.13.8(2026-08-17): luna R-C0 R2 = **PASS**(reviewed SHA `f31cca0`、findings なし)。
+  C0 を accepted へ昇格、tests 同期。S4a 残余 = M1 → W3 → W4 → EW。
