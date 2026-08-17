@@ -1,6 +1,14 @@
-# ガウス border rank 閉包定理 — ドラフト v1.9.2(補題 N(c≤3) 完結・NC 接続監査着工・人間査読未実施)
+# ガウス border rank 閉包定理 — ドラフト v1.9.3(k≤3 縦一本 draft 貫通(条件 G6/G8)・人間査読未実施)
 
-日付: 2026-08-02(v1.9.2 = 2026-08-17)/ 著者: 本線 / status: **wip(draft PR #178。検証は複数 LLM の fixed-SHA 査読 + 数値診断のみ — 人間による査読は未実施)**
+日付: 2026-08-02(v1.9.3 = 2026-08-18)/ 著者: 本線 / status: **wip(draft PR #178。検証は複数 LLM の fixed-SHA 査読 + 数値診断のみ — 人間による査読は未実施)**
+
+> **v1.9.3 changelog(NC program 完結、2026-08-18)**: §4.4.1 の NC-0 監査(`0f06f9c`)/
+> NC-1 = L2a′(c=3)(`b003341`)/ NC-2 = L2b(k≤3)(`36108d1`)/ NC-3 = L3(k≤3)(`30658b1`)/
+> NC-4 = §7 組み立て監査(`7529bce`)が全て fixed-SHA 査読で accepted。これにより
+> **`T_{k≤3}`/`C1_{k≤3}`(§4.4.1.4)の残条件は G6・G8(拡張 scope — 標準事実と見込むが
+> 未検証)のみ**となり、k≤3 の縦一本(補題 N → L2b/L3 → 主定理 → C1 部分)が証明ドラフト
+> として貫通した。一般 c/一般 k(G1′)と系 C1 の全 k 版は不変に open。旧 D1(L2b/L3 の
+> 補題 N 枠依存置換)は k≤3 について解消。
 
 > **v1.9.2 changelog(c≤3 接続監査 NC program 着工、2026-08-17)**: §4.4.1 新設 —
 > 補題 N(c≤3) の消費側監査(§4.4/§5/§6/§7、k≤3)と NC packet 台帳(NC-1 L2a′(c=3) 束ね /
@@ -1073,7 +1081,7 @@ N-P1〜N-P4 と、FR 文書の program 内 acceptance(FR1–FR7、複数 LLM 査
 **c≤3 特化版**(§4.3.6、program 内 accepted)が supply する範囲の監査と束ね作業は
 §4.4.1 の NC program に従う。
 
-#### 4.4.1 c≤3 接続監査と NC program(v1.9.2 — 監査 accepted、R-NC0 R3 PASS `0f06f9c`。NC packet は fail-closed)
+#### 4.4.1 c≤3 接続監査と NC program(v1.9.3 — **NC-0〜NC-4 全て accepted、NC program 完結**。人間査読未実施)
 
 > **位置づけ**: 補題 N(c≤3)(§4.3.6、全 packet program 内 accepted)が消費側
 > (§4.4/§5/§6/§7)のどの premise を実際に供給し、`k ≤ 3` で何が残るかの監査。本節を
@@ -1109,7 +1117,7 @@ obligation** である: 前係数 `r·C_sub·C_w` の吸収(台帳行の前係�
 | NC-1 L2a′(c=3) 束ね補題 | 任意の `f = Σ_{j≤3} c_jΦ(ξ_j)`(`ξ_j ∈ K_{δ,R}`)に対し `|f(z)| ≤ e^{(1−δ/2)|z|²/2+C(δ,R,·)|z|}‖f‖` — 枠係数 + (E-w) + 反証部分列 | **accepted**(R-NC1 R3 PASS、fixed SHA `b003341`) |
 | NC-2 L2b(k≤3) 置換執筆 | §5 の証明を「補題 N(c≤3) の (N1) 直接 norm 収束 + L0 dim 保存」経路で書き直す | **accepted**(R-NC2 R3 PASS、fixed SHA `36108d1`) |
 | NC-3 L3(k≤3) 置換執筆 | §6 の証明を「cluster ごと補題 N(c≤3) + L2b(NC-2)+ L1-b」で書き直す(G8 依存を明示) | **accepted**(R-NC3 R2 PASS、fixed SHA `30658b1`) |
-| NC-4 §7 組み立て監査 | 主定理(k≤3、条件付き)の依存グラフ固定と部分結論の正確な statement。**論理依存 = NC-2/NC-3 + G6/G8**(NC-1 は critical path 外の独立 corollary)。作業順は NC-1→2→3→4 を推奨(NC-1 が量化スキームの試金石のため) | 査読待ち |
+| NC-4 §7 組み立て監査 | 主定理(k≤3、条件付き)の依存グラフ固定と部分結論の正確な statement。**論理依存 = NC-2/NC-3 + G6/G8**(NC-1 は critical path 外の独立 corollary)。作業順は NC-1→2→3→4 を推奨(NC-1 が量化スキームの試金石のため) | **accepted**(R-NC4 R2 PASS、fixed SHA `7529bce`)— **NC program 完結** |
 
 ##### 4.4.1.1 補題 NC-1(L2a′(c=3) — accepted、R-NC1 R3 PASS `b003341`)
 
@@ -1247,7 +1255,7 @@ L1-b」)をそのまま踏襲し、「norm 収束」の供給源を L2b(一般 k
 
 **scope(非主張)**: 一般 k、G8 の閉鎖(依存として継承)、§7 での消費(NC-4)。
 
-##### 4.4.1.4 NC-4(§7 組み立て監査、k ≤ 3 — 査読待ち R-NC4)
+##### 4.4.1.4 NC-4(§7 組み立て監査、k ≤ 3 — accepted、R-NC4 R2 PASS `7529bce`)
 
 **gauge 規約**: §7 の `U_m^{(c)}` は**復元 unitary**(= NC-3 の `Ũ_m^{(c)} = (U_m^{(c)})^{−1}`、
 真空 → 基準原子)の意味で読む(§1.5 の gauge 定義は「基準原子 → 真空」— NC-3 と同じ読み替え。

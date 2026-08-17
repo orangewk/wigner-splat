@@ -1369,3 +1369,35 @@ def test_lemma_n_c3_program_states_fail_closed():
     assert "内部 rate tree" in section
     # coordinate binding note survives
     assert "U_m^{-1}v^{FR}_{ℓ,m}" in section
+
+
+def test_nc_program_states_fail_closed():
+    """§4.4.1 NC-program ledger must keep acceptance records and stay conservative.
+
+    The k<=3 vertical chain (T_{k<=3}/C1_{k<=3}) is conditional on G6/G8; the
+    audit's conservative verdict and the packet SHAs must survive edits.
+    """
+    closure = (
+        ROOT / "docs" / "2026-08-02-gaussian-border-rank-closure--wip.md"
+    ).read_text(encoding="utf-8")
+    section = closure.split("#### 4.4.1 c≤3 接続監査と NC program", 1)[1]
+    section = section.split("## 5. 補題 L2b", 1)[0]
+    expected = {
+        "| NC-1 ": "R-NC1 R3 PASS、fixed SHA `b003341`",
+        "| NC-2 ": "R-NC2 R3 PASS、fixed SHA `36108d1`",
+        "| NC-3 ": "R-NC3 R2 PASS、fixed SHA `30658b1`",
+        "| NC-4 ": "R-NC4 R2 PASS、fixed SHA `7529bce`",
+    }
+    for prefix, record in expected.items():
+        rows = [
+            line for line in section.splitlines() if line.startswith(prefix)
+        ]
+        assert len(rows) == 1, f"closure doc: NC row {prefix} count != 1"
+        assert record in rows[0], (
+            f"closure doc: NC row {prefix} lost acceptance record {record}"
+        )
+    # audit stays conservative: G6/G8 remain open conditions, no unconditional claim
+    assert "G6/G8 が閉じるまで proof-body の完全性は主張しない" in section
+    assert "`T_{k≤3}` の無条件宣言もしない" in section
+    # G8 scope extension is recorded in the gap ledger
+    assert "affine metaplectic 表現の強連続性" in closure
