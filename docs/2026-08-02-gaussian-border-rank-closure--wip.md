@@ -1346,14 +1346,17 @@ F_m の全体枠 = ⋃_c {U_m^{(c)} v_{c,l}}。ブロック内 Gram = 一様可�
 (§4.3.6、program 内 accepted)+ NC-2/NC-3(§4.4.1 — state は同節の台帳参照)+ G6/G8。
 一般 k と系 C1(全 k)は従来どおり G1′ に条件付く。
 
-**補題 G6(位相整列 — 査読待ち R-G6)**: `ψ, ψ_m` を単位 vector、`ψ_m ∈ G_k` とする。
+**補題 G6(位相整列 — R-G6 R1 ACCEPTED、fixed SHA `5d64f36`。[G6-01] minor(θ_m の
+有限 prefix 定義)は post-acceptance で適用)**: `ψ, ψ_m` を単位 vector、`ψ_m ∈ G_k` とする。
 state 収束(fidelity `|⟨ψ_m, ψ⟩| → 1`)を仮定すると、位相列 `θ_m` が存在して
 `e^{iθ_m}ψ_m → ψ`(L² norm)。さらに `G_k` は位相倍で閉じる(位相は原子係数へ exact に
 吸収される)ので `e^{iθ_m}ψ_m ∈ G_k` であり、§7 では WLOG `ψ_m → ψ`(L² 強)と仮定してよい。
 逆向きは自明(norm 収束 ⇒ fidelity 収束)なので、`G_k` の「state 閉包」と「単位球面上の
 L² norm 閉包」は一致する。
 
-*証明*: fidelity → 1 より十分大きい m で `⟨ψ_m, ψ⟩ ≠ 0`。`θ_m := −arg⟨ψ_m, ψ⟩` と選ぶと
+*証明*: fidelity → 1 より、ある M が存在して m ≥ M で `⟨ψ_m, ψ⟩ ≠ 0`。m < M では
+`θ_m := 0` と定める(有限 prefix なので極限に影響しない — [G6-01])。m ≥ M で
+`θ_m := −arg⟨ψ_m, ψ⟩` と選ぶと
 `Re(e^{iθ_m}⟨ψ_m, ψ⟩) = |⟨ψ_m, ψ⟩|` なので
 
   ‖e^{iθ_m}ψ_m − ψ‖² = 2 − 2·Re(e^{iθ_m}⟨ψ_m, ψ⟩) = 2 − 2|⟨ψ_m, ψ⟩| → 0。
@@ -1421,21 +1424,22 @@ t≥2 の偶数側 equality と奇数側 lower bound は F3′ により撤回�
 
 | # | 箇所 | 内容 | 状態 |
 |---|---|---|---|
-| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で全 packet accepted(R-S4C R3 PASS `b6bbe01`、(E-w) 経由。人間による査読は未実施 — 査読体制は複数 LLM のみ)。**c≤3 特化版の量化・証明は §4.3.6 の N-P0〜N-P5 が全て accepted(R-NP5 R1 PASS `ef9d463`)で program 内完結**。消費側の c≤3 接続は §4.4.1 NC program: NC-0 監査 + NC-1/NC-2/NC-3 accepted(L2a′(c=3)、L2b/L3 の k≤3 置換 = 旧 D1 解消)、NC-4 は同節台帳参照。**残余 = ①一般 c の (E-d)・B2+(F1)/S4 ②一般 k の L2b/L3(k≤3 は置換済み)③G6・G8 清書(k≤3 経路の残条件、G8 は拡張 scope)**。 | **open(一般 c の主 blocker)** |
+| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で全 packet accepted(R-S4C R3 PASS `b6bbe01`、(E-w) 経由。人間による査読は未実施 — 査読体制は複数 LLM のみ)。**c≤3 特化版の量化・証明は §4.3.6 の N-P0〜N-P5 が全て accepted(R-NP5 R1 PASS `ef9d463`)で program 内完結**。消費側の c≤3 接続は §4.4.1 NC program: NC-0 監査 + NC-1/NC-2/NC-3 accepted(L2a′(c=3)、L2b/L3 の k≤3 置換 = 旧 D1 解消)、NC-4 は同節台帳参照。**残余 = ①一般 c の (E-d)・B2+(F1)/S4 ②一般 k の L2b/L3(k≤3 は置換済み)③G8 清書(k≤3 経路の残条件、拡張 scope。G6 は accepted `5d64f36` で閉鎖)**。 | **open(一般 c の主 blocker)** |
 | G2 | L1 符号 | 査読提供の不等式で閉鎖 | **closed(v1.1)** |
 | G3 | 脱出混在 | gauge 化再構成で場合分け自体が消滅(再査読で blocking 2 は resolve 判定、前提 = 補題 N + G8) | **closed(v1.1、再査読確認済み)** |
 | G4 | C2 quantitative | F3′ により旧次数下界を撤回。t≥2 の偶奇 sharp 値を再導出(|5⟩は上界 3) — C1 に影響なし | open(副産物) |
 | G5 | 重み公式 | 必要条件としての文言統一 | v1.1 で §8 に明記 |
-| G6 | §7 位相整列 | fidelity → norm 収束の phase 選択の明示 | open(標準・清書) |
+| G6 | §7 位相整列 | fidelity → norm 収束の phase 選択の明示(補題 G6 として §7 に清書。state 閉包 = 単位球面 L² norm 閉包の同値も明示) | **closed(R-G6 R1 ACCEPTED、fixed SHA `5d64f36`。[G6-01] minor は post-acceptance 適用)** |
 | G7 | CI | head の CI は secret scan のみで定理内容の検証 gate なし(査読補足の記録) | 記録 |
 | G8 | §1.5/§9.1 | 共変性のパラメタ変換式の完全清書 + **affine metaplectic 表現の強連続性・位相固定の連続 gauge section の明示**(v1.9.2 拡張 — §4.4.1.4。方針は標準と見込むが未検証) | open(清書・拡張 scope) |
 
-**主張の階層(v1.9.2 更新)**: 系 C1(全 k)は G1′・G6・G8 に依存し、**G1′ は清書系ではなく
+**主張の階層(G6 受理後更新)**: 系 C1(全 k)は G1′・G6・G8 に依存し、**G1′ は清書系ではなく
 未証明の proof-body blocker**(一般 c)。したがって主定理・系 C1(任意 k)は**未確立
 (条件付き主張)**である。**ただし k ≤ 3 に限れば**、G1′ は補題 N(c≤3)(§4.3.6)で、
-L2b/L3 の置換執筆(旧 D1)は NC-2/NC-3(§4.4.1)で program 内 accepted となり、
-`T_{k≤3}`/`C1_{k≤3}`(§4.4.1.4)の残条件は **G6 と G8(拡張 scope — 強連続性・連続 section
-含む、標準と見込むが未検証)のみ**(地位 = 証明ドラフト・人間査読未実施)。G4–G5 は副産物のみ。
+L2b/L3 の置換執筆(旧 D1)は NC-2/NC-3(§4.4.1)で program 内 accepted、G6(位相整列)も
+accepted(`5d64f36`)となり、`T_{k≤3}`/`C1_{k≤3}`(§4.4.1.4)の残条件は **G8(拡張 scope —
+強連続性・連続 section 含む、標準と見込むが未検証)のみ**(地位 = 証明ドラフト・
+人間査読未実施)。G4–G5 は副産物のみ。
 
 ---
 
