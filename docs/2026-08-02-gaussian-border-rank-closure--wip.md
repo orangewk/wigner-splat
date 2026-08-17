@@ -1249,13 +1249,17 @@ L1-b」)をそのまま踏襲し、「norm 収束」の供給源を L2b(一般 k
 
 ##### 4.4.1.4 NC-4(§7 組み立て監査、k ≤ 3 — 査読待ち R-NC4)
 
+**gauge 規約**: §7 の `U_m^{(c)}` は**復元 unitary**(= NC-3 の `Ũ_m^{(c)} = (U_m^{(c)})^{−1}`、
+真空 → 基準原子)の意味で読む(§1.5 の gauge 定義は「基準原子 → 真空」— NC-3 と同じ読み替え。
+逆元も unitary で発散性は保たれる)。
+
 **依存グラフ(k ≤ 3 の条件付き主定理)**: §7 の各 step の premise を次で固定する。
 
 | §7 step | 旧 premise | k ≤ 3 での供給元 | 残る条件 |
 |---|---|---|---|
 | 入力の位相整列(`ψ_m → ψ` L² 強) | G6 | — | **G6**(清書、open) |
 | step 1(クラスタ係数一様有界) | L3 | **NC-3**(accepted draft) | G8(NC-3 経由で継承) |
-| step 2(gauge 有界クラスタの強収束・極限 ∈ V) | L2b | **NC-2**(accepted draft)+ gauge 列の収束吸収 | **G8**(strong continuity 清書) |
+| step 2(gauge 有界クラスタの強収束・極限 ∈ V) | L2b | **NC-2**(accepted draft — 入力の有界性は step 1/NC-3 のクラスタノルム一様有界性が供給)+ gauge 列の収束吸収 | **G8 拡張 scope**(強連続性・連続 section — 下記) |
 | step 3(gauge 発散クラスタ ⇀ 0) | L2b + L1-b | NC-2(i) の norm 収束 + L1-b(accepted 面)+ step 1 | — |
 | step 4(差の強収束算術) | — | 不変 | — |
 
@@ -1264,16 +1268,23 @@ program 内 acceptance・人間査読未実施)**:
 
 - **T_{k≤3}(条件付き)**: `k ≤ 3` について、`G_k` の L² 閉包の任意の元は Bargmann 表示で
   有限指数多項式 `F = Σ_c P_c(z)·exp(½A_c z² + B_c z)`(`(A_c,B_c)` 相異、`|A_c| < 1`、
-  クラスタ重み和 ≤ k)の形を持つ。`deg P_c` は補題 N(c≤3) の (N1) jet-degree
-  (分離系 ≤ 2、coarse `3` は plain `d ≤ 5` / nested FR-S1″)で押さえられる。
+  クラスタ重み和 ≤ k)の形を持つ。`deg P_c` は補題 N(c≤3) の (N1) jet-degree で押さえられ、
+  分離系 ≤ 2、coarse `3` は `≤ 5`(plain = 補題 W、nested = FR-S1″ の J⁵ 構成)。
 - **C1_{k≤3}(条件付き・部分)**: 閉包(G_k)(`k ≤ 3`)の元は実解析的波動関数。従って
   半直線台の非零状態 `ψ` は `k ≤ 3` の全てで閉包外。**全 k の閉包外性と
   `K_ε^G(ψ) → ∞` は主張しない**(一般 c = G1′ が必要)。
 
-**audit 判定**: 上記の依存グラフの下、`T_{k≤3}` / `C1_{k≤3}` は「G6・G8(いずれも方針標準の
-清書系 gap)を除き、accepted 証明ドラフト連鎖(補題 N program + NC-1〜NC-3)に還元済み」。
-proof-body 型の未証明 gap は k ≤ 3 の経路上に残っていない(G1′ は一般 k 専用へ後退)。
-本監査は G6/G8 を閉じず、`T_{k≤3}` の無条件宣言もしない。
+**G8 の scope 拡張(本監査で判明)**: §7 step 2 は「`g_m → g ⇒ U(g_m)x → U(g)x`
+(affine metaplectic 表現の強連続性)」と「位相を固定した連続な gauge section」を必要とするが、
+これらは現行の §1.5/§9.1 に明示・証明されていない。G8 の清書 scope を「パラメタ変換式 +
+表現の強連続性 + 連続 gauge section の明示」へ**拡張**する(§10 台帳の G8 行を同期)。
+これらは表現論の標準事実と**見込む**が、その見込みの検証自体が G8 清書の仕事である。
+
+**audit 判定(保守形)**: 上記の依存グラフの下、`T_{k≤3}` / `C1_{k≤3}` の残 gap は
+**G6 と G8(拡張 scope)のみ**であり、いずれも「標準事実の明示・清書」と見込まれる —
+ただしこの見込み自体は未検証であり、G6/G8 が閉じるまで proof-body の完全性は主張しない。
+accepted 証明ドラフト連鎖(補題 N program + NC-1〜NC-3)への還元はここまでで、G1′ は
+一般 k 専用へ後退した。本監査は G6/G8 を閉じず、`T_{k≤3}` の無条件宣言もしない。
 
 **scope(非主張)**: G6/G8 の清書実行(別 packet として要否を orange と判断)、一般 k、
 `K_ε^G` の定量下界。
@@ -1388,21 +1399,21 @@ t≥2 の偶数側 equality と奇数側 lower bound は F3′ により撤回�
 
 | # | 箇所 | 内容 | 状態 |
 |---|---|---|---|
-| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で全 packet accepted(R-S4C R3 PASS `b6bbe01`、(E-w) 経由。人間による査読は未実施 — 査読体制は複数 LLM のみ)。**c≤3 特化版の量化・証明は §4.3.6 の N-P0〜N-P5 が全て accepted(R-NP5 R1 PASS `ef9d463`)で program 内完結**。**残余 = ①一般 c の (E-d)・B2+(F1)/S4 ②L2b/L3 枠置換 ③消費側(§4.4/§6/§7)の c≤3 接続監査**。 | **open(主 blocker)** |
+| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で全 packet accepted(R-S4C R3 PASS `b6bbe01`、(E-w) 経由。人間による査読は未実施 — 査読体制は複数 LLM のみ)。**c≤3 特化版の量化・証明は §4.3.6 の N-P0〜N-P5 が全て accepted(R-NP5 R1 PASS `ef9d463`)で program 内完結**。消費側の c≤3 接続は §4.4.1 NC program: NC-0 監査 + NC-1/NC-2/NC-3 accepted(L2a′(c=3)、L2b/L3 の k≤3 置換 = 旧 D1 解消)、NC-4 は同節台帳参照。**残余 = ①一般 c の (E-d)・B2+(F1)/S4 ②一般 k の L2b/L3(k≤3 は置換済み)③G6・G8 清書(k≤3 経路の残条件、G8 は拡張 scope)**。 | **open(一般 c の主 blocker)** |
 | G2 | L1 符号 | 査読提供の不等式で閉鎖 | **closed(v1.1)** |
 | G3 | 脱出混在 | gauge 化再構成で場合分け自体が消滅(再査読で blocking 2 は resolve 判定、前提 = 補題 N + G8) | **closed(v1.1、再査読確認済み)** |
 | G4 | C2 quantitative | F3′ により旧次数下界を撤回。t≥2 の偶奇 sharp 値を再導出(|5⟩は上界 3) — C1 に影響なし | open(副産物) |
 | G5 | 重み公式 | 必要条件としての文言統一 | v1.1 で §8 に明記 |
 | G6 | §7 位相整列 | fidelity → norm 収束の phase 選択の明示 | open(標準・清書) |
 | G7 | CI | head の CI は secret scan のみで定理内容の検証 gate なし(査読補足の記録) | 記録 |
-| G8 | §1.5/§9.1 | 共変性のパラメタ変換式の完全清書(方針は標準) | open(清書) |
+| G8 | §1.5/§9.1 | 共変性のパラメタ変換式の完全清書 + **affine metaplectic 表現の強連続性・位相固定の連続 gauge section の明示**(v1.9.2 拡張 — §4.4.1.4。方針は標準と見込むが未検証) | open(清書・拡張 scope) |
 
 **主張の階層(v1.9.2 更新)**: 系 C1(全 k)は G1′・G6・G8 に依存し、**G1′ は清書系ではなく
 未証明の proof-body blocker**(一般 c)。したがって主定理・系 C1(任意 k)は**未確立
 (条件付き主張)**である。**ただし k ≤ 3 に限れば**、G1′ は補題 N(c≤3)(§4.3.6)で、
 L2b/L3 の置換執筆(旧 D1)は NC-2/NC-3(§4.4.1)で program 内 accepted となり、
-`T_{k≤3}`/`C1_{k≤3}`(§4.4.1.4)の残条件は **G6・G8(清書系)のみ**(地位 = 証明ドラフト・
-人間査読未実施)。G4–G5 は副産物のみ。
+`T_{k≤3}`/`C1_{k≤3}`(§4.4.1.4)の残条件は **G6 と G8(拡張 scope — 強連続性・連続 section
+含む、標準と見込むが未検証)のみ**(地位 = 証明ドラフト・人間査読未実施)。G4–G5 は副産物のみ。
 
 ---
 
