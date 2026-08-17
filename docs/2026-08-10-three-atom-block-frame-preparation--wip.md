@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.12.6 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.12.7 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1202,7 +1202,8 @@ nonconstant)は constant-gauge `REFIX` 完了から。collision-scale witness �
 = **単一の `d_Ω`-衝突 cluster** と `s_m := max_{i,j} d_w((A_{i,m},B_{i,m}),(A_{j,m},B_{j,m}))`、
 `d_w((A,B),(A′,B′)) := max(|A−A′|^{1/2}, |B−B′|)` から従う: 全 pair で `d_w ≤ s_m` なので
 定義より直ちに `|A_i−A_j| ≤ s_m²`、`|B_i−B_j| ≤ s_m`(compactness を出典にしない)。
-RF の graded ledger まで主張する場合は補題 RF の threshold `m ≥ m₀ ⊇ m_RF` を併せて要求する。
+RF の graded ledger まで主張する場合は `m ≥ m₀` を要求する
+(`m₀ := max(m_{FR-S1′/S1″}, m_RF)` なので `m₀ ≥ m_RF`)。
 `Λ_{η,k}` witness は exact `η′` の閉区間 sup として計算可能。`D-QR5-HELD` の
 `sup_{I_k}|q₂−q₁|≤1/8` は clause 1 の held certificate そのもの。selector の単価値性
 (COV-1)より各 `k∈K_T` にちょうど一つの root record が立ち、`{interval_id(R_k)} = K_T`。
@@ -1541,6 +1542,9 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   [COV1-02] `c₁c₂c₃≠0` の根拠を rank でなく「selector が root-2+1 を選ぶ ⇔ 三非零 leaf 残存」
   に修正、零係数は lower-rank 再分類と明示。[COV1-03] collision witness を §2 の単一衝突
   cluster 入力 + `d_w`/`s_m` 定義から導出(`d_w ≤ s_m ⇒ |ΔA| ≤ s_m²、|ΔB| ≤ s_m`)、
-  compactness 出典を撤回、RF ledger には `m ≥ m₀ ⊇ m_RF` を明示。[COV1-04] 三層区別
+  compactness 出典を撤回、RF ledger には `m ≥ m₀`(`m₀ ≥ m_RF`)を明示。[COV1-04] 三層区別
   (resolved row = capability / current producer = なし / RootStep consumer = weighted のみ、
   polynomial-envelope は dead generality)を scope に追記。R-COV1 R2 待ち。
+- v0.12.7(2026-08-17): luna R-COV1 R2 = minor 1 件のみ(実質 4 指摘は全て修正済みと確認)。
+  [COV1R2-01] `m₀ ⊇ m_RF` の誤記を `m ≥ m₀`(`m₀ := max(m_{FR-S1′/S1″}, m_RF)` より
+  `m₀ ≥ m_RF`)へ本文・履歴とも修正。R-COV1 R3 待ち。
