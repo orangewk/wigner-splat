@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.11.5 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/PΣ-2 accepted、PΣ-3 proof draft(§10.5.4)、S4b closure(PΣ-3/4・coverage)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.11.6 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/2/3 accepted(§10.5.4)、S4b closure(PΣ-4・coverage)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -948,7 +948,7 @@ grid(刻み 1/4000、4001 点)は `t*` を格子点 k=1800 に**厳密に含み*
 天井 `sup g ≤ 2` ✓、recentered held ✓、窓比 ≈ 1.0。
 mpmath dps 30(session-local 検証で証明には数えない。head からの再実行 fixture 化は R-RF の指示に従う)。
 
-#### 10.5.4 polynomial ΣA program(PΣ-1/PΣ-2 accepted、PΣ-3 proof draft、PΣ-4 open)
+#### 10.5.4 polynomial ΣA program(PΣ-1/2/3 accepted、PΣ-4 open)
 
 本節を polynomial ΣA program の唯一の authoring location とする。program は
 PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ-4(route 昇格:
@@ -1017,7 +1017,7 @@ per-window bound `A_{H,k} ≤ Λ_{H,k}` を、polynomial-envelope record では
 ランダム 8×10³ 配置(seed 7、deg ≤ 2 複素 P、2 次 phase、`ε ∈ {0.5, 0.2, 0.1}`、
 grid 501/201 点)で違反なし、bound との最小余裕 3.62。
 
-**補題 PΣ-3(ray-wide ledger — proof draft、R-PS3 R2 待ち)**: `δ ∈ (0,1]`、`R ≥ 0`、
+**補題 PΣ-3(ray-wide ledger — accepted)**: `δ ∈ (0,1]`、`R ≥ 0`、
 `κ_chain ≥ 0`(compact class `K_{δ,R}` 契約から継承)。§10.3 S4b-β の segmentation を
 **C′ と同一の endpoint 規約**で取る:
 
@@ -1074,7 +1074,7 @@ PΣ-4 で行う。数値診断(非証拠): 窓和二次式 bound は
 |---|---|---|
 | PΣ-1 局所補題 | 本節 (i)(ii) | **accepted**(R-PS1 PASS、fixed SHA `f875d76`; minors 本 version) |
 | PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | **accepted**(R-PS2 PASS、fixed SHA `540d0c1`; minors 本 version) |
-| PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | proof draft(R-PS3 待ち) |
+| PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | **accepted**(R-PS3 R2 PASS、fixed SHA `65bb02e`) |
 | PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | open, not claimed |
 
 ### 10.6 Coefficient-free constants
@@ -1317,3 +1317,8 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   `NT − βN(N−1)/2 ≤ T²/(2β) + T`(全 N で成立)へ差し替え、`C_ΣA = 2log(8ε_chain⁻²)+4R+2`
   に改善。[PS3-m1] `δ ∈ (0,1]`、`R ≥ 0`、`κ_chain ≥ 0` を仮説に明記。[PS3-m2] header 版数
   同期。R-PS3 R2 待ち。
+- v0.11.6(2026-08-17): luna R-PS3 R2 = **受理可**(finding なし)。B1/B2/m1/m2 の修正を全て
+  検証(N < 2T−2 の導出、R1 反例の再試験で 6.6 ≤ 8.625、最終帳簿の欠落なし)。RF-3 の
+  accepted 定数は endpoint 規約 pin の下でも不変とクロス検証(`a_k+1 ≤ T ≤ T+1` で
+  `Σ_kΛ_{η,k} ≤ 4[s_m²(T+1)²+s_m(T+1)]` 成立)。PΣ-3 を accepted へ昇格
+  (R-PS3 R2 PASS、fixed SHA `65bb02e`)。次 = PΣ-4(route 昇格手術)。
