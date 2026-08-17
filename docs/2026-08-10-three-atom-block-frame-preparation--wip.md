@@ -944,7 +944,7 @@ grid(刻み 1/4000、4001 点)は `t*` を格子点 k=1800 に**厳密に含み*
 天井 `sup g ≤ 2` ✓、recentered held ✓、窓比 ≈ 1.0。
 mpmath dps 30(session-local 検証で証明には数えない。head からの再実行 fixture 化は R-RF の指示に従う)。
 
-#### 10.5.4 補題 PΣ-1(polynomial ΣA の局所補題 — proof draft、R-PS1 待ち)
+#### 10.5.4 polynomial ΣA program(PΣ-1 accepted、PΣ-2 proof draft — R-PS2 待ち)
 
 本節を polynomial ΣA program の唯一の authoring location とする。program は
 PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ-4(route 昇格:
@@ -983,10 +983,38 @@ PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ
 ランダム複素 deg ≤ 2 の 2×10⁴ 配置探索(seed 2、係数 [−1,1]² 一様、診断用・非証拠)で
 違反なし(最大比 ×ε² = 1.13)。
 
+**補題 PΣ-2(max-envelope lift — proof draft、R-PS2 待ち)**: `I = [a, a+1]`、
+`J = [b, b+ε] ⊆ I` 閉区間、`ε ∈ (0,1]`。`P ≢ 0` 複素係数 `deg P ≤ 2`、`q₁, q₂` は複素
+2 次多項式で `r_i := Re q_i`、`Λ := max_i sup_I|r_i′|` とする。
+
+  (u) unary(`generalized-singleton-u` 形)`H = P e^{q₁}`、`U_H := log|P| + r₁`:
+      `A_{U_H} := sup_I U_H − sup_J U_H ≤ log(8ε^{−2}) + (1+ε)Λ`;
+  (b) binary(`K2Q-aff-u` 形)`H = P e^{q₁} + c₂ e^{q₂}`(`c₂ ≠ 0`)、
+      `U_H := max(log|P| + r₁, log|c₂| + r₂)`: 同じ bound `A_{U_H} ≤ log(8ε^{−2}) + (1+ε)Λ`。
+
+*証明*: **窓 Lipschitz**: `sup_I|r′| ≤ Λ` なら任意の `t_J ∈ J` に対し
+`sup_I r ≤ r(t_J) + Λ·sup_{t∈I}|t − t_J| ≤ sup_J r + Λ`(`J ⊆ I`、`|I| = 1`)。
+(u) PΣ-1(ii) に `sup_I r₁ − sup_J r₁ ≤ Λ` を代入して
+`A ≤ log(8ε^{−2}) + Λ + Λε`。
+(b) **max-lift**: 任意の集合 `X` で `sup_X max(U₁,U₂) = max(sup_X U₁, sup_X U₂)`、および
+`max_i a_i − max_i b_i ≤ max_i(a_i − b_i)`(`max_i a_i = a_j` とすれば
+`a_j − max_i b_i ≤ a_j − b_j`)。よって branch 別に押さえれば足りる:
+branch 1 は (u) で `≤ log(8ε^{−2}) + (1+ε)Λ`;branch 2 は定数 `log|c₂|` が差で消え
+`A_{U₂} = sup_I r₂ − sup_J r₂ ≤ Λ ≤ log(8ε^{−2}) + (1+ε)Λ`(`log(8ε^{−2}) ≥ log 8 > 0`)。∎
+
+`P ≡ 0` は exact zero-pruning が排除、`c₂ = 0` は (u) に退化(binary route の premise は
+`c₂ ≠ 0`)。**interface(PΣ-3 が消費、ここでは非主張)**: phase-lipschitz record の
+per-window bound `A_{H,k} ≤ Λ_{H,k}` を、polynomial-envelope record では
+`A_{H,k} ≤ log(8ε_chain^{−2}) + (1+ε_chain)Λ_{H,k}` に置換する。加算 penalty
+`log(8ε_chain^{−2})` は窓数線形(`N_s ≤ T+1`)なので `O(T)` — ray-wide の二次 budget
+`(1−δ/2)T²/2` への吸収は PΣ-3 の義務であり本補題は主張しない。数値診断(非証拠):
+ランダム 8×10³ 配置(seed 7、deg ≤ 2 複素 P、2 次 phase、`ε ∈ {0.5, 0.2, 0.1}`、
+grid 501/201 点)で違反なし、bound との最小余裕 3.62。
+
 | ID | scope | state |
 |---|---|---|
 | PΣ-1 局所補題 | 本節 (i)(ii) | **accepted**(R-PS1 PASS、fixed SHA `f875d76`; minors 本 version) |
-| PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | open, not claimed |
+| PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | proof draft(R-PS2 待ち) |
 | PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | open, not claimed |
 | PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | open, not claimed |
 
@@ -1206,3 +1234,9 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   `8−8ε+ε²`、Chebyshev witness、random 探索の seed/domain と非証拠明示)。[PS1-M3] 撤回記録を
   RetiredClaim 形式(偽の不等式 + gap `1+log(Mε)` の witness)へ機械検算可能化。
   PΣ-1 を accepted へ昇格(R-PS1 PASS `f875d76`)。次 = PΣ-2(max-envelope lift)。
+- v0.11.2(2026-08-17): 補題 PΣ-2(max-envelope lift)を proof draft として執筆(R-PS2 待ち)。
+  unary/binary 両形で `A_{U_H} ≤ log(8ε⁻²) + (1+ε)Λ`。機構 = 窓 Lipschitz
+  (`sup_I r − sup_J r ≤ Λ`、|I| = 1)+ max-lift(`max_i a_i − max_i b_i ≤ max_i(a_i−b_i)`)
+  + PΣ-1(ii)。binary の第 2 branch は定数消去で log penalty 不要。per-window 加算 penalty
+  `log(8ε_chain⁻²)` の O(T) 吸収は PΣ-3 の義務として明示的に非主張。数値診断 8×10³ 配置
+  (seed 7)違反なし。
