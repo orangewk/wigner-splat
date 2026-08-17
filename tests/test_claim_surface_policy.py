@@ -707,6 +707,7 @@ def test_s4a_program_states_fail_closed():
     route_spec_full = current.split("次表を active `RouteSpec`", 1)[1].split(
         "`REFIX` は RouteSpec", 1
     )[0]
+    kernel_bodies = current.split("#### 10.5.2", 1)[1].split("### 10.6", 1)[0]
     for token in ("U_F", "1/t_m", "DC discount"):
         assert token not in s4a.split("### 10.9", 1)[0], (
             f"{FR_SPEC_DOC}: forbidden FR7 token {token} in §10.8"
@@ -714,6 +715,21 @@ def test_s4a_program_states_fail_closed():
         assert token not in route_spec_full, (
             f"{FR_SPEC_DOC}: forbidden FR7 token {token} in RouteSpec"
         )
+    # §10.5.2-10.5.5 accepted bodies: DC discount / 1/t_m absent entirely;
+    # U_F appears exactly once, and only inside COV-0's non-producer exclusion
+    for token in ("1/t_m", "DC discount"):
+        assert token not in kernel_bodies, (
+            f"{FR_SPEC_DOC}: forbidden FR7 token {token} in §10.5.2-10.5.5"
+        )
+    uf_count = kernel_bodies.count("U_F")
+    assert uf_count == 1, (
+        f"{FR_SPEC_DOC}: U_F count in §10.5.2-10.5.5 is {uf_count}, expected 1"
+    )
+    uf_idx = kernel_bodies.find("U_F")
+    uf_ctx = kernel_bodies[max(0, uf_idx - 200):uf_idx + 100]
+    assert "RouteRecord` producer ではない" in uf_ctx or "producer ではない" in uf_ctx, (
+        f"{FR_SPEC_DOC}: the single U_F mention left its exclusion context"
+    )
     # S4c rows stay proof draft until R-S4C passes
     s4c_section = current.split("### 10.9 S4c closure", 1)[1]
     for prefix in (
@@ -733,7 +749,7 @@ def test_s4a_program_states_fail_closed():
     closure_doc = (
         ROOT / "docs" / "2026-08-02-gaussian-border-rank-closure--wip.md"
     ).read_text(encoding="utf-8")
-    assert "(N3′/N4 の c=3 具体化 — v1.8.13、FR 文書 v0.14 と同期)" in closure_doc
+    assert "(N3′/N4 の c=3 具体化 — v1.8.13、FR 文書 v0.14.1 と同期)" in closure_doc
     assert "補題 N 本体の量化完備化・一般 c の" in closure_doc
     assert "証明(G1′)を主張しない" in closure_doc
     # (S4-Ew) closure must be recorded with the reviewed SHA, and S4c stays open

@@ -1,6 +1,6 @@
 # ガウス border rank 閉包定理 — ドラフト v1.8.13(N3′/N4 の c=3/(E-w) 同期・独立査読中)
 
-日付: 2026-08-02(v1.8.12 = 2026-08-11)/ 著者: 本線 / status: **wip(draft PR #158 で独立査読中)**
+日付: 2026-08-02(v1.8.13 = 2026-08-17)/ 著者: 本線 / status: **wip(draft PR #178 で独立査読中)**
 
 > **v1.8 changelog(一般 c ≥ 3 の攻略アーキテクチャ、2026-08-08)**:
 > §4.3.5 新設: K_c を 3 段(B1 振幅 peeling / B2 位相 block 非相殺 / B3 compact core)に帰着。
@@ -9,7 +9,9 @@
 > **v1.8.14 FR nested promotion(2026-08-11)**: plain FR-S1′ は R-A′ PASS (`ed25401`)、
 > static generalized W′ と finite-m nested 2+1 FR-S1″ は R-W′ / R-A″ PASS (`57ff88d` / `61111cc`)。
 > これで post-quotient `w=r=3` の全tree shapeについて FR1/FR2/FR4/FR3(X)(L-d) を閉じた。
-> 残る c=3 blocker は `(E-d)`/FR5–FR7(FR-S4)。一般 c の B2/S4、L2b/L3 は不変に open。
+> c=3 の FR-S4(FR5–FR7、弱形 (E-w) 経由)は FR 文書 v0.14.1 の program 内で全 packet が
+> fixed-SHA 査読つき draft 完了(S4c = R-S4C 外部査読待ち)。`(E-d)` は c=3 blocker ではなく
+> **一般 c の義務**。一般 c の B2/S4、L2b/L3 は不変に open。
 >
 > **v1.8.12 claim correction(F3′、2026-08-11)**: 三原子 flex 配置の exact divided difference が
 > `h_β/‖h_β‖→z⁵/√(5!)` を与えることを独立検算した。従って旧主定理候補の
@@ -229,14 +231,16 @@ acceptance obligations は次だけであり、c=3 の正確な量化は FR 文�
     envelope (E-d_l) が m 非依存定数で成立すること。
   (N4) envelope 定数 C は (c, leaf-count/degree/tree data, δ, R, 安定化定数) のみに依存(m 非依存)。
 
-> **(N3′/N4 の c=3 具体化 — v1.8.13、FR 文書 v0.14 と同期)**: c=3(plain single-scale /
+> **(N3′/N4 の c=3 具体化 — v1.8.13、FR 文書 v0.14.1 と同期)**: c=3(plain single-scale /
 > nested 2+1)では、(N3′) の envelope 要求は FR 文書 §10.2 の弱形 **(E-w) = (S4-Ew)** で読む:
 > `|(U_m^{-1}v_{ℓ,m})(z)| ≤ C_w exp((1−δ/2)|z|²/2 + C_lin|z|)`(全 `m ≥ m₀`、`ℓ`、`z`)。
 > この形は FR 文書 §10.8 の S4a program(補題 W1/W2/C0/M1/W3/W4/EW-B/EW、最終
 > R-EW R2 PASS、fixed SHA `b39216f`)で導出済みであり、(N4) の c=3 実体は
 > 「`C_w, C_lin` が `(δ, R, ε_chain, C_T, C_RF)` のみに依存し、`m, ℓ, θ, z` と SVD/Newton
 > 係数に非依存」(`m₀` の存在のみ要求、収束速度依存可)。多項式形 (E-d_ℓ) は**一般 c の
-> open 義務**として維持する(FR 文書 FR6 行の c=3/(E-w) vs 一般 c/(E-d) split と同文)。
+> open 義務**として維持する。FR 文書 FR6 行とは **split の境界(c=3/(E-w) vs 一般 c/(E-d))
+> が一致**し、(N4) の依存定数集合は本注記が具体化する(FR6 行の抽象形
+> 「(c=3,δ,R,per-node segmentation/flag の安定化定数)」の実体が `(δ,R,ε_chain,C_T,C_RF)`)。
 > 本注記は target の c=3 読みを固定する帳簿であり、補題 N 本体の量化完備化・一般 c の
 > 証明(G1′)を主張しない。status の authoring は FR 文書 §10.9(S4c)に従う。
 
@@ -866,7 +870,7 @@ t≥2 の偶数側 equality と奇数側 lower bound は F3′ により撤回�
 
 | # | 箇所 | 内容 | 状態 |
 |---|---|---|---|
-| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。**残余 = ①(E-d)/FR5–FR7(FR-S4) ②一般 c の B2+(F1)/S4 ③L2b/L3 枠置換**。 | **open(主 blocker)** |
+| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で draft 完了(S4c = R-S4C 待ち、(E-w) 経由)。**残余 = ①c=3 FR の外部査読完了(R-S4C)と補題 N 量化完備化 ②一般 c の (E-d)・B2+(F1)/S4 ③L2b/L3 枠置換**。 | **open(主 blocker)** |
 | G2 | L1 符号 | 査読提供の不等式で閉鎖 | **closed(v1.1)** |
 | G3 | 脱出混在 | gauge 化再構成で場合分け自体が消滅(再査読で blocking 2 は resolve 判定、前提 = 補題 N + G8) | **closed(v1.1、再査読確認済み)** |
 | G4 | C2 quantitative | F3′ により旧次数下界を撤回。t≥2 の偶奇 sharp 値を再導出(|5⟩は上界 3) — C1 に影響なし | open(副産物) |
