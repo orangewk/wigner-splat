@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.9 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.10 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0 accepted、M1 proof draft、W3/W4/EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1134,8 +1134,8 @@ cell chain が処理する(公開 record は一つのまま)。
 
 `J_k = I_k∩I_{k+1}` が定義されるのは `k<N` のみであり、`RouteRecord` は `k∈K_T` にだけ立てる。
 最終窓 `I_N ⊂ [0,2]`(停止規約より `ε_chain ≤ a_N ≤ 1`)は **`TerminalRecord`** へ送り、
-RouteRecord と二重計上しない。`TerminalRecord` の消費者は S4a の compact initial estimate
-mini-packet(S4a-C0、open)であり、chaining ledger の外に置く。**ray ledger の index 契約**:
+RouteRecord と二重計上しない。`TerminalRecord` の消費者は S4a の補題 C0(§10.8、accepted
+`f31cca0`)であり、chaining ledger の外に置く。**ray ledger の index 契約**:
 PΣ-3(unweighted subledger)と RF-3(weighted ledger、独立帳簿)の record 和はいずれも
 `k∈K_T` 上で主張する。`k=N` は record を持たず、`A_{H,N}`/`C_step,N` は**定義しない**
 (`J_N` を暗黙に再導入しない)。両証明中の等差 majorant(k=1..N の窓和)は各項非負性により
@@ -1265,7 +1265,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.COV0 | S4b-COV0 selection schema 手術(§10.5.5、§10.4 `selection_witness`、manifest 分離、K_T index 契約) | **PASS (R-COV0 R3、fixed SHA `256ab38`)**(R1/R2 findings は v0.12.2–v0.12.3 で全件受諾。accepted body への in-body 編集は revert し、SHA-256 バイト一致を双方検証) |
 | S4-0.COV1 | 補題 S4b-COV((COV-0) reachability invariant、(COV-1) selector 被覆、(COV-2) witness 構成) | **PASS (R-COV1 R4、fixed SHA `c36d818`)**(R1–R3 findings は v0.12.6–v0.12.8 で全件受諾)。**S4b closure 完結** |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
-| S4a/S4c proofs | §10.8 program(W1 以降) | W1 = proof draft、他 open |
+| S4a/S4c proofs | §10.8 program | W1 `a59768e`/W2 `a0fcd10`/C0 `f31cca0` accepted、M1 = proof draft、W3/W4/EW/S4c open |
 
 ### 10.8 S4a envelope assembly program(W1/W2/C0 accepted / M1–EW open)
 
@@ -1413,19 +1413,22 @@ collision・`B₁₂` 零点含む、Gram 閉形式)で違反なし。マージ�
 
   (M1-1) 各 `k ∈ K_T` の root record `R_k` はちょうど一つで、route ∈ {`QR5-w`, `root-far`}、
          mode = weighted、unit step は `(S4-step-w)` 型;
-  (M1-2) S4a の ray 積算は weighted ledger(QR5 の uniform cost `C_T` + RF の graded cost)
-         のみから構成され、unweighted/PΣ ledger の項は現れない(accepted PΣ program は
-         capability として非消費のまま);
+  (M1-2) S4a が `RayCoverageManifest` の公開 `RootStep_k` を消費する **public ray ledger** は
+         weighted root step(QR5 の uniform cost `C_T` + RF の graded cost)のみを加算する。
+         child route(例: `K2-u`)は `RootStep_k` の内部 provenance として保持し、独立した
+         step/ledger として再加算しない(accepted PΣ program は capability として非消費);
   (M1-3) `I_N` は `TerminalRecord` のみで、補題 C0 が消費する(RouteRecord と二重計上しない)。
 
 *証明*: (M1-1) (COV-1)(COV-2) より各 `k ∈ K_T` にちょうど一つの root record が立つ。
 (COV-0) より rank 3 の root node は常に root-2+1 形なので、その selector は §10.5.5 の
 clause 1 であり、値は `QR5-w`(held)か `root-far`(far)。§10.5 RouteSpec 表より両 route とも
 mode = weighted / `(S4-step-w)`、cost spec はそれぞれ `uniform(C_T)`、
-`graded-root(C_RF,pair-difference-derivative)`。(M1-2) は §10.4 の規定「weighted recordは
-`(S4-step-w)` の積とpointwise envelope growthを別に帳簿化し、unweighted ledgerへ混ぜない」
-の本 manifest への instantiation であり、(M1-1) により unweighted record が manifest に
-存在しないから空虚でなく成立する。(M1-3) は §10.5.5 の `RayCoverageManifest` 定義
+`graded-root(C_RF,pair-difference-derivative)`。(M1-2) の非空性の根拠は (COV-2) による各公開 `R_k`
+の存在と §10.4 の「S4a は root outputだけを一度ずつ消費する」契約であり、
+unweighted/PΣ 項が public root ledger に現れないことは (M1-1) の mode 排他性から従う
+(PΣ は capability として保持され、内部 provenance の存在を否定しない)。ledger 非混合の
+規定「weighted recordは…unweighted ledgerへ混ぜない」(§10.4)はこの public ledger に
+そのまま適用される。(M1-3) は §10.5.5 の `RayCoverageManifest` 定義
 (`K_T := {1,…,N−1}`、`I_N` は `TerminalRecord` へ送り二重計上しない)から。∎
 
 本補題は accepted 面(S4b-COV、RouteSpec、§10.4/§10.5.5 契約)の系であり、新しい解析的
@@ -1797,3 +1800,9 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   (R-M1 待ち)。accepted 面(S4b-COV、RouteSpec、§10.4/§10.5.5 契約)の系: (M1-1)
   root record は weighted-only、(M1-2) ray 積算は weighted ledger のみ(PΣ は capability
   非消費)、(M1-3) `I_N` は TerminalRecord。新しい解析的主張なし。
+- v0.13.10(2026-08-17): luna R-M1 = minor 3 件を全受諾。[M1-2a] (M1-2) を public ray
+  ledger に scope 限定(内部 provenance の child route を禁止しない文言へ)。[M1-2b]
+  非空性の論理を訂正(根拠 = COV-2 の公開 record 存在 + root-only consumption 契約;
+  unweighted 項の不在は mode 排他性から)。[M1-SURFACE] stale status 3 箇所を同期
+  (header、§10.5.5 の TerminalRecord 消費者を C0 accepted へ、§10.7 要約行)。
+  R-M1 R2 待ち。
