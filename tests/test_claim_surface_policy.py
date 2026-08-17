@@ -695,11 +695,22 @@ def test_s4a_program_states_fail_closed():
     ):
         rows = [line for line in s4a.splitlines() if line.startswith(prefix)]
         assert len(rows) == 1, f"{FR_SPEC_DOC}: S4a row {prefix} count != 1"
-        assert "proof draft(R-EW 待ち)" in rows[0], (
-            f"{FR_SPEC_DOC}: S4a row {prefix} state drifted before R-EW"
+        assert "**accepted**(R-EW R2 PASS、fixed SHA `b39216f`)" in rows[0], (
+            f"{FR_SPEC_DOC}: S4a row {prefix} lost acceptance record"
         )
-    assert "R-EW PASS" not in current, (
-        f"{FR_SPEC_DOC}: premature R-EW acceptance token"
+    assert "R-S4C PASS" not in current, (
+        f"{FR_SPEC_DOC}: premature S4c acceptance token"
+    )
+    # (S4-Ew) closure must be recorded with the reviewed SHA, and S4c stays open
+    assert "**S4a program 完結・(S4-Ew) 閉鎖**" in current, (
+        f"{FR_SPEC_DOC}: S4a closure record missing from header"
+    )
+    s4c_rows = [
+        line for line in current.splitlines()
+        if line.startswith("| S4c proofs |")
+    ]
+    assert len(s4c_rows) == 1 and "open, not claimed" in s4c_rows[0], (
+        f"{FR_SPEC_DOC}: S4c must remain open until its own review"
     )
     # U1 retirement is a recorded design decision, not a silent deletion
     assert "U1 の退役(design 決定)" in s4a
