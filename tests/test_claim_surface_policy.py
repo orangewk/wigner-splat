@@ -654,8 +654,8 @@ def test_s4a_program_states_fail_closed():
         if line.startswith("| W2 Pair norming |")
     ]
     assert len(w2_rows) == 1, f"{FR_SPEC_DOC}: W2 row count != 1"
-    assert "proof draft(R-W2 待ち)" in w2_rows[0], (
-        f"{FR_SPEC_DOC}: W2 row state drifted before R-W2 acceptance"
+    assert "**accepted**(R-W2 PASS、fixed SHA `a0fcd10`)" in w2_rows[0], (
+        f"{FR_SPEC_DOC}: W2 row lost acceptance record"
     )
     for prefix in (
         "| C0 Compact anchor |",
@@ -669,8 +669,8 @@ def test_s4a_program_states_fail_closed():
         assert "open, not claimed" in rows[0], (
             f"{FR_SPEC_DOC}: S4a row {prefix} prematurely claimed"
         )
-    assert "R-W2 PASS" not in current, (
-        f"{FR_SPEC_DOC}: premature R-W2 acceptance token"
+    assert "R-C0 PASS" not in current, (
+        f"{FR_SPEC_DOC}: premature R-C0 acceptance token"
     )
     # U1 retirement is a recorded design decision, not a silent deletion
     assert "U1 の退役(design 決定)" in s4a
