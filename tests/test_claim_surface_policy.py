@@ -690,12 +690,13 @@ def test_s4a_program_states_fail_closed():
         f"{FR_SPEC_DOC}: W4 row lost acceptance record"
     )
     for prefix in (
+        "| EW-B original-collision bridge |",
         "| EW final |",
     ):
         rows = [line for line in s4a.splitlines() if line.startswith(prefix)]
         assert len(rows) == 1, f"{FR_SPEC_DOC}: S4a row {prefix} count != 1"
-        assert "open, not claimed" in rows[0], (
-            f"{FR_SPEC_DOC}: S4a row {prefix} prematurely claimed"
+        assert "proof draft(R-EW 待ち)" in rows[0], (
+            f"{FR_SPEC_DOC}: S4a row {prefix} state drifted before R-EW"
         )
     assert "R-EW PASS" not in current, (
         f"{FR_SPEC_DOC}: premature R-EW acceptance token"

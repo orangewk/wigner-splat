@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.17 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1/W3/W4 accepted、EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.18 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1/W3/W4 accepted、EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1503,6 +1503,56 @@ domain witness の成立は accepted 面(§10.5.3、K2p1 §3.8.6、S4b-COV (COV-
 定数 `2C₂(R)C_anc` と指数は `(δ, R, ε_chain, C_T, C_RF)` のみに依存(`m, ℓ, θ, T` 非依存)。
 二次係数 `(1−3δ/4)/2` は (E-w) target `(1−δ/2)/2` より `δ/8` だけ強い。
 
+**補題 EW-B(original-collision bridge — proof draft、R-EW 待ち)**: original 座標で
+
+  s̃_m := max_{i,j} max(|A^orig_{i,m}−A^orig_{j,m}|^{1/2}, |B^orig_{i,m}−B^orig_{j,m}|)
+
+と定める(§2 の `d_w` と同形、ただし **gauge 前の parameters** に対して)。§2 の入力仮定
+(単一 `d_Ω`-衝突 cluster、`ξ_{j,m} → ξ*` 全 j)より `s̃_m → 0` であり、**定義から直ちに**
+全 pair で `|ΔA^orig| ≤ s̃_m²`、`|ΔB^orig| ≤ s̃_m`。従って original radial exponent
+`q_j(t) = A^orig_j e^{2iθ}t²/2 + B^orig_j e^{iθ}t` の pair 差について
+`Λ_{η,k} ≤ s̃_m²(a_k+1) + s̃_m` となり、RF-3 の graded ledger は同一定数のまま `s̃_m` で
+再インスタンス化される。EW が route する **ungauged exact tree** の S4b-β domain witness
+には当該 node の original parameters を供給する(gauged parameters は FR-S1′/S1″ の
+frame construction 専用で、EW manifest へ流用しない — gauged `d_w` の不変性は vacuum
+stabilizer に限られ full metaplectic covariance はないため)。threshold は
+`m̃_RF := min{M: ∀m≥M, s̃_m ≤ s_RF}`、`m₀ := max(m_{FR-S1′/S1″}, m̃_RF)` と読み替える。
+`s̃_m` は input atoms のみで決まり `θ, ℓ, T` 非依存(uniformity)。
+*証明*: 全て定義と §2 の入力仮定から。∎
+
+(設計記録: gauged 経由の転送(metaplectic 包絡合成)は採らない — squeeze の Bargmann 表示は
+weighted composition でなく、unitarity は norm を保存するが pointwise growth を保存しない。
+Sol consultation 第 5 回の裁定 A′。)
+
+**補題 EW(c=3 weak envelope (S4-Ew) — proof draft、R-EW 待ち)**: `m ≥ m₀`(EW-B の
+読み替え後)、`F := U_m^{-1}v_{ℓ,m}`(`‖F‖_ℱ = 1`、unitarity)。`U_m^{-1}` は gauged atom を
+original atom の非零 scalar 倍へ戻す(§3: exact span・norm・Gram 保存)ので、`F` は
+original parameters(`∈ K_{δ,R}`)の ≤3-atom exact 結合であり、canonical tree(COV-0)を持つ。
+`L := R + C_ch`、
+
+  C_w := 2C₂(R)·C_anc·e^L,   C_lin := L + 2 = R + C_ch + 2
+
+とすると、全 `m ≥ m₀`、全 `ℓ`、全 `z ∈ ℂ` で
+
+  |(U_m^{-1}v_{ℓ,m})(z)| ≤ C_w·exp((1−δ/2)|z|²/2 + C_lin|z|).            (S4-Ew)
+
+*証明*: `T := |z|`。effective rank(exact `REFIX`/zero-pruning 後)で場合分け:
+- **rank 3、T ≥ 3**: 補題 W4 を original tree に適用(witness は EW-B が供給)し
+  `R_H = ‖H‖` で正規化:
+  `|F(z)| ≤ 2C₂C_anc(1+T)²e^{(1−3δ/4)T²/2+L(T+1)}
+  ≤ 2C₂C_anc·e^L·e^{(1−δ/2)T²/2+(L+2)T}`
+  (`(1+T)² ≤ e^{2T}`、`(1−3δ/4) ≤ (1−δ/2)`)。
+- **rank 2、T ≥ 3**: 補題 W2(premise は REFIX 後の distinct atoms・非零係数):
+  `|F(z)| ≤ C₂(1+T)²e^{(1−δ)T²/2+RT} ≤ C₂e^{(1−δ/2)T²/2+(R+2)T}`。
+  **rank 1**: W1 singleton case(`C=1、P=1`)で同形。いずれも `C_w ≥ C₂ ≥ 1` に収まる。
+- **T < 3(全 rank)**: 再生核評価 `|F(z)| ≤ ‖F‖e^{T²/2} = e^{(1−δ/2)T²/2}·e^{δT²/4}` と
+  `δT²/4 ≤ (3δ/4)T`(`T ≤ 3`)、`3δ/4 ≤ 2 ≤ C_lin`。∎
+
+定数は `(δ, R, ε_chain, C_T, C_RF)` のみに依存し、`m, ℓ, θ, z` と SVD/Newton 係数に
+依存しない((E-w) の要求どおり — 係数は proof のどこにも現れない)。**これで §10.2 の
+c=3 target (E-w) が S4a program として閉じる。** S4c(N3′/N4 同期、FR7 no-return audit、
+original/gauged 記号の provenance 同期)は別 obligation として残る。
+
 **program 表**(state は fail-closed: 受理は fixed-SHA 査読後のみ。依存順は
 C0 → M1 → W3 → W4 → EW に改訂 — Sol consultation 第 4 回、M1 の weighted-only 監査を
 W3 が消費するため):
@@ -1515,7 +1565,8 @@ W3 が消費するため):
 | M1 mode audit | RayCoverageManifest 監査: `k∈K_T` の root record は weighted-only(`QR5-w`/`root-far`)、weighted/PΣ ledger 非加算、`I_N` は TerminalRecord のみ | **accepted**(R-M1 R2 PASS、fixed SHA `fd18e9d`) |
 | W3 Weighted chain | `G=e^{−U_T}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{∞,I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{∞,I_N}`(`m ≥ m₀`、M1/COV 消費) | **accepted**(R-W3 R2 PASS、fixed SHA `4086ef9`) |
 | W4 Terminal-cancelled exit | W1/W2 × W3 × (C0-product) の合成で `|H(Te^{iθ})| ≤ 2C₂C_anc·R_H(1+T)²e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}` | **accepted**(R-W4 R2 PASS、fixed SHA `cb87eee`) |
-| EW final | `R_H = ‖h_{ℓ,m}‖` で正規化、`T≥3` は W4・`T<3` は再生核評価、(S4-Ew) | open, not claimed |
+| EW-B original-collision bridge | `s̃_m`(original 座標)の定義と witness 供給、`m₀` 読み替え、A′ 裁定の記録 | proof draft(R-EW 待ち) |
+| EW final | rank 1/2/3 × `T≥3`/`T<3` の場合分けで (S4-Ew)、`C_w = 2C₂C_anc e^L`、`C_lin = R+C_ch+2` | proof draft(R-EW 待ち) |
 
 **U1 の退役(design 決定)**: 現 c=3 の public root record は weighted(`QR5-w`/`root-far`)
 のみ(補題 S4b-COV の帰結)なので、unweighted assembly U1 は本証明列の critical path から
@@ -1900,3 +1951,11 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   R-W4 R2 待ち。
 - v0.13.17(2026-08-17): luna R-W4 R2 = **PASS**(reviewed SHA `cb87eee`、findings なし)。
   W4 を accepted へ昇格、tests・status 同期。S4a 残余 = EW のみ。
+- v0.13.18(2026-08-17): Sol high consultation 第 5 回(EW gauge-representation)。裁定 A′:
+  W4 は original 座標の `U_m^{-1}h_{ℓ,m}` へ直接適用し、collision scale は original
+  parameters の `s̃_m` で再定義(gauged `d_w` の不変性は vacuum stabilizer 限りで
+  full metaplectic covariance なし — COV-2 witness provenance の局所穴)。Option B
+  (metaplectic 包絡合成)は不成立(squeeze は weighted composition でない)。
+  補題 EW-B(bridge、定義のみ)+ 補題 EW((S4-Ew)、rank 1/2/3 × T 場合分け、
+  `C_w = 2C₂C_anc e^L`、`C_lin = R+C_ch+2`)を proof draft として執筆(R-EW 待ち)。
+  rank ≤ 2 は W2/W1 で明示定数 calibration(L2a′ 引用不要の形)。
