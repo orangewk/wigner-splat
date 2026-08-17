@@ -670,8 +670,8 @@ def test_s4a_program_states_fail_closed():
         if line.startswith("| M1 mode audit |")
     ]
     assert len(m1_rows) == 1, f"{FR_SPEC_DOC}: M1 row count != 1"
-    assert "proof draft(R-M1 待ち)" in m1_rows[0], (
-        f"{FR_SPEC_DOC}: M1 row state drifted before R-M1 acceptance"
+    assert "**accepted**(R-M1 R2 PASS、fixed SHA `fd18e9d`)" in m1_rows[0], (
+        f"{FR_SPEC_DOC}: M1 row lost acceptance record"
     )
     for prefix in (
         "| W3 Weighted chain |",
@@ -683,8 +683,8 @@ def test_s4a_program_states_fail_closed():
         assert "open, not claimed" in rows[0], (
             f"{FR_SPEC_DOC}: S4a row {prefix} prematurely claimed"
         )
-    assert "R-M1 PASS" not in current, (
-        f"{FR_SPEC_DOC}: premature R-M1 acceptance token"
+    assert "R-W3 PASS" not in current, (
+        f"{FR_SPEC_DOC}: premature R-W3 acceptance token"
     )
     # U1 retirement is a recorded design decision, not a silent deletion
     assert "U1 の退役(design 決定)" in s4a
