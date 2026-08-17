@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.9.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、RF graded-interface extension accepted(§10.7 S4-0.RF)、補題 RF proof draft(§10.5.3 — R-RF R1 受理不可を全件受諾し修正済み、R2 待ち)、root-far unresolved、FR-S4b/a/c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.10 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved(§10.5、R-RF-PROMOTE 待ちの registry 手術は §10.7)、S4b closure(polynomial ΣA・coverage)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -122,12 +122,11 @@ FR3/FR4/FR6 を閉じない。
 
 plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′、nested 2+1 の FR-S1″ は
 固定 SHA `61111cc` の R-A″で PASS。base FR-S4-0 interface も固定 SHA `56498bb` の R9 で accepted。
-現在の最初の未解決点は **FR-S4b route closure** であり、§10 の typed registryでは到達可能な
-`root-far` / `M-ROOT-FAR-KERNEL` が unresolvedとして残る。§10.5.2 はこのrowを exact cell
-recenter + QR5-w chainで閉じるための graded-interface候補を仕様化する。§10.7 `S4-0.RF`を入力とし、
-続くRF proofをfixed SHAで受理するまではresolved routeへ昇格しない。これをclosedにした後も S4a の
-polynomial-envelope assemblyと S4c の N3′/N4・no-return auditはopenであり、c=3 の (E-w) や
-FR5–FR7 の閉鎖はまだ主張しない。
+補題 RF(§10.5.3)は R-RF R2(fixed SHA `9f19389`、minors `c271919`)で受理され、
+`root-far` row は §10.5 の resolved discriminant へ昇格した(`M-ROOT-FAR-KERNEL` 解消)。
+現在の最初の未解決点は **S4b closure の残余**(K2Q-aff/generalized-singleton の polynomial ΣA proof、
+interval coverage の RouteRecord 検証)であり、S4a の polynomial-envelope assembly と
+S4c の N3′/N4・no-return audit は open のまま。c=3 の (E-w) や FR5–FR7 の閉鎖はまだ主張しない。
 
 FR-S1′/S1″の設計時に解決した制約として、旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の
@@ -655,8 +654,9 @@ excluded variantを一つも生成できない。将来 category-specific exclus
 | `D-ROOT-FAR` | `active_children_nonzero`, `c₁c₂c₃≠0`, `B₁₂≢0`, `η=q₂−q₁` nonconstant, `q₁−q₃`/`q₂−q₃` nonconstant(§2 constant-gauge quotient witness), collision-scale witness `(|ΔA|≤s_m²,|ΔB|≤s_m)`, `Λ_{η,k}=sup_{I_k}|η′|` witness |
 | `D-TRIVIAL` | `c≠0`, unary exact-identity ref |
 
-`D-ROOT-FAR` は §10.5.2 のcandidate専用予約schemaである。`root-far` がunresolvedの間は
-`RouteRecord.domain_witness`に現れてはならず、accepted RF proofと同時にresolved RouteSpecへ接続する。
+`D-ROOT-FAR` は補題 RF(§10.5.3、R-RF R2 PASS)の受理に伴い、resolved `root-far` row の
+domain schema として active である。`RouteRecord.domain_witness` は全 7 key を式または
+identity ref で供給しなければならない(negative path は binding test が固定)。
 
 §10.5 の `RouteSpec` 表を route-specific discriminant の唯一の authoring location とする。各rowは
 このIDの一つを使い、自由文のschema/reasonや field overrideを新設しない。新しいkeyや組合せが必要なら
@@ -769,7 +769,7 @@ route 選択の前に exact zero-pruning を行う。任意の child functionが
 | `K2Q-aff-u`: `Pe^{q₁}+c₂e^{q₂}` | binary | unweighted / S4-step-u | `(K2Q-aff,docs/2026-08-09-quadratic-phase-turan-K2Q-weight21--wip.md,§6.1 K2Q-aff,bffc3ea13cf10595890f239e15fb6070be5cecd3,PASS)` | D-K2Q-AFF | `(uniform(C_K2Q),4,1)` | polynomial-envelope / proof-required | ΣA proof別途 |
 | `generalized-singleton-u`: `Pe^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 generalized-singleton-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-GENERALIZED-SINGLETON | `(uniform(1),0,0)` | polynomial-envelope / proof-required | ΣA proofが別途必要 |
 | `QR5-w`: `B₁₂+c₃e^{q₃}`, `U_T` | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)` | D-QR5-HELD | `(uniform(C_T),5,0)` | weighted-no-A / accepted | interval-wide raw-held witness |
-| `root-far`: root 2+1 far/unheld | binary | — | — | — | — | — | M-ROOT-FAR-KERNEL unresolved; RF candidate §10.5.2 |
+| `root-far`: root 2+1 far/unheld | binary | weighted / S4-step-w | `(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)+(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5.3 補題 RF,c271919d330c718a8e6f7d76af7fc1f052aa9d71,PASS)` | D-ROOT-FAR | `(graded-root(C_RF,pair-difference-derivative),5,0)` | weighted-no-A / accepted | interval domain witness(全 7 key)+ `step_cost_witness` |
 | `trivial-u`: `ce^q` | unary | unweighted / S4-step-u | `(INTERNAL-EXACT,docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5 trivial-u,56498bb6e6e53ec7a07bd4c131dae5ec0575be5c,PASS)` | D-TRIVIAL | `(uniform(1),0,0)` | phase-lipschitz / accepted | `A_{H,k}≤sup_{I_k}|q′|` witness |
 
 `REFIX` は RouteSpec rowでなく前処理 transitionである。`q₁−q₂≡const`, `P≡0`, `c₂=0`、または
@@ -797,9 +797,9 @@ certificateからFR2 chartへの接続が必要になっても、それはS4bの
 `root-far` はこれと異なり、現行exact treeで到達する。例えば nested 2+1族
 `q₁=0`, `q₂=s_m²z`, `q₃=s_mz` (`s_m→0`) のactive pairでは、ray `z=te^{iθ}` 上
 `|q₂−q₁|=s_m²t` なので十分遠いunit intervalで `sup|q₂−q₁|>1/8` となり、
-raw `D-QR5-HELD` は適用できない。§10.5.2 は `RECENTER` 後の短cellへ既存QR5-wを適用する
-graded候補を定義するが、candidate specificationとRF proofのfixed-SHA acceptanceまでは
-このrowと `M-ROOT-FAR-KERNEL` をunresolvedのまま維持する。
+raw `D-QR5-HELD` は適用できない。このrowは §10.5.2 の graded interface と §10.5.3 の補題 RF
+(R-RF R2 PASS、fixed SHA `9f19389`; minors `c271919`)により resolved であり、
+`M-ROOT-FAR-KERNEL` は解消済み。旧 flat `U_F` 転送は引き続き再導入しない。
 
 K2 の査読statusは canonical
 [K2 authoring file](2026-08-08-quadratic-phase-turan-K2.md)の R-K2 欄だけを参照する。
@@ -820,9 +820,8 @@ far/unheld rootは `M-ROOT-FAR-KERNEL` のまま残し、旧 `U_F` 転送を別�
 #### 10.5.2 RF graded-interface candidate (specification only)
 
 本節を `RF-CandidateSpec` の唯一のauthoring locationとする。review statusの唯一のauthoring locationは
-§10.7 `S4-0.RF` rowである。これはactive `RouteSpec` rowではなく、`root-far` は引き続きunresolvedである。
-以下の RF-1–RF-4 と後続RF proofがfixed SHAで受理されるまで、resolved `RouteKind`、
-`RouteRecord`、S4a inputを生成してはならない。
+§10.7 `S4-0.RF`/`S4-0.RF-PROOF` rowである。RF-1–RF-4 と RF proof(§10.5.3)は fixed SHA で受理済みで、
+下の discriminant は §10.5 の resolved `root-far` row として active である。
 
 受理後に意図するdiscriminantは route ID=`root-far`、arity=binary、mode=weighted / S4-step-w、
 source rule=`(QR5 accepted ref + RF INTERNAL proof ref)`、domain=`D-ROOT-FAR`、
@@ -831,20 +830,20 @@ source rule=`(QR5 accepted ref + RF INTERNAL proof ref)`、domain=`D-ROOT-FAR`�
 
 | ID | specification / acceptance target | current state |
 |---|---|---|
-| RF-1 exact recenter | 各cell `C` の中心 `t_c` で上の `RECENTER(C,t_c)` を行い、`B₁₂,H,U_T` の不変性と `η^C=η−η(t_c)` をidentityとして検証する。accepted QR5 sourceのraw held keyへは変換後表示を渡し、source statement自体をrecentered-heldへ書換えない | proof obligation |
-| RF-2 cell chain | `Λ_{η,k}:=sup_{I_k}|η′|`、`h_k:=min(1,(4Λ_{η,k})^{-1})` (`Λ=0` では `h_k=1`)。長さ高々 `h_k`、shift高々 `h_k/2` のoverlap cellで `I_k` を覆い、各cellで `sup|η^C|≤1/8`、`N_cell,k≤4+8Λ_{η,k}` を示す。`J_k` 内のseedからrelative aperture `≥min(1,ε_chain/h_k)`、以後aperture `≥1/2` でQR5-wをchainする | proof obligation |
-| RF-3 graded ledger | `L_T:=log(max(e,32C_T))`, `C_RF:=8L_T` を候補定数とし、RF-2から `C_step,k≤exp(C_RF(1+Λ_{η,k}))` を導く。collision witnessから全rayで `Λ_{η,k}≤s_m²(a_k+1)+s_m`、`Σ_kΛ_{η,k}≤4[s_m²(T+1)²+s_m(T+1)]` を示す。`s_m≤s_RF:=min(1,sqrt(δ/(64C_RF)))` なら `Σlog C_step,k≤(δ/8)T²+O(T)` として(E-w)のspare budgetへ入る | proof obligation |
-| RF-4 fail-closed schema | `CostSpecEnum`、`D-ROOT-FAR`、`step_cost_witness`、ray-wide ledger ref、constants tableを同時に検査する。いずれかの欠落、R-RFSPEC未受理、RF proof ref未受理ならactive root-far rowの全discriminantを `—` のまま保つ | status pointer: §10.7 `S4-0.RF` |
+| RF-1 exact recenter | 各cell `C` の中心 `t_c` で上の `RECENTER(C,t_c)` を行い、`B₁₂,H,U_T` の不変性と `η^C=η−η(t_c)` をidentityとして検証する。accepted QR5 sourceのraw held keyへは変換後表示を渡し、source statement自体をrecentered-heldへ書換えない | **accepted**(R-RF R2 PASS `9f19389`、minors `c271919`) |
+| RF-2 cell chain | `Λ_{η,k}:=sup_{I_k}|η′|`、`h_k:=min(1,(4Λ_{η,k})^{-1})` (`Λ=0` では `h_k=1`)。長さ高々 `h_k`、shift高々 `h_k/2` のoverlap cellで `I_k` を覆い、各cellで `sup|η^C|≤1/8`、`N_cell,k≤4+8Λ_{η,k}` を示す。`J_k` 内のseedからrelative aperture `≥min(1,ε_chain/h_k)`、以後aperture `≥1/2` でQR5-wをchainする | **accepted**(R-RF R2 PASS `9f19389`、minors `c271919`) |
+| RF-3 graded ledger | `L_T:=log(max(e,32C_T))`, `C_RF:=8L_T` を候補定数とし、RF-2から `C_step,k≤exp(C_RF(1+Λ_{η,k}))` を導く。collision witnessから全rayで `Λ_{η,k}≤s_m²(a_k+1)+s_m`、`Σ_kΛ_{η,k}≤4[s_m²(T+1)²+s_m(T+1)]` を示す。`s_m≤s_RF:=min(1,sqrt(δ/(64C_RF)))` なら `Σlog C_step,k≤(δ/8)T²+O(T)` として(E-w)のspare budgetへ入る | **accepted**(R-RF R2 PASS `9f19389`、minors `c271919`) |
+| RF-4 fail-closed schema | `CostSpecEnum`、`D-ROOT-FAR`、`step_cost_witness`、ray-wide ledger ref、constants tableを同時に検査する。いずれかの欠落、R-RFSPEC未受理、RF proof ref未受理ならactive root-far rowの全discriminantを `—` のまま保つ(受理済みの現在は §10.5 row が全fieldを供給) | status pointer: §10.7 `S4-0.RF`/`S4-0.RF-PROOF` |
 
 RF-2のchainは新しい三項解析kernelを仮定せず、fixed SHA `27a1817` で受理されたQR5の
 `C_Tρ^{-5}` aperture形だけを消費する。ただし「短cellを作れば自動で閉じる」とは扱わず、seed cell、
 境界cell、overlap multiplicity、hop数、上の候補定数の全てをRF proofで検算する。
 real/oscillatoryのfar witnessは `RECENTER` 後の局所変動と `B₁₂` 零点を同時に含むacceptance fixtureとする。
 
-#### 10.5.3 補題 RF の証明(proof draft — R-RF fixed-SHA review 待ち)
+#### 10.5.3 補題 RF の証明(accepted — R-RF R1 受理不可→全件受諾、R2 PASS fixed SHA `9f19389`、minors v0.9.4 `c271919`)
 
-本節を RF proof の唯一の authoring location とする。受理judgementは §10.7 `S4-0.RF` 行に従い、
-R-RF が fixed SHA で PASS するまで `root-far` row と `M-ROOT-FAR-KERNEL` は unresolved のまま維持する。
+本節を RF proof の唯一の authoring location とする。受理 judgement の authoring location は
+§10.7 `S4-0.RF-PROOF` 行。本受理により `root-far` row は resolved、`M-ROOT-FAR-KERNEL` は解消。
 
 **補題 RF**: S4b-β の radial 窓 `I_k`(長さ 1)、overlap `J_k ⊆ I_k`(長さ `ε_chain`、`I_k` の
 片端に接する)、衝突 cluster 入力の exact root 2+1 node `H = B₁₂ + c₃e^{q₃}`(active tree:
@@ -966,7 +965,8 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.3 | registry→ε_chain→record の順序 + mode別root-step | **PASS (R9、`56498bb`)** |
 | S4-0.4 | RouteSpec literal source / root-only積算 / FR7 vocabulary | **PASS (R9、`56498bb`)** |
 | S4-0.5 | complete domain keys・category-bound exclusion・status fail-closed | **PASS (R9、`56498bb`)** |
-| S4-0.RF | RECENTER exact transition、graded-root cost、D-ROOT-FAR、RF-1–RF-4 fail-closed extension | **PASS (R-RFSPEC R3、fixed SHA `25afe6ebb54f93845d48b8993ff7523f0f2643d8`)**。specificationだけを受理し、root-farはRF proof待ちのunresolved |
+| S4-0.RF | RECENTER exact transition、graded-root cost、D-ROOT-FAR、RF-1–RF-4 fail-closed extension | **PASS (R-RFSPEC R3、fixed SHA `25afe6ebb54f93845d48b8993ff7523f0f2643d8`)** |
+| S4-0.RF-PROOF | 補題 RF(§10.5.3): RECENTER 恒等式、cell cover/chain、graded ledger 吸収、fixture | **PASS (R-RF R2、fixed SHA `9f19389`; minors v0.9.4 `c271919`)**。`root-far` row resolved、`M-ROOT-FAR-KERNEL` 解消。registry 昇格は R-RF-PROMOTE 待ち |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4b/a/c proofs | none | open, not claimed |
 
@@ -1110,3 +1110,9 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   [RF-M2-N1] `m_RF` の束縛変数名衝突を解消(`min{M ∈ ℕ: …}`)。[RF-TEST-1] binding test に
   negative path(witness 1 個欠落の synthetic row が equality guard で落ちること)を追加。
   [SURF-1] 版履歴の sampled 数値再記載を §10.5.3 への参照に一本化。
+- v0.10(2026-08-17): 補題 RF の受理(R-RF R2 PASS)に伴う registry 昇格。`root-far` row を
+  §10.5.2 の意図 discriminant どおり resolved に(source = QR5 `27a1817` + RF INTERNAL `c271919`、
+  domain = `D-ROOT-FAR` 全 7 key、`(graded-root(C_RF,pair-difference-derivative),5,0)`、
+  weighted-no-A)。`M-ROOT-FAR-KERNEL` 解消、§7/§10.5.2/§10.5.3/§10.7 の状態 surface を同期、
+  fail-closed tests を promoted 状態の binding へ書換え(root-far row の完全一致 bind、
+  RF row accepted 状態、unresolved token の撤去)。本昇格自体の独立監査 = R-RF-PROMOTE。

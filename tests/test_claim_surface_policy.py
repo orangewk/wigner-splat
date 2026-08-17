@@ -192,16 +192,28 @@ def test_retired_split_route_ids_are_absent_from_current_fr_spec():
     route_spec = current.split("次表を active `RouteSpec`", 1)[1].split(
         "`REFIX` は RouteSpec", 1
     )[0]
-    root_far_row = re.compile(
-        r"^\| `root-far`: root 2\+1 far/unheld \| binary \| — \| — \| — \| — \| — "
-        r"\| M-ROOT-FAR-KERNEL unresolved; RF candidate §10\.5\.2 \|$",
-        re.MULTILINE,
+    expected_root_far_row = (
+        "| `root-far`: root 2+1 far/unheld | binary | weighted / S4-step-w | "
+        "`(QR5,docs/2026-08-09-pair-block-kernel-K2p1--wip.md,§3.8.6 QR5(U_T),"
+        "27a1817150ab7a857cdd00320ed3809c73e3c1bd,PASS)+(INTERNAL-EXACT,"
+        "docs/2026-08-10-three-atom-block-frame-preparation--wip.md,§10.5.3 補題 RF,"
+        "c271919d330c718a8e6f7d76af7fc1f052aa9d71,PASS)` | D-ROOT-FAR | "
+        "`(graded-root(C_RF,pair-difference-derivative),5,0)` | weighted-no-A / accepted | "
+        "interval domain witness(全 7 key)+ `step_cost_witness` |"
     )
-    assert len(root_far_row.findall(route_spec)) == 1
+    root_far_lines = [
+        line
+        for line in route_spec.splitlines()
+        if line.startswith("| `root-far`:")
+    ]
+    assert root_far_lines == [expected_root_far_row], (
+        f"{FR_SPEC_DOC}: resolved root-far row missing or drifted"
+    )
 
 
-def test_root_far_graded_candidate_stays_fail_closed():
-    """The RF interface may be specified without resolving the active route."""
+def test_root_far_rf_acceptance_surfaces_agree():
+    """After R-RF acceptance the RF contract, proof status, and resolved row
+    must agree; no surface may drift back to the unresolved vocabulary."""
 
     current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
     rf_spec = current.split(
@@ -209,8 +221,6 @@ def test_root_far_graded_candidate_stays_fail_closed():
     )[1].split("### 10.6 Coefficient-free constants", 1)[0]
 
     required_contract = (
-        "review statusの唯一のauthoring locationは\n§10.7 `S4-0.RF` row",
-        "`root-far` は引き続きunresolved",
         "RECENTER(C,t_c)",
         "D-ROOT-FAR",
         "graded-root(C_RF,pair-difference-derivative)",
@@ -224,16 +234,14 @@ def test_root_far_graded_candidate_stays_fail_closed():
     for token in required_contract:
         assert token in rf_spec, f"{FR_SPEC_DOC}: missing RF contract token: {token}"
 
-    assert rf_spec.count("| proof obligation |") == 3
-    assert "| status pointer: §10.7 `S4-0.RF` |" in rf_spec
-    route_spec = current.split("次表を active `RouteSpec`", 1)[1].split(
-        "`REFIX` は RouteSpec", 1
-    )[0]
-    assert re.search(
-        r"^\| `root-far`:[^\n]*\| weighted / S4-step-w \|",
-        route_spec,
-        re.MULTILINE,
-    ) is None, f"{FR_SPEC_DOC}: unresolved root-far was promoted in active RouteSpec"
+    # promoted state: no RF obligation row may remain, and all three proof
+    # rows carry the same acceptance record
+    assert rf_spec.count("| proof obligation |") == 0
+    rf_acceptance = "**accepted**(R-RF R2 PASS `9f19389`、minors `c271919`)"
+    assert rf_spec.count(rf_acceptance) == 3
+    assert "は引き続きunresolved" not in current
+    assert "M-ROOT-FAR-KERNEL unresolved" not in current
+
     assert "| S4-0.RF |" in current
     accepted_status = (
         "**PASS (R-RFSPEC R3、fixed SHA "
@@ -241,6 +249,11 @@ def test_root_far_graded_candidate_stays_fail_closed():
     )
     assert current.count(accepted_status) == 1
     assert "R-RFSPEC pending" not in current
+    proof_status = (
+        "**PASS (R-RF R2、fixed SHA `9f19389`; minors v0.9.4 `c271919`)**"
+    )
+    assert current.count(proof_status) == 1
+    assert "| S4-0.RF-PROOF |" in current
 
 
 def test_root_far_domain_schema_binds_all_required_keys():
