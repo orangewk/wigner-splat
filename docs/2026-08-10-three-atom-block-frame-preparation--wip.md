@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.5 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.6 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1368,16 +1368,54 @@ jet bound がそのまま覆う。数値診断(非証拠): ランダム 4×10³ 
 `R = 1.5`、near-cancellation `c₂ ≈ −c₁`・collision scale `s ∈ [10⁻³,1]` 含む、Gram 閉形式で
 `‖f‖` を厳密計算、`t ≤ 10` × 9 方位)で違反なし、bound との最小余裕 ×96。
 
-**program 表**(state は fail-closed: 受理は fixed-SHA 査読後のみ):
+**補題 C0(Terminal two-anchor — proof draft、R-C0 待ち)**: root node `H = X + Y`
+(`X = B₁₂` pair block、`Y = c₃Φ(ξ₃)` singleton、`ξ₃ ∈ K_{δ,R}`、`c₃ ≠ 0`、zero-pruning 後
+`R_H = ‖H‖_ℱ > 0`)、`G := e^{−U_T}H`、terminal 窓 `I_N ⊂ [0,2]`(§10.5.5 停止規約)、
+`A := ‖H‖_ℱ`、`B := ‖Y‖_ℱ`、`M := max(‖X‖_ℱ, ‖Y‖_ℱ)` とする。このとき
+
+  M·‖G‖_{∞,I_N} ≤ C_anc·A,   C_anc := max{6, (3/2)C_s},                    (C0-product)
+  C_s := e²/c_Y,   c_Y := C_Φ⁻¹e^{−2(1−δ)−2R},   C_Φ := [δ(2−δ)]^{−1/4}e^{R²/δ},
+
+同値に `‖G‖_{∞,I_N} ≤ C_anc·D_H⁻¹`(Anchor-D 形)。定数は `(δ,R)` のみに依存。
+
+*証明*: **(1) singleton floor.** atom norm 公式
+`‖Φ(A,B)‖² = (1−|A|²)^{−1/2}exp[(|B|²+Re(AB̄²))/(1−|A|²)]` で `1−|A|² ≥ δ(2−δ)`、
+分子 ≤ `|B|²(1+|A|) ≤ 2R²`、`δ(2−δ) ≥ δ` より `‖Φ(ξ₃)‖ ≤ C_Φ`。また `t ≤ 2` で
+`Re q₃ ≥ −(1−δ)t²/2 − Rt ≥ −2(1−δ) − 2R` なので
+
+  |Y(z)| = |c₃|e^{Re q₃} ≥ |c₃|·e^{−2(1−δ)−2R} ≥ c_Y·B   (全 t ≤ 2、zero-free)。
+
+**(2) singleton-anchored bound.** `e^{U_T(z)} = max(|X(z)|,|Y(z)|) ≥ |Y(z)| ≥ c_Y B` と
+再生核評価 `sup_{I_N}|H| ≤ e²A`(`t ≤ 2`)から `‖G‖_{∞,I_N} ≤ e²A/(c_Y B) = C_s·A/B`。
+
+**(3) 二場合分け.** 常に `|G| = |X+Y|/max(|X|,|Y|) ≤ 2` と
+`M ≤ A + B`(`‖X‖ = ‖H−Y‖ ≤ A+B`)が成り立つ。
+- `A ≥ B/2` のとき: `M ≤ A + B ≤ 3A` なので `M‖G‖ ≤ 3A·2 = 6A`。
+- `A < B/2` のとき: `M ≤ A + B < (3/2)B` なので
+  `M‖G‖ ≤ (3/2)B·C_s·A/B = (3/2)C_s·A`。
+
+いずれでも (C0-product)。`D_H = M/A` で割れば Anchor-D 形。∎
+
+場合分けは Fock norm のみで判定され、W3 の `G`/`U_T`/record/定数を変更しない(chain との
+干渉なし)。旧 design note の `D_H` 非有界 witness はこの補題により無害化される
+((C0-product) が `D_H⁻¹` 相殺を供給する)。数値診断(非証拠): 3 class 設定
+(`(δ,R) ∈ {(0.3,1.5),(0.05,0.5),(0.5,3)}`)× 1500 配置(seed 23、near-cancellation・
+collision・`B₁₂` 零点含む、Gram 閉形式)で floor 余裕 ×141、(C0-product) 余裕 ×2.2×10⁴。
+なお consultation の `C_Φ` 指数 `R²/(2δ)` は不成立(`δ(2−δ) ≥ 2δ` は偽)のため、本線検算で
+安全側 `R²/δ` に修正して採用した。
+
+**program 表**(state は fail-closed: 受理は fixed-SHA 査読後のみ。依存順は
+C0 → M1 → W3 → W4 → EW に改訂 — Sol consultation 第 4 回、M1 の weighted-only 監査を
+W3 が消費するため):
 
 | packet | statement / output | state |
 |---|---|---|
 | W1 Child-reserve interface | 語彙 + (W1-exit) + singleton case | **accepted**(R-W1 R2 PASS、fixed SHA `a59768e`) |
 | W2 Pair norming | exact divided difference + 0–2 jet norming で `|f(z)| ≤ C₂(R)(1+t)²E_{δ,R}(t)‖f‖_ℱ`(c=2 強形、`η_sep`/`s_m` 非依存) | **accepted**(R-W2 PASS、fixed SHA `a0fcd10`) |
-| C0 Compact anchor | terminal `I_N⊂[0,2]` で `‖e^{−U_H}H‖_{∞,I_N} ≤ C_anc·D_H⁻¹`(Anchor-D) | open, not claimed |
-| W3 Weighted chain | `G=e^{−U_H}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{I_N}` | open, not claimed |
-| W4 D-cancelled exit | W1/W2 × C0 × W3 の合成で `|H| ≤ C·R_H(1+T)²e^{(1−3δ/4)T²/2+C(T+1)}` | open, not claimed |
-| M1 mode audit | RayCoverageManifest 監査: active 3-leaf root は weighted-only、weighted/PΣ ledger 非加算 | open, not claimed |
+| C0 Terminal two-anchor | (C0-product) `M‖G‖_{∞,I_N} ≤ C_anc·R_H` ⇔ Anchor-D | proof draft(R-C0 待ち) |
+| M1 mode audit | RayCoverageManifest 監査: `k∈K_T` の root record は weighted-only(`QR5-w`/`root-far`)、weighted/PΣ ledger 非加算、`I_N` は TerminalRecord のみ | open, not claimed |
+| W3 Weighted chain | `G=e^{−U_T}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{∞,I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{∞,I_N}`(`m ≥ m₀`、M1/COV 消費) | open, not claimed |
+| W4 Terminal-cancelled exit | W1/W2 × W3 × (C0-product) の合成で `|H(Te^{iθ})| ≤ 2C₂C_anc·R_H(1+T)²e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}` | open, not claimed |
 | EW final | `R_H = ‖h_{ℓ,m}‖` で正規化、`T≥3` は W4・`T<3` は再生核評価、(S4-Ew) | open, not claimed |
 
 **U1 の退役(design 決定)**: 現 c=3 の public root record は weighted(`QR5-w`/`root-far`)
@@ -1713,3 +1751,10 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   R ∈ {0, 1.5, 5}、near-cancellation `‖f‖/max|c_i| ≈ 1.3×10⁻⁷`)で違反なし。
   W2 を accepted へ昇格(R-W2 PASS、fixed SHA `a0fcd10`)、tests 同期。
   次 = C0(Compact anchor — program 最弱点、Sol conf 0.86)。
+- v0.13.6(2026-08-17): Sol high consultation 第 4 回(C0 設計)。本線提案の二場合分け
+  (`A ≥ B/2` は自明 anchor `|G| ≤ 2` + `M ≤ 3A`、`A < B/2` は singleton floor anchor)が
+  成立と裁定(conf 0.99)— **Anchor-D の短い証明が得られ、program 最弱点(0.86)が解消**。
+  補題 C0(Terminal two-anchor)を proof draft として執筆(R-C0 待ち)。依存順を
+  C0 → M1 → W3 → W4 → EW に改訂、W4 を Terminal-cancelled exit に改名、全 packet
+  conf ≥ 0.97。consultation の `C_Φ` 指数 `R²/(2δ)` は本線検算で不成立と判明し安全側
+  `R²/δ` へ修正。数値診断 3 class × 1500 配置で floor/product とも違反なし。

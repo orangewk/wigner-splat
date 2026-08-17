@@ -657,11 +657,18 @@ def test_s4a_program_states_fail_closed():
     assert "**accepted**(R-W2 PASS、fixed SHA `a0fcd10`)" in w2_rows[0], (
         f"{FR_SPEC_DOC}: W2 row lost acceptance record"
     )
+    c0_rows = [
+        line for line in s4a.splitlines()
+        if line.startswith("| C0 Terminal two-anchor |")
+    ]
+    assert len(c0_rows) == 1, f"{FR_SPEC_DOC}: C0 row count != 1"
+    assert "proof draft(R-C0 待ち)" in c0_rows[0], (
+        f"{FR_SPEC_DOC}: C0 row state drifted before R-C0 acceptance"
+    )
     for prefix in (
-        "| C0 Compact anchor |",
-        "| W3 Weighted chain |",
-        "| W4 D-cancelled exit |",
         "| M1 mode audit |",
+        "| W3 Weighted chain |",
+        "| W4 Terminal-cancelled exit |",
         "| EW final |",
     ):
         rows = [line for line in s4a.splitlines() if line.startswith(prefix)]
