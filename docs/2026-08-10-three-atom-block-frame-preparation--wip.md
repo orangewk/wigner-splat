@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.12 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b closure(coverage)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.12.1 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 spec 手術 = R-COV0 査読待ち(§10.5.5)、S4b closure(COV1)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -550,8 +550,9 @@ S4b は次の二段階で行い、順序を逆転しない。
    `a_1=T−1` から降順、停止は最初の `a_N≤1`。全窓は切断なしの長さ 1 であり
    `a_k ≥ 1−(1−ε_chain) = ε_chain > 0` が自動成立する(窓を `[0,∞)` で切る操作は行わない)。
    半径 ≲ 2 の近原点領域は chaining ledger の外で、C′ 同様 S4a の compact initial estimate が
-   掌理する。逐語形は §10.5.4 補題 PΣ-3 (h0)。各 `(I_k,J_k)` に
-   resolved `RouteKind` の `RouteRecord` を割り当て、interval依存の domain witnessをここで検証する。
+   掌理する。逐語形は §10.5.4 補題 PΣ-3 (h0)。`J_k=I_k∩I_{k+1}` が定義される `k∈K_T={1,…,N−1}`
+   の各 `(I_k,J_k)` に resolved `RouteKind` の `RouteRecord` を割り当て、interval依存の
+   domain witnessをここで検証する。最終窓 `I_N` は `TerminalRecord`(§10.5.5)へ送る。
 
 S4b-β は必要なら `I_k` 内を有限 cell `𝒫_{H,k}` に分けてよいが、S4aへ渡す出力は内部cellを
 畳み込んだ次のどちらかの **composite unit-step kernel**だけとする。
@@ -592,7 +593,8 @@ acceptance 条件は次の八つ。
 3. pair leaf nodeでは `Re(q_1−q_2)+log|c_1/c_2|` が実二次以下なので dominance cellは高々3。
    root pair-block vs singleton ではこの推論を使わず、S4b の **split-row audit under U_H-ledger** が
    一様な root stepを直接証明する。rootで `N_cell` を導入する場合だけ、その一様性も証明する。
-4. 各 `I_k` は root level でちょうど一つの resolved route recordに覆われる。direct QR5 routeを使うなら
+4. 各 `I_k`(`k∈K_T`、§10.5.5。`I_N` は `TerminalRecord`)は root level でちょうど一つの
+   resolved route recordに覆われる。direct QR5 routeを使うなら
    raw pair-held 条件 `sup_{I_k}|q_2−q_1|≤1/8` の witnessを interval 全体について添付する。
    `RECENTER(C,t_c)` 後のheld cellを使うのは、RF-1/RF-2のexact transition・cell cover・composite
    `RootStep_k` がfixed-SHAで受理された場合だけであり、far/unheld intervalを無証拠にheldへ読み替えない。
@@ -672,7 +674,8 @@ identity ref で供給しなければならない(negative path は binding test
 
 registryは `coverage_manifest=(CategoryEnum,entries)` を持ち、各category IDが resolved/unresolved/excluded の
 **ちょうど一つ**として現れること、重複・欠落がともに空集合であることを検査する。この完全性検査の後にだけ
-S4b-α の「unresolvedなし」を判定する。
+S4b-α の「unresolvedなし」を判定する。これは **registry-level manifest** であり、ray ごとの
+interval被覆は別物として `RayCoverageManifest_{θ,T}`(§10.5.5)が担う。両者を混同しない。
 
 `source_ref` も discriminated union とする。
 
@@ -736,6 +739,7 @@ S4b-β の `RouteRecord` は resolved `RouteKind` だけから生成し、次を
 | `kind_ref` | 上の resolved `RouteKind` ID。§10.5 RouteSpecとsource/assembly stateを継承しoverride不可 |
 | `node_functions` | `arity=binary` なら exact `(A,B)`、`arity=unary` なら exact `(H)` |
 | `domain_witness` | `domain_schema_id` の全 key に対する式またはidentity ref。自由文は禁止 |
+| `selection_witness` | `(canonical_node_form,degree_class,root_held_guard)`。§10.5.5 の canonical route selector の出力。record の route ID が selector 値と一致しなければ無効。root 2+1 は `root_held_guard∈{held(M_k≤1/8),far(M_k>1/8)}`、非 root は `N/A` |
 | `node_path` | fixed tree上の有限 path。公開stepは `root` で終わる |
 | `envelope_id` | 上記 `U_H`; root 2+1 は `U_T` |
 | `interval_id` | `(k,I_k,J_k,ε_chain)` |
@@ -1078,6 +1082,61 @@ PΣ-4 として §10.5/§10.4 に実施済み(R-PS4 R3 PASS `58b9c9f`)。数値�
 | PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | **accepted**(R-PS3 R2 PASS、fixed SHA `65bb02e`) |
 | PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | **accepted**(R-PS4 R3 PASS、fixed SHA `58b9c9f`) |
 
+#### 10.5.5 S4b-COV: canonical route selector と ray coverage(COV0 spec 手術 / COV1 open)
+
+本節を S4b coverage program の唯一の authoring location とする。program は
+COV0(selection schema 手術、proof claim なし)→ COV1(canonical coverage lemma)の 2 packet
+に分割する(Sol consultation 2026-08-17 第 2 回の設計を採用)。本節は **spec のみを主張**し、
+補題 S4b-COV は open, not claimed とする。
+
+**動機(DomainSchema は selector ではない)**: §10.4 の 6 schema は kernel の適用前提であり、
+排他的 partition ではない。実際 (i) `deg P=0` の `P` は `D-K2` と `D-K2Q-AFF` の両方で表現可能、
+(ii) 同様に `D-TRIVIAL` と `D-GENERALIZED-SINGLETON` の両方で表現可能、(iii) `D-ROOT-FAR` は
+far 条件を key に持たないため held interval でも全 key が成立し得る。従って「schema の排他性」を
+証明対象にせず、**canonical route selector の完全・排他的 partition** を証明対象とする。
+
+**canonical route selector**(global exact `REFIX`/zero-pruning を**一度だけ**行った後の
+canonical node form に対して定義。interval ごとの tree 再構成は禁止):
+
+1. root 2+1(pair-block + singleton): `M_k := sup_{I_k}|q₂−q₁|` とし、
+   `M_k ≤ 1/8` なら `QR5-w`、`M_k > 1/8` なら `root-far`。**等号 `M_k=1/8` は held(`QR5-w`)**。
+   閾値の certificate は `|η(t)|²` の閉区間最大値を端点値と導関数実根から検証する。checker が
+   等号側/超過側を証明できない場合は推測で送らず `uncertified` として fail-close する。
+2. 非 root binary pure-atom pair(両 child とも `deg=0`): `K2-u`。
+3. binary `Pe^{q₁}+c₂e^{q₂}` で `deg P∈{1,2}`: `K2Q-aff-u`。
+4. unary `Pe^q` で `deg P∈{1,2}`: `generalized-singleton-u`。
+5. unary `ce^q`(`deg P=0`): `trivial-u`。
+
+selector 出力は `RouteRecord.selection_witness`(§10.4)に記録し、route ID と不一致の record は
+無効とする。held/far が interval 内で閾値を跨ぐ場合も **coverage 用の有限再分割は行わない**:
+`M_k` は閉区間 sup による完全二分であり、跨ぐ窓は全体を `root-far` に割り当て、内部は補題 RF の
+cell chain が処理する(公開 record は一つのまま)。
+
+**RayCoverageManifest**: 固定 ray `(θ,T)` に対し
+
+  RayCoverageManifest_{θ,T} := (K_T, (R_k)_{k∈K_T}, TerminalRecord),   K_T := {1,…,N−1}。
+
+`J_k = I_k∩I_{k+1}` が定義されるのは `k<N` のみであり、`RouteRecord` は `k∈K_T` にだけ立てる。
+最終窓 `I_N ⊂ [0,2]`(停止規約より `ε_chain ≤ a_N ≤ 1`)は **`TerminalRecord`** へ送り、
+RouteRecord と二重計上しない。`TerminalRecord` の消費者は S4a の compact initial estimate
+mini-packet(S4a-C0、open)であり、chaining ledger の外に置く。PΣ-3 の `k=1..N` 総和は
+非負項の superset 和として `k∈K_T` の帳簿を a fortiori に押さえる(安全側、矛盾なし)。
+manifest は各 `R_k` の mode を `ray_mode` witness として出力し、S4a-M1 が weighted/unweighted の
+二次 ledger を同一 ray で加算しないことの検査入力とする。
+
+**補題 S4b-COV(canonical root coverage — proof obligation、open, not claimed)**:
+compact-class input を exact `REFIX`/zero-pruning して canonical form を固定すると、任意の ray・
+`T≥3`・§10.3 pinned segmentation に対し
+
+  (COV-1) Σ_{ρ∈CategoryEnum} 𝟙_{Sel_ρ(F,I_k)} = 1  (k∈K_T);
+  (COV-2) 各 k∈K_T にちょうど一つの RouteRecord `R_k` が構成され、全 required witness を持ち、
+          {interval_id(R_k)} = K_T(重複判定は幾何学的点でなく `interval_id`)。
+
+| ID | scope | state |
+|---|---|---|
+| COV0 selection schema 手術 | 本節 + §10.4 `selection_witness`/manifest 分離 | spec 手術 = 本 version、R-COV0 査読待ち |
+| COV1 canonical coverage lemma | (COV-1)(COV-2) の証明 + fail-closed mutation tests | open, not claimed |
+
 ### 10.6 Coefficient-free constants
 
 FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed/compact dataだけに依存し、
@@ -1349,3 +1408,11 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   `K2Q-aff-u`/`generalized-singleton-u` は polynomial-envelope/accepted の resolved row と
   なり、S4b closure の残余は interval coverage の RouteRecord 検証のみ。tests を acceptance
   状態へ同期。
+- v0.12.1(2026-08-17): Sol high consultation 第 2 回(S4b coverage 設計)を受け、S4b-COV0
+  (selection schema 手術、spec-only)を実施(R-COV0 査読待ち)。§10.5.5 新設: DomainSchema
+  非排他性の記録(deg P=0 の K2/K2Q・trivial/generalized 重複、D-ROOT-FAR の far 条件欠如)、
+  canonical route selector(等号 M_k=1/8 は held、uncertified fail-close)、
+  RayCoverageManifest(K_T={1..N−1}、I_N は TerminalRecord へ — J_N 不存在の off-by-one 封じ)、
+  補題 S4b-COV(COV-1/COV-2)は open, not claimed。§10.4 に `selection_witness` field と
+  registry/ray manifest 分離を追記、§10.3 条件 4・S4b-β を K_T へ同期。採用順序:
+  COV1 → W1 → W2 → C0(compact initial estimate mini-packet)→ W3 → W4/U1/M1 → EW。

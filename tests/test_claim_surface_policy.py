@@ -523,6 +523,41 @@ def test_polynomial_sigma_a_promotion_surfaces_agree():
     )
 
 
+def test_s4b_cov0_selection_schema_spec_surfaces():
+    """COV0 surgery: selector spec present, lemma S4b-COV stays unclaimed."""
+
+    current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
+
+    # §10.4 RouteRecord carries the selection_witness field
+    assert "| `selection_witness` |" in current
+    assert "route ID が selector 値と一致しなければ無効" in current
+
+    # §10.5.5 selector spec: equal-sign convention, fail-close, K_T, terminal
+    for fragment in (
+        "等号 `M_k=1/8` は held(`QR5-w`)",
+        "`uncertified` として fail-close",
+        "K_T := {1,…,N−1}",
+        "`TerminalRecord`** へ送り",
+        "RayCoverageManifest_{θ,T}",
+        "coverage 用の有限再分割は行わない",
+    ):
+        assert fragment in current, (
+            f"{FR_SPEC_DOC}: COV0 spec fragment missing: {fragment}"
+        )
+
+    # the coverage lemma must remain unclaimed until R-COV1 passes
+    cov_section = current.split("#### 10.5.5", 1)[1].split("### 10.6", 1)[0]
+    assert "open, not claimed" in cov_section
+    rows = [
+        line for line in cov_section.splitlines()
+        if line.startswith("| COV1 canonical coverage lemma |")
+    ]
+    assert len(rows) == 1, f"{FR_SPEC_DOC}: COV1 row count != 1"
+    assert "open, not claimed" in rows[0], (
+        f"{FR_SPEC_DOC}: COV1 row prematurely claimed"
+    )
+
+
 def test_root_far_domain_schema_binds_all_required_keys():
     """D-ROOT-FAR must not survive after losing one of its seven witnesses."""
 
