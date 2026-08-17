@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.10 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved(§10.5、昇格監査 status は §10.7 `S4-0.RF-PROMOTE`)、S4b closure(polynomial ΣA・coverage)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.10.4 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、S4b closure(polynomial ΣA・coverage)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -977,7 +977,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.5 | complete domain keys・category-bound exclusion・status fail-closed | **PASS (R9、`56498bb`)** |
 | S4-0.RF | RECENTER exact transition、graded-root cost、D-ROOT-FAR、RF-1–RF-4 fail-closed extension | **PASS (R-RFSPEC R3、fixed SHA `25afe6ebb54f93845d48b8993ff7523f0f2643d8`)** |
 | S4-0.RF-PROOF | 補題 RF(§10.5.3): RECENTER 恒等式、cell cover/chain、graded ledger 吸収、fixture | **PASS (R-RF R2、fixed SHA `9f19389`; minors v0.9.4 `c271919`)**。`root-far` row resolved、`M-ROOT-FAR-KERNEL` 解消 |
-| S4-0.RF-PROMOTE | `root-far` row の registry 昇格手術(§10.5 row、status surface 同期、fail-closed tests) | R1 = BLOCKED(provenance 契約・stale surface・test 強度)→ 本 version で修正、**R2 pending** |
+| S4-0.RF-PROMOTE | `root-far` row の registry 昇格手術(§10.5 row、status surface 同期、fail-closed tests) | **PASS (R-RF-PROMOTE R3、fixed SHA `9cca48d`)**(R1/R2 findings は v0.10.1–v0.10.3 で全件受諾、R4 で tests 確認) |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4b/a/c proofs | none | open, not claimed |
 
@@ -1145,3 +1145,6 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   **行別 positional binding**(K2-u/K2Q-aff-u/generalized-singleton-u/QR5-w/root-far/trivial-u の
   各 row line 内に kernel/file/anchor/full-SHA tuple を逐語 bind、CprimeSourceRule block も同様)と、
   stale token 追補(`graded-root候補`・`候補定数`)を tests に実装。文書本体は R3 で PASS 済みのため不変。
+- v0.10.4(2026-08-17): R-RF-PROMOTE R4 = 条件付き受理(R3 修正の tests 検証 PASS)。luna 指定の
+  記載で §10.7 S4-0.RF-PROMOTE 行を PASS(fixed SHA `9cca48d`)へ更新し、pending marker を全廃、
+  tests を acceptance 状態へ同期。**root-far 昇格 arc 完結** — S4 route 表は全 6 row resolved。

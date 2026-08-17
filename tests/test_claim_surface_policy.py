@@ -260,10 +260,10 @@ def test_root_far_rf_acceptance_surfaces_agree():
     for token in stale_tokens:
         assert token not in current, f"{FR_SPEC_DOC}: stale promoted-state token: {token}"
 
-    # exactly one pending marker survives in the active region: the promote
-    # re-audit row itself
-    assert current.count("pending") == 1
-    assert "**R2 pending**" in current
+    # after final acceptance no pending marker survives in the active region,
+    # and the promote surgery carries its own acceptance record
+    assert current.count("pending") == 0
+    assert "**PASS (R-RF-PROMOTE R3、fixed SHA `9cca48d`)**" in current
 
     # provenance: every external source_ref SHA in the active RouteSpec (and
     # the C-prime source rule) must be named PASS/accepted by its canonical
