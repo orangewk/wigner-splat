@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.12 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1 accepted、W3/W4/EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.13 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1 accepted、W3/W4/EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1235,7 +1235,7 @@ FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed
 |---|---|---|
 | `c_head` | plain/nested head singular floor (`η,t₀` 等のchart data) | FR-S1′/S1″ |
 | `C_tail` | normalized frameのFock tail | FR-S1′/S1″ |
-| `C_K2,C_K2Q,C_T` | pair/generalized/root kernel constants | K2/K2Q/QR5 |
+| `C_K2,C_K2Q,C_T` | pair/generalized/root kernel constants | K2/K2Q/QR5。消費時は `max(1,·)` へ正規化してよい(上界定数の拡大は accepted 不等式を保存。RF 帰納の inline 前提 `32C_T ≥ 1` の契約化、§10.8 W3) |
 | `cost spec,γ_route,κ̄_route,mode` | interval-independent RouteKind template。uniformまたはaccepted graded-root | S4b-α registry |
 | `C_step,k,γ_H,κ_H,ε_chain` | typed RouteRecord / composite unit-step data | S4b-β output |
 | `N_cell` / `N_cell,k` | uniform routeの一様cell数 / root-far のgraded cell数 | pairは高々3。root-far は `≤4+8Λ_{η,k}`(補題 RF (1)、accepted) |
@@ -1434,9 +1434,11 @@ unweighted/PΣ 項が public root ledger に現れないことは (M1-1) の mod
 本補題は accepted 面(S4b-COV、RouteSpec、§10.4/§10.5.5 契約)の系であり、新しい解析的
 主張を含まない。W3 は (M1-1)(M1-2) を、C0/W4 は (M1-3) を消費する。
 
-**補題 W3(Weighted chain — proof draft、R-W3 待ち)**: 補題 M1 の manifest の下、
+**補題 W3(Weighted chain — proof draft、R-W3 R2 待ち)**: 補題 M1 の manifest の下、
 `m ≥ m₀`(補題 RF の threshold、`m₀ := max(m_{FR-S1′/S1″}, m_RF)`)、`T ≥ 3`、
-`G := e^{−U_T}H`。このとき
+`G := e^{−U_T}H`。**定数正規化(WLOG)**: 以後 `C_T := max(1, C_T)` と正規化して消費する。
+上界定数の拡大は QR5 の accepted 不等式を保存し、補題 RF の証明が inline 前提とする
+`32C_T ≥ 1`(§10.5.3 帰納 step)もこれで満たされる(accepted body は不変)。このとき
 
   ‖G‖_{∞,I_1} ≤ exp((δ/8)T² + C_ch(T+1))·‖G‖_{∞,I_N},                       (W3-chain)
   C_ch := 10·log(1/ε_chain) + 2·log⁺C_T + 6·C_RF,
@@ -1457,9 +1459,12 @@ ray 全体で一つの関数であり、record 間で weight の乗り換えは�
 指数を三分して押さえる(`N−1 ≤ N ≤ 2T+1 ≤ 2(T+1)`):
 - **ε 因子**: `5(N−1)log(1/ε_chain) ≤ 10(T+1)log(1/ε_chain)`;
 - **QR5-w record**(held 窓): 各 `log C_step,k ≤ log⁺C_T`、合計 `≤ 2(T+1)log⁺C_T`;
-- **root-far record**(far 窓): graded cost `log C_step,k ≤ C_RF(1+Λ_{η,k})` の
-  far 部分和は、各項非負より RF-3(accepted、`m ≥ m₀` で `s_m ≤ s_RF`)の全窓 majorant で
-  押さえられ `Σ ≤ (δ/8)T² + C_RF(2+4s_m)(T+1) ≤ (δ/8)T² + 6C_RF(T+1)`
+- **root-far record**(far 窓): cost を RF の逐語形どおり
+  `C_step,k := exp(C_RF(1+Λ_{η,k})) ≥ 1` と選ぶ(§10.5.3
+  `‖e^{−U_T}H‖_{I_k} ≤ exp(C_RF(1+Λ_{η,k}))·ε_chain^{−5}·‖·‖_{J_k}`)ので各
+  `log C_step,k = C_RF(1+Λ_{η,k}) ≥ 0` であり、far 部分和は RF-3(accepted、`m ≥ m₀` で
+  `s_m ≤ s_RF`)の全窓 majorant で押さえられ
+  `Σ ≤ (δ/8)T² + C_RF(2+4s_m)(T+1) ≤ (δ/8)T² + 6C_RF(T+1)`
   (§10.5.5 の index 契約: record 和は `k∈K_T`、majorant は k=1..N)。
 
 合計で `(δ/8)T² + [10log(1/ε_chain) + 2log⁺C_T + 6C_RF](T+1)`。∎
@@ -1848,3 +1853,8 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   指数を ε 因子 / QR5 uniform / RF graded の三分で押さえ
   `(δ/8)T² + C_ch(T+1)`、`C_ch = 10log(1/ε_chain) + 2log⁺C_T + 6C_RF`。
   kernel 不等式・witness は accepted 面の消費のみ(再証明なし)、混在 ray も同一積算。
+- v0.13.13(2026-08-17): luna R-W3 R1 = blocking 1 + minor 1 を全受諾。[W3-01] RF 帰納の
+  inline 前提 `32C_T ≥ 1` が未契約 → W3 に WLOG 正規化 `C_T := max(1,C_T)` を明記
+  (上界定数の拡大は accepted 不等式を保存、RF body 不変)、§10.6 定数表に消費時正規化
+  条項を追記して契約化。[W3-02] RF cost の明示選択
+  `C_step,k := exp(C_RF(1+Λ_{η,k})) ≥ 1` を証明に追記(log 非負性の根拠)。R-W3 R2 待ち。
