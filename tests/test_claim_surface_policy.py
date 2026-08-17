@@ -673,8 +673,15 @@ def test_s4a_program_states_fail_closed():
     assert "**accepted**(R-M1 R2 PASS、fixed SHA `fd18e9d`)" in m1_rows[0], (
         f"{FR_SPEC_DOC}: M1 row lost acceptance record"
     )
+    w3_rows = [
+        line for line in s4a.splitlines()
+        if line.startswith("| W3 Weighted chain |")
+    ]
+    assert len(w3_rows) == 1, f"{FR_SPEC_DOC}: W3 row count != 1"
+    assert "proof draft(R-W3 待ち)" in w3_rows[0], (
+        f"{FR_SPEC_DOC}: W3 row state drifted before R-W3 acceptance"
+    )
     for prefix in (
-        "| W3 Weighted chain |",
         "| W4 Terminal-cancelled exit |",
         "| EW final |",
     ):

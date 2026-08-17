@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.11 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1 accepted、W3/W4/EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.12 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1 accepted、W3/W4/EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1434,6 +1434,41 @@ unweighted/PΣ 項が public root ledger に現れないことは (M1-1) の mod
 本補題は accepted 面(S4b-COV、RouteSpec、§10.4/§10.5.5 契約)の系であり、新しい解析的
 主張を含まない。W3 は (M1-1)(M1-2) を、C0/W4 は (M1-3) を消費する。
 
+**補題 W3(Weighted chain — proof draft、R-W3 待ち)**: 補題 M1 の manifest の下、
+`m ≥ m₀`(補題 RF の threshold、`m₀ := max(m_{FR-S1′/S1″}, m_RF)`)、`T ≥ 3`、
+`G := e^{−U_T}H`。このとき
+
+  ‖G‖_{∞,I_1} ≤ exp((δ/8)T² + C_ch(T+1))·‖G‖_{∞,I_N},                       (W3-chain)
+  C_ch := 10·log(1/ε_chain) + 2·log⁺C_T + 6·C_RF,
+
+定数は `(δ, R, ε_chain, C_T, C_RF)` のみに依存(`m, θ, T` 非依存)。
+
+*証明*: (M1-1) より各 `k ∈ K_T` の root record は `QR5-w` か `root-far` で、いずれも
+`(S4-step-w)` 型・`κ_H = 0`・`γ_H = 5`:
+
+  ‖G‖_{∞,I_k} ≤ C_step,k·ε_chain^{−5}·‖G‖_{∞,J_k} ≤ C_step,k·ε_chain^{−5}·‖G‖_{∞,I_{k+1}}
+
+(`J_k = I_k ∩ I_{k+1} ⊆ I_{k+1}`、§10.3。envelope は全 k で同一の root `U_T` なので `G` は
+ray 全体で一つの関数であり、record 間で weight の乗り換えは起きない)。`k = 1, …, N−1` を
+内向きに反復して
+
+  ‖G‖_{∞,I_1} ≤ (Π_{k∈K_T} C_step,k)·ε_chain^{−5(N−1)}·‖G‖_{∞,I_N}。
+
+指数を三分して押さえる(`N−1 ≤ N ≤ 2T+1 ≤ 2(T+1)`):
+- **ε 因子**: `5(N−1)log(1/ε_chain) ≤ 10(T+1)log(1/ε_chain)`;
+- **QR5-w record**(held 窓): 各 `log C_step,k ≤ log⁺C_T`、合計 `≤ 2(T+1)log⁺C_T`;
+- **root-far record**(far 窓): graded cost `log C_step,k ≤ C_RF(1+Λ_{η,k})` の
+  far 部分和は、各項非負より RF-3(accepted、`m ≥ m₀` で `s_m ≤ s_RF`)の全窓 majorant で
+  押さえられ `Σ ≤ (δ/8)T² + C_RF(2+4s_m)(T+1) ≤ (δ/8)T² + 6C_RF(T+1)`
+  (§10.5.5 の index 契約: record 和は `k∈K_T`、majorant は k=1..N)。
+
+合計で `(δ/8)T² + [10log(1/ε_chain) + 2log⁺C_T + 6C_RF](T+1)`。∎
+
+**scope(非主張)**: 各 record の `(S4-step-w)` 不等式そのもの(QR5 kernel、補題 RF)と
+domain witness の成立は accepted 面(§10.5.3、K2p1 §3.8.6、S4b-COV (COV-2))を引用して
+消費するのみで、本補題は再証明しない。混在 ray(held 窓と far 窓が交互に現れる場合)も
+同じ積算で覆われる(step は窓ごとに独立で、weight `U_T` は共通)。
+
 **program 表**(state は fail-closed: 受理は fixed-SHA 査読後のみ。依存順は
 C0 → M1 → W3 → W4 → EW に改訂 — Sol consultation 第 4 回、M1 の weighted-only 監査を
 W3 が消費するため):
@@ -1444,7 +1479,7 @@ W3 が消費するため):
 | W2 Pair norming | exact divided difference + 0–2 jet norming で `|f(z)| ≤ C₂(R)(1+t)²E_{δ,R}(t)‖f‖_ℱ`(c=2 強形、`η_sep`/`s_m` 非依存) | **accepted**(R-W2 PASS、fixed SHA `a0fcd10`) |
 | C0 Terminal two-anchor | (C0-product) `M‖G‖_{∞,I_N} ≤ C_anc·R_H` ⇔ Anchor-D | **accepted**(R-C0 R2 PASS、fixed SHA `f31cca0`) |
 | M1 mode audit | RayCoverageManifest 監査: `k∈K_T` の root record は weighted-only(`QR5-w`/`root-far`)、weighted/PΣ ledger 非加算、`I_N` は TerminalRecord のみ | **accepted**(R-M1 R2 PASS、fixed SHA `fd18e9d`) |
-| W3 Weighted chain | `G=e^{−U_T}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{∞,I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{∞,I_N}`(`m ≥ m₀`、M1/COV 消費) | open, not claimed |
+| W3 Weighted chain | `G=e^{−U_T}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{∞,I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{∞,I_N}`(`m ≥ m₀`、M1/COV 消費) | proof draft(R-W3 待ち) |
 | W4 Terminal-cancelled exit | W1/W2 × W3 × (C0-product) の合成で `|H(Te^{iθ})| ≤ 2C₂C_anc·R_H(1+T)²e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}` | open, not claimed |
 | EW final | `R_H = ‖h_{ℓ,m}‖` で正規化、`T≥3` は W4・`T<3` は再生核評価、(S4-Ew) | open, not claimed |
 
@@ -1808,3 +1843,8 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   R-M1 R2 待ち。
 - v0.13.11(2026-08-17): luna R-M1 R2 = **PASS**(reviewed SHA `fd18e9d`、findings なし)。
   M1 を accepted へ昇格、tests・status surface 同期。S4a 残余 = W3 → W4 → EW。
+- v0.13.12(2026-08-17): 補題 W3(Weighted chain)を proof draft として執筆(R-W3 待ち)。
+  (M1-1) の weighted-only record を `(S4-step-w)`(`γ=5`、`κ=0`)で `k∈K_T` 内向きに反復、
+  指数を ε 因子 / QR5 uniform / RF graded の三分で押さえ
+  `(δ/8)T² + C_ch(T+1)`、`C_ch = 10log(1/ε_chain) + 2log⁺C_T + 6C_RF`。
+  kernel 不等式・witness は accepted 面の消費のみ(再証明なし)、混在 ray も同一積算。
