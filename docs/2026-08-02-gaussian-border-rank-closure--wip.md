@@ -1145,10 +1145,12 @@ obligation** である: 前係数 `r·C_sub·C_w` の線形項への吸収(NC-1 
 
   |f_m(z)| ≤ Σ_ℓ |a_{ℓ,m}||v_{ℓ,m}(z)| ≤ r·C_sub·C_w^N·e^{(1−δ/2)|z|²/2 + C_lin^N|z|}。
 
-`z = z_m` で (☆) と比べ、`e^{m|z_m|} < r·C_sub·C_w^N·e^{C_lin^N|z_m|}`。両辺の log を
-`|z_m| ≥ 1` で割り
+`z = z_m` で (☆) と比べ、`e^{m|z_m|} < K·e^{C_lin^N|z_m|}`、`K := r·C_sub·C_w^N`。両辺の
+log を `|z_m| ≥ 1` で割り、`log⁺x := max(0, log x)` として `log K / |z_m| ≤ log⁺K`
+(`K ≥ 1` なら `|z_m| ≥ 1` で割って `≤ log K = log⁺K`、`K < 1` なら左辺は負で `≤ 0 = log⁺K`)
+より
 
-  m < log(r·C_sub·C_w^N)/|z_m| + C_lin^N ≤ log(3·C_sub·C_w^N) + C_lin^N,
+  m < log K/|z_m| + C_lin^N ≤ log⁺(3·C_sub·C_w^N) + C_lin^N,
 
 右辺は m に依らない有限値 — 部分列上で `m → ∞` に矛盾。∎
 
