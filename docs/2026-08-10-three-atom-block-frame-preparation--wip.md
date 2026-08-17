@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.13 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1 accepted、W3/W4/EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.14 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1/W3 accepted、W4/EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1265,9 +1265,9 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.COV0 | S4b-COV0 selection schema 手術(§10.5.5、§10.4 `selection_witness`、manifest 分離、K_T index 契約) | **PASS (R-COV0 R3、fixed SHA `256ab38`)**(R1/R2 findings は v0.12.2–v0.12.3 で全件受諾。accepted body への in-body 編集は revert し、SHA-256 バイト一致を双方検証) |
 | S4-0.COV1 | 補題 S4b-COV((COV-0) reachability invariant、(COV-1) selector 被覆、(COV-2) witness 構成) | **PASS (R-COV1 R4、fixed SHA `c36d818`)**(R1–R3 findings は v0.12.6–v0.12.8 で全件受諾)。**S4b closure 完結** |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
-| S4a/S4c proofs | §10.8 program | W1 `a59768e`/W2 `a0fcd10`/C0 `f31cca0`/M1 `fd18e9d` accepted、W3/W4/EW/S4c open |
+| S4a/S4c proofs | §10.8 program | W1 `a59768e`/W2 `a0fcd10`/C0 `f31cca0`/M1 `fd18e9d`/W3 `4086ef9` accepted、W4/EW/S4c open |
 
-### 10.8 S4a envelope assembly program(W1/W2/C0/M1 accepted / W3/W4/EW open)
+### 10.8 S4a envelope assembly program(W1/W2/C0/M1/W3 accepted / W4/EW open)
 
 本節を S4a program の唯一の authoring location とする。Sol consultation 第 3 回
 (2026-08-17、W1 係数予算監査)の改訂設計を採用し、packet を次に固定する。
@@ -1434,7 +1434,7 @@ unweighted/PΣ 項が public root ledger に現れないことは (M1-1) の mod
 本補題は accepted 面(S4b-COV、RouteSpec、§10.4/§10.5.5 契約)の系であり、新しい解析的
 主張を含まない。W3 は (M1-1)(M1-2) を、C0/W4 は (M1-3) を消費する。
 
-**補題 W3(Weighted chain — proof draft、R-W3 R2 待ち)**: 補題 M1 の manifest の下、
+**補題 W3(Weighted chain — accepted、R-W3 R2 PASS `4086ef9`)**: 補題 M1 の manifest の下、
 `m ≥ m₀`(補題 RF の threshold、`m₀ := max(m_{FR-S1′/S1″}, m_RF)`)、`T ≥ 3`、
 `G := e^{−U_T}H`。**定数正規化(WLOG)**: 以後 `C_T := max(1, C_T)` と正規化して消費する。
 上界定数の拡大は QR5 の accepted 不等式を保存し、補題 RF の証明が inline 前提とする
@@ -1484,7 +1484,7 @@ W3 が消費するため):
 | W2 Pair norming | exact divided difference + 0–2 jet norming で `|f(z)| ≤ C₂(R)(1+t)²E_{δ,R}(t)‖f‖_ℱ`(c=2 強形、`η_sep`/`s_m` 非依存) | **accepted**(R-W2 PASS、fixed SHA `a0fcd10`) |
 | C0 Terminal two-anchor | (C0-product) `M‖G‖_{∞,I_N} ≤ C_anc·R_H` ⇔ Anchor-D | **accepted**(R-C0 R2 PASS、fixed SHA `f31cca0`) |
 | M1 mode audit | RayCoverageManifest 監査: `k∈K_T` の root record は weighted-only(`QR5-w`/`root-far`)、weighted/PΣ ledger 非加算、`I_N` は TerminalRecord のみ | **accepted**(R-M1 R2 PASS、fixed SHA `fd18e9d`) |
-| W3 Weighted chain | `G=e^{−U_T}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{∞,I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{∞,I_N}`(`m ≥ m₀`、M1/COV 消費) | proof draft(R-W3 待ち) |
+| W3 Weighted chain | `G=e^{−U_T}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{∞,I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{∞,I_N}`(`m ≥ m₀`、M1/COV 消費) | **accepted**(R-W3 R2 PASS、fixed SHA `4086ef9`) |
 | W4 Terminal-cancelled exit | W1/W2 × W3 × (C0-product) の合成で `|H(Te^{iθ})| ≤ 2C₂C_anc·R_H(1+T)²e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}` | open, not claimed |
 | EW final | `R_H = ‖h_{ℓ,m}‖` で正規化、`T≥3` は W4・`T<3` は再生核評価、(S4-Ew) | open, not claimed |
 
@@ -1858,3 +1858,7 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   (上界定数の拡大は accepted 不等式を保存、RF body 不変)、§10.6 定数表に消費時正規化
   条項を追記して契約化。[W3-02] RF cost の明示選択
   `C_step,k := exp(C_RF(1+Λ_{η,k})) ≥ 1` を証明に追記(log 非負性の根拠)。R-W3 R2 待ち。
+- v0.13.14(2026-08-17): luna R-W3 R2 = **PASS**(reviewed SHA `4086ef9`、findings なし。
+  `C_T` は上界としてのみ使用され正規化で全不等式保存、§10.6 追記は consumer-side contract
+  として precedent 整合と確認)。W3 を accepted へ昇格、tests・status 同期。
+  S4a 残余 = W4 → EW。
