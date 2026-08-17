@@ -579,7 +579,7 @@ def test_s4b_cov0_selection_schema_spec_surfaces():
     # the coverage lemma must remain unclaimed until R-COV1 passes, and no
     # premature acceptance may appear anywhere in the active region
     cov_section = current.split("#### 10.5.5", 1)[1].split("### 10.6", 1)[0]
-    assert "open, not claimed" in cov_section
+    assert "R-COV1 待ち" in cov_section
     # the ONLY acceptance marker allowed in §10.5.5 is the COV0 row's record;
     # COV1 must never carry one until R-COV1 passes
     assert cov_section.count("**accepted**") == 1, (
@@ -622,8 +622,8 @@ def test_s4b_cov0_selection_schema_spec_surfaces():
         if line.startswith("| COV1 canonical coverage lemma |")
     ]
     assert len(rows) == 1, f"{FR_SPEC_DOC}: COV1 row count != 1"
-    assert "open, not claimed" in rows[0], (
-        f"{FR_SPEC_DOC}: COV1 row prematurely claimed"
+    assert "proof draft(R-COV1 待ち)" in rows[0], (
+        f"{FR_SPEC_DOC}: COV1 row state drifted before R-COV1 acceptance"
     )
     assert "(COV-0)(COV-1)(COV-2)" in rows[0], (
         f"{FR_SPEC_DOC}: COV1 row lost an obligation id"

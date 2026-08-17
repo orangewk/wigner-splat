@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.12.4 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.12.5 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1082,12 +1082,12 @@ PΣ-4 として §10.5/§10.4 に実施済み(R-PS4 R3 PASS `58b9c9f`)。数値�
 | PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | **accepted**(R-PS3 R2 PASS、fixed SHA `65bb02e`) |
 | PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | **accepted**(R-PS4 R3 PASS、fixed SHA `58b9c9f`) |
 
-#### 10.5.5 S4b-COV: canonical route selector と ray coverage(COV0 accepted / COV1 open)
+#### 10.5.5 S4b-COV: canonical route selector と ray coverage(COV0 accepted / COV1 proof draft)
 
 本節を S4b coverage program の唯一の authoring location とする。program は
 COV0(selection schema 手術、proof claim なし)→ COV1(canonical coverage lemma)の 2 packet
-に分割する(Sol consultation 2026-08-17 第 2 回の設計を採用)。本節は **spec のみを主張**し、
-補題 S4b-COV は open, not claimed とする。
+に分割する(Sol consultation 2026-08-17 第 2 回の設計を採用)。COV0 は accepted、
+補題 S4b-COV は proof draft であり R-COV1 の fixed-SHA 査読完了まで未受理とする。
 
 **動機(DomainSchema は selector ではない)**: §10.4 の 6 schema は kernel の適用前提であり、
 排他的 partition ではない。実際 (i) `deg P=0` の `P` は `D-K2` と `D-K2Q-AFF` の両方で表現可能、
@@ -1142,7 +1142,7 @@ PΣ-3(unweighted subledger)と RF-3(weighted ledger、独立帳簿)の record �
 manifest は各 `R_k` の mode を `ray_mode` witness として出力し、S4a-M1 が weighted/unweighted の
 二次 ledger を同一 ray で加算しないことの検査入力とする。
 
-**補題 S4b-COV(canonical root coverage — proof obligation、open, not claimed)**:
+**補題 S4b-COV(canonical root coverage — proof draft、R-COV1 待ち)**:
 compact-class input を exact `REFIX`/zero-pruning して canonical form を固定すると、任意の ray・
 `T≥3`・§10.3 pinned segmentation に対し
 
@@ -1153,10 +1153,58 @@ compact-class input を exact `REFIX`/zero-pruning して canonical form を固�
   (COV-2) 各 k∈K_T にちょうど一つの RouteRecord `R_k` が構成され、全 required witness を持ち、
           {interval_id(R_k)} = K_T(重複判定は幾何学的点でなく `interval_id`)。
 
+**補題 S4b-COV の証明(proof draft — R-COV1 待ち)**:
+
+*(COV-0) canonical form closure.* S4b routing に到達する node function の生成規則は、現行
+S4-0 interface が宣言する次の閉集合に限る: (g1) atom leaf `c_je^{q_j}`(枠候補は原子の exact
+有限結合 `h_{ℓ,m}=Σ_{j=1}^3 a_{ℓj,m}u_{j,m}`、§3); (g2) tree node の exact 和 `H=A+B`
+(c=3 の tree shape は single-scale triple または 2+1 のみ、深さ ≤ 2、root は
+pair-block+singleton); (g3) `REFIX`(constant-gauge 併合は係数を統合して純指数和を保ち、
+zero-pruning は child を削除、rank 低下時は lower-rank route へ**退出**して c=3 routing の
+対象外); (g4) `RECENTER`(関数として不変、§10.5)。いずれの生成規則も多項式因子を導入しない。
+従って routed node form は {unary-atom, binary-pure-atom, root-2+1} ⊆ CanonicalNodeFormEnum
+に含まれ、rank 3 の root node は常に root-2+1 形である。**多項式 form の非生成**:
+split(ii)/(iii) は chart-only certificate であり「exact node function の shape、unit interval の
+domain schema、S4-step inequality のいずれも供給しない」(§10.5、v0.8.16 reachability audit)。
+現行 interface に polynomial-weighted node の生成 transition は存在せず、
+binary-poly-deg12 / unary-poly-deg12 は **resolved-but-unreachable**(row は将来の S4-0 改訂
+= 例えば split(ii) の routing 昇格に備えて保持するが、record を受け取らない。当該改訂時は
+COV-0 の再証明を必須とする)。both-polynomial binary は a fortiori 非生成。
+`deg P∈{3,4,5}` について: FR3 の `d_ℓ≤5` は静的極限対象 `P_ℓΦ(ξ*)`(z=0 valuation)に付随し
+(補題 W は「rescaling、Fock tail、nested 2+1 は本補題の外」、補題 W′ は「静的極限だけを扱う。
+finite-m … は主張しない」と適用範囲を明示)、S4b が routing する finite-m exact node は
+その対象外。∎(COV-0)
+
+*(COV-1) selector totality/exclusivity.* 到達可能 form ごとに: unary-atom は `deg=0` なので
+clause 5 のみ(clause 3/4 は `deg∈{1,2}`、clause 1/2 は binary を要求)。binary-pure-atom は
+非 root(rank 3 の root は root-2+1、root で純 pair が生じる constant-gauge 併合は rank 低下
+= c=3 退出)なので clause 2 のみ。root-2+1 は clause 1 のみで、内部の
+`M_k ≤ 1/8` / `M_k > 1/8` は compact `I_k` 上の連続関数 `|η|` の sup による完全・排他二分
+(等号は held、certificate は §10.5.5 規約)。非到達 enum form の clause 3/4 は空虚に
+単価値。enum 外 form は COV-0 より非生成(生成された場合は `uncertified` fail-close が
+S4b-α/β を停止し、被覆主張自体が成立しない = fail-closed)。従って `k∈K_T` の各 `I_k` で
+`Σ_ρ 𝟙_{Sel_ρ} = 1`。∎(COV-1)
+
+*(COV-2) record 構成.* root record は clause 1 の値により `QR5-w` または `root-far`。
+witness 構成: `active_children_nonzero` は zero-pruning 完了から、`c₁c₂c₃≠0` は pruning +
+rank 3 から、`B₁₂≢0` は zero-pruning(恒等零 child は削除済み)から、`η=q₂−q₁` nonconstant
+(および root-far の `q₁−q₃`/`q₂−q₃` nonconstant)は constant-gauge `REFIX` 完了から、
+collision-scale witness `(|ΔA|≤s_m²,|ΔB|≤s_m)` は compact class `K_{δ,R}` の chart data から、
+`Λ_{η,k}` witness は exact `η′` の閉区間 sup として計算可能。`D-QR5-HELD` の
+`sup_{I_k}|q₂−q₁|≤1/8` は clause 1 の held certificate そのもの。selector の単価値性
+(COV-1)より各 `k∈K_T` にちょうど一つの root record が立ち、`{interval_id(R_k)} = K_T`。
+child route(clause 2–5)は RootStep_k の内部 provenance であり(§10.3 条件 6)、manifest の
+record としては数えない。`I_N` は `TerminalRecord`(§10.5.5)。∎(COV-2)
+
+**scope(非主張)**: 本補題は canonical form の閉世界性・selector 被覆・record 構成可能性
+のみを主張する。QR5-w/root-far の kernel 不等式の成立(accepted 済み)、S4a assembly、
+(E-w)、chart-only の split(ii)/(iii) の解析的内容は本補題の対象外。unreachable row の将来
+到達可能化(S4-0 改訂)は COV-0 再証明 + R-COV 再査読を必須とする。
+
 | ID | scope | state |
 |---|---|---|
 | COV0 selection schema 手術 | 本節 + §10.4 `selection_witness`/manifest 分離 | **accepted**(R-COV0 R3 PASS、fixed SHA `256ab38`) |
-| COV1 canonical coverage lemma | (COV-0)(COV-1)(COV-2) の証明 + fail-closed mutation tests | open, not claimed |
+| COV1 canonical coverage lemma | (COV-0)(COV-1)(COV-2) の証明 + fail-closed mutation tests | proof draft(R-COV1 待ち) |
 
 ### 10.6 Coefficient-free constants
 
@@ -1460,3 +1508,12 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   §10.5.3/§10.5.4 の SHA-256 バイト一致・mutation 再プローブ 3 種の捕捉・24 passed を確認)。
   COV0 を accepted へ昇格、§10.7 に S4-0.COV0 行を新設、tests を acceptance 状態へ同期。
   S4b closure の残余は COV1(canonical coverage lemma、(COV-0)(COV-1)(COV-2))のみ。
+- v0.12.5(2026-08-17): 補題 S4b-COV の証明を proof draft として執筆(R-COV1 待ち)。
+  読解調査(§3 枠候補・§10.5 transition 宣言・補題 W/W′ の適用範囲・一遷移文書 split(ii))に
+  基づく核心: (COV-0) は「現行 interface の生成規則 (g1)–(g4) はいずれも多項式因子を導入せず、
+  routed form は {unary-atom, binary-pure-atom, root-2+1} に収まる」という強形で成立。
+  split(ii)/(iii) は chart-only(v0.8.16 reachability audit)で node shape を供給しないため、
+  polynomial row(K2Q-aff-u/generalized-singleton-u)は resolved-but-unreachable と位置づけ、
+  将来の S4-0 改訂での到達可能化には COV-0 再証明を必須と明記。`d_ℓ≤5` は静的極限対象専用
+  (補題 W/W′ の scope 明示)で finite-m routed node に非適用。(COV-1) は rank 3 root が
+  常に root-2+1 形であること + M_k 完全二分、(COV-2) は witness 構成の列挙による。
