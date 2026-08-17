@@ -44,7 +44,8 @@ rooted binary block tree を付す: leaf = 原子、internal node `H = X + Y`、
 
 ## 3. 主結果
 
-**定理 (S4-Ew)**(FR 文書 §10.8 補題 EW、accepted `b39216f`): 上の入力に対し、定数
+**補題 (S4-Ew)**(FR 文書 §10.8 補題 EW、accepted `b39216f`。地位は §冒頭のとおり
+**証明ドラフト**であり、確立済み定理としては主張しない): 上の入力に対し、定数
 `C_w, C_lin > 0` と閾値 `m₀` が存在して、全 `m ≥ m₀`、全 frame index `ℓ`、全 `z ∈ ℂ` で
 
   |(U_m^{−1}v_{ℓ,m})(z)| ≤ C_w · exp((1−δ/2)|z|²/2 + C_lin|z|).
@@ -53,7 +54,7 @@ rooted binary block tree を付す: leaf = 原子、internal node `H = X + Y`、
 `m, ℓ, z, θ` と表示係数(SVD/Newton 係数)に依存しない。`m₀` は入力列の収束速度に依存してよい
 ((E-w) は `m₀` の存在のみ要求)。
 
-**意味**: 自明評価の指数は `(1−δ)|z|²/2 + R|z|` だが、それは**各原子**に対するもの。定理は
+**意味**: 自明評価の指数は `(1−δ)|z|²/2 + R|z|` だが、それは**各原子**に対するもの。本補題は
 cancellation で norm が潰れた**正規化結合**に対して、係数損失 `δ/2·|z|²/2` だけで済む一様包絡を与える。
 これが c=3 FR ledger の FR6 を(FR5/FR7 とともに)閉じる。
 
@@ -83,7 +84,8 @@ radial ray `z = te^{iθ}` を固定し `T := |z|` とする。近原点 `T < 3` 
 
 ## 5. 補題チェーン(statement 要約)
 
-以下すべて FR 文書 §10.8 に完全証明がある。`E_{δ,R}(t) := exp((1−δ)t²/2 + Rt)` とする。
+以下すべて FR 文書 §10.8 に証明ドラフト全文がある(いずれも accepted な先行 input —
+QR5/RF の一段不等式、被覆補題等 — を引用して消費する形で、それらを再証明はしない)。`E_{δ,R}(t) := exp((1−δ)t²/2 + Rt)` とする。
 
 **W1(Child-reserve interface、`a59768e`)**: binary node `H = X+Y` の各 child が per-child strong bound
 `|X(z)| ≤ C_X P_X(t) E_{δ,R}(t)‖X‖`(`P_X` は固定次数・非負係数多項式)を満たすなら
@@ -112,7 +114,8 @@ jet 下界を取り、`f = (c₁+c₂)Φ(ξ₂) + (c₁r)ψ` の係数を `‖f�
 `A < B/2` なら singleton-anchored bound `‖G‖ ≤ C_s A/B` と `M ≤ (3/2)B` で相殺。
 
 **M1(mode audit、`fd18e9d`)**: 被覆補題(S4b-COV、`c36d818`)の帰結として、公開 ray ledger の
-root record は weighted 型(QR5 held / RF far)のみ・各窓ちょうど 1 個・終端窓は C0 専用。
+root record は weighted 型(QR5 held / RF far)のみで、非終端窓 `k ∈ K_T = {1,…,N−1}` に
+ちょうど 1 個ずつ立つ。終端窓 `I_N` は root record を持たず C0 専用。
 新しい解析的主張を含まない監査補題。
 
 **W3(Weighted chain、`4086ef9`)**: `m ≥ m₀`、`T ≥ 3` で
@@ -149,8 +152,8 @@ effective rank(1/2/3)× `T ≥ 3` / `T < 3` の場合分けで (S4-Ew)。
 | `C_Φ, c_Y, C_s` | C0 | `C_Φ = [δ(2−δ)]^{−1/4}e^{R²/(2δ)}`、`c_Y = C_Φ^{−1}e^{−2(1−δ)−2R}`、`C_s = e²/c_Y` |
 | `C_anc` | C0 | `max{6, (3/2)C_s}` |
 | `ε_chain` | 分割 | `min(1/2, δ/[8(κ_chain+1)])`(route registry から) |
-| `C_T` | QR5 kernel(accepted、外部) | held 窓の一様費用。消費時 `max(1,·)` 正規化 |
-| `C_RF` | RF kernel(accepted、外部) | far 窓の graded 費用定数(台帳込み) |
+| `C_T` | QR5 kernel(accepted、FR 文書外の先行文書由来) | held 窓の一様費用。消費時 `max(1,·)` 正規化 |
+| `C_RF` | 補題 RF(accepted、FR 文書 §10.5.3 **内部**で証明) | far 窓の graded 費用定数(台帳込み) |
 | `C_ch` | W3 | `10log(1/ε_chain) + 2log⁺C_T + 6C_RF` |
 | `C_w, C_lin` | EW | `2C₂C_anc·e^{R+C_ch}`、`R+C_ch+2` |
 
@@ -163,6 +166,7 @@ effective rank(1/2/3)× `T ≥ 3` / `T < 3` の場合分けで (S4-Ew)。
   (深い cancellation `D_H ≈ 7×10⁵` の配置で余裕 ~1.9×10⁴)。独立検算(70 桁精度)でも違反なし。
 - 主張面の整合(禁止語彙 FR7、acceptance 表記、版同期)は repo の
   [claim-surface tests](../tests/test_claim_surface_policy.py)(25 件)で機械監視。
+  監視対象は規範文書(FR 文書・閉包文書)であり、本要約自体は対象外。
 
 **残余(open)**: c=3 FR arc 全体の外部独立再査読、補題 N 本体の量化完備化、一般 c
 ((E-d)、B2/S4、L2b/L3)、系 C1。本稿の結果はこれらを主張しない。

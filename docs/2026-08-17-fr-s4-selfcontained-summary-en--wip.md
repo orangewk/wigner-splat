@@ -53,7 +53,8 @@ that preserves cancellation is required.
 
 ## 3. Main result
 
-**Theorem (S4-Ew)** (FR document §10.8, Lemma EW; accepted at `b39216f`): For the input above there
+**Lemma (S4-Ew)** (FR document §10.8, Lemma EW; accepted at `b39216f`; per the status note above this
+is a **proof draft**, not claimed as an established theorem): For the input above there
 exist constants `C_w, C_lin > 0` and a threshold `m₀` such that for all `m ≥ m₀`, every frame index `ℓ`,
 and every `z ∈ ℂ`,
 
@@ -64,7 +65,7 @@ are independent of `m, ℓ, z, θ` and of all representation coefficients (SVD/N
 threshold `m₀` may depend on the convergence speed of the input sequence (the target (E-w) only requires
 its existence).
 
-**What it means.** The trivial exponent is `(1−δ)|z|²/2 + R|z|` — but only *per atom*. The theorem
+**What it means.** The trivial exponent is `(1−δ)|z|²/2 + R|z|` — but only *per atom*. The lemma
 gives a uniform envelope for the *normalized combinations*, whose norms may have collapsed under
 cancellation, at the cost of only `δ/2` in the quadratic coefficient. This closes FR6 (together with
 FR5/FR7) in the program-internal c=3 FR ledger.
@@ -100,7 +101,9 @@ is rank 3 with `T ≥ 3`, handled by a four-stage pipeline:
 
 ## 5. The lemma chain (statements)
 
-Full proofs of all of the following are in FR document §10.8. Write
+Full proof drafts of all of the following are in FR document §10.8; each consumes previously accepted
+inputs (the one-window QR5/RF inequalities, the coverage lemma, etc.) by citation without re-proving
+them. Write
 `E_{δ,R}(t) := exp((1−δ)t²/2 + Rt)`.
 
 **W1 (Child-reserve interface, `a59768e`).** If each child of a binary node `H = X + Y` satisfies a
@@ -133,7 +136,8 @@ plus an exponent lower bound). Split on `A := ‖H‖` vs `B := ‖Y‖`: if `A 
 
 **M1 (mode audit, `fd18e9d`).** A corollary of the accepted coverage lemma (S4b-COV, `c36d818`): the
 public ray ledger consumes only weighted root records (QR5 on held windows / RF on far windows), exactly
-one per window, and the terminal window is reserved for C0. No new analytic content.
+one per non-terminal window (`k ∈ K_T = {1,…,N−1}`); the terminal window `I_N` carries no root record
+and is reserved for C0. No new analytic content.
 
 **W3 (Weighted chain, `4086ef9`).** For `m ≥ m₀` and `T ≥ 3`:
 
@@ -171,8 +175,8 @@ All constants assemble in closed form from `(δ,R)` and three uniform kernel con
 | `C_Φ, c_Y, C_s` | C0 | `C_Φ = [δ(2−δ)]^{−1/4}e^{R²/(2δ)}`, `c_Y = C_Φ^{−1}e^{−2(1−δ)−2R}`, `C_s = e²/c_Y` |
 | `C_anc` | C0 | `max{6, (3/2)C_s}` |
 | `ε_chain` | segmentation | `min(1/2, δ/[8(κ_chain+1)])` (from the route registry) |
-| `C_T` | QR5 kernel (accepted, external) | uniform cost on held windows; normalized to `max(1,·)` on consumption |
-| `C_RF` | RF kernel (accepted, external) | graded cost constant on far windows (ledger included) |
+| `C_T` | QR5 kernel (accepted; from a predecessor document outside the FR document) | uniform cost on held windows; normalized to `max(1,·)` on consumption |
+| `C_RF` | Lemma RF (accepted; proved **inside** FR document §10.5.3) | graded cost constant on far windows (ledger included) |
 | `C_ch` | W3 | `10log(1/ε_chain) + 2log⁺C_T + 6C_RF` |
 | `C_w, C_lin` | EW | `2C₂C_anc·e^{R+C_ch}`, `R+C_ch+2` |
 
@@ -188,7 +192,8 @@ All constants assemble in closed form from `(δ,R)` and three uniform kernel con
   recomputation at 70-digit precision also found no violation.
 - Claim-surface consistency (the FR7 forbidden vocabulary, acceptance markings, version sync) is
   machine-monitored by the repo's [claim-surface tests](../tests/test_claim_surface_policy.py)
-  (25 tests).
+  (25 tests). These tests monitor the normative documents (the FR document and the closure draft);
+  this summary itself is not among their targets.
 
 **Open items:** independent external re-review of the entire c=3 FR arc, the quantified completion of
 Lemma N itself, general c ((E-d), B2/S4, L2b/L3), and Corollary C1. This note claims none of them.
