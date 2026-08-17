@@ -482,7 +482,7 @@ def test_polynomial_sigma_a_promotion_surfaces_agree():
             "R-PS2 PASS、fixed SHA `540d0c1`; minors `4d0f636`"
         ),
         "| PΣ-3 ray-wide ledger |": "R-PS3 R2 PASS、fixed SHA `65bb02e`",
-        "| PΣ-4 route 昇格 |": "R-PS4 査読待ち",
+        "| PΣ-4 route 昇格 |": "R-PS4 R3 PASS、fixed SHA `58b9c9f`",
     }
     ps_section = current.split("#### 10.5.4", 1)[1]
     for prefix, fragment in ps_table_rows.items():
@@ -514,8 +514,12 @@ def test_polynomial_sigma_a_promotion_surfaces_agree():
     assert len(promote_rows) == 1, (
         f"{FR_SPEC_DOC}: S4-0.PS-PROMOTE row count != 1"
     )
-    assert "R-PS4 査読待ち" in promote_rows[0], (
-        f"{FR_SPEC_DOC}: S4-0.PS-PROMOTE row lost audit-wait marker"
+    assert "**PASS (R-PS4 R3、fixed SHA `58b9c9f`)**" in promote_rows[0], (
+        f"{FR_SPEC_DOC}: S4-0.PS-PROMOTE row lost acceptance record"
+    )
+    # the audit-wait marker must not survive anywhere in the active region
+    assert "R-PS4 査読待ち" not in current, (
+        f"{FR_SPEC_DOC}: stale R-PS4 audit-wait marker after acceptance"
     )
 
 
