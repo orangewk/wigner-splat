@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.15 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1/W3 accepted、W4/EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.16 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1/W2/C0/M1/W3 accepted、W4/EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1483,8 +1483,9 @@ domain witness の成立は accepted 面(§10.5.3、K2p1 §3.8.6、S4b-COV (COV-
 として含まれ、`|H(z₀)| = e^{U_T(z₀)}·|G(z₀)| ≤ e^{U_T(z₀)}·‖G‖_{∞,I₁}`。三 accepted 補題を
 順に掛ける:
 - **exit(W1+W2)**: pair child `X` は W2 より per-child strong bound(`C = C₂(R)`、
-  `P_X = (1+t)²` — premise `c₁c₂ ≠ 0`、`ξ₁ ≠ ξ₂` は root record の domain witness
-  `c₁c₂c₃≠0`、`B₁₂≢0`、`η` nonconstant が供給)、singleton child `Y` は W1 より
+  `P_X = (1+t)²` — premise `c₁c₂ ≠ 0` は root witness の `c₁c₂c₃≠0` から、`ξ₁ ≠ ξ₂` は
+  accepted (COV-2) の global `REFIX` invariant(`η = q₂−q₁` nonconstant ⇔
+  `(A₁,B₁) ≠ (A₂,B₂)`)から従う)、singleton child `Y` は W1 より
   `C = 1`、`P_Y = 1`。(W1-exit) で `C_res = C₂(R)`(`C₂ ≥ 1`)、
   `P(T) = (1+T)² + 1 ≤ 2(1+T)²`:
 
@@ -1894,3 +1895,6 @@ reserve との相殺(W4)が必須」という設計判断の根拠としての�
   (R-W4 待ち)。accepted 済み W1/W2(exit)× W3(chain)× C0(anchor)の三積で
   `|H(z₀)| ≤ 2C₂C_anc·R_H(1+T)²e^{(1−3δ/4)T²/2+(R+C_ch)(T+1)}`。endpoint 被覆
   (`T = a₁+1 ∈ I₁`)、W2 premise の witness 供給、`M‖G‖` 相殺を明示。新しい解析なし。
+- v0.13.16(2026-08-17): luna R-W4 = minor 1 件のみ([W4-01] `ξ₁ ≠ ξ₂` の出典を
+  D-QR5-HELD の keys でなく accepted (COV-2) の global REFIX invariant へ精密化)。反映済み、
+  R-W4 R2 待ち。
