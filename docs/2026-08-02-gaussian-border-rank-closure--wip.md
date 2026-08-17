@@ -1,6 +1,13 @@
-# ガウス border rank 閉包定理 — ドラフト v1.8.13(N3′/N4 の c=3/(E-w) 同期・人間査読未実施)
+# ガウス border rank 閉包定理 — ドラフト v1.9(補題 N(c≤3) 量化 program 着工・人間査読未実施)
 
-日付: 2026-08-02(v1.8.13 = 2026-08-17)/ 著者: 本線 / status: **wip(draft PR #178。検証は複数 LLM の fixed-SHA 査読 + 数値診断のみ — 人間による査読は未実施)**
+日付: 2026-08-02(v1.9 = 2026-08-17)/ 著者: 本線 / status: **wip(draft PR #178。検証は複数 LLM の fixed-SHA 査読 + 数値診断のみ — 人間による査読は未実施)**
+
+> **v1.9 changelog(補題 N(c≤3) 量化 program 着工、2026-08-17)**: §4.3.6 新設 —
+> 補題 N の c≤3 特化版の量化 statement・coarse partition 台帳(`1|1|1` / `2|1` / `3`、w≤2 各型)・
+> packet 列 N-P0〜N-P5 を固定(証明 claim なし、全 packet 査読待ち)。FR 文書が閉じたのは
+> coarse `3`(単一衝突 cluster)のみで、coarse `1|1|1`(全分離)と `2|1`(pair 衝突 + 分離
+> singleton)は未執筆 gap であることを Explore 棚卸しで確認。設計は Sol 諮問第 6 回の裁定
+> (N-P3 の W2/L0/N-P1 分業、N-P5 の FR black-box 消費・gauge 移送禁止)を採用。
 
 > **v1.8 changelog(一般 c ≥ 3 の攻略アーキテクチャ、2026-08-08)**:
 > §4.3.5 新設: K_c を 3 段(B1 振幅 peeling / B2 位相 block 非相殺 / B3 compact core)に帰着。
@@ -223,7 +230,8 @@ plain c=3 の `d≤5` は補題 W、nested 2+1 の (X)/(L-d) は FR-S1″ が担
 **補題 N target(現時点では量化未完のため定理 statement ではない)**: 旧入力
 `{(ξ_i,o_i,u_i)}` と `w=Σ(o_i+1)` は order と jet degree を同一視していたため、そのまま再利用しない。
 改訂版は leaf-count weight `w`、実 jet degree、tree scale を別データとして持つ必要がある。現時点で保持する
-acceptance obligations は次だけであり、c=3 の正確な量化は FR 文書、一般 c は open とする:
+acceptance obligations は次だけであり、c≤3 の量化 statement は **§4.3.6 を唯一の authoring
+location** とし(単一衝突 cluster の証明実体は FR 文書)、一般 c は open とする:
   (N1-revised target) 各 v_l は有限 jet-degree `d_l` を持つ一般化原子となり、枠本数
   w′ = dim span{u_i} ≤ w。`d_l` の一般 weight 上界は open。旧 `o_l′≤w−1` から
   `deg P_l≤2o_l′` を導く帳簿は F3′ により撤回;
@@ -765,6 +773,69 @@ S4 の次の一手が「三原子一遷移補題」として確定した。tree 
 c = 2 の弱形 L2a′ は他の open 補題に依存しない独立成果ドラフトへ移管済みである。
 現行の査読statusは [独立文書 K2 の R-K2 欄](2026-08-08-quadratic-phase-turan-K2.md)だけを参照し、
 §4.3.4 は historical snapshotとする。
+
+### 4.3.6 補題 N(c≤3)の量化 program(v1.9 — statement 手術。証明 packet は全て査読待ち)
+
+> **位置づけ**: 本節を補題 N の **c≤3 特化版の量化 statement・coarse case 台帳・packet
+> acceptance status の唯一の authoring location** とする。§4.3 冒頭の target 記述は obligations の
+> 由来記録として保持し、量化はここに従う。§4.3 の「(N3′/N4 の c=3 具体化)」注記は S4c accepted
+> の同期帳簿としてそのまま保持する(本節はそれを引用し置換しない)。一般 c(G1′ 本体)は不変に
+> open。設計は Sol 諮問第 6 回(2026-08-17)の裁定を採用: N-P3 の分業明記
+> (divided difference → W2 非退化 → L0 → N-P1)、N-P5 の FR black-box 消費
+> (gauge 収束の再導出禁止・pointwise envelope の gauge 移送禁止)。
+
+**前処理(N-pre)**: 入力はコンパクト class `K_{δ,R}` 内の ≤3 原子列 `{ξ_{j,m}}`。次を部分列上で固定する。
+
+1. **constant-gauge exact quotient**(FR 文書 §2 と同一手続): radial 表現で `q_i−q_j ≡ const` の
+   原子は定数を係数へ吸収して exact 合算、合算係数 0 は削除。exact equality pattern
+   (どの pair が有限 m で一致するか)は部分列で固定し、有効 leaf weight `w ∈ {1,2,3}` と
+   `r := dim V_m` を再固定する。
+2. 各 j で `ξ_{j,m} → ξ*_j ∈ K`(コンパクト性、部分列)。
+3. 極限点の一致関係で label 集合を分割(**coarse partition**)し、部分列で固定する。
+
+**coarse partition 台帳**(同型を除き w=3 で 3 通り、w=2 で 2 通り、w=1 で 1 通り):
+
+| coarse | 意味 | 担当 packet |
+|---|---|---|
+| `1\|1\|1`(w=3)| 3 極限点相異(全分離・非衝突) | N-P2 |
+| `2\|1`(w=3)| pair のみ同一極限点へ衝突、singleton は**別の**極限点(有界分離) | N-P4(pair 部は N-P3 を消費) |
+| `3`(w=3)| 全原子が単一 `ξ*` へ衝突 = FR 文書 §2 の単一衝突 cluster 入力 | N-P5(FR ledger 消費) |
+| `1\|1`(w=2)| 2 極限点相異 | N-P2 |
+| `2`(w=2)| pair 衝突 | N-P3 |
+| `1`(w=1)| 単原子 | N-P2(自明) |
+
+**語彙の分離(必須)**: coarse `2|1` は「二つの**異なる極限基点**」を指す。FR 文書 §9 の
+nested 2+1 は coarse `3`(全原子が同一極限点へ収束)の**内部 rate tree**(pair が root scale より
+速く衝突)であり、別概念。本台帳の分岐は極限基点の一致関係のみで判定する。
+
+**補題 N(c≤3) target(量化形 — 証明は packet N-P1〜N-P5。全 packet 受理まで claim しない)**:
+前処理後の入力に対し、部分列と `r` 本の exact 結合枠 `v_{1,m},…,v_{r,m} ⊂ V_m` が存在して:
+
+- (N1_{c≤3}) 各 `v_{ℓ,m}` は有限 jet-degree `d_ℓ` の一般化原子 `P_ℓΦ(ξ*_{(ℓ)})`(`P_ℓ ≢ 0`)へ
+  ℱ-norm 収束する。`r = dim V_m` は m 十分大で一定、`r ≤ w ≤ 3`;
+- (N2_{c≤3}) `Gram(v_{1,m},…,v_{r,m})` の最小固有値は m 一様に正(下界は部分列の極限配置に
+  依存してよい);
+- (N3′_{c≤3}) 各 `v_{ℓ,m}` は入力原子の exact 有限結合(結合係数の m 有界性は要求しない)であり、
+  (E-w) 形 `|v_{ℓ,m}(z)| ≤ C_w exp((1−δ/2)|z|²/2 + C_lin|z|)` が全 `m ≥ m₀`、全 `z ∈ ℂ` で成立;
+- (N4_{c≤3}) `C_w, C_lin` は coarse class ごとに `(δ,R)`(coarse `3` では
+  `(δ,R,ε_chain,C_T,C_RF)` — FR 文書 §10.2/§10.6/§10.8 の定数系を引用し本節で再掲しない)のみに
+  依存し、`m, ℓ, z` に非依存。`m₀` は入力列の収束速度に依存してよい。
+
+**packet 台帳**(state は fail-closed: 受理は fixed-SHA 査読後のみ):
+
+| packet | statement / output | state |
+|---|---|---|
+| N-P0 statement 手術 | 本節(前処理・coarse 台帳・量化 target・語彙分離) | 査読待ち(R-NP0) |
+| N-P1 Gram 連続性 | ℱ-norm 収束枠 `v_{ℓ,m} → v_ℓ*`、極限系 `{v_ℓ*}` が線形独立(L0)⇒ `Gram(v_{·,m})` 最小固有値が m 一様に正(標準の連続性論法の明文化) | 査読待ち |
+| N-P2 相異極限点(全分離)| 枠 = 正規化原子 `Φ̂(ξ_{j,m})` 自身。N1: `d_ℓ = 0` 自明、N2: L0 + N-P1、N3′: per-atom 自明包絡 `E(z) ≤ (E-w)` 形、N4: `(δ,R)`。coarse `1\|1\|1`, `1\|1`, `1` を一括で覆う | 査読待ち |
+| N-P3 c=2 衝突 pair 枠 | **unnormalized** divided difference `ψ_m := (Φ(ξ_{1,m})−Φ(ξ_{2,m}))/r_m`(`r_m = max(|ΔA_m|,|ΔB_m|)`)、枠 = `{Φ̂(ξ_{2,m}), ψ_m/‖ψ_m‖}`。N1: `ψ_m → (a z²/2 + b z)Φ(ξ*)`(部分列で `(ΔA/r,ΔB/r)→(a,b)`、`max(|a|,|b|)=1` — 極限次数は 2(`a≠0`)または 1(`a=0`)、0 に落ちない。線分積分表示 + 優収束)、N2: W2 の jet 二分法(非消滅下界)+ L0 + N-P1 の**分業**(W2 は Gram 下界を直接主張しない)、N3′: 枠元は 2 原子結合なので W2(FR 文書 §10.8、引用)で (E-w) 形、N4: `(δ,R)` | 査読待ち |
+| N-P4 coarse `2\|1` | 枠 = N-P3 の pair 枠 ∪ `Φ̂(ξ_{3,m})`。極限 3 系 `{Φ(ξ*), QΦ(ξ*), Φ(η*)}`(`ξ* ≠ η*`)の線形独立性を L0 で示し、**full Gram** に N-P1 を適用(cross block は一般に 0 へ行かないので L1-a/L3 の減衰論法は**使わない**) | 査読待ち |
+| N-P5 組み立て | coarse `3` は FR 文書 §10.9 の acceptance(FR1–FR7、original 座標の exact span・norm limit・Gram・(E-w))を **black box として引用消費**(gauge 収束の再導出はしない。N1 norm limit の原座標移送は FR §8.4 の strong convergence 主張を引用。pointwise envelope の gauge 移送は行わない — (E-w) は補題 EW が original 座標で供給済み)。全 coarse case の分岐総合で補題 N(c≤3) | 査読待ち |
+
+**非主張**: 一般 c の補題 N(G1′ 本体)、(E-d) 多項式形、L2a/L2b/主定理/系 C1 の無条件化。
+全 packet が受理された場合に主張できるのは上の量化形(c≤3 特化)のみであり、その場合も
+消費側(§4.4/§6/§7)で条件が外れるのは全 cluster の leaf weight が ≤3 の場合に限る
+(それを超える k は不変に open)。人間による査読は未実施(検証体制は複数 LLM のみ)。
 
 ### 4.4 Gram 一様可逆性と L2a の結論(**補題 N 条件付き**)
 
