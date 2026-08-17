@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.10.4 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、S4b closure(polynomial ΣA・coverage)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.11.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/PΣ-2 accepted(§10.5.4)、S4b closure(PΣ-3/4・coverage)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -944,12 +944,13 @@ grid(刻み 1/4000、4001 点)は `t*` を格子点 k=1800 に**厳密に含み*
 天井 `sup g ≤ 2` ✓、recentered held ✓、窓比 ≈ 1.0。
 mpmath dps 30(session-local 検証で証明には数えない。head からの再実行 fixture 化は R-RF の指示に従う)。
 
-#### 10.5.4 polynomial ΣA program(PΣ-1 accepted、PΣ-2 proof draft — R-PS2 待ち)
+#### 10.5.4 polynomial ΣA program(PΣ-1/PΣ-2 accepted、PΣ-3/4 open)
 
 本節を polynomial ΣA program の唯一の authoring location とする。program は
 PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ-4(route 昇格:
 `K2Q-aff-u`/`generalized-singleton-u` の `polynomial-envelope/open` を accepted へ)の 4 packet
-に分割し(Sol consultation 2026-08-17 の分割案を採用)、本節は **PΣ-1 のみ**を主張する。
+に分割し(Sol consultation 2026-08-17 の分割案を採用)、本節は **PΣ-1(accepted)と
+PΣ-2(accepted)**を主張し、PΣ-3/PΣ-4 は非主張とする。
 
 > **RetiredClaim: naive-sup-split(設計段階撤回・機械検算可能形)**: 不等式
 > `sup_J(log|P|+r) ≥ log sup_J|P| + sup_J r` は**偽**。witness: `I = [0,1]`、`J = [0,ε]`、
@@ -983,7 +984,7 @@ PΣ-1(局所補題)→ PΣ-2(max-envelope lift)→ PΣ-3(ray-wide ledger)→ PΣ
 ランダム複素 deg ≤ 2 の 2×10⁴ 配置探索(seed 2、係数 [−1,1]² 一様、診断用・非証拠)で
 違反なし(最大比 ×ε² = 1.13)。
 
-**補題 PΣ-2(max-envelope lift — proof draft、R-PS2 待ち)**: `I = [a, a+1]`、
+**補題 PΣ-2(max-envelope lift — accepted)**: `I = [a, a+1]`、
 `J = [b, b+ε] ⊆ I` 閉区間、`ε ∈ (0,1]`。`P ≢ 0` 複素係数 `deg P ≤ 2`、`q₁, q₂` は複素
 2 次多項式で `r_i := Re q_i`、`Λ := max_i sup_I|r_i′|` とする。
 
@@ -1006,7 +1007,8 @@ branch 1 は (u) で `≤ log(8ε^{−2}) + (1+ε)Λ`;branch 2 は定数 `log|c�
 `c₂ ≠ 0`)。**interface(PΣ-3 が消費、ここでは非主張)**: phase-lipschitz record の
 per-window bound `A_{H,k} ≤ Λ_{H,k}` を、polynomial-envelope record では
 `A_{H,k} ≤ log(8ε_chain^{−2}) + (1+ε_chain)Λ_{H,k}` に置換する。加算 penalty
-`log(8ε_chain^{−2})` は窓数線形(`N_s ≤ T+1`)なので `O(T)` — ray-wide の二次 budget
+`log(8ε_chain^{−2})` は polynomial-envelope record を消費する窓数 `N_s` に線形で、
+`N_s ≤ N ≤ 2T+1 = O(T)`(`N` = §10.3 の総窓数)— ray-wide の二次 budget
 `(1−δ/2)T²/2` への吸収は PΣ-3 の義務であり本補題は主張しない。数値診断(非証拠):
 ランダム 8×10³ 配置(seed 7、deg ≤ 2 複素 P、2 次 phase、`ε ∈ {0.5, 0.2, 0.1}`、
 grid 501/201 点)で違反なし、bound との最小余裕 3.62。
@@ -1014,7 +1016,7 @@ grid 501/201 点)で違反なし、bound との最小余裕 3.62。
 | ID | scope | state |
 |---|---|---|
 | PΣ-1 局所補題 | 本節 (i)(ii) | **accepted**(R-PS1 PASS、fixed SHA `f875d76`; minors 本 version) |
-| PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | proof draft(R-PS2 待ち) |
+| PΣ-2 max-envelope lift | `U_H = max(log|P|+Re q₁, log|c₂|+Re q₂)` への持ち上げ | **accepted**(R-PS2 PASS、fixed SHA `540d0c1`; minors 本 version) |
 | PΣ-3 ray-wide ledger | C′ 帳簿との合成、二次係数 `1−δ/2` | open, not claimed |
 | PΣ-4 route 昇格 | `polynomial-envelope/open` → accepted(assembly_proof_ref) | open, not claimed |
 
@@ -1240,3 +1242,8 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   + PΣ-1(ii)。binary の第 2 branch は定数消去で log penalty 不要。per-window 加算 penalty
   `log(8ε_chain⁻²)` の O(T) 吸収は PΣ-3 の義務として明示的に非主張。数値診断 8×10³ 配置
   (seed 7)違反なし。
+- v0.11.3(2026-08-17): luna R-PS2 = **受理可**(blocking/major なし)。minor 2 件を反映:
+  [PS2-m1] status surface 同期(header 版数 v0.10.4 → 現行、§10.5.4 冒頭の「PΣ-1 のみ主張」を
+  PΣ-1/PΣ-2 主張・PΣ-3/4 非主張へ)。[PS2-m2] interface 注記の `N_s` を「polynomial-envelope
+  record を消費する窓数」と定義し `N_s ≤ N ≤ 2T+1 = O(T)` に修正(旧 `N_s ≤ T+1` は根拠なし)。
+  PΣ-2 を accepted へ昇格(R-PS2 PASS、fixed SHA `540d0c1`)。次 = PΣ-3(ray-wide ledger)。
