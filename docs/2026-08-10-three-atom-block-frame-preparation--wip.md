@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13.2 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1267,7 +1267,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4a/S4c proofs | §10.8 program(W1 以降) | W1 = proof draft、他 open |
 
-### 10.8 S4a envelope assembly program(W1 proof draft / W2–EW open)
+### 10.8 S4a envelope assembly program(W1 accepted / W2–EW open)
 
 本節を S4a program の唯一の authoring location とする。Sol consultation 第 3 回
 (2026-08-17、W1 係数予算監査)の改訂設計を採用し、packet を次に固定する。
@@ -1293,7 +1293,7 @@ FR7 audit 語彙は不変)。原子 parameter は compact class
 `K_{δ,R} = {|A| ≤ 1−δ} × {|B| ≤ R}`(定義の authoring location は K2 文書
 `docs/2026-08-08-quadratic-phase-turan-K2.md` §設定)に属するとする。
 
-**補題 W1(Child-reserve interface — proof draft、R-W1 待ち)**: binary node `H = X + Y` の
+**補題 W1(Child-reserve interface — accepted、R-W1 R2 PASS `a59768e`)**: binary node `H = X + Y` の
 各 child が per-child strong bound を満たすなら、ray `z = te^{iθ}` 上
 
   e^{U_H(t)} = max(|X(z)|, |Y(z)|)
@@ -1318,7 +1318,7 @@ W1 は帰着と語彙のみを供給する。
 
 | packet | statement / output | state |
 |---|---|---|
-| W1 Child-reserve interface | 語彙 + (W1-exit) + singleton case | proof draft(R-W1 待ち) |
+| W1 Child-reserve interface | 語彙 + (W1-exit) + singleton case | **accepted**(R-W1 R2 PASS、fixed SHA `a59768e`) |
 | W2 Pair norming | exact divided difference + 0–2 jet norming で `|f(z)| ≤ C₂(R)(1+t)²E_{δ,R}(t)‖f‖_ℱ`(c=2 強形、`η_sep`/`s_m` 非依存) | open, not claimed |
 | C0 Compact anchor | terminal `I_N⊂[0,2]` で `‖e^{−U_H}H‖_{∞,I_N} ≤ C_anc·D_H⁻¹`(Anchor-D) | open, not claimed |
 | W3 Weighted chain | `G=e^{−U_H}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{I_N}` | open, not claimed |

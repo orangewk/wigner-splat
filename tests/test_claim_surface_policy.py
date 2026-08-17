@@ -646,8 +646,8 @@ def test_s4a_program_states_fail_closed():
         if line.startswith("| W1 Child-reserve interface |")
     ]
     assert len(w1_rows) == 1, f"{FR_SPEC_DOC}: W1 row count != 1"
-    assert "proof draft(R-W1 待ち)" in w1_rows[0], (
-        f"{FR_SPEC_DOC}: W1 row state drifted before R-W1 acceptance"
+    assert "**accepted**(R-W1 R2 PASS、fixed SHA `a59768e`)" in w1_rows[0], (
+        f"{FR_SPEC_DOC}: W1 row lost acceptance record"
     )
     for prefix in (
         "| W2 Pair norming |",
@@ -662,8 +662,8 @@ def test_s4a_program_states_fail_closed():
         assert "open, not claimed" in rows[0], (
             f"{FR_SPEC_DOC}: S4a row {prefix} prematurely claimed"
         )
-    assert "R-W1 PASS" not in current, (
-        f"{FR_SPEC_DOC}: premature R-W1 acceptance token"
+    assert "R-W2 PASS" not in current, (
+        f"{FR_SPEC_DOC}: premature R-W2 acceptance token"
     )
     # U1 retirement is a recorded design decision, not a silent deletion
     assert "U1 の退役(design 決定)" in s4a
