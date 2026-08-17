@@ -635,6 +635,41 @@ def test_s4b_cov0_selection_schema_spec_surfaces():
     )
 
 
+def test_s4a_program_states_fail_closed():
+    """§10.8 S4a program: W1 stays draft, W2..EW stay unclaimed until review."""
+
+    current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
+    s4a = current.split("### 10.8 S4a envelope assembly program", 1)[1]
+
+    w1_rows = [
+        line for line in s4a.splitlines()
+        if line.startswith("| W1 Child-reserve interface |")
+    ]
+    assert len(w1_rows) == 1, f"{FR_SPEC_DOC}: W1 row count != 1"
+    assert "proof draft(R-W1 待ち)" in w1_rows[0], (
+        f"{FR_SPEC_DOC}: W1 row state drifted before R-W1 acceptance"
+    )
+    for prefix in (
+        "| W2 Pair norming |",
+        "| C0 Compact anchor |",
+        "| W3 Weighted chain |",
+        "| W4 D-cancelled exit |",
+        "| M1 mode audit |",
+        "| EW final |",
+    ):
+        rows = [line for line in s4a.splitlines() if line.startswith(prefix)]
+        assert len(rows) == 1, f"{FR_SPEC_DOC}: S4a row {prefix} count != 1"
+        assert "open, not claimed" in rows[0], (
+            f"{FR_SPEC_DOC}: S4a row {prefix} prematurely claimed"
+        )
+    assert "R-W1 PASS" not in current, (
+        f"{FR_SPEC_DOC}: premature R-W1 acceptance token"
+    )
+    # U1 retirement is a recorded design decision, not a silent deletion
+    assert "U1 の退役(design 決定)" in s4a
+    assert "capability として保持する(削除しない)" in s4a
+
+
 def test_root_far_domain_schema_binds_all_required_keys():
     """D-ROOT-FAR must not survive after losing one of its seven witnesses."""
 

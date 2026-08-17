@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.13 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.13.1 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、S4a program §10.8(W1 proof draft、W2–EW open)、S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1265,7 +1265,64 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.COV0 | S4b-COV0 selection schema 手術(§10.5.5、§10.4 `selection_witness`、manifest 分離、K_T index 契約) | **PASS (R-COV0 R3、fixed SHA `256ab38`)**(R1/R2 findings は v0.12.2–v0.12.3 で全件受諾。accepted body への in-body 編集は revert し、SHA-256 バイト一致を双方検証) |
 | S4-0.COV1 | 補題 S4b-COV((COV-0) reachability invariant、(COV-1) selector 被覆、(COV-2) witness 構成) | **PASS (R-COV1 R4、fixed SHA `c36d818`)**(R1–R3 findings は v0.12.6–v0.12.8 で全件受諾)。**S4b closure 完結** |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
-| S4b/a/c proofs | none | open, not claimed |
+| S4a/S4c proofs | §10.8 program(W1 以降) | W1 = proof draft、他 open |
+
+### 10.8 S4a envelope assembly program(W1 proof draft / W2–EW open)
+
+本節を S4a program の唯一の authoring location とする。Sol consultation 第 3 回
+(2026-08-17、W1 係数予算監査)の改訂設計を採用し、packet を次に固定する。
+
+**予算の確定(consultation 検算、本線で数値確認)**: accepted L2a′(c=2) の出口係数は
+`(1−δ/2)` であり、(E-w) target `(1−δ/2)T²/2` を使い切るため、weighted chain の RF 二次費用
+`(δ/8)T²` を加算する余地がない(D-相殺で消えるのは `D_H⁻¹D_H` のみ)。従って本 program は
+**c=2 強形出口(係数 `(1−δ)` + 多項式因子)** を W2 で証明する。強形出口では
+`(1−δ)T²/2 + (δ/8)T² = (1−3δ/4)T²/2` となり、target までなお `(δ/8)T²` の余裕がある。
+
+**語彙**: node `H = X + Y`(unary は `H = X`)に対し
+
+  R_H := ‖H‖_ℱ,   D_H := max(‖X‖_ℱ, ‖Y‖_ℱ)/R_H,   E_{δ,R}(t) := exp((1−δ)t²/2 + Rt)。
+
+per-child strong bound とは `|X(z)| ≤ C_X P_X(t) E_{δ,R}(t) ‖X‖_ℱ`(`P_X` は m 非依存の固定
+次数多項式)の形をいう。raw 原子係数はいずれの statement にも現れない(proof-local に導入し
+即座に norm で消去する。FR7 audit 語彙は不変)。
+
+**補題 W1(Child-reserve interface — proof draft、R-W1 待ち)**: node `H = X + Y` の各 child が
+per-child strong bound を満たすなら、ray 上
+
+  e^{U_H(t)} = max(|X(z)|, |Y(z)|)
+  ≤ C_res·P(t)·E_{δ,R}(t)·D_H·R_H,   C_res := max(C_X, C_Y)、P := max(P_X, P_Y)。   (W1-exit)
+
+さらに **singleton child は per-child strong bound を `C = 1、P = 1` で満たす**:
+`|cΦ(A,B)(z)| = |c|e^{Re(Az²/2+Bz)} ≤ |c|E_{δ,R}(t) ≤ |c|·‖Φ(A,B)‖_ℱ·E_{δ,R}(t)
+= ‖cΦ‖_ℱ·E_{δ,R}(t)`(`‖Φ(A,B)‖_ℱ ≥ |Φ(A,B)(0)| = 1`)。
+
+*証明*: `max(|X(z)|,|Y(z)|) ≤ max(C_XP_XE‖X‖, C_YP_YE‖Y‖) ≤ C_res·P·E·max(‖X‖,‖Y‖)
+= C_res·P·E·D_H R_H`。singleton は上の 2 行。∎
+
+pair child(`B₁₂` 型)の per-child strong bound は **W2 の義務であり本補題は主張しない**。
+W1 は帰着と語彙のみを供給する。
+
+**program 表**(state は fail-closed: 受理は fixed-SHA 査読後のみ):
+
+| packet | statement / output | state |
+|---|---|---|
+| W1 Child-reserve interface | 語彙 + (W1-exit) + singleton case | proof draft(R-W1 待ち) |
+| W2 Pair norming | exact divided difference + 0–2 jet norming で `|f(z)| ≤ C₂(R)(1+t)²E_{δ,R}(t)‖f‖_ℱ`(c=2 強形、`η_sep`/`s_m` 非依存) | open, not claimed |
+| C0 Compact anchor | terminal `I_N⊂[0,2]` で `‖e^{−U_H}H‖_{∞,I_N} ≤ C_anc·D_H⁻¹`(Anchor-D) | open, not claimed |
+| W3 Weighted chain | `G=e^{−U_H}H` を `k∈K_T` の root record で一度ずつ積算、`‖G‖_{I_1} ≤ e^{δT²/8+C_ch(T+1)}‖G‖_{I_N}` | open, not claimed |
+| W4 D-cancelled exit | W1/W2 × C0 × W3 の合成で `|H| ≤ C·R_H(1+T)²e^{(1−3δ/4)T²/2+C(T+1)}` | open, not claimed |
+| M1 mode audit | RayCoverageManifest 監査: active 3-leaf root は weighted-only、weighted/PΣ ledger 非加算 | open, not claimed |
+| EW final | `R_H = ‖h_{ℓ,m}‖` で正規化、`T≥3` は W4・`T<3` は再生核評価、(S4-Ew) | open, not claimed |
+
+**U1 の退役(design 決定)**: 現 c=3 の public root record は weighted(`QR5-w`/`root-far`)
+のみ(補題 S4b-COV の帰結)なので、unweighted assembly U1 は本証明列の critical path から
+外す。accepted PΣ program は capability として保持する(削除しない)。将来 S4-0 改訂で
+unweighted root route が到達可能化された場合は U1 を復帰させ、COV-0 再証明と同時に扱う。
+
+**D_H 非有界の witness(Anchor-D が必要な理由)**: `H_s = Φ₀ − 2Φ_s + Φ_{2s}`
+(二階差分)を `X_s = Φ₀ − 2Φ_s`、`Y_s = Φ_{2s}` と分けると `‖H_s‖ = O(s²)`、
+`‖X_s‖, ‖Y_s‖ ≍ 1` なので `D_{H_s} ≍ s⁻²`。従って (W1-exit) 単独では m 一様 exit に
+ならず、C0 の `D_H⁻¹` reserve との相殺(W4)が必須である。
 
 ## 11. 版履歴
 
@@ -1557,3 +1614,12 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   (全 6 route resolved、PΣ-1..4/RF/COV0/COV1 accepted。旧 exponent-4 split-row audit は
   v0.8.15 反例退役で QR5-w へ一本化済み)。§7/§10.1 の blocker 記述を S4a へ更新、tests を
   acceptance 状態へ同期。次 = S4a-W1(Child-reserve)。
+- v0.13.1(2026-08-17): Sol high consultation 第 3 回(W1 係数予算監査)。判明した設計修正:
+  accepted L2a′(c=2) の `(1−δ/2)` 出口は (E-w) target を使い切り、RF 二次費用と両立しない
+  (D-相殺で消えるのは `D_H⁻¹D_H` のみ、conf 0.98)→ W2 = c=2 強形(exact divided
+  difference + 0–2 jet norming、`(1+t)²` 因子、`η_sep`/`s_m` 非依存、conf 0.97)を新設。
+  U1 は critical path から退役(現 public root は weighted-only、PΣ は capability 保持)、
+  M1 は mode audit に縮小、Anchor-D(C0)は存続(witness `D_{H_s} ≍ s⁻²`)。§10.8 を新設し
+  W1(Child-reserve interface)を proof draft として執筆(R-W1 待ち)。W2 の jet 計算
+  (`ψ₀=0`、`ψ₁=b`、`ψ₂=(a+(B₁+B₂)b)/√2`、二分法下界 `1/(2√2)`、`K_β(R)`)と予算恒等式
+  `(1−δ)/2 + δ/8 = (1−3δ/4)/2` は本線で独立検算済み。
