@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.12.1 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 spec 手術 = R-COV0 査読待ち(§10.5.5)、S4b closure(COV1)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.12.2 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 spec 手術 = R-COV0 査読待ち(§10.5.5)、S4b closure(COV1)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -739,7 +739,7 @@ S4b-β の `RouteRecord` は resolved `RouteKind` だけから生成し、次を
 | `kind_ref` | 上の resolved `RouteKind` ID。§10.5 RouteSpecとsource/assembly stateを継承しoverride不可 |
 | `node_functions` | `arity=binary` なら exact `(A,B)`、`arity=unary` なら exact `(H)` |
 | `domain_witness` | `domain_schema_id` の全 key に対する式またはidentity ref。自由文は禁止 |
-| `selection_witness` | `(canonical_node_form,degree_class,root_held_guard)`。§10.5.5 の canonical route selector の出力。record の route ID が selector 値と一致しなければ無効。root 2+1 は `root_held_guard∈{held(M_k≤1/8),far(M_k>1/8)}`、非 root は `N/A` |
+| `selection_witness` | `(canonical_node_form,degree_class,root_held_guard,threshold_certificate)`。§10.5.5 の canonical route selector の出力。record の route ID が selector 値と一致しなければ無効。`canonical_node_form∈CanonicalNodeFormEnum`(enum 外は `uncertified` fail-close)。root 2+1 は `root_held_guard∈{held(M_k≤1/8),far(M_k>1/8)}` を `threshold_certificate` 付きで供給(`QR5-w`⇒held、`root-far`⇒far を必須)、非 root は `N/A` |
 | `node_path` | fixed tree上の有限 path。公開stepは `root` で終わる |
 | `envelope_id` | 上記 `U_H`; root 2+1 は `U_T` |
 | `interval_id` | `(k,I_k,J_k,ε_chain)` |
@@ -938,7 +938,9 @@ S4b-β の窓数は ≤ `2T+1 ≤ 2(T+1)`、`a_k+1 ≤ T+1` だから
 
   Σ_k log C_step,k ≤ C_RF·Σ_k(1+Λ_{η,k}) ≤ (δ/8)T² + O(T)
 
-で (E-w) の spare budget に入る。`s_m → 0` なので `m_RF := min{M ∈ ℕ: ∀m≥M, s_m ≤ s_RF}` が存在し、
+で (E-w) の spare budget に入る。(v0.12.2 index 注: record 和は `k∈K_T = {1,…,N−1}`
+(§10.5.5)。`C_step,N` は定義せず `J_N` を再導入しない。上の Σ_k は全窓 k=1..N の majorant
+であり、各項非負(`log C_step,k = C_RF(1+Λ_{η,k}) ≥ 0`)より `K_T` 部分和を押さえる。)`s_m → 0` なので `m_RF := min{M ∈ ℕ: ∀m≥M, s_m ≤ s_RF}` が存在し、
 本補題は `m ≥ m₀ := max(m_{FR-S1′/S1″}, m_RF)` で適用する(threshold 未満の有限個の m は
 FR-S1 系と同じ「m 十分大」条項に畳む)。∎
 
@@ -1030,7 +1032,8 @@ grid 501/201 点)で違反なし、bound との最小余裕 3.62。
        `a_1 = T−1`、`a_{k+1} = a_k − β`(`k = 1..N`)、停止は最初の `a_N ≤ 1`。
        全窓 `I_k = [a_k, a_k+1]` は切断なしの長さ 1、`a_k ≥ ε_chain > 0`、`N ≤ 2T+1`。
 
-各窓の unweighted record が次を満たすとする:
+record を持つ各窓 `k∈K_T = {1,…,N−1}`(§10.5.5。`J_N` 不存在のため `k=N` は record を
+持たず `A_{H,N}` は定義しない)の unweighted record が次を満たすとする:
 
   (h1) A_ledger_kind ∈ {phase-lipschitz, polynomial-envelope}。前者は `A_{H,k} ≤ Λ_{H,k}`
        (§10.4 の record 義務)、後者は補題 PΣ-2 の premise(deg ≤ 2、2 次 phase)を満たし
@@ -1042,7 +1045,7 @@ grid 501/201 点)で違反なし、bound との最小余裕 3.62。
 
 このとき ray 全体の unweighted ledger は
 
-  Σ_{k=1}^{N} [A_{H,k} + κ_H Λ_{H,k} ε_chain]
+  Σ_{k∈K_T} [A_{H,k} + κ_H Λ_{H,k} ε_chain]
   ≤ (1−δ/2)·T²/2 + C_ΣA·(T+1),   C_ΣA := 2log(8ε_chain^{−2}) + 4R + 2,
 
 を満たし、`C_ΣA` は `(δ, R, κ_chain)` のみに依存(`m, θ, k, T` 非依存)。
@@ -1056,7 +1059,9 @@ grid 501/201 点)で違反なし、bound との最小余裕 3.62。
   Σ_{k=1}^{N}(a_k+1) = NT − βN(N−1)/2 = −(β/2)N² + (T+β/2)N。
 
 この二次式の実数上の最大値は `(T+β/2)²/(2β) = T²/(2β) + T/2 + β/8 ≤ T²/(2β) + T` であり、
-bound は停止規則の定める `N` に依らず**全ての `N ≥ 1` で成立**する。
+bound は停止規則の定める `N` に依らず**全ての `N ≥ 1` で成立**する。record 和は
+`K_T ⊆ {1,…,N}` 上で各項非負だから、この k=1..N の等差 majorant が部分和を押さえる
+(v0.12.2 index 注、§10.5.5 の index 契約に同期)。
 `1/β ≤ 1 + 2ε_chain`(`ε_chain ≤ 1/2`)と (h2)(`R ≥ 0`)より
 
   Σ_k Λ_{H,k} ≤ (1−δ)[(1+2ε_chain)T²/2 + T] + RN。
@@ -1095,6 +1100,17 @@ COV0(selection schema 手術、proof claim なし)→ COV1(canonical coverage le
 far 条件を key に持たないため held interval でも全 key が成立し得る。従って「schema の排他性」を
 証明対象にせず、**canonical route selector の完全・排他的 partition** を証明対象とする。
 
+**canonical node form の閉世界**: selector の定義域を
+
+  CanonicalNodeFormEnum := {root-2+1, binary-pure-atom, binary-poly-deg12,
+                            unary-poly-deg12, unary-atom}
+
+に固定する。enum 外の form — 特に `deg P ∈ {3,4,5}` の unary/binary(FR3 は plain c=3 で
+`d_ℓ ≤ 5` を許容する)と both-polynomial binary `P₁e^{q₁}+P₂e^{q₂}` — は selector を持たず、
+出現した場合は **`uncertified` として S4b-α/β を fail-close** する(仮 route への coercion 禁止)。
+「S4b で routing される node form が本 enum に含まれる」ことは未証明であり、補題 S4b-COV の
+第一義務 (COV-0) とする。COV-0 が偽なら S4-0 を改訂して route category を追加してから進む。
+
 **canonical route selector**(global exact `REFIX`/zero-pruning を**一度だけ**行った後の
 canonical node form に対して定義。interval ごとの tree 再構成は禁止):
 
@@ -1108,7 +1124,11 @@ canonical node form に対して定義。interval ごとの tree 再構成は禁
 5. unary `ce^q`(`deg P=0`): `trivial-u`。
 
 selector 出力は `RouteRecord.selection_witness`(§10.4)に記録し、route ID と不一致の record は
-無効とする。held/far が interval 内で閾値を跨ぐ場合も **coverage 用の有限再分割は行わない**:
+無効とする。root 2+1 では `QR5-w` record に `root_held_guard=held`、`root-far` record に
+`root_held_guard=far` を**必須**とし、`M_k` の閾値判定は `threshold_certificate`
+(`|η|²` の端点値+導関数実根による閉区間最大値検証)として witness 内に保存する。
+`D-ROOT-FAR` の 7 key に far 条件は**戻さない** — far 条件は schema でなく selector witness が
+供給する。held/far が interval 内で閾値を跨ぐ場合も **coverage 用の有限再分割は行わない**:
 `M_k` は閉区間 sup による完全二分であり、跨ぐ窓は全体を `root-far` に割り当て、内部は補題 RF の
 cell chain が処理する(公開 record は一つのまま)。
 
@@ -1119,8 +1139,11 @@ cell chain が処理する(公開 record は一つのまま)。
 `J_k = I_k∩I_{k+1}` が定義されるのは `k<N` のみであり、`RouteRecord` は `k∈K_T` にだけ立てる。
 最終窓 `I_N ⊂ [0,2]`(停止規約より `ε_chain ≤ a_N ≤ 1`)は **`TerminalRecord`** へ送り、
 RouteRecord と二重計上しない。`TerminalRecord` の消費者は S4a の compact initial estimate
-mini-packet(S4a-C0、open)であり、chaining ledger の外に置く。PΣ-3 の `k=1..N` 総和は
-非負項の superset 和として `k∈K_T` の帳簿を a fortiori に押さえる(安全側、矛盾なし)。
+mini-packet(S4a-C0、open)であり、chaining ledger の外に置く。**ray ledger の index 契約**:
+PΣ-3(unweighted subledger)と RF-3(weighted ledger、独立帳簿)の record 和はいずれも
+`k∈K_T` 上で主張する。`k=N` は record を持たず、`A_{H,N}`/`C_step,N` は**定義しない**
+(`J_N` を暗黙に再導入しない)。両証明中の等差 majorant(k=1..N の窓和)は各項非負性により
+`K_T` 部分和を a fortiori に押さえる。
 manifest は各 `R_k` の mode を `ray_mode` witness として出力し、S4a-M1 が weighted/unweighted の
 二次 ledger を同一 ray で加算しないことの検査入力とする。
 
@@ -1128,6 +1151,9 @@ manifest は各 `R_k` の mode を `ray_mode` witness として出力し、S4a-M
 compact-class input を exact `REFIX`/zero-pruning して canonical form を固定すると、任意の ray・
 `T≥3`・§10.3 pinned segmentation に対し
 
+  (COV-0) canonical form closure: `REFIX`/zero-pruning 後に S4b routing へ到達する全 node form
+          は CanonicalNodeFormEnum に含まれる(特に routed node で `deg P ≤ 2`、
+          both-polynomial binary 非生成);
   (COV-1) Σ_{ρ∈CategoryEnum} 𝟙_{Sel_ρ(F,I_k)} = 1  (k∈K_T);
   (COV-2) 各 k∈K_T にちょうど一つの RouteRecord `R_k` が構成され、全 required witness を持ち、
           {interval_id(R_k)} = K_T(重複判定は幾何学的点でなく `interval_id`)。
@@ -1135,7 +1161,7 @@ compact-class input を exact `REFIX`/zero-pruning して canonical form を固�
 | ID | scope | state |
 |---|---|---|
 | COV0 selection schema 手術 | 本節 + §10.4 `selection_witness`/manifest 分離 | spec 手術 = 本 version、R-COV0 査読待ち |
-| COV1 canonical coverage lemma | (COV-1)(COV-2) の証明 + fail-closed mutation tests | open, not claimed |
+| COV1 canonical coverage lemma | (COV-0)(COV-1)(COV-2) の証明 + fail-closed mutation tests | open, not claimed |
 
 ### 10.6 Coefficient-free constants
 
@@ -1416,3 +1442,13 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   補題 S4b-COV(COV-1/COV-2)は open, not claimed。§10.4 に `selection_witness` field と
   registry/ray manifest 分離を追記、§10.3 条件 4・S4b-β を K_T へ同期。採用順序:
   COV1 → W1 → W2 → C0(compact initial estimate mini-packet)→ W3 → W4/U1/M1 → EW。
+- v0.12.2(2026-08-17): luna R-COV0 R1 = blocking 2 + major 1 + minor 2 を全受諾。
+  [COV0-SEL-01] CanonicalNodeFormEnum の閉世界を明示、enum 外(`deg P∈{3,4,5}`、
+  both-polynomial binary)は `uncertified` fail-close、閉世界性は (COV-0) として補題 S4b-COV の
+  第一義務に追加(FR3 の `d_ℓ≤5` との整合は未証明と明記)。[COV0-INDEX-02] PΣ-3 の record 和を
+  `Σ_{k∈K_T}` へ制限(主張の弱化方向のみ、k=1..N 等差 majorant による部分和抑えを明記)、
+  RF-3 に index 注を追加(`C_step,N` 不定義、`J_N` 非再導入)。[COV0-WIT-03] `selection_witness`
+  を 4 成分(`threshold_certificate` 追加)、`QR5-w`⇒held / `root-far`⇒far 必須化、far 条件は
+  schema でなく selector witness 供給と明記。[COV0-LEDGER-04] 安全側注記を unweighted
+  subledger に限定、RF-3 は独立帳簿。[COV0-TEST-05] tests: COV1 premature acceptance の
+  active region 全域禁止、closed-world/guard/index fragment binding を追加。R-COV0 R2 待ち。

@@ -532,22 +532,47 @@ def test_s4b_cov0_selection_schema_spec_surfaces():
     assert "| `selection_witness` |" in current
     assert "route ID が selector 値と一致しなければ無効" in current
 
-    # §10.5.5 selector spec: equal-sign convention, fail-close, K_T, terminal
+    # §10.5.5 selector spec: closed world, equal-sign convention, fail-close,
+    # K_T index contract, terminal record, guard/certificate coupling
     for fragment in (
+        "CanonicalNodeFormEnum := {root-2+1, binary-pure-atom, binary-poly-deg12,",
+        "`uncertified` として S4b-α/β を fail-close",
         "等号 `M_k=1/8` は held(`QR5-w`)",
         "`uncertified` として fail-close",
         "K_T := {1,…,N−1}",
         "`TerminalRecord`** へ送り",
         "RayCoverageManifest_{θ,T}",
         "coverage 用の有限再分割は行わない",
+        "`QR5-w`⇒held、`root-far`⇒far を必須",
+        "threshold_certificate",
+        "far 条件は schema でなく selector witness が",
+        "`A_{H,N}`/`C_step,N` は**定義しない**",
     ):
         assert fragment in current, (
             f"{FR_SPEC_DOC}: COV0 spec fragment missing: {fragment}"
         )
 
-    # the coverage lemma must remain unclaimed until R-COV1 passes
+    # ledger index sync: PS-3 claims the K_T sum, RF-3 carries the index note
+    assert "Σ_{k∈K_T} [A_{H,k} + κ_H Λ_{H,k} ε_chain]" in current, (
+        f"{FR_SPEC_DOC}: PS-3 ledger sum not restricted to K_T"
+    )
+    assert "`C_step,N` は定義せず `J_N` を再導入しない" in current, (
+        f"{FR_SPEC_DOC}: RF-3 index note missing"
+    )
+
+    # the coverage lemma must remain unclaimed until R-COV1 passes, and no
+    # premature acceptance may appear anywhere in the active region
     cov_section = current.split("#### 10.5.5", 1)[1].split("### 10.6", 1)[0]
     assert "open, not claimed" in cov_section
+    assert "**accepted**" not in cov_section, (
+        f"{FR_SPEC_DOC}: premature acceptance inside §10.5.5"
+    )
+    assert "R-COV1 PASS" not in current, (
+        f"{FR_SPEC_DOC}: premature R-COV1 acceptance token"
+    )
+    assert "(COV-0)" in cov_section, (
+        f"{FR_SPEC_DOC}: COV-0 canonical-form-closure obligation missing"
+    )
     rows = [
         line for line in cov_section.splitlines()
         if line.startswith("| COV1 canonical coverage lemma |")
@@ -555,6 +580,9 @@ def test_s4b_cov0_selection_schema_spec_surfaces():
     assert len(rows) == 1, f"{FR_SPEC_DOC}: COV1 row count != 1"
     assert "open, not claimed" in rows[0], (
         f"{FR_SPEC_DOC}: COV1 row prematurely claimed"
+    )
+    assert "(COV-0)(COV-1)(COV-2)" in rows[0], (
+        f"{FR_SPEC_DOC}: COV1 row lost an obligation id"
     )
 
 
