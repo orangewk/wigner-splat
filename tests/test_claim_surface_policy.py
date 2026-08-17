@@ -686,8 +686,8 @@ def test_s4a_program_states_fail_closed():
         if line.startswith("| W4 Terminal-cancelled exit |")
     ]
     assert len(w4_rows) == 1, f"{FR_SPEC_DOC}: W4 row count != 1"
-    assert "proof draft(R-W4 待ち)" in w4_rows[0], (
-        f"{FR_SPEC_DOC}: W4 row state drifted before R-W4 acceptance"
+    assert "**accepted**(R-W4 R2 PASS、fixed SHA `cb87eee`)" in w4_rows[0], (
+        f"{FR_SPEC_DOC}: W4 row lost acceptance record"
     )
     for prefix in (
         "| EW final |",
@@ -697,8 +697,8 @@ def test_s4a_program_states_fail_closed():
         assert "open, not claimed" in rows[0], (
             f"{FR_SPEC_DOC}: S4a row {prefix} prematurely claimed"
         )
-    assert "R-W4 PASS" not in current, (
-        f"{FR_SPEC_DOC}: premature R-W4 acceptance token"
+    assert "R-EW PASS" not in current, (
+        f"{FR_SPEC_DOC}: premature R-EW acceptance token"
     )
     # U1 retirement is a recorded design decision, not a silent deletion
     assert "U1 の退役(design 決定)" in s4a
