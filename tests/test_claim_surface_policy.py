@@ -468,6 +468,8 @@ def test_polynomial_sigma_a_promotion_surfaces_agree():
         "PΣ-3/PΣ-4 は非主張",
         "polynomial ΣA proof、",
         "の polynomial ΣA proofが",
+        "PΣ-4 で行う",
+        "PΣ-4で行う",
     ):
         assert token not in current, (
             f"{FR_SPEC_DOC}: stale ΣA consumer prose: {token}"

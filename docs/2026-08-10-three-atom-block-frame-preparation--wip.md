@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.11.8 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/2/3 accepted、polynomial-envelope 昇格手術 = R-PS4 査読待ち(§10.5.4/§10.7)、S4b closure(coverage)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.11.9 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、PΣ-1/2/3 accepted、polynomial-envelope 昇格手術 = R-PS4 査読待ち(§10.5.4/§10.7)、S4b closure(coverage)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1340,3 +1340,6 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   stale prose 検査、§10.5.4 状態表・§10.7 ledger の行単位 binding(S4-0.PS の 5 SHA、
   S4-0.PS-PROMOTE の査読待ち marker)、promoted row 内の intrinsic SHA tuple を PS-4 専用
   テストへ複製(RF テスト非依存化)。R-PS4 R2 待ち。
+- v0.11.9(2026-08-17): luna R-PS4 R2 = major 1 件のみ(revert 5 パターンの fail-closure は
+  全て捕捉確認、23 passed)。[PS4R2-M1] 旧文言「PΣ-4 で行う」(空白なし variant 含む)を
+  stale token 集合へ追加し、R1 旧文言への差し戻しを fail-closed 化。R-PS4 R3 待ち。
