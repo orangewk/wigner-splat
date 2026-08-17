@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.14.3 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、**S4a program 完結・(S4-Ew) 閉鎖**(§10.8 全 8 packet accepted、R-EW R2 PASS `b39216f`)、S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.15 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0/COV1 accepted(R-COV1 R4 PASS `c36d818`、§10.5.5)— **S4b closure 完結**、**S4a program 完結・(S4-Ew) 閉鎖**(§10.8 全 8 packet accepted、R-EW R2 PASS `b39216f`)、**S4c accepted(R-S4C R3 PASS `b6bbe01`、§10.9)— FR-S4 全 program 完結、program 内 c=3 FR ledger 閉鎖(外部再査読 caveat 維持)****
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -513,7 +513,7 @@ S4b の split-row audit が供給すべき明示 obligation とする。
 | S4-0 | FR-S1′/S1″、K2/K2Q/QR5、C′ の候補 interface | 本節の型付き interface のみ | **accepted (R-S4-0 R9、fixed SHA `56498bb`)** |
 | S4b | S4-0 + reviewed node kernels | per-segment FR5 routing、split-row audit | **closed**(全 6 route resolved + PΣ/RF ledgers + 補題 S4b-COV accepted `c36d818`。旧 exponent-4 split-row audit は v0.8.15 反例で退役し held root は QR5-w へ一本化) |
 | S4a | S4b + fixed-SHA PASS の `Cprime_ref` | c=3 weak envelope (E-w) | **closed**(§10.8 全 8 packet accepted、補題 EW = R-EW R2 PASS `b39216f`) |
-| S4c | S4a + FR1–FR5 | N3′/N4 ledger、FR7 no-return、c=3 FR acceptance | open, not claimed |
+| S4c | S4a + FR1–FR5 | N3′/N4 ledger、FR7 no-return、c=3 FR acceptance | **closed**(§10.9、R-S4C R3 PASS `b6bbe01`) |
 
 S4a は S4b の kernelを消費するため、旧案 S4a→S4b の順では書かない。
 
@@ -1266,7 +1266,7 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.COV1 | 補題 S4b-COV((COV-0) reachability invariant、(COV-1) selector 被覆、(COV-2) witness 構成) | **PASS (R-COV1 R4、fixed SHA `c36d818`)**(R1–R3 findings は v0.12.6–v0.12.8 で全件受諾)。**S4b closure 完結** |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4a proofs | §10.8 program | **全 8 packet accepted**: W1 `a59768e`/W2 `a0fcd10`/C0 `f31cca0`/M1 `fd18e9d`/W3 `4086ef9`/W4 `cb87eee`/EW-B・EW `b39216f` — **(S4-Ew) 閉鎖** |
-| S4c proofs | N3′/N4 同期、FR7 no-return audit、original/gauged provenance 同期 | open, not claimed |
+| S4c proofs | §10.9(N3′/N4 同期、FR7 audit、provenance 同期) | **accepted**(R-S4C R3 PASS、fixed SHA `b6bbe01`)— **FR-S4 全 program 完結** |
 
 ### 10.8 S4a envelope assembly program(全 8 packet accepted — S4a 完結、(S4-Ew) 閉鎖)
 
@@ -1590,7 +1590,7 @@ unweighted root route が到達可能化された場合は U1 を復帰させ、
 packet の義務とし、ここでは「(W1-exit) 単独では m 一様 exit にならず、C0 の `D_H⁻¹`
 reserve との相殺(W4)が必須」という設計判断の根拠としてのみ記録する。
 
-### 10.9 S4c closure(N3′/N4 ledger・FR7 no-return audit・c=3 FR acceptance — proof draft、R-S4C 待ち)
+### 10.9 S4c closure(N3′/N4 ledger・FR7 no-return audit・c=3 FR acceptance — accepted、R-S4C R3 PASS `b6bbe01`)
 
 本節を S4c の唯一の authoring location とする。S4c は新しい解析を含まず、(i) N3′/N4 の
 c=3/(E-w) 同期帳簿、(ii) FR7 no-return audit、(iii) original/gauged provenance 同期と
@@ -1645,9 +1645,9 @@ FR7 = 本節 (ii) の audit。
 
 | ID | scope | state |
 |---|---|---|
-| S4c-i N3′/N4 ledger | 閉包文書 §4.3 v1.8.13 注記 + FR6 との split 境界一致(依存集合は注記側が具体化) | proof draft(R-S4C 待ち) |
-| S4c-ii FR7 audit | 禁止入力 5 種 × 最終面の非混入表 + fail-closed tests | proof draft(R-S4C 待ち) |
-| S4c-iii FR acceptance | provenance 同期表 + FR1–FR7 充足根拠 | proof draft(R-S4C 待ち) |
+| S4c-i N3′/N4 ledger | 閉包文書 §4.3 v1.8.13 注記 + FR6 との split 境界一致(依存集合は注記側が具体化) | **accepted**(R-S4C R3 PASS、fixed SHA `b6bbe01`) |
+| S4c-ii FR7 audit | 禁止入力 5 種 × 最終面の非混入表 + fail-closed tests | **accepted**(R-S4C R3 PASS、fixed SHA `b6bbe01`) |
+| S4c-iii FR acceptance | provenance 同期表 + FR1–FR7 充足根拠 | **accepted**(R-S4C R3 PASS、fixed SHA `b6bbe01`)。**program 内 c=3 FR ledger 閉鎖**(外部再査読 caveat 維持) |
 
 ## 11. 版履歴
 
@@ -2055,3 +2055,8 @@ FR7 = 本節 (ii) の audit。
 - v0.14.3(2026-08-17): luna R-S4C R2 = blocking 1 + minor 1。[S4CR2-001] §10.9 状態表の
   「FR6 split 同文性」残存を「split 境界一致(依存集合は注記側が具体化)」へ修正。
   [S4CR2-002] 閉包文書 §11 の PR 参照(#158)を #178 承継の経緯つきで更新。R-S4C R3 待ち。
+- v0.15(2026-08-17): luna R-S4C R3 = **ACCEPTED**(reviewed SHA `b6bbe01`、findings なし)。
+  S4c を accepted へ昇格 — **FR-S4 全 program(S4-0 → S4b → S4a → S4c)完結、
+  program 内 c=3 FR ledger(FR1–FR7)閉鎖**。表現は保守的に維持: これは複数 LLM 検算 +
+  fixed-SHA 査読つきの program 内 acceptance であり、閉包文書側の残余(補題 N 量化完備化、
+  外部独立再査読、一般 c、系 C1)は open のまま。tests・status surface 同期。

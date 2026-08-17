@@ -698,8 +698,9 @@ def test_s4a_program_states_fail_closed():
         assert "**accepted**(R-EW R2 PASS、fixed SHA `b39216f`)" in rows[0], (
             f"{FR_SPEC_DOC}: S4a row {prefix} lost acceptance record"
         )
-    assert "R-S4C PASS" not in current, (
-        f"{FR_SPEC_DOC}: premature S4c acceptance token"
+    # S4c acceptance is recorded with the reviewed SHA
+    assert current.count("R-S4C R3 PASS、fixed SHA `b6bbe01`") >= 3, (
+        f"{FR_SPEC_DOC}: S4c acceptance records missing"
     )
     # FR7 no-return: forbidden inputs stay out of the final surfaces (S4a
     # program text and RouteSpec rows); prohibition-context mentions live in
@@ -742,8 +743,8 @@ def test_s4a_program_states_fail_closed():
             if line.startswith(prefix)
         ]
         assert len(rows) == 1, f"{FR_SPEC_DOC}: S4c row {prefix} count != 1"
-        assert "proof draft(R-S4C 待ち)" in rows[0], (
-            f"{FR_SPEC_DOC}: S4c row {prefix} state drifted before R-S4C"
+        assert "**accepted**(R-S4C R3 PASS、fixed SHA `b6bbe01`)" in rows[0], (
+            f"{FR_SPEC_DOC}: S4c row {prefix} lost acceptance record"
         )
     # the closure-doc c=3 sync block must exist and stay conservative
     closure_doc = (
@@ -760,8 +761,8 @@ def test_s4a_program_states_fail_closed():
         line for line in current.splitlines()
         if line.startswith("| S4c proofs |")
     ]
-    assert len(s4c_rows) == 1 and "open, not claimed" in s4c_rows[0], (
-        f"{FR_SPEC_DOC}: S4c must remain open until its own review"
+    assert len(s4c_rows) == 1 and "R-S4C R3 PASS" in s4c_rows[0], (
+        f"{FR_SPEC_DOC}: S4c ledger row lost acceptance record"
     )
     # U1 retirement is a recorded design decision, not a silent deletion
     assert "U1 の退役(design 決定)" in s4a
