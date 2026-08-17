@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.12.5 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.12.6 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved + 昇格監査 accepted(R-RF-PROMOTE、§10.7)、polynomial ΣA program PΣ-1/2/3/4 accepted(R-PS4 R3 PASS `58b9c9f`、§10.5.4/§10.7)、S4b-COV0 accepted(R-COV0 R3 PASS `256ab38`、§10.5.5)、S4b closure(COV1)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -1155,17 +1155,24 @@ compact-class input を exact `REFIX`/zero-pruning して canonical form を固�
 
 **補題 S4b-COV の証明(proof draft — R-COV1 待ち)**:
 
-*(COV-0) canonical form closure.* S4b routing に到達する node function の生成規則は、現行
-S4-0 interface が宣言する次の閉集合に限る: (g1) atom leaf `c_je^{q_j}`(枠候補は原子の exact
-有限結合 `h_{ℓ,m}=Σ_{j=1}^3 a_{ℓj,m}u_{j,m}`、§3); (g2) tree node の exact 和 `H=A+B`
-(c=3 の tree shape は single-scale triple または 2+1 のみ、深さ ≤ 2、root は
-pair-block+singleton); (g3) `REFIX`(constant-gauge 併合は係数を統合して純指数和を保ち、
-zero-pruning は child を削除、rank 低下時は lower-rank route へ**退出**して c=3 routing の
-対象外); (g4) `RECENTER`(関数として不変、§10.5)。いずれの生成規則も多項式因子を導入しない。
-従って routed node form は {unary-atom, binary-pure-atom, root-2+1} ⊆ CanonicalNodeFormEnum
-に含まれ、rank 3 の root node は常に root-2+1 形である。**多項式 form の非生成**:
-split(ii)/(iii) は chart-only certificate であり「exact node function の shape、unit interval の
-domain schema、S4-step inequality のいずれも供給しない」(§10.5、v0.8.16 reachability audit)。
+*(COV-0) canonical form closure.* 主張は **`S4b RouteRecord` に到達する exact finite-m node**
+に限定した reachability invariant であり、全 chart construction の閉世界性ではない。
+`RouteRecord` producer は現行 S4-0 interface が宣言する次の閉集合に限る: (g1) atom leaf
+`c_je^{q_j}`(枠候補は原子の exact 有限結合 `h_{ℓ,m}=Σ_{j=1}^3 a_{ℓj,m}u_{j,m}`、§3);
+(g2) tree node の exact 和 `H=A+B`(§3 の rooted **binary** block tree。c=3 の tree shape は
+single-scale triple または 2+1 のみ — いずれも scale label であり root は
+pair-block+singleton — 深さ ≤ 2); (g3) `REFIX`(constant-gauge 併合は係数を統合して
+純指数和を保ち、zero-pruning は child を削除、rank 低下時は lower-rank route へ**退出**して
+c=3 routing の対象外); (g4) `RECENTER`(関数として不変、§10.5)。いずれの生成規則も
+多項式因子を導入しない。従って routed node form は
+{unary-atom, binary-pure-atom, root-2+1} ⊆ CanonicalNodeFormEnum
+に含まれ、rank 3 の root node は常に root-2+1 形である。**非 producer の明示**
+(reachability invariant): 一遷移文書 §3.6.1 の exact (2,1) 化の出力 `F_{≤1}=P_Be^{q₁}+c₃e^{q₃}`
+(`P_B=(c₁+c₂)+c₂η`)、FR-S1″ の静的極限列 `G_{ν̂,0}=L_{ν̂}`、および split(ii)/(iii) の出力は、
+いずれも chart/wrapper 評価の対象であって `RouteRecord` producer ではない(一遷移文書
+§3.6.2「本項は flat U_F の旧wrapper/chart評価」、§10.5「exact node function の shape、
+unit interval の domain schema、S4-step inequality のいずれも供給しない」
+= v0.8.16 reachability audit)。
 現行 interface に polynomial-weighted node の生成 transition は存在せず、
 binary-poly-deg12 / unary-poly-deg12 は **resolved-but-unreachable**(row は将来の S4-0 改訂
 = 例えば split(ii) の routing 昇格に備えて保持するが、record を受け取らない。当該改訂時は
@@ -1186,10 +1193,16 @@ S4b-α/β を停止し、被覆主張自体が成立しない = fail-closed)。�
 `Σ_ρ 𝟙_{Sel_ρ} = 1`。∎(COV-1)
 
 *(COV-2) record 構成.* root record は clause 1 の値により `QR5-w` または `root-far`。
-witness 構成: `active_children_nonzero` は zero-pruning 完了から、`c₁c₂c₃≠0` は pruning +
-rank 3 から、`B₁₂≢0` は zero-pruning(恒等零 child は削除済み)から、`η=q₂−q₁` nonconstant
-(および root-far の `q₁−q₃`/`q₂−q₃` nonconstant)は constant-gauge `REFIX` 完了から、
-collision-scale witness `(|ΔA|≤s_m²,|ΔB|≤s_m)` は compact class `K_{δ,R}` の chart data から、
+witness 構成: `active_children_nonzero` は zero-pruning 完了から、`c₁c₂c₃≠0` は
+**selector が root-2+1 を選んだこと自体**から(zero-pruning 後に三つの非零 leaf が残る場合に
+のみ root-2+1 形が成立する。係数が一つでも零なら pruning により binary/unary へ落ち、
+lower-rank route に再分類される — rank を根拠にしない)、`B₁₂≢0` は zero-pruning(恒等零
+child は削除済み)から、`η=q₂−q₁` nonconstant(および root-far の `q₁−q₃`/`q₂−q₃`
+nonconstant)は constant-gauge `REFIX` 完了から。collision-scale witness は §2 の入力仮定
+= **単一の `d_Ω`-衝突 cluster** と `s_m := max_{i,j} d_w((A_{i,m},B_{i,m}),(A_{j,m},B_{j,m}))`、
+`d_w((A,B),(A′,B′)) := max(|A−A′|^{1/2}, |B−B′|)` から従う: 全 pair で `d_w ≤ s_m` なので
+定義より直ちに `|A_i−A_j| ≤ s_m²`、`|B_i−B_j| ≤ s_m`(compactness を出典にしない)。
+RF の graded ledger まで主張する場合は補題 RF の threshold `m ≥ m₀ ⊇ m_RF` を併せて要求する。
 `Λ_{η,k}` witness は exact `η′` の閉区間 sup として計算可能。`D-QR5-HELD` の
 `sup_{I_k}|q₂−q₁|≤1/8` は clause 1 の held certificate そのもの。selector の単価値性
 (COV-1)より各 `k∈K_T` にちょうど一つの root record が立ち、`{interval_id(R_k)} = K_T`。
@@ -1198,7 +1211,12 @@ record としては数えない。`I_N` は `TerminalRecord`(§10.5.5)。∎(COV
 
 **scope(非主張)**: 本補題は canonical form の閉世界性・selector 被覆・record 構成可能性
 のみを主張する。QR5-w/root-far の kernel 不等式の成立(accepted 済み)、S4a assembly、
-(E-w)、chart-only の split(ii)/(iii) の解析的内容は本補題の対象外。unreachable row の将来
+(E-w)、chart-only の split(ii)/(iii) の解析的内容は本補題の対象外。**三層の区別**:
+(層 1) resolved registry row = kernel capability(reachable producer の存在を含意しない);
+(層 2) current producer = COV-0 の帰結として polynomial row には現在存在しない;
+(層 3) public RootStep consumer = 現 c=3 の root record は weighted(QR5-w/root-far)のみで、
+polynomial-envelope の実 consumer は現在ない(dead generality であって矛盾ではない。
+PΣ program の acceptance は capability の証明として有効なまま)。unreachable row の将来
 到達可能化(S4-0 改訂)は COV-0 再証明 + R-COV 再査読を必須とする。
 
 | ID | scope | state |
@@ -1517,3 +1535,12 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   将来の S4-0 改訂での到達可能化には COV-0 再証明を必須と明記。`d_ℓ≤5` は静的極限対象専用
   (補題 W/W′ の scope 明示)で finite-m routed node に非適用。(COV-1) は rank 3 root が
   常に root-2+1 形であること + M_k 完全二分、(COV-2) は witness 構成の列挙による。
+- v0.12.6(2026-08-17): luna R-COV1 R1 = blocking 1 + major 2 + minor 1 を全受諾。
+  [COV1-01] (COV-0) を「S4b RouteRecord 到達 node に限る reachability invariant」として
+  再定式化し、非 producer(`F_{≤1}`、`G_{ν̂,0}`、split(ii)/(iii) 出力)を出典付きで明示。
+  [COV1-02] `c₁c₂c₃≠0` の根拠を rank でなく「selector が root-2+1 を選ぶ ⇔ 三非零 leaf 残存」
+  に修正、零係数は lower-rank 再分類と明示。[COV1-03] collision witness を §2 の単一衝突
+  cluster 入力 + `d_w`/`s_m` 定義から導出(`d_w ≤ s_m ⇒ |ΔA| ≤ s_m²、|ΔB| ≤ s_m`)、
+  compactness 出典を撤回、RF ledger には `m ≥ m₀ ⊇ m_RF` を明示。[COV1-04] 三層区別
+  (resolved row = capability / current producer = なし / RootStep consumer = weighted のみ、
+  polynomial-envelope は dead generality)を scope に追記。R-COV1 R2 待ち。
