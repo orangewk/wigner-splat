@@ -217,7 +217,7 @@ def test_root_far_rf_acceptance_surfaces_agree():
 
     current = FR_SPEC_DOC.read_text(encoding="utf-8").split("## 11. 版履歴", 1)[0]
     rf_spec = current.split(
-        "#### 10.5.2 RF graded-interface candidate (specification only)", 1
+        "#### 10.5.2 RF graded interface (accepted specification)", 1
     )[1].split("### 10.6 Coefficient-free constants", 1)[0]
 
     required_contract = (
@@ -233,6 +233,54 @@ def test_root_far_rf_acceptance_surfaces_agree():
     )
     for token in required_contract:
         assert token in rf_spec, f"{FR_SPEC_DOC}: missing RF contract token: {token}"
+
+    # the resolved row must consume the Sec 10.5.2 intended discriminant
+    # verbatim, so the two surfaces cannot drift independently
+    intended = (
+        "route ID=`root-far`、arity=binary、mode=weighted / S4-step-w、\n"
+        "source rule=`(QR5 accepted ref + RF INTERNAL proof ref)`、domain=`D-ROOT-FAR`、\n"
+        "`(graded-root(C_RF,pair-difference-derivative),γ=5,κ̄=0)`、A-ledger=`weighted-no-A`"
+    )
+    assert intended in rf_spec, f"{FR_SPEC_DOC}: intended discriminant drifted"
+
+    # promoted state must not retain candidate/unresolved vocabulary anywhere
+    # in the current region (version history is excluded by the split above)
+    stale_tokens = (
+        "candidate (specification only)",
+        "M-ROOT-FAR-KERNEL のまま",
+        "RF候補だけが将来",
+        "M-ROOT-FAR-KERNEL unresolved",
+        "は引き続きunresolved",
+        "RF proof待ちのunresolved",
+    )
+    for token in stale_tokens:
+        assert token not in current, f"{FR_SPEC_DOC}: stale promoted-state token: {token}"
+
+    # provenance: acceptance records must name the content SHAs used by the row
+    assert "PASS (R-RF R2、fixed SHA `9f19389`; minors v0.9.4 `c271919`)" in current
+    k2p1 = (ROOT / "docs" / "2026-08-09-pair-block-kernel-K2p1--wip.md").read_text(
+        encoding="utf-8"
+    )
+    assert "**PASS**(R-P3、fixed SHA `27a1817`)" in k2p1, (
+        "QR5 acceptance record missing from the canonical K2p1 status ledger"
+    )
+
+    # coverage: every category row appears exactly once in the active RouteSpec
+    route_spec_full = current.split("次表を active `RouteSpec`", 1)[1].split(
+        "`REFIX` は RouteSpec", 1
+    )[0]
+    for prefix in (
+        "| `K2-u`:",
+        "| `K2Q-aff-u`:",
+        "| `generalized-singleton-u`:",
+        "| `QR5-w`:",
+        "| `root-far`:",
+        "| `trivial-u`:",
+    ):
+        count = sum(
+            1 for line in route_spec_full.splitlines() if line.startswith(prefix)
+        )
+        assert count == 1, f"{FR_SPEC_DOC}: category row {prefix} count {count} != 1"
 
     # promoted state: no RF obligation row may remain, and all three proof
     # rows carry the same acceptance record

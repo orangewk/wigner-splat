@@ -1,6 +1,6 @@
 # 三原子 exact block-frame preparation (FR) — statement wip
 
-日付: 2026-08-10 / 著者: 本線 / status: **v0.10 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved(§10.5、R-RF-PROMOTE 待ちの registry 手術は §10.7)、S4b closure(polynomial ΣA・coverage)/S4a/S4c open**
+日付: 2026-08-10 / 著者: 本線 / status: **v0.10 — FR-S1′/FR-S1″ accepted、base FR-S4-0 interface accepted (R-S4-0 R9 PASS、fixed SHA `56498bb`)、補題 RF accepted(R-RF R2 PASS `9f19389`、minors `c271919`)、`root-far` row resolved(§10.5、昇格監査 status は §10.7 `S4-0.RF-PROMOTE`)、S4b closure(polynomial ΣA・coverage)/S4a/S4c open**
 
 > 本ファイルを c=3 FR の唯一の authoring location とする。由来は
 > [三原子一遷移文書 §3.7.5](2026-08-09-three-atom-one-transition--wip.md)の命題 DC-NG。
@@ -570,8 +570,9 @@ S4b-β は必要なら `I_k` 内を有限 cell `𝒫_{H,k}` に分けてよい�
 pair-block の零点近傍ではこの差を一様に抑えられない可能性がある。S4a は mode ごとに別の assembly を
 与え、weighted routeから (E-w) へ進む場合は、そのための新しい比較を明示的に証明する。
 
-step cost は §10.4 の `CostSpecEnum` で型付けする。現行resolved routeはすべて `uniform(C̄_route)`、
-§10.5.2 のRF候補だけが将来 `graded-root(C_RF,pair-difference-derivative)` を使える。後者は route ID が
+step cost は §10.4 の `CostSpecEnum` で型付けする。resolved route の cost は `uniform(C̄_route)`、
+ただし `root-far` だけが accepted RF proof(§10.5.3)に結合した
+`graded-root(C_RF,pair-difference-derivative)` を使う。後者は route ID が
 `root-far`、modeがweighted、`κ_H=0`、fixed-SHA accepted RF proofを持つ場合に限る。
 
 acceptance 条件は次の八つ。
@@ -637,6 +638,8 @@ closed-world category enumを
   DomainSchemaEnum := {D-K2,D-K2Q-AFF,D-GENERALIZED-SINGLETON,
                        D-QR5-HELD,D-ROOT-FAR,D-TRIVIAL}
   MissingObligationEnum := {M-K2-STATUS,M-ROOT-FAR-KERNEL}
+  (いずれも解消済み。名称は過去の unresolved 記録の参照語彙として enum に残すが、
+   現行の RouteSpec row はどれも参照しない。)
   ExclusionWitnessEnum := ∅   (現行S4-0では accepted exclusionなし)
 
 `excluded` は `unreachable_domain_witness_id∈ExclusionWitnessEnum` も要求する。従って現行registryでは
@@ -668,9 +671,15 @@ S4b-α の「unresolvedなし」を判定する。
 
 `source_ref` も discriminated union とする。
 
-- `external=(kernel_name,canonical_file,anchor,fixed_SHA,PASS)`。authoring locationの同一 SHA が PASS の場合だけ有効。
+- `external=(kernel_name,canonical_file,anchor,fixed_SHA,PASS)`。`fixed_SHA` は**査読対象 content の
+  SHA**であり、`PASS` の効力は canonical authoring file の現行 status ledger にその SHA を明記した
+  acceptance 記録が存在する場合に限る(例: QR5 は K2p1 §3.8.6 status 表の
+  「PASS(R-P3、fixed SHA `27a1817`)」行が効力の根拠。content SHA 時点の文書自身が
+  旧 status を表示していても、acceptance 記録が後続で当該 SHA を指名していれば有効)。
 - `intrinsic=(INTERNAL-EXACT,canonical_file,anchor,fixed_SHA,PASS)`。externalと同じ5要素形とし、
-  `canonical_file` は本ファイル、`fixed_SHA` は accepted S4-0 SHA。本S4-0が固定 SHA で受理された後だけ有効。
+  `canonical_file` は本ファイル、`fixed_SHA` は**受理された proof body の content SHA**(nonblocking
+  minor 反映後)。効力は §10.7 の対応する acceptance 行(受理 review と content SHA を明記)が
+  存在する場合に限る。
 
 resolved entry の `source_ref` は RouteSpec の `source rule` に記された kernel name / canonical file / anchor
 と一致しなければ無効である。単に external/intrinsic variantが一致するだけでは足りない。
@@ -814,10 +823,11 @@ K2Q の査読statusは canonical
 [五次共鳴 §3.5](2026-08-09-pair-block-kernel-K2p1--wip.md)(fixed SHA
 `27a1817150ab7a857cdd00320ed3809c73e3c1bd`)は、former routeのheld・非定数差・
 非零child/linearized polynomial条件を満たしながら tree-envelope exponent 4 を反証する。
-従って former category/domain/obligationをregistryから削除し、held 2+1 rootは `QR5-w` だけへ送る。
-far/unheld rootは `M-ROOT-FAR-KERNEL` のまま残し、旧 `U_F` 転送を別名で再導入しない。
+従って former category/domain/obligationをregistryから削除し、held 2+1 rootは `QR5-w` へ送る。
+far/unheld root は現在 resolved `root-far` row(§10.5.3 補題 RF)が扱う。
+旧 `U_F` 転送は引き続き再導入しない。
 
-#### 10.5.2 RF graded-interface candidate (specification only)
+#### 10.5.2 RF graded interface (accepted specification)
 
 本節を `RF-CandidateSpec` の唯一のauthoring locationとする。review statusの唯一のauthoring locationは
 §10.7 `S4-0.RF`/`S4-0.RF-PROOF` rowである。RF-1–RF-4 と RF proof(§10.5.3)は fixed SHA で受理済みで、
@@ -946,8 +956,8 @@ FR5 の各 kernel 定数は `(γ_H,κ_H,δ,R,route label)` と下表の reviewed
 | `C_K2,C_K2Q,C_T` | pair/generalized/root kernel constants | K2/K2Q/QR5 |
 | `cost spec,γ_route,κ̄_route,mode` | interval-independent RouteKind template。uniformまたはaccepted graded-root | S4b-α registry |
 | `C_step,k,γ_H,κ_H,ε_chain` | typed RouteRecord / composite unit-step data | S4b-β output |
-| `N_cell` / `N_cell,k` | uniform routeの一様cell数 / RF候補のgraded cell数 | pairは高々3。RFは `≤4+8Λ_{η,k}` がproof obligation |
-| `Λ_{η,k},C_RF,s_RF` | root pair差のcell変動、graded cost定数、large-m threshold | §10.5.2 RF-2/RF-3 (pending) |
+| `N_cell` / `N_cell,k` | uniform routeの一様cell数 / root-far のgraded cell数 | pairは高々3。root-far は `≤4+8Λ_{η,k}`(補題 RF (1)、accepted) |
+| `Λ_{η,k},C_RF,s_RF` | root pair差のcell変動、graded cost定数、large-m threshold | §10.5.2 RF-2/RF-3 + §10.5.3(accepted) |
 | `Cprime_ref` | validated external source_ref specialized to C′ | S4a required external input |
 | `C_chain,u`, `C_chain,w` | mode別 product/telescoping constants | S4aでtyped kernel dataから別々に構成 |
 | `C_w,C_lin` | (S4-Ew) constants | S4a output |
@@ -966,7 +976,8 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
 | S4-0.4 | RouteSpec literal source / root-only積算 / FR7 vocabulary | **PASS (R9、`56498bb`)** |
 | S4-0.5 | complete domain keys・category-bound exclusion・status fail-closed | **PASS (R9、`56498bb`)** |
 | S4-0.RF | RECENTER exact transition、graded-root cost、D-ROOT-FAR、RF-1–RF-4 fail-closed extension | **PASS (R-RFSPEC R3、fixed SHA `25afe6ebb54f93845d48b8993ff7523f0f2643d8`)** |
-| S4-0.RF-PROOF | 補題 RF(§10.5.3): RECENTER 恒等式、cell cover/chain、graded ledger 吸収、fixture | **PASS (R-RF R2、fixed SHA `9f19389`; minors v0.9.4 `c271919`)**。`root-far` row resolved、`M-ROOT-FAR-KERNEL` 解消。registry 昇格は R-RF-PROMOTE 待ち |
+| S4-0.RF-PROOF | 補題 RF(§10.5.3): RECENTER 恒等式、cell cover/chain、graded ledger 吸収、fixture | **PASS (R-RF R2、fixed SHA `9f19389`; minors v0.9.4 `c271919`)**。`root-far` row resolved、`M-ROOT-FAR-KERNEL` 解消 |
+| S4-0.RF-PROMOTE | `root-far` row の registry 昇格手術(§10.5 row、status surface 同期、fail-closed tests) | R1 = BLOCKED(provenance 契約・stale surface・test 強度)→ 本 version で修正、**R2 pending** |
 | retired split-(i) exponent-4 root route | §10.5.1、canonical 五次共鳴 | retired。held rootは `QR5-w` |
 | S4b/a/c proofs | none | open, not claimed |
 
@@ -1116,3 +1127,11 @@ quantityは c=3 S4 のinterfaceへ加えず、一般 c で必要性を再判定�
   weighted-no-A)。`M-ROOT-FAR-KERNEL` 解消、§7/§10.5.2/§10.5.3/§10.7 の状態 surface を同期、
   fail-closed tests を promoted 状態の binding へ書換え(root-far row の完全一致 bind、
   RF row accepted 状態、unresolved token の撤去)。本昇格自体の独立監査 = R-RF-PROMOTE。
+- v0.10.1(2026-08-17): luna R-RF-PROMOTE R1 = BLOCKED を全件受諾して修正。[blocking] source_ref
+  契約を「fixed_SHA = 査読対象 content の SHA、PASS の効力 = canonical status ledger の acceptance
+  記録」と明文化(QR5 `27a1817` の時点表示と受理記録の関係を規約化、intrinsic は §10.7 acceptance
+  行を効力根拠に)。[major] stale surface 5 箇所(§10.3 uniform 記述・§10.5.1 末尾・§10.5.2 見出し・
+  §10.6 pending 表記・header)を promoted 状態へ同期。[major] tests を強化: 意図 discriminant の
+  逐語 bind、stale token 不在、cross-file provenance(K2p1 の QR5 受理記録)、全 6 category row の
+  一意性。[minor] M-K2-STATUS の enum 残存に根拠注記。§10.7 に S4-0.RF-PROMOTE 行を新設し
+  R2 pending を唯一の pending marker とした。
