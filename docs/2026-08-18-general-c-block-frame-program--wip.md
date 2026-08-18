@@ -160,7 +160,7 @@ c=3 上界の到達例。∎
 | GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | **accepted**(R-GC3 R4 PASS、fixed SHA `dc6cac9`) |
 | GC-4A.0 PBK22-BRF | GC-3 | simultaneous RECENTER・共通 cell cover・bi-graded ray ledger(held 自動性の正式棄却と graded held 化 — consult #8)。**go/no-go 最小集合** | **accepted**(R-GC4A0 R4 PASS、fixed SHA `742c96a`) |
 | GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | **accepted**(R-GC4A1 R2 PASS、fixed SHA `50a4e45`) |
-| GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | open |
+| GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **drafted(§8.4、査読待ち R-GC4A2A)** |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | open |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | global rate scale λ(Φ_p の 4 位相の共通 gauge 後 weighted 座標 max)、adapted residual κ(二次比 locus からの横断残差 — jet 値から逆算しない)、境界面 closure 表(各 face の送り先を一行ずつ宣言) | open |
 | GC-4A.2c CONFL22 | A.2b | 床の証明: plain face = W_c(4)、QR5 face = 明示計算、P e^q face = **限定 confluent W(W_CONFL(2,2))**、compact normalized 空間で c_J > 0。**最大の go/no-go packet** | open |
@@ -731,6 +731,62 @@ A.5(bootstrap)の義務(QR5 P3 と同配置)。∎
 V_i の複素 collar 評価(A.3 — COLLAR-POLE 対応)、FR 条件の最終充足(A.6)。
 人間による査読は未実施。
 
+### 8.4 GC-4A.2a JF9-EXACT(exact bridge と有限 m 二分岐 — drafted、査読対象 R-GC4A2A)
+
+**設定**: A.1 の (c-i) 深平坦窓 W ⊂ J_k(σ = sup|1+H| < c₁ρ⁹、|H| ∈ [e⁻¹, e]、
+u = Log(−H) 解析的、|u| ≤ 2c₁ρ⁹)、cell 局所 divisor_record(D、P̃_i、C_i := B_i/D)。
+t₀ ∈ W。**入力仮定**: node の 4 原子は constant-gauge quotient 済みで相異
+(全対の指数差が非定数 — SPLIT4/§7.1 の quotient 規約)。本 packet は
+**有限 m の exact 主張のみ**を行う — 一様定数(κ、λ、c_J)は A.2b/A.2c の義務。
+
+**(EX-1) Taylor gauge**: p := T_{2,t₀}u(u の t₀ における 2 次 Taylor 多項式)、
+v := u − p。構成より v(t₀) = v′(t₀) = v″(t₀) = 0 が exact に成立。v は W 上解析的。∎
+
+**(EX-2) 橋の恒等式**: Φ_p := B₁ + e^{p} B₂ と置く。W 上で e^{u} = −H = −B₁/B₂
+(u の定義)より B₁ = −e^{u}B₂、よって
+  Φ_p = (−e^{u} + e^{p})B₂ = e^{p}B₂(1 − e^{v}) = **D · e^{p} · C₂ · (1 − e^{v})**。∎
+
+**(EX-3) 消滅次数の橋**: v ≢ 0 かつ v⁽ⁿ⁾(t₀) = 0(n = 0..N)なら
+ord_{t₀}(1 − e^{v}) = ord_{t₀} v ≥ N + 1(1 − e^{w} の w = 0 での単純零 × 合成)。
+d₀ := ord_{t₀} D、ord C₂ ≥ 0 より
+  **ord_{t₀} Φ_p ≥ d₀ + N + 1**。∎
+
+**(EX-4) 有限 m 二分岐(本 packet の主定理)**: N := 9 − d₀ とする。次のいずれかが
+成立する:
+  **(i) v ≡ 0(W 上)** — このとき u = p(二次)、B₁ = −e^{p}B₂、Φ_p ≡ 0。
+  **二次比枝**として deg≤2 route(A.4 系で処理する Chebyshev/Remez 枝)へ dispatch。
+  **(ii) (v⁽³⁾, …, v⁽ᴺ⁾)(t₀) ≠ (0, …, 0)** — jet 床の有限 m 形。
+*証明*: (i) 否(v ≢ 0)とし、v⁽ⁿ⁾(t₀) = 0(n = 3..N — 0..2 は (EX-1) で自動)と仮定
+して矛盾を導く。(EX-3) より ord Φ_p ≥ d₀ + N + 1 = 10。Φ_p は 4 つの二次位相
+{g_{1,1}, g_{1,2}, p + g_{2,1}, p + g_{2,2}}(g_{i,j} = pair i の原子指数)の指数結合で、
+係数は元の原子係数(非零 — zero-pruning 済み)。場合分け:
+- **(a) shifted 4 位相が相異**(全対差が非定数): Φ_p は真正 4 原子結合(≢ 0 — 相異
+  指数系の非零係数結合は L0 で非零)なので **W_c(4)(§3.1、任意中心)より
+  ord ≤ D_W(4) = 9** — 10 と矛盾。
+- **(b) shifted 位相に exact 一致がある**(p の特殊値で pair 間一致が起き得る —
+  pair 内は η_i 非定数なので不一致): 一致対を exact に合算(constant-gauge quotient —
+  閉包 §4.3.6 N-pre と同じ操作)し、c′ < 4 本の相異指数系に帰着。
+  - 合算後も非零項が残るなら W_c(c′) より ord ≤ D_W(c′) ≤ D_W(3) = 5 < 10 — 矛盾。
+  - 合算で全係数が消えるなら Φ_p ≡ 0 ⇒ (EX-2) より 1 − e^{v} ≡ 0(D, e^{p}, C₂ ≢ 0)
+    ⇒ v ∈ 2πiℤ 定数、v(t₀) = 0 より **v ≡ 0** — (i) 否に矛盾。
+いずれの枝でも矛盾するので (ii) が成立。∎
+(注: 一致の判定・合算は**有限 m の exact 操作**であり、衝突「極限」の confluent 現象は
+ここでは生じない — それは A.2b/c の一様性解析の対象。)
+
+**(EX-5) jet の exact recurrence(authoring location)**: u の jets は
+log-微分の三角再帰で exact に計算する: L_i := (log B_i)′ = B_i′/B_i とし、
+B_i の Taylor 係数 {b_{i,n}}(原子指数の指数級数 — E 型再帰で exact)から
+  (n+1)·b_{i,n+1} = Σ_{j=0}^{n} (j+1)·ℓ_{i,j+1}·b_{i,n−j}
+を ℓ_{i,·}(= L_i の Taylor 係数)について三角に解く(b_{i,0} = B_i(t₀) ≠ 0 の
+chart — 零点 chart では divisor_record 経由で C_i に対し同じ再帰)。
+u⁽ⁿ⁾(t₀) = (n−1)!·(ℓ_{1,n−1}... 正確には u′ = L₁ − L₂ より
+u の n 次 Taylor 係数 = (ℓ_{1,n−1} − ℓ_{2,n−1})/n(n ≥ 1)、u(t₀) = Log(−H(t₀))。
+数値検証(JF-NONCOMPACT fixture)はこの再帰を唯一の jet 計算法とする
+(finite difference 禁止 — consult #9)。∎
+
+**scope(非主張)**: 一様 jet 床(κ・λ・c_J — A.2b/A.2c)、collar(A.3a)、
+deg≤2 枝の処理(A.4 系)、10 階上界(A.3b)。人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -758,6 +814,11 @@ V_i の複素 collar 評価(A.3 — COLLAR-POLE 対応)、FR 条件の最終充�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.16(2026-08-18): §8.4 GC-4A.2a JF9-EXACT draft — Taylor gauge(v = u − T₂u)、
+  橋の恒等式 Φ_p = De^pC₂(1−e^v)、消滅次数の橋(ord ≥ d₀+N+1)、有限 m 二分岐
+  (v ≡ 0 の二次比枝 or jet 3..9−d₀ 非全零 — shifted 一致は exact merge で W_c(c′) へ、
+  全相殺は v ≡ 0 に回収)、jet の exact 三角再帰。
 
 - v0.15.1(2026-08-18): JF-NONCOMPACT fixture ⑥ の初期結果を記録(confluent (1,1) 面の
   genuine ord ≤ 4 — no-go 信号なし。診断)。
