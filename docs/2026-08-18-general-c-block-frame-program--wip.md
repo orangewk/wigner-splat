@@ -149,7 +149,7 @@ c=3 上界の到達例。∎
 | packet | 依存 | 出力・受理条件 | state |
 |---|---|---|---|
 | GC-0 consumer audit | なし | 一般 N/NC/L2b/L3 が必要とする外部 target の列挙。最終出力は (E-w) 形で足りるか、(E-d) 多項式形は内部需要のみかを決定 | **accepted**(R-GC0 R1 PASS、fixed SHA `b8167d1`、findings なし) |
-| GC-1 W_c | GC-0 | D_W(c) ≤ c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **drafted(§3.1、査読待ち R-GC1)** |
+| GC-1 W_c | GC-0 | v_c ≤ D_W(c) = c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **drafted(§3.1、査読待ち R-GC1)** |
 | GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | open |
 | GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | open |
 | GC-4A PBK-22 | GC-3、c=2 資産 | `2|2` composite unit-step kernel。係数非依存・有限-m exact child・ray-wide cost 可算。**go/no-go 関門** | open |
