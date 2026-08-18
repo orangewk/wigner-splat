@@ -163,7 +163,7 @@ c=3 上界の到達例。∎
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
-| GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | **drafted(§8.7、R1–R3 findings + consult #11 適用済み、査読待ち R-GC4A2C R4)** |
+| GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | **drafted(§8.7、R1–R4 findings + consult #11 適用済み、査読待ち R-GC4A2C R5)** |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
@@ -1133,7 +1133,7 @@ Newton 探索): **deg ≤ 2 で genuine ord は 6 で頭打ち**(ord 6 = 200/200
 **scope(非主張)**: 床(c_J・c_{Q,C} — A.2c)、W_CONFL(2,2) の証明(A.2c)、
 QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は未実施。
 
-### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R3 findings + consult #11 適用済み、査読対象 R-GC4A2C R4)
+### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R4 findings + consult #11 適用済み、査読対象 R-GC4A2C R5)
 
 **目的**: 各 proof box で相対床 φ ≥ c·κ を証明し、合成定数
 c_J := min c > 0(K = 1 — §8.6 (N-6′))を確立する。**本 packet が GC-4A 系の
@@ -1160,15 +1160,20 @@ T Z_QR でない核方向」か「singular frontier(gcd-jump/degree-drop/Q-band 
 [GC4A2CR2-01] の Q_C 混在問題を根本解消)**:
 **proof atlas は selector から分離する**。A.2b の selector・chart(受理済み —
 不変)は record 簿記に使い、床の証明は **proof box の有限 cover** 上で行う:
-各 structural chart の閉箱 K_C を **(support r, prefactor deg, d₀, QR pairing
-型 σ, Q-band face f)** で有限細分した閉箱族 **{K_{C,d₀,σ,f}}**(record chart の
-追加ではなく A.2c 内部の証明用 cover)。**Q_C は record/帯域簿記専用に降格**。
-**cover への写像([GC4A2CR3-m1])**: 任意の admissible 配置 x に対し、selector の
-段 (3)(QR-near)を**飛ばした first-match**(段 (4)–(8) は述語が全域なので必ず
-どれかが発火 — 段 (8) は補集合)で structural chart C(x) を定め、x をその
-proof box K_{C(x),d₀,σ,f} で評価する。**網羅補題**: この skip-(3) 割当は全域で
-一意(§8.6 (N-5) の first-match と同じ論法)、よって cover は admissible 配置
-全体を覆う。∎
+各 structural chart の閉箱 K_C を **d₀ 分枝**で有限細分した閉集合族
+  **K_{C,k} := closure{x ∈ K_C : d₀(x) = k}(k ∈ {0, 1, 2})**
+(d₀(x) := ord_{t₀} gcd(P₁, P₂) は x の関数 — 上半連続なので各分枝の閉包は閉。
+record chart の追加ではなく A.2c 内部の証明用 cover)。QR pairing 型 σ は
+**box の添字ではなく**、box 内部の Z_QR の stratification((6-ii))の label で
+ある([GC4A2CR4-03] — box 所属を σ で決める必要はない)。
+**Q_C は record/帯域簿記専用に降格し、proof cover は structural chart のみ**。
+**被覆補題([GC4A2CR4-03] — 写像でなく被覆で十分)**: 任意の admissible 配置
+x は、selector の段 (3) を飛ばした first-match(段 (4)–(8) の述語は全域 —
+段 (8) は補集合)で定まる structural chart C(x) の閉箱に属し、さらに自分の
+d₀(x) 分枝 K_{C(x),d₀(x)} に属す。よって有限閉被覆 {K_{C,k}} は admissible
+配置全体を覆う。**床は各 box 上の主張**なので、合成((FL-7))は「x を含む
+いずれかの box の床」を適用すればよく、box への一意割当は不要。∎
+高 d₀ 点が低 d₀ 分枝の閉包に入る場合の jet range は (N-4) の埋め込みが処理。
 各 proof box 上で
   床関数 φ(x) := max_{3 ≤ n ≤ 9 − d₀} |𝒥_n(x)|(𝒥_n = v⁽ⁿ⁾(t₀)/λⁿ、
   添字範囲は box ごとに固定 ⇒ φ 連続)
@@ -1362,37 +1367,57 @@ Q-band 境界では Q̇ は tangent cone に制限され、射影特異点では
 **(6-iv) 滑らかな正規化 slice**: ‖c‖_∞ = 1 球面は tie 点で非滑らか。微分は
 **‖c‖₂ = 1 slice** 上で行い、‖c‖₂/‖c‖_∞ ∈ [1, 2](4 係数)の norm 同値で
 sup 正規化へ戻す — 床定数の有限損失(≤ 2^{9})のみ。
-**(6-v) 法束の最小特異値と Taylor([GC4A2CR3-02] — 開 stratum の非 compact
-性を tube 帰納で処理)**: stratum の poset は有限(rank = (r, 9−d₀, deg, band
-face) の辞書式 — (N-5))。**帰納法**:
-*基底*: 最小 strata(frontier を持たない — 閉)では法単位球面束が compact、
-σ(x*, ξ) := max_n |δ𝒥(ξ)| は連続・(6-iii) より各点正 ⇒ σ₀ > 0。
-*帰納段*: rank ρ の stratum S_σ を考え、S_σ の frontier の各 stratum S_τ
-(rank < ρ)には帰納法の仮定により tube 床(半径 h_τ の管状近傍 N_τ で
-φ ≥ a_τ·dist(·, Z_QR))が確立済み。**S_σ ∖ ∪_τ N_τ は compact**
-(S_σ の閉包から frontier の開近傍を除いた閉集合 — 閉包の frontier は
-∪N_τ に含まれる)。その上の法単位球面束は compact ⇒ σ₀(σ) > 0 ⇒ 半径
-h_σ := σ₀(σ)/(2C₂) の tube で φ ≥ (σ₀(σ)/2)·dist(C² 一様 Taylor —
-exact jet 式)。
-*被覆*: Z_QR ∩ box ⊆ ∪_σ (tube N_σ) となり(各点はそれが属す stratum の
-tube か、より深い frontier の tube に入る)、tube の外
-{x : dist(x, Z_QR) ≥ min_σ h_σ} ∩ box は compact で零集合一致から φ > 0 ⇒
-inf =: c′ > 0。床定数は **有限個の (a_σ, h_σ, c′) の min** — 移送は明示的。
+**(6-v) 法束の最小特異値と Taylor([GC4A2CR3-02]、[GC4A2CR4-01][02] で
+順序と frontier 横断性を精密化)**:
+**(v-a) Q-band 境界 strata の排除**: global 定数 R_Q((6a))を
+**R_Q := 2·C_p(C_p = 閉箱上の fitted Q 係数の上界 — collar 上の Cauchy 評価に
+よる有限値)** と宣言する。すると全 QR 点の fitted Q は 𝒬_band の**内部**に
+あり、**Q-band 境界 stratum は空**(tangent cone の場合分けは不要 —
+[GC4A2CR4-02] の循環懸念ごと消滅)。
+**(v-b) stratum poset の順序 = 次元([GC4A2CR4-01] — §8.6 の rank (r, 9−d₀)
+とは別の A.2c 内部順序)**: Z_QR の strata は (6-ii) の明示パラメタ化で各々
+局所閉・有限個。**frontier 関係 S_τ ⊂ closure(S_σ) ∖ S_σ は必ず ≥ 1 本の追加の
+閉条件**(support 減 = 係数消滅・confluence 到達 = 分離消滅・gcd-jump = 因子
+一致・degree-drop = 先頭係数消滅)**を課すので dim S_τ < dim S_σ**(パラメタ
+化の自由度が strictly 減る — 各条件はパラメタ空間の proper 代数的部分集合)。
+帰納は **dim に関して**行う(有限・well-founded)。
+**(v-c) 全 stratum 型での collapse**: (6-iii) の二分法(regular = 2 指数
+deg ≤ 2 → W_CONFL 6 / C = 1 指数 Π₄ → ord ≤ 4)は frontier stratum でも
+そのまま適用される: gcd-jump は jet range を {3..9−d₀} に縮めるが d₀ ≤ 2 で
+10 − d₀ ≥ 8 > 6 > 4 は保たれ、degree-drop・support-drop は prefactor/指数が
+減るだけで同じ二分法のより簡単なインスタンス(support ≤ 1 は exit — 床は
+空虚に真)。よって**各 stratum で ker δ𝒥 = T S**((6-iii) の論法)。
+**(v-d) 帰納法**:
+*基底*(dim 最小の strata — frontier なし・閉): 法単位球面束 compact、
+σ(x*, ξ) := max_n |δ𝒥(ξ)| は連続・(v-c) より各点正 ⇒ σ₀ > 0。
+*帰納段*: dim = D の stratum S_σ の frontier strata S_τ(dim < D)には tube 床
+(半径 h_τ の管状近傍 N_τ で φ ≥ a_τ·dist(·, Z_QR))が確立済み。
+**S_σ ∖ ∪_τ N_τ は compact**(閉包から frontier の開近傍を除いた閉集合 —
+closure(S_σ) ∖ S_σ ⊆ ∪_τ N_τ)。その上の法単位球面束は compact ⇒
+σ₀(σ) > 0 ⇒ tube 半径 h_σ := σ₀(σ)/(2C₂)。
+**(v-e) 一様 Taylor 定数**: C₂ := sup_box ‖Hess_x (𝒥_n)_n‖(exact jet 式は
+閉箱の正規化座標で解析的、compact 上で有限)。tube 内で
+φ(x) ≥ σ₀(σ)·h − C₂h² ≥ (σ₀(σ)/2)·h(h := dist ≤ h_σ)。
+*被覆*: Z_QR ∩ box ⊆ ∪_σ N_σ(各点は自分の stratum の tube か、より低次元
+frontier の tube に入る)、tube の外 {dist(·, Z_QR) ≥ min_σ h_σ} ∩ box は
+compact で零集合一致から φ > 0 ⇒ inf =: c′ > 0。床定数は **有限個の
+(a_σ, h_σ, c′) の min** — 移送は明示的。
 **(6-vi) 相対床への変換**: κ は Lipschitz(Φ_Q が閉箱データに一様 Lipschitz、
 min は Lipschitz 保存)かつ κ|_{Z_QR} = 0 ⇒ κ(x) ≤ C_L·dist(x, Z_QR)
 (**下界は不要**)。よって tube 内で φ/κ ≥ a_σ/C_L、tube 外で φ/κ ≥ c′/C_box。
 ∎(SING-FRONTIER(§9)はこの帰納の**数値検証(診断)**であり、証明上の
 open 義務ではない — [GC4A2CR3-02] の「open のまま床を主張」状態を解消。)
-*数値診断*: §9 QC-TRANSV 行を参照(authoring location は §9 —
-[GC4A2CR3-m2] の二重管理回避。診断であり証明の代替ではない)。
+*数値診断*: §9 QC-TRANSV 行を参照(数値結果の authoring location は §9 のみ —
+[GC4A2CR4-m1]。診断であり証明の代替ではない)。
 *数値診断*(§9 QC-TRANSV): σ_eff は random 4844 配置で全て正(中央値 0.11)、
 adversarial 探索の零接近はすべて routed 境界(confluent 帯・係数消滅面)への
 接近で説明され、**chart 内部の構造的縮退は検出されず** — 本主張と整合。
 
-**(FL-7) 合成**: chart は有限(GCChartIdEnum — 21 値のうち **r ≤ 1 exit
-(M_0/M_1)は jet 契約対象外(§8.6 (N-6′))で床の合成からも除外** — exit は
-v ≡ 0 または単原子で床が空虚に真)、残る各 chart で c_C > 0
-((FL-1)〜(FL-6))、overlap 移送は無損失(K = 1 — §8.6 (N-6′))。よって
+**(FL-7) 合成**: 合成の対象は **structural proof box のみ**(K_{C,k} —
+(FL-0)。**Q_C は簿記専用で床の合成から除外**([GC4A2CR4-m2])。r ≤ 1 exit
+(M_0/M_1)も jet 契約対象外(§8.6 (N-6′))で除外 — exit は v ≡ 0 または
+単原子で床が空虚に真)。残る各 box で c > 0((FL-1)〜(FL-6))、overlap 移送は
+無損失(K = 1 — §8.6 (N-6′))。よって
   **c_J := min_C c_C > 0**
 が確立し(min は有限 proof cover (C, d₀, σ) 上 — consult #11 の骨格 6)、
 consult #9 の修正 target(v ≡ 0 または max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ) ≥ c_J)の
@@ -1433,6 +1458,17 @@ B(3|1)・C(多分割)の床(= GC-4B/GC-4C 系 packet — §8.7 の「C chart」�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.22.2(2026-08-18): R-GC4A2C R4 findings(blocking 3 + minor 2)適用 — [01][02]
+  (6-v) を精密化: (v-a) R_Q := 2C_p の宣言で Q-band 境界 strata を空に(tangent
+  cone 場合分けの循環懸念を根絶)、(v-b) 帰納順序を A.2c 内部の **stratum 次元**に
+  変更(frontier は追加の閉条件で dim strictly 減 — §8.6 rank との混同を解消)、
+  (v-c) collapse 二分法が全 frontier 型(gcd-jump/degree-drop/support-drop)で
+  成立することを明記、(v-e) 一様 Taylor 定数 C₂ の定義。[03→R4-03] proof box を
+  K_{C,k}(d₀ 分枝のみ — σ は Z_QR 内部 stratification の label に降格、Q-band
+  face 添字は (v-a) で不要化)の**有限閉被覆**に変更し、一意割当を撤廃(床は
+  box ごとの主張なので被覆で十分 — 被覆補題)。[m1] QC-TRANSV の数値再掲を削除。
+  [m2] FL-7 の合成対象を structural proof box のみに明記(Q_C 除外)。
 
 - v0.22.1(2026-08-18): R-GC4A2C R3 findings(blocking 3 + minor 2)適用 — [01]
   (6-iii) を stratum 別に修正: regular stratum は pair ごと collapse で 2 指数
