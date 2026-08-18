@@ -899,7 +899,8 @@ A.2b を消費する record は
   D_{2,0}, D_{2,∞}, S_{1≺2}, S_{2≺1}, C_1, C_2, C_1^{(2)}, C_2^{(2)}, C_12,
   C_12^{(2)}, Z, G, Q_C}`(有限 enum — 21 値。列挙外は record 生成禁止)。
 - `face_id ∈ FaceIdEnum := {coeff-zero-a (a = 1..4), E_i-zero, E_i-infty (i = 1,2),
-  tau-zero, gcd-exact, kappa-zero}`(有限 enum — (N-5) route 表と 1:1)。
+  tau-zero, gcd-exact, kappa-zero, zeta-collision, zeta-infty}`(有限 enum —
+  (N-5) route 表と 1:1。zeta-collision/zeta-infty は [GC4A2CR2-03] で追加)。
 - `target_chart_id ∈ GCChartIdEnum ∪ {exit-v0, exit-low-arity}`。
 - `rank_before ∈ {0..4} × {0..9}`(rank = (r, 9−d₀))、
   `rank_after ∈ ({0..4} × {0..9}) ∪ {exit}`([GC4A2BR8-B04] — union 型)。
@@ -988,7 +989,9 @@ boundary_routes が送り先を与える。**boundary_routes の全列挙
 | 係数消滅面 c_a = 0(任意 chart) | M_{r−1} 家族(r−1 ≤ 1 なら exit-v0/exit-low-arity の終端 entry) | r 減(終端時は rank_after = exit) |
 | E_i = 0 / ∞(D3 中心・ζ⁻¹ chart の 0) | D_{i,0} / D_{i,∞}(単原子化) | r 減 |
 | τ = 0(S) | 劣位側消滅 → M_{r′} | r 減 |
-| 零点 exact 一致(G) | D 再取得((N-4) gcd-transition) | d₀ 増 |
+| 零点 exact 一致(G)(face_id = gcd-exact) | D 再取得((N-4) gcd-transition) | d₀ 増 |
+| 零点衝突(Z 内、分子同士/分母同士 — face_id = zeta-collision) | 重複度統合後の Z(零点個数減 — 座標次元減の sub-box)または gcd-exact 経由で D | 不変(座標簿記)/ d₀ 増 |
+| ζ → ∞(Z の ζ⁻¹ chart 原点 — face_id = zeta-infty) | 零点が collar 外へ = 零点個数減の Z sub-box | 不変(座標簿記) |
 | δ_i = 0(C の極限面) | 遷移なし — C chart の domain 内点(limit object) | 不変 |
 
 **真の遷移は離散 rank rank := (r, 9 − d₀) の辞書式を strict に下げ、鎖に沿って
@@ -1250,20 +1253,30 @@ confluence 等)はすべて boundary_routes((N-5))で他 chart に送られ、�
 
 **(FL-5) D/S chart([GC4A2CR1-04] — exact 極限写像を供給)**:
 - **D_{i,0}/D_{i,∞}**: domain 内点(E_i band 内)は genuine 配置 ⇒ (FL-1)。
-  **exact 極限写像**: A.1 F2 の branch 表示で pair i の side 関数は
-  B_i = c_i(e^{q_{ia}} + E_i·e^{q_{ib}})·(unit)(D branch の E_i 定義 — §8.3)。
+  **E_i の型付き定義([GC4A2CR2-02] — §8.3 には無いためここで定義し、§8.6 (N-2) の
+  「D3: 閉単位円板」と整合させる)**: pair i の 2 原子を係数絶対値の pivot 順
+  (|c_{ia}| ≥ |c_{ib}|、等号は ≺ で tie-break)に取り、
+    **E_i := c_{ib}/c_{ia} ∈ 閉単位円板**。
+  **exact 極限写像**: この pivot 表示で pair i の side 関数は
+    B_i = c_{ia}(e^{q_{ia}} + E_i·e^{q_{ib}})。
   E_i → 0 で **B_i → c_i e^{q_{ia}}·(unit) を係数ごと exact に収束**(E_i は
   線形パラメタ — 差は |E_i|·sup|e^{q_{ib}}·unit| で閉箱上一様)。極限対象 =
   3-class genuine 配置 ⇒ (FL-1) の W_c(3) 勘定(D_W(3) = 5 < 10 − d₀ ∀d₀ ≤ 2)。
   E_i → ∞ は ζ⁻¹ 側で同型(役割交換)。∎
 - **S_{1≺2}/S_{2≺1}**: domain 内点は genuine 配置 ⇒ (FL-1)。**τ = 0 面の exact
-  極限写像**: 劣位 pair(scale λ_sub := λ₁)の side 関数を pair 平均位相 q̄ と
+  極限写像(moment 座標の型付き定義 — [GC4A2CR2-02])**: 劣位 pair(scale
+  λ_sub := min(λ₁, λ₂))の side 関数を pair 平均位相 q̄ := (q_a + q_b)/2 と
   半差 Δ := (q_a − q_b)/2 で書くと恒等式
     c_ae^{q_a} + c_be^{q_b} = e^{q̄}[(c_a + c_b)cosh Δ + (c_a − c_b)sinh Δ]。
   Δ = (ΔB·y + ΔA·y²/2)/2 は τ → 0 で weighted witness(|ΔB| ≤ λ_sub、
-  |ΔA| ≤ λ_sub²)により 0 へ、cosh/sinh の Taylor は閉箱上一様収束。正規化極限は
-    (m₀ + m₁·Δ̂ + m₂·Δ̂²)e^{q̄}(Δ̂ = 正規化方向、m_k = moment 係数)
-  の **deg ≤ 2 prefactor 対象** — すなわち (FL-2b) の混合系 F = P e^{q̄} +
+  |ΔA| ≤ λ_sub²)により閉箱上一様に 0 へ(cosh/sinh の Taylor 剰余は
+  |Δ| ≤ 1 で絶対収束級数の尾 — 一様)。**moment 座標**: Δ̂ := Δ/λ_sub
+  (正規化方向 — 閉箱値)、劣位 side の λ_sub-展開係数
+    m₀ := c_a + c_b、m₁ := (c_a − c_b)、m₂ := (c_a + c_b)/2
+  を用いた exact 展開 e^{q̄}[m₀ + m₁·(Δ̂λ_sub) + m₂·(Δ̂λ_sub)² + O(λ_sub³)]
+  の λ_sub-次数ごとの主要項を projective 正規化(‖(m₀, m₁λ_sub, m₂λ_sub²)‖∞
+  で割る — S chart の閉箱座標)したもの。正規化極限は
+  **deg ≤ 2 prefactor 対象** — (FL-2b) の混合系 F = P e^{q̄} +
   (支配 pair の 2 class)そのもの(N-8 の affine/quadratic 二分岐とも整合)。
   床は (FL-2b) の bound 8 と d₀ 場合分けで閉じる。moment 全退化
   (m₀ = m₁ = m₂ = 0 方向)は係数消滅面 = boundary_routes の c_a = 0 行で
@@ -1318,7 +1331,9 @@ adversarial 探索の零接近はすべて routed 境界への接近 — (6-iii)
 adversarial 探索の零接近はすべて routed 境界(confluent 帯・係数消滅面)への
 接近で説明され、**chart 内部の構造的縮退は検出されず** — 本主張と整合。
 
-**(FL-7) 合成**: chart は有限(GCChartIdEnum — 21 値)、各 c_C > 0
+**(FL-7) 合成**: chart は有限(GCChartIdEnum — 21 値のうち **r ≤ 1 exit
+(M_0/M_1)は jet 契約対象外(§8.6 (N-6′))で床の合成からも除外** — exit は
+v ≡ 0 または単原子で床が空虚に真)、残る各 chart で c_C > 0
 ((FL-1)〜(FL-6))、overlap 移送は無損失(K = 1 — §8.6 (N-6′))。よって
   **c_J := min_C c_C > 0**
 が確立し、consult #9 の修正 target(v ≡ 0 または max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ)
@@ -1381,7 +1396,9 @@ B(3|1)・C(多分割)の床(= GC-4B/GC-4C 系 packet — §8.7 の「C chart」�
   消去法証明**(1 回微分の交差消去 + 次数勘定 + 補題 EL、B = 6 / deg≤1 は 4 —
   fixture ⑥ の sharp 値と一致)、(FL-2b) 片側混合系の逐次消去(ord ≤ 8)、
   (FL-3) W_c(r) 帰着、(FL-4) Z/G(collar の E-零点排除 → ≤4 極の 7 連続モーメント
-  Vandermonde + d₀ ≥ 4 生成禁止)、(FL-5) D/S 低 arity 帰着、(FL-6) Q_C
+  Vandermonde + d₀ ≥ 4 生成禁止【注記(2026-08-18 追記): この Vandermonde 論法は
+  R-GC4A2C R1 [01] で撤回され v0.21.2 の帰着に置換済み】)、(FL-5) D/S 低 arity
+  帰着、(FL-6) Q_C
   transversality(exact QR の位相対形成 → 線形化が 2-class deg≤2 系に collapse →
   W_CONFL 適用 + σ_eff compactness。QC-TRANSV 数値診断を §9 に登録)、(FL-7) 合成
   c_J = min c_C > 0(K = 1)。§4 A.2c 行 → drafted。
