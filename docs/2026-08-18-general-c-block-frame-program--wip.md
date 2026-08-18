@@ -162,7 +162,7 @@ c=3 上界の到達例。∎
 | GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | **accepted**(R-GC4A1 R2 PASS、fixed SHA `50a4e45`) |
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
-| GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **drafted(§8.6 v2、R2–R8 findings 適用済み、査読待ち R-GC4A2B R9)** |
+| GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
 | GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | open |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
@@ -850,7 +850,7 @@ N = 9 − d₀ に保持される(common-zero は §8.3 (F2²-4) の exact 相�
 **scope(非主張)**: collar 上の導関数上界(10 階 — A.3b)、一様定数の compactification
 (A.2b/c)、S 上の kernel 不等式。人間による査読は未実施。
 
-### 8.6 GC-4A.2b JF9-NORM(有限 chart atlas と正規化 — v2 全面改稿(consult #10)、drafted、R2–R8 findings 適用済み、査読対象 R-GC4A2B R9)
+### 8.6 GC-4A.2b JF9-NORM(有限 chart atlas と正規化 — **R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3`**)
 
 **設計裁定(consult #10 — R1 の 6 blocking への回答)**: v1 の大域 X̄・大域 metric・
 大域連続 J は**撤回**(それらの修理は GC-9 級の compactification 本体に膨張する)。
@@ -1157,6 +1157,10 @@ QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.20(2026-08-18): **GC-4A.2b 受理** — R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3`
+  (blocking/minor なし、8 責務 8/8)。§8.6 は以後 immutable(status 注記を除く)。
+  go/no-go 最小集合の受理状況: A.0/A.1/A.2a/A.3a/A.2b/C.0 = 6/8、残り A.2c・B.0。
 
 - v0.19.7(2026-08-18): R-GC4A2B R8 findings(blocking 3 + minor 1)適用 — [B01]
   R7 の 4 項恒等式論法は Φ_Q の向き(e^Q は B₂ 側)を取り違えており撤回。sup ノルム
