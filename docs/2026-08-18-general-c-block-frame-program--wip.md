@@ -162,7 +162,7 @@ c=3 上界の到達例。∎
 | GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | **accepted**(R-GC4A1 R2 PASS、fixed SHA `50a4e45`) |
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
-| GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **drafted(§8.6 v2、R2–R7 findings 適用済み、査読待ち R-GC4A2B R8)** |
+| GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **drafted(§8.6 v2、R2–R8 findings 適用済み、査読待ち R-GC4A2B R9)** |
 | GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | open |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
@@ -850,7 +850,7 @@ N = 9 − d₀ に保持される(common-zero は §8.3 (F2²-4) の exact 相�
 **scope(非主張)**: collar 上の導関数上界(10 階 — A.3b)、一様定数の compactification
 (A.2b/c)、S 上の kernel 不等式。人間による査読は未実施。
 
-### 8.6 GC-4A.2b JF9-NORM(有限 chart atlas と正規化 — v2 全面改稿(consult #10)、drafted、R2–R7 findings 適用済み、査読対象 R-GC4A2B R8)
+### 8.6 GC-4A.2b JF9-NORM(有限 chart atlas と正規化 — v2 全面改稿(consult #10)、drafted、R2–R8 findings 適用済み、査読対象 R-GC4A2B R9)
 
 **設計裁定(consult #10 — R1 の 6 blocking への回答)**: v1 の大域 X̄・大域 metric・
 大域連続 J は**撤回**(それらの修理は GC-9 級の compactification 本体に膨張する)。
@@ -901,9 +901,12 @@ A.2b を消費する record は
 - `face_id ∈ FaceIdEnum := {coeff-zero-a (a = 1..4), E_i-zero, E_i-infty (i = 1,2),
   tau-zero, gcd-exact, kappa-zero}`(有限 enum — (N-5) route 表と 1:1)。
 - `target_chart_id ∈ GCChartIdEnum ∪ {exit-v0, exit-low-arity}`。
-- `rank_before, rank_after ∈ {0..4} × {0..9}`(rank = (r, 9−d₀))+
-  verified flag `rank_after <_lex rank_before`(strict 降下 — flag 不成立の
-  遷移 entry は record 生成禁止)。
+- `rank_before ∈ {0..4} × {0..9}`(rank = (r, 9−d₀))、
+  `rank_after ∈ ({0..4} × {0..9}) ∪ {exit}`([GC4A2BR8-B04] — union 型)。
+  **非終端 entry**(target_chart_id ∈ GCChartIdEnum)は verified flag
+  `rank_after <_lex rank_before` 必須(strict 降下 — flag 不成立は record 生成禁止)。
+  **終端 entry**(target_chart_id ∈ {exit-v0, exit-low-arity})は rank_after = exit
+  で chain はそこで終端(以降の entry を持つ record は生成禁止)。
 - `q_band_witness := (α₀, α₁, α₂ ∈ ℂ の実値, verified flags |α_k| ≤ R_Q (k=0,1,2))`
   ((6a) の p ∈ 𝒬_band 保証 — 欠落・violation flag は record 生成禁止)。
 - `zero_flag_witness := (min_i |B_i(t₀)| の実値, ≥ ε_Z の verified flag)`(structural
@@ -953,10 +956,10 @@ D の再取得(gcd-transition)。「侵入は生じない」の v1 宣言は撤�
 | (1) | merge 後 r ≤ 1(exact)、または κ = 0(exact — (6d)) | exit(v≡0 / 単原子) |
 | (2) | 常に成立(anchor := ≺-最小 class — (0c)。割当でなく gauge 固定) | — |
 | (3) | 0 < κ < ε_Q | Q_C |
-| (4) | min_i |B_i(t₀)| < ε_Z(→ Z)/ 分子分母零点の ζ 距離 < ε_G(→ G)/ 零点 exact 一致(→ D 再取得)。witness = `zero_flag_witness` | Z / G / D |
+| (4) | **段内順序([GC4A2BR8-B05]): (4a) 零点 exact 一致(→ D 再取得)→ (4b) min_i |B_i(t₀)| < ε_Z(→ Z)→ (4c) 分子分母零点の ζ 距離 < ε_G(→ G)**。段内も first-match。witness = `zero_flag_witness` | D / Z / G |
 | (5) | δ_i = s_i/λ < ε_C(片側 → C_i、両側 → C_12。sub-chart は N-8 の β 比 flag で ^{(2)} 系へ — 半開) | C 系 |
-| (6) | τ = min(λ₁,λ₂)/max(λ₁,λ₂) < ε_S | S_{1≺2}/S_{2≺1} |
-| (7) | |E_i| < ε_D または |E_i| > 1/ε_D | D_{i,0}/D_{i,∞} |
+| (6) | τ := min(λ₁,λ₂)/max(λ₁,λ₂) < ε_S。**λ_i の定義([GC4A2BR8-B05]): λ_i := max(|ΔB_i|, |ΔA_i|^{1/2})(side i の pair 内差 — child_collision_witness の s_i と同じ configuration データ。global λ とは別物)**。S_{1≺2} は λ₁ ≤ λ₂(半開: 等号は 1≺2 側) | S_{1≺2}/S_{2≺1} |
+| (7) | |E_i| < ε_D または |E_i| > 1/ε_D。**両 i 成立時は最小 index i = 1 を chart に採用し、他方は ordered rate flag に記録([GC4A2BR8-B05] — index tie-break)** | D_{i,0}/D_{i,∞} |
 | (8) | 上記いずれも不成立(補集合) | R |
 
 よって任意の admissible 配置は**ちょうど 1 つ**の割当を受ける(first-match +
@@ -981,8 +984,8 @@ boundary_routes が送り先を与える。**boundary_routes の全列挙
 | face | 送り先 | rank への作用 |
 |---|---|---|
 | band 境界(ε_Q/ε_G/ε_Z/ε_C/ε_S/ε_D、E_i band)| route ではない — 半開分割で selector が一意割当 | 不変(遷移なし) |
-| κ = 0(exact QR — [GC4A2BR7-B02]) | v ≡ 0 exit((6c)(6d)) | 不変(exit) |
-| 係数消滅面 c_a = 0(任意 chart) | M_{r−1} 家族 | r 減 |
+| κ = 0(exact QR — [GC4A2BR7-B02]) | v ≡ 0 exit((6c)(6d)) | 終端(rank_after = exit — [GC4A2BR8-B04]) |
+| 係数消滅面 c_a = 0(任意 chart) | M_{r−1} 家族(r−1 ≤ 1 なら exit-v0/exit-low-arity の終端 entry) | r 減(終端時は rank_after = exit) |
 | E_i = 0 / ∞(D3 中心・ζ⁻¹ chart の 0) | D_{i,0} / D_{i,∞}(単原子化) | r 減 |
 | τ = 0(S) | 劣位側消滅 → M_{r′} | r 減 |
 | 零点 exact 一致(G) | D 再取得((N-4) gcd-transition) | d₀ 増 |
@@ -1032,27 +1035,19 @@ compactness は structural 座標 + κ(いずれも連続)のみで走り、選�
 **(6c) κ = 0 ⟺ v ≡ 0**:
 (⇐) v ≡ 0 ⇒ Φ_p ≡ 0(A.2a (EX-4))、p ∈ 𝒬_band((6a) の witness)⇒ κ ≤ 0、
 ノルムの非負性から **κ = 0**。
-(⇒) κ = 0 ⇒ min の到達点 Q₀ で Φ_{Q₀} ≡ 0。
-  - 非 confluent chart(class が相異なる指数型): GC-1 L0 型の独立性から
-    B₁ = −e^{Q₀}B₂ ⇒ u = Q₀ + 2πik(接続成分ごと)⇒ T₂u = Q₀ + 定数 ⇒ v ≡ 0。
-  - confluent chart(side 関数の実形 B_i = P_iV_ie^{r_i}、V_i = E(z_i) =
-    (e^{z_i}−1)/z_i — §8.3。**[GC4A2BR7-B01]: V_i は超越的整関数であり「有理式」
-    論法(R6 版)は誤りだったので撤回し、以下の 4 項恒等式論法に置換**):
-    Φ_{Q₀} ≡ 0 の両辺に z₁z₂ を掛けて E を展開すると
-      P₁z₂(e^{z₁}−1)e^{r₁+Q₀} + P₂z₁(e^{z₂}−1)e^{r₂} ≡ 0、すなわち位相
-      {r₁+Q₀+z₁, r₁+Q₀, r₂+z₂, r₂}(全て二次多項式)、係数
-      {P₁z₂, −P₁z₂, P₂z₁, −P₂z₁}(非零多項式 — z_i 非定数は chart 前提)の
-      **4 項指数多項式恒等式**。GC-1 L0 型の独立性により、恒等的零は位相の
-      **完全対消滅**を要求する。z_i 非定数から φ₁ ≠ φ₂、φ₃ ≠ φ₄ なので可能な
-      pairing は 2 つ:
-      (i) φ₁ = φ₃ ∧ φ₂ = φ₄ ⇒ z₁ = z₂ ∧ r₂ = r₁ + Q₀、係数条件 P₂ = −P₁
-        ⇒ B₂ = −B₁e^{r₂−r₁} ⇒ u = Q₀ + 2πik ⇒ v ≡ 0。
-      (ii) φ₁ = φ₄ ∧ φ₂ = φ₃ ⇒ z₂ = −z₁ ∧ r₂ = r₁ + Q₀ + z₁、係数条件
-        P₂ = −P₁。E(−z) = e^{−z}E(z) より V₂ = e^{−z₁}V₁ ⇒
-        B₂ = −P₁V₁e^{r₁+Q₀} = −B₁e^{Q₀} ⇒ 同じく v ≡ 0。
-      それ以外の一致 pattern では非零係数の項が単独で残り矛盾。∎
-    (補題 EL は本枝では不要になったが、A.2c の W_CONFL 証明が引き続き参照する
-    ため定義は保持する。)
+(⇒)([GC4A2BR8-B01] — R7 版の 4 項恒等式論法は Φ_Q の向きを取り違えており
+撤回。(6b) の sup ノルム化により、そもそも**指数多項式の独立性論法自体が不要**に
+なっていたことを明記し、以下の直接論法に全面置換):
+κ = 0 ⇒ min の到達点 Q₀ で **Φ_{Q₀} = B₁ + e^{Q₀}B₂ ≡ 0(関数として — (6b) の
+一致定理)**。よって {B₂ ≠ 0}(B₂ ≢ 0 なので開稠密)上で
+  −B₁/B₂ = e^{Q₀}、すなわち −H = e^{Q₀}
+⇒ u := Log(−H) = Q₀ + 2πik(接続成分ごとに局所定数)⇒ T₂u = Q₀ + 定数
+⇒ **v = u − T₂u ≡ 0**(定数と 2πik は T₂ 減算で消える)。∎
+この論法は side 関数の内部構造(P_i、V_i = E(z_i)、confluent か否か)に
+**一切依存しない** — chart 場合分け・class 独立性(L0)・有理性はいずれも不要
+(いずれも κ が係数ベクトル norm だった旧版((6b) v0.19.3 以前)の遺物)。
+(補題 EL は本節では不要になったが、A.2c の W_CONFL 証明が参照するため定義は
+保持する。)
 **補題 EL(有理・指数排除)**: r 非定数多項式なら e^r は有理式でない。
 *証明*: e^r = R 有理なら r′ = R′/R。R′/R は |x| → ∞ で → 0(単純極の和)、
 r′ は非零多項式で減衰しない。矛盾。∎
@@ -1163,6 +1158,16 @@ QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は�
 
 ## 11. 版履歴
 
+- v0.19.7(2026-08-18): R-GC4A2B R8 findings(blocking 3 + minor 1)適用 — [B01]
+  R7 の 4 項恒等式論法は Φ_Q の向き(e^Q は B₂ 側)を取り違えており撤回。sup ノルム
+  化した (6b) では κ = 0 が一致定理で関数レベルの Φ_{Q₀} ≡ 0 を与えるため、
+  −B₁/B₂ = e^{Q₀} ⇒ u = Q₀ + 2πik ⇒ v ≡ 0 の**直接論法**に全面置換(chart 場合分け・
+  L0・有理性がすべて不要になったことを明記)。[B04] boundary_route_chain の
+  rank_after を union 型(∪ {exit})にし、終端 entry(exit-v0/exit-low-arity)は
+  strict 降下条件の対象外・chain 終端と定義。[B05] 段 (4) の段内順序(4a exact →
+  4b ε_Z → 4c ε_G)、段 (6) の λ_i 定義(pair 内差の weighted max — global λ と別物)、
+  段 (7) の index tie-break を追加。[minor] v0.19.5 の撤回済み有理式主張に追記注記。
+
 - v0.19.6(2026-08-18): R-GC4A2B R7 findings(blocking 5)適用 — [B01] **数学的訂正**:
   V_i = E(z_i) は超越的整関数で v0.19.5 の「多項式比 = 有理式」主張は誤り(撤回)。
   confluent (6c) は z₁z₂ 払いの 4 項指数多項式恒等式 + L0 型完全対消滅の場合分け
@@ -1196,6 +1201,8 @@ QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は�
   [02] QR-near 述語 = (κ < ε_Q) の定義的下限、R_C を diagnostic に降格し κ_C := κ∘param_C
   (恒等)、[03] λ_C := global λ に統一 ⇒ K_λ = K_κ = 1・global K = 1(overlap 移送無損失、
   実値表)、[04] anchor を ≺(Re, Im 辞書式)の一意最小 class として決定的に定義、
+  【注記(2026-08-18 追記): 本版の R6-06 対応に含まれた「P₁V₁/P₂V₂ は有理式」主張は
+  誤りであり v0.19.6/v0.19.7 で撤回・置換済み】、
   [05] D3 を閉円板に修正(E_i = 0 は boundary route)+ 網羅性補題に rank (r, 9−d₀) の
   strict 降下による境界鎖の停止証明 + M_r jet map(ε_Z 下限)供給、[06] status surface
   同期(R5 査読対象)。
