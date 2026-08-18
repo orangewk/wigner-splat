@@ -126,9 +126,15 @@ plain single-scale triple の FR-S1′ は固定 SHA `ed25401` の R-A′、nest
 `root-far` row は §10.5 の resolved discriminant へ昇格した(`M-ROOT-FAR-KERNEL` 解消)。
 polynomial ΣA program は PΣ-1/2/3/4 の全てが accepted(§10.5.4、R-PS4 R3 PASS `58b9c9f`)、
 S4b coverage は補題 S4b-COV(§10.5.5、R-COV1 R4 PASS `c36d818`)で閉鎖し、**S4b closure は
-完結**した。現在の最初の未解決点は **S4a の envelope assembly**(W1 Child-reserve 以降、
-§10.5.4/§10.5.5 の帳簿を消費)であり、S4c の N3′/N4・no-return audit も open のまま。
-c=3 の (E-w) や FR5–FR7 の閉鎖はまだ主張しない。
+完結**した。
+
+> **status 追記(2026-08-18 — 本段落より上は歴史的記録)**: その後 S4a は §10.8 の
+> 全 8 packet accepted で完結((S4-Ew) 閉鎖)、S4c も §10.9 が R-S4C R3 PASS
+> (fixed SHA `b6bbe01`)で accepted。**c=3 FR program は FR1–FR7 込みで program 内完結**
+> (人間による査読は未実施)。本節の「S4a が未解決」「S4c open」の旧記述は当時の状態。
+> 一般 c は独立文書
+> [一般 c block-frame program (GC)](2026-08-18-general-c-block-frame-program--wip.md) が
+> 引き継ぐ(本文書へは継ぎ足さない)。
 
 FR-S1′/S1″の設計時に解決した制約として、旧 moment order だけでは消滅速度を記録できず、
 (s,0),(2s,0),(3s,s²) 型の異方的退化で零極限になる。従って chart label は exact moment の

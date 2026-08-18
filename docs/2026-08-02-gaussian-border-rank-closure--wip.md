@@ -1088,6 +1088,22 @@ N-P1〜N-P4 と、FR 文書の program 内 acceptance(FR1–FR7、複数 LLM 査
 消費側(§4.4/§6/§7)で条件が外れるのは全 cluster の leaf weight が ≤3 の場合に限る
 (それを超える k は不変に open)。人間による査読は未実施(検証体制は複数 LLM のみ)。
 
+### 4.3.7 一般 c program router(2026-08-18 着工)
+
+一般 c(G1′ 本体)の攻略は独立文書
+[一般 c block-frame program (GC)](2026-08-18-general-c-block-frame-program--wip.md)
+で行う(本節は target・参照・status のみの router — 証明本体は置かない)。
+
+- **route 決定(2026-08-18、Sol consult #7 + orange 採用)**: 一般 FR 主軸 +
+  Prepared Binary Kernel(PBK)層。c=4(`2|2`/`3|1` node kernel)を pathfinder とし、
+  GC-4 で go/no-go 判定(失敗時は §4.3.5 の K_c 本体へ回帰)。
+- **target**: 一般補題 N 量化(§4.3.6 の一般 c 版 — (N1) deg P_ℓ ≤ D_W(c)、(N2)〜(N4))。
+  外部包絡は (E-w) 形で固定(GC-0 audit)。一般 W 上界 D_W(c) ≤ c(c+1)/2 − 1(GC-1)。
+- **status**: GC 文書 §4 の packet 台帳(GC-0〜GC-12、fail-closed)を canonical とする。
+  本節は状態を複製しない。
+- §4.3.5(K_c kernel program)は fallback route として凍結保存(B1/G/As/S1–S3 の
+  部分資産は PBK 側でも参照され得る)。
+
 ### 4.4 Gram 一様可逆性と L2a の結論(**補題 N 条件付き**)
 
 補題 N の改訂版が成立すれば: 反復適用で得た枠は (N2) より一様 Gram 可逆 ⇒ f_m の枠係数 ≤ C‖f_m‖。
@@ -1539,7 +1555,7 @@ U_m = e^{iφ₀,m}D(β_m)S(ζ_m)R(φ_m) のパラメタが有界(コンパクト
 
 | # | 箇所 | 内容 | 状態 |
 |---|---|---|---|
-| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で全 packet accepted(R-S4C R3 PASS `b6bbe01`、(E-w) 経由。人間による査読は未実施 — 査読体制は複数 LLM のみ)。**c≤3 特化版の量化・証明は §4.3.6 の N-P0〜N-P5 が全て accepted(R-NP5 R1 PASS `ef9d463`)で program 内完結**。消費側の c≤3 接続は §4.4.1 NC program: NC-0 監査 + NC-1/NC-2/NC-3 accepted(L2a′(c=3)、L2b/L3 の k≤3 置換 = 旧 D1 解消)、NC-4 は同節台帳参照。**残余 = ①一般 c の (E-d)・B2+(F1)/S4 ②一般 k の L2b/L3(k≤3 は置換済み)③G8 清書(k≤3 経路の残条件、拡張 scope。G6 は accepted `5d64f36` で閉鎖)**。 | **open(一般 c の主 blocker)** |
+| G1′ | §4.3 補題 N | c=2 K2/C′/L2a′は独立文書へ移管済み(査読statusは同文書のcanonical R-K2欄参照)。c=3 は plain FR-S1′ + nested FR-S1″ が R-A′/R-A″ PASS。c=3 FR-S4 は FR 文書 §10 program 内で全 packet accepted(R-S4C R3 PASS `b6bbe01`、(E-w) 経由。人間による査読は未実施 — 査読体制は複数 LLM のみ)。**c≤3 特化版の量化・証明は §4.3.6 の N-P0〜N-P5 が全て accepted(R-NP5 R1 PASS `ef9d463`)で program 内完結**。消費側の c≤3 接続は §4.4.1 NC program: NC-0 監査 + NC-1/NC-2/NC-3 accepted(L2a′(c=3)、L2b/L3 の k≤3 置換 = 旧 D1 解消)、NC-4 は同節台帳参照。**残余 = ①一般 c の (E-d)・B2+(F1)/S4 ②一般 k の L2b/L3(k≤3 は置換済み)③G8 清書(k≤3 経路の残条件、拡張 scope。G6 は accepted `5d64f36` で閉鎖)** → ③は G8 accepted `dc76258` で閉鎖。①は 2026-08-18 に一般 c program(GC、§4.3.7 router — PBK route)として着工。 | **open(一般 c の主 blocker — GC program 進行中)** |
 | G2 | L1 符号 | 査読提供の不等式で閉鎖 | **closed(v1.1)** |
 | G3 | 脱出混在 | gauge 化再構成で場合分け自体が消滅(再査読で blocking 2 は resolve 判定、前提 = 補題 N + G8) | **closed(v1.1、再査読確認済み)** |
 | G4 | C2 quantitative | F3′ により旧次数下界を撤回。t≥2 の偶奇 sharp 値を再導出(|5⟩は上界 3) — C1 に影響なし | open(副産物) |
