@@ -158,8 +158,8 @@ c=3 上界の到達例。∎
 | GC-1 W_c | GC-0 | v_c ≤ D_W(c) = c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **accepted**(R-GC1 R3 PASS、fixed SHA `957b252`) |
 | GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | **accepted**(R-GC2 R3 PASS、fixed SHA `5bbf183`) |
 | GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | **accepted**(R-GC3 R4 PASS、fixed SHA `dc6cac9`) |
-| GC-4A.0 PBK22-BRF | GC-3 | simultaneous RECENTER・共通 cell cover・bi-graded ray ledger(held 自動性の正式棄却と graded held 化 — consult #8)。**go/no-go 最小集合** | **drafted(§8.2、査読待ち R-GC4A0)** |
-| GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | open |
+| GC-4A.0 PBK22-BRF | GC-3 | simultaneous RECENTER・共通 cell cover・bi-graded ray ledger(held 自動性の正式棄却と graded held 化 — consult #8)。**go/no-go 最小集合** | **accepted**(R-GC4A0 R4 PASS、fixed SHA `742c96a`) |
+| GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | **drafted(§8.3、査読待ち R-GC4A1)** |
 | GC-4A.2 PBK22-JF9 | A.1 | W_c と log-ratio jet の quantitative bridge(次数予算 9 − d_common、全 compact boundary face)。**最大の go/no-go packet** | open |
 | GC-4A.3 PBK22-P4 | A.2 | two-sided SN(numerator/denominator/common-zero)、zero-free tube、10 階上界。**go/no-go 最小集合** | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
@@ -532,7 +532,7 @@ dispatch は (3) 表で固定、transition は (5) で有限 cell 化。**scope(
 kernel の存在・γ・compact 族非相殺・FR 条件 2 充足・深消滅 lead 下界の供給。
 人間による査読は未実施。
 
-### 8.2 GC-4A.0 PBK22-BRF(bi-RF: simultaneous RECENTER と graded cell ledger — drafted、査読対象 R-GC4A0)
+### 8.2 GC-4A.0 PBK22-BRF(bi-RF: simultaneous RECENTER と graded cell ledger — accepted、R-GC4A0 R4 PASS、fixed SHA `742c96a`)
 
 **目的**: AUTO-HELD-22(§8 設計記録 — held 自動性の反例)の正式修復。2|2 node の
 両 pair を同時に held 化する cell cover の構成、bi-graded cost 勘定、ray-wide ledger、
@@ -629,6 +629,71 @@ m_BRF1 := min{M : ∀m ≥ M, max_i s_i(m)² ≤ δ/(32 C_led)}([GC4A0-01][GC4A0
 open obligation)、FR §10.3 条件 2 の完全充足(A.6)、(E-w) 組み立て(GC-7)。
 人間による査読は未実施。
 
+### 8.3 GC-4A.1 PBK22-F2(double F2・対称正規化・case 骨格・divisor 層別 — drafted、査読対象 R-GC4A1)
+
+**設定**: §8.2 の出力(m ≥ m_BRF、held 化 cell cover — 各 cell で両 pair とも
+sup|η̃_i| ≤ 1/8)。F = B₁ + B₂、U_H = max(log|B₁|, log|B₂|)。区間対 (I_k, J_k)、
+ρ := ε_chain(FR §10.3)。zero-pruning 済み(B_i ≢ 0 — §7.1 継承)。
+
+**(F2²-1) double F2(cell ごと)**: 各 cell 上で held なので補題 F2(K2p1 §2 —
+accepted 資産)を各 pair に適用でき、
+  B_i = P_i(t) · V_i(t) · e^{r_i(t)}  (cell 上)
+を得る。branch は pair ごと独立に D1/D2(P_i = 定数、|V_i| ∈ [0.84, 1.16])または
+D3(P_i = 真正 deg ≤ 2 多項式で **P_i の零点 = B_i の零点**、|V_i| ∈ [0.27, 3.5])。
+r_i = 基準二次位相。branch 判別(ν_i = Re w_i の三分岐)は cell witness に記録。∎
+(F2 の前提 β ≤ 1/8 は A.0 の held witness がそのまま供給する。)
+
+**(F2²-2) 対称正規化の exact 恒等式**: H := B₁/B₂(B₂ ≢ 0 の零点外で定義、
+有理型)。F = B₂(1 + H) と U_H = log|B₂| + log max(|H|, 1) より
+  **g := e^{−U_H}|F| = |1 + H| / max(1, |H|)**(B₂ の零点は両辺とも removable —
+  左辺は U_H = log|B₁| 側で有限、右辺は |H| → ∞ の極限 1 と連続接続)。
+**天井 g ≤ 2 が exact に成立**(|1+H| ≤ 2max(1,|H|))。H ↔ 1/H の対称性(g 不変)
+より、以後 WLOG の index 交換が合法。∎
+
+**(F2²-3) case 骨格と (a)/(b)/(c-ii) の完結**: σ := sup_{J_k}|1 + H|。
+- **(a) source 上の block 支配**: ある t* ∈ J_k で max(|H(t*)|, 1/|H(t*)|) ≥ e のとき、
+  WLOG |H(t*)| ≥ e(対称性)で g(t*) = |1+H|/|H| ≥ 1 − 1/e ≥ 0.63。天井より
+  **‖g‖_{I_k} ≤ 2 ≤ 3.2 ‖g‖_{J_k}** ✓(QR5 (a) の 2|2 版 — singleton 不要のため
+  §3.2 移植すら不要の初等閉鎖)。
+- **(b) 比較可能・非深相殺**: (a) 否(J_k 全体で e^{−1} ≤ |H| ≤ e)かつ σ ≥ 1/10:
+  t* = argmax|1+H| で g(t*) ≥ σ/e ≥ 1/(10e) ⇒ **‖g‖_{I_k} ≤ 2 ≤ 20e·‖g‖_{J_k}** ✓。
+- **(c-ii) 中間深度**: (a) 否かつ c₁ρ⁹ ≤ σ < 1/10: 同様に ‖g‖_{J_k} ≥ σ/e ≥ c₁ρ⁹/e ⇒
+  **‖g‖_{I_k} ≤ (2e/c₁)·ρ⁻⁹·‖g‖_{J_k}** ✓(c₁ は A.4/A.5 の menu で確定する仮置き —
+  QR5 3.8.1 と同じ規約)。
+- **(c-i) 深平坦**: (a) 否かつ σ < c₁ρ⁹ — 以下の層別の後、JF₉(A.2)・two-sided
+  P4(A.3)・WE₉(A.4)へ。**本 packet はここを閉じない**。∎
+
+**(F2²-4) divisor 層別(deep-flat 域の前処理)**:
+- **共通因子の exact 相殺**: cell 上で D := gcd(P₁, P₂)(モニック代表、
+  deg D =: d_common ≤ 2)、P_i = D·P̃_i(P̃₁, P̃₂ 互いに素)。
+  F = D·F̃(F̃ := P̃₁V₁e^{r₁} + P̃₂V₂e^{r₂})かつ
+  U_H = log|D| + Ũ_H(Ũ_H := max(log|P̃₁V₁e^{r₁}|, log|P̃₂V₂e^{r₂}|))なので
+  **g = e^{−Ũ_H}|F̃| = g̃ — 共通因子は weighted ratio から exact に消える**。
+  深平坦解析は互いに素な reduced pair (P̃₁, P̃₂) に帰着し、A.2 の次数予算は
+  9 − 2·d_common … ではなく **W_c の ord F = ord D + ord F̃ 分解により
+  ord F̃ ≤ 9 − (D の消滅次数)** の形で消費する(正確な予算勘定は A.2 の義務)。
+- **片側零点の非深平坦性(観察)**: t₀ が P̃₁ のみの零点なら近傍で |H| 小 ⇒
+  |1+H| ≈ 1 — 深平坦集合から自動排除。P̃₂ のみの零点(H の極)も対称に排除
+  (g → 1)。**定量的 tube(排除近傍の幅と定数)は A.3 の義務** — 本 packet は
+  層別(numerator-only / denominator-only / common)の三分岐と各分岐の行き先のみを
+  固定する。
+- **lead 下界 obligation の構造的解消経路(§8.1 (3) の送り事項)**: F2 により block は
+  **exact 多項式因子 P_i** を持つ — 深平坦比較は |P̃₁| vs |P̃₂| の直接比較となり、
+  独立な「lead 下界 witness」は不要になる(定量比較は A.2 の JF₉ が担う)。
+  GC-3 §7.3 の deep_vanishing_witness の lead_i field は、A.2 受理時に
+  「P̃_i の係数 witness(F2 から exact に読める)」へ差し替える spec 改訂を予定
+  (versioned 方式 — §8.2.5 と同様)。∎
+
+**(F2²-5) 深平坦窓の u-形**: (c-i) の J_k 上(σ < c₁ρ⁹ ≤ 10⁻²・|H| ∈ [e^{−1}, e])では
+−H が 1 近傍にあり、u := Log(−H)(principal)が定義され |u| ≤ 2|1 + H| ≤ 2c₁ρ⁹、
+  u = log(P̃₁/P̃₂) + log(V₁/V₂) + (r₁ − r₂) − iπ (mod 2πi、cell 上の分枝固定)
+— 「deg ≤ 2 有理 log + 有界単位 log + 二次多項式」の形。全窓への分枝接続は
+A.5(bootstrap)の義務(QR5 P3 と同配置)。∎
+
+**scope(非主張)**: (c-i) の閉鎖(JF₉/P4/WE₉/BOOT/ASM)、γ の確定、
+V_i の複素 collar 評価(A.3 — COLLAR-POLE 対応)、FR 条件の最終充足(A.6)。
+人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -656,6 +721,12 @@ open obligation)、FR §10.3 条件 2 の完全充足(A.6)、(E-w) 組み立て(
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.13(2026-08-18): GC-4A.0 accepted(R-GC4A0 R4 PASS、fixed SHA `742c96a`)。
+  §8.3 GC-4A.1 PBK22-F2 draft — double F2、対称正規化恒等式 g = |1+H|/max(1,|H|)
+  (exact 天井 2)、case (a)/(b)/(c-ii) の初等完結、divisor 層別(共通因子の exact
+  相殺 g = g̃、片側零点の排除観察、lead 下界 obligation の構造的解消経路)、
+  深平坦窓の u-形。
 
 - v0.12.3(2026-08-18): R-GC4A0 R3 findings(BLOCKED)適用 — [R3-01] accepted §7.1 を
   逐語復元し、拡張を versioned schema(GCDomainSchemaEnum-v2 = v1 + D-PBK-22v2/31v2/Mv2、
