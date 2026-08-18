@@ -846,6 +846,29 @@ def test_f3prime_withdrawn_degree_ledger_is_not_reintroduced():
     assert sum(occurrences.values()) == 1
 
 
+GC_PROGRAM_DOC = ROOT / "docs" / "2026-08-18-general-c-block-frame-program--wip.md"
+
+F3PRIME_SPEC_ONLY_FRAGMENTS = (
+    "z\u2075/\u221a5!",
+    "A_j = \u2212B_j\u00b2",
+    "profile (0,1,5)",
+    "h_\u03b2/\u2016h_\u03b2\u2016",
+)
+
+
+def test_f3prime_gc_program_doc_uses_pointer_not_restatement():
+    """The GC program doc must point at the FR spec \u00a77 canonical F3-prime
+    witness and must not restate its defining formulas/profile
+    (luna R-GC4B0 R6 [04])."""
+
+    text = GC_PROGRAM_DOC.read_text(encoding="utf-8")
+    assert "\u6b63\u672c: FR \u6587\u66f8 \u00a77" in text
+    for fragment in F3PRIME_SPEC_ONLY_FRAGMENTS:
+        assert fragment not in text, (
+            f"F3-prime restatement returned: {fragment!r}"
+        )
+
+
 # --- issue #137 (topological K-epsilon) surfaces -----------------------------
 
 TOPO_DIRS = {
