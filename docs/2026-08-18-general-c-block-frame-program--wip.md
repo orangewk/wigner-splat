@@ -163,7 +163,7 @@ c=3 上界の到達例。∎
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
-| GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | **drafted(§8.7、R1–R4 findings + consult #11 適用済み、査読待ち R-GC4A2C R5)** |
+| GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | **drafted(§8.7、R1–R5 findings + consult #11 適用済み、査読待ち R-GC4A2C R6)** |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
@@ -1133,7 +1133,7 @@ Newton 探索): **deg ≤ 2 で genuine ord は 6 で頭打ち**(ord 6 = 200/200
 **scope(非主張)**: 床(c_J・c_{Q,C} — A.2c)、W_CONFL(2,2) の証明(A.2c)、
 QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は未実施。
 
-### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R4 findings + consult #11 適用済み、査読対象 R-GC4A2C R5)
+### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R5 findings + consult #11 適用済み、査読対象 R-GC4A2C R6)
 
 **目的**: 各 proof box で相対床 φ ≥ c·κ を証明し、合成定数
 c_J := min c > 0(K = 1 — §8.6 (N-6′))を確立する。**本 packet が GC-4A 系の
@@ -1455,9 +1455,6 @@ min は Lipschitz 保存)かつ κ|_{Z_QR} = 0 ⇒ κ(x) ≤ C_L·dist(x, Z_QR)
 open 義務ではない — [GC4A2CR3-02] の「open のまま床を主張」状態を解消。)
 *数値診断*: §9 QC-TRANSV 行を参照(数値結果・件数・統計は §9 のみに記載 —
 [GC4A2CR5-m1]。診断であり証明の代替ではない)。
-*数値診断*(§9 QC-TRANSV): σ_eff は random 4844 配置で全て正(中央値 0.11)、
-adversarial 探索の零接近はすべて routed 境界(confluent 帯・係数消滅面)への
-接近で説明され、**chart 内部の構造的縮退は検出されず** — 本主張と整合。
 
 **(FL-7) 合成**: 合成の対象は **structural proof box のみ**(K_{C,k} —
 (FL-0)。**Q_C は簿記専用で床の合成から除外**([GC4A2CR4-m2])。r ≤ 1 exit
@@ -1504,6 +1501,18 @@ B(3|1)・C(多分割)の床(= GC-4B/GC-4C 系 packet — §8.7 の「C chart」�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.22.3(2026-08-18): R-GC4A2C R5 findings(blocking 4 + minor 1)適用 — [B1]
+  canonical strip(Im α₀ ∈ [0, 2π))で incidence の 2πik 周期を切り、C_p を明示式
+  (α₂,α₁ ≤ 2 × 箱半径、|Re α₀| ≤ log(1/ε_band))に置換(Cauchy 評価の宣言を撤回)、
+  R_Q := 2C_p の §8.6 整合(存在宣言のみ受理・値指定は緩む方向の拡張)を明記。
+  [B2] frontier 型別の次元表(追加方程式 × 拘束される自由パラメタ × proper 性根拠)
+  で dim strict 減を証明。[B3] **mixed C_i box の内部に QR 点が存在しない**こと
+  (3 相異 class の prefactor 付き独立性で全係数零)を証明し、mixed 型 collapse を
+  不要化(d₀ = 2 比較懸念も消滅)。[B4] 床の定義域を非終端(r ≥ 2・両 side 非空)に
+  限定、side 全滅面には Z_QR が接近しない(|e^Q| ≤ e^{3R_Q} 有界 ⇒ κ ≥ c_side > 0)
+  ことを証明、intra-side 係数面は intrinsic 量の chart 非依存性で box 跨ぎ移送。
+  [m1] §8.7 の数値再掲を削除(authoring location = §9 のみ)。
 
 - v0.22.2(2026-08-18): R-GC4A2C R4 findings(blocking 3 + minor 2)適用 — [01][02]
   (6-v) を精密化: (v-a) R_Q := 2C_p の宣言で Q-band 境界 strata を空に(tangent
