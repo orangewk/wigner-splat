@@ -1178,14 +1178,15 @@ deg ≤ 1 部分形: (★) 右辺 deg ≤ max(2+1, 1+0) = 3、ord F ≥ 5 で同
 *数値整合*: §9 JF-NONCOMPACT fixture ⑥(deg≤1: 150/150 が ord 4・≥5 なし、
 deg≤2: 200/200 が ord 6・≥7 なし)と bound が一致(sharp)。
 *床への変換*: C_12 系 chart の limit object は係数球面 ‖·‖_∞ = 1 上(§8.6 (N-2))。
-φ = 0 ⇒ ord ≥ 10 − d₀ ≥ 7(d₀ ≤ 3 — D3 divisor 上限は A.1 divisor_record の
-gcd deg ≤ 3。d₀ ≥ 4 の場合も ord ≥ 7 は保たれる: 10 − d₀ ≥ 7 ⟺ d₀ ≤ 3、
-d₀ ≥ 4 では jet range {3..9−d₀} ⊆ {3..5} — W_CONFL の bound 6 との整合は
-ord ≥ 6 + 1 で十分であり、橋の ord ≥ d₀ + N + 1 = 10 から reduced part の
-ord ≥ 10 − d₀ ≥ 7 > 6 が任意の d₀ ≤ 3 で成立。d₀ ∈ {4,5,6} は jet range が
-{3..5}, {3..4}, {3} と縮むが reduced ord ≥ 10 − d₀ ≥ 4 > ... この場合の床は
-short-range 勘定として (FL-4) の Vandermonde 側で扱う — 本行の主張は d₀ ≤ 3)
-⇒ W_CONFL より係数全零 ⇒ 球面と矛盾。∎
+まず **d₀ ≤ 2 は構造的上界**: D = gcd(P̃₁, P̃₂)、deg P̃_i ≤ 2(A.1
+divisor_record)なので deg D ≤ 2、d₀ = ord_{t₀}D ≤ deg D ≤ 2。
+φ = 0 ⇒(EX-3 の橋)reduced part の ord ≥ 10 − d₀。**d₀ 場合分け**(gcd を
+除くと reduced prefactor の次数が d₀ だけ下がることを使う — D の因子は両
+prefactor から exact に割れる):
+  - d₀ = 0: reduced prefactor deg ≤ 2、W_CONFL bound 6 < 10 ✓
+  - d₀ = 1: reduced prefactor deg ≤ 1、W_CONFL(deg ≤ 1)bound 4 < 9 ✓
+  - d₀ = 2: reduced prefactor は定数 ⇒ 2-class 指数結合、W_c(2) = 2 < 8 ✓
+いずれも deep vanishing と両立せず、係数全零 ⇒ 球面と矛盾。∎
 
 **(FL-2b) 片側 confluent の混合系(C_i/C_i^{(2)})**:
 *主張*: F = P e^{q₀} + c₃e^{q₃} + c₄e^{q₄}(deg P ≤ 2、q₀/q₃/q₄ の差は
@@ -1206,10 +1207,13 @@ pairwise 非定数、c₃c₄ ≠ 0 または片方零)⇒ F ≢ 0 なら ord_{t
   ord F₁ ≤ 1 ⇒ ord F ≤ 2。いずれでも ord F ≤ 8。∎
 (P′ + PΔ₀₃′ ≡ 0 は P ≡ 0 も導く(同じ leading 勘定)ので (d) は c₄ = 0 なら
 F ≡ 0 に退化し矛盾。)予算整合: 8 ≤ 9 ✓。
-*床への変換*: (FL-2) と同じ compactness + 球面正規化。φ = 0 ⇒ reduced ord ≥ 7…
-の勘定は d₀ ≤ 1 で ord ≥ 9 > 8 を要求するため、**C_i 系の床は d₀ ≤ 1 に対し
-本 bound で閉じ、d₀ ≥ 2 は (FL-4) short-range 勘定へ委譲**(型は route record の
-d₀ で分岐 — fail-closed)。
+*床への変換*: (FL-2) と同じ compactness + 球面正規化 + d₀ 場合分け(d₀ ≤ 2 は
+(FL-2) と同じ構造的上界):
+  - d₀ = 0: 本 bound 8 < 10 ✓
+  - d₀ = 1: reduced prefactor deg ≤ 1 — 消去勘定を再実行すると (a) の side-0
+    deg ≤ max(0, 1+1) = 2、(b) の R deg ≤ 2 + 2 = 4 ⇒ bound ≤ 3 + 4 = 7 < 9 ✓
+  - d₀ = 2: reduced prefactor 定数 ⇒ 3-class 指数結合、W_c(3) = 5 < 8 ✓
+いずれも deep vanishing と両立しない。∎
 
 **(FL-3) M_r(r ∈ {2,3})の limit-object 床**: 極限対象は r-class 指数結合
 (prefactor なし)。GC-1 W_c(r): ord ≤ D_W(r) = r(r+1)/2 − 1 ≤ 5 < 7。
@@ -1235,14 +1239,10 @@ principal part との和として φ_Z の連続性が成立(§8.6 (N-7))。φ_Z
 この排除は ord ≥ 10 − d₀ の deep vanishing に対して (EX-3) の橋を経由し、
 reduced 系の ord 上界(≤ 4 零点 + unit — 上記 Vandermonde)と矛盾させる。∎
 G chart は gcd divided-difference で D 再取得((N-4))に落ち、床は D 側((FL-5))。
-**short-range 勘定(d₀ ≥ 2 の C 系委譲分を含む)**: jet range {3..9−d₀} が
-短い場合も、モーメント条件の本数 7 − d₀ ≥ 列数 4 が成立する限り(d₀ ≤ 3)
-同じ Vandermonde 論法が走る。d₀ ∈ {4,5,6} は条件本数 < 4 となるが、この場合
-reduced ord ≥ 10 − d₀ ∈ {4,5,6} の消滅を ≤ 4 − (d₀ − 3) 個の零点系に要求する
-ことになり、W_c(r) 型勘定(D_W ≤ 5)との整合検査を **route record の
-d₀-branch invariant として型付けする**(d₀ ≥ 4 の実現可能性自体が A.1 divisor
-上限(gcd deg ≤ 3)と衝突するため、**d₀ ≥ 4 の record は生成禁止(fail-closed)**
-— 空虚に真)。
+**short-range 勘定**: d₀ ≤ 2((FL-2) の構造的上界 — deg gcd ≤ 2)なので
+モーメント条件の本数 7 − d₀ ≥ 5 は常に列数 4 以上 — Vandermonde 論法は全
+d₀ で走る。**d₀ ≥ 3 の record は生成禁止(fail-closed — 構造的上界により
+空虚に真)**。
 
 **(FL-5) D/S chart の低 arity 帰着**:
 - D_{i,0}/D_{i,∞}: E_i → 0/∞ の極限で pair i は単原子化し、limit object は
@@ -1315,6 +1315,12 @@ QR5 P2 の kernel 計算が与える指数(本 packet は ord 上界のみ使用
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.21.1(2026-08-18): §8.7 起草直後の self-review 修正(査読前)— d₀ の構造的
+  上界を 2 に訂正(deg gcd(P̃₁,P̃₂) ≤ 2 — v0.21 の「≤ 3」と書きかけ文は誤り)、
+  (FL-2)/(FL-2b) の床変換を d₀ 場合分け(gcd 除去で reduced prefactor 次数が
+  d₀ だけ下がる: d₀=1 ⇒ deg≤1 bound、d₀=2 ⇒ 定数 ⇒ W_c(r))で全ケース直接
+  閉鎖に書き換え、(FL-4) の short-range 委譲を撤回(d₀ ≥ 3 生成禁止)。
 
 - v0.21(2026-08-18): GC-4A.2c CONFL22 ドラフト起草(§8.7)— (FL-0) 床の統一形式、
   (FL-1) genuine 配置(compactness + EX-3/EX-4 + W_c(r))、(FL-2) **W_CONFL(2,2) v2 の
