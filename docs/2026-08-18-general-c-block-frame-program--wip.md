@@ -169,7 +169,7 @@ c=3 上界の到達例。∎
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
-| GC-4B.0 ADAPT31 | GC-3、c=3 FR | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | open |
+| GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **drafted(§8.9、査読待ち R-GC4B0 R1)** |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
@@ -1779,6 +1779,58 @@ K = 1)の合成は、A.2c-core の受理を前提に本節が authoring location
 **scope(非主張)**: §8.7 core の非主張項目に同じ + ZG-NF の数値検証
 (SING-FRONTIER — 診断)。人間による査読は未実施。
 
+
+### 8.9 GC-4B.0 ADAPT31(triple divisor adapter の feasibility — drafted、査読対象 R-GC4B0 R1)
+
+**目的**: 3|1 dispatch の「3」側(3 原子和)に対する **chart 付き Weierstrass
+certificate** の型と構成可能性を確立する。接触次数 ≤ 5(W_c(3))は点での ord
+上界であり collar 内の**総零点数**を制御しない — 後者が divisor 抽出の前提。
+失敗は 3|1 経路の重大 no-go 信号(§4 台帳)。
+
+**(AD-1) certificate 型(typed・fail-closed)**:
+  `TripleWeierstrassCert := (P, V, r, witnesses)`、
+  B_triple = P·V·e^{r}(P = collar 内零点の monic 多項式因子・deg P ≤ N_T、
+  V = collar 上零点自由 unit、r = 二次)。witnesses:
+  `(zero_count ≤ N_T の検証値, collar 半径, sup|V|± 両側 bound, P 係数域)`
+— A.1 の pair F2 factorization・A.3a zf_witness と同型の規約(欠落 = record
+生成禁止)。
+
+**(AD-2) counting 補題(N_T の存在)**: 主張 — **正規化 chart 座標の
+admissible triple 族に対し、collar 内零点数は一様上界 N_T < ∞ を持つ**。
+*証明*: 各 chart 家族(§8.6 受理済み atlas の 3-class 版: plain / 片側
+confluent / 全 confluent — 有限個)で、正規化データ(係数 ℓ² 球面・anchor 差
+閉円板・chart 前提の分離 band)は **compact**、かつ admissible set 上で
+f ≢ 0(merge-first + class 相異 + 係数非零 ⇒ GC-1 W_c(3) の独立性)。
+非零整関数の compact 円板内零点数は各点で有限、かつ族の一様収束位相で
+**上半連続**(Hurwitz — 零点は極限で消えるか留まるかのみ、増えない)。
+compact 族上の上半連続関数は最大値を取る ⇒ 家族ごとの N_T(chart) < ∞、
+家族有限個 ⇒ **N_T := max < ∞**。∎
+(confluent 面は A.2b の divided-difference 再正規化 chart の閉箱に入る —
+新しい compactification は不要。生データでの零点数は位相スケールとともに
+増大する(§9 TRIPLE-VALENCY 診断)ため、**正規化座標での主張が本質** —
+「接触次数だけでは足りない」の正体。)
+
+**(AD-3) 供給源 2 系統の被覆(GC-4C.0 (3) 表の要件)**:
+- **prepared tree triple**: SPLIT4(GC-2 受理済み)の T-topology node 出力 —
+  node witness(comparable-gap η ≥ η_*/2、scale 吸収)が正規化データを
+  chart 閉箱内に供給する。
+- **radial 混成 3 原子和**: SIG-AUDIT(GC-4C.0 受理済み)の 3|1 dispatch —
+  radial signature witness(margin 安定・weighted aggregation)が同じく
+  正規化データを供給する(certificate なし側 — 本 adapter が certificate を
+  付与する)。
+いずれも admissible 正規化 triple として (AD-2) の族に入るため、
+**同一の certificate 型が両系統に適用可能**。∎
+
+**(AD-4) feasibility 判定**: (AD-1) の型は (AD-2) の N_T と A.1/A.3a の既存
+witness 規約のみで構成可能であり、**構成を妨げる障害は存在しない**
+(= B.0 の go 判定)。数値診断(§9 TRIPLE-VALENCY 更新): 正規化スケールで
+最大零点数 5(12000 標本、|y| ≤ 1.5)、非正規化では位相スケールとともに増大
+(scale 3: 14、scale 8: 35)— 正規化必須性と N_T の有限性に整合。診断であり
+証明の代替ではない。
+
+**scope(非主張)**: 3|1 kernel 指数の本体(GC-4B)、N_T の有効値(存在のみ)、
+triple の deep-flat 解析(GC-4B 系)、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -1796,7 +1848,7 @@ K = 1)の合成は、A.2c-core の受理を前提に本節が authoring location
 | DEG4-SHARP | 二指数・deg ≤ d prefactor 系の sharp ord(FL-6 の次数爆発懸念の検証) | Newton 探索(scale gauge 固定、genuine 到達) | **結果**: sharp = 2d + 2(d=1: 4、d=2: 6、d=3: 8、d=4: 10 到達・11 なし)。d = 4 は予算 10 と衝突するが、consult #11 裁定 + §8.7 (6-iii)(regular = 2 指数 deg≤2 → W_CONFL 6 / C = 1 指数 ord ≤ 4)により **QR 横断線形化には現れない**(この主張の証明本体は (6-iii) — 本行は診断・裁定の記録)。 |
 | SING-FRONTIER | singular frontier(gcd-jump・degree-drop・Q-band 境界)近傍で φ/κ の下限が (6-v) tube 帰納の定数より劣化する | frontier 近傍の高精度 continuation(ε 対数列) | open(**(6-v) の tube 帰納証明の数値検証(診断)** — 証明上の open 義務ではない([GC4A2CR3-02] 解消後の位置づけ)。GC-5 前に実施推奨) |
 | COLLAR-POLE | 実区間で unit 有界でも分母複素零点が collar に接近する列 | V_i の複素零点距離 | open(A.3 入力) |
-| TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内に 6 個以上の零点を持つ triple | 零点計数 | open(B.0 の主敵) |
+| TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内の零点数が非有界になる triple 族 | 偏角原理による零点計数(random 12000 + スケール比較) | **結果**: 正規化スケール(chart 座標相当)で最大 5(|y| ≤ 1.5)、非正規化は位相スケールと共に増大(scale 3: 14 / scale 8: 35)⇒ **正規化族での一様上界に整合・非有界の反例なし**(§8.9 (AD-2) が消費。診断) |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
 
 ## 10. リスク台帳
@@ -1809,6 +1861,13 @@ K = 1)の合成は、A.2c-core の受理を前提に本節が authoring location
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.26(2026-08-19): GC-4B.0 ADAPT31 を §8.9 として起草 — (AD-1)
+  TripleWeierstrassCert 型(fail-closed)、(AD-2) counting 補題(正規化 chart
+  族の compact 性 + Hurwitz 上半連続性で N_T < ∞ — A.2b atlas を基盤に消費)、
+  (AD-3) 供給源 2 系統(SPLIT4 tree triple / SIG-AUDIT radial 混成)の被覆、
+  (AD-4) feasibility go 判定。§9 TRIPLE-VALENCY に数値結果(正規化 max 5、
+  非正規化はスケール増大 — 非有界反例なし)を記録。
 
 - v0.25(2026-08-19): **GC-4A.2c 確定** — A.2c-core 受理(R-GC4A2CCORE R4、fixed
   SHA `c0c9e05`)+ A.2c-Z 受理済み(`5ea87ec`)により、トップレベル A.2c(chart
