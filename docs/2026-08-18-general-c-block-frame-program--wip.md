@@ -160,8 +160,11 @@ c=3 上界の到達例。∎
 | GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | **accepted**(R-GC3 R4 PASS、fixed SHA `dc6cac9`) |
 | GC-4A.0 PBK22-BRF | GC-3 | simultaneous RECENTER・共通 cell cover・bi-graded ray ledger(held 自動性の正式棄却と graded held 化 — consult #8)。**go/no-go 最小集合** | **accepted**(R-GC4A0 R4 PASS、fixed SHA `742c96a`) |
 | GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | **accepted**(R-GC4A1 R2 PASS、fixed SHA `50a4e45`) |
-| GC-4A.2 PBK22-JF9 | A.1 | W_c と log-ratio jet の quantitative bridge(次数予算 9 − d_common、全 compact boundary face)。**最大の go/no-go packet** | open |
-| GC-4A.3 PBK22-P4 | A.2 | two-sided SN(numerator/denominator/common-zero)、zero-free tube、10 階上界。**go/no-go 最小集合** | open |
+| GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | open |
+| GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | open |
+| GC-4A.2b JF9-NORM | A.2a/A.3a | global rate scale λ(Φ_p の 4 位相の共通 gauge 後 weighted 座標 max)、adapted residual κ(二次比 locus からの横断残差 — jet 値から逆算しない)、境界面 closure 表(各 face の送り先を一行ずつ宣言) | open |
+| GC-4A.2c CONFL22 | A.2b | 床の証明: plain face = W_c(4)、QR5 face = 明示計算、P e^q face = **限定 confluent W(W_CONFL(2,2))**、compact normalized 空間で c_J > 0。**最大の go/no-go packet** | open |
+| GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
@@ -446,6 +449,23 @@ go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、confluent �
 
 ## 8. GC-4 packet 本文
 
+**設計記録(Sol consult #9、2026-08-18 — JF₉ の target 修正)**: 生の JF₉
+(max_{3≤n≤9}|u⁽ⁿ⁾|/(κλⁿ) ≥ c_J、λ = pair 成分 max)は**偽** — 反例 =
+**二次比枝**: B₁ = −e^{Q(t)}B₂(Q 二次。例: η = ε²t、Q = εt — 真正な階層的 2|2・
+held・collar 付きで u = Q ⇒ u⁽ⁿ⁾ = 0(n ≥ 3))。**route no-go ではなく分岐不足**。
+修正 target(A.2a/c の受理形): **p := T₂u、v := u − p として「v ≡ 0(二次比枝 —
+deg≤2 Chebyshev/Remez route へ)または max_{3≤n≤9−d₀}|v⁽ⁿ⁾(t₀)|/(κλⁿ) ≥ c_J**」。
+κ = 二次比 locus からの adapted 横断残差、λ = Φ_p := B₁ + e^p B₂ の 4 位相の共通
+gauge 後 weighted 座標 max(F2 分解の成分別正規化は人工特異面を作るため禁止 —
+child log は log(e^{z_i}−1) に再結合)。橋: v の 0..N 消滅 ⇒ ord Φ_p ≥ d₀ + N + 1
+(Φ_p = D e^p C₂(1 − e^v))⇒ N = 9 − d₀ で ord ≥ 10 ⇒ 真正 4 原子面では W_c(4) に
+矛盾。**confluent 面(正規化極限が P e^q 型 — 例 z_ε = ε(1+t): E → 1・零点 collar 外・
+(e^{z_ε}−1)/ε → 1+t)は主境界として残り、plain W_c では閉じない** ⇒ 限定版
+**W_CONFL(2,2)** が A.2c の新義務(s_i → 0 が入力なので内部衝突は例外でなく主経路)。
+退化極限の三分岐: exact merge → W_c(c′<4)(有利)/ Φ_p ≡ 0 → 二次比枝 /
+P e^q → W_CONFL。A.2/A.3 は循環(JF が collar を仮定・collar が A.2 に依存)のため
+**A.2a / A.3a / A.2b / A.2c / A.3b に再分解**(§4 台帳 v0.15)。
+
 **設計記録(Sol consult #8、2026-08-18)**: GC-4A の単一 packet 化は不可(一 packet
 一 claim の cadence 違反 + QR5 で実際に循環が発生した箇所の分離)。分解 = §4 台帳の
 A.0–A.6 / B.0 / C.0。骨格: simultaneous RECENTER/cell 化 → double F2 → two-sided
@@ -723,7 +743,7 @@ V_i の複素 collar 評価(A.3 — COLLAR-POLE 対応)、FR 条件の最終充�
 | BUDGET-TREE | child cost の二重計上 | 全 c≤8 tree・route 列の Σlog C_step の T² 係数 | open(GC-11 入力) |
 | AUTO-HELD-22 | 「T3 の pair children は node scale で自動 held」 | 反例構成 | **棄却済み**(正本 = §8 設計記録) |
 | COMMON-DIVISOR | 両 pair が同一点同次数消滅 + reduced 先頭も相殺で deep-flat が残る | exact 構成と reduced pair の挙動 | open(A.1/A.3 入力) |
-| JF-NONCOMPACT | ord F ≤ 9 でも正規化 log jet の最小値が confluent 境界で 0 へ落ちる列 | 正規化列の jet floor 数値 | open(A.2 の主敵) |
+| JF-NONCOMPACT | ord F ≤ 9 でも正規化 log jet の最小値が confluent 境界で 0 へ落ちる列 | **境界 continuation**(exact jet recurrence、高精度、ε 対数列、R_ε = max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ) の傾き判定 — finite difference 禁止)。fixture: ①二次比族(κ=0 分類の検証)②near-quadratic 族 η₁=η₂+δt² ③両 pair confluent 族 ④混成 scale 族 ⑤gcd-jump 族 ⑥**confluent 直接族 P₁e^{q₁}+P₂e^{q₂} の ord/jet 最小特異値探索(真の no-go テスト — 非零・非二次比配置が 0..9 jet を同時消滅させれば GC-4A no-go)** | open(A.2c の主敵 — consult #9 で fixture 確定) |
 | COLLAR-POLE | 実区間で unit 有界でも分母複素零点が collar に接近する列 | V_i の複素零点距離 | open(A.3 入力) |
 | TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内に 6 個以上の零点を持つ triple | 零点計数 | open(B.0 の主敵) |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
@@ -738,6 +758,12 @@ V_i の複素 collar 評価(A.3 — COLLAR-POLE 対応)、FR 条件の最終充�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.15(2026-08-18): consult #9(Sol — JF₉ 設計)反映: 生 JF₉ の反例(二次比枝)と
+  修正 target(v ≡ 0 or 横断残差 κ 床)、Φ_p 橋(ord ≥ d₀+N+1、予算は ord_{t₀}D)、
+  confluent 面の主境界性と W_CONFL(2,2) 義務、A.2/A.3 の循環解消再分解
+  (A.2a/A.3a/A.2b/A.2c/A.3b — go/no-go 最小集合を更新)、JF-NONCOMPACT の
+  boundary-continuation fixture 6 本。
 
 - v0.14(2026-08-18): GC-4A.1 accepted(R-GC4A1 R2 PASS、fixed SHA `50a4e45`)。
   最小集合 3/6(C.0・A.0・A.1)。次 = A.2 JF₉(設計 consult #9 → draft)。
