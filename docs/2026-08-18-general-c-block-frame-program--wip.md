@@ -167,7 +167,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
-| GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **drafted(§8.9、R1–R7 適用済み、査読待ち R-GC4B0 R8)** |
+| GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **accepted(条件付き go — §8.9、R-GC4B0 R8 PASS、fixed SHA `eee39bf`。TN-3 は GC-5 受理条件)** |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
@@ -1778,7 +1778,7 @@ K = 1)の合成は、A.2c-core の受理を前提に本節が authoring location
 (SING-FRONTIER — 診断)。人間による査読は未実施。
 
 
-### 8.9 GC-4B.0 ADAPT31(triple divisor adapter の feasibility — drafted、R1–R7 適用済み、査読対象 R-GC4B0 R8)
+### 8.9 GC-4B.0 ADAPT31(triple divisor adapter の feasibility — **accepted(条件付き go)、R-GC4B0 R8 PASS、fixed SHA `eee39bf`**。TN-3 は §4 GC-5 受理条件の blocking downstream obligation)
 
 **目的**: 3|1 dispatch の「3」側(3 原子和)に対する **chart 付き Weierstrass
 certificate** の型と構成可能性を確立する。接触次数 ≤ 5(W_c(3))は点での ord
@@ -1981,6 +1981,14 @@ deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.26.8(2026-08-19): **GC-4B.0 ADAPT31 受理** — R-GC4B0 R8 PASS(luna
+  gpt-5.6-luna xhigh、fixed SHA `eee39bf`、blocking なし、29 tests 通過)。
+  受理は**条件付き go の feasibility packet** として: AD-2 の定理文は
+  「TN-3 成立 ⇒ N_T < ∞」の条件付き主張、AD-4 は条件付き go、TN-3 は §4
+  GC-5 受理条件の blocking downstream obligation。これにより **go/no-go
+  最小集合 {A.0, A.1, A.2a, A.3a, A.2b, A.2c(core+Z), B.0, C.0} は 8/8
+  受理** — 第一段 go 判定の成立条件を満たす(判定記録は別途)。
 
 - v0.26.7(2026-08-19): R-GC4B0 R7(blocking 2)適用 — [01] AD-2 の定理文
   自体を条件付きに訂正(「TN-3 が成立すれば N_T < ∞」— 証明状態注記のみの
