@@ -50,16 +50,19 @@ u_j^{(r)} = e^{p_j} H_r(A_j z + B_j, A_j)、deg_z H_r ≤ r。よって
   Wr(u_1,…,u_c) = e^{Σp_j} V_c(z)、deg V_c ≤ C(c,2) = c(c−1)/2。
 相異パラメタの entire 独立性から V_c ≢ 0。adapted valuation profile v_1 < ⋯ < v_c に
 c=3 恒等式(補題 W 文書)の一般形 ord₀ Wr = Σv_i − C(c,2) を適用し、v_i ≥ i−1 と併せ
-  **D_W(c) := max v_c ≤ c(c+1)/2 − 1**(c=2: 2、c=3: 5 を再現。FR 文書 §7 の旧候補
+  **v_c ≤ D_W(c) := c(c+1)/2 − 1**(c=2: 2、c=3: 5 を再現。FR 文書 §7 の旧候補
   D(w) = (w−1)(w+2)/2 と同値)。
+**記法**: D_W(c) は本 program が下流(J^{D_W(c)}-SVD 等)で消費する**証明対象の上界値**。
+到達可能な sharp 最大値は D_W*(c) と書き分ける(D_W*(c) ≤ D_W(c)。D_W*(2)=2、D_W*(3)=5
+は既知、c≥4 の値は非主張 — 下の診断は D_W*(4)=8 を示唆)。
 GC-1 の受理条件: この勘定の自己完結証明(恒等式の一般 c 版・constant-gauge rank drop
 込み・c=2/3 の復元)。
 
 **sharpness(非主張・診断)**: 数値診断(scratchpad `wgen_static_contact.py`、Newton 探索、
 スケールゲージ β₁=1 固定、各 120 初期点)では c=3: ord 5 到達・ord 6 解なし(補題 W と
 整合 — 手法検証)、**c=4: ord 8 到達・ord 9/10 解なし**。moduli 勘定(ゲージ後 3(c−1)−1 =
-3c−4 個)と一致し、sharp 値は 3c−4 < c(c+1)/2−1(c≥4)の可能性がある。下流は上界のみ
-消費するので、GC-1 は 9(一般式)で閉じてよい。**衝突極限でも valuation 5 は到達**
+3c−4 個)と一致し、sharp 値は D_W*(c) = 3c−4 < D_W(c)(c≥4)の可能性がある。下流は
+上界 D_W(c) のみ消費するので、GC-1 は一般式 c(c+1)/2−1 で閉じてよい。**衝突極限でも valuation 5 は到達**
 (FR 文書 F3′: 3 乗根配置 A_j = −B_j²、profile (0,1,5)、h_β/‖h_β‖ → z⁵/√5!)—
 「静的接触のみの現象」ではない。
 
@@ -75,7 +78,8 @@ flat-limit jet injectivity)が別途必要 — c=3 で FR-S1″ が果たした�
 不要(純代数的 — 全て entire)。W := span{u_1, …, u_c}。
 
 **statement(W_c)**: dim W = c であり、任意の z₀ ∈ ℂ と任意の f ∈ W∖{0} に対し
-  ord_{z₀} f ≤ D_W(c) := c(c+1)/2 − 1。
+  ord_{z₀} f ≤ D_W(c) = c(c+1)/2 − 1(D_W の記法は §3 — 証明対象の上界値であり、
+  sharp 最大値 D_W*(c) の決定は非主張)。
 特に z₀ = 0 の adapted valuation profile v_1 < ⋯ < v_c は v_1 = 0、
 Σᵢ v_i ≤ c(c−1)、v_c ≤ D_W(c) を満たす。c=2: D_W = 2、c=3: D_W = 5(既存
 [補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) の (W2)(W3) と一致)。
@@ -95,16 +99,22 @@ A_i ≠ A_j なら 2 次)。閉包文書 §2 の L0(指数多項式独立性 —
 (ii) *解析的 Wronskian 判定(自己完結)*: entire な f_1,…,f_n が線形独立なら
 Wr(f_1,…,f_n) ≢ 0。*帰納*: n = 1 自明。f_1,…,f_{n−1} が従属なら f_1,…,f_n も従属で
 前提に反するから、f_1,…,f_{n−1} 独立、帰納法の仮定で Wr_{n−1} := Wr(f_1,…,f_{n−1}) ≢ 0。
-Wr_n ≡ 0 と仮定する。U := {Wr_{n−1} ≠ 0} は非空開集合。U 上で
-y ↦ Wr(f_1,…,f_{n−1}, y) = 0 は最高階係数 Wr_{n−1} ≠ 0 の (n−1) 階線形 ODE であり、
-f_1,…,f_{n−1} が解空間(次元 n−1)を張る。Wr_n ≡ 0 より f_n も U の各連結成分上で解
-⇒ f_n = Σ aᵢfᵢ(定数係数)が U のある開部分集合上で成立 ⇒ 一致の定理で ℂ 全体
-⇒ 従属 — 矛盾。∎
+Wr_n ≡ 0 と仮定する。U := {Wr_{n−1} ≠ 0} は非空開集合。**連結成分を一つ選び C ⊂ U と
+する**。C 上で y ↦ Wr(f_1,…,f_{n−1}, y) = 0 は最高階係数 Wr_{n−1} ≠ 0 の (n−1) 階線形
+ODE であり、f_1,…,f_{n−1} は C 上の解、かつ C 上でも線形独立(依存関係は一致の定理で
+ℂ 全体へ延びるため)なので **C 上の解空間(次元 n−1)を張る**。Wr_n ≡ 0 より f_n も
+C 上の解 ⇒ f_n = Σ aᵢfᵢ(定数係数、この成分 C 上)⇒ f_n − Σaᵢfᵢ は C(内点を持つ)で
+消える entire 関数 ⇒ 一致の定理で ℂ 全体で 0 ⇒ 従属 — 矛盾(係数 aᵢ が別成分で異なり
+得ることは問題にならない: 一つの成分で十分)。∎
 (i)(ii) より Wr(u_1,…,u_c) ≢ 0、したがって **V_c ≢ 0** かつ
 **ord₀ V_c ≤ deg V_c ≤ C(c,2)**。∎
 
-**(W_c-4) valuation identity(一般 c 版)**: z = 0 の adapted basis
-g_i = c_i z^{v_i} + O(z^{v_i+1})(c_i ≠ 0、v_1 < ⋯ < v_c)を取る。基底変換で Wronskian は
+**(W_c-4) valuation identity(一般 c 版)**: z = 0 の adapted basis を取る:
+W の任意の基底の Taylor 係数行列を z-次数の昇順に行簡約すれば、先頭次数が相異なる基底
+g_i = c_i z^{v_i} + O(z^{v_i+1})(c_i ≠ 0、v_1 < ⋯ < v_c)が得られる(pivot 次数の集合
+= profile は基底の取り方に依らない)。**任意の f = Σ b_i g_i ∈ W∖{0} について
+ord₀ f = min{v_i : b_i ≠ 0}** — 先頭項の次数 v_i は相異なので相殺しない。よって
+f の valuation は必ず profile の値のいずれかである。基底変換で Wronskian は
 非零定数倍しか変わらない。先頭項を代入すると falling-factorial 一般 Vandermonde により
   Wr(g_1,…,g_c) = (Π c_i)·Π_{i<j}(v_j − v_i)·z^{Σv_i − C(c,2)} + higher。
 higher が先頭位数へ戻らないこと: det の多重線形展開において各項の位数は
@@ -118,7 +128,7 @@ higher が先頭位数へ戻らないこと: det の多重線形展開におい�
 u_j(0) = 1 ≠ 0 より W の z=0 評価汎関数は非零で **v_1 = 0**。profile は非負整数の狭義増加列
 なので v_i ≥ i−1、よって
   v_c ≤ c(c−1) − Σ_{i=1}^{c−1}(i−1) = c(c−1) − (c−1)(c−2)/2 = (c−1)(c+2)/2 = c(c+1)/2 − 1。
-f ∈ W∖{0} の ord₀ f は profile の値のいずれかなので ord₀ f ≤ v_c ≤ D_W(c)。∎
+f ∈ W∖{0} の ord₀ f は profile の値のいずれか((W_c-4))なので ord₀ f ≤ v_c ≤ D_W(c)。∎
 
 **(W_c-6) 任意中心**: 平行移動 z ↦ z + z₀ は
 u_j(z + z₀) = e^{p_j(z₀)} · exp(A_j z²/2 + (A_j z₀ + B_j)z) と、同じ族(A 不変、
@@ -156,7 +166,7 @@ c=3 上界の到達例。∎
 工程見積り(Sol、2026-08-18): GC-0〜GC-4 go/no-go = 5–8 作業日、c=4 完結 = 2–3 週、
 一般帰納込み全体 = fixed-SHA 査読込み 5–8 週。PBK 失敗で K_c 回帰なら +3–6 週。
 
-## 5. GC-0 consumer audit(drafted — 査読対象 R-GC0)
+## 5. GC-0 consumer audit(accepted — R-GC0 R1 PASS、fixed SHA `b8167d1`)
 
 一般 c の枠(補題 N 一般版)を消費するのは閉包文書の次の 4 系統である。c≤3 の NC program
 (閉包 §4.4.1、accepted)の依存構造を一般 c/一般 k に引き直す。
@@ -201,6 +211,9 @@ c=3 上界の到達例。∎
 
 ## 8. 版履歴
 
+- v0.3(2026-08-18): R-GC1 R1 findings 適用 — [GC1-01] D_W(上界値)/D_W*(sharp 最大値)の
+  記法分離、[GC1-02] Wronskian 判定の連結成分明示、[GC1-03] adapted basis 構成と
+  「ord f ∈ profile」の根拠追加、[GC1-04] §5 見出しの状態同期。
 - v0.2(2026-08-18): GC-0 accepted(R-GC0 R1 PASS、fixed SHA `b8167d1`、findings なし)。
   §3.1 補題 W_c(GC-1)draft — 一般 valuation identity + Wronskian 次数勘定 +
   自己完結の解析的 Wronskian 判定。
