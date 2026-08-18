@@ -643,12 +643,18 @@ D3(P_i = 真正 deg ≤ 2 多項式で **P_i の零点 = B_i の零点**、|V_i|
 r_i = 基準二次位相。branch 判別(ν_i = Re w_i の三分岐)は cell witness に記録。∎
 (F2 の前提 β ≤ 1/8 は A.0 の held witness がそのまま供給する。)
 
-**(F2²-2) 対称正規化の exact 恒等式**: H := B₁/B₂(B₂ ≢ 0 の零点外で定義、
-有理型)。F = B₂(1 + H) と U_H = log|B₂| + log max(|H|, 1) より
-  **g := e^{−U_H}|F| = |1 + H| / max(1, |H|)**(B₂ の零点は両辺とも removable —
-  左辺は U_H = log|B₁| 側で有限、右辺は |H| → ∞ の極限 1 と連続接続)。
-**天井 g ≤ 2 が exact に成立**(|1+H| ≤ 2max(1,|H|))。H ↔ 1/H の対称性(g 不変)
-より、以後 WLOG の index 交換が合法。∎
+**(F2²-2) 対称正規化と g の定義([GC4A1-01] 対応)**: B₂ ≢ 0 より H := B₁/B₂ は
+**ℂP¹ 値の有理型関数**として区間全体で well-defined(B₂ のみの零点では H = ∞、
+共通零点では正則化商の値 — 有理型関数として除去可能)。
+  G(w) := |1 + w| / max(1, |w|)  は **ℂP¹ 上の連続関数**(G(∞) := 1 — |w| → ∞ で
+  |1+w|/|w| → 1)であり、**g := G(H(t)) と定義する**。
+B₁, B₂ が同時に零でない点では F = B₂(1+H)、U_H = log|B₂| + log max(|H|,1) より
+**g = e^{−U_H}|F| の exact 恒等式**が成立。共通零点(U_H = −∞、e^{−U_H}|F| は
+∞·0 型で未定義)では g は上の定義による**連続延長**であり、これが以後の kernel の
+対象量である(検算例: B₁ = B₂ = t ⇒ H ≡ 1 ⇒ g ≡ 2、B₁ = t, B₂ = −t ⇒ H ≡ −1 ⇒
+g ≡ 0 — 各 ord・先頭係数比 λ の場合は g(t₀) = G(λ)、次数差がある場合は G(0) = G(∞) = 1)。
+**天井 g ≤ 2 は ℂP¹ 全体で exact に成立**(G ≤ 2)。G(w) = G(1/w) の対称性より
+以後 WLOG の index 交換が合法。∎
 
 **(F2²-3) case 骨格と (a)/(b)/(c-ii) の完結**: σ := sup_{J_k}|1 + H|。
 - **(a) source 上の block 支配**: ある t* ∈ J_k で max(|H(t*)|, 1/|H(t*)|) ≥ e のとき、
@@ -658,14 +664,23 @@ r_i = 基準二次位相。branch 判別(ν_i = Re w_i の三分岐)は cell wit
 - **(b) 比較可能・非深相殺**: (a) 否(J_k 全体で e^{−1} ≤ |H| ≤ e)かつ σ ≥ 1/10:
   t* = argmax|1+H| で g(t*) ≥ σ/e ≥ 1/(10e) ⇒ **‖g‖_{I_k} ≤ 2 ≤ 20e·‖g‖_{J_k}** ✓。
 - **(c-ii) 中間深度**: (a) 否かつ c₁ρ⁹ ≤ σ < 1/10: 同様に ‖g‖_{J_k} ≥ σ/e ≥ c₁ρ⁹/e ⇒
-  **‖g‖_{I_k} ≤ (2e/c₁)·ρ⁻⁹·‖g‖_{J_k}** ✓(c₁ は A.4/A.5 の menu で確定する仮置き —
-  QR5 3.8.1 と同じ規約)。
+  **‖g‖_{I_k} ≤ (2e/c₁)·ρ⁻⁹·‖g‖_{J_k}** ✓。**c₁ の menu 規約([GC4A1-02] 対応)**:
+  本 packet は **standing ceiling c₁ ∈ (0, 10⁻²]** を先に固定する(QR5 の menu は
+  ρ⁵ 用で流用不可のため、PBK22 用の制約を独立に宣言)。最終値は A.4/A.5 の menu が
+  この ceiling 内で確定する。上の場合分けは任意の c₁ ∈ (0, 10⁻²] について排反・網羅
+  ((a) 否の下で σ の三分割 [0, c₁ρ⁹) / [c₁ρ⁹, 1/10) / [1/10, ∞) — ρ ≤ 1 より
+  c₁ρ⁹ ≤ 10⁻² < 1/10 ✓)。
 - **(c-i) 深平坦**: (a) 否かつ σ < c₁ρ⁹ — 以下の層別の後、JF₉(A.2)・two-sided
   P4(A.3)・WE₉(A.4)へ。**本 packet はここを閉じない**。∎
 
 **(F2²-4) divisor 層別(deep-flat 域の前処理)**:
-- **共通因子の exact 相殺**: cell 上で D := gcd(P₁, P₂)(モニック代表、
-  deg D =: d_common ≤ 2)、P_i = D·P̃_i(P̃₁, P̃₂ 互いに素)。
+- **共通因子の exact 相殺(cell 局所 — [GC4A1-03])**: 各 cell 上で
+  D := gcd(P₁, P₂)(モニック代表、deg D =: d_common ≤ 2)、P_i = D·P̃_i
+  (P̃₁, P̃₂ 互いに素)。**divisor データは cell 局所**であり(P_i は cell ごとの F2
+  出力 — J_k 全体の単一 D は存在しない)、A.2 へは
+  `divisor_record := {cell_id ↦ (branch 対, P₁, P₂, D, P̃₁, P̃₂)}` を渡す。cell 境界の
+  帰属は §8.1 の左閉右開規約。D1/D2 branch の P_i は定数なので、非自明な D は
+  **D3–D3 cell に限る**。
   F = D·F̃(F̃ := P̃₁V₁e^{r₁} + P̃₂V₂e^{r₂})かつ
   U_H = log|D| + Ũ_H(Ũ_H := max(log|P̃₁V₁e^{r₁}|, log|P̃₂V₂e^{r₂}|))なので
   **g = e^{−Ũ_H}|F̃| = g̃ — 共通因子は weighted ratio から exact に消える**。
@@ -677,14 +692,16 @@ r_i = 基準二次位相。branch 判別(ν_i = Re w_i の三分岐)は cell wit
   (g → 1)。**定量的 tube(排除近傍の幅と定数)は A.3 の義務** — 本 packet は
   層別(numerator-only / denominator-only / common)の三分岐と各分岐の行き先のみを
   固定する。
-- **lead 下界 obligation の構造的解消経路(§8.1 (3) の送り事項)**: F2 により block は
-  **exact 多項式因子 P_i** を持つ — 深平坦比較は |P̃₁| vs |P̃₂| の直接比較となり、
-  独立な「lead 下界 witness」は不要になる(定量比較は A.2 の JF₉ が担う)。
-  GC-3 §7.3 の deep_vanishing_witness の lead_i field は、A.2 受理時に
-  「P̃_i の係数 witness(F2 から exact に読める)」へ差し替える spec 改訂を予定
-  (versioned 方式 — §8.2.5 と同様)。∎
+- **lead 下界 obligation の候補解消経路(§8.1 (3) の送り事項 — [GC4A1-04] で表現を
+  訂正: obligation は A.2 受理まで open のまま)**: F2 により block は **exact 多項式
+  因子 P_i** を持つので、深平坦比較を |P̃₁| vs |P̃₂| の直接比較に置き換える経路が
+  開ける — ただし F2 は P̃_i の先頭係数の**一様下界を与えない**ため、これは
+  「候補経路」であり解消ではない。定量比較の成立可否は A.2(JF₉)の証明義務。
+  A.2 が受理された場合に限り、GC-3 §7.3 の lead_i field を「P̃_i の係数 witness」へ
+  差し替える spec 改訂(versioned 方式)を行う。∎
 
-**(F2²-5) 深平坦窓の u-形**: (c-i) の J_k 上(σ < c₁ρ⁹ ≤ 10⁻²・|H| ∈ [e^{−1}, e])では
+**(F2²-5) 深平坦窓の u-形**: (c-i) の J_k 上(σ < c₁ρ⁹ ≤ 10⁻²(c₁ ceiling と ρ ≤ 1
+より)・|H| ∈ [e^{−1}, e])では
 −H が 1 近傍にあり、u := Log(−H)(principal)が定義され |u| ≤ 2|1 + H| ≤ 2c₁ρ⁹、
   u = log(P̃₁/P̃₂) + log(V₁/V₂) + (r₁ − r₂) − iπ (mod 2πi、cell 上の分枝固定)
 — 「deg ≤ 2 有理 log + 有界単位 log + 二次多項式」の形。全窓への分枝接続は
@@ -721,6 +738,13 @@ V_i の複素 collar 評価(A.3 — COLLAR-POLE 対応)、FR 条件の最終充�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.13.1(2026-08-18): R-GC4A1 R1 findings 適用 — [01] g を ℂP¹ 値有理型 H の連続関数
+  G(H) として再定義(共通零点で well-defined、恒等式は共通零点外で exact、検算例付き)、
+  [02] c₁ の standing ceiling (0, 10⁻²] を PBK22 用に独立宣言(場合分けの排反・網羅を
+  任意の c₁ で保証)、[03] divisor_record の cell 局所性と境界規約、[04] lead 下界は
+  「候補解消経路」に訂正(obligation は A.2 受理まで open — v0.13 の「解消経路」表現を
+  本版で上書き)。
 
 - v0.13(2026-08-18): GC-4A.0 accepted(R-GC4A0 R4 PASS、fixed SHA `742c96a`)。
   §8.3 GC-4A.1 PBK22-F2 draft — double F2、対称正規化恒等式 g = |1+H|/max(1,|H|)
