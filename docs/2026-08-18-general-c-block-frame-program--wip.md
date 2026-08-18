@@ -163,7 +163,7 @@ c=3 上界の到達例。∎
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
-| GC-4A.2c CONFL22 | A.2b | 床の証明: **structural proof box(selector から分離した有限閉被覆 — §8.7 (FL-0))** ごとの相対床 φ ≥ c·κ(W_c(r)/**W_CONFL(2,2) v2: 消去法で B = 6 証明済み(deg ≤ 1 部分形 4)**/混合消去 ≤ 8/stratified transversality)、合成 c_J = min c > 0(K = 1)。**最大の go/no-go packet** | **drafted(§8.7、R1–R10 findings + consult #11 適用済み、査読待ち R-GC4A2C R11)** |
+| GC-4A.2c CONFL22 | A.2b | 床の証明: **structural proof box(selector から分離した有限閉被覆 — §8.7 (FL-0))** ごとの相対床 φ ≥ c·κ(W_c(r)/**W_CONFL(2,2) v2: 消去法で B = 6 証明済み(deg ≤ 1 部分形 4)**/混合消去 ≤ 8/stratified transversality)、合成 c_J = min c > 0(K = 1)。**最大の go/no-go packet** | **drafted(§8.7、R1–R11 findings + consult #11 適用済み、査読待ち R-GC4A2C R12)** |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
@@ -1133,7 +1133,7 @@ Newton 探索): **deg ≤ 2 で genuine ord は 6 で頭打ち**(ord 6 = 200/200
 **scope(非主張)**: 床(c_J・c_{Q,C} — A.2c)、W_CONFL(2,2) の証明(A.2c)、
 QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は未実施。
 
-### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R10 findings + consult #11 適用済み、査読対象 R-GC4A2C R11)
+### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R11 findings + consult #11 適用済み、査読対象 R-GC4A2C R12)
 
 **目的**: 各 proof box で相対床 φ ≥ c·κ を証明し、合成定数
 c_J := min c > 0(K = 1 — §8.6 (N-6′))を確立する。**本 packet が GC-4A 系の
@@ -1439,11 +1439,17 @@ class 対の divisor データ — 死んだ class の d₀/deg label は drop)�
 raw deg 対 ∈ {0,1,2}²、QR pairing 型)の各値組合せに対し、
   stratum := {label の等式条件} ∖ {より深い label の条件}
 は「解析的等式系 ∖ 閉集合」= **局所閉**。label 組合せは有限なので分割は有限。
-**境界 strata の列挙**: X_amb 自体の境界は anchor 差閉円板の球面と (P₁,P₂)
-閉箱の面のみ(ℓ² 球面は境界なし)— いずれも「座標が箱半径に到達」という
-1 実条件の面で、対応する配置は §8.6 (N-0) の λ 正規化により内部点の再表示
-(max = 1 は定義で常時成立)か、より深い box への routed 面。degree branch の
-境界 = raw 先頭係数消滅(下表)、d₀ branch の境界 = 下表の S_k。
+**境界 strata の列挙([GC4A2CR11-B2] — 旧「P 閉箱の面」の列挙を撤回)**:
+X_amb 自体の境界は **anchor 差閉円板の球面のみ**(ℓ² 球面と joint 球面に
+境界はない)。この面は §8.6 (N-0) の λ 正規化により内部点の再表示(max = 1 は
+定義で常時成立)。degree branch の境界 = raw 先頭係数消滅(下表)、d₀ branch
+の境界 = 下表の消滅条件、class scale 消滅(P_i = 0 / c_a = 0 — joint 球面上の
+同種 face)= support-drop routing(上記 — 残存 class の球面再正規化 +
+label drop。**C_i の c_a = 0 面も同じ routing** — joint 球面上で対称)。
+**limit object の正規化との同値**: §8.6 (N-2) の C 系 limit object は
+‖·‖_∞ = 1 球面で受理済み(不変)。proof cover 側の joint ℓ² 球面とは
+(6-iv) の norm 同値(定数 ∈ [1, √6])で相互変換され、床定数の有限損失のみ —
+両正規化の併存は矛盾ではなく slice の取り替え。
 **frontier の余次元 ≥ 1(型別)**:
 
 | frontier 型 | 追加方程式(X_amb 上の解析関数) | 余次元根拠 |
@@ -1503,13 +1509,24 @@ T₂ 減算が exact に消すため、v の jets 3..9−d₀ は係数消滅面
     **C̃_i := C_i/‖C_i‖₂(係数ベクトルの ℓ² 正規化 — [R10-B4b]:
     degree-drop 面でも定義される。C_i ≡ 0 は class 死 = routed frontier)**
     とし、C̃_i′/C̃_i = C_i′/C_i(scale-free)。
-    **延長の値域([R10-B4a])**: |ζ_j| ≥ λρ/13 は λρ → 0 の Z 領域では下界に
-    ならないが、ζ_j → 0 では principal part により **jets は +∞ へ発散する側**
-    (1/ζ_jⁿ)であり床には無害。よって面延長補題の主張を
-    **「φ は box 閉域上 [0, +∞] 値の連続写像に延長する」**に修正する。
-    compactness 勘定に必要なのは (i) φ の正値性(零集合一致 — φ = 0 ⟺ κ = 0)
-    と (ii) [0,∞] 値連続性(下半連続で十分)のみで、+∞ の面(ζ_j → 0、
-    principal part 発散)は inf を下げない。C̃_i(t₀) = 0(t₀ が正規化多項式の
+    **延長の値域と band 分割([R10-B4a]、[GC4A2CR11-B4] — 相殺反例への対応)**:
+    「ζ_j → 0 なら必ず発散」は複数零点のモーメント相殺(例: 零点対の距離
+    ~ ε^{N+1} で principal part 差が O(ε^{N−n}) に留まる)により**偽**なので
+    撤回し、selector の band 構造で分割する:
+    (i) **Z-box の core**(selector により零点は**互いに** ε_G band で分離 —
+    集合 {|ζ_j − ζ_k| ≥ ε_G band} は Z-box の domain 定義の一部((N-5) 段
+    (4c): これ未満は G へ)): core 内で単独零点が ζ_j → 0 する面では、相殺
+    partner が band 分離により存在しない(partner は距離 ≥ ε_G band)ため
+    principal part σ_j/ζ_jⁿ が支配し **max_n|𝒥_n| → +∞ は genuine** — core の
+    閉包上で φ は (0, +∞] 値連続。
+    (ii) **collision 帯**(零点間距離 < ε_G band — 相殺が起き得る領域)は
+    **G/D box が覆う**: そこでは近接零点対は divided-difference / divisor
+    座標((N-4)(N-7) の gcd-transition)で再パラメタ化され、相殺後の有限値
+    (O(ε^{N−n}) 型)は **G-box jet map の正則値**として現れる — G-box の
+    閉域で φ は連続(発散も相殺も座標が明示的に扱う)。
+    被覆: selector band は半開分割なので任意の配置は (i) か (ii) のちょうど
+    一方の core に入る。compactness 勘定は各 core 上で正値性(零集合一致)+
+    連続性((i) は (0,∞] 値、(ii) は有限値)で走る。C̃_i(t₀) = 0(t₀ 自身が
     零)の面は divisor/d₀ 簿記の routed 面。
 (b) κ = min_Q sup|Φ_Q|: Φ_Q は box データの連続関数族(compact 一様)なので
 min-sup も連続 — 全域で定義済み。∎
@@ -1584,6 +1601,15 @@ margin flag を満たすこと — record 生成側 = GC-5/GC-6 の義務、[GC4
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.22.9(2026-08-18): R-GC4A2C R11 findings(blocking 2)適用 — [B2] 旧「P 閉箱の
+  面」列挙の残骸を撤回(境界は anchor 円板球面のみ)、C_i の c_a = 0 面の routing を
+  joint 球面の対称 face として明示、§8.6 受理済み ‖·‖_∞ 正規化と proof cover の
+  ℓ² slice の norm 同値変換を明記。[B4] 「ζ_j → 0 で必ず発散」を撤回(モーメント
+  相殺反例 — 零点対距離 ε^{N+1})し、selector band 分割に置換: Z-box core(零点
+  相互分離 ≥ ε_G band)では相殺 partner が不在で発散 genuine((0,∞] 値連続)、
+  collision 帯は G/D box の divided-difference/divisor 座標が相殺後の有限値を
+  正則値として扱う — 被覆は半開分割で排他的。
 
 - v0.22.8(2026-08-18): R-GC4A2C R10 findings(blocking 5 + minor 2)適用 — [B1]
   主張域参照を v3 に統一 + 型不変条件(v2/v3 の α 同一値、α_k = p_k/λᵏ・p = T₂u・
