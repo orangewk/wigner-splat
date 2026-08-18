@@ -67,12 +67,79 @@ GC-1 の受理条件: この勘定の自己完結証明(恒等式の一般 c 版
 は出ない。一般 rate-tree face の generalized P e^q 系に対する confluent W(または
 flat-limit jet injectivity)が別途必要 — c=3 で FR-S1″ が果たした役割の一般化。
 
+### 3.1 補題 W_c(一般 valuation 上界 — drafted、査読対象 R-GC1)
+
+**設定**: c ≥ 1、パラメタ対 ξ_j = (A_j, B_j) ∈ ℂ²(j = 1..c)は**相異**
+(constant-gauge quotient 済み — 一致対は閉包文書 §4.3.6 N-pre の exact 合算で先に併合し、
+併合後の本数を c と読む)。p_j(z) := A_j z²/2 + B_j z、u_j := e^{p_j}。|A_j| < 1 は本補題では
+不要(純代数的 — 全て entire)。W := span{u_1, …, u_c}。
+
+**statement(W_c)**: dim W = c であり、任意の z₀ ∈ ℂ と任意の f ∈ W∖{0} に対し
+  ord_{z₀} f ≤ D_W(c) := c(c+1)/2 − 1。
+特に z₀ = 0 の adapted valuation profile v_1 < ⋯ < v_c は v_1 = 0、
+Σᵢ v_i ≤ c(c−1)、v_c ≤ D_W(c) を満たす。c=2: D_W = 2、c=3: D_W = 5(既存
+[補題 W](2026-08-11-three-atom-wronskian-valuation-W--wip.md) の (W2)(W3) と一致)。
+
+**(W_c-1) 導関数の構造**: u_j^{(r)} = H_{r,j}(z)·u_j、H_{0,j} = 1、
+H_{r+1,j} = H_{r,j}′ + (A_j z + B_j)H_{r,j}。帰納で deg H_{r,j} ≤ r。∎
+
+**(W_c-2) Wronskian の因数分解**: Wr(u_1,…,u_c) = det(u_j^{(r)})_{r=0..c−1, j=1..c}
+= e^{Σ_j p_j} · V_c(z)、V_c := det(H_{r,j})。行 r の各成分の次数 ≤ r なので、
+det の多重線形展開の各項の次数 ≤ Σ_{r=0}^{c−1} r = C(c,2)。よって
+**deg V_c ≤ C(c,2) = c(c−1)/2**。∎
+
+**(W_c-3) 独立性と Wr ≢ 0**:
+(i) *独立性*: 相異対の差 p_i − p_j は非定数(A_i = A_j なら B_i ≠ B_j で 1 次、
+A_i ≠ A_j なら 2 次)。閉包文書 §2 の L0(指数多項式独立性 — accepted 資産、定数係数の
+場合)より {u_j} は線形独立、dim W = c。
+(ii) *解析的 Wronskian 判定(自己完結)*: entire な f_1,…,f_n が線形独立なら
+Wr(f_1,…,f_n) ≢ 0。*帰納*: n = 1 自明。f_1,…,f_{n−1} が従属なら f_1,…,f_n も従属で
+前提に反するから、f_1,…,f_{n−1} 独立、帰納法の仮定で Wr_{n−1} := Wr(f_1,…,f_{n−1}) ≢ 0。
+Wr_n ≡ 0 と仮定する。U := {Wr_{n−1} ≠ 0} は非空開集合。U 上で
+y ↦ Wr(f_1,…,f_{n−1}, y) = 0 は最高階係数 Wr_{n−1} ≠ 0 の (n−1) 階線形 ODE であり、
+f_1,…,f_{n−1} が解空間(次元 n−1)を張る。Wr_n ≡ 0 より f_n も U の各連結成分上で解
+⇒ f_n = Σ aᵢfᵢ(定数係数)が U のある開部分集合上で成立 ⇒ 一致の定理で ℂ 全体
+⇒ 従属 — 矛盾。∎
+(i)(ii) より Wr(u_1,…,u_c) ≢ 0、したがって **V_c ≢ 0** かつ
+**ord₀ V_c ≤ deg V_c ≤ C(c,2)**。∎
+
+**(W_c-4) valuation identity(一般 c 版)**: z = 0 の adapted basis
+g_i = c_i z^{v_i} + O(z^{v_i+1})(c_i ≠ 0、v_1 < ⋯ < v_c)を取る。基底変換で Wronskian は
+非零定数倍しか変わらない。先頭項を代入すると falling-factorial 一般 Vandermonde により
+  Wr(g_1,…,g_c) = (Π c_i)·Π_{i<j}(v_j − v_i)·z^{Σv_i − C(c,2)} + higher。
+higher が先頭位数へ戻らないこと: det の多重線形展開において各項の位数は
+「c 列の次数和 − C(c,2)」以上であり、いずれかの列を v_i より高次の Taylor 項に置き換えると
+次数和は狭義に増える。次数が重複する組の determinant は零。よって表示した係数
+(相異 v_i で非零)が最低位数に残り、
+  **ord₀ Wr(u_1,…,u_c) = Σᵢ v_i − C(c,2)**。∎
+
+**(W_c-5) 上界の組み立て**: (W_c-2)(W_c-3)(W_c-4) より
+  Σᵢ v_i = C(c,2) + ord₀ V_c ≤ 2·C(c,2) = c(c−1)。
+u_j(0) = 1 ≠ 0 より W の z=0 評価汎関数は非零で **v_1 = 0**。profile は非負整数の狭義増加列
+なので v_i ≥ i−1、よって
+  v_c ≤ c(c−1) − Σ_{i=1}^{c−1}(i−1) = c(c−1) − (c−1)(c−2)/2 = (c−1)(c+2)/2 = c(c+1)/2 − 1。
+f ∈ W∖{0} の ord₀ f は profile の値のいずれかなので ord₀ f ≤ v_c ≤ D_W(c)。∎
+
+**(W_c-6) 任意中心**: 平行移動 z ↦ z + z₀ は
+u_j(z + z₀) = e^{p_j(z₀)} · exp(A_j z²/2 + (A_j z₀ + B_j)z) と、同じ族(A 不変、
+B ↦ B + A z₀、非零定数吸収)への写像。相異性は保たれる(A_i = A_j なら B 差不変、
+A_i ≠ A_j はそのまま)。よって z₀ における valuation にも同じ上界。∎
+
+**c=2/3 の復元**: c=2: D_W = 2(閉包文書 W2/K2 資産と整合)。c=3: D_W = 5 —
+既存補題 W の (W1)〜(W3) はそれぞれ (W_c-2/3)、(W_c-4) の c=3 特殊化(既存文書は
+V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)(i) は L0 を引く — 依存は
+より広いが L0 は accepted 資産であり循環はない)。F3′(FR 文書 §7)の profile (0,1,5) は
+c=3 上界の到達例。∎
+
+**scope(非主張)**: sharpness(§3 の 3c−4 診断は非主張)。衝突境界での一様 SVD floor
+(confluent 版 — GC-9)。|A| < 1 での norm 評価。人間による査読は未実施。
+
 ## 4. GC packet 台帳(state は fail-closed)
 
 | packet | 依存 | 出力・受理条件 | state |
 |---|---|---|---|
-| GC-0 consumer audit | なし | 一般 N/NC/L2b/L3 が必要とする外部 target の列挙。最終出力は (E-w) 形で足りるか、(E-d) 多項式形は内部需要のみかを決定 | **drafted(§5、査読待ち R-GC0)** |
-| GC-1 W_c | GC-0 | D_W(c) ≤ c(c+1)/2−1 の自己完結証明(独立文書または本文書 §)。c=2/3 復元 | open |
+| GC-0 consumer audit | なし | 一般 N/NC/L2b/L3 が必要とする外部 target の列挙。最終出力は (E-w) 形で足りるか、(E-d) 多項式形は内部需要のみかを決定 | **accepted**(R-GC0 R1 PASS、fixed SHA `b8167d1`、findings なし) |
+| GC-1 W_c | GC-0 | D_W(c) ≤ c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **drafted(§3.1、査読待ち R-GC1)** |
 | GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | open |
 | GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | open |
 | GC-4A PBK-22 | GC-3、c=2 資産 | `2|2` composite unit-step kernel。係数非依存・有限-m exact child・ray-wide cost 可算。**go/no-go 関門** | open |
@@ -134,6 +201,9 @@ flat-limit jet injectivity)が別途必要 — c=3 で FR-S1″ が果たした�
 
 ## 8. 版履歴
 
+- v0.2(2026-08-18): GC-0 accepted(R-GC0 R1 PASS、fixed SHA `b8167d1`、findings なし)。
+  §3.1 補題 W_c(GC-1)draft — 一般 valuation identity + Wronskian 次数勘定 +
+  自己完結の解析的 Wronskian 判定。
 - v0.1(2026-08-18): 新設。route 決定記録(Sol consult #7 + orange GO)、三層
   アーキテクチャ、GC-0〜GC-12 台帳、GC-0 consumer audit draft、W4-JET 初期結果、
   リスク台帳。
