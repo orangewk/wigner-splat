@@ -158,7 +158,7 @@ c=3 上界の到達例。∎
 | GC-1 W_c | GC-0 | v_c ≤ D_W(c) = c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **accepted**(R-GC1 R3 PASS、fixed SHA `957b252`) |
 | GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | **accepted**(R-GC2 R3 PASS、fixed SHA `5bbf183`) |
 | GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | **accepted**(R-GC3 R4 PASS、fixed SHA `dc6cac9`) |
-| GC-4A.0 PBK22-BRF | GC-3 | simultaneous RECENTER・共通 cell cover・bi-graded ray ledger(held 自動性の正式棄却と graded held 化 — consult #8)。**go/no-go 最小集合** | open |
+| GC-4A.0 PBK22-BRF | GC-3 | simultaneous RECENTER・共通 cell cover・bi-graded ray ledger(held 自動性の正式棄却と graded held 化 — consult #8)。**go/no-go 最小集合** | **drafted(§8.2、査読待ち R-GC4A0)** |
 | GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | open |
 | GC-4A.2 PBK22-JF9 | A.1 | W_c と log-ratio jet の quantitative bridge(次数予算 9 − d_common、全 compact boundary face)。**最大の go/no-go packet** | open |
 | GC-4A.3 PBK22-P4 | A.2 | two-sided SN(numerator/denominator/common-zero)、zero-free tube、10 階上界。**go/no-go 最小集合** | open |
@@ -167,7 +167,7 @@ c=3 上界の到達例。∎
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
 | GC-4B.0 ADAPT31 | GC-3、c=3 FR | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | open |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
-| GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **drafted(§8.1、査読待ち R-GC4C0)** |
+| GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
@@ -456,7 +456,7 @@ q₂ − q₁ = m⁻⁴t²/2 は t_c = m⁴ 付近の単位区間で recenter �
 共通 cell cover 上で両 pair を独立に exact RECENTER、cost は
 log C_step,k ≲ 1 + Λ_{1,k} + Λ_{2,k}、ray-wide は Σ_k Λ_{i,k} ≲ s_i² T² + s_i T。
 
-### 8.1 GC-4C.0 SIG-AUDIT(q-ary radial signature coverage — drafted、査読対象 R-GC4C0)
+### 8.1 GC-4C.0 SIG-AUDIT(q-ary radial signature coverage — accepted、R-GC4C0 R3 PASS、fixed SHA `aa95124`)
 
 **目的**: GC-4C(多分岐 node)の設計監査。radial 周波数クラスタ signature の完全列挙、
 GC-4A/B への dispatch 条件の固定、irreducible endpoint の特定、transition 有界性。
@@ -532,6 +532,68 @@ dispatch は (3) 表で固定、transition は (5) で有限 cell 化。**scope(
 kernel の存在・γ・compact 族非相殺・FR 条件 2 充足・深消滅 lead 下界の供給。
 人間による査読は未実施。
 
+### 8.2 GC-4A.0 PBK22-BRF(bi-RF: simultaneous RECENTER と graded cell ledger — drafted、査読対象 R-GC4A0)
+
+**目的**: AUTO-HELD-22(§8 設計記録 — held 自動性の反例)の正式修復。2|2 node の
+両 pair を同時に held 化する cell cover の構成、bi-graded cost 勘定、ray-wide ledger、
+および必要な spec 追補(§8.2.5)。**kernel 不等式そのものは主張しない**(A.1 以降)。
+
+**設定**: T3 node、exact children B_1(原子 1,2)・B_2(原子 3,4)。η_i = pair i の
+exact exponent 差、collision-scale witness |ΔB_i| ≤ s_i、|ΔA_i| ≤ s_i²(D-PBK-22)。
+ray z = te^{iθ}、区間系 I_k = [a_k, a_k+1](FR §10.3 S4b-β を逐語継承)、
+Λ_{i,k} := sup_{I_k}|η_i′|。η̃_i は §8.1 の定義(cell 中心 recenter 後)。
+
+**(BRF-1) 勾配の明示評価**: radial 制限で η_i(t) = ΔB_i e^{iθ} t + ΔA_i e^{2iθ} t²/2
+なので η_i′(t) = ΔB_i e^{iθ} + ΔA_i e^{2iθ} t、よって
+  Λ_{i,k} ≤ s_i + s_i²(a_k + 1)、  |η_i″| = |ΔA_i| ≤ s_i²。∎
+
+**(BRF-2) held 化 cell cover**: m₀ := min{m : max_i s_i(m)² ≤ 1/16} とし m ≥ m₀。
+h_k := min(1, 1/(16Λ_{1,k}), 1/(16Λ_{2,k})) と置き、I_k を長さ ≤ h_k の半開 cell に
+等分割(左閉右開、境界帰属は §8.1 の規約)。cell 数は
+  N^{RF}_{cell,k} ≤ ⌈1/h_k⌉ ≤ 1 + 16(Λ_{1,k} + Λ_{2,k})。
+各 cell の中心 t_c で**両 pair を独立に exact RECENTER**(FR §10.5 の RECENTER(C,t_c) を
+pair ごとに適用 — e^{η_i(t_c)} を係数へ吸収する exact transition。損失なし)。
+**held 検証**: cell 上 |t − t_c| ≤ h_k/2 なので
+  sup_cell|η̃_i| ≤ Λ_{i,k}·(h_k/2) + |η_i″|·(h_k/2)²/2 ≤ 1/32 + s_i²/8 ≤ 1/32 + 1/128 < 1/8。
+よって各 cell で両 pair とも値-held(§8.1 dispatch 表の witness が成立)。∎
+
+**(BRF-3) 共通細分の graded 勘定**: kernel が使う cell 系 = signature 分割(§8.1(5)、
+breakpoint ≤ 18)と本節 RF 分割の共通細分。breakpoint の和より
+  N_{cell,k} ≤ 19 + 16(Λ_{1,k} + Λ_{2,k}) ≤ 19·(1 + Λ_{1,k} + Λ_{2,k})
+— **graded 形 N_{cell,k} ≤ C_cell(1 + Λ_{1,k} + Λ_{2,k})、C_cell = 19**。∎
+(FR §10.3 条件 2 の graded 側の N_cell 要件はこの形で供給する。条件 2 の**完全充足**
+(RF-2/RF-3 型の局所・大域 ledger を含む)の最終検証は cost spec が resolved 行に載る
+A.6 の義務 — 本 packet は勘定の supply のみ。)
+
+**(BRF-4) ray-wide ledger**: N ≤ 2T + 1、a_k + 1 ≤ T(FR §10.3 の区間系)と (BRF-1) より
+  Σ_{k∈K_T} Λ_{i,k} ≤ s_i·(2T+1) + s_i²·T·(2T+1) ≤ 3(s_i T + s_i² T²)  (T ≥ 3)。
+よって Σ_k N_{cell,k} ≤ 19(2T+1) + 3·16·Σ_i(s_i T + s_i² T²) — **一次項 O(T) +
+collision-scale 減衰つき二次項 O(s²T²)**。∎
+
+**(BRF-5) budget 吸収**: (E-w) 系の組み立て(GC-7)が消費する指数予算に対し、
+log 総 cost の二次成分 ≤ C_led·Σ_i s_i²T²(C_led = 絶対定数 × log(定数))は、
+m₁ := min{m : max_i s_i(m)² ≤ δ/(16 C_led)} 以降 **δT²/16 に吸収**され、(E-w) の
+指数 (1−δ/2)T²/2 を (1−δ/4)T²/2 以下に保つ。m₀' := max(m₀, m₁) の存在のみ要求
+(N4 量化と整合 — c=3 の m̃_RF と同型)。∎
+
+#### 8.2.5 spec 追補(§7 への packet 発行改訂 — GC-3 の authoring 原則に従う)
+
+- **GCCostSpecEnum への追加**: `bi-graded(C_BRF, (Λ_{1,k}, Λ_{2,k}), N_cell,k,
+  ray_ledger_ref)` — 各 record が両 Λ を instantiation し
+  log C_step,k ≤ C_BRF(1 + Λ_{1,k} + Λ_{2,k})。PBK-22-w 専用。ray_ledger_ref は
+  (BRF-4) 型の ray-wide 上界の accepted ref を必須とする(graded-root の RF-3 要件と
+  同型 — 局所値のみでの (E-w) 進行を禁止)。
+- **GCRouteRecord への field 追加**: `recenter_witness := (t_c, sup_cell|η̃_1| ≤ 1/8
+  の式 witness, sup_cell|η̃_2| ≤ 1/8 の式 witness)`(§8.1 dispatch 表の held 条件の
+  正式 field)。
+- **二重計上禁止(GRADED-BUDGET-DOUBLE 対応)**: bi-RF cost は root ledger の
+  N_cell/step_cost にのみ現れる。child certificate は cost を持たない(frame 層の
+  データであり、kernel cost の供給源に使わない)。
+
+**scope(非主張)**: kernel 不等式(A.1–A.3)、深消滅 lead 下界(A.1/A.2 — §8.1 (3) の
+open obligation)、FR §10.3 条件 2 の完全充足(A.6)、(E-w) 組み立て(GC-7)。
+人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -559,6 +621,12 @@ kernel の存在・γ・compact 族非相殺・FR 条件 2 充足・深消滅 le
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.12(2026-08-18): GC-4C.0 accepted(R-GC4C0 R3 PASS、fixed SHA `aa95124`)。
+  §8.2 GC-4A.0 PBK22-BRF draft — 勾配評価・held 化 cell cover(sup|η̃| < 1/8 検証)・
+  共通細分 graded 勘定(N_cell ≤ 19(1+Λ₁+Λ₂))・ray-wide ledger(≤ 3(sT + s²T²))・
+  budget 吸収(m₀′ 存在)+ §8.2.5 spec 追補(bi-graded cost variant、recenter_witness、
+  二重計上禁止)。
 
 - v0.11.2(2026-08-18): R-GC4C0 R2 findings 適用 — [R2-01] §4 台帳 GC-4C.0 行を
   8 signature 表記へ同期、[R2-02] tie-break を孤立交差点・cell 境界帰属まで拡張、
