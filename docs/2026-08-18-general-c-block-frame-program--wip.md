@@ -160,8 +160,8 @@ c=3 上界の到達例。∎
 | GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | **accepted**(R-GC3 R4 PASS、fixed SHA `dc6cac9`) |
 | GC-4A.0 PBK22-BRF | GC-3 | simultaneous RECENTER・共通 cell cover・bi-graded ray ledger(held 自動性の正式棄却と graded held 化 — consult #8)。**go/no-go 最小集合** | **accepted**(R-GC4A0 R4 PASS、fixed SHA `742c96a`) |
 | GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | **accepted**(R-GC4A1 R2 PASS、fixed SHA `50a4e45`) |
-| GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **drafted(§8.4、査読待ち R-GC4A2A)** |
-| GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | open |
+| GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
+| GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **drafted(§8.5、査読待ち R-GC4A3A)** |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | global rate scale λ(Φ_p の 4 位相の共通 gauge 後 weighted 座標 max)、adapted residual κ(二次比 locus からの横断残差 — jet 値から逆算しない)、境界面 closure 表(各 face の送り先を一行ずつ宣言) | open |
 | GC-4A.2c CONFL22 | A.2b | 床の証明: plain face = W_c(4)、QR5 face = 明示計算、P e^q face = **限定 confluent W(W_CONFL(2,2))**、compact normalized 空間で c_J > 0。**最大の go/no-go packet** | open |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
@@ -731,7 +731,7 @@ A.5(bootstrap)の義務(QR5 P3 と同配置)。∎
 V_i の複素 collar 評価(A.3 — COLLAR-POLE 対応)、FR 条件の最終充足(A.6)。
 人間による査読は未実施。
 
-### 8.4 GC-4A.2a JF9-EXACT(exact bridge と有限 m 二分岐 — drafted、査読対象 R-GC4A2A)
+### 8.4 GC-4A.2a JF9-EXACT(exact bridge と有限 m 二分岐 — accepted、R-GC4A2A R2 PASS、fixed SHA `5bb69af`)
 
 **設定**: A.1 の (c-i) 深平坦窓 W ⊂ J_k(σ = sup|1+H| < c₁ρ⁹、|H| ∈ [e⁻¹, e]、
 u = Log(−H) 解析的、|u| ≤ 2c₁ρ⁹)、cell 局所 divisor_record(D、P̃_i、C_i := B_i/D)。
@@ -792,6 +792,49 @@ u(t₀) = Log(−H(t₀))。
 **scope(非主張)**: 一様 jet 床(κ・λ・c_J — A.2b/A.2c)、collar(A.3a)、
 deg≤2 枝の処理(A.4 系)、10 階上界(A.3b)。人間による査読は未実施。
 
+### 8.5 GC-4A.3a PBK22-ZF(reduced zero-free collar と窓再配置 — drafted、査読対象 R-GC4A3A)
+
+**設定**: A.1 の cell(両 pair held、F2 branch 固定、divisor_record)と (c-i) 深平坦
+状況。reduced 零点 = P̃₁ の零点(≤ 2)∪ P̃₂ の零点(≤ 2)、計 ≤ 4 個(cell 局所)。
+V_i = E(z_i(t))(E(z) = (e^z − 1)/z)。**依存は A.1 のみ**(A.2 系への循環なし)。
+10 階上界・Cauchy 評価は A.3b の義務(本 packet は collar の幾何のみ)。
+
+**(ZF-1) V 単位の零点自由複素 collar(graded)**: E の零点は z ∈ 2πiℤ∖{0}。
+F2(D3 branch)より実軸上 z_i(t) ∈ B* = [−17/8, 17/8] × i[−(π+1/4), π+1/4]、
+特に |Im z_i| ≤ π + 1/4 で 2π までの余白 ≥ 2π − (π+1/4) = π − 1/4 > 5/2。
+複素方向 |y| ≤ h の帯での drift は |z_i(t+iy) − z_i(t)| ≤ (Λ_{i,k} + 2)|y|
+(z_i′ = η̃_i′、|η̃_i′| ≤ Λ_{i,k}、二次項の傾き ≤ 2 — cell ⊂ I_k)。よって
+  **h_V := min(1, 1/(Λ_{1,k} + 2), 1/(Λ_{2,k} + 2))**
+の複素 collar 上で |Im z_i| ≤ π + 1/4 + 1 < 2π かつ |z_i| の実部拡大 ≤ 17/8 + 1 —
+E の零点(|z| ≥ 2π)に到達せず、**V₁, V₂ は collar 上零点なし**。
+(D1/D2 branch は V_i = 1 − e^{∓z}、零点は z ∈ 2πiℤ で同じ計算。)∎
+
+**(ZF-2) SN-2|2: 窓再配置の鳩ノ巣**: J_k(長さ ρ = ε_chain)を N_A := 16 等分し、
+部分窓 S_1, …, S_{16}(長さ ρ/16)を考える。各 reduced 零点 z について、
+|Re z − center(S_j)| ≤ ρ/8 なる S_j は高々 5 個(区間長勘定: 幅 ρ/4 の帯に入る
+中心は ≤ ρ/4 ÷ (ρ/16) + 1 = 5)。零点 ≤ 4 個が排除する部分窓 ≤ 20 — これは 16 を
+超えるため N_A := 16 では不足。**N_A := 44** と改める: 各零点の排除 ≤
+ρ/4 ÷ (ρ/44) + 1 = 12、4 零点で ≤ 48 > 44 — なお不足。正しくは帯幅を部分窓長に
+連動させる: 排除条件を「dist(Re z, S_j) ≤ ρ/N_A」とすれば各零点が排除する部分窓は
+高々 3 個(自身を含む窓 + 両隣)、4 零点で ≤ 12。**N_A := 13** で少なくとも 1 個の
+部分窓 S が残り、
+  **dist(Re z, S) > ρ/13(全 reduced 零点 z)**。
+S の複素 collar 半径を **r_S := min(ρ/26, h_V)** と取れば、collar は全 reduced 零点
+(実部距離 > ρ/13 ≥ 2·(ρ/26))と全 V 零点((ZF-1))を含まない —
+**零点自由複素 collar 付き source 窓 S の存在**。∎
+(注: 排除判定は Re z のみで行う — Im z ≠ 0 の複素零点は実部が S から遠ければ
+collar(幅 r_S ≤ ρ/26)に入らない。Im 方向は r_S ≤ h_V が V 側を、多項式零点は
+実部距離が押さえる。)
+
+**(ZF-3) 出力契約**: A.2b/A.3b へ渡すのは
+`zf_witness := (cell_id, S(端点), r_S, 零点リスト(P̃₁/P̃₂ 別、重複度込み), h_V)` —
+divisor_record と同じ cell 粒度。深平坦判定(A.1 の σ)は S 上で再評価する
+(J_k 深平坦 ⇒ S ⊂ J_k でも深平坦 — sup の単調性)。d₀ = ord_{t₀}D は S の中心
+t₀ で読み直す(divisor_record から exact)。∎
+
+**scope(非主張)**: collar 上の導関数上界(10 階 — A.3b)、一様定数の compactification
+(A.2b/c)、S 上の kernel 不等式。人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -819,6 +862,10 @@ deg≤2 枝の処理(A.4 系)、10 階上界(A.3b)。人間による査読は未
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.17(2026-08-18): GC-4A.2a accepted(R-GC4A2A R2 PASS、fixed SHA `5bb69af` — 最小集合
+  5/8)。§8.5 GC-4A.3a PBK22-ZF draft — V 単位の graded 零点自由 collar(h_V)、
+  SN-2|2 鳩ノ巣(N_A = 13、dist > ρ/13 の source 窓)、zf_witness 出力契約。
 
 - v0.16.1(2026-08-18): R-GC4A2A R1 findings 適用 — [01] (b) を「定数差(c=0 一致を
   含む constant-gauge equivalence)」に拡張し網羅化(v0.16 の「exact 一致」表現を上書き)、
