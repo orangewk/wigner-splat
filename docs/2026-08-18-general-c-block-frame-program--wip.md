@@ -163,7 +163,8 @@ c=3 上界の到達例。∎
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
-| GC-4A.2c CONFL22 | A.2b | 床の証明: **structural proof box(selector から分離した有限閉被覆 — §8.7 (FL-0))** ごとの相対床 φ ≥ c·κ(W_c(r)/**W_CONFL(2,2) v2: 消去法証明の正本は §8.7 (FL-2)(B = 6、deg ≤ 1 部分形 4)— §8.7 全体が査読中のため status は本行の state 列に従う**/混合消去 ≤ 8/stratified transversality)、合成 c_J = min c > 0(K = 1)。**最大の go/no-go packet** | **drafted(§8.7、R1–R13 findings + consult #11 適用済み、査読待ち R-GC4A2C R14)** |
+| GC-4A.2c-core | A.2b | W_CONFL(2,2) v2 消去法(正本 §8.7 (FL-2)、B = 6)/混合消去 ≤ 8/regular・C collapse/Z/G 以外の strata 床(consult #12 で component 分割) | **drafted(査読待ち R-GC4A2CCORE R1)** |
+| GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格 — §8.8 起草予定)+ 全 box 最終合成 c_J | open(**トップレベル A.2c はこれの完了まで未受理**) |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
@@ -1133,7 +1134,35 @@ Newton 探索): **deg ≤ 2 で genuine ord は 6 で頭打ち**(ord 6 = 200/200
 **scope(非主張)**: 床(c_J・c_{Q,C} — A.2c)、W_CONFL(2,2) の証明(A.2c)、
 QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は未実施。
 
-### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R13 findings + consult #11 適用済み、査読対象 R-GC4A2C R14)
+### 8.7 GC-4A.2c CONFL22(chart 床の証明 — **consult #12 により component 分割**: A.2c-core(本節、査読対象 R-GC4A2CCORE R1)+ A.2c-Z(§8.8 起草予定、ZG-NF)。トップレベル A.2c は A.2c-Z 完了まで未受理)
+
+**設計記録(Sol consult #12、2026-08-18 — Z/G 床の裁定)**: R11–R14 の 4 round で
+Z/G 零点近接の incremental 設計(band 分割→3 分割→cluster 評価→摂動補題)が
+連続差し戻しとなったため Sol に裁定を求めた。裁定:
+(i) **正規形路線は条件付き採用** — ただし逐次摂動除去でなく「small-root の
+**同時最大 matching** → exact 因子除去 / **projectivized defect** → 正規形」+
+EX-4 零集合一致 + defect strata 横断性。
+(ii) 技術骨格: 固定閾値 r₀ < min(ε_G/4, 1/4) を先置きし M₀ → r_pole(循環解消)/
+bipartite 同時 matching(first-match 干渉の解消)/ same-side 補題は 1/12 版
+(3 ≤ n ≤ 8 — unmatched pole face の projectivized jet 非零の保証)/ exact 共通
+因子は projective 正規化 ℓ = αy + β(ζ = ∞ も同族)で φ 不変・**κ は片側比較
+κ(x) ≤ L_Aκ(x′) のみで床が移る(Remez 不要)**/ approximate 対は同時 defect
+Δ_ZG := ‖A₁−A₂‖_∞ + ‖exact jet defect‖ で測り、Δ_ZG ≤ cκ 帯は転送・補集合は
+projectivized defect-normal stratum の横断性(既存 collapse で kernel 特定)/
+摂動量は |δ| でなく δ/ζ^{n+1} 型の weighted jet defect で測る(R14 の d_collar
+定数化の誤りを訂正)。
+(iii) **component 分割**: A.2c-core(W_CONFL・mixed 消去・regular/C collapse・
+Z/G 以外の strata — 本節の現内容から Z/G 固有部を除いたもの)と A.2c-Z
+(§8.8: ZG-NF 補題・Z/G frontier 横断性・全 box 最終合成)に分け、component
+acceptance とする。「Z/G 条件付きで A.2c 受理」とは記録しない。
+(iv) no-go 評価: **amber 維持(中低 → 中)** — 1/4 反例・κ 乗法式誤り・
+first-match 干渉は設計欠陥であり定理の反例ではない。実質的未解決義務は
+δ/ζ^{n+1} 型摂動と 2 対同時 defect kernel。kernel に非 QR 方向が見つかれば red。
+(v) 見積り: きれいに書き直して 3–4 round。
+**本節(A.2c-core)の scope から Z/G strata の床・Z/G frontier・最終合成
+(FL-7)は除外され A.2c-Z へ移管** — (v-d′) の Z/G 分岐・(FL-4) の Z/G 帰着の
+Z 固有部・[R12][R13] 系の零点近接ブロックは A.2c-Z の起草時に ZG-NF 形式で
+全面書き直しとなる(現テキストは設計履歴として残置、効力は A.2c-Z に従う)。
 
 **目的**: 各 proof box で相対床 φ ≥ c·κ を証明し、合成定数
 c_J := min c > 0(K = 1 — §8.6 (N-6′))を確立する。**本 packet が GC-4A 系の
@@ -1660,6 +1689,13 @@ margin flag を満たすこと — record 生成側 = GC-5/GC-6 の義務、[GC4
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.23(2026-08-18): **Sol consult #12(Z/G 床の裁定)を §8.7 冒頭に記録し、A.2c を
+  component 分割** — A.2c-core(W_CONFL・mixed・collapse・Z/G 以外)と A.2c-Z
+  (ZG-NF: 同時 matching + projectivized defect、§8.8 起草予定)。§4 台帳を 2 行に
+  分割。トップレベル A.2c は A.2c-Z 完了まで未受理(「条件付き受理」とは記録
+  しない — Sol 裁定)。no-go 評価 amber(中低 → 中)。R14 の 6 blocking のうち
+  Z/G 固有分は A.2c-Z の全面書き直しに吸収、core 側は次 round で査読。
 
 - v0.22.11(2026-08-18): R-GC4A2C R13 findings(blocking 8 + minor 1)適用 — 構造的
   鍵: **(ZF-1) により collar 内零点は P̃ 由来 ≤ 2/side・計 ≤ 4** — cluster は高々
