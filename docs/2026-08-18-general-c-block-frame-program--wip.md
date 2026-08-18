@@ -163,7 +163,7 @@ c=3 上界の到達例。∎
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
-| GC-4A.2c CONFL22 | A.2b | 床の証明: **structural proof box(selector から分離した有限閉被覆 — §8.7 (FL-0))** ごとの相対床 φ ≥ c·κ(W_c(r)/**W_CONFL(2,2) v2: 消去法証明の正本は §8.7 (FL-2)(B = 6、deg ≤ 1 部分形 4)— §8.7 全体が査読中のため status は本行の state 列に従う**/混合消去 ≤ 8/stratified transversality)、合成 c_J = min c > 0(K = 1)。**最大の go/no-go packet** | **drafted(§8.7、R1–R12 findings + consult #11 適用済み、査読待ち R-GC4A2C R13)** |
+| GC-4A.2c CONFL22 | A.2b | 床の証明: **structural proof box(selector から分離した有限閉被覆 — §8.7 (FL-0))** ごとの相対床 φ ≥ c·κ(W_c(r)/**W_CONFL(2,2) v2: 消去法証明の正本は §8.7 (FL-2)(B = 6、deg ≤ 1 部分形 4)— §8.7 全体が査読中のため status は本行の state 列に従う**/混合消去 ≤ 8/stratified transversality)、合成 c_J = min c > 0(K = 1)。**最大の go/no-go packet** | **drafted(§8.7、R1–R13 findings + consult #11 適用済み、査読待ち R-GC4A2C R14)** |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
@@ -1133,7 +1133,7 @@ Newton 探索): **deg ≤ 2 で genuine ord は 6 で頭打ち**(ord 6 = 200/200
 **scope(非主張)**: 床(c_J・c_{Q,C} — A.2c)、W_CONFL(2,2) の証明(A.2c)、
 QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は未実施。
 
-### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R12 findings + consult #11 適用済み、査読対象 R-GC4A2C R13)
+### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R13 findings + consult #11 適用済み、査読対象 R-GC4A2C R14)
 
 **目的**: 各 proof box で相対床 φ ≥ c·κ を証明し、合成定数
 c_J := min c > 0(K = 1 — §8.6 (N-6′))を確立する。**本 packet が GC-4A 系の
@@ -1366,12 +1366,15 @@ Q-band 境界では Q̇ は tangent cone に制限され、射影特異点では
 一指数)。
 **(6-iv) 滑らかな正規化 slice**: ‖c‖_∞ = 1 球面は tie 点で非滑らか。微分は
 **‖c‖₂ = 1 slice** 上で行い、norm 同値で sup 正規化へ戻す。
-**変換式([GC4A2CR12-05])**: slice の取り替えは全係数の一斉 rescale
-c ↦ sc(s = ‖c‖₂/‖c‖_∞ 系の比)であり、**φ は不変**(v = log 比の jets —
-side scale は T₂ が殺す)、**κ は 1 次同次**(Φ_Q は係数に線形 ⇒ κ(sc) =
-|s|κ(c))。よって床 φ ≥ c_ℓ²·κ_ℓ² は φ ≥ (c_ℓ²/s_max)·κ_sup に変換され、
-損失は **s_max の 1 乗**(4 係数: s_max = 2、C 家族 joint ≤ 6 複素座標:
-s_max = √6)— 旧「(定数)^9」は誤りで撤回(9 乗は jet 正規化の冪と混同)。
+**変換式([GC4A2CR12-05]、[GC4A2CR13-08] で記号を整理)**: slice の取り替えは
+全係数の一斉 rescale c ↦ sc(s ∈ [1, s_max])。**φ は不変**(v = log 比の
+jets — side scale は T₂ が殺す)、**κ は 1 次同次**(Φ_Q は係数に線形)。
+ℓ² slice 上の床を **φ ≥ a·κ|_{ℓ² slice}** と書くと(a は ℓ² 正規化での床
+定数 — 線形床)、sup 正規化点 x では ℓ² 正規化点 x_ℓ = s⁻¹x に対し
+κ(x) = s·κ(x_ℓ)、φ(x) = φ(x_ℓ) なので
+  **φ(x) = φ(x_ℓ) ≥ a·κ(x_ℓ) = (a/s)·κ(x) ≥ (a/s_max)·κ(x)**
+— 線形床が線形床に移り、損失は s_max の 1 乗(4 係数: 2、joint: √6)。
+旧「(定数)^9」は撤回済み。
 **(6-v) 法束の最小特異値と Taylor([GC4A2CR3-02]、[GC4A2CR4-01][02] で
 順序と frontier 横断性を精密化)**:
 **(v-a) 内在的 witness と Q-band 境界 strata の排除([GC4A2CR7-B1] で定義域と
@@ -1512,47 +1515,75 @@ T₂ 減算が exact に消すため、v の jets 3..9−d₀ は係数消滅面
     **C̃_i := C_i/‖C_i‖₂(係数ベクトルの ℓ² 正規化 — [R10-B4b]:
     degree-drop 面でも定義される。C_i ≡ 0 は class 死 = routed frontier)**
     とし、C̃_i′/C̃_i = C_i′/C_i(scale-free)。
-    **零点近接の 3 分割([GC4A2CR12-01] — §8.6 の routing と整合させて再構成)**:
-    principal part の符号は side で決まる(分子零点 σ = +1、分母零点 σ = −1)
-    ので、**相殺は cross-side 対でのみ起こり得る**(same-side 対は同符号で
-    強め合う — |Σ 同符号項| ≥ 単独項)。§8.6 の routing どおり:
-    (a) **分離 core**(全対の距離 ≥ 該当 band): 単独零点の ζ_j → 0 は
-      partner 不在で発散 genuine(下の定量評価)。
-    (b) **same-side 衝突**(zeta-collision face → Z sub-box — §8.6 route 表):
-      同符号なので principal part は強め合い、発散は core と同様 genuine —
-      Z sub-box(零点個数統合)でも (0,∞] 値の勘定がそのまま通る。
-    (c) **cross-side 衝突**(ε_G 帯 → G box、exact 一致 → D)— 下の摂動補題。
-    **定量的発散([GC4A2CR12-02])**: core/same-side 領域で
-      |𝒥_n(x)| ≥ |ζ_j|^{−n} − M、
-      M := sup_{box 閉域, 分離 band 下} (他零点 principal part + unit log-jet +
-      二次項の寄与の総和の上界)
-    — M は有限: 他零点は band 分離(距離下限)、unit の log-jets(次数 ≤ 9 のみ
-    必要 — 10 階以上は不要なので A.3b の非主張と無関係)は (ZF-1) の collar
-    零点自由 + |E| の compact 上両側有界(連続正関数の compact min/max)から
-    Cauchy 評価で有界。**閾値 r_pole := (2M)^{−1/3}** に対し |ζ_j| < r_pole ⇒
-    φ(x) ≥ |ζ_j|^{−3} − M ≥ M(n = 3 で評価)。
-    **G-box 摂動補題([GC4A2CR12-03] — 「正則値」宣言を補題に格上げ)**:
-    cross-side 近接対 (ζ_a, ζ_b)(δ := ζ_b − ζ_a、|δ| < band)の寄与は
-      log(y − ζ_a) − log(y − ζ_b) = log(1 + δ/(y − ζ_b))
-    で、collar 上 |δ/(y − ζ_b)| ≤ η := |δ|/(collar 距離下限)。よって
-      **|φ(x) − φ(x∖pair)| ≤ C_pert·η、|κ(x) − κ(x∖pair)| ≤ C_pert·η**
-    (jets: log(1+w) の 1..9 階 jets ≤ C|w| の Cauchy 評価。κ: Φ の sup-norm
-    摂動 — unit 因子 1 + O(η) の乗法摂動)。x∖pair は**零点個数が 2 少ない**
-    同型 box の配置なので、**零点個数(≤ 有限上界)に関する帰納**で
-      φ(x) ≥ φ(x∖pair) − C_pert·η ≥ c_lower·κ(x∖pair) − C_pert·η
-      ≥ c_lower·κ(x) − (1 + c_lower)C_pert·η
-    となり、η ≤ κ(x)·c_lower/(2(1+c_lower)C_pert) の帯では床が半分の定数で
-    移送される。η がそれより大きい帯は δ が band 比で大きい = 分離 core 側の
-    勘定(半開 band 分割で排他的)。exact 一致(δ = 0)は D 再取得((N-4))。
-    **pole zone / Taylor zone の分離([GC4A2CR12-04] — C₂ 有限性との衝突解消)**:
-    各 Z-core を
-      pole zone {∃j: |ζ_j| < r_pole}(直接床 φ ≥ M ≥ (M/C_box)·κ —
-      Taylor・tube 論法は**使わない**)と
-      Taylor zone {∀j: |ζ_j| ≥ r_pole}(compact、jets 解析的・Hessian 上界
-      C₂ 有限 — (v-d)(v-e) の tube 帰納はこの zone でのみ走る)
-    に分割する。FL-6 の C² 論法の適用域は Taylor zone に限定され、[R12-04] の
-    +∞ 面との衝突は生じない。C̃_i(t₀) = 0(t₀ 自身が零)の面は divisor/d₀
-    簿記の routed 面。
+    **零点近接の分割([GC4A2CR13-01][02][03] — 全面再構成)**:
+    **前提となる構造的事実**: (ZF-1) により V-unit の零点は collar に入らない
+    ので、**collar 内の零点は P̃_i 由来のみ = 各 side 高々 2 個・計 ≤ 4 個**
+    (deg P̃_i ≤ 2)。よって「cluster」は高々 2 元であり、多重スケール階層は
+    生じない。
+    **first-match 順序([R13-01] — §8.6 (N-5) 段 (4) の内部順序に整合)**:
+    (4a) 零点 exact 一致(cross-side)→ D、(4b) same-side 近接 → Z sub-box、
+    (4c) cross-side 近接(ε_G 帯)→ G — 同時成立時はこの順の first-match
+    (排他性は半開 band + 順序評価)。
+    **same-side 2 元 cluster の下界([R13-02] — 「強め合い」三角不等式を撤回し
+    連続 2 指数評価に置換)**: same-side 零点は同符号 σ・高々 2 個。
+    x := ζ₁/ζ₂(|x| ≤ 1 に取る)に対し、任意の n で
+      max(|xⁿ + 1|, |x^{n+1} + 1|) ≥ 1/4
+    (両方 < 1/4 なら |xⁿ| ≥ 3/4 かつ x = x^{n+1}/xⁿ は B(−1,1/4) の 2 元の比
+    で |x − 1| ≤ 2/3 — すると xⁿ は 1 の近傍冪の回転で偏角が π に届くには
+    |x| ≤ 1 との併用で |xⁿ + 1| ≥ 1/4 に矛盾 — 初等算術)。よって
+      max_{n, n+1} |σ(ζ₁^{−n} + ζ₂^{−n})| ≥ |ζ₂|^{−n}/4
+    が **どの連続 2 指数の組でも**成立し、jets 範囲 {3..9−d₀}(長さ ≥ 5 ≥ 2)
+    内で発散が genuine。単独零点(cluster サイズ 1)は自明に |ζ|^{−n}。
+    **定量的発散と M の有限性([R13-03])**: 小零点集合
+    S_small := {j : |ζ_j| < r_pole} は上記 first-match の後、(i) 空、(ii) 単独、
+    (iii) same-side 2 元 cluster、のいずれか(cross-side 小対は (4a)(4c) で
+    routed 済み、same-side 3 個以上は零点数上限 ≤ 2/side で不可能)。
+    残余 M := sup(S_small 外の零点 principal part + unit log-jet + 二次項)は、
+    S_small 外の零点が定義により |ζ| ≥ r_pole、unit log-jets(≤ 9 階のみ必要)
+    が (ZF-1) collar 零点自由 + compact 両側有界の Cauchy 評価で有界、なので
+    **有限(box 定数)**。**r_pole := min((2·(1+4M))^{−1/3}, ε_G-band/2)**
+    (band 上限により S_small の要素は互いに collision 帯内 = (ii)(iii) の形に
+    限られることが幾何的に保証される)。(ii)(iii) いずれも上の下界から
+    |ζ| < r_pole ⇒ φ ≥ (1/4)|ζ|^{−3} − M ≥ 1。
+    **cross-side 近接(G box)と η ≳ κ 帯([R13-05])**: 下の摂動補題は
+    η ≤ κ·c_lower/(2(1+c_lower)C_pert) の帯でのみ使い、**η がそれより大きく
+    δ < ε_G のままの領域は gcd-jump stratum の tube((v-d) の大域次元帰納 —
+    d₀-jump strata は帰納の正式な一員でありその tube 床が近傍を覆う)が
+    処理する** — 摂動補題単独での被覆主張は撤回。
+    **G-box 摂動補題([GC4A2CR12-03]、[GC4A2CR13-04][06] で定量化と帰納を
+    完備化)**: cross-side 近接対 (ζ_a 分子側, ζ_b 分母側)(δ := ζ_b − ζ_a、
+    |δ| < ε_G band)。**x∖pair の定義**: 分子から因子 (y − ζ_a)、分母から
+    (y − ζ_b) を除いた配置 — P̃ の deg が両側 1 ずつ下がる **同じ Z/G 家族の
+    低 deg-branch box** の点(raw ambient では因子除去は係数の多項式写像)。
+    u の差は exact に log(1 + w)、w := δ/(y − ζ_b)、collar 上
+    |w| ≤ η := |δ|/d_collar(d_collar := collar 距離下限 — box 定数)。
+    **jets 摂動**: |dⁿ/dyⁿ log(1+w)|_{y=0}| ≤ n!·η/(d_collar·(1−η))ⁿ(Cauchy —
+    log(1+w(y)) は |w| < 1 の帯で解析的)⇒ |φ(x) − φ(x∖pair)| ≤ C_jet·η、
+    C_jet := 9!/(d_collar(1−η₀))⁹(η₀ < 1/2 の band 上限)。
+    **κ 摂動**: Φ_Q(x) = (y − ζ_a)/(y − ζ_b)·Φ_Q(x∖pair) 型の乗法摂動で、
+    collar 上 |(y−ζ_a)/(y−ζ_b) − 1| ≤ η ⇒ sup-norm の差 ≤ η·sup|Φ_Q| ≤
+    η·C_box ⇒ |κ(x) − κ(x∖pair)| ≤ C_box·η。**C_pert := max(C_jet, C_box)**
+    (明示 — [R13-04])。
+    **帰納([R13-06])**: 零点個数 ≤ 4(構造的上限)に関する有限帰納。
+    **base case = collar 内零点 0 個**: jet map は解析的で principal part 項
+    なし — plain box の compact 勘定((FL-1) 型)が床を与える。帰納段: 上の
+    摂動評価で
+      φ(x) ≥ c_lower·κ(x) − (1 + c_lower)C_pert·η
+    となり、η ≤ κ(x)·c_lower/(2(1+c_lower)C_pert) の帯では床が定数半分で移送。
+    それ以外の帯は [R13-05](gcd-jump stratum tube)。exact 一致(δ = 0)は
+    D 再取得((N-4))。
+    **pole zone / Taylor zone の分離([GC4A2CR12-04]、[GC4A2CR13-07] で
+    proof box を正式に再構成)**: Z/G 系の proof box 集合を次で**置き換える**:
+      - **Taylor box** := {∀j: |ζ_j| ≥ r_pole} ∩ (元の box 閉域)
+        — compact(compact の閉部分集合)。この box 上で jets は解析的、
+        **C₂ := sup_{Taylor box} ‖Hess (𝒥_n)‖ < ∞**(compact 上の連続関数)。
+        (v-d)(v-e) の tube 帰納・FL-6 の C² 論法は **Taylor box を proof box
+        として**走る(有限 cover の再構成 — Z/G 系の cover 要素は Taylor box)。
+      - **pole zone** {∃j: |ζ_j| < r_pole} は proof box に**含めない**:
+        そこでは上の定量的発散が **直接床 φ ≥ 1 ≥ (1/C_box)·κ** を与える
+        (Taylor・tube 論法は不使用 — [R12-04] の衝突は proof box の再定義で
+        消滅)。
+    C̃_i(t₀) = 0(t₀ 自身が零)の面は divisor/d₀ 簿記の routed 面。
 (b) κ = min_Q sup|Φ_Q|: Φ_Q は box データの連続関数族(compact 一様)なので
 min-sup も連続 — 全域で定義済み。∎
 **帰結**: 各 box の床 φ ≥ c·κ は**閉座標域全体**で証明される(tube 帰納 +
@@ -1594,7 +1625,10 @@ B(3|1)・C(多分割)の床(= GC-4B/GC-4C 系 packet — §8.7 の「C chart」�
 別物。[GC4A2CR1-07] の表記衝突を解消)**、c_J の数値評価(存在のみ主張 —
 有効定数は非主張)、**q_band_witness-v3 の充足可能性(実 route record が
 margin flag を満たすこと — record 生成側 = GC-5/GC-6 の義務、[GC4A2CR8-B1])**。
-人間による査読は未実施。
+**status 注記([GC4A2CR13-minor])**: §8.6 の「B_CONFL = 6 目標」「sharp 目標」は
+受理時点(a2302f3)の status 表記であり不変のまま残る — W_CONFL の証明の正本は
+本 §8.7 (FL-2) で、その効力は本 packet の受理時に確定する(§4 の state 列が
+唯一の status pointer)。人間による査読は未実施。
 
 ## 9. 早期検証実験台帳
 
@@ -1626,6 +1660,20 @@ margin flag を満たすこと — record 生成側 = GC-5/GC-6 の義務、[GC4
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.22.11(2026-08-18): R-GC4A2C R13 findings(blocking 8 + minor 1)適用 — 構造的
+  鍵: **(ZF-1) により collar 内零点は P̃ 由来 ≤ 2/side・計 ≤ 4** — cluster は高々
+  2 元で多重スケール階層は生じない。[01] first-match 順序(4a exact → 4b same-side
+  → 4c cross-side)。[02] 「同符号強め合い」三角不等式を撤回し、2 元 cluster の
+  **連続 2 指数評価** max(|xⁿ+1|, |x^{n+1}+1|) ≥ 1/4 に置換。[03] S_small の
+  形の分類(空/単独/same-side 2 元)+ r_pole に band 上限 ε_G/2 を追加(幾何的
+  保証)+ M の有限性根拠。[04] C_pert の明示(C_jet = Cauchy、C_box = 乗法
+  sup-norm 摂動)。[05] η ≳ κ 帯の被覆を摂動補題から gcd-jump stratum tube
+  ((v-d) 帰納の正式な一員)に移管。[06] x∖pair = 因子除去の低 deg-branch box、
+  base case = collar 零点 0 個。[07] Z/G proof box を Taylor box に正式再構成
+  (C₂ は Taylor box 上の sup — pole zone は直接床で proof box 外)。[08] slice
+  変換を線形床→線形床の形で書き直し。[minor] B_CONFL status 注記(正本 = §8.7
+  (FL-2)、§8.6 の「目標」表記は受理時点のまま不変)。
 
 - v0.22.10(2026-08-18): R-GC4A2C R12 findings(blocking 4 + minor 2)適用 — [01]
   零点近接を §8.6 routing と整合する 3 分割に再構成(相殺は cross-side のみ —
