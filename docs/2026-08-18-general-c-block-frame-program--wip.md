@@ -327,9 +327,14 @@ FR §10.3 acceptance 条件 7 の継承。cost spec の新 variant が必要に�
 (FR §10.4「RouteSpec 表が唯一の authoring location」原則の継承)。
 
 **GC 側 authoring 構造(FR 側不変と両立する新設)**:
-- **GCRouteSpec 表**: 新設 3 category の `RouteSpec` 行(mode・cost spec・γ・κ̄・
-  inequality・source rule・assembly rule)の**唯一の authoring location は本節 §7.1**とする
-  (FR §10.5 表は変更しない)。現時点で resolved 行は **0 行**(下の unresolved 登録のみ)。
+- **GCRouteSpec 表**(新設 3 category の唯一の authoring location — FR §10.5 表は不変。
+  列定義は FR RouteSpec と同一。**現時点で resolved 行は 0 行** — 行の追加は GC-4A/B/C の
+  受理と同時にのみ行い、それ以外の方法での resolved 化を禁止する):
+
+  | route_id | arity | mode | domain schema | cost spec | γ | κ̄ | inequality | source rule | assembly rule |
+  |---|---|---|---|---|---|---|---|---|---|
+  | *(resolved 行なし — GC-4A/B/C 受理待ち)* | | | | | | | | | |
+
 - **GCRouteRecord**: FR §10.4 RouteRecord の全 field を継承し、次の差分を持つ拡張型:
   (a) `node_functions` は arity で判別 — unary `(H)` / binary `(A,B)` / ternary `(A,B,C)` /
   quaternary `(A,B,C,D)`(全て exact 関数)、(b) `reserve_witness`(§7.4)、
@@ -345,8 +350,8 @@ identity ref、自由文禁止。各 schema の key set を完全列挙する):
 | schema | required keys(完全列挙) |
 |---|---|
 | `D-PBK-22` | `active_children_nonzero`、`certificate_ref(C_1)`(w=2 variant)、`certificate_ref(C_2)`(w=2 variant)、`nonconstant(q_{C_1} − q_{C_2})`(child 代表指数の exact 差 — constant-gauge quotient witness)、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)` |
-| `D-PBK-31` | `active_children_nonzero`、`certificate_ref(C_1)`(w=3 variant: triple-plain または triple-nested)、`certificate_ref(C_2)`(w=1 atom)、`nonconstant(q_{C_1} − q_{C_2})`、collision-scale witness(同上)、`η_dw` witness、補題 G window witness `(Q, M₀, q=2)` |
-| `D-PBK-M` | `arity ∈ {ternary, quaternary}`、`active_children_nonzero`、全 child の `certificate_ref`(ternary: w 型 (2,1,1)、quaternary: w 型 (1,1,1,1))、**全 pair (i,j) の** `nonconstant(q_{C_i} − q_{C_j})`、collision-scale witness(同上)、`η_dw` witness、補題 G window witness `(Q, M₀, q = arity)` |
+| `D-PBK-31` | `active_children_nonzero`、`certificate_ref(C_1)`(w=3 variant: triple-plain または triple-nested)、`certificate_ref(C_2)`(w=1 atom)、`nonconstant(q_{C_1} − q_{C_2})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)` |
+| `D-PBK-M` | `arity ∈ {ternary, quaternary}`、`active_children_nonzero`、全 child の `certificate_ref`(ternary: w 型 (2,1,1)、quaternary: w 型 (1,1,1,1))、**全 pair (i,j) の** `nonconstant(q_{C_i} − q_{C_j})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q = arity)` |
 
 **zero-pruning の継承(明示)**: 任意の child が恒等零(`C_i ≡ 0`)なら削除し、残る
 exact span で rank・tree を再固定して lower-arity/lower-w へ redispatch する(§10.5 継承。
@@ -449,6 +454,9 @@ go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、confluent �
 
 ## 10. 版履歴
 
+- v0.9.1(2026-08-18): R-GC3 R3 findings 適用 — [GC3R3-01] D-PBK-31/M の collision-scale
+  witness を明記(「同上」全廃)、[GC3R3-02] GCRouteSpec 表を列定義付きで実体化
+  (resolved 0 行、追加は GC-4 受理と同時のみ)。
 - v0.9(2026-08-18): R-GC3 R2 findings(3 blocking)適用 — [GC3R2-01] GC 側 authoring
   構造の新設(GCRouteSpec 表 = §7.1 唯一 authoring、GCRouteRecord の arity 判別
   node_functions、GCCoverageManifest)、[GC3R2-02] ChildCertificate source_ref を
