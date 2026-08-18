@@ -68,9 +68,8 @@ GC-1 の受理条件: この勘定の自己完結証明(恒等式の一般 c 版
 スケールゲージ β₁=1 固定、各 120 初期点)では c=3: ord 5 到達・ord 6 解なし(補題 W と
 整合 — 手法検証)、**c=4: ord 8 到達・ord 9/10 解なし**。moduli 勘定(ゲージ後 3(c−1)−1 =
 3c−4 個)と一致し、sharp 値は D_W*(c) = 3c−4 < D_W(c)(c≥4)の可能性がある。下流は
-上界 D_W(c) のみ消費するので、GC-1 は一般式 c(c+1)/2−1 で閉じてよい。**衝突極限でも valuation 5 は到達**
-(FR 文書 F3′: 3 乗根配置 A_j = −B_j²、profile (0,1,5)、h_β/‖h_β‖ → z⁵/√5!)—
-「静的接触のみの現象」ではない。
+上界 D_W(c) のみ消費するので、GC-1 は一般式 c(c+1)/2−1 で閉じてよい。**衝突極限でも valuation 5 は到達**(F3′ — 具体配置・profile・極限式の
+正本は FR 文書 §7。本文書は消費値のみ参照)— 「静的接触のみの現象」ではない。
 
 **confluent 昇格義務(GC-9)**: finite-m の plain W 上界だけでは衝突境界での一様 SVD floor
 は出ない。一般 rate-tree face の generalized P e^q 系に対する confluent W(または
@@ -144,8 +143,7 @@ A_i ≠ A_j はそのまま)。よって z₀ における valuation にも同�
 **c=2/3 の復元**: c=2: D_W = 2(閉包文書 W2/K2 資産と整合)。c=3: D_W = 5 —
 既存補題 W の (W1)〜(W3) はそれぞれ (W_c-2/3)、(W_c-4) の c=3 特殊化(既存文書は
 V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)(i) は L0 を引く — 依存は
-より広いが L0 は accepted 資産であり循環はない)。F3′(FR 文書 §7)の profile (0,1,5) は
-c=3 上界の到達例。∎
+より広いが L0 は accepted 資産であり循環はない)。F3′(正本: FR 文書 §7)は c=3 上界の到達例。∎
 
 **scope(非主張)**: sharpness(§3 の 3c−4 診断は非主張)。衝突境界での一様 SVD floor
 (confluent 版 — GC-9)。|A| < 1 での norm 評価。人間による査読は未実施。
@@ -169,7 +167,7 @@ c=3 上界の到達例。∎
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
-| GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **drafted(§8.9、R1–R4 適用済み、査読待ち R-GC4B0 R5)** |
+| GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **drafted(§8.9、R1–R5 適用済み、査読待ち R-GC4B0 R6)** |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
@@ -1780,7 +1778,7 @@ K = 1)の合成は、A.2c-core の受理を前提に本節が authoring location
 (SING-FRONTIER — 診断)。人間による査読は未実施。
 
 
-### 8.9 GC-4B.0 ADAPT31(triple divisor adapter の feasibility — drafted、R1–R4 適用済み、査読対象 R-GC4B0 R5)
+### 8.9 GC-4B.0 ADAPT31(triple divisor adapter の feasibility — drafted、R1–R5 適用済み、査読対象 R-GC4B0 R6)
 
 **目的**: 3|1 dispatch の「3」側(3 原子和)に対する **chart 付き Weierstrass
 certificate** の型と構成可能性を確立する。接触次数 ≤ 5(W_c(3))は点での ord
@@ -1811,24 +1809,30 @@ certificate** の型と構成可能性を確立する。接触次数 ≤ 5(W_c(3
 
 **(AD-2) counting 補題(N_T の存在 — [GC4B0R1-01][02] で mini-atlas と
 Rouché 論法に全面改稿)**: 主張 — **正規化 triple 族の collar 内零点数は
-一様上界 N_T < ∞ を持つ**。
+一様上界 N_T < ∞ を持つ**(証明状態 [GC4B0R5-03]: (2c) 段 1 は無条件、段 2 は
+比較補題 **TN-3** に条件付き — TN-3 は導出義務として GC-5 送り)。
 *(2a) 3-class mini-atlas*(A.2b の pair atlas からの「導出」主張は撤回 —
 本 packet が同じ設計 pattern で **3-class 専用の有限 chart 族**を定義する):
   (i) **plain**(3 class 相異・分離 ≥ band): 係数 ℓ² 球面 × anchor 差閉円板。
   (ii) **片側 confluent**(1 対が band 内): 対を divided-difference 再正規化
     した deg ≤ 1 prefactor 対象 + 独立 1 class — (prefactor 係数, 残 class
     係数) の joint ℓ² 球面 × 閉円板。
-  (iii) **全 confluent(chain 込み・直径 < 2ε_T)**: **cluster 中心 z_c での
-    jets 0..5 の ℓ² 正規化**で定義する([GC4B0R4-01][02] — 旧「deg ≤ 2
-    prefactor」は F3′(valuation 5・正規化極限 z⁵)の反例により撤回):
-    g := f/‖(f の z_c での 0..5 階 jet ベクトル)‖₂。
-    δ > 0(非 exact merge)では **GC-1 W_c(3)(D_W(3) = 5)により jets 0..5 は
-    非全零**なので g は well-defined。divided-difference 展開の一様剰余評価に
-    より g は **δ = 0 面まで連続に延長**し、極限 = (jets 球面上の deg ≤ 5
-    多項式)× e^q — 球面正規化により **≢ 0**(jet cap 5 の正当化 = D_W(3) と
-    F3′ の sharp 性)。内部座標・valuation flag は不要(jet 正規化が全
-    valuation を一様に扱う)。直径 = 0 の exact merge は merge-first exit
-    (単一 class — certificate は自明 P = 1)。
+  (iii) **全 confluent(chain 込み・直径 < 2ε_T)**: 入力は **merge-first /
+    zero-prune 後に class 数がちょうど 3**(対距離すべて > 0・係数すべて非零)
+    の triple に限る([GC4B0R5-01] — W_c(3) の適用前提を型に昇格。型付き
+    witness: 相異検証値(min 対距離 > 0)+ prune 済み flag。exact merge・
+    係数零で class 数が 3 未満に落ちる入力は **lower-arity route**(2 class =
+    pair 側 A.2b 系 certificate、単一 class = 自明 P = 1)へ exit し (iii) に
+    入らない)。z_c := cluster の ≺-最小 class の位相(パラメタの型付き関数)。
+    正規化([GC4B0R4-01] — 旧「deg ≤ 2 prefactor」は F3′ 反例(正本: FR 文書
+    §7)により撤回済み): g := f/‖J⁵f(z_c)‖₂(J⁵ = 0..5 階 jet ベクトル)。
+    上記前提下で **GC-1 W_c(3)(D_W(3) = 5)により ord_{z_c} f ≤ 5、すなわち
+    J⁵f(z_c) ≠ 0** — g は well-defined。jet cap 5 の根拠 = D_W(3) と F3′ の
+    sharp 性。**raw exact merge(直径 0 の実入力)と、counting 閉包の直径 0
+    面(jets 正規化極限対象 = 球面 jet の deg ≤ 5 多項式 × e^q が張る blow-up
+    face — F3′ 型極限を含む)は別物**([GC4B0R5-02]): 前者は selector 以前に
+    lower-arity へ route され (iii) に現れない。後者は (2c) 段 2 の compact 化
+    にのみ現れる極限対象で、その非零性は jet ノルム 1 の継承で保証される。
 **3-class selector 述語表([GC4B0R2-02])**: 対距離 d_{ab} :=
 max(|B_a − B_b|, |A_a − A_b|^{1/2})、d_min := min 対(tie は ≺)。
   | 段 | predicate(半開: < で発火) | chart |
@@ -1837,14 +1841,15 @@ max(|B_a − B_b|, |A_a − A_b|^{1/2})、d_min := min 対(tie は ≺)。
   | (2) | d_min < ε_T ∧ 第三 class の両対距離 ≥ ε_T | (ii)(pair = d_min 対) |
   | (3) | それ以外(補集合 — **chain cluster を含む**: 三角不等式により **cluster 直径 < 2ε_T**。(iii) の jet 正規化は直径・valuation に依らず一様) | (iii) |
 first-match で全域一意(段 (3) は補集合 — 網羅的・排他的)。
-**chain cluster の処理([GC4B0R3-01]、[GC4B0R4-01] で jet 正規化に置換)**:
+**chain cluster の処理([GC4B0R3-01][GC4B0R4-01][GC4B0R5-01])**:
 段 (3) の入力は「全対 < ε_T」とは限らない(chain 例: d₁₂ < ε_T、d₂₃ < ε_T、
-d₁₃ ∈ [ε_T, 2ε_T))が、直径 < 2ε_T なので (iii) の **jet 正規化族**(上記 —
-中心 z_c は cluster の ≺-最小 class の位相、jets 0..5)が直径 ∈ [0, 2ε_T] の
-全 cluster を一様に覆う(deg ≤ 2 の旧主張は撤回 — F3′ 反例)。
-**compact 性の分離([GC4B0R2-01])**: 半開 band は **record 割当専用**。
-counting の証明は各 chart の **閉包 box K̄**(座標範囲の閉包 — compact)上で
-行い、{K̄} は**有限閉被覆**(割当は不要 — §8.7 (FL-0) と同じ被覆方式)。
+d₁₃ ∈ [ε_T, 2ε_T))が、merge/prune 後の相異 3 class で直径 ∈ (0, 2ε_T) なので
+(iii) の jet 正規化族が一様に覆う(直径 0 の実入力は lower-arity route)。
+**compact 性の分離([GC4B0R2-01]、[GC4B0R5-03] で対象を関数族に変更)**:
+半開 band は **record 割当専用**。counting の証明は chart metadata の閉包 box
+ではなく、(2c) の **パラメタ空間 K 上の関数族**(連続写像 p ↦ f_p の像と
+その極限)に対して行う — metadata(jets 球面・直径・中心)は g を一意に
+定めず、その compact 性は関数族の compact 性を意味しない(R5 指摘)。
 *(2b) 各 chart 閉包上の非零性([GC4B0R2-03] — 球面 face の場合分け)*:
 (i) 球面は**係数ベクトル全体の非零**を与える(個別係数の零面を含む)—
 not-all-zero 係数の相異 3 指数結合は GC-1 W_c(3) 独立性で f ≢ 0 ✓。
@@ -1858,19 +1863,38 @@ c₃ = 0(P₁ ≠ 0)→ 多項式 × 指数 ≢ 0 ✓。
 **零点集合は scalar 倍で不変**(f と f/ε² は同じ零点)なので、零点数の評価は
 再正規化代表(非零)に対して行えばよい — 生データの 0 退化は counting に
 影響しない。
-*(2c) Rouché による局所有界性*([R1-02] の撤回、[GC4B0R3-02] で半径を分離):
-**計数対象は certificate の複素 collar D̄(t₀, R_col) そのもの**とし、外側
-buffer 半径 **R_out := 2R_col**(chart 定数 — 族の関数は D̄(t₀, R_out) 上
-解析的)を導入する。f ≢ 0 に対し零点の孤立性から R′ ∈ (R_col, R_out) を
-f が |z − t₀| = R′ 上に零点を持たないよう選べる。g が D̄(t₀, R′) 上で f に
-十分一様に近ければ、Rouché により
-  N(g, D̄(t₀, R_col)) ≤ N(g, D̄(t₀, R′)) = N(f, D̄(t₀, R′)) < ∞
-— **g ↦ N(g, D̄(t₀, R_col)) は各非零 f の近傍で有界**(AD-1 の要求半径と
-一致)。compact 族の有限被覆で族全体の一様上界 ⇒ 家族ごとの N_T(chart) < ∞、
-家族有限個 ⇒ **N_T := max < ∞**。∎
-(生データでの零点数は位相スケールとともに増大する(§9 TRIPLE-VALENCY
-診断)ため、**正規化座標での主張が本質** — 「接触次数だけでは足りない」の
-正体。)
+*(2c) counting の 2 段分解と Rouché([R1-02] 撤回、[GC4B0R3-02] 半径分離、
+[GC4B0R5-03] で関数族ベースに全面改稿)*: 計数対象は certificate の複素
+collar D̄(t₀, R_col)。外側 buffer 半径 **R_out := 2R_col**(chart 定数)。
+- **パラメタ空間 K**(chart ごと): 係数 c ∈ ℓ² 単位球面 ⊂ ℂ³ × class データ
+  (B_j, A_j) ∈ 閉 chart 箱 × 定数 gauge 固定(§8.6 規約)。z_c は K の型付き
+  関数。**p ↦ f_p は K → C(D̄(t₀, R_out)) の連続写像**(明示的指数和公式・
+  データ有界 — F3′ 型の係数発散は divided-difference 座標の産物であり、
+  raw 係数球面を使う K では起きない)。
+- **Z₀ := {p ∈ K : f_p ≡ 0}**(閉 — 具体的には exact 一致 class の合併後に
+  全合併係数が零、という実代数的条件)。
+- **(段 1: Z₀ 外 — 無条件)**: 任意の開近傍 U ⊇ Z₀ に対し K∖U は compact で
+  各 f_p ≢ 0。p₀ ごとに R′ ∈ (R_col, R_out) を |z−t₀| = R′ 上 f_{p₀} ≠ 0 に
+  選べば、Rouché により p₀ の近傍で
+  N(f_p, D̄(t₀, R_col)) ≤ N(f_{p₀}, D̄(t₀, R′)) < ∞ — 有限被覆で一様上界。
+- **(段 2: Z₀ 近傍 — TN-3 に条件付き)**: g_p := f_p/‖J⁵f_p(z_c)‖₂
+  (K∖Z₀ 上 well-defined — (2a)(iii))。**比較補題 TN-3**:
+  ∃ c_TN > 0: ∀p ∈ K∖Z₀: ‖J⁵f_p(z_c)‖₂ ≥ c_TN · sup_{D̄(t₀,R_out)} |f_p|。
+  TN-3 が成立すれば {g_p} は一様有界 ⇒ 正規族(Montel)⇒ 任意の局所一様
+  極限 g* は jet ノルム 1 を継承(jet 汎関数は局所一様収束で連続)⇒
+  **g* ≢ 0** ⇒ 段 1 と同じ Rouché 有限被覆が {g_p} の閉包上で成立。零点集合は
+  scalar 不変(N(g_p) = N(f_p))なので、両段合わせて chart ごとの
+  N_T(chart) < ∞、chart 有限個 ⇒ **N_T := max < ∞**。∎(TN-3 条件付き)
+  **TN-3 の状態**: 未証明の**導出義務(GC-5 送り** — q_band_witness-v3
+  充足可能性と同じ規約)。支持: (a) 1-パラメタ解析弧上では divided-difference
+  leading 項 h_v ≢ 0 への収束から比が正極限を持つ(h_v の ord_{z_c} 上界には
+  c=3 閉包資産の contact bound の消費を想定 — 適用条件の確認込みで義務に
+  含める)、(b) §9 TRIPLE-VALENCY 診断(正規化 scale で max 5 — 証明の代替
+  ではない)。候補経路: (α) 実解析族の curve selection / Łojasiewicz、
+  (β) ≤3 項二次位相指数和への Turán–Nazarov 型 doubling、(γ) 多項式係数線形
+  ODE の零点計数評価。
+(生データでの零点数は位相スケールとともに増大する(§9 TRIPLE-VALENCY 診断)
+ため、**正規化座標での主張が本質** — 「接触次数だけでは足りない」の正体。)
 
 **(AD-3) 供給源 2 系統の被覆(GC-4C.0 (3) 表の要件 — [GC4B0R1-03] で
 membership witness を型として要求)**: SPLIT4 の node witness(gap/scale)や
@@ -1881,9 +1905,11 @@ SIG-AUDIT の signature witness は、それ自体では正規化 triple 族へ�
    ∈ ℂ³, anchor 差 ∈ 閉円板², d_min ≥ ε_T 検証値) / (ii) ⇒ (**joint 球面値
    ∈ ℂ³**(deg ≤ 1 prefactor の 2 係数 + 独立 class 係数 1 — ℂ⁴ は誤記で
    訂正), divided-difference 内部座標 ∈ **閉円板**, 第三 class 分離検証値) /
-   (iii) ⇒ (**jets 0..5 の球面値 ∈ ℂ⁶**, cluster 直径 ∈ 閉区間 [0, 2ε_T],
-   cluster 中心 ∈ 閉円板)`([GC4B0R4-02] — 内部座標を撤廃、直径 0 面は
-   exact-merge route)
+   (iii) ⇒ (**jets 0..5 の球面値 ∈ ℂ⁶**, cluster 直径 ∈ **(0, 2ε_T)**,
+   cluster 中心 ∈ 閉円板, 相異検証値・prune flag)`([GC4B0R4-02][GC4B0R5-01]
+   — record は merge/prune 後の相異 3 class のみ。直径 0 は lower-arity route
+   で本 variant に入らない。counting 閉包の直径 0 blow-up face は record 型
+   ではなく (2c) 段 2 の証明対象 [GC4B0R5-02])
 — 各 variant は有限次元 compact 型。**fail-closed で要求**(欠落 = adapter
 適用不可 = record 生成禁止)。
 - **prepared tree triple**(SPLIT4 経由): witness の導出義務は record 生成側
@@ -1894,14 +1920,16 @@ SIG-AUDIT の signature witness は、それ自体では正規化 triple 族へ�
 両系統とも witness が供給されれば (AD-2) の族に入り、**同一の certificate 型
 が適用可能**(feasibility はこの型レベルで閉じ、witness 充足は生成側義務)。∎
 
-**(AD-4) feasibility 判定**: (AD-1) の型は (AD-2) の N_T と A.1/A.3a の既存
-witness 規約のみで構成可能であり、**構成を妨げる障害は存在しない**
-(= B.0 の go 判定)。数値診断は **§9 TRIPLE-VALENCY 行を参照**(数値の
+**(AD-4) feasibility 判定**: (AD-1) の型は (AD-2) の N_T(型付き定数 —
+存在は段 1 無条件 + 義務 TN-3)と A.1/A.3a の既存 witness 規約のみで構成可能
+であり、**型レベルで構成を妨げる障害は存在しない**(= B.0 の go 判定。TN-3 は
+witness 充足可能性義務と同列の GC-5 送り義務であり、blocking 反例ではない)。数値診断は **§9 TRIPLE-VALENCY 行を参照**(数値の
 authoring location は §9 のみ — [GC4B0R3-minor]。診断であり証明の代替では
 ない)。
 
-**scope(非主張)**: 3|1 kernel 指数の本体(GC-4B)、N_T の有効値(存在のみ)、
-triple の deep-flat 解析(GC-4B 系)、人間による査読は未実施。
+**scope(非主張)**: 3|1 kernel 指数の本体(GC-4B)、N_T の有効値、
+**比較補題 TN-3**(多パラメタ一様性は未証明 — GC-5 導出義務)、triple の
+deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 
 ## 9. 早期検証実験台帳
 
@@ -1934,8 +1962,21 @@ triple の deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 
 ## 11. 版履歴
 
+- v0.26.5(2026-08-19): R-GC4B0 R5(blocking 4)適用 — [01] (iii) に W_c(3)
+  適用前提(merge/prune 後ちょうど 3 相異 class・非零係数)を型として昇格、
+  lower-arity route を明示。[02] raw exact-merge(実入力 — selector 以前に
+  route)と counting 閉包の直径 0 blow-up face(jets 正規化極限対象)を分離。
+  [03] (2c) を関数族ベースの 2 段分解に全面改稿 — 段 1(Z₀ 外・raw 連続族の
+  Rouché 有限被覆)は無条件、段 2(Z₀ 近傍)は比較補題 **TN-3**(jet ノルム
+  vs sup ノルムの一様比較)に条件付き。TN-3 は導出義務として GC-5 へ送る
+  (候補経路: curve selection / Turán–Nazarov 型 doubling / 多項式係数 ODE
+  零点評価。支持: 1-パラメタ弧解析・§9 TRIPLE-VALENCY 診断)。AD-2/AD-4/
+  scope の主張文を条件付きに同期。[04] F3′ 再記述を FR 文書 §7 正本への
+  pointer に統一(§3・§3.1・§8.9、v0.26.4 記載の表記修整を含む)、本文書を
+  claim-surface テスト PR158_CLAIM_DOCS へ追加。
+
 - v0.26.4(2026-08-19): R-GC4B0 R4(blocking 3)適用 — [01] (iii) の「deg ≤ 2
-  prefactor」を F3′ 反例(valuation 5)により撤回し、**cluster 中心 jets 0..5 の
+  prefactor」を F3′ 反例(正本: FR 文書 §7)により撤回し、**cluster 中心 jets 0..5 の
   ℓ² 正規化族**に置換(δ > 0 で W_c(3) が非全零を保証、δ = 0 まで連続延長・
   極限は球面上 deg ≤ 5 多項式 × 指数で ≢ 0 — jet cap 5 = D_W(3)・F3′ sharp)。
   [02] tagged union (iii) を jets 球面 ∈ ℂ⁶ + 直径 [0, 2ε_T] + 中心閉円板に
