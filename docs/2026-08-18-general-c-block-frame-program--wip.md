@@ -1369,24 +1369,57 @@ Q-band 境界では Q̇ は tangent cone に制限され、射影特異点では
 sup 正規化へ戻す — 床定数の有限損失(≤ 2^{9})のみ。
 **(6-v) 法束の最小特異値と Taylor([GC4A2CR3-02]、[GC4A2CR4-01][02] で
 順序と frontier 横断性を精密化)**:
-**(v-a) Q-band 境界 strata の排除**: global 定数 R_Q((6a))を
-**R_Q := 2·C_p(C_p = 閉箱上の fitted Q 係数の上界 — collar 上の Cauchy 評価に
-よる有限値)** と宣言する。すると全 QR 点の fitted Q は 𝒬_band の**内部**に
-あり、**Q-band 境界 stratum は空**(tangent cone の場合分けは不要 —
-[GC4A2CR4-02] の循環懸念ごと消滅)。
-**(v-b) stratum poset の順序 = 次元([GC4A2CR4-01] — §8.6 の rank (r, 9−d₀)
-とは別の A.2c 内部順序)**: Z_QR の strata は (6-ii) の明示パラメタ化で各々
-局所閉・有限個。**frontier 関係 S_τ ⊂ closure(S_σ) ∖ S_σ は必ず ≥ 1 本の追加の
-閉条件**(support 減 = 係数消滅・confluence 到達 = 分離消滅・gcd-jump = 因子
-一致・degree-drop = 先頭係数消滅)**を課すので dim S_τ < dim S_σ**(パラメタ
-化の自由度が strictly 減る — 各条件はパラメタ空間の proper 代数的部分集合)。
-帰納は **dim に関して**行う(有限・well-founded)。
-**(v-c) 全 stratum 型での collapse**: (6-iii) の二分法(regular = 2 指数
-deg ≤ 2 → W_CONFL 6 / C = 1 指数 Π₄ → ord ≤ 4)は frontier stratum でも
-そのまま適用される: gcd-jump は jet range を {3..9−d₀} に縮めるが d₀ ≤ 2 で
-10 − d₀ ≥ 8 > 6 > 4 は保たれ、degree-drop・support-drop は prefactor/指数が
-減るだけで同じ二分法のより簡単なインスタンス(support ≤ 1 は exit — 床は
-空虚に真)。よって**各 stratum で ker δ𝒥 = T S**((6-iii) の論法)。
+**(v-a) canonical witness と Q-band 境界 strata の排除([GC4A2CR5-B1] で
+周期と定数を明示)**:
+**canonical strip**: incidence の Q は定数項の虚部にのみ 2πi 周期を持つ
+(α₂, α₁ は periodic でない — e^Q の等値は Q 差 ∈ 2πiℤ を強制し、非定数差は
+指数の増大で排除)。そこで
+  **Z̃ := {(x, Q) : Φ_Q(x) ≡ 0, Im α₀ ∈ [0, 2π)}**
+と canonical 化する(以後 fitted Q はこの代表元)。
+**C_p の明示式**: QR 点では EL/対形成((6-ii))により fitted Q は位相データの
+差: α₂, α₁ の絶対値 ≤ 2 × 箱半径(正規化座標で ≤ 2)。α₀ は
+Re α₀ = log|係数比| — 係数消滅面から band 距離 ε_c-band 以上の stratum 内部では
+|係数比| ∈ [ε_band, 1/ε_band] ⇒ |Re α₀| ≤ log(1/ε_band)、Im α₀ ∈ [0, 2π)。
+  **C_p := max(2, log(1/ε_band) + 2π) < ∞(明示・正)**。
+(係数消滅面そのものは (v-b) の frontier stratum — そこは低次元帰納が処理。)
+**R_Q := 2·C_p** と宣言する(§8.6 (6a) は R_Q の存在と global 性のみを受理
+しており、値の指定は本 packet の拡張 — q_band_witness は R_Q 拡大で緩む方向
+なので既存 record と整合)。すると canonical fitted Q は 𝒬_band の**内部**に
+あり、**Q-band 境界 stratum は空**。(FL-0)(ii) の Φ_p ≡ 0 ⇒ κ = 0 も
+canonical 代表元経由で閉じる。
+**(v-b) stratum poset の順序 = 次元([GC4A2CR4-01]、[GC4A2CR5-B2] で型別
+次元表を供給 — §8.6 の rank (r, 9−d₀) とは別の A.2c 内部順序)**: Z_QR の
+strata は (6-ii) の明示パラメタ化で各々局所閉・有限個。frontier 型ごとの
+追加閉条件とそれが拘束する**自由パラメタ**:
+
+| frontier 型 | 追加方程式 | 拘束される自由パラメタ | proper 性の根拠 |
+|---|---|---|---|
+| support 減 | c_a = 0(1 複素条件) | stratum パラメタ化で c_a は自由(球面 slice 上) | stratum 内部では c_a ≠ 0(係数消滅は band 外) |
+| confluence 到達 | Δ(A,B)_pair = 0(2 複素条件の消滅) | pair 内差は自由パラメタ | stratum 内部では分離 band ≥ ε |
+| gcd-jump | Res(P̃₁, P̃₂) = 0(1 複素条件) | prefactor 係数は自由 | d₀ 分枝の定義により stratum 内部では coprime(Res ≠ 0) |
+| degree-drop | 先頭係数 = 0(1 複素条件) | 先頭係数は自由 | deg 分枝の定義により内部では ≠ 0 |
+
+各行の方程式は当該 stratum のパラメタ化(連結・解析的)上で恒等的に成立しない
+(右列)ので、その零集合は **proper 解析的部分集合 = 次元 strict 減**。
+よって frontier 関係は dim を strictly 下げ、帰納は **dim に関して**
+well-founded(有限)。
+**(v-c) 全 stratum 型での collapse([GC4A2CR5-B3] — mixed の空性で完備化)**:
+(6-iii) の二分法(regular = 2 指数 deg ≤ 2 → W_CONFL 6 / C = 1 指数 Π₄ →
+ord ≤ 4)の適用範囲:
+- **mixed(C_i 型 — 片側 confluent・片側 2 class)の内部に QR 点は存在しない**:
+  QR 恒等式 P₁e^{q₀} + e^Q c₃e^{q₃} + e^Q c₄e^{q₄} ≡ 0 は **3 相異 class の
+  指数多項式恒等式**であり、多項式 prefactor 付き独立性((FL-2b)(d) と同じ
+  T 単射性の逐次消去、または W_c 系)により全係数零を強制 — stratum 内部
+  (class 相異・係数非零)と矛盾。よって mixed box の Z_QR は frontier
+  (C_12 型 confluence または support 減)にのみ現れ、**mixed 型の線形化
+  collapse は不要**(各 frontier 型が処理)。d₀ = 2 の FL-2b 比較懸念も同時に
+  消滅(mixed の QR 線形化そのものが空)。
+- gcd-jump: jet range が {3..9−d₀} に縮むが d₀ ≤ 2 で 10 − d₀ ≥ 8 > 6 > 4 は
+  保たれ、regular / C の二分法がそのまま成立。
+- degree-drop・support-drop: prefactor / 指数が減るだけで同じ二分法のより
+  簡単なインスタンス(support が「片側全滅」に達する面は (v-d′) — Z_QR が
+  接近しない)。
+よって **QR 点を持つ各 stratum で ker δ𝒥 = T S**((6-iii) の論法)。
 **(v-d) 帰納法**:
 *基底*(dim 最小の strata — frontier なし・閉): 法単位球面束 compact、
 σ(x*, ξ) := max_n |δ𝒥(ξ)| は連続・(v-c) より各点正 ⇒ σ₀ > 0。
@@ -1398,17 +1431,30 @@ closure(S_σ) ∖ S_σ ⊆ ∪_τ N_τ)。その上の法単位球面束は comp
 **(v-e) 一様 Taylor 定数**: C₂ := sup_box ‖Hess_x (𝒥_n)_n‖(exact jet 式は
 閉箱の正規化座標で解析的、compact 上で有限)。tube 内で
 φ(x) ≥ σ₀(σ)·h − C₂h² ≥ (σ₀(σ)/2)·h(h := dist ≤ h_σ)。
-*被覆*: Z_QR ∩ box ⊆ ∪_σ N_σ(各点は自分の stratum の tube か、より低次元
-frontier の tube に入る)、tube の外 {dist(·, Z_QR) ≥ min_σ h_σ} ∩ box は
-compact で零集合一致から φ > 0 ⇒ inf =: c′ > 0。床定数は **有限個の
-(a_σ, h_σ, c′) の min** — 移送は明示的。
+**(v-d′) 定義域と exit 境界([GC4A2CR5-B4])**: 床の主張の定義域は
+**非終端 admissible 配置(merge 後 r ≥ 2 かつ両 side 非空)**に限る(r ≤ 1
+exit・κ = 0 exact exit は record が直接解決 — 床の対象外)。box 閉包に含まれる
+**side 全滅面(片 side の係数が全て 0)には Z_QR は接近しない**:
+Φ_Q = B₁ + e^QB₂ で ‖B₂‖ → 0 とすると、canonical Q ∈ 𝒬_band から
+|e^Q| ≤ e^{3R_Q}(|y| ≤ 1 上)なので κ = 0 には ‖B₁‖ = ‖e^QB₂‖ ≤
+e^{3R_Q}‖B₂‖ → 0 が必要だが、‖B₁‖ は球面正規化で下に有界 — 矛盾。
+⇒ **side 全滅面の band 近傍で κ ≥ c_side > 0**(その領域は (iv) 型の
+compactness 勘定が φ > 0 を与える)。intra-side の係数消滅面(r 4 → 3 等)は
+低 arity box と共有され、**intrinsic 量の整合**(v-jets・κ・λ は chart 非依存 —
+§8.6 (N-6′))により jet map・κ が面上で低 arity box の値と一致するので、tube 床
+は box 境界を跨いで移送される(strata 帰納は全 box の strata を通した大域帰納)。
+*被覆*: Z_QR ∩ (定義域) ⊆ ∪_σ N_σ(各点は自分の stratum の tube か、より
+低次元 frontier の tube に入る)、tube の外 {dist(·, Z_QR) ≥ min_σ h_σ} ∩
+(定義域の閉包 ∖ side 全滅面近傍) は compact で零集合一致から φ > 0 ⇒
+inf =: c′ > 0、side 全滅面近傍は κ ≥ c_side の compactness 勘定。床定数は
+**有限個の (a_σ, h_σ, c′, c_side 系) の min** — 移送は明示的。
 **(6-vi) 相対床への変換**: κ は Lipschitz(Φ_Q が閉箱データに一様 Lipschitz、
 min は Lipschitz 保存)かつ κ|_{Z_QR} = 0 ⇒ κ(x) ≤ C_L·dist(x, Z_QR)
 (**下界は不要**)。よって tube 内で φ/κ ≥ a_σ/C_L、tube 外で φ/κ ≥ c′/C_box。
 ∎(SING-FRONTIER(§9)はこの帰納の**数値検証(診断)**であり、証明上の
 open 義務ではない — [GC4A2CR3-02] の「open のまま床を主張」状態を解消。)
-*数値診断*: §9 QC-TRANSV 行を参照(数値結果の authoring location は §9 のみ —
-[GC4A2CR4-m1]。診断であり証明の代替ではない)。
+*数値診断*: §9 QC-TRANSV 行を参照(数値結果・件数・統計は §9 のみに記載 —
+[GC4A2CR5-m1]。診断であり証明の代替ではない)。
 *数値診断*(§9 QC-TRANSV): σ_eff は random 4844 配置で全て正(中央値 0.11)、
 adversarial 探索の零接近はすべて routed 境界(confluent 帯・係数消滅面)への
 接近で説明され、**chart 内部の構造的縮退は検出されず** — 本主張と整合。
