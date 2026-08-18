@@ -743,7 +743,7 @@ V_i の複素 collar 評価(A.3 — COLLAR-POLE 対応)、FR 条件の最終充�
 | BUDGET-TREE | child cost の二重計上 | 全 c≤8 tree・route 列の Σlog C_step の T² 係数 | open(GC-11 入力) |
 | AUTO-HELD-22 | 「T3 の pair children は node scale で自動 held」 | 反例構成 | **棄却済み**(正本 = §8 設計記録) |
 | COMMON-DIVISOR | 両 pair が同一点同次数消滅 + reduced 先頭も相殺で deep-flat が残る | exact 構成と reduced pair の挙動 | open(A.1/A.3 入力) |
-| JF-NONCOMPACT | ord F ≤ 9 でも正規化 log jet の最小値が confluent 境界で 0 へ落ちる列 | **境界 continuation**(exact jet recurrence、高精度、ε 対数列、R_ε = max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ) の傾き判定 — finite difference 禁止)。fixture: ①二次比族(κ=0 分類の検証)②near-quadratic 族 η₁=η₂+δt² ③両 pair confluent 族 ④混成 scale 族 ⑤gcd-jump 族 ⑥**confluent 直接族 P₁e^{q₁}+P₂e^{q₂} の ord/jet 最小特異値探索(真の no-go テスト — 非零・非二次比配置が 0..9 jet を同時消滅させれば GC-4A no-go)** | open(A.2c の主敵 — consult #9 で fixture 確定) |
+| JF-NONCOMPACT | ord F ≤ 9 でも正規化 log jet の最小値が confluent 境界で 0 へ落ちる列 | **境界 continuation**(exact jet recurrence、高精度、ε 対数列、R_ε = max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ) の傾き判定 — finite difference 禁止)。fixture: ①二次比族(κ=0 分類の検証)②near-quadratic 族 η₁=η₂+δt² ③両 pair confluent 族 ④混成 scale 族 ⑤gcd-jump 族 ⑥**confluent 直接族 P₁e^{q₁}+P₂e^{q₂} の ord/jet 最小特異値探索(真の no-go テスト — 非零・非二次比配置が 0..9 jet を同時消滅させれば GC-4A no-go)** | **fixture ⑥ 初期結果あり**(`confl22_ord.py`: (deg≤1\|deg≤1) confluent 面の genuine ord は **4 で頭打ち**(ord 4 = 150/150 到達、ord ≥ 5 解なし — Newton 探索、二次比枝は分類除外)⇒ **no-go 信号なし**、W_CONFL(2,2) は Wronskian 勘定(crude ≤ 11)+ sharp 4–6 見込みで橋の「≤ 9」に整合。①〜⑤は open。診断であり証明の代替ではない) |
 | COLLAR-POLE | 実区間で unit 有界でも分母複素零点が collar に接近する列 | V_i の複素零点距離 | open(A.3 入力) |
 | TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内に 6 個以上の零点を持つ triple | 零点計数 | open(B.0 の主敵) |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
@@ -758,6 +758,9 @@ V_i の複素 collar 評価(A.3 — COLLAR-POLE 対応)、FR 条件の最終充�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.15.1(2026-08-18): JF-NONCOMPACT fixture ⑥ の初期結果を記録(confluent (1,1) 面の
+  genuine ord ≤ 4 — no-go 信号なし。診断)。
 
 - v0.15(2026-08-18): consult #9(Sol — JF₉ 設計)反映: 生 JF₉ の反例(二次比枝)と
   修正 target(v ≡ 0 or 横断残差 κ 床)、Φ_p 橋(ord ≥ d₀+N+1、予算は ord_{t₀}D)、
