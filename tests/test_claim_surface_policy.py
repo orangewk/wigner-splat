@@ -862,11 +862,20 @@ def test_f3prime_gc_program_doc_uses_pointer_not_restatement():
     (luna R-GC4B0 R6 [04])."""
 
     text = GC_PROGRAM_DOC.read_text(encoding="utf-8")
-    assert "\u6b63\u672c: FR \u6587\u66f8 \u00a77" in text
+    pointer = "\u6b63\u672c: FR \u6587\u66f8 \u00a77"
+    assert pointer in text
     for fragment in F3PRIME_SPEC_ONLY_FRAGMENTS:
         assert fragment not in text, (
             f"F3-prime restatement returned: {fragment!r}"
         )
+
+    # luna R-GC4B0 R7 [02]: a document-wide pointer check cannot detect the
+    # removal of the (2c) pointer while pointers elsewhere (e.g. section 3)
+    # survive, so the (2c) slice must carry its own pointer.
+    start = text.index("*(2c) counting")
+    end = text.index("**(AD-3)", start)
+    section_2c = text[start:end]
+    assert pointer in section_2c, "(2c) lost its FR spec pointer"
 
 
 # --- issue #137 (topological K-epsilon) surfaces -----------------------------
