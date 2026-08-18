@@ -152,8 +152,8 @@ c=3 上界の到達例。∎
 |---|---|---|---|
 | GC-0 consumer audit | なし | 一般 N/NC/L2b/L3 が必要とする外部 target の列挙。最終出力は (E-w) 形で足りるか、(E-d) 多項式形は内部需要のみかを決定 | **accepted**(R-GC0 R1 PASS、fixed SHA `b8167d1`、findings なし) |
 | GC-1 W_c | GC-0 | v_c ≤ D_W(c) = c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **accepted**(R-GC1 R3 PASS、fixed SHA `957b252`) |
-| GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | **drafted(§6、査読待ち R-GC2)** |
-| GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | open |
+| GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | **accepted**(R-GC2 R3 PASS、fixed SHA `5bbf183`) |
+| GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | **drafted(§7、査読待ち R-GC3)** |
 | GC-4A PBK-22 | GC-3、c=2 資産 | `2|2` composite unit-step kernel。係数非依存・有限-m exact child・ray-wide cost 可算。**go/no-go 関門** | open |
 | GC-4B PBK-31 | GC-3、c=3 FR | `3|1` kernel。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない。**go/no-go 関門** | open |
 | GC-4C PBK-M4 | GC-3、c=3 FR(plain 複合前例) | 多分岐 node kernel `2|1|1`・`1|1|1|1`(c=3 plain triple の chart routing 複合の w=4 拡張 — GC-2 §6.2 で新設)。**go/no-go 関門** | open |
@@ -192,7 +192,7 @@ c=3 上界の到達例。∎
 
 **非主張**: 本 audit は proof claim を含まない(依存グラフと形の決定のみ)。
 
-## 6. GC-2 SPLIT4(c=4 tree topology と node 分割二分法 — drafted、査読対象 R-GC2)
+## 6. GC-2 SPLIT4(c=4 tree topology と node 分割二分法 — accepted、R-GC2 R3 PASS、fixed SHA `5bbf183`)
 
 **入力規約**: 共通 gauge 後の weighted metric d_w = max(|ΔA|^{1/2}, |ΔB|)(FR 文書 §2 —
 snowflake 三角不等式で metric)。constant-gauge quotient 済み(重複原子は exact 合算、
@@ -292,7 +292,75 @@ permutation は有限個なので最後に部分列で固定。(ii) 各 node で
 node scale の整合(補題 G の window と d_w-tree の window の突き合わせ)は GC-3
 (PBK-SPEC)の interface 設計に送る。人間による査読は未実施。
 
-## 7. 早期検証実験台帳
+## 7. GC-3 PBK-SPEC(prepared node kernel の型付き interface — drafted、査読対象 R-GC3。proof claim なし)
+
+本節は仕様であり証明主張を含まない。c=3 の FR-S4-0(FR 文書 §10 — accepted)の
+契約群を w=4 の node 在庫(§6.2)へ一般化する。FR §10 の語彙(RouteKind / RouteRecord /
+two-level radial segmentation / coefficient-free constants / no-return)は**そのまま継承**し、
+差分のみ規定する。
+
+### 7.1 型定義
+
+**PBKNode**(kernel 呼び出しの入力):
+- `arity q ∈ {2,3,4}`、`children = (C_1, …, C_q)`、`Σ w(C_i) ≤ 4`。
+- 並びは node scale での周波数勾配順(radial chart ごと)。
+- `window η > 0`(SPLIT4 (ii) の正規化距離下限 — 部分列固定後の定数)と
+  補題 G の `(Q, M₀)`(§6.3 (iii) — q ごとに c=q で適用)を付帯。
+
+**Child**(prepared block):
+- `w(C) ∈ {1,2,3}`。`w=1`: 素原子(certificate 不要 — 係数と gauge 後パラメタのみ)。
+- `w ≥ 2`: **exact 有限原子結合**(有限 m で常に exact sum — `P e^q` は衝突極限の
+  chart face にすぎず、child の型ではない。Sol consult #7 の指摘を規約化)。
+- `certificate(C)`(w ≥ 2): c≤3 program が発行する受理済みデータ一式 —
+  (a) exact 枠(J^{D_W(w)}-SVD、child scale)と Gram floor、
+  (b) child envelope((E-w) 形、child scale の定数組)、
+  (c) valuation/flag label(F3 型 witness 対応 — 相対 valuation を含む chart label、
+  FR §7 の設計制約を継承)、
+  (d) radial 表現の node scale への読み出し(child 和の二次位相指数和としての表示)。
+  w=2: K2/W2 系資産、w=3: FR program 複合(plain / nested)。
+
+**PBKResult**(kernel の出力契約):
+- composite unit-step kernel: 各 radial chart interval 対 (E, I)(two-level segmentation
+  契約 — FR §10.3 の一般化、区間割りは node の `(η, Q, M₀)` window が駆動)に対し
+  `sup_I |e^{−U_H} F| ≤ C_node · ρ^{−γ(type)} · sup_E |e^{−U_H} F|` 形の評価。
+  `F` = node の exact 和、`U_H` = node envelope(下記)、`ρ` = 区間スケール比。
+- `γ(type)`: node 型ごとの graded 指数(§7.3)。`C_node`: coefficient-free
+  (FR §10.6 継承 — 原子係数に非依存、`(q, w_i, δ, R, η, Q, certificate 定数)` のみ)。
+
+### 7.2 node envelope と common-zero 規約
+
+- `U_H := max_i log|C_i|`(children 和の block envelope — FR §3 の node envelope の
+  多分岐版。零点では log 0 := −∞)。
+- **common-zero 規約(c=4 新規 — PBK22-ADV fixture)**: c=3 の pair+singleton では
+  singleton が非零のため `U_H` の床が自動で存在したが、`2|2` 以降は**全 children が同一点で
+  同時に零になり得る**。kernel 契約は次で固定する: (a) `U_H` の床は child certificate の
+  valuation/flag label から供給する(child の消滅次数 ≤ D_W(w) — GC-1 上界を消費)、
+  (b) 同時零点近傍の区間は segmentation 契約で「深消滅区間」として単離し、そこでは
+  kernel は per-child valuation 勘定(多項式次数 ≤ D_W(4) = 9 の Remez 型)へ切替える。
+  切替閾値は RouteRecord に記録し、no-return(旧 U_F への逆比較禁止 — FR7 継承)を守る。
+
+### 7.3 graded cost 台帳(spec — 値は GC-4A/B/C の証明対象)
+
+| node 型 | γ(type) | 供給 packet |
+|---|---|---|
+| 1\|1 | 2(K2 — 既知) | c=2 資産 |
+| 2\|1 | 5(QR5/RF — 既知) | c=3 資産 |
+| 2\|2 | γ₂₂(**未定 — 下界 ≥ 5 は c=3 埋め込みから見込み、決定は GC-4A**) | GC-4A |
+| 3\|1 | γ₃₁(未定 — GC-4B) | GC-4B |
+| 2\|1\|1 / 1\|1\|1\|1 | γ_M(未定 — chart routing 複合、GC-4C) | GC-4C |
+
+**reserve 契約**: split-scale Taylor の剰余は child の split scale までしか使わない
+(閉包 §4.3.5.3 の Sol 案 1 継承 — 長区間剰余・第 5 障害の回避)。各 node の reserve
+消費は RouteRecord に記録し、**public ledger は root step 一回のみ**(Assembly 層 §2 —
+T² budget の深さ重複消費の禁止。検証は BUDGET-TREE 実験 + GC-11)。
+
+### 7.4 非主張
+
+kernel の存在(γ の有限性)は本 spec では主張しない — GC-4A/B/C の証明対象であり、
+blocking 反例が出れば §1 の go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、
+confluent 枠(GC-9)も範囲外。人間による査読は未実施。
+
+## 8. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
 |---|---|---|---|
@@ -303,7 +371,7 @@ node scale の整合(補題 G の window と d_w-tree の window の突き合わ
 | CHART-SVD4 | rate chart の完備性 | `2+2`/`3+1`、s^α・e^{−1/s}・s log(1/s) 経路で factored σ_min が正に留まるか | open(GC-5 入力) |
 | BUDGET-TREE | child cost の二重計上 | 全 c≤8 tree・route 列の Σlog C_step の T² 係数 | open(GC-11 入力) |
 
-## 8. リスク台帳
+## 9. リスク台帳
 
 | # | リスク | 順位 | 対処 |
 |---|---|---|---|
@@ -312,8 +380,12 @@ node scale の整合(補題 G の window と d_w-tree の window の突き合わ
 | R3 | confluent chart の未記録 rate(F3 型 witness の一般形) | 中 | GC-9 の chart label に相対 valuation/flag を必須化(FR §7 の設計制約を継承) |
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
-## 9. 版履歴
+## 10. 版履歴
 
+- v0.7(2026-08-18): GC-2 accepted(R-GC2 R3 PASS、fixed SHA `5bbf183`)。§7 GC-3
+  PBK-SPEC draft — PBKNode/Child/PBKResult 型、node envelope と common-zero 規約
+  (同時零点は valuation 床 + 深消滅区間の単離)、graded cost 台帳(γ 値は GC-4 の
+  証明対象)、reserve 契約(root-only public step)。
 - v0.6(2026-08-18): R-GC2 R2 findings 適用 — [GC2R2-01] w ≤ 3 の dispatch を statement に
   明記(5 topology は w=4 限定)、[GC2R2-02] 有限入れ子部分列抽出(最大実現対の鳩ノ巣 +
   逐次 BW + node 数有界)を証明に明示、[GC2R2-03] η := η_*/2 と m₁ 一様性、
