@@ -161,8 +161,8 @@ c=3 上界の到達例。∎
 | GC-4A.0 PBK22-BRF | GC-3 | simultaneous RECENTER・共通 cell cover・bi-graded ray ledger(held 自動性の正式棄却と graded held 化 — consult #8)。**go/no-go 最小集合** | **accepted**(R-GC4A0 R4 PASS、fixed SHA `742c96a`) |
 | GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | **accepted**(R-GC4A1 R2 PASS、fixed SHA `50a4e45`) |
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
-| GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **drafted(§8.5、査読待ち R-GC4A3A)** |
-| GC-4A.2b JF9-NORM | A.2a/A.3a | global rate scale λ(Φ_p の 4 位相の共通 gauge 後 weighted 座標 max)、adapted residual κ(二次比 locus からの横断残差 — jet 値から逆算しない)、境界面 closure 表(各 face の送り先を一行ずつ宣言) | open |
+| GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
+| GC-4A.2b JF9-NORM | A.2a/A.3a | global rate scale λ(Φ_p の 4 位相の共通 gauge 後 weighted 座標 max)、adapted residual κ(二次比 locus からの横断残差 — jet 値から逆算しない)、境界面 closure 表(各 face の送り先を一行ずつ宣言) | **drafted(§8.6、査読待ち R-GC4A2B)** |
 | GC-4A.2c CONFL22 | A.2b | 床の証明: plain face = W_c(4)、QR5 face = 明示計算、P e^q face = **限定 confluent W(W_CONFL(2,2))**、compact normalized 空間で c_J > 0。**最大の go/no-go packet** | open |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
@@ -792,7 +792,7 @@ u(t₀) = Log(−H(t₀))。
 **scope(非主張)**: 一様 jet 床(κ・λ・c_J — A.2b/A.2c)、collar(A.3a)、
 deg≤2 枝の処理(A.4 系)、10 階上界(A.3b)。人間による査読は未実施。
 
-### 8.5 GC-4A.3a PBK22-ZF(reduced zero-free collar と窓再配置 — drafted、査読対象 R-GC4A3A)
+### 8.5 GC-4A.3a PBK22-ZF(reduced zero-free collar と窓再配置 — accepted、R-GC4A3A R2 PASS、fixed SHA `926093c`)
 
 **設定**: A.1 の cell(両 pair held、F2 branch 固定、divisor_record)と (c-i) 深平坦
 状況。reduced 零点 = P̃₁ の零点(≤ 2)∪ P̃₂ の零点(≤ 2)、計 ≤ 4 個(cell 局所)。
@@ -850,6 +850,68 @@ N = 9 − d₀ に保持される(common-zero は §8.3 (F2²-4) の exact 相�
 **scope(非主張)**: collar 上の導関数上界(10 階 — A.3b)、一様定数の compactification
 (A.2b/c)、S 上の kernel 不等式。人間による査読は未実施。
 
+### 8.6 GC-4A.2b JF9-NORM(正規化と境界面 closure 表 — drafted、査読対象 R-GC4A2B)
+
+**目的**: A.2c(床)の compactification の土台。global scale λ・adapted residual κ の
+定義と基本性質(well-definedness・連続性・零集合の特定)、正規化配置空間の
+compact 化、境界面の完全 closure 表。**床の値(c_J > 0)は非主張**(A.2c)。
+proof claim は (N-1)〜(N-3) の基本性質のみ。
+
+**(N-1) global rate scale λ**: A.2a の shifted 4-系
+Φ_p = Σ_{j=1}^{4} c_j e^{ĝ_j}(ĝ = {g_{1,1}, g_{1,2}, p+g_{2,1}, p+g_{2,2}}、
+t₀ = zf_witness の S 中心)について、共通二次 gauge(ĝ の平均を引く — exact、
+係数不変)後のパラメタ対 (Â_j, B̂_j)(t₀ 中心の展開係数)に対し
+  **λ := max_{j<k} max(|B̂_j − B̂_k|, |Â_j − Â_k|^{1/2})**
+(weighted 座標 max — d_w と同じ重み。F2 成分別の正規化は禁止(consult #9)—
+λ は Φ_p 全体の物理 dilation であり、child log は log(e^{z_i}−1) に再結合して扱う)。
+**性質(証明)**: 4 原子相異(constant-gauge quotient 済み)なら、ある対の差が
+非定数 ⇒ (Â, B̂) 差が非零 ⇒ **λ > 0**。λ は配置の連続関数。∎
+内部座標: 各 pair の内部 scale 比 s_i/λ、QR5 型 λ_i(K2p1 の per-pair scale)の比
+λ_i/λ ∈ [0, C] を compact chart 座標として保持(dominance chart = どの weighted
+座標が max を実現するかの有限場合分け — 人手の支配成分選択はしない)。
+
+**(N-2) adapted residual κ**: 正規化配置空間(下記 X̄)の**距離**を用い
+  **κ := dist_{X̄}(x, QR)**、QR := 二次比 locus = {配置: Φ_p ≡ 0}
+  = {constant-difference merge 後の全係数が零}
+と定義する(**jet 値からの逆算ではない** — 配置データのみの関数)。
+**性質(証明)**: κ は連続、κ = 0 ⟺ x ∈ QR(距離の定義から)、
+A.2a (EX-4) より **κ > 0 ⟺ v ≢ 0**(有限 m の真正配置では merge 後非零係数 ⟺
+Φ_p ≢ 0 ⟺ v ≢ 0)。∎
+
+**(N-3) 正規化配置空間 X̄ と compact 化**: t₀ 中心・λ = 1 に再スケールした配置
+  x = ((Â_j, B̂_j)/λ-重み付き, c/‖c‖_∞, {s_i/λ}, {λ_i/λ}, {E_i}, 零点位置/λ(collar
+  正規化 — zf_witness (i) より [ρ/(13λ), ∞] 値), d₀)
+の空間 X に、次の境界面を付加した閉包 X̄ を取る: 内部衝突面(s_i/λ → 0 —
+**confluent 面: pair 座標を divided-difference 座標 (P e^q 型 chart) に取り替えて
+付加**)、係数退化面(c/‖c‖_∞ の成分 → 0)、E_i 境界(E_i → 0, 1, ∞ の F2 chart
+端)、scale 比端(λ_i/λ → 0)、零点無限遠(零点位置/λ → ∞)。**X̄ は compact**
+(各座標が compact 化された有限直積の閉部分集合 — 証明は座標ごとの値域の
+compact 性)。∎(d₀ は有限離散値 {0,1,2} なので分岐面として扱う。)
+
+**(N-4) 境界面 closure 表(各 face の送り先 — 宣言のみ、証明は A.2c)**:
+
+| face | 送り先 |
+|---|---|
+| 内部点(4 位相相異・κ > 0) | W_c(4)(A.2a (EX-4)(a) の一様版) |
+| constant-difference 面(exact merge、c′ < 4、merge 係数非零) | W_c(c′)(予算 ≤ 5 — 有利) |
+| merge 全相殺面 | QR ⊂ X̄ — κ = 0、blow-up 側で処理(下記) |
+| E_i → 0, ∞(D1/D2 支配) | QR5 P2 型の明示境界計算(片側 pair が単原子化) |
+| λ_i/λ → 0(片 pair が点化、他方が支配) | 残差が通常 pair germ なら QR5 明示計算、divided-difference 救済が要る場合は confluent 面へ |
+| s_i/λ → 0(内部衝突 — **主境界**) | **W_CONFL(2,2)**(A.2c の新補題 — P e^q 型 chart で jet 床) |
+| E_i → 1 + 零点 collar 侵入 | 生じない(zf_witness invariant (i) — collar は正規化後も下界 ρ/(13λ) を保持) |
+| 係数退化面(ある c_j/‖c‖ → 0) | 原子脱落 ⇒ c′ < 4 の系へ(W_c(c′) または CONFL) |
+| gcd-jump 面(極限で共通根発生) | 極限で D を取り直し d₀ 増加 ⇒ 必要 jet 数低下(A.2a の N = 9 − d₀ を面上で再読) |
+| QR 近傍(κ → 0) | QR に沿う blow-up: 中心 = deg≤2 枝(A.4 系へ dispatch)、横断球面上の床が A.2c の証明対象 |
+
+**(N-5) A.2c への修正床 statement(target 宣言 — 非主張)**: X̄ 上の連続関数
+  J(x) := max_{3≤n≤9−d₀} |v⁽ⁿ⁾(t₀; x)| / λⁿ
+(jet は (EX-5) の exact 再帰で x に連続依存)に対し、**J(x) ≥ c_J · κ(x)**(x ∈ X̄、
+c_J > 0 一様)。QR 上では両辺 0(v ≡ 0)、横断方向の一次下界が blow-up 球面上の
+compact 論法 + 各 face の送り先補題で出る、が A.2c の証明義務。∎(宣言)
+
+**scope(非主張)**: 床の証明(A.2c — W_CONFL(2,2) 込み)、QR5 明示計算の移植、
+deg≤2 枝の処理(A.4)、10 階上界(A.3b)。人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -877,6 +939,12 @@ N = 9 − d₀ に保持される(common-zero は §8.3 (F2²-4) の exact 相�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.18(2026-08-18): GC-4A.3a accepted(R-GC4A3A R2 PASS、fixed SHA `926093c` — 最小集合
+  6/8)。§8.6 GC-4A.2b JF9-NORM draft — global scale λ(weighted 座標 max、λ > 0)、
+  adapted residual κ(QR locus への距離 — jet 逆算禁止)、compact 配置空間 X̄
+  (confluent 面は divided-difference chart で付加)、境界面 closure 表(10 面)、
+  A.2c への修正床 statement 宣言(J ≥ c_J·κ)。
 
 - v0.17.2(2026-08-18): R-GC4A3A R1 findings 適用 — [01] D1/D2 の z=0 を実部勘定
   (collar 上 |Re z| ≥ 7/8)で閉鎖、E 零点の純虚性による除外表現に修正、[02] 帯上
