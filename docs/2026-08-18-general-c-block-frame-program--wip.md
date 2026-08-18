@@ -163,8 +163,8 @@ c=3 上界の到達例。∎
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
-| GC-4A.2c-core | A.2b、**主張域は GCRouteRecord-v3 条件付き(充足可能性は GC-5/GC-6 送り)** | W_CONFL(2,2) v2 消去法(正本 §8.7 (FL-2)、B = 6)/混合消去 ≤ 8/regular・C collapse/Z/G 以外の strata 床(consult #12 で component 分割) | **drafted(R2 適用済み、査読待ち R-GC4A2CCORE R3)** |
-| GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **drafted(§8.8、R1–R2 適用済み、査読待ち R-GC4A2CZ R3)**(トップレベル A.2c は component 両受理まで未受理) |
+| GC-4A.2c-core | A.2b、**主張域は GCRouteRecord-v3 条件付き(充足可能性は GC-5/GC-6 送り)** | W_CONFL(2,2) v2 消去法(正本 §8.7 (FL-2)、B = 6)/混合消去 ≤ 8/regular・C collapse/Z/G 以外の strata 床(consult #12 で component 分割) | **drafted(R3 適用済み、査読待ち R-GC4A2CCORE R4)** |
+| GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
@@ -1134,7 +1134,7 @@ Newton 探索): **deg ≤ 2 で genuine ord は 6 で頭打ち**(ord 6 = 200/200
 **scope(非主張)**: 床(c_J・c_{Q,C} — A.2c)、W_CONFL(2,2) の証明(A.2c)、
 QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は未実施。
 
-### 8.7 GC-4A.2c CONFL22(chart 床の証明 — **consult #12 により component 分割**: A.2c-core(本節、査読対象 R-GC4A2CCORE R3)+ A.2c-Z(§8.8 drafted、査読中)。トップレベル A.2c は両 component 受理まで未受理)
+### 8.7 GC-4A.2c CONFL22(chart 床の証明 — **consult #12 により component 分割**: A.2c-core(本節、査読対象 R-GC4A2CCORE R4)+ A.2c-Z(**§8.8 受理済み `5ea87ec`**)。トップレベル A.2c は core 受理で確定)
 
 **設計記録(Sol consult #12、2026-08-18 — Z/G 床の裁定)**: R11–R14 の 4 round で
 Z/G 零点近接の incremental 設計(band 分割→3 分割→cluster 評価→摂動補題)が
@@ -1153,7 +1153,7 @@ first-match 干渉は設計欠陥であり定理の反例ではない。実質�
 δ/ζ^{n+1} 型摂動と 2 対同時 defect kernel。kernel に非 QR 方向が見つかれば red。
 (v) 見積り: きれいに書き直して 3–4 round。
 **本節(A.2c-core)の scope から Z/G strata の床・Z/G frontier・最終合成
-(FL-7)は除外され A.2c-Z へ移管** — (v-d′) の Z/G 分岐・(FL-4) の Z/G 帰着の
+最終合成(現 (NF-7))は除外され A.2c-Z へ移管** — (v-d′) の Z/G 分岐・(FL-4) の Z/G 帰着の
 Z 固有部・[R12][R13] 系の零点近接ブロックは A.2c-Z の起草時に ZG-NF 形式で
 全面書き直しとなる(現テキストは設計履歴として残置、効力は A.2c-Z に従う)。
 
@@ -1193,8 +1193,8 @@ record chart の追加ではなく A.2c 内部の証明用 cover)。QR pairing �
 x は、selector の段 (3) を飛ばした first-match(段 (4)–(8) の述語は全域 —
 段 (8) は補集合)で定まる structural chart C(x) の閉箱に属し、さらに自分の
 d₀(x) 分枝 K_{C(x),d₀(x)} に属す。よって有限閉被覆 {K_{C,k}} は admissible
-配置全体を覆う。**床は各 box 上の主張**なので、合成((FL-7))は「x を含む
-いずれかの box の床」を適用すればよく、box への一意割当は不要。∎
+配置全体を覆う。**床は各 box 上の主張**なので、合成(§8.8 (NF-7))は
+「x を含むいずれかの box の床」を適用すればよく、box への一意割当は不要。∎
 高 d₀ 点が低 d₀ 分枝の閉包に入る場合の jet range は (N-4) の埋め込みが処理。
 各 proof box 上で
   床関数 φ(x) := max_{3 ≤ n ≤ 9 − d₀} |𝒥_n(x)|(𝒥_n = v⁽ⁿ⁾(t₀)/λⁿ、
@@ -1534,7 +1534,8 @@ T₂ 減算が exact に消すため、v の jets 3..9−d₀ は係数消滅面
 含めて box データの連続関数。分母の一様下界は **box 家族別**:
   - M/R/S/D 系 box: b₀ = B_i(t₀)、selector の ε_Z 下限((N-5) 段 (4) —
     これらの box は |B_i(t₀)| ≥ ε_Z の領域)。
-  - **Z/G 系 box([GC4A2CR9-B4]、[GC4A2CR10-B4] で正規化と延長値域を確定)**:
+  - **Z/G 系 box【[GC4A2CCORE-R3-02]: 本項目は historical / non-operative —
+    正本 = §8.8 ZG-NF】**([GC4A2CR9-B4]、[GC4A2CR10-B4] の設計履歴):
     (N-7) の Z/G jet map を **log 微分形** u′ = C₁′/C₁ − C₂′/C₂ +
     (divisor・二次項)で評価する。比 C_i′/C_i は係数 scalar に**不変**
     (scalar の log は定数で T₂ が殺す)。正規化は先頭係数でなく
@@ -1615,12 +1616,13 @@ T₂ 減算が exact に消すため、v の jets 3..9−d₀ は係数消滅面
     C̃_i(t₀) = 0(t₀ 自身が零)の面は divisor/d₀ 簿記の routed 面。
 (b) κ = min_Q sup|Φ_Q|: Φ_Q は box データの連続関数族(compact 一様)なので
 min-sup も連続 — 全域で定義済み。∎
-**帰結**: 各 box の床 φ ≥ c·κ は**閉座標域全体**で証明される(tube 帰納 +
-compactness — (v-d)。Z_QR に属す面点は strata として tube が覆い、属さない
-面点は零集合一致で φ > 0 の compact 勘定に入る)。被覆((FL-0))は有限個の
-compact box の和なので、追加の「終端 box」選択や side 全滅面の κ 下界
-(R6 で撤回済み)は**一切不要**。renormalize 座標間の比較不等式も不要 —
-φ・κ・λ は intrinsic(§8.6 (N-6′))で box に依らず同一の値。
+**帰結(core scope — [GC4A2CCORE-R3-02] で範囲を明示)**: **非 Z/G の**各
+box の床 φ ≥ c·κ は**閉座標域全体**で証明される(tube 帰納 + compactness —
+(v-d)。Z_QR に属す面点は strata として tube が覆い、属さない面点は零集合一致で
+φ > 0 の compact 勘定に入る)。被覆((FL-0))は有限個の compact box の和で、
+「終端 box」選択や side 全滅面の κ 下界(R6 撤回済み)は不要。renormalize
+座標間の比較不等式も不要 — φ・κ・λ は intrinsic(§8.6 (N-6′))。
+**Z/G 系 box の同型の勘定は §8.8 ZG-NF が正本として遂行する。**
 *被覆*: Z_QR ∩ (box 閉域) ⊆ ∪_σ N_σ(各点は自分の stratum の tube か、より
 低次元 frontier の tube に入る)、tube の外 {dist(·, Z_QR) ≥ min_σ h_σ} ∩
 (box 閉域)は compact((v-d′) 面延長補題により φ・κ は閉域全体で連続)で
@@ -1656,11 +1658,11 @@ margin flag を満たすこと — record 生成側 = GC-5/GC-6 の義務、[GC4
 唯一の status pointer)。人間による査読は未実施。
 
 
-### 8.8 GC-4A.2c-Z ZG-NF(Z/G 床の正規形還元 — drafted、R1–R2 適用済み、査読対象 R-GC4A2CZ R3)
+### 8.8 GC-4A.2c-Z ZG-NF(Z/G 床の正規形還元 — **R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`**)
 
 **目的**: Z/G 系 proof box の床 φ ≥ c·κ を、consult #12 の裁定骨格
-「同時 matching + projectivized defect の有限層別還元」で証明し、(FL-7) の
-最終合成 c_J = min c > 0 を完成させる。§8.7 の [R12][R13] 系零点近接ブロックは
+「同時 matching + projectivized defect の有限層別還元」で証明し、
+最終合成 c_J = min c > 0((NF-7))を完成させる。§8.7 の [R12][R13] 系零点近接ブロックは
 本節が正本として**置換**する(旧文は設計履歴)。
 
 **(NF-1) 固定閾値(循環の解消、[GC4A2CZR1-B1] で annulus gap を排除)**:
@@ -1807,6 +1809,11 @@ K = 1)の合成は、A.2c-core の受理を前提に本節が authoring location
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.24(2026-08-19): **GC-4A.2c-Z 受理** — R-GC4A2CZ R3 ACCEPTED、fixed SHA
+  `5ea87ec`(confluent Hermite Vandermonde・決定的 matching・SS 1/12・r_pole
+  算術・NF-7 条件付き合成すべて検算通過)。core 側 R3(blocking 2 — stale
+  (FL-7) label 3 箇所と Z/G 残骸の non-operative 化)を適用。
 
 - v0.23.4(2026-08-18): R-GC4A2CZ R2(blocking 2 + minor 2)適用 — [B3] double
   root の列一致問題を **confluent(Hermite)Vandermonde**(対称座標の中心/
