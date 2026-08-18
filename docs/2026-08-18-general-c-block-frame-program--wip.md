@@ -361,9 +361,9 @@ identity ref、自由文禁止。各 schema の key set を完全列挙する):
 
 | schema | required keys(完全列挙) |
 |---|---|
-| `D-PBK-22` | `active_children_nonzero`、`certificate_ref(C_1)`(w=2 variant)、`certificate_ref(C_2)`(w=2 variant)、`nonconstant(q_{C_1} − q_{C_2})`(child 代表指数の exact 差 — constant-gauge quotient witness)、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)` |
-| `D-PBK-31` | `active_children_nonzero`、`certificate_ref(C_1)`(w=3 variant: triple-plain または triple-nested)、`certificate_ref(C_2)`(w=1 atom)、`nonconstant(q_{C_1} − q_{C_2})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)` |
-| `D-PBK-M` | `arity ∈ {ternary, quaternary}`、`active_children_nonzero`、全 child の `certificate_ref`(ternary: w 型 (2,1,1)、quaternary: w 型 (1,1,1,1))、**全 pair (i,j) の** `nonconstant(q_{C_i} − q_{C_j})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q = arity)` |
+| `D-PBK-22` | `active_children_nonzero`、`certificate_ref(C_1)`(w=2 variant)、`certificate_ref(C_2)`(w=2 variant)、`nonconstant(q_{C_1} − q_{C_2})`(child 代表指数の exact 差 — constant-gauge quotient witness)、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)`、`child_collision_witness_i`(i=1,2 — v0.12 追補、型は §8.2.5) |
+| `D-PBK-31` | `active_children_nonzero`、`certificate_ref(C_1)`(w=3 variant: triple-plain または triple-nested)、`certificate_ref(C_2)`(w=1 atom)、`nonconstant(q_{C_1} − q_{C_2})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)`、`child_collision_witness_i`(非 atom child — v0.12 追補、型は §8.2.5) |
+| `D-PBK-M` | `arity ∈ {ternary, quaternary}`、`active_children_nonzero`、全 child の `certificate_ref`(ternary: w 型 (2,1,1)、quaternary: w 型 (1,1,1,1))、**全 pair (i,j) の** `nonconstant(q_{C_i} − q_{C_j})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q = arity)`、`child_collision_witness_i`(非 atom child — v0.12 追補、型は §8.2.5) |
 
 **zero-pruning の継承(明示)**: 任意の child が恒等零(`C_i ≡ 0`)なら削除し、残る
 exact span で rank・tree を再固定して lower-arity/lower-w へ redispatch する(§10.5 継承。
@@ -541,7 +541,8 @@ kernel の存在・γ・compact 族非相殺・FR 条件 2 充足・深消滅 le
 **設定**: T3 node、exact children B_1(原子 1,2)・B_2(原子 3,4)。η_i = pair i の
 exact exponent 差。**s_i := child B_i の内部 collision scale**(pair 内 d_w 距離の最大値 —
 child ごとに定義)とし、**pair 別 collision witness |ΔB_i| ≤ s_i、|ΔA_i| ≤ s_i²** を
-用いる(D-PBK-22 の従来 key は全体 s_m のみだったため、§8.2.5 で schema へ
+用いる(ΔA_i, ΔB_i は **§6 の共通 gauge 後の parameter 座標**での pair i 内差分 —
+[GC4A0R2-03] 対応。D-PBK-22 の従来 key は全体 s_m のみだったため、§8.2.5 で schema へ
 `child_collision_witness_i` を追加する — [GC4A0-03] 対応)。
 ray z = te^{iθ}、区間系 I_k = [a_k, a_k+1](FR §10.3 S4b-β を逐語継承)、
 Λ_{i,k} := sup_{I_k}|η_i′|。η̃_i は §8.1 の定義(cell 中心 recenter 後)。
@@ -550,7 +551,7 @@ ray z = te^{iθ}、区間系 I_k = [a_k, a_k+1](FR §10.3 S4b-β を逐語継承
 なので η_i′(t) = ΔB_i e^{iθ} + ΔA_i e^{2iθ} t、よって
   Λ_{i,k} ≤ s_i + s_i²(a_k + 1)、  |η_i″| = |ΔA_i| ≤ s_i²。∎
 
-**(BRF-2) held 化 cell cover**: m₀ := min{M : ∀m ≥ M, max_i s_i(m)² ≤ 1/16}(eventual 量化 — [GC4A0-02])とし m ≥ m₀。
+**(BRF-2) held 化 cell cover**: m_BRF0 := min{M : ∀m ≥ M, max_i s_i(m)² ≤ 1/16}(eventual 量化 — [GC4A0-02]。§6.3 の SPLIT4 閾値 m₁ とは別記号 — [GC4A0R2-05])とし m ≥ m_BRF0。
 h_k := min(1, 1/(16Λ_{1,k}), 1/(16Λ_{2,k})) と置き、I_k を長さ ≤ h_k の半開 cell に
 等分割(左閉右開、境界帰属は §8.1 の規約)。cell 数は
   N^{RF}_{cell,k} ≤ ⌈1/h_k⌉ ≤ 1 + 16(Λ_{1,k} + Λ_{2,k})。
@@ -574,12 +575,16 @@ A.6 の義務 — 本 packet は勘定の supply のみ。)
 collision-scale 減衰つき二次項 O(s²T²)**。∎
 
 **(BRF-5) budget 吸収**: (E-w) 系の組み立て(GC-7)が消費する指数予算に対し、
-log 総 cost の二次成分 ≤ C_led·Σ_{i=1}^{2} s_i²T² は、pair 数 2 を織り込んだ閾値
-m₁ := min{M : ∀m ≥ M, max_i s_i(m)² ≤ δ/(32 C_led)}([GC4A0-01][GC4A0-02] 対応)以降
+ray-wide の log 総 cost は bi-graded template より
+  Σ_k log C_step,k ≤ C_BRF·Σ_k(1 + Λ_{1,k} + Λ_{2,k}) ≤ C_BRF[(2T+1) + 3Σ_i(s_iT + s_i²T²)]
+((BRF-4))。その二次成分は **C_led := 3·C_BRF**(bi-graded template 定数から導出、
+0 < C_led < ∞ — [GC4A0R2-04])を用いて ≤ C_led·Σ_{i=1}^{2} s_i²T²。これは pair 数 2 を
+織り込んだ閾値
+m_BRF1 := min{M : ∀m ≥ M, max_i s_i(m)² ≤ δ/(32 C_led)}([GC4A0-01][GC4A0-02] 対応)以降
   C_led·Σ_i s_i²T² ≤ 2·C_led·(δ/(32C_led))·T² = δT²/16
 に吸収され、(E-w) の指数 (1−δ/2)T²/2 + δT²/16 ≤ (1−δ/4)T²/2 を保つ
-((1−δ/2)/2 + δ/16 ≤ (1−δ/4)/2 ⟺ δ/16 ≤ δ/8 ✓)。m₀′ := max(m₀, m₁) の存在のみ要求
-(N4 量化と整合 — c=3 の m̃_RF と同型)。∎
+((1−δ/2)/2 + δ/16 ≤ (1−δ/4)/2 ⟺ δ/16 ≤ δ/8 ✓)。m_BRF := max(m_BRF0, m_BRF1) の
+存在のみ要求(N4 量化と整合 — c=3 の m̃_RF と同型)。∎
 
 #### 8.2.5 spec 追補(§7 への packet 発行改訂 — GC-3 の authoring 原則に従う。
 本追補は §7 の closed-world schema への**明示的結合**であり、accepted 本文は不変)
@@ -592,10 +597,15 @@ m₁ := min{M : ∀m ≥ M, max_i s_i(m)² ≤ δ/(32 C_led)}([GC4A0-01][GC4A0-0
   ray_ledger_ref は (BRF-4) 型の ray-wide 上界の accepted ref を必須とする
   (局所値のみでの (E-w) 進行を禁止)。GCRouteSpec 表(§7.1)の cost spec 列は以後
   GCCostSpecEnum から取る(resolved 行新設時 — 現在 0 行のまま)。
-- **D-PBK-22 schema への key 追加**: `child_collision_witness_i`(i = 1,2):
-  `(s_i := pair i の内部 d_w 最大距離, |ΔA_i| ≤ s_i², |ΔB_i| ≤ s_i)` — pair 別
-  witness([GC4A0-03] 対応。D-PBK-31/M にも同型の per-child key を追加: 非 atom child
-  ごとに `child_collision_witness_i`)。
+- **schema への key 追加(`child_collision_witness_i`)**: 一般の非 atom child C_i
+  (内部原子集合 J_i、|J_i| = w_i ≥ 2)に対し
+  `child_collision_witness_i := (s_i, {(|A_u − A_v| ≤ s_i², |B_u − B_v| ≤ s_i)}_{u<v ∈ J_i})`
+  — **s_i := max_{u<v ∈ J_i} d_w(ξ_u, ξ_v)**(child 内部 d_w 最大距離)、差分は
+  **§6 の共通 gauge 後の parameter 座標**で取る(d_w = max(|ΔA|^{1/2}, |ΔB|) ≤ s_i ⟺
+  |ΔA| ≤ s_i² かつ |ΔB| ≤ s_i)。w_i = 2(pair)は対 1 組、w_i = 3(triple)は全 3 組の
+  差分 witness を列挙([GC4A0R2-02] — pair 型の流用ではなく一般形)。
+  D-PBK-22(i = 1,2)・D-PBK-31(w=3 child)・D-PBK-M(全非 atom child)へ追加済み
+  (§7.1 表の v0.12 追補マーカー)。
 - **GCRouteRecord への field 追加**: `recenter_witness :=
   { cell_id ↦ (cell 端点(左閉右開), t_c(cell), exact transition ref(pair 1),
   exact transition ref(pair 2), sup_cell|η̃_1| ≤ 1/8 の式 witness,
@@ -636,6 +646,12 @@ open obligation)、FR §10.3 条件 2 の完全充足(A.6)、(E-w) 組み立て(
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.12.2(2026-08-18): R-GC4A0 R2 findings 適用 — [R2-01] §7.1 canonical schema 表へ
+  child_collision_witness_i を追補マーカー付きで反映、[R2-02] 一般 w_i child の witness
+  型(全内部対の差分列挙)、[R2-03] 差分の座標束縛(§6 共通 gauge 後)、[R2-04]
+  C_led := 3C_BRF の導出と正値性、[R2-05] BRF 閾値を m_BRF0/m_BRF1/m_BRF に改名
+  (§6.3 の m₁ との衝突解消)。
 
 - v0.12.1(2026-08-18): R-GC4A0 R1 findings(blocking 5)適用 — [01] 閾値を δ/(32C_led)
   へ(pair 数 2 の係数)+ 吸収算術の明示、[02] m₀/m₁ を eventual 量化(∀m ≥ M)へ、
