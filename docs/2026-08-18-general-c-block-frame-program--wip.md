@@ -23,12 +23,14 @@ orange が採用(AskUserQuestion 確認済み)。執筆場所 = 本新文書 + c
 - しかし多 block B2 一般形も回避できる: 非相殺原理を「**prepared child 同士の binary
   node kernel(PBK)**」へ縮小する。既知 base = `1|1`(K2)、`2|1`(QR5/RF)。
   **新規 gate = c=4 の `2|2` と `3|1`**。
-- **go/no-go 規則(v0.11 改訂 — consult #8 の packet 分解を反映)**: go/no-go の
-  **最小判定集合 = {GC-4A.0, A.1, A.2, A.3, GC-4B.0, GC-4C.0}**(§4 台帳)。この集合の
-  いずれかが blocking counterexample を受けた時点で本 route への投資を停止し、K_c 本体
-  (B2+(F1)+S4 層別帰納、closure §4.3.5)へ戻る。全て受理なら go 確定、A.4–A.6/B/C 本体は
-  完成作業に降格。(履歴: v0.1 = GC-4A/4B のみ、v0.5 = GC-4C 追加、v0.11 = sub-packet
-  最小集合へ精密化。)
+- **go/no-go 規則(v0.11.1 改訂 — 二段階化)**: (第一次)**最小判定集合 =
+  {GC-4A.0, A.1, A.2, A.3, GC-4B.0, GC-4C.0}**(§4 台帳)。この集合のいずれかが blocking
+  counterexample を受けた時点で本 route への投資を停止し、K_c 本体(closure §4.3.5)へ
+  戻る。最小集合の全受理は「**次段へ進む判定**」であり route 成功の宣言ではない。
+  (第二次・fail-closed 継続)**それ以降の GC-4 系 packet(A.4–A.6、B 本体、C 本体)の
+  いずれかが blocking counterexample を受けた場合も同じ撤退規則が発動する** — route 成功は
+  GC-4 全 packet + GC-6 coverage の受理まで宣言しない。(履歴: v0.1 = GC-4A/4B、
+  v0.5 = GC-4C 追加、v0.11 = 最小集合、v0.11.1 = 二段階化で「go 確定」表現を撤回。)
 
 **非目的・非主張**: flat K_c(B2/S4)の閉鎖はここでは主張しない。一般 k の L2b/L3
 (閉包文書側 NC 相当の一般化)は本 program の消費者だが別 packet。人間による査読は未実施。
@@ -163,7 +165,7 @@ c=3 上界の到達例。∎
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
-| GC-4B.0 ADAPT31 | GC-3、c=3 FR | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | open |
+| GC-4B.0 ADAPT31 | GC-3、c=3 FR | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | open |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | q-ary radial signature の完全列挙(12)・A/B dispatch 可否・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **drafted(§8.1、査読待ち R-GC4C0)** |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
@@ -457,53 +459,74 @@ log C_step,k ≲ 1 + Λ_{1,k} + Λ_{2,k}、ray-wide は Σ_k Λ_{i,k} ≲ s_i² 
 ### 8.1 GC-4C.0 SIG-AUDIT(q-ary radial signature coverage — drafted、査読対象 R-GC4C0)
 
 **目的**: GC-4C(多分岐 node)の設計監査。radial 周波数クラスタ signature の完全列挙、
-GC-4A/B への dispatch 可否の条件固定、irreducible q-ary endpoint の特定、transition
-有界性。**proof claim は (5) の初等計数のみ** — kernel の存在は主張しない。
+GC-4A/B への dispatch 条件の固定、irreducible endpoint の特定、transition 有界性。
+**proof claim は (1) の margin 安定性と (5) の初等計数のみ** — kernel の存在は主張しない。
 
-**(1) signature の完全列挙**: 単位区間 cell 上で ordering 固定後、隣接 gap(q−1 個)の
-各々が補題 G 閾値 M₀ で cut(≥ M₀)/uncut(< M₀ — 補題 G により実際は ≤ M₀/Q)の
-二択なので、raw cluster signature = 隣接 gap の cut 部分集合 = **2^{q−1} 通り**:
-q=3 → {[3], [2,1], [1,2], [1,1,1]}(4)、q=4 → 8、**計 12**。完全性・排他性は二択の
-直積という構成から。ordering・atom permutation は route ID を増やさず witness に持たせる
-(consult #8 — Cartesian 重複の禁止)。
+**記号**(本節と A.0 で共用。GCRouteRecord への型付き組み込みは A.0 の spec 改訂で行う):
+node の children blocks C_1..C_q(重み w_i、Σw_i ≤ 4)。s_i := child C_i の内部
+collision scale。η 系: 各 child 内部の exact exponent 差(pair child なら η_i =
+q_{i,2} − q_{i,1})。Λ_{i,k} := sup_{I_k}|η_i′|。x_j(t) := Im q_j′(t) = **原子** j の
+radial 周波数勾配(block でなく原子ごと — 集約は (2))。
 
-**(2) analytic outcome 型への集約**: 重み multiset で q=4: **[4]、3|1、2|2、2|1|1、
-1|1|1|1 の 5 型**(q=3: [3]、2|1、1|1|1 — c=3 資産の守備範囲)。
+**(1) signature の完全列挙と margin 安定性**: cell 上で原子勾配の weak ordering を固定
+([GC4C0-07] 対応: x_i ≡ x_j の tie は index 順で決定的に破る)。補題 G を cell 中心
+t₀ で適用すると、隣接 gap(順序付き原子 4 個で 3 個)は t₀ で **< L = M₀/B か ≥ M₀ の
+二択**(補題 G の乗法窓性質 — 中間帯 [L, M₀) の gap は存在しない)。raw signature :=
+cut(≥ M₀)部分集合 = **2^{4−1} = 8 通り**(原子レベルで統一 — 節点 arity 依存の
+「12」勘定は撤回し、q=3 節点も原子 4 個の signature で読む)。**margin 安定性(証明)**:
+区間上の勾配 drift は |x_j(t) − x_j(t₀)| ≤ 2·|t − t₀| ≤ 2(class 正規化 |Im q″| ≤ 2、
+単位 cell)なので gap の drift ≤ 4。M₀ ≥ M*B ≥ 16·8 = 128 より
+L + 4 = M₀/B + 4 < M₀/2 < M₀ − 8 — cut/uncut の二分類は区間全体で分離を保ち
+(internal ≤ M₀/Q + 4、cross ≥ M₀ − 8 ≥ M₀/2)、中間帯への漂着は起きない。∎
+([GC4C0-01] 対応 — signature は t₀ で定義し margin で区間へ延ばす。)
 
-**(3) dispatch 監査(条件の固定 — 可否の証明はしない)**:
-- **held 状況では radial block = tree child**: tree pair {i,j} の周波数勾配差
-  |η′_{ij}| が小(held)なら M₀ ≥ M*B > 差 より同一 radial cluster に入る ⇒ radial
-  2|2 の 2 block = tree pairs ⇒ PBK-22(GC-4A)の入力契約(certificate 付き child)と
-  一致し dispatch 可能。radial 3|1 も同様に GC-4B へ。
-- **far interval では不一致が生じる**(AUTO-HELD-22)⇒ dispatch は GC-4A.0(bi-RF に
-  よる held 化 cell cover)の成立に**条件付く**。本監査はこの依存を固定するのみ。
-- **混成 radial block**(異なる tree child の原子が radial 近接)は certificate を
-  持たないが、kernel 層の valuation 床は **W_c(GC-1、任意部分結合・任意中心)が直接
-  供給**する — tree certificate の valuation label は frame 層用であり kernel 層の
-  必須入力ではない(GC-3 §7.3 の lead_i witness の供給源は、混成 block では
-  certificate named constants でなく W_c 系へ差し替える設計改訂が必要 — **A.1 への
-  送り事項**として記録。GC-3 の accepted 面とは「深消滅 record の lead_i 供給源の
-  拡張」であり矛盾ではなく追補)。
-**(4) irreducible endpoint**: 5 型のうち 3|1・2|2 は GC-4A/B へ、残る **[4](全 held
-単一 cluster — c=3 plain triple の w=4 版、one-transition chart routing)** と
-**1|1|1|1(全 gap ≥ M₀ — 補題 G の同時保証つき separated 配置。M₀ 乗法窓により
-gap 比が有界 ⇒ 再スケールでコンパクト族)** が GC-4C 本体の証明対象。後者は
-「B2 多 block 一般形」が「コンパクト族の非相殺(S3/Łojasiewicz 型)」へ縮小した形 —
-縮小の証明自体は GC-4C 本体の義務であり本監査は主張しない。
+**(2) 重み付き集約**: signature は原子集合の順序付き分割を与える。各 group は原子の
+exact 部分和(tree child と一致するとは限らない — 混成可)。**outcome 型 = group の
+原子数 multiset**: [4]、3|1、2|2、2|1|1、1|1|1|1 の **5 型**。group の内部構造
+(prepared tree child を丸ごと含む/混成)は route ID でなく **witness**(ordering・
+cut 部分集合・帰属表)に持たせる。
 
-**(5) transition 有界性(証明)**: radial 周波数勾配 x_j(t) = Im q_j′(t) は affine
-(class 正規化 |Im q_j″| ≤ 2 — 閉包 §4.3.4)。単位区間上: (i) 順序交差 — affine な
-2 本のグラフは高々 1 回交わるので交差 ≤ C(q,2) ≤ 6。(ii) gap 閾値横断 — |x_i − x_j| は
-区分 affine(折れ点 ≤ 1)なので水平線 M₀ を高々 2 回横断、計 ≤ 2·C(q,2) = 12。
-∴ 単位区間は **≤ 19 個の cell** に分割でき、各 cell 上で ordering・signature が固定
-される。cell 数は q ≤ 4 で一様(m, θ, k 非依存)⇒ FR §10.3 acceptance 条件 2 の
-N_cell 一様性を満たし C_step へ吸収可能。**M4-MULTITRANSITION(無限/非有界 transition)
-は棄却**され、有限 cell 化 + cell ごとの selector で処理する。∎
+**(3) dispatch 表(条件の固定 — 可否の証明はしない)**:
 
-**(6) 帰結**: GC-4C 本体の義務 = [4] held kernel + separated compact kernel +
-(A.0 条件付き)dispatch 接続。12 signature は (1) で網羅、中間型は A/B へ、
-transition は (5) で有限 cell 化。**scope(非主張)**: kernel の存在・γ・compact 族
-非相殺の証明。人間による査読は未実施。
+| outcome 型 | dispatch 先 | 条件・注記 |
+|---|---|---|
+| 2\|2 | GC-4A | 両 group とも「tree pair と一致」の場合が主経路(certificate 供給可)。**一致は RECENTER 後の値-held witness(sup|η̃| ≤ 1/8 — FR の held は値条件であり勾配条件ではない。[GC4C0-06])が成立する cell に限る** ⇒ dispatch は GC-4A.0(bi-RF held 化)の成立に条件付く。混成 2\|2 の group は K2 型 exact pair として扱う |
+| 3\|1 | GC-4B | 「3」= prepared tree triple(certificate 供給)または radial 混成 3 原子和(certificate なし — c=3 kernel 資産で内部処理)。**GC-4B.0 の adapter は両供給源を scope に含む必要**(本監査で B.0 の受理条件へ追記) |
+| [4] | GC-4C 本体 | 全原子 comparable — held endpoint。内部構造 {2,2}/{3,1}/{2,1,1}/{1,1,1,1} は witness |
+| 2\|1\|1 | GC-4C 本体 | **irreducible 多分岐 endpoint**(§6.2 のとおり GC-4C — [GC4C0-02] 対応で復元) |
+| 1\|1\|1\|1 | GC-4C 本体 | 全 gap ≥ M₀ − 8。乗法窓により gap 比有界 ⇒ 再スケールでコンパクト族(縮小の証明は GC-4C 本体の義務) |
+
+**深消滅床の供給源の訂正([GC4C0-03])**: W_c(GC-1)が供給するのは **ord の上界**のみ
+であり、GC-3 §7.3 の `lead_i` 非零**下界**や Remez 型評価は供給**しない**。混成 group
+(certificate なし)の深消滅 record に必要な quantitative lead 下界は**現時点で供給源が
+存在しない open obligation** であり、GC-4A.1/A.2 が新規 interface として author する
+(その際 GC-3 §7.3 の供給源規定の改訂を先行させる — FR「spec を先に改訂してから使う」
+原則)。本監査はこの gap を隠さず記録する。
+
+**(4) irreducible endpoint**: GC-4C 本体の証明対象 = **[4](held endpoint)・2|1|1・
+1|1|1|1 の 3 型**(2|2 → A、3|1 → B)。1|1|1|1 は「B2 多 block 一般形」の
+「コンパクト族非相殺(S3/Łojasiewicz 型)」への縮小候補 — 縮小の証明自体は GC-4C 本体の
+義務であり本監査は主張しない。
+
+**(5) transition 有界性(証明)**: x_j(t) は affine(class 正規化 |Im q_j″| ≤ 2 —
+閉包 §4.3.4)。単位区間上: (i) weak ordering の交差 — 相異なる affine 2 本は高々 1 回
+交わる(恒等一致は tie-break で単一関数扱い)ので交差 ≤ C(4,2) = 6。(ii) gap 閾値横断 —
+x_i − x_j は affine なので |x_i − x_j| は折れ点 ≤ 1 の区分 affine、水平線 M₀ を高々
+2 回横断、計 ≤ 12。∴ signature/ordering event の分割は **≤ 19 cell**。
+**勘定の位置づけ([GC4C0-04])**: 19 は signature event のみの分割数である。kernel が
+実際に使う cell 系は「signature 分割 × 両 pair の RF held 分割」の**共通細分**であり、
+区間分割の細分は breakpoint の和で押さえられるので
+  N_cell,k ≤ 18 + (4 + 8Λ_{1,k}) + (4 + 8Λ_{2,k}) + 1 = 27 + 8(Λ_{1,k} + Λ_{2,k})
+の **graded 形**になる。FR §10.3 条件 2(graded 側: N_cell,k ≤ C_cell(1+Λ) + ray-wide
+ledger)の充足検証は **GC-4A.0 の義務**であり本監査は主張しない — 本監査が確定するのは
+「signature 起因の因子は一様(≤ 19)で、graded 性は bi-RF 側からのみ入る」という
+分離まで。M4-MULTITRANSITION(無限/非有界 transition)は棄却。∎
+
+**(6) 帰結**: GC-4C 本体の義務 = [4] held + 2|1|1 + separated compact(1|1|1|1)+
+(A.0 条件付き)dispatch 接続。8 signature は (1) で網羅・margin 安定、集約 5 型の
+dispatch は (3) 表で固定、transition は (5) で有限 cell 化。**scope(非主張)**:
+kernel の存在・γ・compact 族非相殺・FR 条件 2 充足・深消滅 lead 下界の供給。
+人間による査読は未実施。
 
 ## 9. 早期検証実験台帳
 
@@ -515,7 +538,7 @@ transition は (5) で有限 cell 化。**scope(非主張)**: kernel の存在�
 | RESONANCE-4 | 四原子の高次共鳴 | roots-of-unity 型配置で低次 jet を exact 消去し先頭非零次数を計算 | **W4-JET に統合済み**(ord-8 到達配置 = 4 原子共鳴の実例。診断) |
 | CHART-SVD4 | rate chart の完備性 | `2+2`/`3+1`、s^α・e^{−1/s}・s log(1/s) 経路で factored σ_min が正に留まるか | open(GC-5 入力) |
 | BUDGET-TREE | child cost の二重計上 | 全 c≤8 tree・route 列の Σlog C_step の T² 係数 | open(GC-11 入力) |
-| AUTO-HELD-22 | 「T3 の pair children は node scale で自動 held」 | 反例構成 | **棄却済み**(Sol 反例: q₂−q₁ = m⁻⁴t²/2、t_c = m⁴ — §8 設計記録。bi-RF で修復) |
+| AUTO-HELD-22 | 「T3 の pair children は node scale で自動 held」 | 反例構成 | **棄却済み**(正本 = §8 設計記録) |
 | COMMON-DIVISOR | 両 pair が同一点同次数消滅 + reduced 先頭も相殺で deep-flat が残る | exact 構成と reduced pair の挙動 | open(A.1/A.3 入力) |
 | JF-NONCOMPACT | ord F ≤ 9 でも正規化 log jet の最小値が confluent 境界で 0 へ落ちる列 | 正規化列の jet floor 数値 | open(A.2 の主敵) |
 | COLLAR-POLE | 実区間で unit 有界でも分母複素零点が collar に接近する列 | V_i の複素零点距離 | open(A.3 入力) |
@@ -532,6 +555,14 @@ transition は (5) で有限 cell 化。**scope(非主張)**: kernel の存在�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.11.1(2026-08-18): R-GC4C0 R1 findings(blocking 6 + minor 2)適用 — [01] signature を
+  t₀ 定義 + margin 安定性証明へ、[02] 原子レベル 8 signature に統一・2|1|1 を GC-4C
+  endpoint に復元・dispatch 完全表・B.0 の供給源 2 系統化、[03] W_c は ord 上界のみで
+  lead 下界は open obligation と訂正(A.1/A.2 + GC-3 改訂先行)、[04] 19 cell と bi-RF
+  graded 細分の分離(共通細分の graded 勘定、FR 条件 2 は A.0 義務)、[05] go/no-go の
+  二段階化(「go 確定」撤回)、[06] held = 値条件・RECENTER 後 dispatch と記号定義、
+  [07] tie-break、[08] AUTO-HELD-22 の正本一元化。
 
 - v0.11(2026-08-18): consult #8(Sol — GC-4 証明設計)を反映: GC-4 を A.0–A.6/B.0/C.0 に
   分解(§4 台帳)、go/no-go 最小集合 = {A.0–A.3, B.0, C.0}(§1 改訂)、§8 設計記録
