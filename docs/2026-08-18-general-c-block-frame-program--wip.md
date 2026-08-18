@@ -153,7 +153,7 @@ c=3 上界の到達例。∎
 | GC-0 consumer audit | なし | 一般 N/NC/L2b/L3 が必要とする外部 target の列挙。最終出力は (E-w) 形で足りるか、(E-d) 多項式形は内部需要のみかを決定 | **accepted**(R-GC0 R1 PASS、fixed SHA `b8167d1`、findings なし) |
 | GC-1 W_c | GC-0 | v_c ≤ D_W(c) = c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **accepted**(R-GC1 R3 PASS、fixed SHA `957b252`) |
 | GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | **accepted**(R-GC2 R3 PASS、fixed SHA `5bbf183`) |
-| GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | **drafted(§7、査読待ち R-GC3)** |
+| GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | **accepted**(R-GC3 R4 PASS、fixed SHA `dc6cac9`) |
 | GC-4A PBK-22 | GC-3、c=2 資産 | `2|2` composite unit-step kernel。係数非依存・有限-m exact child・ray-wide cost 可算。**go/no-go 関門** | open |
 | GC-4B PBK-31 | GC-3、c=3 FR | `3|1` kernel。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない。**go/no-go 関門** | open |
 | GC-4C PBK-M4 | GC-3、c=3 FR(plain 複合前例) | 多分岐 node kernel `2|1|1`・`1|1|1|1`(c=3 plain triple の chart routing 複合の w=4 拡張 — GC-2 §6.2 で新設)。**go/no-go 関門** | open |
@@ -292,7 +292,7 @@ permutation は有限個なので最後に部分列で固定。(ii) 各 node で
 node scale の整合(補題 G の window と d_w-tree の window の突き合わせ)は GC-3
 (PBK-SPEC)の interface 設計に送る。人間による査読は未実施。
 
-## 7. GC-3 PBK-SPEC(prepared node kernel の型付き interface — drafted、査読対象 R-GC3。proof claim なし)
+## 7. GC-3 PBK-SPEC(prepared node kernel の型付き interface — accepted、R-GC3 R4 PASS、fixed SHA `dc6cac9`。proof claim なし)
 
 本節は仕様であり証明主張を含まない。c=3 の FR-S4-0(FR 文書 §10 — accepted)の契約群を
 w=4 の node 在庫(§6.2)へ拡張する。**継承原則**: FR §10.3(two-level segmentation・
@@ -453,6 +453,9 @@ go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、confluent �
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 10. 版履歴
+
+- v0.10(2026-08-18): GC-3 accepted(R-GC3 R4 PASS、fixed SHA `dc6cac9`)。次 = PBK22-ADV
+  実験(GC-4A feasibility 入力)→ GC-4A/B/C。
 
 - v0.9.1(2026-08-18): R-GC3 R3 findings 適用 — [GC3R3-01] D-PBK-31/M の collision-scale
   witness を明記(「同上」全廃)、[GC3R3-02] GCRouteSpec 表を列定義付きで実体化
