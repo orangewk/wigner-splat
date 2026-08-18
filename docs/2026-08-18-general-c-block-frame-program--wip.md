@@ -70,7 +70,7 @@ GC-1 の受理条件: この勘定の自己完結証明(恒等式の一般 c 版
 は出ない。一般 rate-tree face の generalized P e^q 系に対する confluent W(または
 flat-limit jet injectivity)が別途必要 — c=3 で FR-S1″ が果たした役割の一般化。
 
-### 3.1 補題 W_c(一般 valuation 上界 — drafted、査読対象 R-GC1)
+### 3.1 補題 W_c(一般 valuation 上界 — accepted、R-GC1 R3 PASS、fixed SHA `957b252`)
 
 **設定**: c ≥ 1、パラメタ対 ξ_j = (A_j, B_j) ∈ ℂ²(j = 1..c)は**相異**
 (constant-gauge quotient 済み — 一致対は閉包文書 §4.3.6 N-pre の exact 合算で先に併合し、
@@ -149,11 +149,12 @@ c=3 上界の到達例。∎
 | packet | 依存 | 出力・受理条件 | state |
 |---|---|---|---|
 | GC-0 consumer audit | なし | 一般 N/NC/L2b/L3 が必要とする外部 target の列挙。最終出力は (E-w) 形で足りるか、(E-d) 多項式形は内部需要のみかを決定 | **accepted**(R-GC0 R1 PASS、fixed SHA `b8167d1`、findings なし) |
-| GC-1 W_c | GC-0 | v_c ≤ D_W(c) = c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **drafted(§3.1、査読待ち R-GC1)** |
-| GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | open |
+| GC-1 W_c | GC-0 | v_c ≤ D_W(c) = c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **accepted**(R-GC1 R3 PASS、fixed SHA `957b252`) |
+| GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | **drafted(§6、査読待ち R-GC2)** |
 | GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | open |
 | GC-4A PBK-22 | GC-3、c=2 資産 | `2|2` composite unit-step kernel。係数非依存・有限-m exact child・ray-wide cost 可算。**go/no-go 関門** | open |
 | GC-4B PBK-31 | GC-3、c=3 FR | `3|1` kernel。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない。**go/no-go 関門** | open |
+| GC-4C PBK-M4 | GC-3、c=3 RF | 多分岐 node kernel `2|1|1`・`1|1|1|1`(RF graded interface の w=4 拡張 — GC-2 §6.2 で新設)。**go/no-go 関門(拡張適用)** | open |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
@@ -189,18 +190,93 @@ c=3 上界の到達例。∎
 
 **非主張**: 本 audit は proof claim を含まない(依存グラフと形の決定のみ)。
 
-## 6. 早期検証実験台帳
+## 6. GC-2 SPLIT4(c=4 tree topology と node 分割二分法 — drafted、査読対象 R-GC2)
+
+**入力規約**: FR 文書 §2 と同一 — 共通 gauge 後の weighted metric
+d_w = max(|ΔA|^{1/2}, |ΔB|)、node scale s_m、active node での normalized distance の
+部分列収束、極限 0 の組 = proper child cluster、**各 active node では非零 pair-distance
+ratio が正の下限を持つ**(部分列で固定)。constant-gauge quotient 済み(重複原子は
+exact 合算、w = 残存本数 ≤ 4)。
+
+### 6.1 c=4 tree topology の完全列挙
+
+再帰定義(T(1) = leaf、T(2) = {(1|1)}、T(3) = {(1|1|1), (2|1)})より、w=4 の cluster tree
+shape は置換を除いて次の **5 種**:
+
+| # | shape | 深さ | 内部 node 列(root → 深部) |
+|---|---|---|---|
+| T1 | (1\|1\|1\|1) | 1 | root arity 4 |
+| T2 | (2\|1\|1) | 2 | root arity 3、pair child = (1\|1) |
+| T3 | (2\|2) | 2 | root arity 2、両 child = (1\|1) |
+| T4 | ((1\|1\|1)\|1) | 2 | root arity 2、triple child = 単一スケール triple |
+| T5 | ((2\|1)\|1) | 3 | root arity 2、triple child = nested (2\|1) |
+
+c=3 の「single-scale triple または 2+1、深さ ≤ 2」(FR §2)の一般化。深さ ≤ 3 = c−1 ✓。
+
+### 6.2 node 型の在庫と kernel 義務クラス
+
+各 topology の内部 node を「children の型(prepared block の重み)」で分類する:
+
+| node 型 | 出現箇所 | kernel 義務 | 資産状態 |
+|---|---|---|---|
+| 1\|1 | T2/T3/T5 の pair node | K2 | c=2 資産(accepted) |
+| 2\|1 | T5 の triple node | QR5/RF | c=3 資産(accepted) |
+| 1\|1\|1 | T4 の triple node | RF(3 項 graded) | c=3 資産(accepted) |
+| **2\|2** | T3 root | **新規(binary PBK)** | GC-4A |
+| **3\|1** | T4/T5 root(triple = prepared) | **新規(binary PBK)** | GC-4B |
+| **2\|1\|1** | T2 root(3 block、うち 1 つ prepared) | **新規(多分岐、RF 拡張型)** | GC-4C(本 packet で新設) |
+| **1\|1\|1\|1** | T1 root(4 singleton) | **新規(4 項 graded、RF 拡張型)** | GC-4C |
+
+**帰結(正直な在庫)**: c=4 の新規 kernel 義務は Sol consult の binary 2 種(`2|2`/`3|1`)
+に**多分岐 2 種(`2|1|1`/`1|1|1|1`)が加わる**。後者は c=3 の RF(3 項 graded interface)の
+w=4 拡張として扱うのが自然で、GC-4C として台帳に追加する(go/no-go 判定は GC-4A/B/C の
+いずれかの blocking 反例で発動 — §1 の規則を拡張適用)。
+
+### 6.3 「安定 binary gap」の棄却と修正版二分法
+
+**反例(棄却)**: node の children 位置(周波数勾配)x = (0, M, 2M)(等間隔)では、
+任意の binary 分割の cross-gap / max(内部幅) = **ちょうど 1** — split-scale Taylor の
+小パラメタが存在しない(Sol consult #7)。さらに interleaved pair 型
+x = (0, a, 1, 1+a)(a ≈ 0.62)では同比 ≈ **0.62 < 1**、ランダム c=4 配置の約 61% で
+同比 < 2(数値診断: scratchpad `split_eq.py` — 診断であり証明の代替ではない)。
+よって「解析的 binary 分割が常に存在」は**偽**。
+
+**修正版(補題 SPLIT4)**: c=4 入力列に対し部分列を取ると、次が同時に成立する:
+(i) cluster tree は §6.1 の 5 shape のいずれかに固定される。
+(ii) スケール分離(距離比 → 0)は全て**木の辺**(parent–child edge)に吸収され、
+各 active node の children の pairwise 正規化距離は **[η, 1] 窓内**(η = η(部分列) > 0)
+に収まる — すなわち「node 内 binary スケール分割」は存在せず、node は常に
+**comparable-gap 多分岐**である。
+(iii) node 内の周波数勾配クラスタリングが必要な場面(radial kernel 適用時)では、
+補題 G(閉包文書 §4.3.5.1、乗法窓鳩ノ巣 — 証明済み資産)により閾値 M₀ ∈ [M*B, M*B^c] を
+選び、クラスタ内径 ≤ M₀/Q・クラスタ間隙 ≥ M₀ を同時に確保できる(binary ではなく
+**多分岐クラスタ分割**が正しい原始操作)。
+
+*証明*: (i) shape・pivot permutation は有限個なので部分列で固定(FR §2/FR2 と同一の
+論法)。(ii) 各 pair (i,j) の正規化距離 d_w(ξ_i, ξ_j)/s_node は [0,1] 値なので部分列で
+収束させる。極限 0 の組は proper child cluster の定義により深い node へ送られる(再帰)。
+残る組の極限は正 ⇒ 下限 η > 0(有限個の組)。よって node に残る children の距離は全て
+node scale と同次 — 「binary スケール分割」に必要な「同一 node 内の二群で群内 ≪ 群間」は
+定義上 child 形成として吸収済み。(iii) は補題 G そのもの(引用 — 適用対象は位置 x_j =
+周波数勾配 θ′_j(t₀)、c ≤ 4)。∎
+
+**scope(非主張)**: 本補題は分割の**構造**のみを与える。各 node kernel の存在
+(GC-4A/B/C)、(E-w) 包絡、Gram floor は別 packet。radial kernel 側のクラスタ幅と
+node scale の整合(補題 G の window と d_w-tree の window の突き合わせ)は GC-3
+(PBK-SPEC)の interface 設計に送る。人間による査読は未実施。
+
+## 7. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
 |---|---|---|---|
 | W4-JET | D_W(4)=9 の sharpness / より強い bound | Newton 探索の nondegenerate ord 到達(スケールゲージ固定) | **初期結果あり**: c=4 で ord 8 到達・9/10 解なし(§3。診断 — 証明の代替ではない) |
-| SPLIT-EQ | 「閾値移動で常に安定二分割できる」 | affine 周波数配置の cluster component 数と internal/cross gap 比 | open(GC-2 入力) |
+| SPLIT-EQ | 「閾値移動で常に安定二分割できる」 | affine 周波数配置の cluster component 数と internal/cross gap 比 | **初期結果あり**(`split_eq.py`: 等間隔で比 = 1、interleaved で ≈ 0.62 — §6.3 が消費。診断) |
 | PBK22-ADV | prepared `2|2` kernel に有限指数がある | sup_I|H|/max(|A|,|B|) と J 側比の高精度最適化。**両 child が同一点で零になる fixture 必須**(c=3 の pair+singleton には無かった新境界) | open(GC-4A 入力) |
 | RESONANCE-4 | 四原子の高次共鳴 | roots-of-unity 型配置で低次 jet を exact 消去し先頭非零次数を計算 | open(W4-JET と統合可) |
 | CHART-SVD4 | rate chart の完備性 | `2+2`/`3+1`、s^α・e^{−1/s}・s log(1/s) 経路で factored σ_min が正に留まるか | open(GC-5 入力) |
 | BUDGET-TREE | child cost の二重計上 | 全 c≤8 tree・route 列の Σlog C_step の T² 係数 | open(GC-11 入力) |
 
-## 7. リスク台帳
+## 8. リスク台帳
 
 | # | リスク | 順位 | 対処 |
 |---|---|---|---|
@@ -209,8 +285,12 @@ c=3 上界の到達例。∎
 | R3 | confluent chart の未記録 rate(F3 型 witness の一般形) | 中 | GC-9 の chart label に相対 valuation/flag を必須化(FR §7 の設計制約を継承) |
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
-## 8. 版履歴
+## 9. 版履歴
 
+- v0.4(2026-08-18): GC-1 accepted(R-GC1 R3 PASS、fixed SHA `957b252`)。§6 GC-2 SPLIT4
+  draft — c=4 topology 5 種の列挙、node 型在庫(新規 kernel 義務 `2|2`/`3|1` +
+  多分岐 `2|1|1`/`1|1|1|1` — GC-4C 新設)、安定 binary gap の棄却(SPLIT-EQ)と
+  修正版二分法(補題 SPLIT4 — スケール分離は木の辺、node は comparable-gap 多分岐)。
 - v0.3(2026-08-18): R-GC1 R1 findings 適用 — [GC1-01] D_W(上界値)/D_W*(sharp 最大値)の
   記法分離、[GC1-02] Wronskian 判定の連結成分明示、[GC1-03] adapted basis 構成と
   「ord f ∈ profile」の根拠追加、[GC1-04] §5 見出しの状態同期。
