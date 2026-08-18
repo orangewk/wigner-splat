@@ -163,7 +163,7 @@ c=3 上界の到達例。∎
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
-| GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | **drafted(§8.7、R1 findings 適用済み、査読待ち R-GC4A2C R2)** |
+| GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | **drafted(§8.7、R1–R2 findings + consult #11 適用済み、査読待ち R-GC4A2C R3)** |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
@@ -1133,30 +1133,51 @@ Newton 探索): **deg ≤ 2 で genuine ord は 6 で頭打ち**(ord 6 = 200/200
 **scope(非主張)**: 床(c_J・c_{Q,C} — A.2c)、W_CONFL(2,2) の証明(A.2c)、
 QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は未実施。
 
-### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1 findings 適用済み、査読対象 R-GC4A2C R2)
+### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、R1–R2 findings + consult #11 適用済み、査読対象 R-GC4A2C R3)
 
-**目的**: A.2b の各 terminal chart で正の jet 床を証明し、合成定数
-c_J := min_C c_C > 0(K = 1 — §8.6 (N-6′))を確立する。**本 packet が GC-4A 系の
+**目的**: 各 proof box で相対床 φ ≥ c·κ を証明し、合成定数
+c_J := min c > 0(K = 1 — §8.6 (N-6′))を確立する。**本 packet が GC-4A 系の
 go/no-go の本丸**である。
 
-**(FL-0) 床の統一形式**: 各 chart C の閉座標箱 K_C 上で
-  床関数 φ_C(x) := max_{3 ≤ n ≤ 9 − d₀(x)} |𝒥_n(x)|(𝒥_n = v⁽ⁿ⁾(t₀)/λⁿ — §8.6 (N-7))
-に対し **∃c_C > 0: φ_C(x) ≥ c_C·κ(x) (∀x ∈ K_C)** を主張する
-(Q_C では同値表示 φ/κ ≥ c_{Q,C})。
-**床は (chart, d₀) 対ごとに主張する([GC4A2CR1-05])**: d₀ ∈ {0, 1, 2}(構造的
-上界 — (FL-2))は record 離散量なので対は有限個、各対で max の添字範囲
-{3..9−d₀} が固定され **φ_{C,d₀} は連続**(範囲変動による不連続は生じない —
-d₀ 遷移は (N-4) の jet range 埋め込みが処理)。**Q_C の閉包に現れる κ = 0 は
-exact QR exit(§8.6 (6d))で Q_C の domain 外** — κ → 0 の床は (FL-6) の局所
-商空間論法が φ/κ の正下限として与える(compactness 単独では不可)。
-証明の共通骨格は
-  (i) φ_C と κ の K_C 上の連続性(§8.6 (N-7) exact jet map と (6b))、
-  (ii) compactness(K_C 閉箱 — §8.6 (N-5))、
-  (iii) **零点排除補題**: φ_C(x) = 0 ∧ κ(x) > 0 が K_C 上で不可能
-の 3 点で、(iii) が chart ごとの数学的実体である。structural chart では
-κ ≤ sup_{|y|≤1}|Φ_{T₂u}| ≤ C_box(閉箱定数)なので、(iii) から
-inf φ_C > 0(compactness)⇒ c_C = inf φ_C / C_box > 0 が従う。以下 (iii) を
-chart 家族ごとに証明する。
+**設計記録(Sol consult #11、2026-08-18 — confluent-QR 角の裁定)**:
+R2 併行で自己検出した 2 つのギャップ(FL-2 の床変換は「係数全零」でなく
+「非零 QR 対象 ⇒ κ = 0」しか出ない/QR stratum の線形化で prefactor deg が
+4 に上がる)に対し Sol 裁定:
+(i) **一般の deg ≤ 4 二指数族に次数低下はない**(Π₂ + PΠ₂ = Π₄ — 多項式除法。
+数値の sharp 10 は正しい)— 大域消去路線 (a) は不採用。
+(ii) **exact QR 上では QR 恒等式(補題 EL ⇒ 指数差定数・prefactor 比例)が
+二指数を一指数へ collapse させ、線形化は δΦ = e^qR、R ∈ Π₂ + PΠ₂ ⊆ Π₄ ⇒
+ord δΦ ≤ 4(sharp)**。予算衝突は QR 横断線形化には現れない。
+(iii) 採用路線 = **(b) proof atlas の selector からの分離 + stratified
+transversality**。rescaling は T Z_QR に**含まれる**(⊕ は二重計上)。微分は
+‖c‖₂ slice 上で行い、有限次元 norm 同値(‖c‖₂/‖c‖_∞ ∈ [1,2])で sup 正規化へ
+戻す。(iv) no-go 評価 = **amber・中低**。真の no-go 信号は「refined stratum 上で
+T Z_QR でない核方向」か「singular frontier(gcd-jump/degree-drop/Q-band 境界)
+への列で φ/κ → 0 が再分類不能」の 2 つのみ。child-QR の pipeline 排除 (c) は
+根拠なし、jet 拡張 (d) は不要、K_c 回帰 (e) は no-go test 失敗時のみ。
+
+**(FL-0) proof cover と床の統一形式(consult #11 (iii) の採用 —
+[GC4A2CR2-01] の Q_C 混在問題を根本解消)**:
+**proof atlas は selector から分離する**。A.2b の selector・chart(受理済み —
+不変)は record 簿記に使い、床の証明は **proof box の有限 cover** 上で行う:
+各 structural chart の閉箱 K_C を **(support r, prefactor deg, d₀, QR pairing
+型 σ, Q-band face)** で有限細分した閉箱族 {K_{C,d₀,σ}}(record chart の追加では
+なく A.2c 内部の証明用 cover)。**Q_C は record/帯域簿記専用に降格** — Q_C に
+割り当てられた点も、その underlying structural 座標の proof box で評価する。
+各 proof box 上で
+  床関数 φ(x) := max_{3 ≤ n ≤ 9 − d₀} |𝒥_n(x)|(𝒥_n = v⁽ⁿ⁾(t₀)/λⁿ、
+  添字範囲は box ごとに固定 ⇒ φ 連続)
+に対し **∃c > 0: φ(x) ≥ c·κ(x)(∀x ∈ box)** を主張する。証明の共通骨格:
+  (i) φ と κ の連続性(§8.6 (N-7) exact jet map と (6b))、
+  (ii) **零集合一致**: 各 box で φ = 0 ⟹(EX-3 橋 + box の ord 上界補題
+    W_c / W_CONFL / 混合消去)⟹ Φ_p ≡ 0 ⟹ κ = 0(§8.6 (6c))。
+    逆向きは自明(κ = 0 ⇒ v ≡ 0 ⇒ φ = 0)— **{φ = 0} = {κ = 0} = Z_QR ∩ box**。
+  (iii) **QR 近傍の相対床**: (FL-6) の stratified transversality が
+    φ ≥ a·dist(x, Z_QR) と κ ≤ b·dist(x, Z_QR) から φ/κ ≥ a/b を与える。
+  (iv) **QR から離れた閉領域**: {dist ≥ h₀} ∩ box は compact で φ > 0
+    (零集合一致)⇒ inf φ =: c′ > 0、κ ≤ C_box ⇒ φ/κ ≥ c′/C_box。
+frontier(gcd-jump・degree-drop・低 rank 面)は rank/次数の低い box から
+**帰納的に処理**し((N-5) の rank 降下 — 有限鎖)、有限 cover の min を取る。
 
 **(FL-1) genuine 配置 chart(R、M_r(r ∈ {2,3,4})、S の非退化部)**:
 φ_C(x) = 0 とは jets 3..9−d₀ の全消滅。x は admissible な有限 r-class 配置なので、
@@ -1201,7 +1222,12 @@ prefactor から exact に割れる):
   - d₀ = 0: deg P̃ ≤ 2、W_CONFL bound 6 < 10 ✓
   - d₀ = 1: deg P̃ ≤ 1、W_CONFL(deg ≤ 1)bound 4 < 9 ✓
   - d₀ = 2: deg P̃ = 0(定数)⇒ 2-class 指数結合、W_c(2) = 2 < 8 ✓
-いずれも deep vanishing と両立せず、係数全零 ⇒ 球面と矛盾。∎
+いずれの d₀ でも reduced ord ≥ 10 − d₀ は該当 bound を超えるため
+**Φ_p ≡ 0 が強制される** ⟹ v ≡ 0 ⟹ **κ = 0**(零集合一致 — (FL-0)(ii))。
+(R1 版の「係数全零 ⇒ 球面と矛盾」は誤り(consult #11 で確認): 球面上の
+**非零 QR 対象**(P̃₁ ∝ P̃₂ ∧ 位相差 = 二次 + 定数)は φ = 0 を実現するが、
+それは κ = 0 の点であり相対床 φ ≥ c·κ と整合する。W_CONFL の役割は零集合の
+**分類**(nonlinear zero set = QR 対象のみ)であって係数排除ではない。)∎
 
 **(FL-2b) 片側 confluent の混合系(C_i/C_i^{(2)})**:
 *主張*: F = P e^{q₀} + c₃e^{q₃} + c₄e^{q₄}(deg P ≤ 2、q₀/q₃/q₄ の差は
@@ -1231,7 +1257,8 @@ pairwise 非定数、c₃c₄ ≠ 0 または片方零)⇒ F ≢ 0 なら ord_{t
   - d₀ = 1: reduced prefactor deg ≤ 1 — 消去勘定を再実行すると (a) の side-0
     deg ≤ max(0, 1+1) = 2、(b) の R deg ≤ 2 + 2 = 4 ⇒ bound ≤ 3 + 4 = 7 < 9 ✓
   - d₀ = 2: reduced prefactor 定数 ⇒ 3-class 指数結合、W_c(3) = 5 < 8 ✓
-いずれも deep vanishing と両立しない。∎
+いずれの d₀ でも bound 超過により Φ_p ≡ 0 ⟹ κ = 0(零集合一致 —
+(FL-2) と同じ訂正が適用される)。∎
 
 **(FL-3) M_r(r ∈ {2,3})の limit-object 床**: 極限対象は r-class 指数結合
 (prefactor なし)。GC-1 W_c(r): ord ≤ D_W(r) = r(r+1)/2 − 1 ≤ 5 < 7。
@@ -1284,49 +1311,52 @@ confluence 等)はすべて boundary_routes((N-5))で他 chart に送られ、�
   (QR5 P2 の kernel 指数計算は本 packet では消費しない — ord 上界はすべて
   W_c(r)/W_CONFL/混合消去で自給。[GC4A2CR1-04] の「外部参照」問題は解消。)
 
-**(FL-6) Q_C transversality(κ → 0 — [GC4A2CR1-02][05] で局所商空間証明に
-全面改稿)**:
-*主張*: Q_C の domain(0 < κ < ε_Q)上 φ/κ ≥ c_{Q,C} > 0。
-*証明*(5 段):
-**(6-i) QR locus の明示分類**: Z_QR := {x ∈ 閉箱 : κ(x) = 0}。(6c) より
-x* ∈ Z_QR ⟺ ∃Q: B₁ = −e^{Q}B₂(関数として)。prefactor なしの 2|2 では
-これは 4-class 指数結合の恒等式なので **GC-1 W_c(4) の独立性により位相の
-完全対形成を強制**: {q₁a, q₁b} = {Q + q₂a, Q + q₂b}(集合として)かつ係数が
-対ごとに c₁ = −e^{γ}c₂(γ = 対の定数差)。よって Z_QR は
-(side-2 データ, Q, γ 対) で **明示的にパラメタ化される閉代数的部分集合**で、
-閉箱との交差は compact。パラメタ化の滑らかさから Z_QR は各点で接空間 T_{x*}Z_QR
-を持つ(明示 chart — 特異点なし: パラメタ写像は単射 immersion、パラメタは
-自由)。
-**(6-ii) 線形化の核の特徴づけ**: 方向空間 = 係数摂動 δc(deg 0)+ 位相摂動
-(δA, δB)(δ(e^q) = (δA y²/2 + δB y)e^q — **deg ≤ 2**)+ gauge 摂動 Q̃
-(deg ≤ 2)。x* での線形化
-  δΦ = δB₁ + e^{Q}δB₂ + Q̃ e^{Q}B₂ + (位相摂動項)
-は対形成により **span{(deg ≤ 2)e^{q₁a}, (deg ≤ 2)e^{q₁b}} に落ちる**
-(全成分が deg ≤ 2 prefactor — δB_i の係数摂動は deg 0、位相・gauge 摂動は
-deg ≤ 2)。v-jet 線形化 J(x*)·δ := (jets 3..9−d₀ of δv) の核: J·δ = 0 かつ
-gauge 最小化で jets 0..2 も消せるので、gauged δΦ は jets 0..(9−d₀) 全零 ⇒
-reduced ord ≥ 10 − d₀ > 6 ≥ W_CONFL bound((FL-2) の d₀ 場合分けと同じ
-reduced 勘定)⇒ **gauged δΦ ≡ 0** ⇒ δ は QR 恒等式を保つ方向、すなわち
-  **ker J(x*) = T_{x*}Z_QR ⊕ (構造 null: 両 side 一様 rescaling 2 方向)**
-(⊇ は v|_{Z_QR} ≡ 0 と rescaling の T₂ 消去から明らか、⊆ が上の W_CONFL
-論法)。この特徴づけは **Q₀ の argmin 選択写像を一切使わない**(gauge は
-各点で自由に取り直す — [R7-B03]/[R1-02] の非滑らかさ問題は生じない)。
-**(6-iii) 商空間の最小特異値**: 法束の単位球面 S(N_{x*}) 上で σ(x*, δ) :=
-max_{3≤n≤9−d₀}|J(x*)δ| は連続(exact jet 式)かつ (6-ii) より各点で正。
-S(N) は compact Z_QR ∩ 閉箱上の compact 束なので **σ₀ := min σ > 0**。
-**(6-iv) κ の Lipschitz 上界**: κ(x) = min_Q sup_{|y|≤1}|Φ_Q(x)| は x の
-Lipschitz 関数(Φ_Q は係数・位相データに閉箱上一様 Lipschitz、min は
-Lipschitz を保つ)で κ|_{Z_QR} = 0 ⇒ **κ(x) ≤ C_L·dist(x, Z_QR)**。
-(下界 κ ≳ dist は**不要** — 床は上界だけで出る。)
-**(6-v) 合成**: x ∈ Q_C domain、x* = Z_QR への最近点、h := dist(x, Z_QR)。
-jet map の C² 一様性(exact 式の閉箱上の滑らかさ)から
-  φ(x) ≥ σ₀·h − C₂h² ≥ (σ₀/2)·h  (h ≤ h₀ := σ₀/(2C₂))
-⇒ φ(x)/κ(x) ≥ σ₀/(2C_L)。h > h₀ の帯(κ ∈ [c·h₀, ε_Q) 相当)は
-(FL-1) の compactness 勘定(κ 下限正の閉領域)で φ ≥ c′ > 0。∎
+**(FL-6) stratified transversality(consult #11 の骨格で全面改稿 —
+[GC4A2CR1-02][GC4A2CR2-01] を解消)**:
+*主張*: 各 proof box で φ(x) ≥ a·dist(x, Z_QR ∩ box)(a > 0 は box 定数)。
+*証明*(6 段):
+**(6-i) QR incidence の定義と接空間(consult #11 Q3)**:
+  Z̃ := {(x, Q) : Φ_Q(x) ≡ 0}、Z_QR := x-射影。接空間は
+  **T_x Z_QR = {ξ : ∃Q̇ ∈ Π₂, δ_ξB₁ + e^Q(δ_ξB₂ + Q̇B₂) = 0}**。
+  side rescaling (δB₁, δB₂) = (aB₁, bB₂) は QR 点で Q̇ = a − b を選べば
+  この式を満たすので **rescaling は T Z_QR に含まれる**(R1–R2 版の
+  「⊕ rescaling」は二重計上 — 撤回)。
+**(6-ii) stratum 分類(proof box ごと)**:
+  - **regular stratum**(4 class 分離 band 内): W_c(4) 独立性により QR は
+    位相の完全対形成 {q₁a, q₁b} = {Q + q₂a, Q + q₂b} + 係数対条件。明示
+    パラメタ化(side-2 データ, Q, 定数差対)で smooth。
+  - **C stratum**(confluent box): 補題 EL により P₁ ∝ P₂ ∧ fitted Q 後の
+    指数差 = 定数。パラメタ化(片側 prefactor, 共通位相データ)で smooth。
+  - **mixed / gcd-jump / degree-drop / Q-band 境界**: 別 stratum とし、
+    QR 恒等式の成立が追加の confluence/係数消滅を強制する場合は frontier
+    stratum(より低い rank/次数の box)へ送る — (FL-0) の帰納処理。
+  これで「Z_QR 全体を単一 manifold と扱う」誤りを避ける。
+**(6-iii) 核の特徴づけ = T Z_QR(collapse 論法)**: QR 点 x* で
+δ𝒥(ξ) = 0 とすると δv の jets 3..(9−d₀) が全零。橋の微分は v = 0 上で
+  **δΦ_p = −De^pC₂·δv** ⇒ ord δΦ_p ≥ 10。
+一方 **QR collapse**: x* では fitted Q により二指数 class が一致するので
+  δΦ_p = e^q·R、R ∈ Π₂ + PΠ₂ ⊆ Π₄ ⇒ **δΦ_p ≢ 0 なら ord ≤ 4**(sharp 4 —
+  consult #11 Q1)。10 > 4 なので δΦ_p ≡ 0、すなわち ξ は (6-i) の incidence
+  式を満たし **ker δ𝒥 = T Z_QR**(regular stratum では二指数対形成の各対に
+  同じ collapse が適用され、C stratum では一指数そのもの)。
+  一般の deg ≤ 4 二指数族(sharp 10 — §9 DEG4-SHARP)は**ここに現れない**:
+  次数爆発は QR 恒等式による collapse の前の見かけであり、床に必要な線形化は
+  一指数 R の多項式 ord ≤ 4 勘定で閉じる。
+**(6-iv) 滑らかな正規化 slice**: ‖c‖_∞ = 1 球面は tie 点で非滑らか。微分は
+**‖c‖₂ = 1 slice** 上で行い、‖c‖₂/‖c‖_∞ ∈ [1, 2](4 係数)の norm 同値で
+sup 正規化へ戻す — 床定数の有限損失(≤ 2^{9})のみ。
+**(6-v) 法束の最小特異値と Taylor**: 各 smooth stratum S_σ の法単位球面束
+(compact — stratum 閉包 ∩ box)上で σ(x*, ξ) := max_n |δ𝒥(ξ)| は連続・
+(6-iii) より各点正 ⇒ σ₀ := min > 0。jet map の C² 一様性(exact 式)から
+  φ(x) ≥ σ₀·h − C₂h² ≥ (σ₀/2)h (h := dist(x, S_σ) ≤ h₀ := σ₀/(2C₂))。
+**(6-vi) 相対床への変換**: κ は Lipschitz(Φ_Q が閉箱データに一様 Lipschitz、
+min は Lipschitz 保存)かつ κ|_{Z_QR} = 0 ⇒ κ(x) ≤ C_L·dist(x, Z_QR)
+(**下界は不要**)。よって QR 近傍(h ≤ h₀)で φ/κ ≥ σ₀/(2C_L)、
+残りの {h > h₀} ∩ box は (FL-0)(iv) の compactness。frontier 方向の列は
+(FL-0) の帰納(低 rank/次数 box の床が先に確立)で処理。∎
 *数値診断*(§9 QC-TRANSV): σ_eff は random 4844 配置で全て正(中央値 0.11)、
-adversarial 探索の零接近はすべて routed 境界への接近 — (6-iii) と整合
-(診断は係数摂動 4 方向のみ、証明は位相摂動込み — 診断であり証明の代替では
-ない)。
+adversarial 零接近はすべて routed 境界への接近 — (6-iii)(6-v) と整合(診断は
+係数摂動 4 方向のみ、証明は位相摂動込み。診断であり証明の代替ではない)。
 *数値診断*(§9 QC-TRANSV): σ_eff は random 4844 配置で全て正(中央値 0.11)、
 adversarial 探索の零接近はすべて routed 境界(confluent 帯・係数消滅面)への
 接近で説明され、**chart 内部の構造的縮退は検出されず** — 本主張と整合。
@@ -1336,8 +1366,9 @@ adversarial 探索の零接近はすべて routed 境界(confluent 帯・係数�
 v ≡ 0 または単原子で床が空虚に真)、残る各 chart で c_C > 0
 ((FL-1)〜(FL-6))、overlap 移送は無損失(K = 1 — §8.6 (N-6′))。よって
   **c_J := min_C c_C > 0**
-が確立し、consult #9 の修正 target(v ≡ 0 または max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ)
-≥ c_J)の一様定数側が閉じる。∎
+が確立し(min は有限 proof cover (C, d₀, σ) 上 — consult #11 の骨格 6)、
+consult #9 の修正 target(v ≡ 0 または max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ) ≥ c_J)の
+一様定数側が閉じる。∎
 
 **scope(非主張)**: kernel 指数(GC-5)、10 階上界(A.3b)、**dispatch 経路
 B(3|1)・C(多分割)の床(= GC-4B/GC-4C 系 packet — §8.7 の「C chart」の床とは
@@ -1358,6 +1389,8 @@ B(3|1)・C(多分割)の床(= GC-4B/GC-4C 系 packet — §8.7 の「C chart」�
 | COMMON-DIVISOR | 両 pair が同一点同次数消滅 + reduced 先頭も相殺で deep-flat が残る | exact 構成と reduced pair の挙動 | open(A.1/A.3 入力) |
 | JF-NONCOMPACT | ord F ≤ 9 でも正規化 log jet の最小値が confluent 境界で 0 へ落ちる列 | **境界 continuation**(exact jet recurrence、高精度、ε 対数列、R_ε = max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ) の傾き判定 — finite difference 禁止)。fixture: ①二次比族(κ=0 分類の検証)②near-quadratic 族 η₁=η₂+δt² ③両 pair confluent 族 ④混成 scale 族 ⑤gcd-jump 族 ⑥**confluent 直接族 P₁e^{q₁}+P₂e^{q₂} の ord/jet 最小特異値探索(真の no-go テスト — 非零・非二次比配置が 0..9 jet を同時消滅させれば GC-4A no-go)** | **fixture ⑥ 結果**: deg ≤ 1 で genuine ord ≤ 4(150/150 到達・≥5 なし)、**deg ≤ 2 で ord ≤ 6(200/200 到達・≥7 なし)** — いずれも予算 9 内で **no-go 信号なし**。W_CONFL v2 の sharp 目標 = 6(deg≤1 部分形は 4、consult #10 消去骨格。crude Wronskian は deg≤2 で不十分 — A.2c は消去法必須)。①〜⑤ open。診断であり証明の代替ではない |
 | QC-TRANSV | Q_C transversality に chart 内部の構造的縮退(線形化 rank 落ち)がある | δv-jets 3..9 の線形化 7×4 行列(δu = δB₁/B₁ − δB₂/B₂、構造 null 2 方向 quotient)の σ_eff を random + adversarial 探索 | **初期結果あり**(`qc_transversality2.py`: random 4844 配置で σ_eff > 0(中央値 0.11)、adversarial 零接近は全て routed 境界(confluent 帯・係数消滅面)接近 — **内部縮退未検出**。§8.7 (FL-6) が消費。診断であり証明の代替ではない) |
+| DEG4-SHARP | 二指数・deg ≤ d prefactor 系の sharp ord(FL-6 の次数爆発懸念の検証) | Newton 探索(scale gauge 固定、genuine 到達) | **結果**: sharp = 2d + 2(d=1: 4、d=2: 6、d=3: 8、d=4: 10 到達・11 なし)。d = 4 は予算 10 と衝突するが consult #11 裁定により **QR 横断線形化には現れない**(collapse で一指数 ord ≤ 4)。診断 |
+| SING-FRONTIER | singular frontier(gcd-jump・degree-drop・Q-band 境界)への列で φ/κ → 0 が生じ、低 rank/gcd stratum への再分類でも説明できない(= consult #11 の残存 no-go 信号) | frontier 近傍の高精度 continuation(ε 対数列) | open(**A.2c 受理後の最優先 no-go test** — GC-5 前に実施) |
 | COLLAR-POLE | 実区間で unit 有界でも分母複素零点が collar に接近する列 | V_i の複素零点距離 | open(A.3 入力) |
 | TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内に 6 個以上の零点を持つ triple | 零点計数 | open(B.0 の主敵) |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
@@ -1372,6 +1405,17 @@ B(3|1)・C(多分割)の床(= GC-4B/GC-4C 系 packet — §8.7 の「C chart」�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.22(2026-08-18): Sol consult #11(confluent-QR 角の裁定)適用 — §8.7 を
+  stratified transversality architecture に改稿: (FL-0) proof cover の selector
+  からの分離(Q_C は簿記専用に降格、(support, deg, d₀, QR pairing σ, Q-band face)
+  の有限細分、零集合一致 {φ=0} = {κ=0}、frontier の rank 帰納)、(FL-2)/(FL-2b) の
+  床変換の結論を「Φ_p ≡ 0 ⇒ κ = 0」に訂正(「係数全零」は誤り — W_CONFL の役割は
+  零集合分類)、(FL-6) を 6 段に改稿(incidence 接空間の陽式・rescaling ⊂ T Z_QR
+  (⊕ は二重計上で撤回)・stratum 分類・**QR collapse による核特徴づけ
+  (δΦ_p = e^qR、R ∈ Π₄ ⇒ ord ≤ 4 vs 橋 ord ≥ 10)**・‖c‖₂ slice・相対床)、
+  §9 に DEG4-SHARP(sharp = 2d+2、d=4 の 10 は QR 横断に現れない)と
+  SING-FRONTIER(残存 no-go test、A.2c 受理後最優先)を登録。
 
 - v0.21.2(2026-08-18): R-GC4A2C R1 findings(blocking 5 + minor 2)適用 — [01] FL-4 の
   モーメント Vandermonde を撤回(unit-jet 相殺・重複度を扱えない)し「Z/G 内点 =
