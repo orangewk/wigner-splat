@@ -162,7 +162,7 @@ c=3 上界の到達例。∎
 | GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | **accepted**(R-GC4A1 R2 PASS、fixed SHA `50a4e45`) |
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
-| GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **drafted(§8.6 v2、R2–R5 findings 適用済み、査読待ち R-GC4A2B R6)** |
+| GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **drafted(§8.6 v2、R2–R6 findings 適用済み、査読待ち R-GC4A2B R7)** |
 | GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | open |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
@@ -850,7 +850,7 @@ N = 9 − d₀ に保持される(common-zero は §8.3 (F2²-4) の exact 相�
 **scope(非主張)**: collar 上の導関数上界(10 階 — A.3b)、一様定数の compactification
 (A.2b/c)、S 上の kernel 不等式。人間による査読は未実施。
 
-### 8.6 GC-4A.2b JF9-NORM(有限 chart atlas と正規化 — v2 全面改稿(consult #10)、drafted、R2–R5 findings 適用済み、査読対象 R-GC4A2B R6)
+### 8.6 GC-4A.2b JF9-NORM(有限 chart atlas と正規化 — v2 全面改稿(consult #10)、drafted、R2–R6 findings 適用済み、査読対象 R-GC4A2B R7)
 
 **設計裁定(consult #10 — R1 の 6 blocking への回答)**: v1 の大域 X̄・大域 metric・
 大域連続 J は**撤回**(それらの修理は GC-9 級の compactification 本体に膨張する)。
@@ -876,8 +876,9 @@ QR5 P2 と同じ**有限 chart 方式**を採る: 各 chart の閉座標箱の�
 ([GC4A2B-07] — 「係数不変」表現を撤回)+ 係数の **sup-norm 正規化 ‖c‖_∞ = 1**
 ([GC4A2BR2-01] — lexicographic pivot = 1 は非コンパクト((ε,1) ↦ (1,ε⁻¹) の発散)の
 ため撤回。‖c‖_∞ = 1 の球面はコンパクト)。
-**座標値域表(閉箱)**: merge 後 class 位相 (A_a/λ², B_a/λ) ∈ 閉円板(|·| ≤ 1 —
-λ の定義から max = 1)、係数 ∈ {‖c‖_∞ = 1} 球面、θ ∈ S¹、rate flag 比 ∈ [0,1]、
+**座標値域表(閉箱)**: merge 後 class 位相 **((A_a − A_anchor)/λ², (B_a − B_anchor)/λ)**
+∈ 閉単位円板((0c) の anchor 差 — |A_a − A_anchor| ≤ λ²、|B_a − B_anchor| ≤ λ)、
+係数 ∈ {‖c‖_∞ = 1} 球面、θ ∈ S¹、rate flag 比 ∈ [0,1]、
 E_i chart 座標 ∈ 各 F2 branch の**閉**領域(D3: 閉単位円板 — 中心 0 は除かず、
 E_i = 0 は boundary_routes で D_{i,0} chart へ送る面。D1/D2: 閉単位円板)、δ_i ∈ [0,1]、
 τ ∈ [0,1]、ζ ∈ 閉円板 ∪ {∞}(ζ⁻¹ chart で被覆)。**band 境界は半開(左閉右開)+
@@ -889,12 +890,26 @@ E_i = 0 は boundary_routes で D_{i,0} chart へ送る面。D1/D2: 閉単位円
    diagnostic_generators R_C(床契約には不使用 — (N-6)(6e)), κ_C := κ∘param_C, R_Q,
    normalized_jet_map 𝒥_C, boundary_routes, overlap_certificates)`
 
+**GCRouteRecordEnum-v2([GC4A2BR5-B06] — versioned 拡張、accepted §7.1 は不変)**:
+A.2b を消費する record は
+  `GCRouteRecord-v2 := GCRouteRecord(§7.1) + (chart_id, q_band_witness,
+   zero_flag_witness, boundary_route_chain)`
+を必須とする。field 型:
+- `q_band_witness := (α₀, α₁, α₂ ∈ ℂ の実値, verified flags |α_k| ≤ R_Q (k=0,1,2))`
+  ((6a) の p ∈ 𝒬_band 保証 — 欠落・violation flag は record 生成禁止)。
+- `zero_flag_witness := (min_i |B_i(t₀)| の実値, ≥ ε_Z の verified flag)`(structural
+  chart のみ — Z/G 行きは flag 不成立で記録)。
+- `boundary_route_chain := 有限列 [(face_id, target_chart_id, rank_before, rank_after)]`
+  ((N-5) の rank strict 降下の検証列)。
+**v1 GCRouteRecord による A.2b 消費は禁止(fail-closed)** — D-PBK-22v2 と同じ
+versioned 拡張様式。
+
 **(N-2) 基本 chart 表**(交差は新 chart でなく **ordered rate flag** で表す):
 
 | chart | 主座標・小パラメタ | chart 上の床(A.2c の証明対象 — ここでは宣言) |
 |---|---|---|
-| M_r(merge/低 arity) | merge 後 class 位相 (A_a/λ², B_a/λ)、projective 係数(r ≤ 3) | r=0: v≡0 exit。r≥1: W_c(r) 系 |
-| R(regular) | 位相 pivot・係数 pivot・E_i が {0,1,∞} から離隔・scale 比下方離隔 | max|𝒥_{R,n}| ≥ c_R·κ_R(非消滅 = W_c(4)) |
+| M_r(merge/低 arity) | merge 後 class 位相 ((A_a−A_anchor)/λ², (B_a−B_anchor)/λ)((0c) anchor 差)、projective 係数(r ≤ 3) | r=0: v≡0 exit。r=1: 単原子 exit(jet・overlap 契約対象外)。r∈{2,3}: W_c(r) 系 |
+| R(regular) | 位相 pivot・係数 pivot・E_i が {0,1,∞} から離隔・scale 比下方離隔 | max|𝒥_{R,n}| ≥ c_R·κ(非消滅 = W_c(4)) |
 | D_{i,0}/D_{i,∞} | E_i = rω / ω/r(r ↓ 0、|ω| = 1) | QR5 P2 の E→0,∞ 型明示計算(片 pair 単原子化) |
 | S_{1≺2}/S_{2≺1} | τ = λ₁/λ₂(または逆数)、支配側 λ = 1 正規化、劣位側は 0/1 次 divided-difference moment | surviving moment 通常 ⇒ 低 arity floor、退化 ⇒ C_i へ |
 | C_i / C_i^{(2)}(片側 confluent、affine / 二次退化) | δ_i = s_i/λ、方向 h_i、係数 (a_i, b_i)(C_i^{(2)} は (a_i, b_i, c_i) — deg ≤ 2)。**flag 判定: |β_i| ≥ ε_C·|ΔA_i|·w(affine)/ < (quadratic — 半開)**、β_i = ΔB_i + ΔA_i t₀、w = 窓幅 | 極限 (a_i + b_i h_i (+ c_i h_i²))e^{q_i} — 低 arity/混合 floor |
@@ -915,9 +930,13 @@ D の再取得(gcd-transition)。「侵入は生じない」の v1 宣言は撤�
 により、境界 floor(短い range)が元の max(長い range)へそのまま埋め込まれる
 (max の単調性 — 証明は自明)。∎
 
-**(N-5) selector と部分列網羅性**: 固定小定数列 0 < ε_Q ≪ ε_G ≪ ε_C ≪ ε_S ≪ ε_D < 1
+**(N-5) selector と部分列網羅性**: 固定小定数列
+0 < ε_Q ≪ ε_G ≪ ε_Z ≪ ε_C ≪ ε_S ≪ ε_D < 1([GC4A2BR5-B08] で ε_Z を追加)
 と inner/outer band で、優先順位
-  (1) merge-first exit →(2) pivot 固定(lexicographic)→(3) QR-near →(4) zero/gcd
+  (1) merge-first exit →(2) pivot 固定(lexicographic)→(3) QR-near(κ < ε_Q)
+  →(4) zero/gcd(判定: **min_i |B_i(t₀)| < ε_Z** または reduced 零点の gcd 近接
+  (ε_G 帯)— witness は `zero_flag_witness`((N-1))。よって structural chart
+  ((5) 以降と M_r)では |B_i(t₀)| ≥ ε_Z が routing による定義的下限)
   →(5) confluent →(6) scale 分離 →(7) D1/D2 →(8) regular
 の決定的 selector を定義。複数退化の同時発生は **ordered rate flag**(最初の pivot 退化量
 ε_{π₁} を選び ε_{π₂}/ε_{π₁}, … ∈ [0,1] を記録 — 有限 permutation)で表す。
@@ -933,12 +952,22 @@ Bolzano–Weierstrass で極限が閉箱内に存在。
 (ii) **境界の処理**: band 境界は半開 + 優先順位なので、任意の極限配置は selector で
 **ちょうど 1 つ**の chart に割り当てられる(述語の分割 — ping-pong なし)。極限が
 固定 chart の domain 内点ならそこで終了。境界面(座標箱の閉包にのみ属す点)なら
-boundary_routes が送り先を与えるが、**真の遷移は離散 rank
-  rank := (r, 9 − d₀) の辞書式
-を strict に下げる**: confluence 面 δ_i → 0 は class 併合で r 減、scale 面 τ → 0 は
-劣位側消滅で r 減、E_i → 0/∞ は単原子化で r 減、gcd-jump は d₀ 増(≤ 9)。
-r ∈ {0..4}、d₀ ∈ {0..9} なので鎖長 ≤ 13 で必ず domain 内点に到達(r = 0/1 は
-merge/低 arity exit)。∎(大域 X̄ の compact 性をこれで**置換**。)
+boundary_routes が送り先を与える。**boundary_routes の全列挙
+([GC4A2BR5-B05])**:
+
+| face | 送り先 | rank への作用 |
+|---|---|---|
+| band 境界(ε_Q/ε_G/ε_Z/ε_C/ε_S/ε_D、E_i band)| route ではない — 半開分割で selector が一意割当 | 不変(遷移なし) |
+| 係数消滅面 c_a = 0(任意 chart) | M_{r−1} 家族 | r 減 |
+| E_i = 0 / ∞(D3 中心・ζ⁻¹ chart の 0) | D_{i,0} / D_{i,∞}(単原子化) | r 減 |
+| τ = 0(S) | 劣位側消滅 → M_{r′} | r 減 |
+| 零点 exact 一致(G) | D 再取得((N-4) gcd-transition) | d₀ 増 |
+| δ_i = 0(C の極限面) | 遷移なし — C chart の domain 内点(limit object) | 不変 |
+
+**真の遷移は離散 rank rank := (r, 9 − d₀) の辞書式を strict に下げ、鎖に沿って
+r は非増加・d₀ は非減少(表の全行で単調)**。
+r ∈ {0..4}、d₀ ∈ {0..9} なので鎖長 ≤ 4 + 9 = 13 で必ず domain 内点に到達
+(r = 0/1 は merge/低 arity exit)。∎(大域 X̄ の compact 性をこれで**置換**。)
 
 **(N-6) 統一 κ([GC4A2BR4-01][02] — 親定義を実体化し chart-local を恒等写像に還元)**:
 
@@ -966,6 +995,11 @@ merge・係数ベクトルは**定義に使わない**(Q の変動で q₁ と q
 min は Weierstrass で**到達**し、κ は chart 閉箱上**連続**(compact 族上の min の
 一様連続性)。**κ = 0 ⟺ ∃Q₀: Φ_{Q₀} ≡ 0 on |y| ≤ 1 ⟺ Φ_{Q₀} ≡ 0**(整関数の
 一致定理 — 閉円板上の零は全域零)。
+**Q₀ の決定的選択([GC4A2BR6-07])**: argmin 集合は compact(κ を実現する Q の
+集合 = 連続関数の水準集合 ∩ 𝒬_band — 閉かつ有界)。その上で
+(Re α₂, Im α₂, Re α₁, Im α₁, Re α₀, Im α₀) の**辞書式最小元**(compact 集合上の
+逐次座標最小化 — 各段で非空 compact に絞られ、6 段で一意)を Q₀ と定める。
+Q_C chart の座標(Q₀ の α 座標)と overlap の一意性はこの tie-break による。
 
 **(6c) κ = 0 ⟺ v ≡ 0**:
 (⇐) v ≡ 0 ⇒ Φ_p ≡ 0(A.2a (EX-4))、p ∈ 𝒬_band((6a) の witness)⇒ κ ≤ 0、
@@ -973,9 +1007,10 @@ min は Weierstrass で**到達**し、κ は chart 閉箱上**連続**(compact 
 (⇒) κ = 0 ⇒ min の到達点 Q₀ で Φ_{Q₀} ≡ 0。
   - 非 confluent chart(class が相異なる指数型): GC-1 L0 型の独立性から
     B₁ = −e^{Q₀}B₂ ⇒ u = Q₀ + 2πik(接続成分ごと)⇒ T₂u = Q₀ + 定数 ⇒ v ≡ 0。
-  - confluent chart(多項式 prefactor P_i 付き): Φ_{Q₀} ≡ 0 は
-    e^{Q₀ + q₂ − q₁} = −P₁/P₂(有理式)を強いる。**補題 EL** により指数部は定数、
-    すなわち Q₀ が位相差を打ち消し P₁ ∝ P₂ ⇒ v ≡ 0。∎
+  - confluent chart(side 関数の実形 B_i = P_iV_ie^{r_i} — §8.3、[GC4A2BR6-06]):
+    Φ_{Q₀} ≡ 0 は e^{Q₀ + r₂ − r₁} = −(P₁V₁)/(P₂V₂) を強いる。右辺は多項式の比 =
+    **有理式**(V_i を含めても有理性は不変)なので **補題 EL** により指数部は定数、
+    すなわち Q₀ が位相差を打ち消し P₁V₁ ∝ P₂V₂ ⇒ v ≡ 0。∎
 **補題 EL(有理・指数排除)**: r 非定数多項式なら e^r は有理式でない。
 *証明*: e^r = R 有理なら r′ = R′/R。R′/R は |x| → ∞ で → 0(単純極の和)、
 r′ は非零多項式で減衰しない。矛盾。∎
@@ -1026,7 +1061,9 @@ A.2c の床合成は c_J = min_C c_C / K^{10} = min_C c_C(K = 1)。
   合成式(u = Σ_j ±log(y − ζ_j) + 単位 log + 二次、jets は各項の和)。gcd 遷移では
   D の再取得後に C_i を読み直す(divisor_record の gcd_transition_ref)。
 - C_i/C_12: divided-difference 座標での jets(多項式 × 指数の Leibniz 展開 — exact)。
-- Q_C: 統一 κ による正規化 𝒥_{C,n}/κ — (6b) の連続性と structural chart の exact 式の合成(κ → 0 での連続延長は A.2c の transversality 義務として宣言のみ)。
+- Q_C: jet map は raw 𝒥_n をそのまま使う(**再定義しない** — [GC4A2BR6-04])。κ での
+  除算は床の式 max|𝒥_n|/κ ≥ c_{Q,C} の側にのみ現れる(κ → 0 での商の挙動は A.2c の
+  transversality 義務として宣言のみ)。
 ([GC4A2B-06] 解消 — 「EX-5 のみ参照」を撤回し chart ごとに供給。)
 
 **(N-8) confluent prefactor 次数 gate v2([GC4A2BR2-05] — deg ≤ 1 主張を撤回し
@@ -1078,6 +1115,14 @@ QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.19.5(2026-08-18): R-GC4A2B R6 対応。**工程ミスの記録**: v0.19.4 の適用スクリプトが
+  途中 assert で write 前に停止し、[B04 の一部]/[B05]/[B06]/[B07]/[B08] が
+  ディスク未反映のまま R6 に出た(v0.19.4 の版履歴記載は先行して書かれており不正確
+  だった — 本版で実体を適用)。加えて R6 新規 findings: [R6-04] Q_C jet map の κ 付き
+  再定義の残骸を raw 𝒥_n に統一、[R6-06] confluent (6c) の式に V_i を含めて修正
+  (P₁V₁/P₂V₂ も有理式 — 補題 EL の適用は不変)、[R6-07] Q₀ の決定的 tie-break
+  (argmin compact 上の辞書式最小)を定義。
 
 - v0.19.4(2026-08-18): R-GC4A2B R5 findings(blocking 8 + minor 2)適用 — [B01] R_Q を
   global 定数に、[B02] p(t) と Q(y) の座標接続(α_k := p_k/λᵏ)で witness を型付け、
