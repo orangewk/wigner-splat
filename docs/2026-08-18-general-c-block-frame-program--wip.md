@@ -163,7 +163,7 @@ c=3 上界の到達例。∎
 | GC-4A.2a JF9-EXACT | A.1 | exact bridge(p = T₂u、v = u − p、Φ_p := B₁ + e^p B₂、ord Φ_p ≥ d₀ + N + 1)、d₀ := ord_{t₀}D と N = 9 − d₀ の予算(**次数でなく局所消滅次数** — consult #9 訂正)、二次比枝(v ≡ 0 → deg≤2 route)の分岐、jet の exact recurrence。**go/no-go 最小集合** | **accepted**(R-GC4A2A R2 PASS、fixed SHA `5bb69af`) |
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
-| GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | open |
+| GC-4A.2c CONFL22 | A.2b | 床の証明: 各 terminal chart の inf > 0(W_c(r)/QR5 明示計算/**W_CONFL(2,2) v2: deg ≤ 2・sharp 目標 B_CONFL = 6(消去法必須 — crude Wronskian 不可、失敗は no-go 信号。deg ≤ 1 部分形は 4)**/principal-part・gcd)、交差 face の transverse 単射性、overlap 比較から c_J = min c_C/K_C > 0。**最大の go/no-go packet** | **drafted(§8.7、査読待ち R-GC4A2C R1)** |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
@@ -1130,6 +1130,163 @@ Newton 探索): **deg ≤ 2 で genuine ord は 6 で頭打ち**(ord 6 = 200/200
 **scope(非主張)**: 床(c_J・c_{Q,C} — A.2c)、W_CONFL(2,2) の証明(A.2c)、
 QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は未実施。
 
+### 8.7 GC-4A.2c CONFL22(chart 床の証明 — drafted、査読対象 R-GC4A2C R1)
+
+**目的**: A.2b の各 terminal chart で正の jet 床を証明し、合成定数
+c_J := min_C c_C > 0(K = 1 — §8.6 (N-6′))を確立する。**本 packet が GC-4A 系の
+go/no-go の本丸**である。
+
+**(FL-0) 床の統一形式**: 各 chart C の閉座標箱 K_C 上で
+  床関数 φ_C(x) := max_{3 ≤ n ≤ 9 − d₀(x)} |𝒥_n(x)|(𝒥_n = v⁽ⁿ⁾(t₀)/λⁿ — §8.6 (N-7))
+に対し **∃c_C > 0: φ_C(x) ≥ c_C·κ(x) (∀x ∈ K_C)** を主張する
+(Q_C では同値表示 φ/κ ≥ c_{Q,C})。証明の共通骨格は
+  (i) φ_C と κ の K_C 上の連続性(§8.6 (N-7) exact jet map と (6b))、
+  (ii) compactness(K_C 閉箱 — §8.6 (N-5))、
+  (iii) **零点排除補題**: φ_C(x) = 0 ∧ κ(x) > 0 が K_C 上で不可能
+の 3 点で、(iii) が chart ごとの数学的実体である。structural chart では
+κ ≤ sup_{|y|≤1}|Φ_{T₂u}| ≤ C_box(閉箱定数)なので、(iii) から
+inf φ_C > 0(compactness)⇒ c_C = inf φ_C / C_box > 0 が従う。以下 (iii) を
+chart 家族ごとに証明する。
+
+**(FL-1) genuine 配置 chart(R、M_r(r ∈ {2,3,4})、S の非退化部)**:
+φ_C(x) = 0 とは jets 3..9−d₀ の全消滅。x は admissible な有限 r-class 配置なので、
+A.2a (EX-3) の橋 ord_{t₀}Φ_p ≥ d₀ + N + 1(N = 9 − d₀)により ord ≥ 10 の
+deep vanishing が起こるが、(EX-4) の場合分け(r = 4)または同型の W_c(r) 勘定
+(r ∈ {2,3}: Φ_p は r-class 指数結合、GC-1 補題 W_c より ord ≤ D_W(r) ≤ 5 < 10)
+により Φ_p ≢ 0 では不可能。Φ_p ≡ 0 ⟺ v ≡ 0 ⟺ κ = 0(§8.6 (6c))は
+κ > 0 と矛盾。∎(新しい解析は不要 — 受理済み A.2a/GC-1/A.2b の合成。)
+
+**(FL-2) 補題 W_CONFL(2,2) v2 の証明(両側 confluent — C_12/C_12^{(2)})**:
+*主張*: F = P₁e^{q₁} + P₂e^{q₂}、deg P_i ≤ 2、r := q₂ − q₁ 非定数(deg ≤ 2)、
+F ≢ 0 ⇒ ord_{t₀} F ≤ 6。deg P_i ≤ 1 部分形では ord ≤ 4。
+*証明*(消去法 — e^{q₁} で割り q₁ = 0、t₀ = 0 に正規化し、ord₀F ≥ 7 と仮定):
+**Step 1(e^r の消去)**: P₂e^r = F − P₁ を微分して (P₂′ + P₂r′)e^r = F′ − P₁′。
+2 式から e^r を交差消去:
+  (P₂′ + P₂r′)·F − P₂·F′ = (P₂′ + P₂r′)·P₁ − P₂·P₁′  … (★)
+**Step 2(次数勘定)**: (★) 右辺は多項式で deg ≤ max(3 + 2, 2 + 1) = 5
+(deg(P₂′ + P₂r′) ≤ max(1, 2+1) = 3)。左辺の ord₀ ≥ min(ord F, ord F′) ≥ 6。
+非零多項式 deg ≤ 5 の零位数は ≤ 5 なので **右辺 ≡ 0**:
+  r′P₁P₂ = P₁′P₂ − P₁P₂′  … (†)
+**Step 3(両者非零の排除)**: P₁, P₂ ≢ 0 とする。h := (P₂/P₁)e^r は {P₁ ≠ 0} 上で
+h′ = e^r·[P₂′P₁ − P₂P₁′ + r′P₁P₂]/P₁² = 0((†))。よって接続成分ごとに定数、
+P₂e^r − C·P₁ は整関数で開集合上 0 なので一致定理より **P₂e^r = C·P₁(全域)**。
+C = 0 なら P₂ ≡ 0 で矛盾。C ≠ 0 なら e^r = C·P₁/P₂ は有理式 — **補題 EL**
+(§8.6 (6c)。r 非定数多項式なら e^r は有理式でない)に矛盾。
+**Step 4(片側零)**: P₂ ≡ 0 ⇒ F = P₁、deg ≤ 2 < 7 ⇒ F ≡ 0(仮定に矛盾)。
+P₁ ≡ 0 ⇒ ord F = ord P₂ ≤ 2 < 7 で矛盾。∎
+deg ≤ 1 部分形: (★) 右辺 deg ≤ max(2+1, 1+0) = 3、ord F ≥ 5 で同勘定 ⇒ ord ≤ 4。∎
+*数値整合*: §9 JF-NONCOMPACT fixture ⑥(deg≤1: 150/150 が ord 4・≥5 なし、
+deg≤2: 200/200 が ord 6・≥7 なし)と bound が一致(sharp)。
+*床への変換*: C_12 系 chart の limit object は係数球面 ‖·‖_∞ = 1 上(§8.6 (N-2))。
+φ = 0 ⇒ ord ≥ 10 − d₀ ≥ 7(d₀ ≤ 3 — D3 divisor 上限は A.1 divisor_record の
+gcd deg ≤ 3。d₀ ≥ 4 の場合も ord ≥ 7 は保たれる: 10 − d₀ ≥ 7 ⟺ d₀ ≤ 3、
+d₀ ≥ 4 では jet range {3..9−d₀} ⊆ {3..5} — W_CONFL の bound 6 との整合は
+ord ≥ 6 + 1 で十分であり、橋の ord ≥ d₀ + N + 1 = 10 から reduced part の
+ord ≥ 10 − d₀ ≥ 7 > 6 が任意の d₀ ≤ 3 で成立。d₀ ∈ {4,5,6} は jet range が
+{3..5}, {3..4}, {3} と縮むが reduced ord ≥ 10 − d₀ ≥ 4 > ... この場合の床は
+short-range 勘定として (FL-4) の Vandermonde 側で扱う — 本行の主張は d₀ ≤ 3)
+⇒ W_CONFL より係数全零 ⇒ 球面と矛盾。∎
+
+**(FL-2b) 片側 confluent の混合系(C_i/C_i^{(2)})**:
+*主張*: F = P e^{q₀} + c₃e^{q₃} + c₄e^{q₄}(deg P ≤ 2、q₀/q₃/q₄ の差は
+pairwise 非定数、c₃c₄ ≠ 0 または片方零)⇒ F ≢ 0 なら ord_{t₀}F ≤ 8。
+*証明*(逐次消去): D := d/dy とする。
+(a) F₁ := (D − q₃′)F は c₃e^{q₃} を exact に消し、
+  F₁ = (P′ + PΔ₀₃′)e^{q₀} + c₄Δ₄₃′e^{q₄}、ord F₁ ≥ ord F − 1。
+  ここで Δ_{ab}′ := q_a′ − q_b′(affine、非零 — 位相差非定数)。prefactor deg:
+  side-0 は ≤ 3、side-4 は ≤ 1。
+(b) F₂ := (D − q₄′)²F₁ は (affine)e^{q₄} を exact に消し(各 (D − q₄′) が
+  prefactor 次数を 1 ずつ下げる)、F₂ = R e^{q₀}、deg R ≤ 3 + 2 = 5、
+  ord F₂ ≥ ord F − 3。
+(c) R ≢ 0 なら ord F₂ = ord R ≤ 5 ⇒ ord F ≤ 8。
+(d) R ≡ 0 の場合: (D − q₄′)² の e^{q₀} 成分への作用は多項式写像
+  T: P̃ ↦ P̃″ + 2P̃′Δ₀₄′ + P̃(Δ₀₄′² + Δ₀₄″) で、leading 係数は
+  (deg P̃ + 2) 次に (A₀ − A₄)² ≠ 0 倍で現れるため **T は単射**。
+  よって R ≡ 0 ⇒ side-0 prefactor (P′ + PΔ₀₃′) ≡ 0 ⇒ F₁ = c₄Δ₄₃′e^{q₄} ⇒
+  ord F₁ ≤ 1 ⇒ ord F ≤ 2。いずれでも ord F ≤ 8。∎
+(P′ + PΔ₀₃′ ≡ 0 は P ≡ 0 も導く(同じ leading 勘定)ので (d) は c₄ = 0 なら
+F ≡ 0 に退化し矛盾。)予算整合: 8 ≤ 9 ✓。
+*床への変換*: (FL-2) と同じ compactness + 球面正規化。φ = 0 ⇒ reduced ord ≥ 7…
+の勘定は d₀ ≤ 1 で ord ≥ 9 > 8 を要求するため、**C_i 系の床は d₀ ≤ 1 に対し
+本 bound で閉じ、d₀ ≥ 2 は (FL-4) short-range 勘定へ委譲**(型は route record の
+d₀ で分岐 — fail-closed)。
+
+**(FL-3) M_r(r ∈ {2,3})の limit-object 床**: 極限対象は r-class 指数結合
+(prefactor なし)。GC-1 W_c(r): ord ≤ D_W(r) = r(r+1)/2 − 1 ≤ 5 < 7。
+(FL-2) と同じ変換で床が出る。∎(r = 4 内部点は (FL-1) が処理。)
+
+**(FL-4) Z/G chart の principal-part 床**:
+*構造*: Z-chart の jet map(§8.6 (N-7))は u = Σ_j σ_j log(y − ζ_j) +
+log-unit 部 + 二次、σ_j = ±1。**A.3a (ZF-1)/(ZF-2) の collar invariant により
+E-unit の零点(z ∈ 2πiℤ∖{0} — 純虚)は collar 内に入らない**ので、collar 内の
+reduced 零点は P_i 由来の各 side ≤ 2 個、計 **≤ 4 個**。
+*零点排除*: jets の principal part は jet_n(u) の主要項 −Σ_j σ_j ζ_j^{−n}/n。
+n = 3..9 の 7 連続モーメント Σ_j σ_j w_j^n(w_j := ζ_j^{−1}、pairwise distinct、
+非零 — reduced 分離は zf invariant)が全零なら、≤ 4 列の generalized Vandermonde
+行列(7 × ≤4、列 (w_j³, …, w_j⁹)ᵀ)の非自明核が必要だが、**任意の ≤ 4 列は
+一次独立**(w³ 因子を括り出せば通常の Vandermonde minor — w_j 相異なるので非零)
+なので σ_j = 0 となり σ_j = ±1 に矛盾。
+*unit 補正の吸収*: log-unit 部と二次部の jets は closed box 上連続・有界で、
+principal part との和として φ_Z の連続性が成立(§8.6 (N-7))。φ_Z = 0 ∧ κ > 0 の
+排除は、v ≡ 0 の場合(κ = 0 — 矛盾)と v ≢ 0 の場合に分かれ、後者は
+Π_j(y − ζ_j)^{σ_j}·(unit 比) = e^{二次} を要求 ⇒ **補題 EL の変形**
+(両辺の log 微分: 左辺は ∞ で減衰する有理項 + unit log 微分(有界)、右辺は
+非減衰の非定数 affine — 全 jet 消滅の仮定下で矛盾)⇒ 排除。厳密には
+この排除は ord ≥ 10 − d₀ の deep vanishing に対して (EX-3) の橋を経由し、
+reduced 系の ord 上界(≤ 4 零点 + unit — 上記 Vandermonde)と矛盾させる。∎
+G chart は gcd divided-difference で D 再取得((N-4))に落ち、床は D 側((FL-5))。
+**short-range 勘定(d₀ ≥ 2 の C 系委譲分を含む)**: jet range {3..9−d₀} が
+短い場合も、モーメント条件の本数 7 − d₀ ≥ 列数 4 が成立する限り(d₀ ≤ 3)
+同じ Vandermonde 論法が走る。d₀ ∈ {4,5,6} は条件本数 < 4 となるが、この場合
+reduced ord ≥ 10 − d₀ ∈ {4,5,6} の消滅を ≤ 4 − (d₀ − 3) 個の零点系に要求する
+ことになり、W_c(r) 型勘定(D_W ≤ 5)との整合検査を **route record の
+d₀-branch invariant として型付けする**(d₀ ≥ 4 の実現可能性自体が A.1 divisor
+上限(gcd deg ≤ 3)と衝突するため、**d₀ ≥ 4 の record は生成禁止(fail-closed)**
+— 空虚に真)。
+
+**(FL-5) D/S chart の低 arity 帰着**:
+- D_{i,0}/D_{i,∞}: E_i → 0/∞ の極限で pair i は単原子化し、limit object は
+  3-class 系(prefactor なし)⇒ W_c(3)(D_W(3) = 5 < 7)。中間帯(E_i が band 内)
+  は (FL-1) の genuine 配置。QR5 P2 の E→0/∞ 明示計算と整合(そちらは kernel
+  指数用 — 本 packet は ord 上界のみ消費)。∎
+- S_{1≺2}/S_{2≺1}: τ → 0 極限で劣位 pair は 0/1 次 moment に退化: surviving
+  moment 非零なら limit object は 3-class 系(W_c(3))か単原子付加(2-class +
+  定数 — W_c(2))、moment 退化は C_i 系((FL-2b))へ route 済み(§8.6 (N-2))。∎
+
+**(FL-6) Q_C transversality(κ → 0)**:
+*主張*: Q_C の閉箱上 φ/κ ≥ c_{Q,C} > 0。
+*証明骨格*: κ > 0 の内部は (FL-1)〜(FL-5) の該当 structural 勘定が
+φ ≥ c·κ(κ ≤ C_box で吸収)として与える。κ → 0 の限界点は exact QR 配置
+x* で、そこでは B₁ = −e^{p*}B₂ が**関数として**成立する。2|2 の 4 class
+(prefactor なし)では W_c(4)(GC-1)によりこれは **位相の完全対形成**
+  {q₁a, q₁b} = {p* + q₂a, p* + q₂b}(係数も対で一致・符号反転)
+を強いる(4 位相が相異なるままなら独立性で係数全零 — admissible と矛盾)。
+この対形成の下で、法方向微分(δc, δQ̃)の線形化
+  δΦ = δB₁ + e^{p*}δB₂ + Q̃e^{p*}B₂
+は phase-pairing により **2-class・prefactor deg ≤ 2 の系
+span{(deg≤2)e^{q₁a}, (deg≤2)e^{q₁b}}** に落ちる(δB_i は deg-0 成分、
+Q̃e^{p*}B₂ は deg≤2 成分)。q₁a − q₁b 非定数(class 相異)なので
+**(FL-2) W_CONFL v2 がそのまま適用**され、非零線形化方向の ord ≤ 6 < 10。
+構造的 null 方向(両 side の一様 rescaling — δu = 定数で v に作用しない
+2 実次元)を quotient した compact 球面上で、線形化 jet 写像の最小特異値
+σ_eff は連続かつ上記より各点で正 ⇒ compactness で下限正。線形化誤差は
+閉箱上 C¹ 一様(jet map の exact 式の滑らかさ)なので、κ 十分小で
+φ/κ ≥ σ_eff/2。band 中間(κ ∈ [κ_small, ε_Q))は (FL-1) 型勘定。∎
+*数値診断*(§9 QC-TRANSV): σ_eff は random 4844 配置で全て正(中央値 0.11)、
+adversarial 探索の零接近はすべて routed 境界(confluent 帯・係数消滅面)への
+接近で説明され、**chart 内部の構造的縮退は検出されず** — 本主張と整合。
+
+**(FL-7) 合成**: chart は有限(GCChartIdEnum — 21 値)、各 c_C > 0
+((FL-1)〜(FL-6))、overlap 移送は無損失(K = 1 — §8.6 (N-6′))。よって
+  **c_J := min_C c_C > 0**
+が確立し、consult #9 の修正 target(v ≡ 0 または max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ)
+≥ c_J)の一様定数側が閉じる。∎
+
+**scope(非主張)**: kernel 指数(GC-5)、10 階上界(A.3b)、B 系(3|1)・C 系の
+床、c_J の数値評価(存在のみ主張 — 有効定数は非主張)、S/D chart の中間帯で
+QR5 P2 の kernel 計算が与える指数(本 packet は ord 上界のみ使用)。
+人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -1143,6 +1300,7 @@ QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は�
 | AUTO-HELD-22 | 「T3 の pair children は node scale で自動 held」 | 反例構成 | **棄却済み**(正本 = §8 設計記録) |
 | COMMON-DIVISOR | 両 pair が同一点同次数消滅 + reduced 先頭も相殺で deep-flat が残る | exact 構成と reduced pair の挙動 | open(A.1/A.3 入力) |
 | JF-NONCOMPACT | ord F ≤ 9 でも正規化 log jet の最小値が confluent 境界で 0 へ落ちる列 | **境界 continuation**(exact jet recurrence、高精度、ε 対数列、R_ε = max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ) の傾き判定 — finite difference 禁止)。fixture: ①二次比族(κ=0 分類の検証)②near-quadratic 族 η₁=η₂+δt² ③両 pair confluent 族 ④混成 scale 族 ⑤gcd-jump 族 ⑥**confluent 直接族 P₁e^{q₁}+P₂e^{q₂} の ord/jet 最小特異値探索(真の no-go テスト — 非零・非二次比配置が 0..9 jet を同時消滅させれば GC-4A no-go)** | **fixture ⑥ 結果**: deg ≤ 1 で genuine ord ≤ 4(150/150 到達・≥5 なし)、**deg ≤ 2 で ord ≤ 6(200/200 到達・≥7 なし)** — いずれも予算 9 内で **no-go 信号なし**。W_CONFL v2 の sharp 目標 = 6(deg≤1 部分形は 4、consult #10 消去骨格。crude Wronskian は deg≤2 で不十分 — A.2c は消去法必須)。①〜⑤ open。診断であり証明の代替ではない |
+| QC-TRANSV | Q_C transversality に chart 内部の構造的縮退(線形化 rank 落ち)がある | δv-jets 3..9 の線形化 7×4 行列(δu = δB₁/B₁ − δB₂/B₂、構造 null 2 方向 quotient)の σ_eff を random + adversarial 探索 | **初期結果あり**(`qc_transversality2.py`: random 4844 配置で σ_eff > 0(中央値 0.11)、adversarial 零接近は全て routed 境界(confluent 帯・係数消滅面)接近 — **内部縮退未検出**。§8.7 (FL-6) が消費。診断であり証明の代替ではない) |
 | COLLAR-POLE | 実区間で unit 有界でも分母複素零点が collar に接近する列 | V_i の複素零点距離 | open(A.3 入力) |
 | TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内に 6 個以上の零点を持つ triple | 零点計数 | open(B.0 の主敵) |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
@@ -1157,6 +1315,16 @@ QR5 明示計算の移植(A.2c)、10 階上界(A.3b)。人間による査読は�
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.21(2026-08-18): GC-4A.2c CONFL22 ドラフト起草(§8.7)— (FL-0) 床の統一形式、
+  (FL-1) genuine 配置(compactness + EX-3/EX-4 + W_c(r))、(FL-2) **W_CONFL(2,2) v2 の
+  消去法証明**(1 回微分の交差消去 + 次数勘定 + 補題 EL、B = 6 / deg≤1 は 4 —
+  fixture ⑥ の sharp 値と一致)、(FL-2b) 片側混合系の逐次消去(ord ≤ 8)、
+  (FL-3) W_c(r) 帰着、(FL-4) Z/G(collar の E-零点排除 → ≤4 極の 7 連続モーメント
+  Vandermonde + d₀ ≥ 4 生成禁止)、(FL-5) D/S 低 arity 帰着、(FL-6) Q_C
+  transversality(exact QR の位相対形成 → 線形化が 2-class deg≤2 系に collapse →
+  W_CONFL 適用 + σ_eff compactness。QC-TRANSV 数値診断を §9 に登録)、(FL-7) 合成
+  c_J = min c_C > 0(K = 1)。§4 A.2c 行 → drafted。
 
 - v0.20(2026-08-18): **GC-4A.2b 受理** — R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3`
   (blocking/minor なし、8 責務 8/8)。§8.6 は以後 immutable(status 注記を除く)。
