@@ -361,9 +361,9 @@ identity ref、自由文禁止。各 schema の key set を完全列挙する):
 
 | schema | required keys(完全列挙) |
 |---|---|
-| `D-PBK-22` | `active_children_nonzero`、`certificate_ref(C_1)`(w=2 variant)、`certificate_ref(C_2)`(w=2 variant)、`nonconstant(q_{C_1} − q_{C_2})`(child 代表指数の exact 差 — constant-gauge quotient witness)、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)`、`child_collision_witness_i`(i=1,2 — v0.12 追補、型は §8.2.5) |
-| `D-PBK-31` | `active_children_nonzero`、`certificate_ref(C_1)`(w=3 variant: triple-plain または triple-nested)、`certificate_ref(C_2)`(w=1 atom)、`nonconstant(q_{C_1} − q_{C_2})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)`、`child_collision_witness_i`(非 atom child — v0.12 追補、型は §8.2.5) |
-| `D-PBK-M` | `arity ∈ {ternary, quaternary}`、`active_children_nonzero`、全 child の `certificate_ref`(ternary: w 型 (2,1,1)、quaternary: w 型 (1,1,1,1))、**全 pair (i,j) の** `nonconstant(q_{C_i} − q_{C_j})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q = arity)`、`child_collision_witness_i`(非 atom child — v0.12 追補、型は §8.2.5) |
+| `D-PBK-22` | `active_children_nonzero`、`certificate_ref(C_1)`(w=2 variant)、`certificate_ref(C_2)`(w=2 variant)、`nonconstant(q_{C_1} − q_{C_2})`(child 代表指数の exact 差 — constant-gauge quotient witness)、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)` |
+| `D-PBK-31` | `active_children_nonzero`、`certificate_ref(C_1)`(w=3 variant: triple-plain または triple-nested)、`certificate_ref(C_2)`(w=1 atom)、`nonconstant(q_{C_1} − q_{C_2})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)` |
+| `D-PBK-M` | `arity ∈ {ternary, quaternary}`、`active_children_nonzero`、全 child の `certificate_ref`(ternary: w 型 (2,1,1)、quaternary: w 型 (1,1,1,1))、**全 pair (i,j) の** `nonconstant(q_{C_i} − q_{C_j})`、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q = arity)` |
 
 **zero-pruning の継承(明示)**: 任意の child が恒等零(`C_i ≡ 0`)なら削除し、残る
 exact span で rank・tree を再固定して lower-arity/lower-w へ redispatch する(§10.5 継承。
@@ -546,6 +546,10 @@ child ごとに定義)とし、**pair 別 collision witness |ΔB_i| ≤ s_i、|�
 `child_collision_witness_i` を追加する — [GC4A0-03] 対応)。
 ray z = te^{iθ}、区間系 I_k = [a_k, a_k+1](FR §10.3 S4b-β を逐語継承)、
 Λ_{i,k} := sup_{I_k}|η_i′|。η̃_i は §8.1 の定義(cell 中心 recenter 後)。
+**入力仮定(閾値の非空性の根拠 — [GC4A0R3-03])**: 入力は GC-2 SPLIT4 の衝突列
+(全体 scale s_m → 0)であり、proper child cluster の内部 scale は
+s_i ≤ s_m · (正規化距離比 → 0) → 0(SPLIT4 (i) の child 形成の定義)。よって
+**s_i(m) → 0** が入力から従い、以下の eventual 閾値 m_BRF0/m_BRF1 は非空。
 
 **(BRF-1) 勾配の明示評価**: radial 制限で η_i(t) = ΔB_i e^{iθ} t + ΔA_i e^{2iθ} t²/2
 なので η_i′(t) = ΔB_i e^{iθ} + ΔA_i e^{2iθ} t、よって
@@ -591,21 +595,27 @@ m_BRF1 := min{M : ∀m ≥ M, max_i s_i(m)² ≤ δ/(32 C_led)}([GC4A0-01][GC4A0
 
 - **GCCostSpecEnum の新設(closed-world)**: `GCCostSpecEnum := CostSpecEnum ∪
   {bi-graded}`(FR の CostSpecEnum = {uniform, graded-root} は不変)。
-  `bi-graded(C_BRF, (Λ_{1,k}, Λ_{2,k}), N_cell,k, ray_ledger_ref)` — 各 record が
-  両 Λ を instantiation し log C_step,k ≤ C_BRF(1 + Λ_{1,k} + Λ_{2,k})。
+  `bi-graded(C_BRF, (Λ_{1,k}, Λ_{2,k}), N_cell,k, ray_ledger_ref)` —
+  **0 < C_BRF < ∞ の interval-independent template**([GC4A0R3-02]。FR の
+  uniform/graded-root と同じ正値性拘束)。各 record が両 Λ を instantiation し
+  log C_step,k ≤ C_BRF(1 + Λ_{1,k} + Λ_{2,k})。
   **PBK-22-w 専用**(他 route への流用禁止 — graded-root の規律を継承)。
   ray_ledger_ref は (BRF-4) 型の ray-wide 上界の accepted ref を必須とする
   (局所値のみでの (E-w) 進行を禁止)。GCRouteSpec 表(§7.1)の cost spec 列は以後
   GCCostSpecEnum から取る(resolved 行新設時 — 現在 0 行のまま)。
-- **schema への key 追加(`child_collision_witness_i`)**: 一般の非 atom child C_i
-  (内部原子集合 J_i、|J_i| = w_i ≥ 2)に対し
+- **versioned schema extension(accepted §7.1 は逐語凍結 — [GC4A0R3-01] 対応)**:
+  新 schema ID を closed-world で追加する:
+  `GCDomainSchemaEnum-v2 := GCDomainSchemaEnum ∪ {D-PBK-22v2, D-PBK-31v2, D-PBK-Mv2}`。
+  各 v2 schema の required keys := **対応する v1 schema の全 key(§7.1 の accepted 表を
+  逐語参照)+ `child_collision_witness_i`(全非 atom child i)**。
   `child_collision_witness_i := (s_i, {(|A_u − A_v| ≤ s_i², |B_u − B_v| ≤ s_i)}_{u<v ∈ J_i})`
-  — **s_i := max_{u<v ∈ J_i} d_w(ξ_u, ξ_v)**(child 内部 d_w 最大距離)、差分は
+  — J_i = child C_i の内部原子集合(w_i = |J_i| ≥ 2)、
+  **s_i := max_{u<v ∈ J_i} d_w(ξ_u, ξ_v)**(child 内部 d_w 最大距離)、差分は
   **§6 の共通 gauge 後の parameter 座標**で取る(d_w = max(|ΔA|^{1/2}, |ΔB|) ≤ s_i ⟺
-  |ΔA| ≤ s_i² かつ |ΔB| ≤ s_i)。w_i = 2(pair)は対 1 組、w_i = 3(triple)は全 3 組の
-  差分 witness を列挙([GC4A0R2-02] — pair 型の流用ではなく一般形)。
-  D-PBK-22(i = 1,2)・D-PBK-31(w=3 child)・D-PBK-M(全非 atom child)へ追加済み
-  (§7.1 表の v0.12 追補マーカー)。
+  |ΔA| ≤ s_i² かつ |ΔB| ≤ s_i)。w_i = 2 は対 1 組、w_i = 3 は全 3 組を列挙
+  ([GC4A0R2-02] — 一般形)。**GCRouteSpec の resolved 行(GC-4 受理時に新設)は
+  domain schema 列に v2 ID を用いる** — v1 ID は歴史的参照として凍結され、record 生成には
+  以後使わない(fail-closed: v1 での record 生成を禁止)。
 - **GCRouteRecord への field 追加**: `recenter_witness :=
   { cell_id ↦ (cell 端点(左閉右開), t_c(cell), exact transition ref(pair 1),
   exact transition ref(pair 2), sup_cell|η̃_1| ≤ 1/8 の式 witness,
@@ -646,6 +656,12 @@ open obligation)、FR §10.3 条件 2 の完全充足(A.6)、(E-w) 組み立て(
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.12.3(2026-08-18): R-GC4A0 R3 findings(BLOCKED)適用 — [R3-01] accepted §7.1 を
+  逐語復元し、拡張を versioned schema(GCDomainSchemaEnum-v2 = v1 + D-PBK-22v2/31v2/Mv2、
+  resolved 行は v2 のみ使用・v1 凍結)へ変更、[R3-02] bi-graded に 0 < C_BRF < ∞ の
+  正値性拘束、[R3-03] s_i(m) → 0 の入力仮定(SPLIT4 の child 形成から)を明記し
+  閾値の非空性を根拠づけ。
 
 - v0.12.2(2026-08-18): R-GC4A0 R2 findings 適用 — [R2-01] §7.1 canonical schema 表へ
   child_collision_witness_i を追補マーカー付きで反映、[R2-02] 一般 w_i child の witness
