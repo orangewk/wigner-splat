@@ -539,7 +539,10 @@ kernel の存在・γ・compact 族非相殺・FR 条件 2 充足・深消滅 le
 および必要な spec 追補(§8.2.5)。**kernel 不等式そのものは主張しない**(A.1 以降)。
 
 **設定**: T3 node、exact children B_1(原子 1,2)・B_2(原子 3,4)。η_i = pair i の
-exact exponent 差、collision-scale witness |ΔB_i| ≤ s_i、|ΔA_i| ≤ s_i²(D-PBK-22)。
+exact exponent 差。**s_i := child B_i の内部 collision scale**(pair 内 d_w 距離の最大値 —
+child ごとに定義)とし、**pair 別 collision witness |ΔB_i| ≤ s_i、|ΔA_i| ≤ s_i²** を
+用いる(D-PBK-22 の従来 key は全体 s_m のみだったため、§8.2.5 で schema へ
+`child_collision_witness_i` を追加する — [GC4A0-03] 対応)。
 ray z = te^{iθ}、区間系 I_k = [a_k, a_k+1](FR §10.3 S4b-β を逐語継承)、
 Λ_{i,k} := sup_{I_k}|η_i′|。η̃_i は §8.1 の定義(cell 中心 recenter 後)。
 
@@ -547,7 +550,7 @@ ray z = te^{iθ}、区間系 I_k = [a_k, a_k+1](FR §10.3 S4b-β を逐語継承
 なので η_i′(t) = ΔB_i e^{iθ} + ΔA_i e^{2iθ} t、よって
   Λ_{i,k} ≤ s_i + s_i²(a_k + 1)、  |η_i″| = |ΔA_i| ≤ s_i²。∎
 
-**(BRF-2) held 化 cell cover**: m₀ := min{m : max_i s_i(m)² ≤ 1/16} とし m ≥ m₀。
+**(BRF-2) held 化 cell cover**: m₀ := min{M : ∀m ≥ M, max_i s_i(m)² ≤ 1/16}(eventual 量化 — [GC4A0-02])とし m ≥ m₀。
 h_k := min(1, 1/(16Λ_{1,k}), 1/(16Λ_{2,k})) と置き、I_k を長さ ≤ h_k の半開 cell に
 等分割(左閉右開、境界帰属は §8.1 の規約)。cell 数は
   N^{RF}_{cell,k} ≤ ⌈1/h_k⌉ ≤ 1 + 16(Λ_{1,k} + Λ_{2,k})。
@@ -571,21 +574,33 @@ A.6 の義務 — 本 packet は勘定の supply のみ。)
 collision-scale 減衰つき二次項 O(s²T²)**。∎
 
 **(BRF-5) budget 吸収**: (E-w) 系の組み立て(GC-7)が消費する指数予算に対し、
-log 総 cost の二次成分 ≤ C_led·Σ_i s_i²T²(C_led = 絶対定数 × log(定数))は、
-m₁ := min{m : max_i s_i(m)² ≤ δ/(16 C_led)} 以降 **δT²/16 に吸収**され、(E-w) の
-指数 (1−δ/2)T²/2 を (1−δ/4)T²/2 以下に保つ。m₀' := max(m₀, m₁) の存在のみ要求
+log 総 cost の二次成分 ≤ C_led·Σ_{i=1}^{2} s_i²T² は、pair 数 2 を織り込んだ閾値
+m₁ := min{M : ∀m ≥ M, max_i s_i(m)² ≤ δ/(32 C_led)}([GC4A0-01][GC4A0-02] 対応)以降
+  C_led·Σ_i s_i²T² ≤ 2·C_led·(δ/(32C_led))·T² = δT²/16
+に吸収され、(E-w) の指数 (1−δ/2)T²/2 + δT²/16 ≤ (1−δ/4)T²/2 を保つ
+((1−δ/2)/2 + δ/16 ≤ (1−δ/4)/2 ⟺ δ/16 ≤ δ/8 ✓)。m₀′ := max(m₀, m₁) の存在のみ要求
 (N4 量化と整合 — c=3 の m̃_RF と同型)。∎
 
-#### 8.2.5 spec 追補(§7 への packet 発行改訂 — GC-3 の authoring 原則に従う)
+#### 8.2.5 spec 追補(§7 への packet 発行改訂 — GC-3 の authoring 原則に従う。
+本追補は §7 の closed-world schema への**明示的結合**であり、accepted 本文は不変)
 
-- **GCCostSpecEnum への追加**: `bi-graded(C_BRF, (Λ_{1,k}, Λ_{2,k}), N_cell,k,
-  ray_ledger_ref)` — 各 record が両 Λ を instantiation し
-  log C_step,k ≤ C_BRF(1 + Λ_{1,k} + Λ_{2,k})。PBK-22-w 専用。ray_ledger_ref は
-  (BRF-4) 型の ray-wide 上界の accepted ref を必須とする(graded-root の RF-3 要件と
-  同型 — 局所値のみでの (E-w) 進行を禁止)。
-- **GCRouteRecord への field 追加**: `recenter_witness := (t_c, sup_cell|η̃_1| ≤ 1/8
-  の式 witness, sup_cell|η̃_2| ≤ 1/8 の式 witness)`(§8.1 dispatch 表の held 条件の
-  正式 field)。
+- **GCCostSpecEnum の新設(closed-world)**: `GCCostSpecEnum := CostSpecEnum ∪
+  {bi-graded}`(FR の CostSpecEnum = {uniform, graded-root} は不変)。
+  `bi-graded(C_BRF, (Λ_{1,k}, Λ_{2,k}), N_cell,k, ray_ledger_ref)` — 各 record が
+  両 Λ を instantiation し log C_step,k ≤ C_BRF(1 + Λ_{1,k} + Λ_{2,k})。
+  **PBK-22-w 専用**(他 route への流用禁止 — graded-root の規律を継承)。
+  ray_ledger_ref は (BRF-4) 型の ray-wide 上界の accepted ref を必須とする
+  (局所値のみでの (E-w) 進行を禁止)。GCRouteSpec 表(§7.1)の cost spec 列は以後
+  GCCostSpecEnum から取る(resolved 行新設時 — 現在 0 行のまま)。
+- **D-PBK-22 schema への key 追加**: `child_collision_witness_i`(i = 1,2):
+  `(s_i := pair i の内部 d_w 最大距離, |ΔA_i| ≤ s_i², |ΔB_i| ≤ s_i)` — pair 別
+  witness([GC4A0-03] 対応。D-PBK-31/M にも同型の per-child key を追加: 非 atom child
+  ごとに `child_collision_witness_i`)。
+- **GCRouteRecord への field 追加**: `recenter_witness :=
+  { cell_id ↦ (cell 端点(左閉右開), t_c(cell), exact transition ref(pair 1),
+  exact transition ref(pair 2), sup_cell|η̃_1| ≤ 1/8 の式 witness,
+  sup_cell|η̃_2| ≤ 1/8 の式 witness) }` — **interval 内の全 cell を走る有限 map 型**
+  ([GC4A0-04] 対応。record は interval 単位、witness は cell 粒度)。
 - **二重計上禁止(GRADED-BUDGET-DOUBLE 対応)**: bi-RF cost は root ledger の
   N_cell/step_cost にのみ現れる。child certificate は cost を持たない(frame 層の
   データであり、kernel cost の供給源に使わない)。
@@ -621,6 +636,12 @@ open obligation)、FR §10.3 条件 2 の完全充足(A.6)、(E-w) 組み立て(
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.12.1(2026-08-18): R-GC4A0 R1 findings(blocking 5)適用 — [01] 閾値を δ/(32C_led)
+  へ(pair 数 2 の係数)+ 吸収算術の明示、[02] m₀/m₁ を eventual 量化(∀m ≥ M)へ、
+  [03] pair 別 collision witness の定義と D-PBK-22/31/M への key 追加、[04]
+  recenter_witness を cell 粒度の有限 map 型へ、[05] GCCostSpecEnum の closed-world
+  新設と GCRouteSpec への結合明記。
 
 - v0.12(2026-08-18): GC-4C.0 accepted(R-GC4C0 R3 PASS、fixed SHA `aa95124`)。
   §8.2 GC-4A.0 PBK22-BRF draft — 勾配評価・held 化 cell cover(sup|η̃| < 1/8 検証)・
