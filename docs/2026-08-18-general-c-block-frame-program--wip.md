@@ -23,10 +23,12 @@ orange が採用(AskUserQuestion 確認済み)。執筆場所 = 本新文書 + c
 - しかし多 block B2 一般形も回避できる: 非相殺原理を「**prepared child 同士の binary
   node kernel(PBK)**」へ縮小する。既知 base = `1|1`(K2)、`2|1`(QR5/RF)。
   **新規 gate = c=4 の `2|2` と `3|1`**。
-- **go/no-go 規則(v0.5 改訂 — GC-2 の node 在庫拡張を反映)**: GC-4A/4B/4C
-  (PBK-22/PBK-31/PBK-M4)の**いずれか**が blocking counterexample を受けた時点で
-  本 route への投資を停止し、K_c 本体(B2+(F1)+S4 層別帰納、closure §4.3.5)へ戻る。
-  (v0.1 時点は GC-4A/4B のみ — GC-2 §6.2 が多分岐義務 `2|1|1`/`1|1|1|1` を追加した。)
+- **go/no-go 規則(v0.11 改訂 — consult #8 の packet 分解を反映)**: go/no-go の
+  **最小判定集合 = {GC-4A.0, A.1, A.2, A.3, GC-4B.0, GC-4C.0}**(§4 台帳)。この集合の
+  いずれかが blocking counterexample を受けた時点で本 route への投資を停止し、K_c 本体
+  (B2+(F1)+S4 層別帰納、closure §4.3.5)へ戻る。全て受理なら go 確定、A.4–A.6/B/C 本体は
+  完成作業に降格。(履歴: v0.1 = GC-4A/4B のみ、v0.5 = GC-4C 追加、v0.11 = sub-packet
+  最小集合へ精密化。)
 
 **非目的・非主張**: flat K_c(B2/S4)の閉鎖はここでは主張しない。一般 k の L2b/L3
 (閉包文書側 NC 相当の一般化)は本 program の消費者だが別 packet。人間による査読は未実施。
@@ -154,9 +156,17 @@ c=3 上界の到達例。∎
 | GC-1 W_c | GC-0 | v_c ≤ D_W(c) = c(c+1)/2−1 の自己完結証明(本文書 §3.1)。c=2/3 復元 | **accepted**(R-GC1 R3 PASS、fixed SHA `957b252`) |
 | GC-2 SPLIT4 | GC-0 | c=4 の全 tree topology・同時分裂の列挙。「安定 binary gap が常に存在」は反例つきで棄却または修正版を証明 | **accepted**(R-GC2 R3 PASS、fixed SHA `5bbf183`) |
 | GC-3 PBK-SPEC | GC-1/2 | exact child・node envelope・reserve・uniform/graded cost・common-zero 規約の型付き interface(proof claim なし) | **accepted**(R-GC3 R4 PASS、fixed SHA `dc6cac9`) |
-| GC-4A PBK-22 | GC-3、c=2 資産 | `2|2` composite unit-step kernel。係数非依存・有限-m exact child・ray-wide cost 可算。**go/no-go 関門** | open |
-| GC-4B PBK-31 | GC-3、c=3 FR | `3|1` kernel。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない。**go/no-go 関門** | open |
-| GC-4C PBK-M4 | GC-3、c=3 FR(plain 複合前例) | 多分岐 node kernel `2|1|1`・`1|1|1|1`(c=3 plain triple の chart routing 複合の w=4 拡張 — GC-2 §6.2 で新設)。**go/no-go 関門** | open |
+| GC-4A.0 PBK22-BRF | GC-3 | simultaneous RECENTER・共通 cell cover・bi-graded ray ledger(held 自動性の正式棄却と graded held 化 — consult #8)。**go/no-go 最小集合** | open |
+| GC-4A.1 PBK22-F2 | A.0 | held cell 上の double F2、case (a)/(b)/(c) 骨格、divisor/common-zero stratification。**go/no-go 最小集合** | open |
+| GC-4A.2 PBK22-JF9 | A.1 | W_c と log-ratio jet の quantitative bridge(次数予算 9 − d_common、全 compact boundary face)。**最大の go/no-go packet** | open |
+| GC-4A.3 PBK22-P4 | A.2 | two-sided SN(numerator/denominator/common-zero)、zero-free tube、10 階上界。**go/no-go 最小集合** | open |
+| GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
+| GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
+| GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
+| GC-4B.0 ADAPT31 | GC-3、c=3 FR | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | open |
+| GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
+| GC-4C.0 SIG-AUDIT | GC-2/3 | q-ary radial signature の完全列挙(12)・A/B dispatch 可否・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **drafted(§8.1、査読待ち R-GC4C0)** |
+| GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
@@ -432,7 +442,70 @@ go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、confluent �
 本節の enum 拡張は FR 文書の accepted 面を変更しない(FR 側 enum・RouteSpec 行は不変)。
 人間による査読は未実施。
 
-## 8. 早期検証実験台帳
+## 8. GC-4 packet 本文
+
+**設計記録(Sol consult #8、2026-08-18)**: GC-4A の単一 packet 化は不可(一 packet
+一 claim の cadence 違反 + QR5 で実際に循環が発生した箇所の分離)。分解 = §4 台帳の
+A.0–A.6 / B.0 / C.0。骨格: simultaneous RECENTER/cell 化 → double F2 → two-sided
+divisor stratification → quantitative JF₉ → two-sided P4 → WE₉/bootstrap。
+**held 自動性は棄却済み**(反例 AUTO-HELD-22: s_m = m⁻¹、pair 内部 scale m⁻²、
+q₂ − q₁ = m⁻⁴t²/2 は t_c = m⁴ 付近の単位区間で recenter 後も sup ≈ 1/2 > 1/8 —
+木構成と両立。c=3 の root-far と同機構)。修復 = bi-RF: Λ_{i,k} := sup_{I_k}|η_i′|、
+共通 cell cover 上で両 pair を独立に exact RECENTER、cost は
+log C_step,k ≲ 1 + Λ_{1,k} + Λ_{2,k}、ray-wide は Σ_k Λ_{i,k} ≲ s_i² T² + s_i T。
+
+### 8.1 GC-4C.0 SIG-AUDIT(q-ary radial signature coverage — drafted、査読対象 R-GC4C0)
+
+**目的**: GC-4C(多分岐 node)の設計監査。radial 周波数クラスタ signature の完全列挙、
+GC-4A/B への dispatch 可否の条件固定、irreducible q-ary endpoint の特定、transition
+有界性。**proof claim は (5) の初等計数のみ** — kernel の存在は主張しない。
+
+**(1) signature の完全列挙**: 単位区間 cell 上で ordering 固定後、隣接 gap(q−1 個)の
+各々が補題 G 閾値 M₀ で cut(≥ M₀)/uncut(< M₀ — 補題 G により実際は ≤ M₀/Q)の
+二択なので、raw cluster signature = 隣接 gap の cut 部分集合 = **2^{q−1} 通り**:
+q=3 → {[3], [2,1], [1,2], [1,1,1]}(4)、q=4 → 8、**計 12**。完全性・排他性は二択の
+直積という構成から。ordering・atom permutation は route ID を増やさず witness に持たせる
+(consult #8 — Cartesian 重複の禁止)。
+
+**(2) analytic outcome 型への集約**: 重み multiset で q=4: **[4]、3|1、2|2、2|1|1、
+1|1|1|1 の 5 型**(q=3: [3]、2|1、1|1|1 — c=3 資産の守備範囲)。
+
+**(3) dispatch 監査(条件の固定 — 可否の証明はしない)**:
+- **held 状況では radial block = tree child**: tree pair {i,j} の周波数勾配差
+  |η′_{ij}| が小(held)なら M₀ ≥ M*B > 差 より同一 radial cluster に入る ⇒ radial
+  2|2 の 2 block = tree pairs ⇒ PBK-22(GC-4A)の入力契約(certificate 付き child)と
+  一致し dispatch 可能。radial 3|1 も同様に GC-4B へ。
+- **far interval では不一致が生じる**(AUTO-HELD-22)⇒ dispatch は GC-4A.0(bi-RF に
+  よる held 化 cell cover)の成立に**条件付く**。本監査はこの依存を固定するのみ。
+- **混成 radial block**(異なる tree child の原子が radial 近接)は certificate を
+  持たないが、kernel 層の valuation 床は **W_c(GC-1、任意部分結合・任意中心)が直接
+  供給**する — tree certificate の valuation label は frame 層用であり kernel 層の
+  必須入力ではない(GC-3 §7.3 の lead_i witness の供給源は、混成 block では
+  certificate named constants でなく W_c 系へ差し替える設計改訂が必要 — **A.1 への
+  送り事項**として記録。GC-3 の accepted 面とは「深消滅 record の lead_i 供給源の
+  拡張」であり矛盾ではなく追補)。
+**(4) irreducible endpoint**: 5 型のうち 3|1・2|2 は GC-4A/B へ、残る **[4](全 held
+単一 cluster — c=3 plain triple の w=4 版、one-transition chart routing)** と
+**1|1|1|1(全 gap ≥ M₀ — 補題 G の同時保証つき separated 配置。M₀ 乗法窓により
+gap 比が有界 ⇒ 再スケールでコンパクト族)** が GC-4C 本体の証明対象。後者は
+「B2 多 block 一般形」が「コンパクト族の非相殺(S3/Łojasiewicz 型)」へ縮小した形 —
+縮小の証明自体は GC-4C 本体の義務であり本監査は主張しない。
+
+**(5) transition 有界性(証明)**: radial 周波数勾配 x_j(t) = Im q_j′(t) は affine
+(class 正規化 |Im q_j″| ≤ 2 — 閉包 §4.3.4)。単位区間上: (i) 順序交差 — affine な
+2 本のグラフは高々 1 回交わるので交差 ≤ C(q,2) ≤ 6。(ii) gap 閾値横断 — |x_i − x_j| は
+区分 affine(折れ点 ≤ 1)なので水平線 M₀ を高々 2 回横断、計 ≤ 2·C(q,2) = 12。
+∴ 単位区間は **≤ 19 個の cell** に分割でき、各 cell 上で ordering・signature が固定
+される。cell 数は q ≤ 4 で一様(m, θ, k 非依存)⇒ FR §10.3 acceptance 条件 2 の
+N_cell 一様性を満たし C_step へ吸収可能。**M4-MULTITRANSITION(無限/非有界 transition)
+は棄却**され、有限 cell 化 + cell ごとの selector で処理する。∎
+
+**(6) 帰結**: GC-4C 本体の義務 = [4] held kernel + separated compact kernel +
+(A.0 条件付き)dispatch 接続。12 signature は (1) で網羅、中間型は A/B へ、
+transition は (5) で有限 cell 化。**scope(非主張)**: kernel の存在・γ・compact 族
+非相殺の証明。人間による査読は未実施。
+
+## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
 |---|---|---|---|
@@ -442,8 +515,14 @@ go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、confluent �
 | RESONANCE-4 | 四原子の高次共鳴 | roots-of-unity 型配置で低次 jet を exact 消去し先頭非零次数を計算 | **W4-JET に統合済み**(ord-8 到達配置 = 4 原子共鳴の実例。診断) |
 | CHART-SVD4 | rate chart の完備性 | `2+2`/`3+1`、s^α・e^{−1/s}・s log(1/s) 経路で factored σ_min が正に留まるか | open(GC-5 入力) |
 | BUDGET-TREE | child cost の二重計上 | 全 c≤8 tree・route 列の Σlog C_step の T² 係数 | open(GC-11 入力) |
+| AUTO-HELD-22 | 「T3 の pair children は node scale で自動 held」 | 反例構成 | **棄却済み**(Sol 反例: q₂−q₁ = m⁻⁴t²/2、t_c = m⁴ — §8 設計記録。bi-RF で修復) |
+| COMMON-DIVISOR | 両 pair が同一点同次数消滅 + reduced 先頭も相殺で deep-flat が残る | exact 構成と reduced pair の挙動 | open(A.1/A.3 入力) |
+| JF-NONCOMPACT | ord F ≤ 9 でも正規化 log jet の最小値が confluent 境界で 0 へ落ちる列 | 正規化列の jet floor 数値 | open(A.2 の主敵) |
+| COLLAR-POLE | 実区間で unit 有界でも分母複素零点が collar に接近する列 | V_i の複素零点距離 | open(A.3 入力) |
+| TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内に 6 個以上の零点を持つ triple | 零点計数 | open(B.0 の主敵) |
+| GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
 
-## 9. リスク台帳
+## 10. リスク台帳
 
 | # | リスク | 順位 | 対処 |
 |---|---|---|---|
@@ -452,7 +531,13 @@ go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、confluent �
 | R3 | confluent chart の未記録 rate(F3 型 witness の一般形) | 中 | GC-9 の chart label に相対 valuation/flag を必須化(FR §7 の設計制約を継承) |
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
-## 10. 版履歴
+## 11. 版履歴
+
+- v0.11(2026-08-18): consult #8(Sol — GC-4 証明設計)を反映: GC-4 を A.0–A.6/B.0/C.0 に
+  分解(§4 台帳)、go/no-go 最小集合 = {A.0–A.3, B.0, C.0}(§1 改訂)、§8 設計記録
+  (held 自動性の棄却 AUTO-HELD-22 + bi-RF 修復)、§8.1 GC-4C.0 SIG-AUDIT draft
+  (12 signature 列挙、dispatch 条件固定、irreducible endpoint、transition 有界性の計数
+  証明)、実験台帳に反例仮説 6 本追加。
 
 - v0.10(2026-08-18): GC-3 accepted(R-GC3 R4 PASS、fixed SHA `dc6cac9`)。次 = PBK22-ADV
   実験(GC-4A feasibility 入力)→ GC-4A/B/C。
