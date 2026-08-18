@@ -326,14 +326,27 @@ FR §10.3 acceptance 条件 7 の継承。cost spec の新 variant が必要に�
 (graded-root の PBK 版等)も、GC-4 受理時に本節を先に改訂してから使う
 (FR §10.4「RouteSpec 表が唯一の authoring location」原則の継承)。
 
-**domain schema の required keys**(witness 型は FR §10.4 の規約に従い式または
-identity ref、自由文禁止):
+**GC 側 authoring 構造(FR 側不変と両立する新設)**:
+- **GCRouteSpec 表**: 新設 3 category の `RouteSpec` 行(mode・cost spec・γ・κ̄・
+  inequality・source rule・assembly rule)の**唯一の authoring location は本節 §7.1**とする
+  (FR §10.5 表は変更しない)。現時点で resolved 行は **0 行**(下の unresolved 登録のみ)。
+- **GCRouteRecord**: FR §10.4 RouteRecord の全 field を継承し、次の差分を持つ拡張型:
+  (a) `node_functions` は arity で判別 — unary `(H)` / binary `(A,B)` / ternary `(A,B,C)` /
+  quaternary `(A,B,C,D)`(全て exact 関数)、(b) `reserve_witness`(§7.4)、
+  (c) `deep_vanishing_witness`(§7.3 — 条件付き必須 field。条件と検証規則は §7.3 で固定)。
+- **GCCoverageManifest** := `(GCCategoryEnum, entries)`: 各 category が
+  resolved/unresolved/excluded の**ちょうど一つ**として現れる(FR §10.4 の
+  registry-level manifest 規則を GC enum に適用)。ray ごとの interval 被覆は
+  FR §10.5.5 `RayCoverageManifest` 形式を GC-6 で instantiate する。
 
-| schema | required keys |
+**domain schema の required keys**(witness 型は FR §10.4 の規約に従い式または
+identity ref、自由文禁止。各 schema の key set を完全列挙する):
+
+| schema | required keys(完全列挙) |
 |---|---|
-| `D-PBK-22` | `active_children_nonzero`(exact zero-pruning 後 — §10.5 継承)、両 child の `certificate_ref`(§7.2)、child 間 exact exponent 差の nonconstant witness(constant-gauge quotient)、collision-scale witness、`η_dw` witness(SPLIT4 (ii))、補題 G window `(Q, M₀)` witness(c=q 適用、§6.3 (iii)) |
-| `D-PBK-31` | 同上(triple child の `certificate_ref` は w=3 variant) |
-| `D-PBK-M` | 同上 + `arity ∈ {ternary, quaternary}`、全 pair の nonconstant witness |
+| `D-PBK-22` | `active_children_nonzero`、`certificate_ref(C_1)`(w=2 variant)、`certificate_ref(C_2)`(w=2 variant)、`nonconstant(q_{C_1} − q_{C_2})`(child 代表指数の exact 差 — constant-gauge quotient witness)、collision-scale witness `(|ΔA| ≤ s_m², |ΔB| ≤ s_m)`、`η_dw` witness(SPLIT4 (ii) の m₁・η_dw 値)、補題 G window witness `(Q, M₀, q=2)` |
+| `D-PBK-31` | `active_children_nonzero`、`certificate_ref(C_1)`(w=3 variant: triple-plain または triple-nested)、`certificate_ref(C_2)`(w=1 atom)、`nonconstant(q_{C_1} − q_{C_2})`、collision-scale witness(同上)、`η_dw` witness、補題 G window witness `(Q, M₀, q=2)` |
+| `D-PBK-M` | `arity ∈ {ternary, quaternary}`、`active_children_nonzero`、全 child の `certificate_ref`(ternary: w 型 (2,1,1)、quaternary: w 型 (1,1,1,1))、**全 pair (i,j) の** `nonconstant(q_{C_i} − q_{C_j})`、collision-scale witness(同上)、`η_dw` witness、補題 G window witness `(Q, M₀, q = arity)` |
 
 **zero-pruning の継承(明示)**: 任意の child が恒等零(`C_i ≡ 0`)なら削除し、残る
 exact span で rank・tree を再固定して lower-arity/lower-w へ redispatch する(§10.5 継承。
@@ -345,12 +358,16 @@ tree 再固定は SPLIT4 の再適用)。active node は全 child が `C_i ≢ 0
 `Child` は `w(C) ∈ {1,2,3}` の discriminated union。**exact 有限原子結合のみ**
 (`P e^q` は衝突極限の chart face であり child の型ではない — Sol consult #7 の規約化)。
 
-| variant | fields(全て必須) | 発行資産(source_ref: canonical file / anchor / fixed SHA / PASS — FR §10.4 の source_ref 規約) |
+各 variant の field と source_ref(**FR §10.4 の external/intrinsic 5 要素 tuple
+`(kernel_name, canonical_file, anchor, fixed_SHA, PASS)` で 1:1 に指定** — 効力は各
+canonical 文書の現行 status ledger に当該 SHA の acceptance 記録が存在する場合に限る):
+
+| variant | fields(全て必須) | source_ref(5 要素 tuple) |
 |---|---|---|
 | `atom`(w=1) | 係数非零 witness、gauge 後パラメタ | certificate 不要 |
-| `pair`(w=2) | divided-difference 0–2 jet frame ref、強形 envelope `(1+t)² E ‖C‖` の ref、`‖C‖ > 0`、`m₀`、相対 valuation label | K2/W2 系資産(K2 文書・閉包 W2 — **J^{D_W(2)}-SVD certificate ではない**。実在するのは jet frame + 強形包絡) |
-| `triple-plain`(w=3) | FR-S1′ 正規化枠 ref、(S4-Ew) ref、Gram floor ref、N3′/N4 acceptance ref(FR §10.9)、chart label(相対 valuation/flag — F3 制約)、`m₀` | c=3 plain FR program(fixed SHA `b6bbe01` 系列) |
-| `triple-nested`(w=3) | FR-S1″ `(ν̂,t)`-chart 枠 ref、(S4-Ew) ref、Gram floor ref、N3′/N4 acceptance ref、chart label、`m₀` | c=3 nested FR program(同上) |
+| `pair`(w=2) | divided-difference 0–2 jet frame ref、強形 envelope `(1+t)² E_{δ,R} ‖C‖`(C₂(R))ref、`‖C‖ > 0`、`m₀`、相対 valuation label | jet frame = `(N-P3-pair-frame, docs/2026-08-02-gaussian-border-rank-closure--wip.md, §4.3.6.3, f86acae, PASS)`; 強形 = `(W2, docs/2026-08-10-three-atom-block-frame-preparation--wip.md, 補題 W2(§10.8), a0fcd10, PASS)`; kernel 用 = `(K2, docs/2026-08-08-quadratic-phase-turan-K2.md, 主定理, eb1804a, PASS)`。**J^{D_W(2)}-SVD certificate ではない** — 実在するのは jet frame + 強形包絡 |
+| `triple-plain`(w=3) | FR-S1′ 正規化枠(SVD floor = Gram floor を含む)ref、(S4-Ew)/N3′/N4 acceptance ref、chart label(相対 valuation/flag — F3 制約)、`m₀` | 枠 = `(FR-S1′, docs/2026-08-10-three-atom-block-frame-preparation--wip.md, §8, ed25401, PASS)`; envelope/N3′/N4 = `(FR-S4c, 同文書, §10.9, b6bbe01, PASS)` |
+| `triple-nested`(w=3) | FR-S1″ `(ν̂,t)`-chart 枠(SVD floor 込み)ref、(S4-Ew)/N3′/N4 acceptance ref、chart label、`m₀` | 枠 = `(FR-S1″, 同文書, §9, 61111cc, PASS)`; envelope/N3′/N4 = `(FR-S4c, 同文書, §10.9, b6bbe01, PASS)` |
 
 **provenance 分離(FR7 継承・fail-closed)**: certificate の内部量(`1/t_m`、SVD 係数、
 raw 原子係数、旧 `U_F`、旧 DC discount)は **internal provenance にのみ**現れてよく、
@@ -369,13 +386,21 @@ envelope, Fock norm, named constants} に **{child certificate の named constan
 - **common-zero 規約(c=4 新規 — PBK22-ADV fixture)**: **訂正された前提**: c=3 の
   root 2+1 で存在した床は「accepted C0 の terminal window `I_N ⊂ [0,2]` における相対的
   下界」であり一般的・一様な床ではない(旧 draft の「c=3 では床が自動」は不正確 —
-  撤回)。`2|2` 以降は全 children が同一点で同時に零になり得る。契約: 同時深消滅
-  区間は segmentation で単離し、当該区間の record に typed witness
-  `deep_vanishing_witness := (t₀(零点), per-child valuation `ord ≤ D_W(w_i)`
-  (child ごと — node 全体の `D_W(4) = 9` と区別)、leading coefficient witness、
-  切替閾値、switch witness id)` を必須とする。**この区間で必要になる Remez 型評価は
-  GC-1 が供給しない**(GC-1 は valuation 上界のみ)— 当該評価は GC-4A/B/C の証明義務で
-  あり、PBK22-ADV 実験(§8 — 未実施)がその feasibility 入力である。no-return 継承。
+  撤回)。`2|2` 以降は全 children が同一点で同時に零になり得る。契約(typed field と検証規則):
+  **`deep_vanishing_witness := (t₀, {ord_i, lead_i}_{i≤q}, σ_dv, switch_witness_id)`** —
+  (a) `t₀ ∈ I_k`: 同時深消滅の中心。(b) `ord_i`: child C_i の t₀ における消滅次数、
+  検証規則 `ord_i ≤ D_W(w_i)`(child ごと — node 全体の `D_W(4) = 9` と区別。GC-1 消費)。
+  (c) `lead_i`: C_i の t₀ での先頭係数(次数 `ord_i` の Taylor 係数)の**非零 witness** —
+  下界は `certificate_ref(C_i)` の named constants から供給し、raw 係数の直接持ち込みは
+  禁止(§7.2 provenance 分離)。(d) `σ_dv`: 切替閾値 — record は
+  `sup_{I_k}|C_i| ≤ σ_dv · (certificate envelope 値)` が**全 i** で成立する場合に限り
+  深消滅 record として有効(そうでない区間は通常 route)。(e) `switch_witness_id ∈
+  GCSwitchWitnessEnum := {SW-DEEP-VANISH}`(closed enum — 他値は fail-close で
+  `uncertified`)。**結合規則**: `deep_vanishing_witness` は 3 schema(D-PBK-22/31/M)
+  全てで**条件付き必須** — 条件 (d) が成立する interval の record では必須、不成立なら
+  field 自体を置かない(placeholder 禁止)。**この区間で必要になる Remez 型評価は GC-1 が
+  供給しない**(GC-1 は valuation 上界のみ)— 当該評価は GC-4A/B/C の証明義務であり、
+  PBK22-ADV 実験(§8 — 未実施)がその feasibility 入力である。no-return 継承。
 
 ### 7.4 cost の位置づけと reserve
 
@@ -424,6 +449,12 @@ go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、confluent �
 
 ## 10. 版履歴
 
+- v0.9(2026-08-18): R-GC3 R2 findings(3 blocking)適用 — [GC3R2-01] GC 側 authoring
+  構造の新設(GCRouteSpec 表 = §7.1 唯一 authoring、GCRouteRecord の arity 判別
+  node_functions、GCCoverageManifest)、[GC3R2-02] ChildCertificate source_ref を
+  5 要素 tuple で実在資産 1:1 に(N-P3 `f86acae`、W2 `a0fcd10`、K2 `eb1804a`、
+  FR-S1′ `ed25401`、FR-S1″ `61111cc`、FR-S4c `b6bbe01`)、[GC3R2-03] D-PBK-31/M の
+  key 完全列挙 + deep_vanishing_witness の型・検証規則・schema 結合・closed enum。
 - v0.8(2026-08-18): R-GC3 R1 findings(8 blocking)適用 — §7 を closed-world 型拡張へ
   全面書き直し: [GC3-01] GC 拡張 enum(GCCategoryEnum/GCArityEnum 等、新設 3 category は
   unresolved 登録)、[GC3-02] 記法分離(η_dw)と FR の (I_k,J_k,ε_chain) への統一、
