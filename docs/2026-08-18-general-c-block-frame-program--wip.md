@@ -164,7 +164,7 @@ c=3 上界の到達例。∎
 | GC-4A.3a PBK22-ZF | A.1 | reduced zero-free collar(numerator/denominator/common-zero)のみ先行(A.2 への循環依存を解消 — QR5 の P4 collar 部と同配置)。10 階上界は非主張。**go/no-go 最小集合** | **accepted**(R-GC4A3A R2 PASS、fixed SHA `926093c`) |
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
 | GC-4A.2c-core | A.2b | W_CONFL(2,2) v2 消去法(正本 §8.7 (FL-2)、B = 6)/混合消去 ≤ 8/regular・C collapse/Z/G 以外の strata 床(consult #12 で component 分割) | **drafted(査読待ち R-GC4A2CCORE R1)** |
-| GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格 — §8.8 起草予定)+ 全 box 最終合成 c_J | open(**トップレベル A.2c はこれの完了まで未受理**) |
+| GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **drafted(§8.8、査読待ち R-GC4A2CZ R1)**(トップレベル A.2c は component 両受理まで未受理) |
 | GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力) | open |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
@@ -1659,6 +1659,84 @@ margin flag を満たすこと — record 生成側 = GC-5/GC-6 の義務、[GC4
 本 §8.7 (FL-2) で、その効力は本 packet の受理時に確定する(§4 の state 列が
 唯一の status pointer)。人間による査読は未実施。
 
+
+### 8.8 GC-4A.2c-Z ZG-NF(Z/G 床の正規形還元 — drafted、査読対象 R-GC4A2CZ R1)
+
+**目的**: Z/G 系 proof box の床 φ ≥ c·κ を、consult #12 の裁定骨格
+「同時 matching + projectivized defect の有限層別還元」で証明し、(FL-7) の
+最終合成 c_J = min c > 0 を完成させる。§8.7 の [R12][R13] 系零点近接ブロックは
+本節が正本として**置換**する(旧文は設計履歴)。
+
+**(NF-1) 固定閾値(循環の解消)**: r₀ < min(ε_G/4, 1/4) を固定。
+M₀ := sup_{box 閉域}(|ζ| ≥ r₀ の零点 principal part + unit log-jets(≤ 9 階)+
+二次項)— r_pole に依存しない box 定数で、(ZF-1) collar 零点自由 + compact
+両側有界の Cauchy 評価により有限。その後
+  **r_pole := min(r₀, [12(M₀ + C_κ + 1)]^{−1/3})**
+(C_κ := κ の box 上界)。
+
+**(NF-2) 同時最大 matching**: S_i := {side i の零点 : |ζ| < r_pole}(各 ≤ 2)。
+2r_pole < ε_G/2 より S₁ × S₂ の全 cross 対は G-band 内。bipartite graph
+(S₁, S₂; 全 cross 対)の**最大 matching を一度に取る**(tie-break は ≺ 辞書式 —
+決定性のためのみ)。exact 一致対は共通因子として除去((NF-3))、approximate
+対は defect 座標へ((NF-4))、unmatched 零点は片 side のみに 0/1/2 個残る
+((NF-5))。first-match の順序干渉は matching の同時性により生じない。
+
+**(NF-3) exact 共通因子の除去**: 線形因子は projective 正規化
+ℓ_ζ(y) = αy + β、|α|² + |β|² = 1(ζ = ∞ も同一 compact 族)。共通因子 A を
+除いた配置を x′ とすると B_i(x) = sA·B_i(x′)(s = scale)、
+  **u(x) = u(x′)、φ(x) = φ(x′)**(log の完全 cancel — d₀ 再中心化不要)、
+  **Φ_Q(x) = sA·Φ_Q(x′) ⇒ κ(x) ≤ |s|‖A‖_∞·κ(x′) ≤ L_A·κ(x′)**。
+床の移送は**この片側評価のみで足りる**(reduced 床 φ(x′) ≥ c′κ(x′) ⇒
+φ(x) = φ(x′) ≥ c′κ(x′) ≥ (c′/L_A)κ(x) — Remez 型逆向き比較は不要)。
+s の上限は次数 ≤ 2 の係数ノルム同値。
+
+**(NF-4) approximate 対の同時 defect**: matching が k ≤ 2 対のとき
+A₁ := Π_j ℓ_{ζ_{1j}}、A₂ := Π_j ℓ_{ζ_{2j}}、reduced 配置 x′ に対し**正しい恒等式**
+  **Φ_Q(x) = A₂·Φ_Q(x′) + (A₁ − A₂)·B₁(x′)**
+⇒ κ(x) ≤ L₀κ(x′) + L₁‖A₁ − A₂‖_∞。jet 側は近似でなく **exact defect**
+  J(x) − J(x′) = (−(n−1)!·Σ_j(ζ_{1j}^{−n} − ζ_{2j}^{−n}))_{n=3..9−d₀}
+(摂動量は |δ| でなく **この weighted jet defect そのもの**で測る — R14 の
+d_collar 定数化の誤りの訂正)。defect ノルム
+  **Δ_ZG := ‖A₁ − A₂‖_∞ + ‖J(x) − J(x′)‖_∞**
+で二分する:
+- **転送帯** Δ_ZG ≤ c_tr·κ(x): reduced 床 + 上の片側 κ 評価 + jet defect の
+  三角不等式で床が定数損失つきで移る。
+- **defect 帯**(補集合): Δ_ZG を **projectivize** し、defect-normal stratum
+  上の横断性として扱う((NF-6))。
+2 対の誤差を逐次処理しないため、proximity 組合せと誤差蓄積は同時に消える。
+
+**(NF-5) unmatched pole face(same-side 補題)**: unmatched 小零点は片 side
+のみ・0/1/2 個。2 個(same-side cluster)の場合、x := ζ₁/ζ₂(|x| ≤ 1)に対する
+**補題 SS**: max(|xⁿ + 1|, |x^{n+1} + 1|) ≥ **1/12**(|x| ≤ 1、**3 ≤ n ≤ 8**)。
+*証明*: 両方 ≤ 1/12 なら |xⁿ| ≥ 11/12、
+|x − 1| = |x^{n+1} − xⁿ|/|xⁿ| ≤ (2/12)/(11/12) = 2/11、
+|xⁿ − 1| ≤ n|x − 1| ≤ 8·2/11 = 16/11(|x| ≤ 1)、
+∴ |xⁿ + 1| ≥ 2 − 16/11 = 6/11 > 1/12 — 矛盾。∎
+役割: 単独/same-side 2 元の unmatched pole face で **projectivized jet が
+非零**であることの保証(任意の近接配置への直接適用ではない)。単独零点は
+自明(|ζ|^{−n} vs M₀)。jets 範囲は長さ ≥ 5 ≥ 2 なので連続 2 指数の組が取れる。
+
+**(NF-6) defect strata の横断性と frontier**: Z/G の strata を明示列挙:
+exact 共通因子数 k ∈ {0,1,2}/matched-pair defect の support と ordered rate/
+unmatched side と個数 {0,1,2}/same-side double root/degree-drop/support-drop/
+gcd-jump/confluence label。double root の局所座標は根順序でなく**対称係数**
+(中心・判別式)。exact-factor stratum の接空間は
+  δB_i = (δA)B_i′ + A·δB_i′(共通 δA は QR incidence の接方向)、
+法方向 = reduced 配置の法方向 + cross-side imbalance defect。defect-normal
+方向では δΦ_Q = A·δΦ_Q′ + Σ_j δ̇_j A_j B₁′ を使い、jet kernel に入れば橋により
+ord δΦ_p ≥ 10 ⇒ 既存 collapse(regular: 2 指数 deg ≤ 2 → W_CONFL 6/
+confluent: 1 指数 Π₄ → 4)で **δΦ_p ≡ 0 ⇒ kernel = incidence tangent**。
+projectivized defect-normal 球面は compact なので最小特異値正。same-side/
+unmatched pole face が kernel に入らないことは補題 SS が保証。
+**本補題(ZG-NF)は (FL-4) と (FL-6) の双方から参照され、証明の重複記載は
+しない。**
+
+**(NF-7) 合成**: Z/G 系の床が閉じたので、(FL-7) の c_J = min c > 0 は
+全 structural proof box(plain/C/Z-G)の有限 min として完成する(K = 1)。
+
+**scope(非主張)**: §8.7 core の非主張項目に同じ + ZG-NF の数値検証
+(SING-FRONTIER — 診断)。人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -1689,6 +1767,13 @@ margin flag を満たすこと — record 生成側 = GC-5/GC-6 の義務、[GC4
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.23.1(2026-08-18): §8.8 GC-4A.2c-Z ZG-NF を consult #12 骨格どおり起草 —
+  (NF-1) 固定閾値 r₀/M₀/r_pole(循環解消)、(NF-2) bipartite 同時最大 matching、
+  (NF-3) projective 因子正規化と片側 κ 評価(Remez 不要)、(NF-4) 正しい恒等式
+  Φ_Q(x) = A₂Φ_Q(x′) + (A₁−A₂)B₁(x′) と exact jet defect による Δ_ZG 二分法、
+  (NF-5) 補題 SS(1/12、3 ≤ n ≤ 8、初等証明)、(NF-6) strata 列挙・対称係数
+  座標・defect-normal 横断性(既存 collapse 参照)、(NF-7) 最終合成。
 
 - v0.23(2026-08-18): **Sol consult #12(Z/G 床の裁定)を §8.7 冒頭に記録し、A.2c を
   component 分割** — A.2c-core(W_CONFL・mixed・collapse・Z/G 以外)と A.2c-Z
