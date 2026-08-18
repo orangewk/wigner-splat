@@ -294,71 +294,113 @@ node scale の整合(補題 G の window と d_w-tree の window の突き合わ
 
 ## 7. GC-3 PBK-SPEC(prepared node kernel の型付き interface — drafted、査読対象 R-GC3。proof claim なし)
 
-本節は仕様であり証明主張を含まない。c=3 の FR-S4-0(FR 文書 §10 — accepted)の
-契約群を w=4 の node 在庫(§6.2)へ一般化する。FR §10 の語彙(RouteKind / RouteRecord /
-two-level radial segmentation / coefficient-free constants / no-return)は**そのまま継承**し、
-差分のみ規定する。
+本節は仕様であり証明主張を含まない。c=3 の FR-S4-0(FR 文書 §10 — accepted)の契約群を
+w=4 の node 在庫(§6.2)へ拡張する。**継承原則**: FR §10.3(two-level segmentation・
+(S4-step-u/w)・acceptance 条件 1–8)、§10.4(RouteKind/RouteRecord・source_ref・
+cost spec・A_ledger_kind・FR7 許可語彙)、§10.5(exact zero-pruning・RouteSpec 唯一
+authoring 原則)、§10.6(coefficient-free constants)は**逐語で継承**し、本節は
+**closed-world の差分 enum・差分型のみ**を新設する。FR 側 enum の既存 entry・row は
+一切変更しない。
 
-### 7.1 型定義
+**記法の分離(同名異型の解消)**: FR の `η := q₂ − q₁`(exact exponent difference)は
+そのまま。SPLIT4 (ii) の正規化距離下限(accepted §6.3 で η と書いた量 — 本文は不変)は
+**本節以後 `η_dw` と表記**する(異なる対象の同名衝突を避ける)。区間対は FR の `(I_k, J_k, ε_chain)` を用い、本 spec 独自の記号
+(旧 draft の (E,I)・ρ)は廃止する。
 
-**PBKNode**(kernel 呼び出しの入力):
-- `arity q ∈ {2,3,4}`、`children = (C_1, …, C_q)`、`Σ w(C_i) ≤ 4`。
-- 並びは node scale での周波数勾配順(radial chart ごと)。
-- `window η > 0`(SPLIT4 (ii) の正規化距離下限 — 部分列固定後の定数)と
-  補題 G の `(Q, M₀)`(§6.3 (iii) — q ごとに c=q で適用)を付帯。
+### 7.1 GC 拡張 enum(closed-world)
 
-**Child**(prepared block):
-- `w(C) ∈ {1,2,3}`。`w=1`: 素原子(certificate 不要 — 係数と gauge 後パラメタのみ)。
-- `w ≥ 2`: **exact 有限原子結合**(有限 m で常に exact sum — `P e^q` は衝突極限の
-  chart face にすぎず、child の型ではない。Sol consult #7 の指摘を規約化)。
-- `certificate(C)`(w ≥ 2): c≤3 program が発行する受理済みデータ一式 —
-  (a) exact 枠(J^{D_W(w)}-SVD、child scale)と Gram floor、
-  (b) child envelope((E-w) 形、child scale の定数組)、
-  (c) valuation/flag label(F3 型 witness 対応 — 相対 valuation を含む chart label、
-  FR §7 の設計制約を継承)、
-  (d) radial 表現の node scale への読み出し(child 和の二次位相指数和としての表示)。
-  w=2: K2/W2 系資産、w=3: FR program 複合(plain / nested)。
+FR の enum への追加 entry を次で固定する(追加のみ — 既存 entry 不変):
 
-**PBKResult**(kernel の出力契約):
-- composite unit-step kernel: 各 radial chart interval 対 (E, I)(two-level segmentation
-  契約 — FR §10.3 の一般化、区間割りは node の `(η, Q, M₀)` window が駆動)に対し
-  `sup_I |e^{−U_H} F| ≤ C_node · ρ^{−γ(type)} · sup_E |e^{−U_H} F|` 形の評価。
-  `F` = node の exact 和、`U_H` = node envelope(下記)、`ρ` = 区間スケール比。
-- `γ(type)`: node 型ごとの graded 指数(§7.3)。`C_node`: coefficient-free
-  (FR §10.6 継承 — 原子係数に非依存、`(q, w_i, δ, R, η, Q, certificate 定数)` のみ)。
+  GCCategoryEnum := CategoryEnum ∪ {PBK-22-w, PBK-31-w, PBK-M-w}
+  GCMissingObligationEnum := MissingObligationEnum ∪ {M-PBK-22, M-PBK-31, M-PBK-M}
+  GCDomainSchemaEnum := DomainSchemaEnum ∪ {D-PBK-22, D-PBK-31, D-PBK-M}
+  GCArityEnum := {unary, binary, ternary, quaternary}(FR の expected_arity を拡張)
 
-### 7.2 node envelope と common-zero 規約
+**現時点の registry 状態(fail-closed)**: 新設 3 category は全て
+`unresolved(route_id, expected_arity, missing_obligation_id)` として登録される
+(PBK-22-w: binary/M-PBK-22、PBK-31-w: binary/M-PBK-31、PBK-M-w:
+ternary または quaternary/M-PBK-M)。**resolved 化(RouteSpec 行の新設 — mode・
+cost spec・γ・κ̄・inequality・source_ref の確定)は GC-4A/B/C の受理と同時にのみ行う**。
+それまで S4b-α 相当の registry closure は成立せず、GC-6(ROUTE4)へ進めない —
+FR §10.3 acceptance 条件 7 の継承。cost spec の新 variant が必要になる場合
+(graded-root の PBK 版等)も、GC-4 受理時に本節を先に改訂してから使う
+(FR §10.4「RouteSpec 表が唯一の authoring location」原則の継承)。
 
-- `U_H := max_i log|C_i|`(children 和の block envelope — FR §3 の node envelope の
-  多分岐版。零点では log 0 := −∞)。
-- **common-zero 規約(c=4 新規 — PBK22-ADV fixture)**: c=3 の pair+singleton では
-  singleton が非零のため `U_H` の床が自動で存在したが、`2|2` 以降は**全 children が同一点で
-  同時に零になり得る**。kernel 契約は次で固定する: (a) `U_H` の床は child certificate の
-  valuation/flag label から供給する(child の消滅次数 ≤ D_W(w) — GC-1 上界を消費)、
-  (b) 同時零点近傍の区間は segmentation 契約で「深消滅区間」として単離し、そこでは
-  kernel は per-child valuation 勘定(多項式次数 ≤ D_W(4) = 9 の Remez 型)へ切替える。
-  切替閾値は RouteRecord に記録し、no-return(旧 U_F への逆比較禁止 — FR7 継承)を守る。
+**domain schema の required keys**(witness 型は FR §10.4 の規約に従い式または
+identity ref、自由文禁止):
 
-### 7.3 graded cost 台帳(spec — 値は GC-4A/B/C の証明対象)
+| schema | required keys |
+|---|---|
+| `D-PBK-22` | `active_children_nonzero`(exact zero-pruning 後 — §10.5 継承)、両 child の `certificate_ref`(§7.2)、child 間 exact exponent 差の nonconstant witness(constant-gauge quotient)、collision-scale witness、`η_dw` witness(SPLIT4 (ii))、補題 G window `(Q, M₀)` witness(c=q 適用、§6.3 (iii)) |
+| `D-PBK-31` | 同上(triple child の `certificate_ref` は w=3 variant) |
+| `D-PBK-M` | 同上 + `arity ∈ {ternary, quaternary}`、全 pair の nonconstant witness |
 
-| node 型 | γ(type) | 供給 packet |
+**zero-pruning の継承(明示)**: 任意の child が恒等零(`C_i ≡ 0`)なら削除し、残る
+exact span で rank・tree を再固定して lower-arity/lower-w へ redispatch する(§10.5 継承。
+tree 再固定は SPLIT4 の再適用)。active node は全 child が `C_i ≢ 0` かつ有限 m で
+`‖C_i‖ > 0` — witness `active_children_nonzero` を必須 field とする。
+
+### 7.2 ChildCertificate 型(実在資産と 1:1)
+
+`Child` は `w(C) ∈ {1,2,3}` の discriminated union。**exact 有限原子結合のみ**
+(`P e^q` は衝突極限の chart face であり child の型ではない — Sol consult #7 の規約化)。
+
+| variant | fields(全て必須) | 発行資産(source_ref: canonical file / anchor / fixed SHA / PASS — FR §10.4 の source_ref 規約) |
 |---|---|---|
-| 1\|1 | 2(K2 — 既知) | c=2 資産 |
-| 2\|1 | 5(QR5/RF — 既知) | c=3 資産 |
-| 2\|2 | γ₂₂(**未定 — 下界 ≥ 5 は c=3 埋め込みから見込み、決定は GC-4A**) | GC-4A |
-| 3\|1 | γ₃₁(未定 — GC-4B) | GC-4B |
-| 2\|1\|1 / 1\|1\|1\|1 | γ_M(未定 — chart routing 複合、GC-4C) | GC-4C |
+| `atom`(w=1) | 係数非零 witness、gauge 後パラメタ | certificate 不要 |
+| `pair`(w=2) | divided-difference 0–2 jet frame ref、強形 envelope `(1+t)² E ‖C‖` の ref、`‖C‖ > 0`、`m₀`、相対 valuation label | K2/W2 系資産(K2 文書・閉包 W2 — **J^{D_W(2)}-SVD certificate ではない**。実在するのは jet frame + 強形包絡) |
+| `triple-plain`(w=3) | FR-S1′ 正規化枠 ref、(S4-Ew) ref、Gram floor ref、N3′/N4 acceptance ref(FR §10.9)、chart label(相対 valuation/flag — F3 制約)、`m₀` | c=3 plain FR program(fixed SHA `b6bbe01` 系列) |
+| `triple-nested`(w=3) | FR-S1″ `(ν̂,t)`-chart 枠 ref、(S4-Ew) ref、Gram floor ref、N3′/N4 acceptance ref、chart label、`m₀` | c=3 nested FR program(同上) |
 
-**reserve 契約**: split-scale Taylor の剰余は child の split scale までしか使わない
-(閉包 §4.3.5.3 の Sol 案 1 継承 — 長区間剰余・第 5 障害の回避)。各 node の reserve
-消費は RouteRecord に記録し、**public ledger は root step 一回のみ**(Assembly 層 §2 —
-T² budget の深さ重複消費の禁止。検証は BUDGET-TREE 実験 + GC-11)。
+**provenance 分離(FR7 継承・fail-closed)**: certificate の内部量(`1/t_m`、SVD 係数、
+raw 原子係数、旧 `U_F`、旧 DC discount)は **internal provenance にのみ**現れてよく、
+kernel の最終出力・global comparison の入力には使えない。合成式に現れてよい量は
+FR §10.4 の許可列挙 {RootStep provenance fields, node functions, U_H, compact-class
+envelope, Fock norm, named constants} に **{child certificate の named constants
+(有限個の実定数として named_constants 経由)}** を加えた集合に限る(未列挙 identifier の
+追加は本節の先行改訂を要する)。`certificate constants` は各 variant の field 列挙に
+現れる ref の定数のみ — 無制限の定数持ち込みは禁止。
 
-### 7.4 非主張
+### 7.3 node envelope と common-zero 規約
 
-kernel の存在(γ の有限性)は本 spec では主張しない — GC-4A/B/C の証明対象であり、
-blocking 反例が出れば §1 の go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、
-confluent 枠(GC-9)も範囲外。人間による査読は未実施。
+- `U_H := max_i log|C_i|`(**q-ary 拡張** — FR §10.4 の binary 定義
+  `U_H = max(log|A|, log|B|)` の一般化。これは差分定義であり FR 側の binary 定義は不変。
+  零点では log 0 := −∞)。unweighted の `A_{H,k}` 定義も同形で継承。
+- **common-zero 規約(c=4 新規 — PBK22-ADV fixture)**: **訂正された前提**: c=3 の
+  root 2+1 で存在した床は「accepted C0 の terminal window `I_N ⊂ [0,2]` における相対的
+  下界」であり一般的・一様な床ではない(旧 draft の「c=3 では床が自動」は不正確 —
+  撤回)。`2|2` 以降は全 children が同一点で同時に零になり得る。契約: 同時深消滅
+  区間は segmentation で単離し、当該区間の record に typed witness
+  `deep_vanishing_witness := (t₀(零点), per-child valuation `ord ≤ D_W(w_i)`
+  (child ごと — node 全体の `D_W(4) = 9` と区別)、leading coefficient witness、
+  切替閾値、switch witness id)` を必須とする。**この区間で必要になる Remez 型評価は
+  GC-1 が供給しない**(GC-1 は valuation 上界のみ)— 当該評価は GC-4A/B/C の証明義務で
+  あり、PBK22-ADV 実験(§8 — 未実施)がその feasibility 入力である。no-return 継承。
+
+### 7.4 cost の位置づけと reserve
+
+**graded cost 参考表(spec ではない — 非主張の target 注記)**: 既知値は
+`1|1`: γ=2(K2)、`2|1` root: γ=5(QR5-w/root-far)。新設 3 category の γ は**未定**で、
+RouteSpec 行の新設(= GC-4 受理)まで台帳に値を置かない(γ₂₂ ≥ 5 の「見込み」は §9
+リスク台帳の情報であり spec ではない)。
+
+**reserve(typed witness として新設)**: GC 版 RouteRecord は FR §10.4 RouteRecord の
+全 field に **`reserve_witness := (node_path, taylor_scope = child-split-scale,
+remainder_bound_ref)`** を追加した拡張型とする(FR RouteRecord 自体への field 追加では
+ない — GC 側の拡張 record)。意味: split-scale Taylor の剰余評価は child の split scale
+までしか使わない(長区間剰余の回避)。設計出所は閉包 §4.3.5.3 の Sol 案 1 —
+**historical design 参照であり active proof ではない**(受理済み reserve 実装は
+FR §10.8 の W1/C0/W3 + root-only assembly が正)。**public ledger は root step 一回のみ**
+(FR §10.3 acceptance 条件 6 の継承。T² budget の深さ重複消費の禁止 — 検証は
+BUDGET-TREE 実験 + GC-11)。
+
+### 7.5 非主張
+
+kernel の存在(新設 category の resolved 化・γ の有限性・深消滅区間の Remez 型評価)は
+本 spec では主張しない — GC-4A/B/C の証明対象であり、blocking 反例が出れば §1 の
+go/no-go 規則が発動する。(E-w) 包絡の組み立て(GC-7)、confluent 枠(GC-9)も範囲外。
+本節の enum 拡張は FR 文書の accepted 面を変更しない(FR 側 enum・RouteSpec 行は不変)。
+人間による査読は未実施。
 
 ## 8. 早期検証実験台帳
 
@@ -382,6 +424,15 @@ confluent 枠(GC-9)も範囲外。人間による査読は未実施。
 
 ## 10. 版履歴
 
+- v0.8(2026-08-18): R-GC3 R1 findings(8 blocking)適用 — §7 を closed-world 型拡張へ
+  全面書き直し: [GC3-01] GC 拡張 enum(GCCategoryEnum/GCArityEnum 等、新設 3 category は
+  unresolved 登録)、[GC3-02] 記法分離(η_dw)と FR の (I_k,J_k,ε_chain) への統一、
+  [GC3-03] ChildCertificate を実在資産と 1:1 の variant 表に(K2/W2 は jet frame +
+  強形包絡 — J^d-SVD ではない)、[GC3-04] provenance 分離の fail-closed 化、
+  [GC3-05] zero-pruning 継承の明示、[GC3-06] 床の前提訂正(C0 terminal window 相対下界)+
+  deep_vanishing_witness 型 + D_W(w_i)/D_W(4) 区別 + Remez は GC-4 義務、
+  [GC3-07] reserve_witness 型新設(§4.3.5.3 は historical 参照に降格、正は FR §10.8)、
+  [GC3-08] 許可語彙の fail-closed 列挙。
 - v0.7(2026-08-18): GC-2 accepted(R-GC2 R3 PASS、fixed SHA `5bbf183`)。§7 GC-3
   PBK-SPEC draft — PBKNode/Child/PBKResult 型、node envelope と common-zero 規約
   (同時零点は valuation 床 + 深消滅区間の単離)、graded cost 台帳(γ 値は GC-4 の
