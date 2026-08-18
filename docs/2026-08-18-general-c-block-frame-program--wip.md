@@ -169,7 +169,7 @@ c=3 上界の到達例。∎
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
-| GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **drafted(§8.9、R1–R3 適用済み、査読待ち R-GC4B0 R4)** |
+| GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **drafted(§8.9、R1–R4 適用済み、査読待ち R-GC4B0 R5)** |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
@@ -1780,7 +1780,7 @@ K = 1)の合成は、A.2c-core の受理を前提に本節が authoring location
 (SING-FRONTIER — 診断)。人間による査読は未実施。
 
 
-### 8.9 GC-4B.0 ADAPT31(triple divisor adapter の feasibility — drafted、R1–R3 適用済み、査読対象 R-GC4B0 R4)
+### 8.9 GC-4B.0 ADAPT31(triple divisor adapter の feasibility — drafted、R1–R4 適用済み、査読対象 R-GC4B0 R5)
 
 **目的**: 3|1 dispatch の「3」側(3 原子和)に対する **chart 付き Weierstrass
 certificate** の型と構成可能性を確立する。接触次数 ≤ 5(W_c(3))は点での ord
@@ -1794,8 +1794,10 @@ certificate** の型と構成可能性を確立する。接触次数 ≤ 5(W_c(3
   重複度付き根リスト (ζ_j, m_j) から**構成的に定義**、Σm_j = deg P ≤ N_T)/
   r ∈ Π₂(係数 3 組 ∈ ℂ³ 閉箱)/ **V := B/(s·P·e^{r})(商としての定義式 —
   identity B ≡ sPVe^r は定義により恒等成立)**。
-  **root-coincidence witness の型([GC4B0R3-04] — 検証式 3 点、§7.1 規約)**:
-  `(root_list (ζ_j, m_j)_j;
+  **root-coincidence witness の型([GC4B0R3-04]、[GC4B0R4-03] で領域・相異
+  条件を追加 — 外部根の反例(例: 根 3 ∉ D(t₀,2))を排除)**:
+  `(root_list (ζ_j, m_j)_j — **∀j: ζ_j ∈ D(t₀, R_col) の内部 ∧ ζ_j 相異** ∧
+   B は D̄(t₀, R_out) 上解析的(R_col > 0 は chart 固定の正定数);
     (a) ord-一致: ∀j, B の ζ_j での 0..m_j−1 階 jet 消滅 ∧ m_j 階 jet 非零
         の検証値(有限個の等式/不等式),
     (b) 計数一致: 偏角原理の輪郭積分 N(B; D̄(t₀, R_col)) の整数値 = Σ_j m_j,
@@ -1816,21 +1818,30 @@ Rouché 論法に全面改稿)**: 主張 — **正規化 triple 族の collar �
   (ii) **片側 confluent**(1 対が band 内): 対を divided-difference 再正規化
     した deg ≤ 1 prefactor 対象 + 独立 1 class — (prefactor 係数, 残 class
     係数) の joint ℓ² 球面 × 閉円板。
-  (iii) **全 confluent**: deg ≤ 2 prefactor 単一 class — prefactor ℓ² 球面。
+  (iii) **全 confluent(chain 込み・直径 < 2ε_T)**: **cluster 中心 z_c での
+    jets 0..5 の ℓ² 正規化**で定義する([GC4B0R4-01][02] — 旧「deg ≤ 2
+    prefactor」は F3′(valuation 5・正規化極限 z⁵)の反例により撤回):
+    g := f/‖(f の z_c での 0..5 階 jet ベクトル)‖₂。
+    δ > 0(非 exact merge)では **GC-1 W_c(3)(D_W(3) = 5)により jets 0..5 は
+    非全零**なので g は well-defined。divided-difference 展開の一様剰余評価に
+    より g は **δ = 0 面まで連続に延長**し、極限 = (jets 球面上の deg ≤ 5
+    多項式)× e^q — 球面正規化により **≢ 0**(jet cap 5 の正当化 = D_W(3) と
+    F3′ の sharp 性)。内部座標・valuation flag は不要(jet 正規化が全
+    valuation を一様に扱う)。直径 = 0 の exact merge は merge-first exit
+    (単一 class — certificate は自明 P = 1)。
 **3-class selector 述語表([GC4B0R2-02])**: 対距離 d_{ab} :=
 max(|B_a − B_b|, |A_a − A_b|^{1/2})、d_min := min 対(tie は ≺)。
   | 段 | predicate(半開: < で発火) | chart |
   |---|---|---|
   | (1) | d_min ≥ ε_T | (i) plain |
   | (2) | d_min < ε_T ∧ 第三 class の両対距離 ≥ ε_T | (ii)(pair = d_min 対) |
-  | (3) | それ以外(補集合 — **chain cluster を含む**: d_min < ε_T かつ第三 class が d_min 対のどちらかに < ε_T。三角不等式により **cluster 直径 < 2ε_T**) | (iii) |
+  | (3) | それ以外(補集合 — **chain cluster を含む**: 三角不等式により **cluster 直径 < 2ε_T**。(iii) の jet 正規化は直径・valuation に依らず一様) | (iii) |
 first-match で全域一意(段 (3) は補集合 — 網羅的・排他的)。
-**chain cluster の処理([GC4B0R3-01])**: 段 (3) の入力は「全対 < ε_T」とは
-限らない(chain 例: d₁₂ < ε_T、d₂₃ < ε_T、d₁₃ ∈ [ε_T, 2ε_T))が、直径 < 2ε_T
-なので **(iii) の再正規化 scale を cluster 直径に取れば** 3 class 全体が
-1 個の deg ≤ 2 prefactor 対象に divided-difference 展開される — (iii) の
-閉箱(prefactor 球面 × 正規化内部座標 ∈ 閉円板)は直径 ≤ 2ε_T の全 cluster
-を覆う。
+**chain cluster の処理([GC4B0R3-01]、[GC4B0R4-01] で jet 正規化に置換)**:
+段 (3) の入力は「全対 < ε_T」とは限らない(chain 例: d₁₂ < ε_T、d₂₃ < ε_T、
+d₁₃ ∈ [ε_T, 2ε_T))が、直径 < 2ε_T なので (iii) の **jet 正規化族**(上記 —
+中心 z_c は cluster の ≺-最小 class の位相、jets 0..5)が直径 ∈ [0, 2ε_T] の
+全 cluster を一様に覆う(deg ≤ 2 の旧主張は撤回 — F3′ 反例)。
 **compact 性の分離([GC4B0R2-01])**: 半開 band は **record 割当専用**。
 counting の証明は各 chart の **閉包 box K̄**(座標範囲の閉包 — compact)上で
 行い、{K̄} は**有限閉被覆**(割当は不要 — §8.7 (FL-0) と同じ被覆方式)。
@@ -1870,8 +1881,9 @@ SIG-AUDIT の signature witness は、それ自体では正規化 triple 族へ�
    ∈ ℂ³, anchor 差 ∈ 閉円板², d_min ≥ ε_T 検証値) / (ii) ⇒ (**joint 球面値
    ∈ ℂ³**(deg ≤ 1 prefactor の 2 係数 + 独立 class 係数 1 — ℂ⁴ は誤記で
    訂正), divided-difference 内部座標 ∈ **閉円板**, 第三 class 分離検証値) /
-   (iii) ⇒ (prefactor 球面値 ∈ ℂ³, cluster 直径 ∈ **閉区間 [0, 2ε_T]**,
-   正規化内部座標 ∈ 閉円板)`
+   (iii) ⇒ (**jets 0..5 の球面値 ∈ ℂ⁶**, cluster 直径 ∈ 閉区間 [0, 2ε_T],
+   cluster 中心 ∈ 閉円板)`([GC4B0R4-02] — 内部座標を撤廃、直径 0 面は
+   exact-merge route)
 — 各 variant は有限次元 compact 型。**fail-closed で要求**(欠落 = adapter
 適用不可 = record 生成禁止)。
 - **prepared tree triple**(SPLIT4 経由): witness の導出義務は record 生成側
@@ -1921,6 +1933,15 @@ triple の deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.26.4(2026-08-19): R-GC4B0 R4(blocking 3)適用 — [01] (iii) の「deg ≤ 2
+  prefactor」を F3′ 反例(valuation 5)により撤回し、**cluster 中心 jets 0..5 の
+  ℓ² 正規化族**に置換(δ > 0 で W_c(3) が非全零を保証、δ = 0 まで連続延長・
+  極限は球面上 deg ≤ 5 多項式 × 指数で ≢ 0 — jet cap 5 = D_W(3)・F3′ sharp)。
+  [02] tagged union (iii) を jets 球面 ∈ ℂ⁶ + 直径 [0, 2ε_T] + 中心閉円板に
+  (内部座標撤廃、直径 0 = exact-merge route)。[03] root list に「D(t₀,R_col)
+  内部・相異・B の解析領域・R_col > 0 固定」条件を追加(外部根反例の排除 —
+  (a)(b)(c) ⟺ unit が成立)。
 
 - v0.26.3(2026-08-19): R-GC4B0 R3(blocking 4 + minor 1)適用 — [01] chain
   cluster(段 (3) 補集合の実体 — 直径 < 2ε_T の三角不等式)を (iii) の再正規化
