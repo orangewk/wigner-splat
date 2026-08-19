@@ -1966,10 +1966,16 @@ deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 | JF-NONCOMPACT | ord F ≤ 9 でも正規化 log jet の最小値が confluent 境界で 0 へ落ちる列 | **境界 continuation**(exact jet recurrence、高精度、ε 対数列、R_ε = max_{3≤n≤9−d₀}|v⁽ⁿ⁾|/(κλⁿ) の傾き判定 — finite difference 禁止)。fixture: ①二次比族(κ=0 分類の検証)②near-quadratic 族 η₁=η₂+δt² ③両 pair confluent 族 ④混成 scale 族 ⑤gcd-jump 族 ⑥**confluent 直接族 P₁e^{q₁}+P₂e^{q₂} の ord/jet 最小特異値探索(真の no-go テスト — 非零・非二次比配置が 0..9 jet を同時消滅させれば GC-4A no-go)** | **fixture ⑥ 結果**: deg ≤ 1 で genuine ord ≤ 4(150/150 到達・≥5 なし)、**deg ≤ 2 で ord ≤ 6(200/200 到達・≥7 なし)** — いずれも予算 9 内で **no-go 信号なし**。W_CONFL v2 の sharp 目標 = 6(deg≤1 部分形は 4、consult #10 消去骨格。crude Wronskian は deg≤2 で不十分 — A.2c は消去法必須)。①〜⑤ open。診断であり証明の代替ではない |
 | QC-TRANSV | Q_C transversality に chart 内部の構造的縮退(線形化 rank 落ち)がある | δv-jets 3..9 の線形化 7×4 行列(δu = δB₁/B₁ − δB₂/B₂、構造 null 2 方向 quotient)の σ_eff を random + adversarial 探索 | **初期結果あり**(`qc_transversality2.py`: random 4844 配置で σ_eff > 0(中央値 0.11)、adversarial 零接近は全て routed 境界(confluent 帯・係数消滅面)接近 — **内部縮退未検出**。§8.7 (FL-6) が消費。診断であり証明の代替ではない) |
 | DEG4-SHARP | 二指数・deg ≤ d prefactor 系の sharp ord(FL-6 の次数爆発懸念の検証) | Newton 探索(scale gauge 固定、genuine 到達) | **結果**: sharp = 2d + 2(d=1: 4、d=2: 6、d=3: 8、d=4: 10 到達・11 なし)。d = 4 は予算 10 と衝突するが、consult #11 裁定 + §8.7 (6-iii)(regular = 2 指数 deg≤2 → W_CONFL 6 / C = 1 指数 ord ≤ 4)により **QR 横断線形化には現れない**(この主張の証明本体は (6-iii) — 本行は診断・裁定の記録)。 |
-| SING-FRONTIER | singular frontier(gcd-jump・degree-drop・Q-band 境界)近傍で φ/κ の下限が (6-v) tube 帰納の定数より劣化する | frontier 近傍の高精度 continuation(ε 対数列) | open(**(6-v) の tube 帰納証明の数値検証(診断)** — 証明上の open 義務ではない([GC4A2CR3-02] 解消後の位置づけ)。GC-5 前に実施推奨) |
+| SING-FRONTIER | singular frontier(gcd-jump・degree-drop・Q-band 境界)近傍で φ/κ の下限が (6-v) tube 帰納の定数より劣化する | frontier 近傍の高精度 continuation(ε 対数列) | **結果**(`sing_frontier.py`: 3 frontier 型 × ε 対数列 6 桁・各 254 配置)— 係数消滅面・cross-side gcd-jump は **plateau(劣化なし)**。confluent 帯内部への continuation のみ **σ_eff ~ d³(多項式・指数 3)** — flat/指数型崩壊ではなく、band 閾値 ε_G での chart handoff 定数が ε_G³ でスケールすることを意味する(**GC-5 の定数追跡は ε_G³ を予算化** — 設計入力。band 内部は confluent chart に route 済みで plain 線形化は不使用のため blocking 信号ではない)。診断であり証明の代替ではない |
 | COLLAR-POLE | 実区間で unit 有界でも分母複素零点が collar に接近する列 | V_i の複素零点距離 | open(A.3 入力) |
 | TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内の零点数が非有界になる triple 族 | 偏角原理による零点計数(random 12000 + スケール比較) | **結果**: 正規化スケール(chart 座標相当)で最大 5(|y| ≤ 1.5)、非正規化は位相スケールと共に増大(scale 3: 14 / scale 8: 35)⇒ **正規化族での一様上界に整合・非有界の反例なし**(§8.9 (AD-2) が消費。診断) |
+| TN3-RATIO | TN-3(§8.9 比較補題)の c_TN が存在しない(比 ‖J⁵f(z_c)‖/sup|f| が Z₀ 近傍で 0 へ潰れる) | mpmath 50 桁で F3′ 型・GEN(divided-difference 退化係数)・CHAIN の 3 族 × δ 対数列 8 桁 + float64 adversarial(random 20000 + Nelder-Mead 連鎖)。探索箱は実測データの現実域(|B| ≤ 2.5、|A| ≤ 0.8 — PR #179 Endo/Kawasaki 条件参照) | **結果**(`tn3_ratio.py`/`tn3_adv.py`): 全 3 族で **plateau(slope ≈ 0** — F3′: 0.672 / GEN: 0.073 / CHAIN: 0.046)、confluent 方向の減衰信号なし。adversarial 最小 ≈ 3.7e-5 は**非 confluent 配置**(sep 0.79・箱境界張り付き)の指数成長由来で restart 連鎖でも崩壊せず — **c_TN > 0 に整合・反例信号なし**(診断であり証明の代替ではない。TN-3 の証明義務(GC-5)は不変) |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
+
+**実測ベンチマーク候補(pointer)**: 公開 homodyne/quadrature データの調査は
+PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
+優先 Endo/Kawasaki、確度 A–D 付き)を正本とする。GC-5 以降のデータ層設計の
+入力であり、本文書は再記述しない。
 
 ## 10. リスク台帳
 
@@ -1981,6 +1987,13 @@ deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.26.9(2026-08-19): GC-5 前診断 2 本の結果を §9 に記録 — SING-FRONTIER
+  (係数消滅・gcd-jump plateau / confluent 帯内部のみ σ_eff ~ d³ = handoff
+  定数 ε_G³ の設計入力、blocking 信号なし)、TN3-RATIO 新設(3 族 δ 対数列
+  plateau + adversarial 崩壊なし — c_TN > 0 に整合)。実測ベンチマーク候補の
+  pointer(PR #179 brief)を §9 末尾に追加。いずれも診断であり証明の代替では
+  ない(TN-3 の GC-5 証明義務は不変)。
 
 - v0.26.8(2026-08-19): **GC-4B.0 ADAPT31 受理** — R-GC4B0 R8 PASS(luna
   gpt-5.6-luna xhigh、fixed SHA `eee39bf`、blocking なし、29 tests 通過)。
