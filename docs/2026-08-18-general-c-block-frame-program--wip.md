@@ -163,7 +163,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
 | GC-4A.2c-core | A.2b、**主張域は GCRouteRecord-v3 条件付き(充足可能性は GC-5/GC-6 送り)** | W_CONFL(2,2) v2 消去法(正本 §8.7 (FL-2)、B = 6)/混合消去 ≤ 8/regular・C collapse/Z/G 以外の strata 床(consult #12 で component 分割) | **accepted(R-GC4A2CCORE R4 ACCEPTED、fixed SHA `c0c9e05`。A.2c-Z `5ea87ec` と併せトップレベル A.2c 確定)** |
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
-| GC-4A.3b PBK22-D10 | A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **drafted(§8.12、査読待ち R-GC4A3B R1)** |
+| GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **drafted(§8.12、R1 適用済み、査読待ち R-GC4A3B R2)** |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
@@ -2161,7 +2161,7 @@ feasibility go に昇格する。§9 TN3-RATIO 診断(plateau・c_TN > 0 整合)
 **scope(非主張)**: c_TN・N_T の有効値、c ≥ 4 版、GC-5 本体(FR4-S1)、
 人間による査読は未実施。
 
-### 8.12 GC-4A.3b PBK22-D10(collar 10 階上界と scale cap — drafted、査読対象 R-GC4A3B R1)
+### 8.12 GC-4A.3b PBK22-D10(collar 10 階上界と scale cap — drafted、R1 適用済み、査読対象 R-GC4A3B R2)
 
 **目的**: A.3a の zf_witness collar(§8.5 (ZF-3))上で、WE₉(A.4)が消費する
 **u の 10 階導関数上界と正規化剰余の scale cap** を明示定数で閉じる(QR5 の
@@ -2183,11 +2183,13 @@ z_i ∈ B** := [−25/8, 25/8] × i[−(π + 5/4), π + 5/4](B* + drift ≤ 1)�
   Re e^z ≤ −0.31e^{−1/4} ≤ −0.24 ⇒ |e^z − 1| ≥ 1.24(Im z < 0 は共役対称)。
   よって |E| ≥ 0.22/5.4 ≥ 1/25。∎
 - **D1/D2 branch(V_i = 1 − e^{∓z_i}、collar 上 |Re z_i| ≥ 7/8 — (ZF-1))**:
-  |e^{∓z}| = e^{∓Re z} ≤ e^{−7/8} ≤ 0.42 ⇒ **|V_i| ∈ [0.58, 1.42]**。∎
+  |e^{∓z}| = e^{∓Re z} ≤ e^{−7/8} = 0.41686…([GC4A3BR1-02] — 丸めは厳密値で)
+  ⇒ **|V_i| ∈ [1 − e^{−7/8}, 1 + e^{−7/8}] ⊆ [0.58, 1.42]**。∎
 - **log 微分の bound**: E′(z) = (e^z(z−1) + 1)/z² は B** 上 |E′| ≤ 600
   (|z| ≥ 1/2: ≤ (22.8·6.4 + 1)·4 ≤ 600、|z| < 1/2: 級数で ≤ 0.75)⇒
   **|E′/E| ≤ 600·25 = 1.5×10⁴**。D1/D2: |V′/V| = |e^{∓z}/(1 − e^{∓z})| ≤
-  0.42/0.58 ≤ 0.72。(数値診断: B** 格子 801² で実測 |E| ∈ [0.19, 7.0]、
+  e^{−7/8}/(1 − e^{−7/8}) = 0.7148… ≤ 0.72([GC4A3BR1-02] — 0.42/0.58 =
+  0.724 では出ないため厳密値で評価)。(数値診断: B** 格子 801² で実測 |E| ∈ [0.19, 7.0]、
   |E′/E| ≤ 0.9 — 主張は証明可能な安全側。診断であり証明の代替ではない。)
 
 **(D10-2) reduced 多項式の bound**: zf_witness invariant (i)(実部距離
@@ -2203,31 +2205,49 @@ z_i ∈ B** := [−25/8, 25/8] × i[−(π + 5/4), π + 5/4](B* + drift ≤ 1)�
   u′ = (log(P̃₁/P̃₂))′ + (V₁′/V₁ − V₂′/V₂)·(z の連鎖) + (r₁ − r₂)′
 において、d/dt log V_i = (E′/E または V′/V)(z_i)·z_i′(t)、collar 上
 |z_i′| ≤ Λ_{i,k} + 1((ZF-1) の drift 計算と |η̃_i″| ≤ 1/16、|y| ≤ r_S ≤ 1)。
-(r₁ − r₂)′ は各 cell record の r 係数箱から **M_r′**(型付き入力 — A.0/A.1
-record 由来の chart 定数)。合成:
-  **M₁ := 104/ρ + 1.5×10⁴·(Λ_{1,k} + Λ_{2,k} + 2) + M_r′**
+(r₁ − r₂)′ は affine: (r₁ − r₂)′(w) = δa·w + δb、係数
+(δa, δb) は cell record の r 係数から **exact 減算**で得る([GC4A3BR1-03] —
+未定義入力の解消)。T_C := sup_{w ∈ collar(S, r_S)} |w|(zf_witness の S・r_S
+から計算可能な検証値)として
+  **M_r′ := |δa|·T_C + |δb|**(検証式付きの型 — 自由文でない)。
+branch は **pair ごとに独立**([GC4A3BR1-04])なので、pair i の branch_i ∈
+{D1, D2, D3} に応じ M_{logV,i}′ := 1.5×10⁴(D3)/ 0.72(D1/D2)。合成:
+  **M₁ := 104/ρ + Σ_{i=1,2} M_{logV,i}′·(Λ_{i,k} + 1) + M_r′**
+(旧式の 1.5×10⁴(Λ₁+Λ₂+2) は D3/D3 の worst case — per-branch 式が正)。
 が collar(S, r_S) 上の |u′| の上界。t ∈ S に対し D̄(t, r_S) ⊆ collar なので
 Cauchy 積分により
   **M₁₀ := sup_S |u^{(10)}| = sup_S |(u′)⁽⁹⁾| ≤ 9!·M₁·r_S^{−9}**。
 v := u − T₂u は v⁽¹⁰⁾ = u⁽¹⁰⁾(T₂ は二次)なので同じ上界。∎
 
-**(D10-4) scale cap と正規化剰余**: 外挿半径を
-  **ℓ_ext := min(r_S/2, λ)**(λ = §8.6 (N-0) の global λ)
-に cap する。θ ∈ (0, 1] の外挿点 |x − t₀| ≤ θ·ℓ_ext に対する 9 次 Taylor
-剰余は
+**(D10-4) scale cap と正規化剰余([GC4A3BR1-01] で λ の向きを訂正、
+[GC4A3BR1-05] で適用域を契約化)**: A.2b は y = λ(t − t₀)・𝒥_n = v⁽ⁿ⁾/λⁿ と
+定義する(λ は周波数次元 — 長さの逆)ので、正規化座標の単位球 |y| ≤ θ に
+対応する t-半径は θ/λ。外挿半径を
+  **ℓ_ext := min(r_S/2, 1/λ)**(λ = §8.6 (N-0) の global λ。**前提: (N-0)
+  の merge/prune 後 r ≥ 2** — r ≤ 1 は低 arity/exact exit で本 packet の
+  適用外(λ 未定義))
+に cap する。**適用域の契約**: t₀ := center(S)(実数)、外挿点は **実軸上**
+x ∈ ℝ、|x − t₀| ≤ θ·ℓ_ext(θ ∈ (0, 1])。ℓ_ext ≤ r_S/2 ≤ ρ/52 < |S|/2 =
+ρ/26 なので **Taylor 線分 [t₀ − θℓ_ext, t₀ + θℓ_ext] ⊂ S** — M₁₀ =
+sup_S|u⁽¹⁰⁾| の適用域と整合(複素外挿は非主張 — WE₉ が必要とすれば collar
+全体の 10 階 bound は同じ Cauchy で r_S/2-collar 上に出るが、契約は実軸に
+限定する)。9 次 Taylor 剰余:
   |R₉(x)| ≤ M₁₀·(θℓ_ext)¹⁰/10! ≤ (9!·M₁/r_S⁹)·(θ·r_S/2)¹⁰/10!
   = **(M₁·r_S/10240)·θ¹⁰ =: R̂(θ)**
 — **θ¹⁰ 減衰の正規化剰余 bound**(WE₉ は θ を小さく取って JF₉ の jet 床に
-勝たせる — その不等式自体は A.4 の義務)。ℓ_ext ≤ λ の cap は A.2b の正規化
-jet 𝒥_n = v⁽ⁿ⁾(t₀)/λⁿ との整合(外挿点の正規化座標 |ξ| = |x − t₀|/λ ≤ θ)を
-与える。∎
+勝たせる — その不等式自体は A.4 の義務)。ℓ_ext ≤ 1/λ の cap により外挿点の
+正規化座標は |y| = λ|x − t₀| ≤ θ ≤ 1 — 𝒥_n との整合。∎
 
 **(D10-5) 出力契約(型付き — fail-closed)**: A.4 が消費する interface:
-  `d10_witness := (cell_id, zf_witness 参照, branch label(D1/D2/D3),
-   unit 両側 bound((D10-1) の表値), M_r′(record 由来), M₁(式),
-   M₁₀ ≤ 9!·M₁·r_S^{−9}, ℓ_ext = min(r_S/2, λ),
-   R̂(θ) = (M₁·r_S/10240)·θ¹⁰)`
+  `d10_witness-v1 := (cell_id, zf_witness 参照,
+   **branch_1, branch_2 ∈ {D1, D2, D3}(pair ごとに独立 — [GC4A3BR1-04])**,
+   pair 別 unit 両側 bound((D10-1) の表値 × 2), (δa, δb)(r 係数の exact
+   減算), T_C, M_r′ = |δa|T_C + |δb|, M₁(per-branch 式),
+   M₁₀ ≤ 9!·M₁·r_S^{−9}, **ℓ_ext = min(r_S/2, 1/λ)**, t₀ = center(S),
+   R̂(θ) = (M₁·r_S/10240)·θ¹⁰, 適用域 flag(実軸・線分 ⊂ S))`
 — 欠落 = record 生成禁止。divisor_record・zf_witness と同じ cell 粒度。
+**versioned 消費**: A.4(WE₉)の消費条件は d10_witness-v1 を指名して結合する
+(A.4 起草時に消費契約を versioned で宣言 — 本 packet は供給側のみ)。
 
 **scope(非主張)**: WE₉ の外挿不等式本体(A.4)、γ・kernel 指数(A.5/A.6/
 GC-5)、u の値の bound(分枝定数 — A.5 bootstrap の義務と同配置)、人間に
@@ -2269,6 +2289,17 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.28.1(2026-08-19): R-GC4A3B R1(blocking 5)適用 — [01] λ の向きを訂正
+  (A.2b は y = λ(t−t₀) — 外挿半径は ℓ_ext = min(r_S/2, **1/λ**)、正規化座標
+  |y| = λ|x−t₀| ≤ θ)、(N-0) r ≥ 2 の前提を明記(低 arity は適用外)。
+  [02] D1/D2 の数値を厳密値で評価(e^{−7/8}/(1−e^{−7/8}) = 0.7149 ≤ 0.72 —
+  0.42/0.58 = 0.724 の丸め破綻を修正)。[03] M_r′ を検証式付きで定義
+  ((δa,δb) = r 係数の exact 減算、T_C = collar sup、M_r′ = |δa|T_C+|δb|)。
+  [04] branch を pair ごとに独立化(branch_1, branch_2、per-branch
+  M_{logV,i}′、M₁ の per-branch 式)。[05] Taylor 適用域を契約化(t₀ =
+  center(S)、実軸、線分 ⊂ S — ℓ_ext ≤ ρ/52 < |S|/2)。d10_witness-v1 に
+  versioned 化、§4 依存欄を同期(A.1/A.2a 追加)。
 
 - v0.28.0(2026-08-19): GC-4A.3b PBK22-D10 起草(orange GO — GC-4A 鎖の完成を
   GC-5 本体より先行する裁定)— §8.12: collar unit 両側 bound(E-branch の
