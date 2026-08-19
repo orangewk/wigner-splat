@@ -891,6 +891,15 @@ def test_qrg_witness_schema_is_declared():
     ):
         assert fragment in text, f"QRG schema fragment missing: {fragment!r}"
 
+    # luna R-GC4A5A0 R2 [01]: the accepted WE9 section must carry the v4
+    # reference (via its annotation) so the consumption contract types align.
+    start = text.index("### 8.13 GC-4A.4")
+    end = text.index("### 8.14")
+    section_we9 = text[start:end]
+    assert "GCRouteRecord-v4" in section_we9, (
+        "WE9 section lost its v4 alignment annotation"
+    )
+
 
 # --- issue #137 (topological K-epsilon) surfaces -----------------------------
 

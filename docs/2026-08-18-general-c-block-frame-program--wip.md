@@ -165,7 +165,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
 | GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **accepted(§8.13、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`)** |
-| GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **drafted(§8.14、R1 適用済み、査読待ち R-GC4A5A0 R2)** |
+| GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **drafted(§8.14、R1–R2 適用済み、査読待ち R-GC4A5A0 R3)** |
 | GC-4A.5a PBK22-COND9 | A.2b/A.2c/A.4 | **projective one-hop conditioning** ‖g‖_W ≤ B_C(L_C/s)⁹‖g‖_S(source-norm blow-up、横断極限 = JF₉ ord ≤ 9、exact QR face = 二次比枝、Z/G・gcd-jump・degree-drop = 既存 chart strata)— **最大の no-go gate(consult #14: 黄赤。線形 one-hop が Hölder 型に落ちれば PBK22 経路の実質 no-go)** | open |
 | GC-4A.5b PBK22-RESTART | A.5a/A.3a | g-small ⇒ 実 root/pole 排除 ⇒ zf_witness 再選択(ZF-2 再実行)⇒ fresh principal branch。cell 境界 handoff | open |
 | GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open |
@@ -2325,7 +2325,14 @@ I_k 上 |x − c_k| ≤ 1 なので
 γ 確定(A.5/A.6)、分枝接続(A.5)、床 c_J の供給(A.2b/A.2c — 消費のみ)、
 人間による査読は未実施。
 
-### 8.14 GC-4A.5a0 PBK22-QRG(exact QR の大域化 — drafted、R1 適用済み、査読対象 R-GC4A5A0 R2)
+**§8.13 追記(2026-08-19、[R-GC4A5A0 R2-01] — accepted 本文(`9f1a18d`)は
+不変。record 参照の versioned 更新)**: WE-0/WE-4 の GCRouteRecord-v3 参照は
+**GCRouteRecord-v4**(§8.14 — v3 不変 + JF₉ 分岐 flag + flag = v≡0 のとき
+qr_global_witness required)に更新する。v4 は v3 の versioned 拡張なので
+WE-2(v ≢ 0 枝)の消費内容は不変、WE-3(v ≡ 0 枝)は v4 の
+qr_global_witness を分枝接続条件として消費する — 消費契約の型は v4 で整合。
+
+### 8.14 GC-4A.5a0 PBK22-QRG(exact QR の大域化 — drafted、R1–R2 適用済み、査読対象 R-GC4A5A0 R3)
 
 **目的**: JF₉ target の **v ≡ 0 枝**(二次比枝)を大域化し、WE-3(§8.13)の
 分枝接続条件を**無条件で**供給する(consult #14 の A.5 再分解 — 最軽量の
@@ -2389,6 +2396,7 @@ restart(A.5b)、人間による査読は未実施。
 | COLLAR-POLE | 実区間で unit 有界でも分母複素零点が collar に接近する列 | V_i の複素零点距離 | open(A.3 入力) |
 | TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内の零点数が非有界になる triple 族 | 偏角原理による零点計数(random 12000 + スケール比較) | **結果**: 正規化スケール(chart 座標相当)で最大 5(|y| ≤ 1.5)、非正規化は位相スケールと共に増大(scale 3: 14 / scale 8: 35)⇒ **正規化族での一様上界に整合・非有界の反例なし**(§8.9 (AD-2) が消費。診断) |
 | TN3-RATIO | TN-3(§8.9 比較補題)の c_TN が存在しない(比 ‖J⁵f(z_c)‖/sup|f| が Z₀ 近傍で 0 へ潰れる) | mpmath 50 桁で F3′ 型・GEN(divided-difference 退化係数)・CHAIN の 3 族 × δ 対数列 8 桁 + float64 adversarial(random 20000 + Nelder-Mead 連鎖)。探索箱は実測データの現実域(|B| ≤ 2.5、|A| ≤ 0.8 — PR #179 Endo/Kawasaki 条件参照) | **結果**(`tn3_ratio.py`/`tn3_adv.py`): 全 3 族で **plateau(slope ≈ 0** — F3′: 0.672 / GEN: 0.073 / CHAIN: 0.046)、confluent 方向の減衰信号なし。adversarial 最小 ≈ 3.7e-5 は**非 confluent 配置**(sep 0.79・箱境界張り付き)の指数成長由来で restart 連鎖でも崩壊せず — **c_TN > 0 に整合・反例信号なし**(診断であり証明の代替ではない。TN-3 の証明義務(GC-5)は不変) |
+| COND9-PROBE | A.5a COND9 の線形 one-hop conditioning が成立しない(比 ‖g‖_W/‖g‖_S が (L/s)⁹ 予算を破る) | 2\|2 near-QR 族(pairing 摂動 + p 二次)で R(s) := sup_W g / sup_S g を random 3000+ + Nelder-Mead adversarial、s 対数列 5 点 + confluent 許容変種 | **結果**(`cond9_probe.py`): adversarial max R は s = 10⁻¹→10⁻³ で 2.9×10² → 1.6×10³(**slope ≈ 1 ≪ 9**)、confluent 許容でも ~10³ vs 予算 10¹⁸⁺ — **no-go 信号なし**(consult #14 の黄赤リスクへの経験的反証材料。Nelder-Mead は ord-9 同調方向を見つけにくく sharp 指数の証明代替ではない。診断) |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
 
 **実測ベンチマーク候補(pointer)**: 公開 homodyne/quadrature データの調査は
@@ -2406,6 +2414,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.28.8(2026-08-19): R-GC4A5A0 R2(blocking 1)適用 — §8.13 追記(accepted
+  本文不変)で WE-0/WE-4 の record 参照を GCRouteRecord-v4 に versioned 更新
+  (消費契約の型整合)。整合検出テストを追加(§8.13 節内に v4 参照が存在する
+  こと)。§9 に COND9-PROBE 診断行を追加(one-hop 比 R(s) の実測: adversarial
+  slope ≈ 1 ≪ 9、confluent 許容でも max ~10³ vs 予算 10¹⁸⁺ — no-go 信号
+  なし。Nelder-Mead は ord-9 同調方向を見つけにくいため sharp 指数の証明
+  代替ではない)。
 
 - v0.28.7(2026-08-19): R-GC4A5A0 R1(blocking 5)適用 — [01] QRG-1 の成立域を
   実区間 W に訂正(恒等定理は零集合の集積点形で適用 — A.2a は複素 collar 上の
