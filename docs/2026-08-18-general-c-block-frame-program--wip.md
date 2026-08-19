@@ -171,8 +171,8 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
-| GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **drafted(§8.10、R1–R5 適用済み、査読待ち R-BORD3 R6)** |
-| GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体(curve selection + 弧 leading-term + BORD-3 消費 — §8.9 (2c) の blocking obligation 解消) | open(GC-5-T0 受理後に着工) |
+| GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **accepted(§8.10、R-BORD3 R6 PASS、fixed SHA `87863cc`)** |
+| GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **drafted(§8.11、査読待ち R-TN3 R1)** |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題 — B.0 counting の blocking downstream obligation。未解消の間 N_T 存在は条件付き)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
@@ -1953,7 +1953,7 @@ authoring location は §9 のみ — [GC4B0R3-minor]。診断であり証明の
 obligation。解消まで N_T 存在・counting 主張は条件付き)、triple の
 deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 
-### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — drafted、R1–R5 適用済み、査読対象 R-BORD3 R6)
+### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — **accepted、R-BORD3 R6 PASS、fixed SHA `87863cc`**)
 
 **目的**: §8.9 (2c) の比較補題 TN-3(§4 GC-5 受理条件の blocking downstream
 obligation)が消費する境界 ord 上界を、sequence/moving-center 形の補題として
@@ -2107,6 +2107,44 @@ pattern chart 上の **TN-3 型不等式そのもの**であり、GC-5-T1 は K 
 **scope(非主張)**: c ≥ 4 の border ord 上界(GC-9 の confluent 昇格義務は
 別)、有効定数(存在のみ)、TN-3 本体(GC-5-T1)、人間による査読は未実施。
 
+### 8.11 GC-5-T1 TN-3(比較補題本体 — drafted、査読対象 R-TN3 R1)
+
+**目的**: §8.9 (2c) の比較補題 TN-3(§4 GC-5 受理条件の blocking downstream
+obligation)を BORD-3(§8.10、accepted `87863cc`)の系として閉じる。
+consult #13 の α′ 設計(curve selection + 弧 leading-term)は、BORD-3 の
+(B3-2)–(B3-4) が**任意の列**に対して証明されたことで不要化された — 残るのは
+列の対偶のみ。
+
+**(T1-1) statement(§8.9 (2c) の TN-3 そのもの)**: K, Z₀, z_c は §8.9 (2c)
+= §8.10 (B3-1) の型(Fock 入力条件込み)。
+  **∃ c_TN > 0: ∀p ∈ K∖Z₀: ‖J⁵f_p(z_c(p))‖₂ ≥ c_TN · sup_{D̄(t₀,R_out)}
+  |f_p|**。
+
+**(T1-2) 証明**: 背理法 — 反例列 p_n ∈ K∖Z₀ を
+R(p_n) := ‖J⁵f_{p_n}(z_c(p_n))‖ / sup|f_{p_n}| → 0 と取る(inf = 0 なら
+存在)。§8.10 step 0(反復 merge/prune の pattern 固定)と (B3-2) の分類で
+部分列の pattern を固定する(m ∈ {1,2,3}、m = 3 は P1–P4 — 分類は係数・
+正規化に依らず任意の K∖Z₀ 列に適用可能)。ζ_n := z_c(p_n) ∈ 閉箱 ⊆
+D̄(t₀, R_col) は部分列で収束。すると (B3-4) の単位 ℱ-球面 jet floor
+(moving center 込み — v = f_{p_n}/‖f_{p_n}‖_ℱ、ζ' = ζ_n)と (B3-3)(i) の
+RKHS 評価により、その部分列上
+  ‖J⁵f_{p_n}(ζ_n)‖ ≥ σ₀‖f_{p_n}‖_ℱ ≥ (σ₀/C_R)·sup_{D̄(t₀,R_out)}|f_{p_n}|
+— すなわち R(p_n) ≥ σ₀/C_R > 0。R(p_n) → 0 と矛盾。∎
+(「全ての部分列がさらに正の下界を持つ部分列を含む」ので liminf R > 0、
+よって inf R =: c_TN > 0。c_TN の有効値は非主張(存在のみ)。)
+
+**(T1-3) 消費関係**: (B3-4) の floor は pattern chart 定数 σ₀、RKHS 定数
+C_R はいずれも §8.10 で確立済み。本節は新しい解析を含まない(系)。
+
+**(T1-4) 帰結(TN-3 obligation の解消 — 受理後に §4/§8.9 の状態表面を
+annotation で更新する予定。accepted 本文は不変)**: TN-3 の解消により
+§8.9 (AD-2) の N_T < ∞ は無条件化し、(AD-4) の B.0 条件付き go は
+feasibility go に昇格する。§9 TN3-RATIO 診断(plateau・c_TN > 0 整合)は
+本補題と整合。
+
+**scope(非主張)**: c_TN・N_T の有効値、c ≥ 4 版、GC-5 本体(FR4-S1)、
+人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -2143,6 +2181,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.27.6(2026-08-19): **GC-5-T0 BORD-3 受理** — R-BORD3 R6 PASS(luna
+  gpt-5.6-luna xhigh、fixed SHA `87863cc`、blocking なし)。6 round の主要
+  訂正史: R1 = frame span 吸収と定量鎖への転換、R2 = Fock ノルム正規化
+  (dilation 全廃)、R3 = P3/P4 の raw-gauge (L-d) 分類 + (B3-4a) 自前証明、
+  R4 = Gram 鎖・RKHS 評価式・chart 包含の明記、R5 = 表記修正。**§8.11
+  GC-5-T1 TN-3 を系として起草**(BORD-3 の (B3-2)–(B3-4) が任意列で成立する
+  ため curve selection・部分解析幾何は不要化 — consult #13 α′ の簡約)。
 
 - v0.27.5(2026-08-19): R-BORD3 R5(blocking 2 — 表記レベル)適用 — [01] P4 の
   t_m ≍ τ/s を撤回し 0 < t_m ≤ C·(τ_m/s_m) → 0 に(純二次差分 δB = 0 で ≍ は
