@@ -163,7 +163,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2b JF9-NORM | A.2a/A.3a | **有限 chart atlas 方式(consult #10 で v1 の大域 X̄ 路線を撤回)**: merge-first 前処理、ChartSpec 8 家族、決定的 selector + 部分列網羅性補題、chart-local κ_C、chart 別 exact jet map、confluent prefactor 次数 gate | **accepted(R-GC4A2B R9 ACCEPTED、fixed SHA `a2302f3` — v1 大域路線の撤回から R2–R8 の 8 round を経て受理。8 責務 8/8)** |
 | GC-4A.2c-core | A.2b、**主張域は GCRouteRecord-v3 条件付き(充足可能性は GC-5/GC-6 送り)** | W_CONFL(2,2) v2 消去法(正本 §8.7 (FL-2)、B = 6)/混合消去 ≤ 8/regular・C collapse/Z/G 以外の strata 床(consult #12 で component 分割) | **accepted(R-GC4A2CCORE R4 ACCEPTED、fixed SHA `c0c9e05`。A.2c-Z `5ea87ec` と併せトップレベル A.2c 確定)** |
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
-| GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **drafted(§8.12、R1 適用済み、査読待ち R-GC4A3B R2)** |
+| GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
@@ -2161,7 +2161,7 @@ feasibility go に昇格する。§9 TN3-RATIO 診断(plateau・c_TN > 0 整合)
 **scope(非主張)**: c_TN・N_T の有効値、c ≥ 4 版、GC-5 本体(FR4-S1)、
 人間による査読は未実施。
 
-### 8.12 GC-4A.3b PBK22-D10(collar 10 階上界と scale cap — drafted、R1 適用済み、査読対象 R-GC4A3B R2)
+### 8.12 GC-4A.3b PBK22-D10(collar 10 階上界と scale cap — **accepted、R-GC4A3B R2 PASS、fixed SHA `b75aa85`**)
 
 **目的**: A.3a の zf_witness collar(§8.5 (ZF-3))上で、WE₉(A.4)が消費する
 **u の 10 階導関数上界と正規化剰余の scale cap** を明示定数で閉じる(QR5 の
@@ -2289,6 +2289,10 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.28.2(2026-08-19): **GC-4A.3b PBK22-D10 受理** — R-GC4A3B R2 PASS(luna
+  gpt-5.6-luna xhigh、fixed SHA `b75aa85`、blocking なし、2 round)。
+  d10_witness-v1(collar 10 階上界・scale cap)が WE₉(A.4)の入力として確定。
 
 - v0.28.1(2026-08-19): R-GC4A3B R1(blocking 5)適用 — [01] λ の向きを訂正
   (A.2b は y = λ(t−t₀) — 外挿半径は ℓ_ext = min(r_S/2, **1/λ**)、正規化座標
