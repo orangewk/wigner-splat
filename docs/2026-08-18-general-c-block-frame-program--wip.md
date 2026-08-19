@@ -165,11 +165,11 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
 | GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **accepted(§8.13、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`)** |
-| GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **drafted(§8.14、査読待ち R-GC4A5A0 R1)** |
+| GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **drafted(§8.14、R1 適用済み、査読待ち R-GC4A5A0 R2)** |
 | GC-4A.5a PBK22-COND9 | A.2b/A.2c/A.4 | **projective one-hop conditioning** ‖g‖_W ≤ B_C(L_C/s)⁹‖g‖_S(source-norm blow-up、横断極限 = JF₉ ord ≤ 9、exact QR face = 二次比枝、Z/G・gcd-jump・degree-drop = 既存 chart strata)— **最大の no-go gate(consult #14: 黄赤。線形 one-hop が Hölder 型に落ちれば PBK22 経路の実質 no-go)** | open |
 | GC-4A.5b PBK22-RESTART | A.5a/A.3a | g-small ⇒ 実 root/pole 排除 ⇒ zf_witness 再選択(ZF-2 再実行)⇒ fresh principal branch。cell 境界 handoff | open |
 | GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open |
-| GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
+| GC-4A.6 PBK22-ASM | A.5(:= 集約 {A.5a0, A.5a, A.5b, A.5c} — 本行で正式定義。§8.3/§8.4/§8.12 等の accepted 本文中の「A.5」参照はこの集約を指す)| 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
 | GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **accepted(§8.9、R-GC4B0 R8 PASS、fixed SHA `eee39bf`。受理時は TN-3 条件付き go — TN-3 は GC-5-T1(`906bd1a`)で解消し、条件解除 = feasibility go)** |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
@@ -2325,19 +2325,20 @@ I_k 上 |x − c_k| ≤ 1 なので
 γ 確定(A.5/A.6)、分枝接続(A.5)、床 c_J の供給(A.2b/A.2c — 消費のみ)、
 人間による査読は未実施。
 
-### 8.14 GC-4A.5a0 PBK22-QRG(exact QR の大域化 — drafted、査読対象 R-GC4A5A0 R1)
+### 8.14 GC-4A.5a0 PBK22-QRG(exact QR の大域化 — drafted、R1 適用済み、査読対象 R-GC4A5A0 R2)
 
 **目的**: JF₉ target の **v ≡ 0 枝**(二次比枝)を大域化し、WE-3(§8.13)の
 分枝接続条件を**無条件で**供給する(consult #14 の A.5 再分解 — 最軽量の
 base face を先に閉じる)。
 
-**(QRG-1) 恒等定理による大域化**: A.2a の claim 域で v := u − T₂u が
-S-collar 上 **v ≡ 0** とする(JF₉ target の第一枝)。p := T₂u(二次)と
-おくと collar 上 u = p、すなわち −H = e^p、すなわち
-  **Φ_p := B₁ + e^p B₂ ≡ 0(collar 上)**。
+**(QRG-1) 恒等定理による大域化([GC4A5A0R1-01] — 成立域は実区間)**:
+A.2a が supplies するのは**実区間 W 上**の v := u − T₂u ≡ 0(JF₉ target の
+第一枝 — 複素 collar 上の主張は仮定しない)。p := T₂u(二次)とおくと
+W 上 u = p、すなわち −H = e^p、すなわち
+  **Φ_p := B₁ + e^p B₂ = 0 が実区間 W の各点で成立**。
 B₁、B₂、e^p はいずれも entire(B_i = 有限指数和 × 多項式構造 — A.0/A.1 の
-cell データ、p は二次多項式)なので Φ_p も entire であり、開集合(collar)上で
-零 ⟹ **恒等定理により Φ_p ≡ 0 on ℂ**。∎
+cell データ、p は二次多項式)なので Φ_p も entire。W は非退化実区間 =
+**集積点を持つ零集合** ⟹ 恒等定理により **Φ_p ≡ 0 on ℂ**。∎
 
 **(QRG-2) 帰結(大域二次比 witness)**: B₁ = −e^p B₂ が ℂ 上成立。
 - **H = −e^p として大域延長**: B₂ の零点では B₁ も同時に零(恒等式)なので
@@ -2349,13 +2350,22 @@ cell データ、p は二次多項式)なので Φ_p も entire であり、開�
   **(c-i) の v ≡ 0 枝の kernel はこれで閉鎖**(chain・conditioning 不要 —
   consult #14「chain より先に閉じられる」)。
 
-**(QRG-3) 出力契約(型付き — fail-closed)**:
-  `qr_global_witness := (cell_id, p の係数 3 組(= record の T₂u — t₀ 中心、
-   GCRouteRecord-v3 の α field と同一値規約), 恒等式 ref: Φ_p ≡ 0
-   ((QRG-1) — §7.1 の identity ref 規約), v ≡ 0 判定の source
-   (JF₉ target 第一枝の判定値))`
-— WE-3 の分枝接続条件はこの witness の存在で充足(欠落 = WE-3 適用不可 =
-record 生成禁止)。cell 粒度。
+**(QRG-3) 出力契約(型付き — versioned schema、[GC4A5A0R1-02][03])**:
+  `qr_global_witness := (cell_id,
+   α 参照: **q_band_witness-v3 の (α₀, α₁, α₂) と同一オブジェクト参照**
+   (raw 係数は p_k = α_k·λᵏ の導出値 — λ = §8.6 (N-0)。独立に値を持たない
+   ので一致検証は参照同一性で閉じる),
+   恒等式 ref: Φ_p ≡ 0((QRG-1) — §7.1 の identity ref 規約),
+   **source 一致 field**: W 上 u = p の検証値(v ≡ 0 判定の source =
+   JF₉ target 第一枝 + T₂u = p の定義的一致),
+   **I_k 接続 field**: 1 + H = 1 − e^p が I_k 上恒等((QRG-2) の導出 ref —
+   WE-3 の要求『u = p が I_k 全体で有効』を **Log/branch 不要の強い形**で
+   充足する: WE-3 の証明が使うのは |1 − e^p| と |H| = e^{Re p} のみ))`
+**schema 拡張**: `GCRouteRecord-v4 := GCRouteRecord-v3(不変)+
+(JF₉ 分岐 flag; flag = v≡0 のとき qr_global_witness を **required field**)`
+— v3 は in-place 変更しない(versioned 拡張規約)。v4 で flag = v≡0 かつ
+qr_global_witness 欠落 = **record 生成禁止(closed-world fail-closed)**。
+WE-3 の消費は v4 record を指名する。cell 粒度。
 
 **scope(非主張)**: v ≢ 0 枝(A.5a COND9)、chain・ledger(A.5c)、
 restart(A.5b)、人間による査読は未実施。
@@ -2396,6 +2406,17 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.28.7(2026-08-19): R-GC4A5A0 R1(blocking 5)適用 — [01] QRG-1 の成立域を
+  実区間 W に訂正(恒等定理は零集合の集積点形で適用 — A.2a は複素 collar 上の
+  v ≡ 0 を供給しない)。[02] WE-3 接続を型付き field 化(source 一致 +
+  I_k 接続 — Log 不要の恒等式形が要求より強いことを明記)。[03]
+  **GCRouteRecord-v4** を versioned 宣言(v3 不変 + JF₉ 分岐 flag +
+  qr_global_witness required — closed-world fail-closed)、α は v3 field への
+  同一オブジェクト参照に(独立値を持たせない)。[04] A.5 を集約
+  {A.5a0, A.5a, A.5b, A.5c} として §4 で正式定義(accepted 本文の旧「A.5」
+  参照を有効なまま保つ)、A.6 依存を更新。[05] claim-surface テストに QRG
+  schema 存在検査を追加(「29 tests」を QRG の検証根拠として引用しない)。
 
 - v0.28.6(2026-08-19): consult #14(Sol、`sol-boot-consult.md` — A.5 設計):
   生 Taylor hop は**棄却**(剰余が chart スケールで支配)、full-tube root

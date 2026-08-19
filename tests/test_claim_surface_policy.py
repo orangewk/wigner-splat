@@ -878,6 +878,20 @@ def test_f3prime_gc_program_doc_uses_pointer_not_restatement():
     assert pointer in section_2c, "(2c) lost its FR spec pointer"
 
 
+def test_qrg_witness_schema_is_declared():
+    """GC-4A.5a0 (QRG) must declare the versioned v4 schema and the typed
+    qr_global_witness fields (luna R-GC4A5A0 R1 [03][05])."""
+
+    text = GC_PROGRAM_DOC.read_text(encoding="utf-8")
+    for fragment in (
+        "GCRouteRecord-v4",
+        "qr_global_witness",
+        "同一オブジェクト参照",
+        "closed-world fail-closed",
+    ):
+        assert fragment in text, f"QRG schema fragment missing: {fragment!r}"
+
+
 # --- issue #137 (topological K-epsilon) surfaces -----------------------------
 
 TOPO_DIRS = {
