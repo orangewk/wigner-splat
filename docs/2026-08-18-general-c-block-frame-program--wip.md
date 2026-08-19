@@ -167,13 +167,13 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
-| GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **accepted(条件付き go — §8.9、R-GC4B0 R8 PASS、fixed SHA `eee39bf`。TN-3 は GC-5 受理条件)** |
+| GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **accepted(§8.9、R-GC4B0 R8 PASS、fixed SHA `eee39bf`。受理時は TN-3 条件付き go — TN-3 は GC-5-T1(`906bd1a`)で解消し、条件解除 = feasibility go)** |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
 | GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **accepted(§8.10、R-BORD3 R6 PASS、fixed SHA `87863cc`)** |
-| GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **drafted(§8.11、R1 適用済み、査読待ち R-TN3 R2)** |
-| GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題 — B.0 counting の blocking downstream obligation。未解消の間 N_T 存在は条件付き)** | open |
+| GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
+| GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
 | GC-8 IND | GC-7 | 一般帰納の離散指標と定数 budget(leaf weight・support・valuation/flag の well-foundedness) | open |
@@ -1961,6 +1961,12 @@ chart 箱定数の指定)**: (2c) の K の「閉 chart 箱」は、受理時点
 受理済み主張の変更ではない(受理済み主張はすべて chart 定数に相対的)。
 以後 §8.9 (2c)・§8.10・§8.11 の K は同一の型を指す。
 
+**§8.9 追記 2(2026-08-19 — TN-3 解消)**: 比較補題 TN-3 は GC-5-T1
+(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)で証明された。これにより
+(AD-2) の N_T < ∞ は**無条件**に成立し、(AD-4) の「条件付き go」の条件は
+**充足済み**(= B.0 は feasibility go)。本文の条件付き文言は受理時
+(`eee39bf`)の歴史的記録として不変のまま残す。
+
 ### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — **accepted、R-BORD3 R6 PASS、fixed SHA `87863cc`**)
 
 **目的**: §8.9 (2c) の比較補題 TN-3(§4 GC-5 受理条件の blocking downstream
@@ -2115,7 +2121,7 @@ pattern chart 上の **TN-3 型不等式そのもの**であり、GC-5-T1 は K 
 **scope(非主張)**: c ≥ 4 の border ord 上界(GC-9 の confluent 昇格義務は
 別)、有効定数(存在のみ)、TN-3 本体(GC-5-T1)、人間による査読は未実施。
 
-### 8.11 GC-5-T1 TN-3(比較補題本体 — drafted、R1 適用済み、査読対象 R-TN3 R2)
+### 8.11 GC-5-T1 TN-3(比較補題本体 — **accepted、R-TN3 R2 PASS、fixed SHA `906bd1a`**)
 
 **目的**: §8.9 (2c) の比較補題 TN-3(§4 GC-5 受理条件の blocking downstream
 obligation)を BORD-3(§8.10、accepted `87863cc`)の系として閉じる。
@@ -2191,6 +2197,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.27.8(2026-08-19): **GC-5-T1 TN-3 受理** — R-TN3 R2 PASS(luna
+  gpt-5.6-luna xhigh、fixed SHA `906bd1a`、blocking なし)。**TN-3 blocking
+  downstream obligation は解消** — §8.9 追記 2 で (AD-2) N_T < ∞ の無条件化
+  と (AD-4) 条件充足(B.0 = feasibility go)を記録、§4 台帳(GC-5 受理条件・
+  B.0 行)を同期。go/no-go 最小集合の唯一の条件付き要素が外れ、**第一段 go
+  判定は無条件化**。
 
 - v0.27.7(2026-08-19): R-TN3 R1(blocking 1)適用 — §8.9 末尾に**追記**
   (accepted 本文 `eee39bf` は不変): (2c) の K の「閉 chart 箱」を Fock 可容
