@@ -171,7 +171,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
-| GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **drafted(§8.10、R1–R3 適用済み、査読待ち R-BORD3 R4)** |
+| GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **drafted(§8.10、R1–R4 適用済み、査読待ち R-BORD3 R5)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体(curve selection + 弧 leading-term + BORD-3 消費 — §8.9 (2c) の blocking obligation 解消) | open(GC-5-T0 受理後に着工) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題 — B.0 counting の blocking downstream obligation。未解消の間 N_T 存在は条件付き)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
@@ -1953,7 +1953,7 @@ authoring location は §9 のみ — [GC4B0R3-minor]。診断であり証明の
 obligation。解消まで N_T 存在・counting 主張は条件付き)、triple の
 deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 
-### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — drafted、R1–R3 適用済み、査読対象 R-BORD3 R4)
+### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — drafted、R1–R4 適用済み、査読対象 R-BORD3 R5)
 
 **目的**: §8.9 (2c) の比較補題 TN-3(§4 GC-5 受理条件の blocking downstream
 obligation)が消費する境界 ord 上界を、sequence/moving-center 形の補題として
@@ -2048,20 +2048,36 @@ t_n → (1 − δ_ℱ)/2 < 1/2 なので(t_n 十分小で)一様に ℱ の comp
   (P3)(P4) coarse 3([GCBORD3R3-01] — W′ は適用不能: raw 極限で全 class が
     一致し r ≡ 0。代わりに **FR の raw-gauge (L-d) 分類を消費**): P3 は
     FR-S1′ の single-scale plain chart(比の下界 — 部分列極限で chart の
-    compact 集合に入る)、P4 は FR-S1″ の 𝒦_{η,t₀} chart((N0) の η は
-    「o(s) の対はちょうど 1 つ」から singleton 側 root-normalized 分離の
-    部分列極限として取る)。いずれも SVD frame v_{ℓ,m} が strong-continuous
+    compact 集合に入る)、P4 は FR-S1″ の 𝒦_{η,t₀} chart への包含を明示
+    ([GCBORD3R4-03]): 「o(s) の対はちょうど 1 つ」なので singleton 側の
+    root-normalized 分離 max(|Ā|^{1/2}, |B̄|) は部分列極限で下界 η > 0 を
+    持ち((N0) 充足)、t₀ := min(1/4, η²/8) と固定すると pair の
+    root-normalized scale t_m ≍ τ_m/s_m → 0 は十分大きい n で t_m ≤ t₀ —
+    よって列は 𝒦_{η,t₀} に入る。いずれも SVD frame v_{ℓ,m} が strong-continuous
     unitary section で raw gauge へ戻り(FR 文書 §8.4/§9.3–§9.5、A′-4 —
     accepted)、**raw ℱ-strong 極限 U_*^{-1}P_ℓ = Q_ℓΦ(ξ*)、deg Q_ℓ ≤ 5**
     を持つ。よって極限 span の非零元は(deg ≤ 5 多項式)× Φ(ξ*)(非零
     entire)であり、**任意中心で ord ≤ deg Q ≤ 5**(多項式因子の重複度)。
   (m = 2) (B3-4a) の frame ⇒ span{e^p, L e^p}(または分離 2 class)⇒
     非零元 (α + βL)e^p の任意中心 ord ≤ deg L ≤ 2。
-frame の極限は正規直交(P3/P4 — unitary gauge の strong 極限)または独立
-(P1/P2/m=2 — W′ の Wronskian 非零・分離性)なので、v_n の frame 係数は
-有界 — 部分列で v_n → v ∈ ℱ strong、**‖v‖_ℱ = 1 ≠ 0**、v ∈ 極限 span。
-一方 jet 汎関数の RKHS 連続性(moving center 込み)により
-J⁵v(ζ') = lim J⁵v_n(ζ'_n) = 0 ⇒ ord_{ζ'}(v) ≥ 6 — 各行の上界 ≤ 5 と矛盾。∎
+**係数有界性の鎖([GCBORD3R4-02])**: 各 pattern の frame を w_{ℓ,n}
+(ℱ-strong 収束、極限 w_{ℓ,*} は独立 — P1/P2/m=2 は W′ の Wronskian 非零・
+分離性、P3/P4 は正規直交の strong 極限)とし、v_n = Σ_ℓ b_{ℓ,n} w_{ℓ,n} と
+書く。Gram 行列 G_n := (⟨w_{ℓ,n}, w_{ℓ',n}⟩) は G_* := (⟨w_{ℓ,*}, w_{ℓ',*}⟩)
+へ収束し、極限 frame の独立性から G_* > 0(P3/P4 では G_* = I)。
+1 = ‖v_n‖² = b_n^* G_n b_n ≥ λ_min(G_n)‖b_n‖² と λ_min(G_n) → λ_min(G_*) > 0
+から **b_n は有界** — 部分列で b_n → b_*、
+v_n → v := Σb_{ℓ,*}w_{ℓ,*} ∈ ℱ strong、‖v‖² = b_*^*G_*b_* = lim b_n^*G_nb_n
+= **1 ≠ 0**、v ∈ 極限 span。(P3/P4 の frame は w_{ℓ,n} = v_{ℓ,n}(SVD
+frame)で、strong unitary section U_n → U_* により
+w_{ℓ,n} = U_nU_n^{-1}v_{ℓ,n} → Q_ℓΦ(ξ*) — FR §8.4 の鎖。)
+**moving-center RKHS 連続性([GCBORD3R4-03])**: ℱ の k 階微分評価汎関数の
+核 K^{(k)}_ζ は ζ に norm 連続(Fock 核の正則性)で、ζ ∈ D̄(t₀,R_col) の
+compact 範囲上 norm 有界。よって
+  |J^k v_n(ζ'_n) − J^k v(ζ')| ≤ ‖v_n − v‖_ℱ·‖K^{(k)}_{ζ'_n}‖ +
+   ‖v‖_ℱ·‖K^{(k)}_{ζ'_n} − K^{(k)}_{ζ'}‖ → 0
+— J⁵v(ζ') = lim J⁵v_n(ζ'_n) = 0 ⇒ ord_{ζ'}(v) ≥ 6 — 各行の上界 ≤ 5 と
+矛盾。∎
 (J⁵ の中心は D̄(t₀,R_col) の任意点で floor が張れる — z_c の値も含む。)
 
 **(B3-5) 定量鎖と対偶([GCBORD3R1-02][03] — 極限は動かさない)**: (B3-3)(i)
@@ -2079,8 +2095,11 @@ pattern chart 上の **TN-3 型不等式そのもの**であり、GC-5-T1 は K 
 
 **(B3-6) sharp 性**: 5 は sharp — F3′(正本: FR 文書 §7)の witness を
 (B3-1) の形に移すと: p_n = F3′ の node 列(係数は ‖c‖₂ = 1 に正規化 —
-定数倍は λ_n 側へ)、λ_n := (正規化係数での ‖h_β‖)⁻¹、ζ_n → 0 で
-λ_n f_{p_n} → z⁵ 方向の極限(ord_0 = 5)— 上界 5 が到達される。
+定数倍は λ_n 側へ)、λ_n := (正規化係数での ‖h_β‖)⁻¹。**z_c との接続
+([GCBORD3R4-01])**: F3′ の class 位相は β の 3 乗根配置なので
+ζ_n = z_c(p_n) ∈ {βω^j}(≺-最小の 1 点)であり |ζ_n| = β → 0、すなわち
+ζ = 0。極限は z⁵ 方向(正規化定数倍)で **ord_ζ(h) = ord_0(z⁵) = 5** —
+(B3-1) の形のまま上界 5 が到達される。
 
 **scope(非主張)**: c ≥ 4 の border ord 上界(GC-9 の confluent 昇格義務は
 別)、有効定数(存在のみ)、TN-3 本体(GC-5-T1)、人間による査読は未実施。
@@ -2121,6 +2140,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.27.4(2026-08-19): R-BORD3 R4(blocking 3 — いずれも記述不足の明記要求)
+  適用 — [01] B3-6 の F3′ witness と z_c の接続(ζ_n = z_c(p_n) ∈ {βω^j} →
+  0 = ord-5 点)。[02] 係数有界性の Gram 鎖(G_n → G_* > 0、
+  1 = b^*G_nb ⟹ b 有界 ⟹ strong 極限 ‖v‖ = 1)と P3/P4 の unitary section
+  経由の frame 収束鎖を明記。[03] moving-center RKHS 連続性の評価式
+  (微分評価核の norm 連続性・有界性)と P4 の 𝒦_{η,t₀} 包含
+  (η = (N0) 部分列下界、t₀ = min(1/4, η²/8)、t_m → 0 ≤ t₀)を明記。
 
 - v0.27.3(2026-08-19): R-BORD3 R3(blocking 5)適用 — [01] P4 の W′ 適用を
   撤回(raw 極限で r ≡ 0 — R3 反例)。P3/P4 を **FR raw-gauge (L-d) 分類**に
