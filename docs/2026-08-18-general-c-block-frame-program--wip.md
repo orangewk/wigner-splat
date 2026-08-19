@@ -164,7 +164,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2c-core | A.2b、**主張域は GCRouteRecord-v3 条件付き(充足可能性は GC-5/GC-6 送り)** | W_CONFL(2,2) v2 消去法(正本 §8.7 (FL-2)、B = 6)/混合消去 ≤ 8/regular・C collapse/Z/G 以外の strata 床(consult #12 で component 分割) | **accepted(R-GC4A2CCORE R4 ACCEPTED、fixed SHA `c0c9e05`。A.2c-Z `5ea87ec` と併せトップレベル A.2c 確定)** |
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
-| GC-4A.4 PBK22-WE9 | A.2/A.3 | 局所窓外挿(JF9/P4 の純 consumer) | open |
+| GC-4A.4 PBK22-WE9 | A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **drafted(§8.13、査読待ち R-GC4A4 R1)** |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
 | GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **accepted(§8.9、R-GC4B0 R8 PASS、fixed SHA `eee39bf`。受理時は TN-3 条件付き go — TN-3 は GC-5-T1(`906bd1a`)で解消し、条件解除 = feasibility go)** |
@@ -2253,6 +2253,67 @@ sup_S|u⁽¹⁰⁾| の適用域と整合(複素外挿は非主張 — WE₉ が
 GC-5)、u の値の bound(分枝定数 — A.5 bootstrap の義務と同配置)、人間に
 よる査読は未実施。
 
+### 8.13 GC-4A.4 PBK22-WE9(局所窓外挿 — drafted、査読対象 R-GC4A4 R1)
+
+**目的**: 深平坦 (c-i)(§8.3 (F2²-3))で、JF₉ target(consult #9 受理形 —
+「v ≡ 0(二次比枝)または max_{3≤n≤9−d₀}|v⁽ⁿ⁾(t₀)|/(κλⁿ) ≥ c_J」、床は
+A.2b/A.2c、claim 域は GCRouteRecord-v3)と d10_witness-v1(§8.12)を消費し、
+**局所窓外挿の不等式群**を明示定数で閉じる。**純 consumer** — 新しい床・
+collar 解析は含まない。分岐合成・γ 確定は A.5/A.6 の義務。
+
+**(WE-0) 前提と記号**: cell(A.0/A.1)・(c-i)(σ := sup_{J_k}|1 + H| <
+c₁ρ⁹、(a) 否により J_k 上 |H| ∈ [e^{−1}, e])・zf_witness(S、r_S)・
+d10_witness-v1(t₀ = center(S)、ℓ_ext = min(r_S/2, 1/λ)、R̂(θ))・
+GCRouteRecord-v3 全 verified(A.2c の claim 域)。A.2a より J_k 上
+u = Log(−H) は principal で **|u| ≤ 2|1 + H| ≤ 2σ**。u = p + v(p = T₂u)。
+
+**(WE-1) Chebyshev 係数補題(初等・自己完結)**: q を deg ≤ 9 の多項式、
+sup_{[−1,1]}|q| ≤ M とする。q = Σ_{k≤9} c_k T_k(Chebyshev 展開 — 係数は
+c_k = (2/π)∫₀^π q(cos φ)cos(kφ)dφ(k ≥ 1)、c₀ は 1/π)で |c_k| ≤ 2M。
+T_k の単項係数の絶対値和は
+  ‖T_k‖₁ = 1, 1, 3, 7, 17, 41, 99, 239, 577, 1393(k = 0..9、直接検算可能、
+  Σ_{k≤9} ‖T_k‖₁ = 2378)
+なので、q の単項係数 a_j は |a_j| ≤ 2M·2378 ≤ **C₉·M、C₉ := 4756**。
+半径 r の実区間 [t₀ − r, t₀ + r] へは y = (x − t₀)/r の置換で
+**|a_n|·rⁿ ≤ C₉·sup_{|x−t₀|≤r}|q|**(a_n は x-係数)。deg ≤ 2 版は
+**C₂ := 2(1 + 1 + 3) = 10**。∎
+
+**(WE-2) κ 上界(深平坦 ⇒ 定量的 near-QR — v ≢ 0 枝)**: JF₉ target の
+v ≢ 0 枝で、ある n ∈ [3, 9 − d₀] が |v⁽ⁿ⁾(t₀)| ≥ c_J·κ·λⁿ。u の t₀ での
+Taylor 係数は次数 3..9 で v のそれと一致(p = T₂u は次数 ≤ 2)。半径
+r := θ·ℓ_ext(θ ∈ (0, 1]、Taylor 線分 ⊂ S — d10 の適用域契約)の実区間で
+(WE-1) を T⁹u = u − R₉ に適用:
+  (c_J κ λⁿ/n!)·rⁿ = |a_n|rⁿ ≤ C₉·sup_{ball}|T⁹u| ≤ C₉·(2σ + R̂(θ))。
+λr ≤ λℓ_ext ≤ 1 より (λr)ⁿ/n! ≥ (λr)⁹/9!。整理して **∀θ ∈ (0, 1]:
+  κ ≤ κ_WE(θ; σ) := 9!·C₉·(2σ + R̂(θ)) / (c_J·(λθℓ_ext)⁹)**
+— 深平坦度 σ が κ(QR locus からの横断残差)を上から抑える = **配置は
+定量的に二次比枝近傍**。θ の最適化・near-QR 合成は A.5/A.6 の義務(menu
+規約 — (F2²-3) の c₁ ceiling と同配置)。∎
+
+**(WE-3) 二次比枝の kernel 不等式(v ≡ 0 枝)**: u = p(deg ≤ 2)とする。
+**分枝接続条件(A.5 供給 — 型付き消費)**: u = p が I_k 全体で有効
+(bootstrap witness)。J_k(半径 ρ/2)上 |p| ≤ 2σ に (WE-1) の C₂ 版:
+|a_k|(ρ/2)^k ≤ 10·2σ = 20σ(k = 0, 1, 2)。I_k 上 |x − t₀| ≤ 1 なので
+  sup_{I_k}|p| ≤ Σ_k 20σ·(2/ρ)^k ≤ 140σρ⁻²(ρ ≤ 1)。
+(c-i) では σ < c₁ρ⁹ ≤ 10⁻²ρ⁹ なので sup_{I_k}|p| ≤ 1.4ρ⁷ ≤ 1.4、
+|1 − e^p| ≤ |p|e^{|p|} ≤ 4.1·140σρ⁻²、|H| = e^{Re p} ≥ e^{−1.4} ⇒
+  g = |1 + H|/|H| ≤ e^{1.4}·574σρ⁻² ≤ 2400σρ⁻²(I_k 上)。
+‖g‖_{J_k} ≥ σ/e((c-i) の argmax 点 — (F2²-3) と同計算)と合わせ
+  **‖g‖_{I_k} ≤ 2400σρ⁻² ≤ 2400e·ρ⁻²·‖g‖_{J_k} ≤ 6600·ρ⁻²·‖g‖_{J_k}**
+— 二次比枝の kernel 指数は **2**(ρ⁻⁹ 予算に対し余裕)。∎
+
+**(WE-4) 出力契約(型付き — fail-closed)**: A.5/A.6 が消費する interface:
+  `we9_witness-v1 := (cell_id, d10_witness-v1 参照, GCRouteRecord-v3 参照,
+   branch flag(v ≡ 0 / v ≢ 0 — JF₉ target の二分岐),
+   v ≢ 0 ⇒ κ_WE(θ; σ) の式(θ は自由パラメタ — A.5/A.6 の menu),
+   v ≡ 0 ⇒ kernel 定数 6600ρ⁻²(分枝接続 witness を A.5 から要求 —
+   欠落時は record 生成禁止))`
+— divisor_record・zf_witness・d10_witness と同じ cell 粒度。
+
+**scope(非主張)**: near-QR(κ ≤ κ_WE)からの kernel 合成・θ menu・
+γ 確定(A.5/A.6)、分枝接続(A.5)、床 c_J の供給(A.2b/A.2c — 消費のみ)、
+人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -2289,6 +2350,12 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.28.3(2026-08-19): GC-4A.4 PBK22-WE9 起草 — §8.13: (WE-1) Chebyshev
+  係数補題(‖T_k‖₁ 表による初等自己完結、C₉ = 4756、C₂ = 10)、(WE-2)
+  深平坦 ⇒ κ ≤ κ_WE(θ; σ)(JF₉ target v ≢ 0 枝 + d10 R̂(θ) の消費 —
+  定量的 near-QR)、(WE-3) 二次比枝の kernel 不等式 ‖g‖_I ≤ 6600ρ⁻²‖g‖_J
+  (分枝接続は A.5 供給の型付き条件)、(WE-4) we9_witness-v1 契約。
 
 - v0.28.2(2026-08-19): **GC-4A.3b PBK22-D10 受理** — R-GC4A3B R2 PASS(luna
   gpt-5.6-luna xhigh、fixed SHA `b75aa85`、blocking なし、2 round)。
