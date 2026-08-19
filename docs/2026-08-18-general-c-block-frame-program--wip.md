@@ -165,8 +165,8 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
 | GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **accepted(§8.13、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`)** |
-| GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **drafted(§8.14、R1–R3 適用済み、査読待ち R-GC4A5A0 R4)** |
-| GC-4A.5a PBK22-COND9 | A.2b/A.2c/A.4 | **projective one-hop conditioning** ‖g‖_W ≤ B_C(L_C/s)⁹‖g‖_S(source-norm blow-up、横断極限 = JF₉ ord ≤ 9、exact QR face = 二次比枝、Z/G・gcd-jump・degree-drop = 既存 chart strata)— **最大の no-go gate(consult #14: 黄赤。線形 one-hop が Hölder 型に落ちれば PBK22 経路の実質 no-go)** | open |
+| GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **accepted(§8.14、R-GC4A5A0 R4 PASS、fixed SHA `68d114a`)** |
+| GC-4A.5a PBK22-COND9 | A.2a/A.2b/A.2c/A.5a0/GC-1 | **projective one-hop conditioning** ‖g‖_W ≤ B_C(L_C/s)⁹‖g‖_S — 三分法(g ≥ 1/2 自明化)+ 列コンパクト性(固定 scale = 恒等定理/縮小 scale = ord ≤ 9 床の strata 被覆)。**最大の no-go gate(consult #14: 黄赤 — §9 COND9-PROBE は反証材料)** | **drafted(§8.15、査読待ち R-GC4A5A R1)** |
 | GC-4A.5b PBK22-RESTART | A.5a/A.3a | g-small ⇒ 実 root/pole 排除 ⇒ zf_witness 再選択(ZF-2 再実行)⇒ fresh principal branch。cell 境界 handoff | open |
 | GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open |
 | GC-4A.6 PBK22-ASM | A.5(:= 集約 {A.5a0, A.5a, A.5b, A.5c} — 本行で正式定義。§8.3/§8.4/§8.12 等の accepted 本文中の「A.5」参照はこの集約を指す)| 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
@@ -2333,7 +2333,7 @@ consumer 型が閉じないという R3 指摘に従い、reviewer 明示指示�
 数学的内容は不変: v4 は v3 の versioned 拡張で、WE-2(v ≢ 0 枝)の消費内容は
 不変、WE-3(v ≡ 0 枝)は v4 の qr_global_witness を分枝接続条件として消費)。
 
-### 8.14 GC-4A.5a0 PBK22-QRG(exact QR の大域化 — drafted、R1–R3 適用済み、査読対象 R-GC4A5A0 R4)
+### 8.14 GC-4A.5a0 PBK22-QRG(exact QR の大域化 — **accepted、R-GC4A5A0 R4 PASS、fixed SHA `68d114a`**)
 
 **目的**: JF₉ target の **v ≡ 0 枝**(二次比枝)を大域化し、WE-3(§8.13)の
 分枝接続条件を**無条件で**供給する(consult #14 の A.5 再分解 — 最軽量の
@@ -2378,6 +2378,83 @@ WE-3 の消費は v4 record を指名する。cell 粒度。
 **scope(非主張)**: v ≢ 0 枝(A.5a COND9)、chain・ledger(A.5c)、
 restart(A.5b)、人間による査読は未実施。
 
+### 8.15 GC-4A.5a PBK22-COND9(projective one-hop conditioning — drafted、査読対象 R-GC4A5A R1)
+
+**目的**: consult #14 の主エンジン — **一 hop の projective conditioning**
+  **(C9) ‖g‖_W ≤ B_C·(L_C/s)⁹·‖g‖_S**
+(g := |1 + H|/max(1, |H|)、H = reduced ratio(§8.3 (F2²-4) — P̃₁, P̃₂ 互いに
+素)、S = [t_c − s/2, t_c + s/2] ⊂ W(長さ L_C ≤ 1、W ⊂ cell 窓)、B_C は
+chart 定数、s ∈ (0, L_C/2])を確立する。A.5c(CHAIN)がこれを反復消費する。
+係数への線形性より **σ-方向の一様性は自動**(g は config の scalar 倍で
+不変)— 危険は指数側のみ(§9 COND9-PROBE: slope ≈ 1 ≪ 9、反証材料)。
+
+**(C9-1) g の三分法(初等)**: 任意の t で
+  |H(t)| ≥ 2 ⇒ g(t) ≥ 1 − 1/|H| ≥ 1/2、
+  |H(t)| ≤ 1/2 ⇒ g(t) = |1 + H| ≥ 1/2、
+  |H(t)| ∈ (1/2, 2) ⇒ g(t) = |1 + H|/max(1, |H|) ∈ [|1+H|/2, |1+H|]。
+よって **g < 1/2 の点では |H| ∈ (1/2, 2) かつ g ≍ |1 + H|(factor 2)**。
+また常に g ≤ 2。H の pole(P̃₂ 零点)・零点(P̃₁ 零点)では g = 1 —
+g は (t, config) の**連続関数**(reduced H は meromorphic、g は H = 0, ∞ を
+通して連続延長 — 互いに素 + (ZF-1) の V 非零により分母消滅は H = ∞ のみ)。
+
+**(C9-2) 自明 case**: sup_S g ≥ 1/2 なら ‖g‖_W ≤ 2 ≤ 4·‖g‖_S ≤
+B_C(L_C/s)⁹‖g‖_S(B_C ≥ 4)✓。以下 sup_S g < 1/2 とする — S 上
+|H| ∈ (1/2, 2)、g ≍ |1 + H|、u = Log(−H) が S 上 principal で |u| ≤ 2·sup_S g
+(A.2a と同計算)。
+
+**(C9-3) 列コンパクト性の骨格(BORD-3/TN-3 と同型)**: (C9) の否定 —
+配置列 θ_n(compact chart 箱、‖·‖ 正規化)、scale s_n、比
+Q_n := ‖g_n‖_S/((s_n/L_C)⁹‖g_n‖_W) → 0 — を取り、部分列で θ_n → θ*、
+s_n → s* ∈ [0, L_C/2] とする。
+- **(C9-3a) 固定 scale(s* > 0)**: (t, θ) ↦ g は compact 上一様連続なので
+  g_n → g_* 一様。Q_n → 0 と ‖g_n‖_W ≤ 2 から ‖g_*‖_{S*} = 0、すなわち
+  S* 上 1 + H_* ≡ 0。H_* は meromorphic なので**恒等定理により W 全体で
+  H_* ≡ −1**、よって g_* ≡ 0 on W。このとき ‖g_n‖_W → 0 なので比の分母も
+  退化 — 正規化列 ĝ_n := g_n/‖g_n‖_W を **(C9-4) の blow-up** で処理する
+  (H_* ≡ −1 の locus = p ≡ 0 ∧ v ≡ 0 の完全平坦面)。‖g_*‖_W > 0 の場合は
+  Q_n → Q_* = ‖g_*‖_{S*}/((s*/L)⁹‖g_*‖_W) > 0(分子 > 0 — 前段)で矛盾 ✓。
+- **(C9-3b) 縮小 scale(s* = 0)**: (C9-4) の jets 床が (s_n/L)⁹ の指数を
+  ちょうど供給する — 以下。
+**(C9-4) blow-up と ord ≤ 9 床(strata 被覆 — 全て accepted 資産の消費)**:
+(C9-2) 後の flat 域では g ≍ |1 + H| = |F|/|B₂-reduced 相当|(F := 数え上げ
+前の分子 — 1 + H は S 近傍で解析的、|H| ∈ (1/2, 2) により分母は
+max(|B₁|, |B₂|) と factor 3 で同値)。1 + H = 1 − e^{p + v}(A.2a 分解)で、
+両窓比較は **(p, v) の二成分**に分解される:
+  - **p 成分(deg ≤ 2)**: C₂-Markov(§8.13 (WE-1)、中心 t_c・半径 s/2)で
+    |p 係数|(s/2)^k ≤ 20·sup_S|u| ⇒ sup_W|p| ≤ C_p·(L_C/s)²·sup_S|u|。
+  - **v 成分**: JF₉ target の二分岐(GCRouteRecord-v4):
+    (i) **v ≡ 0**: A.5a0 の大域恒等式 — v 寄与なし。
+    (ii) **v ≢ 0**: S 中心の jets 3..9−d₀ は上に C₉-Markov(≤ C₉(2 sup_S|u|
+    + R̂)/rⁿ)、下に A.2c 床(max ≥ c_Jκλⁿ)で挟まれ、v の W 上の値は
+    **有限次元極限族の norm 比較**で評価する: 正規化列 v̂_n :=
+    v_n/‖v_n‖_{C⁰(W)} の極限は、A.2b atlas の chart 極限族(plain 4 class /
+    confluent / Z/G / QR-collapse)に属し、その **S-消滅次数は ≤ 9**:
+      plain 4 class = GC-1 W_c(4)(ord ≤ 9、任意中心)/
+      2 指数 confluent = §8.7 W_CONFL(2,2)(≤ 6)・混合消去(≤ 8)/
+      1 指数 collapse = Π₄(≤ 4)/ Z/G = §8.8 ZG-NF の床 /
+      exact QR face = (i) へ retract(A.5a0)。
+    S-消滅次数 ≤ 9 の非零極限は sup_S ≥ c·(s/L)⁹·sup_W を満たす(deg ≤ 9
+    Taylor 主部 + Markov — §8.13 (WE-1) の逆向き適用、剰余は d10 の R̂ 型)
+    ⇒ 極限族の一様定数 c_* > 0(compact 上の下半連続 inf — TN-3 の
+    (B3-4)→(T1-2) と同じ論理)⇒ 十分大きい n で
+    **sup_S|v_n| ≥ (c_*/2)(s_n/L)⁹ sup_W|v_n|**。
+  - **合成**: sup_W|u| ≤ sup_W|p| + sup_W|v| ≤ C_p(L/s)²·sup_S|u| +
+    (2/c_*)(L/s)⁹·sup_S|v| ≤ B′·(L/s)⁹·sup_S|u|(sup_S|v| ≤ sup_S|u| +
+    sup_S|p| ≤ (1 + 2C₂·10)sup_S|u| — S 上の p 係数評価から)。
+  - **u → g の変換**: flat 域では g ≍ |1 − e^u| ≍ |u|(|u| ≤ 1/2 圏 —
+    W 上 |u| が 1/2 を超える場合はその点で g ≥ c₀(初等下界)となり
+    (C9-2) 型の自明化で吸収)。∎(骨格 — chart 別定数の勘定は (C9-5))
+**(C9-5) chart 別定数と fail-closed**: (C9-4)(ii) の極限族所属・床消費は
+GCRouteRecord-v4 の verified witness 群(q_band_witness-v3・zf・d10・
+qr_global(分岐時))を要求する — 欠落 = record 生成禁止。B_C は
+  B_C := max(4, B′·(u→g 変換定数)²)
+の chart 定数(有効値は非主張 — 存在のみ)。出力契約:
+  `cond9_witness := (cell_id, we9_witness-v1 参照, hop 幾何(t_c, s, W),
+   B_C ref, (C9-2)/(C9-4) の分岐 flag)` — cell 粒度、A.5c が反復消費。
+
+**scope(非主張)**: B_C の有効値、hop の反復・ledger(A.5c)、restart
+(A.5b)、c ≥ 4 一般(GC-5)、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -2415,6 +2492,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.0(2026-08-19): **GC-4A.5a0 PBK22-QRG 受理**(R-GC4A5A0 R4 PASS、
+  fixed SHA `68d114a`、4 round — R3 で reviewer 明示指示による WE9 v4 置換を
+  含む)。**§8.15 GC-4A.5a PBK22-COND9 起草** — g の三分法(g < 1/2 ⟹
+  |H| ∈ (1/2,2) ⟹ g ≍ |1+H|)、列コンパクト性(固定 scale = 一様連続 +
+  恒等定理、縮小 scale = (p, v) 分解: p は C₂-Markov (L/s)²、v は正規化極限の
+  S-消滅次数 ≤ 9(W_c(4)/W_CONFL/混合/Π₄/ZG-NF/A.5a0 の strata 被覆)+
+  compact 下半連続 inf)、cond9_witness 契約。
 
 - v0.28.9(2026-08-19): R-GC4A5A0 R3(blocking 1)適用 — **WE-0/WE-4 の
   GCRouteRecord 参照を v3 から v4 へ本文置換**(accepted §8.13 内の参照
