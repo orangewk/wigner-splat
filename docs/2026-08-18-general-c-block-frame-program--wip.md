@@ -171,7 +171,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
-| GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1″ (A″1) chart 連続性) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **drafted(§8.10、R1 適用済み、査読待ち R-BORD3 R2)** |
+| GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ A′-4/limit span、FR-S1″ (A″1)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **drafted(§8.10、R1–R2 適用済み、査読待ち R-BORD3 R3)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体(curve selection + 弧 leading-term + BORD-3 消費 — §8.9 (2c) の blocking obligation 解消) | open(GC-5-T0 受理後に着工) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題 — B.0 counting の blocking downstream obligation。未解消の間 N_T 存在は条件付き)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
@@ -1953,7 +1953,7 @@ authoring location は §9 のみ — [GC4B0R3-minor]。診断であり証明の
 obligation。解消まで N_T 存在・counting 主張は条件付き)、triple の
 deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 
-### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — drafted、R1 適用済み、査読対象 R-BORD3 R2)
+### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — drafted、R1–R2 適用済み、査読対象 R-BORD3 R3)
 
 **目的**: §8.9 (2c) の比較補題 TN-3(§4 GC-5 受理条件の blocking downstream
 obligation)が消費する境界 ord 上界を、sequence/moving-center 形の補題として
@@ -1964,8 +1964,8 @@ reduction(R1 版 — h(ζ) = 0 のとき rescale が h を殺す欠陥)は**撤�
 を張り、対偶で閉じる**。これにより (i) 極限の Fock 所属・limit span 所属は
 一切不要(compact-open 収束と Cauchy 積分による jet 収束のみ)、(ii) 係数
 退化(support-drop・λ_n の射影的発散との組合せ — R1 反例
-f_n = e^p − e^{p+s_nq} + s_ne^{q₀})は **frame 係数の span 吸収**で自動的に
-処理される。
+f_n = e^p − e^{p+s_nq} + s_ne^{q₀})は **単位 ℱ-球面正規化**で自動的に
+処理される([GCBORD3R2-03] で frame 係数正規化から変更)。
 
 **(B3-1) statement(sequence/moving-center 形 — [GCBORD3R1-05] で型を自己
 完結に)**: K は §8.9 (2c) のパラメタ空間そのもの(‖c‖₂ = 1 の raw 係数球面
@@ -1980,69 +1980,69 @@ z_c : K → 閉 chart 箱 ⊆ D̄(t₀, R_col) は §8.9 (iii) の型(≺-最小
 とする。このとき **ord_ζ(h) ≤ 5**。
 (収束は compact-open で**定義**する。「W̄₃ の元」という集合名は使わない。)
 
-**(B3-2) pattern 分類(部分列)**: 対距離 d_{ab}(n) := max(|ΔB_{ab}|,
-|ΔA_{ab}|^{1/2}) は有界。s(n) := max_{ab} d_{ab}(n) とし、部分列上で各
-d_{ab}(n)、比 d_{ab}(n)/s(n)、s(n) を収束させる。**三角不等式により o(s) の
-対は高々 1 つ**(2 対が o(s) なら第 3 対も o(s) となり s = max と矛盾)。
-よって部分列上の pattern は次の 4 つで網羅:
-  (P1) **1|1|1**: 全対距離に下界 > 0。
-  (P2) **2|1**: 1 対のみ → 0、第 3 class は両者から下界 > 0。
-  (P3) **coarse 3・plain**: s(n) → 0 かつ全比 d_{ab}/s に下界 > 0。
-  (P4) **coarse 3・nested 2+1**: s(n) → 0 かつちょうど 1 対が o(s)。
-係数の退化・λ_n の発散は分類に**関与しない**(下の frame 論法が吸収)。
+**(B3-2) step 0: exact-merge routing と pattern 分類([GCBORD3R2-01] で
+lower-arity route を復元)**: raw K は exact merge(q_a = q_b)・係数零を含む
+ので、まず部分列上で **exact 一致 pattern と零係数 pattern を固定**し、一致
+class を合併(f は不変 — 係数は和)・零係数を prune した表現を取る。相異
+class 数を m ∈ {1, 2, 3} とする(この表現では対距離 > 0・係数非零が各 n で
+成立 — 以下の d/s 比・Newton frame が well-defined)。
+- m = 1: f_n = c e^{q}、ord ≤ 0 — 自明。
+- m = 2: 下の (B3-3)〜(B3-5) の 2 class 版(pattern は分離/collapse の 2 つ、
+  極限 span は plain 2 class または span{e^p, L e^p}(L 非定数 deg ≤ 2 —
+  (A″1) の 2 原子版)、span の任意中心 ord ≤ 2)。
+- m = 3: 対距離 d_{ab}(n)、s(n) := max d_{ab}(n) > 0 を取り、部分列上で各
+  d_{ab}、比 d_{ab}/s、s を収束させる。**三角不等式により o(s) の対は高々
+  1 つ**(2 対が o(s) なら第 3 対も o(s) となり s = max と矛盾)。pattern:
+  (P1) **1|1|1**(全対距離下界 > 0)/(P2) **2|1**(1 対のみ → 0、第 3 は
+  下界 > 0)/(P3) **coarse 3・plain**(s → 0、全比に下界 > 0)/
+  (P4) **coarse 3・nested 2+1**(s → 0、ちょうど 1 対が o(s))。
+係数の相対退化・λ_n の射影的発散は分類に関与しない(以下の unit-sphere
+論法が吸収)。
 
-**(B3-3) 各 pattern の exact frame と limit span 上界**:
-各 pattern で、f_{p_n} を **可逆な列変換で frame 基底に書き換える**
-(FR-S1″ (A″1) の ν-chart/Newton difference 方式 — FR 文書 §9.1 の積分表示
-G_{ν̂,t} = L_ν̂∫₀¹exp(utL_ν̂)du が t = 0 面まで係数・J⁵ 連続を与える):
-  (P1) frame = raw 原子 3 本。frame 極限 span = plain 3 class 指数和。
-  (P2) frame = {e^{q_a}, (e^{q_b} − e^{q_a})/t_n, e^{q_sing}}(t_n = 対の
-    ν-norm)。frame 極限 span ⊆ span{e^p, P e^p, e^q}、P = L_ν̂ 非定数
-    deg ≤ 2、r = q − p 非定数(singleton 分離下界から)。
-  (P3)(P4) root scale s(n) で w := (z − pivot_n)/s(n) と再正規化し、共通
-    非零因子 e^{q_piv} を抜く(gauge)。w 座標では (P3) は分離 3 原子
-    ((N0) 型分離 η > 0)、(P4) は FR-S1″ の 𝒦_{η,t₀} chart の 2+1 frame。
-    frame 極限 span は各々 plain 3 class(w 座標)/ span{1, L_ν̂, e^{Q}}。
-**span の点一様 ord 上界(消費資産は 2 本だけ)**: 各 frame 極限 span の
-非零元の任意中心 ord は
-  - plain ≤ 3 class span: **GC-1 W_c(≤3)**(§3.1 — 任意中心)⇒ ord ≤ 5、
-  - span{e^p, P e^p, e^q}(P 非定数 deg ≤ 2、r 非定数): **static W′**
-    (W 文書 §6: 任意中心で w₃ ≤ 4 — 平行移動で P, r の非定数性は不変)
-    ⇒ ord ≤ 4、
-で抑えられる(FR-S1′ の「limit span ⊆ e^qΠ₅」[GCBORD3R1-minor: 等号ではなく
-包含]は (P3) の w 座標分離化により本証明では消費不要 — FR-S1″ からは
-(A″1) の chart 連続性のみ消費)。
+**(B3-3) Fock 正規化と RKHS 評価([GCBORD3R2-02][03] で座標 dilation を
+全廃)**: R1–R2 版の w/x 再正規化は**撤回**(dilation の向きが逆で分離下界が
+出ず、正しい向きでは raw jet に s⁵ 重みが残り raw frame 係数ノルムでは床が
+張れない — R2 反例 ‖J⁵f_n(0)‖ ≍ s² 参照)。代わりに **FR 資産と同じ Fock
+空間 ℱ のノルムで正規化する**(R2 反例では ‖f_n‖_ℱ ≍ s² で jets と同率 —
+比は一様)。box パラメタでは各原子の ℱ-norm は両側有界で、
+  **(i) RKHS 評価**: ℱ は再生核 Hilbert 空間 — 点評価・0..5 階微分汎関数は
+  中心 ∈ D̄(t₀, R_out) の compact 範囲で一様有界。特に
+  sup_{D̄(t₀,R_out)} |f| ≤ C_R ‖f‖_ℱ(C_R は box 定数)。
+V_{p} := span{e^{q_j}} ⊆ ℱ(merge/prune 後の m 次元部分空間)。
 
-**(B3-4) moving-center head floor([GCBORD3R1-02][04])**: pattern ごとに
-compact chart 𝒦 を取る(frame パラメタ + **中心座標 w_c**: |w_c| ≤ C_c —
-(P3)(P4) では w_c = (ζ_n − pivot_n)/s(n) は cluster 直径 ≲ s により compact、
-(P1)(P2) では中心は raw 閉箱。pivot(child anchor)と ζ_n(≺-最小 class)の
-不一致 [GCBORD3R1-04] は、**中心を独立座標として chart に含める**ことで解消 —
-η = 1 の主張は撤回し、分離下界 η > 0 は部分列の比の極限から取る)。
-head map
-  H : 𝒦 × ℂ³ → J⁵、 (k, a) ↦ (Σ_j a_j f_j^{(k)} の中心 w_c での 0..5 階 jet)
-は 𝒦 上連続((A″1))。**単射性**: 内部点(t > 0)では frame は genuine
-3 原子の可逆変換なので非零結合の ord ≤ 5(W_c(3))、境界点(t = 0)では
-(B3-3) の span 上界(W_c/W′)— いずれも J⁵ ≠ 0。よって compactness で
-  σ(𝒦) := inf_{k∈𝒦} σ_min(H(k, ·)) > 0。
+**(B3-4) 単位 ℱ-球面上の moving-center jet floor([GCBORD3R2-03])**: 主張 —
+  **∃σ₀ > 0(pattern chart 定数): ∀n, ∀v ∈ V_{p_n}, ∀ζ' ∈ D̄(t₀,R_col):
+  ‖J⁵_z v(ζ')‖ ≥ σ₀ ‖v‖_ℱ**(部分列の pattern を固定した上で)。
+証明(背理法 + strong limit 分類): 反例列 v_n ∈ V_{p_n}(‖v_n‖_ℱ = 1)、
+ζ'_n → ζ'、‖J⁵v_n(ζ'_n)‖ → 0 を取る。各 pattern の frame は **ℱ-norm で
+strong 収束**する(P1: 分離原子そのもの/P2・P4: (A″1) の積分表示が
+coefficientwise・J⁵・Fock tail の全てで t = 0 面まで連続 — FR 文書 §9.1、
+2 原子版も同型/P3: FR-S1′ の SVD frame の norm limit — A′-4、accepted)。
+極限 frame は一次独立(P1: 相異 class/P2・P4: dim W_gen = 3 — W′ の
+Wronskian 非零/P3: A′-4 の exact span)なので、v_n の frame 係数は有界 —
+部分列で v_n → v ∈ ℱ strong、**‖v‖_ℱ = 1 ≠ 0**、かつ v は極限 span に属す:
+  (P1) plain 3 class span ⇒ **W_c(3)**(任意中心)⇒ ord ≤ 5。
+  (P2)(P4) span{e^p, P e^p, e^q}(P = L_ν̂ 非定数 deg ≤ 2、r = q − p 非定数
+  — P4 は cluster 外の第 3 class が r 非定数を保証)⇒ **static W′**(任意
+  中心 — 平行移動で P, r の非定数性は不変)⇒ ord ≤ 4。
+  (P3) FR-S1′ の limit span **⊆ e^{q}Π₅**(deg ≤ 5 多項式因子 — raw 座標、
+  F3′ の z⁵ を含む)⇒ 非零元の任意中心 ord ≤ deg ≤ 5。
+  (m = 2) span{e^p, L e^p} または plain 2 class ⇒ ord ≤ 2。
+一方 jet 汎関数の RKHS 連続性(moving center 込み)により
+J⁵v(ζ') = lim J⁵v_n(ζ'_n) = 0 ⇒ ord_{ζ'}(v) ≥ 6 — 上の span 上界と矛盾。∎
+(J⁵ の中心は D̄(t₀,R_col) の任意点で floor が張れる — z_c の値も含む。)
 
-**(B3-5) 定量鎖と対偶([GCBORD3R1-02][03] — 極限は動かさない)**: 部分列の
-pattern を固定し、a_n := f_{p_n} の frame 係数とする。compact chart 上で
-  (i) **sup 上界**: sup_{D̄(t₀,R_out)} |f_{p_n}| ≤ C·‖a_n‖(frame 関数は
-    **raw 円板上一様有界** — (P2)(P4) の Newton difference は
-    |(e^{δq} − 1)/t_n| ≤ C|δq|/t_n ≤ C′ s(n) ≤ C′、gauge 因子は箱定数で
-    両側有界)、
-  (ii) **jet 下界**: ‖J⁵_z f_{p_n}(ζ_n)‖ ≥ c_g·‖J⁵_w F_n(w_c)‖ ≥
-    c_g·σ(𝒦)·‖a_n‖(w-jet は raw jet の s^k 倍(|s| ≤ 1)で raw 側が大きく、
-    gauge の非零指数因子は可逆三角 Toeplitz で両側有界 — c_g は箱定数)。
-合成: **‖J⁵_z f_{p_n}(ζ_n)‖ ≥ (c_g σ/C) · sup |f_{p_n}|**(chart 定数)。
-対偶: ord_ζ(h) ≥ 6 と仮定すると J⁵h(ζ) = 0。Cauchy 積分(compact-open ⇒
-全階導関数の内部一様収束 + 移動中心 ζ_n → ζ での評価)により
-λ_n‖J⁵_z f_{p_n}(ζ_n)‖ → ‖J⁵h(ζ)‖ = 0。すると (i)(ii) の合成から
-λ_n sup|f_{p_n}| → 0、すなわち h ≡ 0 — 矛盾。∎
-(この鎖は各 pattern chart 上の **TN-3 型不等式そのもの**であり、GC-5-T1 は
-これらの chart で K の退化近傍を覆う被覆論法(curve selection または直接
-被覆)を担う。)
+**(B3-5) 定量鎖と対偶([GCBORD3R1-02][03] — 極限は動かさない)**: (B3-3)(i)
+と (B3-4) の合成(v = f_{p_n}、ζ' = ζ_n)で、部分列の pattern chart 上
+  **‖J⁵_z f_{p_n}(ζ_n)‖ ≥ σ₀ ‖f_{p_n}‖_ℱ ≥ (σ₀/C_R)·sup_{D̄(t₀,R_out)}
+  |f_{p_n}|**。
+対偶: ord_ζ(h) ≥ 6 と仮定すると J⁵h(ζ) = 0。compact-open 収束は Cauchy 積分
+により全階導関数の内部一様収束を与え、移動中心 ζ_n → ζ でも
+λ_n‖J⁵_z f_{p_n}(ζ_n)‖ → ‖J⁵h(ζ)‖ = 0。上の一様比較から
+λ_n sup|f_{p_n}| → 0、すなわち h ≡ 0 — 矛盾。よって ord_ζ(h) ≤ 5。∎
+(λ_n‖a‖ 型の有界性仮定は不要 — R2 で確認された対偶の論理。この鎖は各
+pattern chart 上の **TN-3 型不等式そのもの**であり、GC-5-T1 は K の退化近傍を
+これらの chart で覆う被覆論法を担う。)
 
 **(B3-6) sharp 性**: 5 は sharp(F3′ — 正本: FR 文書 §7。(P3) で到達)。
 
@@ -2085,6 +2085,16 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.27.2(2026-08-19): R-BORD3 R2(blocking 3)適用 — [01] 証明 step 0 に
+  exact-merge routing を復元(部分列で一致/零係数 pattern 固定 → 合併・
+  prune、m ∈ {1,2,3}、m ≤ 2 の低 arity 鎖を明示 — raw K の exact-merge 面で
+  d/s 比・Newton frame が未定義になる漏れを解消)。[02][03] w/x 座標 dilation
+  を全廃(向きが逆・正しい向きでは raw jet に s⁵ 重み — R2 反例 ‖J⁵‖ ≍ s²)
+  — **Fock ノルム正規化**に置換: RKHS 評価 sup ≤ C_R‖f‖_ℱ + 単位 ℱ-球面上の
+  moving-center jet floor(背理法: 各 pattern の frame の strong 収束
+  ((A″1)/A′-4)+ 極限 span 分類(W_c(3)/W′/FR-S1′ e^qΠ₅)+ RKHS jet 連続性
+  で床)。FR-S1′ の消費を復活(P3 の limit span ⊆ e^qΠ₅)。
 
 - v0.27.1(2026-08-19): R-BORD3 R1(blocking 5)適用 — 証明核を全面改稿。
   [01] 係数退化 × λ_n 射影発散の組合せ(R1 反例 span{e^p, qe^p, e^{q₀}})は
