@@ -165,7 +165,10 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
 | GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **accepted(§8.13、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`)** |
-| GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
+| GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **drafted(§8.14、査読待ち R-GC4A5A0 R1)** |
+| GC-4A.5a PBK22-COND9 | A.2b/A.2c/A.4 | **projective one-hop conditioning** ‖g‖_W ≤ B_C(L_C/s)⁹‖g‖_S(source-norm blow-up、横断極限 = JF₉ ord ≤ 9、exact QR face = 二次比枝、Z/G・gcd-jump・degree-drop = 既存 chart strata)— **最大の no-go gate(consult #14: 黄赤。線形 one-hop が Hölder 型に落ちれば PBK22 経路の実質 no-go)** | open |
+| GC-4A.5b PBK22-RESTART | A.5a/A.3a | g-small ⇒ 実 root/pole 排除 ⇒ zf_witness 再選択(ZF-2 再実行)⇒ fresh principal branch。cell 境界 handoff | open |
+| GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
 | GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **accepted(§8.9、R-GC4B0 R8 PASS、fixed SHA `eee39bf`。受理時は TN-3 条件付き go — TN-3 は GC-5-T1(`906bd1a`)で解消し、条件解除 = feasibility go)** |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
@@ -2322,6 +2325,41 @@ I_k 上 |x − c_k| ≤ 1 なので
 γ 確定(A.5/A.6)、分枝接続(A.5)、床 c_J の供給(A.2b/A.2c — 消費のみ)、
 人間による査読は未実施。
 
+### 8.14 GC-4A.5a0 PBK22-QRG(exact QR の大域化 — drafted、査読対象 R-GC4A5A0 R1)
+
+**目的**: JF₉ target の **v ≡ 0 枝**(二次比枝)を大域化し、WE-3(§8.13)の
+分枝接続条件を**無条件で**供給する(consult #14 の A.5 再分解 — 最軽量の
+base face を先に閉じる)。
+
+**(QRG-1) 恒等定理による大域化**: A.2a の claim 域で v := u − T₂u が
+S-collar 上 **v ≡ 0** とする(JF₉ target の第一枝)。p := T₂u(二次)と
+おくと collar 上 u = p、すなわち −H = e^p、すなわち
+  **Φ_p := B₁ + e^p B₂ ≡ 0(collar 上)**。
+B₁、B₂、e^p はいずれも entire(B_i = 有限指数和 × 多項式構造 — A.0/A.1 の
+cell データ、p は二次多項式)なので Φ_p も entire であり、開集合(collar)上で
+零 ⟹ **恒等定理により Φ_p ≡ 0 on ℂ**。∎
+
+**(QRG-2) 帰結(大域二次比 witness)**: B₁ = −e^p B₂ が ℂ 上成立。
+- **H = −e^p として大域延長**: B₂ の零点では B₁ も同時に零(恒等式)なので
+  H = B₁/B₂ の特異点は除去可能 — **I_k 上 H は解析的で pole なし**、
+  1 + H = 1 − e^p(**Log・分枝は一切不要** — WE-3 の「u = p が I_k 全体で
+  有効」より強い形で分枝接続条件が充足)。
+- **g の評価は WE-3 がそのまま適用可能**: sup_{J_k}|1 − e^p| = σ から
+  C₂-Markov(中心 c_k = center(J_k))で ‖g‖_{I_k} ≤ 6600ρ⁻²‖g‖_{J_k} —
+  **(c-i) の v ≡ 0 枝の kernel はこれで閉鎖**(chain・conditioning 不要 —
+  consult #14「chain より先に閉じられる」)。
+
+**(QRG-3) 出力契約(型付き — fail-closed)**:
+  `qr_global_witness := (cell_id, p の係数 3 組(= record の T₂u — t₀ 中心、
+   GCRouteRecord-v3 の α field と同一値規約), 恒等式 ref: Φ_p ≡ 0
+   ((QRG-1) — §7.1 の identity ref 規約), v ≡ 0 判定の source
+   (JF₉ target 第一枝の判定値))`
+— WE-3 の分枝接続条件はこの witness の存在で充足(欠落 = WE-3 適用不可 =
+record 生成禁止)。cell 粒度。
+
+**scope(非主張)**: v ≢ 0 枝(A.5a COND9)、chain・ledger(A.5c)、
+restart(A.5b)、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -2358,6 +2396,18 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.28.6(2026-08-19): consult #14(Sol、`sol-boot-consult.md` — A.5 設計):
+  生 Taylor hop は**棄却**(剰余が chart スケールで支配)、full-tube root
+  repulsion は**反例で偽**(paired complex roots の G/gcd-near 配置 —
+  H = −(t−iδ)/(t−i(δ+η)) は η ≪ δ で任意深平坦のまま root が実軸接近)。
+  採用骨格 = **projective one-hop conditioning(主)+ 有限次元 norm 比較
+  (従)+ RESTART/CHAIN(外側)**。κ-small ⇒ parameter-distance small は
+  accepted 資産から出ない(A.2c は κ ≤ C·dist のみ — 逆向き不成立)ことを
+  確認。A.5 を **A.5a0 QRG / A.5a COND9(黄赤 — 最大 no-go gate)/
+  A.5b RESTART / A.5c CHAIN** に再分解(§4 台帳)。予想 round 合計 8–13。
+  §8.14 A.5a0 を起草(恒等定理による exact QR 大域化 — H = −e^p の pole 除去
+  可能性・分枝不要化・WE-3 閉鎖)。
 
 - v0.28.5(2026-08-19): **GC-4A.4 PBK22-WE9 受理** — R-GC4A4 R2 PASS(luna
   gpt-5.6-luna xhigh、fixed SHA `9f1a18d`、blocking なし、2 round)。
