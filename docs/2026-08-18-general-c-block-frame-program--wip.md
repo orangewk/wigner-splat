@@ -171,7 +171,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
-| GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **drafted(§8.10、R1–R4 適用済み、査読待ち R-BORD3 R5)** |
+| GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **drafted(§8.10、R1–R5 適用済み、査読待ち R-BORD3 R6)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体(curve selection + 弧 leading-term + BORD-3 消費 — §8.9 (2c) の blocking obligation 解消) | open(GC-5-T0 受理後に着工) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題 — B.0 counting の blocking downstream obligation。未解消の間 N_T 存在は条件付き)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
@@ -1953,7 +1953,7 @@ authoring location は §9 のみ — [GC4B0R3-minor]。診断であり証明の
 obligation。解消まで N_T 存在・counting 主張は条件付き)、triple の
 deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 
-### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — drafted、R1–R4 適用済み、査読対象 R-BORD3 R5)
+### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — drafted、R1–R5 適用済み、査読対象 R-BORD3 R6)
 
 **目的**: §8.9 (2c) の比較補題 TN-3(§4 GC-5 受理条件の blocking downstream
 obligation)が消費する境界 ord 上界を、sequence/moving-center 形の補題として
@@ -2052,8 +2052,9 @@ t_n → (1 − δ_ℱ)/2 < 1/2 なので(t_n 十分小で)一様に ℱ の comp
     ([GCBORD3R4-03]): 「o(s) の対はちょうど 1 つ」なので singleton 側の
     root-normalized 分離 max(|Ā|^{1/2}, |B̄|) は部分列極限で下界 η > 0 を
     持ち((N0) 充足)、t₀ := min(1/4, η²/8) と固定すると pair の
-    root-normalized scale t_m ≍ τ_m/s_m → 0 は十分大きい n で t_m ≤ t₀ —
-    よって列は 𝒦_{η,t₀} に入る。いずれも SVD frame v_{ℓ,m} が strong-continuous
+    root-normalized scale は **0 < t_m ≤ C·(τ_m/s_m) → 0**([GCBORD3R5-01] —
+    ≍ は純二次差分 δB = 0 で偽: t_m = ε²/2。上界だけで包含には十分)なので
+    十分大きい n で t_m ≤ t₀ — よって列は 𝒦_{η,t₀} に入る。いずれも SVD frame v_{ℓ,m} が strong-continuous
     unitary section で raw gauge へ戻り(FR 文書 §8.4/§9.3–§9.5、A′-4 —
     accepted)、**raw ℱ-strong 極限 U_*^{-1}P_ℓ = Q_ℓΦ(ξ*)、deg Q_ℓ ≤ 5**
     を持つ。よって極限 span の非零元は(deg ≤ 5 多項式)× Φ(ξ*)(非零
@@ -2068,9 +2069,11 @@ t_n → (1 − δ_ℱ)/2 < 1/2 なので(t_n 十分小で)一様に ℱ の comp
 1 = ‖v_n‖² = b_n^* G_n b_n ≥ λ_min(G_n)‖b_n‖² と λ_min(G_n) → λ_min(G_*) > 0
 から **b_n は有界** — 部分列で b_n → b_*、
 v_n → v := Σb_{ℓ,*}w_{ℓ,*} ∈ ℱ strong、‖v‖² = b_*^*G_*b_* = lim b_n^*G_nb_n
-= **1 ≠ 0**、v ∈ 極限 span。(P3/P4 の frame は w_{ℓ,n} = v_{ℓ,n}(SVD
-frame)で、strong unitary section U_n → U_* により
-w_{ℓ,n} = U_nU_n^{-1}v_{ℓ,n} → Q_ℓΦ(ξ*) — FR §8.4 の鎖。)
+= **1 ≠ 0**、v ∈ 極限 span。(P3/P4 の raw-gauge frame は **w_{ℓ,n} := U_n^{-1}v_{ℓ,n}**(v_{ℓ,n} =
+gauged 空間の SVD frame、U_n = gauge unitary — w_{ℓ,n} は V_{p_n} を張る)で、
+strong unitary section U_n → U_* により
+**w_{ℓ,n} = U_n^{-1}v_{ℓ,n} → U_*^{-1}P_ℓ = Q_ℓΦ(ξ*)** — FR §8.4 の鎖
+[GCBORD3R5-02]。)
 **moving-center RKHS 連続性([GCBORD3R4-03])**: ℱ の k 階微分評価汎関数の
 核 K^{(k)}_ζ は ζ に norm 連続(Fock 核の正則性)で、ζ ∈ D̄(t₀,R_col) の
 compact 範囲上 norm 有界。よって
@@ -2140,6 +2143,12 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.27.5(2026-08-19): R-BORD3 R5(blocking 2 — 表記レベル)適用 — [01] P4 の
+  t_m ≍ τ/s を撤回し 0 < t_m ≤ C·(τ_m/s_m) → 0 に(純二次差分 δB = 0 で ≍ は
+  偽 — 包含には上界で十分)。[02] unitary section の式を訂正:
+  w_{ℓ,n} := U_n^{-1}v_{ℓ,n} → U_*^{-1}P_ℓ = Q_ℓΦ(ξ*)(U_nU_n^{-1} は
+  書き誤り)。
 
 - v0.27.4(2026-08-19): R-BORD3 R4(blocking 3 — いずれも記述不足の明記要求)
   適用 — [01] B3-6 の F3′ witness と z_c の接続(ζ_n = z_c(p_n) ∈ {βω^j} →
