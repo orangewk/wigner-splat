@@ -164,7 +164,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2c-core | A.2b、**主張域は GCRouteRecord-v3 条件付き(充足可能性は GC-5/GC-6 送り)** | W_CONFL(2,2) v2 消去法(正本 §8.7 (FL-2)、B = 6)/混合消去 ≤ 8/regular・C collapse/Z/G 以外の strata 床(consult #12 で component 分割) | **accepted(R-GC4A2CCORE R4 ACCEPTED、fixed SHA `c0c9e05`。A.2c-Z `5ea87ec` と併せトップレベル A.2c 確定)** |
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
-| GC-4A.4 PBK22-WE9 | A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **drafted(§8.13、査読待ち R-GC4A4 R1)** |
+| GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **drafted(§8.13、R1 適用済み、査読待ち R-GC4A4 R2)** |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
 | GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **accepted(§8.9、R-GC4B0 R8 PASS、fixed SHA `eee39bf`。受理時は TN-3 条件付き go — TN-3 は GC-5-T1(`906bd1a`)で解消し、条件解除 = feasibility go)** |
@@ -2253,7 +2253,7 @@ sup_S|u⁽¹⁰⁾| の適用域と整合(複素外挿は非主張 — WE₉ が
 GC-5)、u の値の bound(分枝定数 — A.5 bootstrap の義務と同配置)、人間に
 よる査読は未実施。
 
-### 8.13 GC-4A.4 PBK22-WE9(局所窓外挿 — drafted、査読対象 R-GC4A4 R1)
+### 8.13 GC-4A.4 PBK22-WE9(局所窓外挿 — drafted、R1 適用済み、査読対象 R-GC4A4 R2)
 
 **目的**: 深平坦 (c-i)(§8.3 (F2²-3))で、JF₉ target(consult #9 受理形 —
 「v ≡ 0(二次比枝)または max_{3≤n≤9−d₀}|v⁽ⁿ⁾(t₀)|/(κλⁿ) ≥ c_J」、床は
@@ -2274,8 +2274,9 @@ T_k の単項係数の絶対値和は
   ‖T_k‖₁ = 1, 1, 3, 7, 17, 41, 99, 239, 577, 1393(k = 0..9、直接検算可能、
   Σ_{k≤9} ‖T_k‖₁ = 2378)
 なので、q の単項係数 a_j は |a_j| ≤ 2M·2378 ≤ **C₉·M、C₉ := 4756**。
-半径 r の実区間 [t₀ − r, t₀ + r] へは y = (x − t₀)/r の置換で
-**|a_n|·rⁿ ≤ C₉·sup_{|x−t₀|≤r}|q|**(a_n は x-係数)。deg ≤ 2 版は
+半径 r・**任意中心 c** の実区間 [c − r, c + r] へは y = (x − c)/r の置換で
+**|a_n|·rⁿ ≤ C₉·sup_{|x−c|≤r}|q|**([GC4A4R1-02] — a_n は **(x − c)ⁿ 中心
+Taylor 係数**。通常の単項係数ではない)。deg ≤ 2 版は
 **C₂ := 2(1 + 1 + 3) = 10**。∎
 
 **(WE-2) κ 上界(深平坦 ⇒ 定量的 near-QR — v ≢ 0 枝)**: JF₉ target の
@@ -2292,9 +2293,13 @@ r := θ·ℓ_ext(θ ∈ (0, 1]、Taylor 線分 ⊂ S — d10 の適用域契約)
 
 **(WE-3) 二次比枝の kernel 不等式(v ≡ 0 枝)**: u = p(deg ≤ 2)とする。
 **分枝接続条件(A.5 供給 — 型付き消費)**: u = p が I_k 全体で有効
-(bootstrap witness)。J_k(半径 ρ/2)上 |p| ≤ 2σ に (WE-1) の C₂ 版:
-|a_k|(ρ/2)^k ≤ 10·2σ = 20σ(k = 0, 1, 2)。I_k 上 |x − t₀| ≤ 1 なので
-  sup_{I_k}|p| ≤ Σ_k 20σ·(2/ρ)^k ≤ 140σρ⁻²(ρ ≤ 1)。
+(bootstrap witness)。**展開中心は c_k := center(J_k)**([GC4A4R1-01] —
+t₀ = center(S) は一般に center(J_k) でないため、WE-3 は t₀ を使わない。
+p は大域二次式なので任意中心の Taylor 展開が exact)。J_k = [c_k − ρ/2,
+c_k + ρ/2] 上 |p| ≤ 2σ に (WE-1) の C₂ 版(中心 c_k・半径 ρ/2):
+|b_j|(ρ/2)^j ≤ 10·2σ = 20σ(b_j は (x − c_k)ʲ 中心係数、j = 0, 1, 2)。
+I_k 上 |x − c_k| ≤ 1 なので
+  sup_{I_k}|p| ≤ Σ_j 20σ·(2/ρ)^j ≤ 140σρ⁻²(ρ ≤ 1)。
 (c-i) では σ < c₁ρ⁹ ≤ 10⁻²ρ⁹ なので sup_{I_k}|p| ≤ 1.4ρ⁷ ≤ 1.4、
 |1 − e^p| ≤ |p|e^{|p|} ≤ 4.1·140σρ⁻²、|H| = e^{Re p} ≥ e^{−1.4} ⇒
   g = |1 + H|/|H| ≤ e^{1.4}·574σρ⁻² ≤ 2400σρ⁻²(I_k 上)。
@@ -2304,6 +2309,9 @@ r := θ·ℓ_ext(θ ∈ (0, 1]、Taylor 線分 ⊂ S — d10 の適用域契約)
 
 **(WE-4) 出力契約(型付き — fail-closed)**: A.5/A.6 が消費する interface:
   `we9_witness-v1 := (cell_id, d10_witness-v1 参照, GCRouteRecord-v3 参照,
+   **d₀ = ord_{t₀}D(divisor_record 参照 — (ZF-3) の規約どおり S 中心 t₀ で
+   exact に読み直した値。gcd transition 後は current rank の record を指名)**
+   ([GC4A4R1-03]),
    branch flag(v ≡ 0 / v ≢ 0 — JF₉ target の二分岐),
    v ≢ 0 ⇒ κ_WE(θ; σ) の式(θ は自由パラメタ — A.5/A.6 の menu),
    v ≡ 0 ⇒ kernel 定数 6600ρ⁻²(分枝接続 witness を A.5 から要求 —
@@ -2351,6 +2359,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 
 ## 11. 版履歴
 
+- v0.28.4(2026-08-19): R-GC4A4 R1(blocking 5)適用 — [01] WE-3 の展開中心を
+  c_k = center(J_k) に変更(t₀ = center(S) ≠ center(J_k) — 任意中心 Markov で
+  処理、t₀ は WE-3 で不使用)。[02] WE-1 の係数を中心 Taylor 係数として明示。
+  [03] we9_witness-v1 に d₀ の型付き provenance(divisor_record 参照・S 中心
+  読み直し・gcd transition 時の current rank 指名)。[04] §4 依存欄に
+  A.0/A.1 追加。[05] v0.28.0 記載の旧 ℓ_ext 式に訂正注記。
+
 - v0.28.3(2026-08-19): GC-4A.4 PBK22-WE9 起草 — §8.13: (WE-1) Chebyshev
   係数補題(‖T_k‖₁ 表による初等自己完結、C₉ = 4756、C₂ = 10)、(WE-2)
   深平坦 ⇒ κ ≤ κ_WE(θ; σ)(JF₉ target v ≢ 0 枝 + d10 R̂(θ) の消費 —
@@ -2376,7 +2391,7 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
   GC-5 本体より先行する裁定)— §8.12: collar unit 両側 bound(E-branch の
   初等場合分け |E| ∈ [1/25, 48]、D1/D2 の指数評価、数値診断で margin 確認)、
   reduced 零点距離 ρ/26 による log 微分 bound、**u′ 経由の Cauchy 10 階**
-  (log の分枝定数を回避)、scale cap ℓ_ext = min(r_S/2, λ) と正規化剰余
+  (log の分枝定数を回避)、scale cap ℓ_ext = min(r_S/2, λ)(→ v0.28.1 で min(r_S/2, **1/λ**) に訂正)と正規化剰余
   R̂(θ) = (M₁r_S/10240)θ¹⁰、型付き d10_witness 契約。
 
 - v0.27.8(2026-08-19): **GC-5-T1 TN-3 受理** — R-TN3 R2 PASS(luna
