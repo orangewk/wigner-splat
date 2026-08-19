@@ -166,7 +166,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
 | GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **accepted(§8.13、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`)** |
 | GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **accepted(§8.14、R-GC4A5A0 R4 PASS、fixed SHA `68d114a`)** |
-| GC-4A.5a PBK22-COND9 | A.2a/A.2b/A.2c/A.5a0/GC-1 | **projective one-hop conditioning** ‖g‖_W ≤ B_C(L_C/s)⁹‖g‖_S — 三分法(g ≥ 1/2 自明化)+ 列コンパクト性(固定 scale = 恒等定理/縮小 scale = ord ≤ 9 床の strata 被覆)。**最大の no-go gate(consult #14: 黄赤 — §9 COND9-PROBE は反証材料)** | **drafted(§8.15、査読待ち R-GC4A5A R1)** |
+| GC-4A.5a PBK22-COND9 | **BORD-22/PTN-22(blocking obligation — consult #15)**、A.2a/A.2b/A.2c/A.3a/A.3b/A.4/A.5a0 | projective one-hop conditioning — **定理 draft は R1 で撤回**。再設計: PTN-SPEC(interface)+ BORD-22(T3 = 2|2 限定 border 分類)+ PTN-22(weighted Remez 系)。COND9 は PTN-22 からの reduction packet に降格。**A.5a は PTN-22 受理まで open** | **withdrawn → 再設計中(§8.15 追記)** |
 | GC-4A.5b PBK22-RESTART | A.5a/A.3a | g-small ⇒ 実 root/pole 排除 ⇒ zf_witness 再選択(ZF-2 再実行)⇒ fresh principal branch。cell 境界 handoff | open |
 | GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open |
 | GC-4A.6 PBK22-ASM | A.5(:= 集約 {A.5a0, A.5a, A.5b, A.5c} — 本行で正式定義。§8.3/§8.4/§8.12 等の accepted 本文中の「A.5」参照はこの集約を指す)| 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
@@ -2378,7 +2378,7 @@ WE-3 の消費は v4 record を指名する。cell 粒度。
 **scope(非主張)**: v ≢ 0 枝(A.5a COND9)、chain・ledger(A.5c)、
 restart(A.5b)、人間による査読は未実施。
 
-### 8.15 GC-4A.5a PBK22-COND9(projective one-hop conditioning — drafted、査読対象 R-GC4A5A R1)
+### 8.15 GC-4A.5a PBK22-COND9(projective one-hop conditioning — **定理 draft 撤回**(R-GC4A5A R1 blocking 7 + consult #15)。(C9-1)(C9-2) の初等評価のみ存置、(C9-3)〜(C9-5) は**失敗した候補経路の記録**(効力なし)。再設計 = PTN-SPEC + BORD-22/PTN-22 — 下記追記)
 
 **目的**: consult #14 の主エンジン — **一 hop の projective conditioning**
   **(C9) ‖g‖_W ≤ B_C·(L_C/s)⁹·‖g‖_S**
@@ -2455,6 +2455,32 @@ qr_global(分岐時))を要求する — 欠落 = record 生成禁止。B_C は
 **scope(非主張)**: B_C の有効値、hop の反復・ledger(A.5c)、restart
 (A.5b)、c ≥ 4 一般(GC-5)、人間による査読は未実施。
 
+**§8.15 追記(2026-08-19 — 定理 draft の撤回と再設計、consult #15)**:
+R-GC4A5A R1(blocking 7)により (C9-3)〜(C9-5) の証明経路は**成立しない**
+(gcd 遷移で reduced g の config 連続性が偽 — 反例 B₁ = t, B₂ = t + ε の
+inner bubble [ξ : ξ+1]/ metadata compactness の流用 / Taylor 剰余の W-norm
+流用 = consult #14 の棄却した罠の移転 / W 上 branch 未定義)。consult #15
+(Sol)の裁定:
+- **必要資産は plain TN-4 でなく PTN-22**(分母込み projective/weighted
+  Remez 比較 — ‖(B₁+B₂)/max(|B₁|,|B₂|)‖ の二窓比較)。
+- **full FR4 の前倒しは不要** — T3 = 2|2 専用の **BORD-22**(2|2 限定
+  border 分類: exact merge/support drop・child confluence・二層 blow-up・
+  係数退化・QR transverse blow-up・gcd inner bubble・projective 分母)を
+  最小 packet として先行し、その系として PTN-22。T3 閉包が他 topology を
+  要求した時点でのみ full BORD-4/TN-4 へ昇格。
+- **gcd 遷移は raw projective pair (B₁, B₂) で扱う**(gcd を取らない —
+  共通零点は最初の非零 jet pair [a_k : b_k] の projective 値 + outer/inner
+  chart 被覆。reduced g の大域連続関数化は放棄)。
+- **COND9 は「PTN-22 を入力とすれば従う」reduction/interface packet まで
+  しか受理対象にならない** — BORD-22/PTN-22 は A.5a の **blocking
+  obligation**(GC-5 側に置いても A.5 は受理まで open のまま — 「送り」で
+  resolved 化しない)。
+- リスク: 現 C9-3〜5 経路 = 赤(死)/ COND9 定理自体 = 黄〜橙(反例なし)/
+  PTN-22 = 橙。見積り: 2|2 限定で 3–4 proof packet・6–12 round、full FR4 は
+  8–10 packet・20+ round。
+- **no-go 判定基準の明文化**: exponent > 9 の bubble、または exponent 9 でも
+  定数が 0 へ落ちる列が出れば PBK22 の明確な no-go 信号。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -2492,6 +2518,18 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.1(2026-08-19): **COND9 定理 draft 撤回** — R-GC4A5A R1(blocking 7:
+  gcd 遷移の config 連続性反例・metadata/関数族 compactness 混同・Taylor 剰余
+  の W-norm 流用・W branch 未定義・d₀/λ/s interface・型/台帳)により
+  (C9-3)〜(C9-5) の証明経路は不成立(失敗経路として記録保存)。consult #15
+  (Sol、`sol-cond9-consult.md`): 必要資産 = **PTN-22**(projective/weighted
+  二窓比較)+ **BORD-22**(T3 = 2|2 限定 border 分類 — full FR4 の前倒しは
+  不要、T3 で閉じなければ昇格)。gcd 遷移は raw projective pair + inner
+  bubble chart で扱う。COND9 は reduction packet に降格、BORD-22/PTN-22 を
+  A.5a の blocking obligation に登録。リスク: COND9 定理自体は黄〜橙(反例
+  なし — §9 COND9-PROBE 整合)、no-go 判定基準を明文化(exponent > 9 bubble
+  または定数 0 落ち列)。
 
 - v0.29.0(2026-08-19): **GC-4A.5a0 PBK22-QRG 受理**(R-GC4A5A0 R4 PASS、
   fixed SHA `68d114a`、4 round — R3 で reviewer 明示指示による WE9 v4 置換を
