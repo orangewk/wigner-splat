@@ -164,7 +164,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2c-core | A.2b、**主張域は GCRouteRecord-v3 条件付き(充足可能性は GC-5/GC-6 送り)** | W_CONFL(2,2) v2 消去法(正本 §8.7 (FL-2)、B = 6)/混合消去 ≤ 8/regular・C collapse/Z/G 以外の strata 床(consult #12 で component 分割) | **accepted(R-GC4A2CCORE R4 ACCEPTED、fixed SHA `c0c9e05`。A.2c-Z `5ea87ec` と併せトップレベル A.2c 確定)** |
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
-| GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **drafted(§8.13、R1 適用済み、査読待ち R-GC4A4 R2)** |
+| GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **accepted(§8.13、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`)** |
 | GC-4A.5 PBK22-BOOT | A.4 | branch bootstrap、初回のみ ρ⁻⁹ の chain ledger | open |
 | GC-4A.6 PBK22-ASM | A.5 | 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
 | GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **accepted(§8.9、R-GC4B0 R8 PASS、fixed SHA `eee39bf`。受理時は TN-3 条件付き go — TN-3 は GC-5-T1(`906bd1a`)で解消し、条件解除 = feasibility go)** |
@@ -2253,7 +2253,7 @@ sup_S|u⁽¹⁰⁾| の適用域と整合(複素外挿は非主張 — WE₉ が
 GC-5)、u の値の bound(分枝定数 — A.5 bootstrap の義務と同配置)、人間に
 よる査読は未実施。
 
-### 8.13 GC-4A.4 PBK22-WE9(局所窓外挿 — drafted、R1 適用済み、査読対象 R-GC4A4 R2)
+### 8.13 GC-4A.4 PBK22-WE9(局所窓外挿 — **accepted、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`**。非 blocking 注: (WE-3) の g = |1+H|/|H| は §8.3 正規定義 |1+H|/max(1,|H|) の上界表現 — 結論不変)
 
 **目的**: 深平坦 (c-i)(§8.3 (F2²-3))で、JF₉ target(consult #9 受理形 —
 「v ≡ 0(二次比枝)または max_{3≤n≤9−d₀}|v⁽ⁿ⁾(t₀)|/(κλⁿ) ≥ c_J」、床は
@@ -2358,6 +2358,11 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.28.5(2026-08-19): **GC-4A.4 PBK22-WE9 受理** — R-GC4A4 R2 PASS(luna
+  gpt-5.6-luna xhigh、fixed SHA `9f1a18d`、blocking なし、2 round)。
+  we9_witness-v1(κ_WE 式・二次比枝 kernel 6600ρ⁻²)が A.5/A.6 の入力として
+  確定。GC-4A 残 = A.5(BOOT)・A.6(ASM)。
 
 - v0.28.4(2026-08-19): R-GC4A4 R1(blocking 5)適用 — [01] WE-3 の展開中心を
   c_k = center(J_k) に変更(t₀ = center(S) ≠ center(J_k) — 任意中心 Markov で
