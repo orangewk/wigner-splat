@@ -897,8 +897,18 @@ def test_qrg_witness_schema_is_declared():
     end = text.index("### 8.14")
     section_we9 = text[start:end]
     assert "GCRouteRecord-v4" in section_we9, (
-        "WE9 section lost its v4 alignment annotation"
+        "WE9 section lost its v4 alignment"
     )
+    # luna R-GC4A5A0 R3 [01]: the consumer type itself must reference v4 --
+    # no bare v3 reference may remain in the WE9 section (the annotation may
+    # mention v3 only inside "v3 から置換" / "v3 不変" style audit phrases).
+    import re as _re
+    bare_v3 = [
+        m for m in _re.finditer(r"GCRouteRecord-v3", section_we9)
+        if "から置換" not in section_we9[m.start():m.start() + 40]
+        and "不変" not in section_we9[m.start():m.start() + 60]
+    ]
+    assert not bare_v3, "WE9 section still has a bare v3 consumer reference"
 
 
 # --- issue #137 (topological K-epsilon) surfaces -----------------------------

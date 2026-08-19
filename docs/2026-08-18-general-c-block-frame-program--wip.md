@@ -165,7 +165,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.2c-Z ZG-NF | A.2c-core | Z/G 床: 同時 matching + projectivized defect の有限層別還元(consult #12 骨格)+ 全 box 最終合成 c_J | **accepted(R-GC4A2CZ R3 ACCEPTED、fixed SHA `5ea87ec`)**(トップレベル A.2c は core 受理を待って確定) |
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
 | GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **accepted(§8.13、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`)** |
-| GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **drafted(§8.14、R1–R2 適用済み、査読待ち R-GC4A5A0 R3)** |
+| GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **drafted(§8.14、R1–R3 適用済み、査読待ち R-GC4A5A0 R4)** |
 | GC-4A.5a PBK22-COND9 | A.2b/A.2c/A.4 | **projective one-hop conditioning** ‖g‖_W ≤ B_C(L_C/s)⁹‖g‖_S(source-norm blow-up、横断極限 = JF₉ ord ≤ 9、exact QR face = 二次比枝、Z/G・gcd-jump・degree-drop = 既存 chart strata)— **最大の no-go gate(consult #14: 黄赤。線形 one-hop が Hölder 型に落ちれば PBK22 経路の実質 no-go)** | open |
 | GC-4A.5b PBK22-RESTART | A.5a/A.3a | g-small ⇒ 実 root/pole 排除 ⇒ zf_witness 再選択(ZF-2 再実行)⇒ fresh principal branch。cell 境界 handoff | open |
 | GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open |
@@ -2260,14 +2260,14 @@ GC-5)、u の値の bound(分枝定数 — A.5 bootstrap の義務と同配置)�
 
 **目的**: 深平坦 (c-i)(§8.3 (F2²-3))で、JF₉ target(consult #9 受理形 —
 「v ≡ 0(二次比枝)または max_{3≤n≤9−d₀}|v⁽ⁿ⁾(t₀)|/(κλⁿ) ≥ c_J」、床は
-A.2b/A.2c、claim 域は GCRouteRecord-v3)と d10_witness-v1(§8.12)を消費し、
+A.2b/A.2c、claim 域は GCRouteRecord-v4([R-GC4A5A0 R3-01] で v3 から置換 — §8.14))と d10_witness-v1(§8.12)を消費し、
 **局所窓外挿の不等式群**を明示定数で閉じる。**純 consumer** — 新しい床・
 collar 解析は含まない。分岐合成・γ 確定は A.5/A.6 の義務。
 
 **(WE-0) 前提と記号**: cell(A.0/A.1)・(c-i)(σ := sup_{J_k}|1 + H| <
 c₁ρ⁹、(a) 否により J_k 上 |H| ∈ [e^{−1}, e])・zf_witness(S、r_S)・
 d10_witness-v1(t₀ = center(S)、ℓ_ext = min(r_S/2, 1/λ)、R̂(θ))・
-GCRouteRecord-v3 全 verified(A.2c の claim 域)。A.2a より J_k 上
+GCRouteRecord-v4 全 verified([R-GC4A5A0 R3-01] で v3 から置換 — v4 = §8.14。A.2c の claim 域は v3 部分で不変)。A.2a より J_k 上
 u = Log(−H) は principal で **|u| ≤ 2|1 + H| ≤ 2σ**。u = p + v(p = T₂u)。
 
 **(WE-1) Chebyshev 係数補題(初等・自己完結)**: q を deg ≤ 9 の多項式、
@@ -2311,7 +2311,7 @@ I_k 上 |x − c_k| ≤ 1 なので
 — 二次比枝の kernel 指数は **2**(ρ⁻⁹ 予算に対し余裕)。∎
 
 **(WE-4) 出力契約(型付き — fail-closed)**: A.5/A.6 が消費する interface:
-  `we9_witness-v1 := (cell_id, d10_witness-v1 参照, GCRouteRecord-v3 参照,
+  `we9_witness-v1 := (cell_id, d10_witness-v1 参照, GCRouteRecord-v4 参照([R-GC4A5A0 R3-01] で v3 から置換),
    **d₀ = ord_{t₀}D(divisor_record 参照 — (ZF-3) の規約どおり S 中心 t₀ で
    exact に読み直した値。gcd transition 後は current rank の record を指名)**
    ([GC4A4R1-03]),
@@ -2325,14 +2325,15 @@ I_k 上 |x − c_k| ≤ 1 なので
 γ 確定(A.5/A.6)、分枝接続(A.5)、床 c_J の供給(A.2b/A.2c — 消費のみ)、
 人間による査読は未実施。
 
-**§8.13 追記(2026-08-19、[R-GC4A5A0 R2-01] — accepted 本文(`9f1a18d`)は
-不変。record 参照の versioned 更新)**: WE-0/WE-4 の GCRouteRecord-v3 参照は
-**GCRouteRecord-v4**(§8.14 — v3 不変 + JF₉ 分岐 flag + flag = v≡0 のとき
-qr_global_witness required)に更新する。v4 は v3 の versioned 拡張なので
-WE-2(v ≢ 0 枝)の消費内容は不変、WE-3(v ≡ 0 枝)は v4 の
-qr_global_witness を分枝接続条件として消費する — 消費契約の型は v4 で整合。
+**§8.13 追記(2026-08-19、[R-GC4A5A0 R2-01][R3-01])**: WE-0/WE-4 の record
+参照は **GCRouteRecord-v4**(§8.14 — v3 不変 + JF₉ 分岐 flag + flag = v≡0 の
+とき qr_global_witness required)へ**本文置換済み**(R2 の宣言のみの追記では
+consumer 型が閉じないという R3 指摘に従い、reviewer 明示指示による accepted
+本文中の参照 2 箇所の置換を実施 — inline marker と版履歴 v0.28.9 に監査痕跡。
+数学的内容は不変: v4 は v3 の versioned 拡張で、WE-2(v ≢ 0 枝)の消費内容は
+不変、WE-3(v ≡ 0 枝)は v4 の qr_global_witness を分枝接続条件として消費)。
 
-### 8.14 GC-4A.5a0 PBK22-QRG(exact QR の大域化 — drafted、R1–R2 適用済み、査読対象 R-GC4A5A0 R3)
+### 8.14 GC-4A.5a0 PBK22-QRG(exact QR の大域化 — drafted、R1–R3 適用済み、査読対象 R-GC4A5A0 R4)
 
 **目的**: JF₉ target の **v ≡ 0 枝**(二次比枝)を大域化し、WE-3(§8.13)の
 分枝接続条件を**無条件で**供給する(consult #14 の A.5 再分解 — 最軽量の
@@ -2414,6 +2415,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.28.9(2026-08-19): R-GC4A5A0 R3(blocking 1)適用 — **WE-0/WE-4 の
+  GCRouteRecord 参照を v3 から v4 へ本文置換**(accepted §8.13 内の参照
+  2 箇所 + 目的文 1 箇所。R2 の宣言型追記では consumer 型が閉じないという
+  reviewer 明示指示による編集 — inline marker [R-GC4A5A0 R3-01] を各所に
+  付し、§8.13 追記を「置換済み」に更新。数学的内容・v3 定義は不変)。テストを
+  consumer 型検証に強化(WE9 節内に v3 生参照が残らないこと)。
 
 - v0.28.8(2026-08-19): R-GC4A5A0 R2(blocking 1)適用 — §8.13 追記(accepted
   本文不変)で WE-0/WE-4 の record 参照を GCRouteRecord-v4 に versioned 更新
