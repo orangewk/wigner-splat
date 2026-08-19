@@ -171,6 +171,8 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
 | GC-4C.0 SIG-AUDIT | GC-2/3 | 原子レベル radial signature の完全列挙(8)・margin 安定性・A/B/C dispatch 表・irreducible endpoint 特定・transition 有界性。**go/no-go 最小集合** | **accepted**(R-GC4C0 R3 PASS、fixed SHA `aa95124`) |
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
+| GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′/FR-S1′/FR-S1″) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **drafted(§8.10、査読待ち R-BORD3 R1)** |
+| GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体(curve selection + 弧 leading-term + BORD-3 消費 — §8.9 (2c) の blocking obligation 解消) | open(GC-5-T0 受理後に着工) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題 — B.0 counting の blocking downstream obligation。未解消の間 N_T 存在は条件付き)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
@@ -1951,6 +1953,74 @@ authoring location は §9 のみ — [GC4B0R3-minor]。診断であり証明の
 obligation。解消まで N_T 存在・counting 主張は条件付き)、triple の
 deep-flat 解析(GC-4B 系)、人間による査読は未実施。
 
+### 8.10 GC-5-T0 BORD-3(3 原子 border 極限の点一様 ord 上界 — drafted、査読対象 R-BORD3 R1)
+
+**目的**: §8.9 (2c) の比較補題 TN-3(§4 GC-5 受理条件の blocking downstream
+obligation)が消費する境界 ord 上界を、**accepted c=3 資産の pointer 消費**で
+sequence/moving-center 形の補題として閉じる(consult #13(Sol)の裁定:
+経路 α′ = curve selection + 弧 leading-term + BORD-3。BORD-3 を TN-3 に埋め
+込まず独立 packet として先行させる)。finite-m の W_c から border 版への
+「自動保存」は主張しない — 各 stratum の極限 span を担当する accepted 資産を
+個別に消費する。
+
+**(B3-1) statement(sequence/moving-center 形)**: K は §8.9 (2c) の
+パラメタ空間(‖c‖₂ = 1、class データ閉箱、gauge 固定 — §8.6 規約)、
+Z₀ := {f ≡ 0}。p_n ∈ K∖Z₀、λ_n ∈ ℂ*、ζ_n := z_c(p_n)(§8.9 (iii) の型:
+閉箱 ⊆ D̄(t₀, R_col))とし、
+  λ_n f_{p_n} → h  (D̄(t₀, R_out) 上一様 = compact-open)、 h ≢ 0、
+  ζ_n → ζ ∈ D̄(t₀, R_col)
+とする。このとき **ord_ζ(h) ≤ 5**。
+
+**収束 topology の宣言**: 本 packet の border 極限は上記 compact-open 収束で
+**定義**する(「W̄₃ の元」という集合名は本文書では使わない — 曖昧さ回避、
+consult #13)。FR 資産(Fock/J⁵ 収束)との橋は (B3-4)。
+
+**(B3-2) 不変性 reduction**: ord は (i) scalar 倍、(ii) z の affine 置換
+z = ζ + s·w(s ≠ 0)、(iii) 共通非零因子 e^{q} の乗除、で不変。よって部分列を
+取り、各 separation pattern の標準正規化(中心 ζ へ平行移動 + 適切な scale s
+での再正規化 + 定数 gauge)後の極限が下表の normal form に一致することを示せば
+よい。**pattern 分類の網羅性**: 対距離 d_{ab}(n)(§8.9 の d = max(|ΔB|,
+|ΔA|^{1/2}))は有界なので部分列上で各々収束。s(n) := max 対距離とすると、
+三角不等式により **s(n) より真に速く 0 へ行く対は高々 1 つ**(2 対が o(s) なら
+第 3 対も o(s) となり s = max と矛盾)— よって pattern は下表の 5 行で網羅
+(係数退化 = support-drop は各行に横断的で、最終行に統合)。
+
+**(B3-3) stratum 被覆(consult #13 の設計 — coarse 2|1 と「coarse 3 内の
+nested 2+1」は別資産が担当する点に注意)**:
+
+| pattern(部分列上) | 正規化後の極限 span | 消費資産(pointer) | ord 上界 |
+|---|---|---|---|
+| 1\|1\|1(全対距離下界 > 0) | plain 3 class 指数和 | GC-1 W_c(3)(§3.1 — 任意中心で成立) | 5 |
+| coarse 2\|1(1 対のみ → 0、singleton 距離下界 > 0) | span{e^p, P e^p, e^q}、P 非定数 deg ≤ 2、r = q − p 非定数 | 補題 N-P4 の極限 span(閉包文書 §4.3.6)+ **static W′**(W 文書 §6: w₃ ≤ 4、profile (0,2,4) sharp) | 4 |
+| coarse 3・plain(全収縮、全対 ≍ s) | e^{q} Π₅(deg ≤ 5 多項式 × 指数) | FR-S1′(FR 文書 §8、R-A′ PASS)— 非零元の ord = 多項式因子の重複度 ≤ 5 | 5 |
+| coarse 3・nested 2+1(1 対 τ = o(s)) | J⁵ 内の 3 次元 limit span(ν-chart) | FR-S1″(FR 文書 §9、R-A″ PASS、compact chart 𝒦_{η,t₀})— head SVD floor により非零極限の J⁵ ≠ 0 | 5 |
+| support-drop / exact merge / 係数消滅(class 数 ≤ 2 へ退化) | span{e^p, P e^p}(deg ≤ 2)または plain ≤ 2 class | ν-chart(FR-S1″ (A″1) と同型の 2 原子版)+ W_c(≤2)(D_W(2) = 2)。(α + βP)e^p の ord ≤ deg P ≤ 2 | 2 |
+
+いずれの行も上界 ≤ 5 — (B3-1) が従う。**5 は sharp**(F3′ — 正本: FR 文書
+§7。coarse 3・plain 行で到達)。
+
+**(B3-4) topology 橋と chart 包含**:
+- ord_ζ(h) ≤ 5 は **J⁵h(ζ) ≠ 0 と同値**であり、J⁵ 汎関数(0..5 階 jet)は
+  compact-open 収束・Fock/J⁵ 収束のいずれでも連続(一様収束 ⇒ Cauchy 積分
+  公式で全階導関数が内部一様収束)。FR 資産の結論(limit span の J⁵ 単射性)
+  は本 packet の compact-open 極限にそのまま移送される — 両 topology の極限が
+  同じ jets を持つため。
+- **chart 包含**(consult #13 の未確認条件): coarse 3 の正規化
+  s(n) := max 対距離で root-normalized parameter は |Ā|, |B̄| ≤ 1 かつ
+  max(|Ā|^{1/2}, |B̄|) = 1 — FR-S1″ の (N0) は **η = 1 で充足**し、K の閉箱は
+  affine 正規化を介して 𝒦_{η,t₀} に写る(t₀ 制約は τ/s → 0 の部分列で充足)。
+  Fock norm 資産の消費はこの正規化座標上でのみ行い、結論(J⁵ ≠ 0)だけを
+  (B3-2) の不変性で raw 座標へ戻す。
+
+**(B3-5) 証明**: λ_n f_{p_n} → h ≢ 0 とする。部分列で separation pattern を
+(B3-2) の分類に固定。各行で: 標準正規化を施した列は当該資産の compact chart
+に入り、正規化列の極限 h̃(h の affine/scalar/gauge 変換 — ≢ 0)は資産の
+limit span に属する。資産の ord 上界(表)により ord_{0}(h̃) ≤ 5、不変性で
+ord_ζ(h) = ord_0(h̃) ≤ 5。∎
+
+**scope(非主張)**: c ≥ 4 の border ord 上界(GC-9 の confluent 昇格義務は
+別)、有効定数(存在のみ)、TN-3 本体(GC-5-T1)、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -1987,6 +2057,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.27.0(2026-08-19): GC-5 着工(orange GO)— consult #13(Sol、
+  `sol-tn3-route-consult.md`): TN-3 証明経路は α′(curve selection + 弧
+  leading-term + BORD-3 消費)を採用、**BORD-3 を独立 packet として先行**、
+  J⁵ は minimal sharp のまま維持(m > 5 への弱化は不採用)、β(Turán–Nazarov
+  拡張)/γ(ODE 零点計数)は反証時の fallback。§8.10 GC-5-T0 BORD-3 を起草
+  (sequence/moving-center 形、5 stratum 被覆表、topology 橋、chart 包含)、
+  §4 台帳に GC-5-T0/T1 行を追加。
 
 - v0.26.9(2026-08-19): GC-5 前診断 2 本の結果を §9 に記録 — SING-FRONTIER
   (係数消滅・gcd-jump plateau / confluent 帯内部のみ σ_eff ~ d³ = handoff
