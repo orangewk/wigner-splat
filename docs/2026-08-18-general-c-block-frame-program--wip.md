@@ -182,7 +182,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | **accepted(§8.19、R-T2B0 R3 PASS、fixed SHA `7103b2e` — 箱前提の供給は §8.22 (CC-5) で解消(frame_input-v2.1)[R-T2BII R1-05])** |
 | GC-5-T2b-i HEAD9-ACTUAL(旧 HEAD9-FRAME は §8.20 で撤回)| T2b-0(accepted `7103b2e`)、(B3-4) RKHS 規約 | **実 defect 限定の moving-center 二択**(consult #18 — full-span V_n 単位球の strong compactness は PTN-22 が消費しない過剰目標として非目標化): β_n := ‖J⁹_{ζ_n}f_n‖ の **head_good(weak/compact-open 極限 f_* ≠ 0・ord_{ζ_*} ≤ 9)\| head_overflow(typed candidate — PS-9 detected は生成しない、橋は T2c-ov)** | **accepted(§8.21、R-T2BIA R1 PASS、fixed SHA `e5de2f6`)** |
 | GC-5-T2b-ii CARRIER-CHART(旧 CHART-FRAME を consult #18 で再定義 — defect 側 chart 消費表の義務は削除(defect は weak 化))| T2b-i(accepted `e5de2f6`)、T2b-0(accepted `7103b2e`)、§8.10 (B3-4a)/(B3-3)/(B3-4)、FR §8.4 | **carrier 側の完結**: 成分別 1/2 原子 strong frame(分離原子・(B3-4a))、⊕ block 対角 Gram の一様床(閉 compact chart constructor 上の下半連続 inf)、**箱供給補題**((CC-5) Möbius margin — T2b-0 の箱前提 obligation を standard box + frame_input-v2.1 で解消 [R-T2BII R1-05])、**raw 再主張系**(gauge の pointwise 移送禁止 — EW-B) | **accepted(§8.22、R-T2BII R3 PASS、fixed SHA `ccb1b6d`)** |
-| GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **drafted(§8.23、R7 適用済み、査読待ち R-T2C R8)**(A.5a blocking obligation) |
+| GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。配置 = T2c 後・T3 前 | open |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
@@ -3514,7 +3514,7 @@ vanish_flag = none に限定** — one_sided variant の routing は T3 の明�
 projective order(T2c)、overflow bridge(T2c-ov)、有効定数、人間による
 査読は未実施。
 
-### 8.23 GC-5-T2c BORD22-FLOOR(chart 床・量的連鎖・projective order — drafted、R7 適用済み、査読対象 R-T2C R8)
+### 8.23 GC-5-T2c BORD22-FLOOR(chart 床・量的連鎖・projective order — **accepted、R-T2C R8 受理 SHA `15b272e`**)
 
 **目的**: consult #18 再編の最終 proof packet。head_outcome-v1(T2b-i
 `e5de2f6` — (CC-6a) の raw 版)と carrier_witness-v1(T2b-ii `ccb1b6d`)を
@@ -3773,6 +3773,16 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.39(2026-08-22): **GC-5-T2c BORD22-FLOOR accepted**(R-T2C R8、
+  受理 SHA `15b272e`、全 8 ラウンド: R1-R2 数学的再構成(σ₀ 量化型・
+  raw 側 m_C・ρ-erosion core・移動円板 Hurwitz・defect-order ν・eventual
+  連鎖)、R3-R7 型配管(core-interior 中心・c₀ 固定・floor_input-v1・
+  violation_sequence-v1・provenance 束縛・admissible_pair_ρ・vanish_flag
+  伝播)。**BORD-22(T2 chain: T2a ATLAS → T2b-0/i/ii → T2c FLOOR)
+  完成**。次: GC-5-T3 PTN-22(二窓 Remez 合成)と GC-5-T2c-ov
+  OVERFLOW-PS9-BRIDGE。claim 水準は不変: 証明ドラフト・複数 LLM の
+  fixed-SHA 査読+数値診断のみ・人間による査読は未実施。
 
 - v0.29.38(2026-08-22): R-T2C R7(blocking 2)適用 — [R7-01]
   vanish_flag = none 限定を最終消費型まで伝播: violation_sequence-v1 に
