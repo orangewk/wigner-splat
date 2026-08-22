@@ -177,7 +177,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
 | GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **accepted(§8.10、R-BORD3 R6 PASS、fixed SHA `87863cc`)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
-| GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | open(**A.5a blocking obligation**) |
+| GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **drafted(§8.17、査読待ち R-T2A R1)**(A.5a blocking obligation) |
 | GC-5-T2b BORD22-FRAME | GC-5-T2a | 各 chart の **joint carrier frame**(ℱ⊕ℱ、gauge section U_n + ‖·‖_⊕ 正規化)+ **QR defect frame**(f_n = δ_n⁻¹(C₁+C₂))の Fock-strong 収束・exact limit span・Gram floor(crux = root 合流の iterated divided-difference/SVD frame span{Q_ℓ e^q}, deg ≤ 9) | open(**A.5a blocking obligation**) |
 | GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化 | open(**A.5a blocking obligation**) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
@@ -2640,6 +2640,83 @@ checklist を本 (PS-8) が正本化する。
   CARRIER-SWITCH / TWO-LEVEL-SVD / PROJECTIVE-FLOOR)— weighted ratio の
   横ばいだけでは床の定数崩壊を見逃すため、床そのものの傾きを測る。
 
+### 8.17 GC-5-T2a BORD22-ATLAS(T3 = 2|2 有限 chart coverage — drafted、査読対象 R-T2A R1)
+
+**目的**: BORD-22 の第一 packet(consult #16 の 4 分割)。主張は一つ:
+
+**(AT) 被覆完備性**: 任意の admissible T3 列 {θ_n}(各 θ_n は §8.16 の
+t3_witness(D-PBK-22 record 込み)と window_contract を持つ配置)に対し、
+部分列 {θ_{n_k}} が存在して次の**ちょうど一つ**が成立する:
+  (i) **lower-rank exit** — step-0 で child 恒等零(active_children_nonzero
+      失敗)または support rank ≤ 3(rank 3 = BORD-3 資産 / rank ≤ 2 = pair
+      資産へ redispatch — GC-3 zero-pruning 継承)。
+  (ii) **exact-QR exit** — cross-child 全 matched 項の係数相殺(§8.16
+      (PS-6) へ retract)。
+  (iii) **有限 pattern chart 族 𝒜₂₂ のある chart に入る** — chart は
+      (step-0 pattern, cluster tree 型, s₀ 極限型, 変性 flag 組)の有限組合せ。
+frame 収束・limit span の解析・Gram・床は**非主張**(T2b/T2c の義務)。
+
+**(AT-0) step-0 routing(有限安定化)**: within-child の exact merge(child
+内指数の exact 一致 → 原子合算)と prune(係数和 0 → 項消去)は child 内
+原子数(≤ 2)を厳減させるので、反復は高々 3 回で安定する。child が恒等零に
+なれば (PS-3) の active_children_nonzero が失敗し (i) へ ✓。**cross-child は
+合算禁止**(consult #16 — pair 座標をまたぐ合算は分母を変える): 安定化後の
+cross-child exact 指数一致は **matching**(μ ∈ {0, 1, 2} 本)として記録し、
+各 matched 指数の分子係数の相殺 flag(全相殺 / 部分相殺 / 非相殺)のみを
+持つ。全 matched 項が相殺すれば (ii) へ ✓。部分相殺は分子の lower-support
+face label として (iii) の chart 引数になる。出力型:
+`step0_record := (m₁|m₂ ∈ {1,2}², μ, 相殺 flag, face label)`。
+
+**(AT-1) rate 座標の有限性(cluster tree)**: 安定化後の原子指数 4 点
+(child 割当付き)の pairwise scale(D-PBK-22 collision-scale witness の
+s_m と child 内分離)から、6 個の pairwise 比を [0, ∞] に compact 化して
+部分列極限を取る。極限の順序構造は **4 葉の rooted cluster tree**(child
+2|2 構造と両立するもの)を定め、その型は**有限個**(4 葉の labeled cluster
+tree は列挙可能 — 個数の主張はしない)。各 internal node に scale を割当て、
+root scale s₀ / child scales s₁, s₂ の比 r_i = s_i/s₀ ∈ {0} ∪ (0,∞) と、
+両方 0 のときの s₁/s₂ を**再帰 blow-up** する。各段で未確定比の個数が厳減
+するので再帰は有限深さで安定 ✓(consult #16: 個別関数形 s^α, e^{−1/s} の
+列挙はしない — 比の極限が正か 0 かのみが chart 引数)。これに
+s₀ → s* > 0 / s₀ → 0 の二分岐を重ねる。
+
+**(AT-2) chart 割当表(尽くしのみ主張)**: 部分列上で次の flag は 0/1 に
+安定する(compact 化された有限個の量の符号/消滅 flag): 係数退化(正規化
+係数のある成分 → 0)、QR 近接(matched 面の分子係数比 → 相殺点)、
+common-zero 接近(𝐁̃ の零点対の距離 → 0)。割当写像:
+  (step0_record, tree 型, s₀ 分岐, flag 組)↦ chart label ∈
+  { **PL4**(plain 4-class)、**CF1**(片側 child 合流)、**CF2**(両側
+  合流)、**RTC**(root 合流 — T2b の crux 送り)、**SD**(support drop →
+  (i) 再判定)、**QRT**(QR transverse blow-up)、**CZB**(common-zero
+  bubble — outer/inner 2 chart、(PS-5))}
+を**全域写像**として表で固定する(各行の割当が定義される、の意 — 各 chart
+の limit span の正しさは T2b)。排反性は判定順序で固定: (i) 判定 →
+(ii) 判定 → 残余は (iii)(closed-world — 判定不能 field があれば
+atlas_witness を生成しない)。
+
+**(AT-3) W_zf 静的被覆(bubble-routing 被覆補題 — 固定配置)**: §8.3
+(F2²-1) より全 branch で |V_i| ≥ 0.27 が **cell 全域**で成立するので、
+𝐁̃ 成分の cell 上零点は P̃_i の零点に限られ、**各 ≤ 2・計 ≤ 4 個**。
+固定配置では P̃₁, P̃₂ 互いに素より exact 共通零点はなく、
+  **W = W_reg ∪ collar(S, r_S) ∪ ⋃_{j≤4} U_j**、
+U_j = B(z_j, r_j)(z_j = P̃ 零点、r_j = witnessed 半径(型:
+r_j ≤ min(z_j の他零点距離 / 3, r_S))、片側零点 U — 生存成分により
+U_j 上 g → 1 の側)。W_reg は零点を持たない compact なので固定配置で
+max(|B̃₁|, |B̃₂|) > 0 ✓ — **chart 一様床 m_C > 0 は非主張**(T2b/T2c の
+義務。§9 BORD22-FLOOR-PROBE が m_C の chart 箱依存を診断)。退化列上の
+near-common 零点接近(bubble 衝突)は (AT-2) の CZB chart へ、cell 境界へ
+逃げる零点は **cell handoff flag** へ routing する(handoff の動的選択は
+A.5b の義務 — consult #16 の帰属分割)。
+
+**(AT-4) 出力契約**: `atlas_witness-v1 := (cell_id, t3_witness 参照,
+step0_record, tree 型, chart label, wzf_cover record(零点リスト・radii・
+handoff flag), exit 分岐 ∈ {lower_rank, exact_qr, chart})` — fail-closed
+(field 欠落 = witness 不成立)。T2b はこの witness の chart label ごとに
+frame を建てる。∎(被覆完備性のみ — 各 chart の解析は T2b/T2c)
+
+**scope(非主張)**: 各 chart の limit span の正しさ・Fock-strong 収束・
+Gram 床・carrier 床 m_C の一様性・ord/projective order 床・(PTN-22)・
+A.5b 動的 restart・有効定数、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -2661,6 +2738,7 @@ checklist を本 (PS-8) が正本化する。
 | TN3-RATIO | TN-3(§8.9 比較補題)の c_TN が存在しない(比 ‖J⁵f(z_c)‖/sup|f| が Z₀ 近傍で 0 へ潰れる) | mpmath 50 桁で F3′ 型・GEN(divided-difference 退化係数)・CHAIN の 3 族 × δ 対数列 8 桁 + float64 adversarial(random 20000 + Nelder-Mead 連鎖)。探索箱は実測データの現実域(|B| ≤ 2.5、|A| ≤ 0.8 — PR #179 Endo/Kawasaki 条件参照) | **結果**(`tn3_ratio.py`/`tn3_adv.py`): 全 3 族で **plateau(slope ≈ 0** — F3′: 0.672 / GEN: 0.073 / CHAIN: 0.046)、confluent 方向の減衰信号なし。adversarial 最小 ≈ 3.7e-5 は**非 confluent 配置**(sep 0.79・箱境界張り付き)の指数成長由来で restart 連鎖でも崩壊せず — **c_TN > 0 に整合・反例信号なし**(診断であり証明の代替ではない。TN-3 の証明義務(GC-5)は不変) |
 | COND9-PROBE | A.5a COND9 の線形 one-hop conditioning が成立しない(比 ‖g‖_W/‖g‖_S が (L/s)⁹ 予算を破る) | 2\|2 near-QR 族(pairing 摂動 + p 二次)で R(s) := sup_W g / sup_S g を random 3000+ + Nelder-Mead adversarial、s 対数列 5 点 + confluent 許容変種 | **結果**(`cond9_probe.py`): adversarial max R は s = 10⁻¹→10⁻³ で 2.9×10² → 1.6×10³(**slope ≈ 1 ≪ 9**)、confluent 許容でも ~10³ vs 予算 10¹⁸⁺ — **no-go 信号なし**(consult #14 の黄赤リスクへの経験的反証材料。Nelder-Mead は ord-9 同調方向を見つけにくく sharp 指数の証明代替ではない。診断) |
 | BORD22-PROBE | BORD-22/PTN-22 の未検査機構(consult #15 指摘: gcd-jump inner bubble・exact QR tangent・support drop×scale collapse・rate mismatch・adversarial 共退化)に no-go 信号(指数 > 9 / 定数→0)がある | R(s) := sup_W g/sup_S g を 5 族で測定(bubble 配置 3 変種・QR tangent δ 5 桁・support drop・rate mismatch ladder・Nelder-Mead 60 起点 × s 5 点) | **結果**(`bord22_probe.py`): ① bubble を W∖S に置いた**無条件版は R ≈ 0.25/ε で非有界**(反例族 — 素の二窓不等式は偽、zf/stratum 条件が型必須である設計裏付け。§8.16 (PS-4) が消費)② 同族 ZF collar 条件付きは plateau(~10、ε 5 桁で有界)③ QR tangent slope ≈ 1.0(δ 5 桁で安定)④ support drop / rate mismatch slope ≤ 0.42 ⑤ adversarial slope ≈ 0.90 ≪ 9・max R ≈ 2.8×10³ vs 予算 10²⁷ — **条件付き族に no-go 信号なし**。診断であり証明の代替ではない |
+| BORD22-FLOOR-PROBE | consult #16 の no-go 監視点 — **床そのもの**(carrier m_C / defect jet 床 / Gram 最小固有値)が退化列で 0 へ落ちる(weighted ratio の横ばいに隠れる定数崩壊) | fixture 5 種(consult #16 指定): PROJECTIVE-FLOOR(QR 接近 ε 4 桁 × random 40)/ QR×BUBBLE(δ = ε^a、零点距離 = ε^b 独立)/ DOUBLE-BUBBLE(S 内 + W∖S の 2 bubble 異 scale)/ CARRIER-SWITCH(支配交代 + 相殺 + support drop 同時)/ TWO-LEVEL-SVD(s₁ = s₀²、s₂ = e^{−1/s₀}、L²(S) Gram — Fock の代理)。norm は複素箱 sup の代理 | **結果**(`bord22_floor_probe.py`): ① defect jet 床・carrier 床は QR 接近で **slope ≈ 0(崩壊なし)** ② QR×BUBBLE の m_C は bubble routing 後 plateau または緩多項式減衰(slope ≤ 0.5)③ DOUBLE-BUBBLE の条件付き R ≤ 7 ④ CARRIER-SWITCH: support drop 自体のコストは有界(< ×2)、m_C は周波数広がり λ に指数依存 = **chart 箱定数の非大域一様性**(設計整合 — chart 内固定)⑤ raw-atom Gram は数値零まで崩壊 = **想定どおり**(T2b が raw atom でなく divided-difference/SVD frame を使う設計根拠)— **床の no-go 信号なし**。診断であり証明の代替ではない |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
 
 **実測ベンチマーク候補(pointer)**: 公開 homodyne/quadrature データの調査は
@@ -2678,6 +2756,12 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.8(2026-08-22): **§8.17 GC-5-T2a BORD22-ATLAS 起草** — 被覆完備性
+  (AT) の一主張(step-0 有限安定化 + cross-child matching、cluster tree
+  有限再帰 blow-up、chart 割当表 PL4/CF1/CF2/RTC/SD/QRT/CZB、W_zf 静的
+  被覆(|V| ≥ 0.27 全 branch cell 全域 ⇒ 零点 ≤ 4)、atlas_witness-v1)。
+  **§9 BORD22-FLOOR-PROBE 記録**(結果の正本は §9)。
 
 - v0.29.7(2026-08-22): **consult #16(BORD-22 骨格、Sol)記録** — §8.16
   追記(二段正規化 carrier/defect、cross-child matching(合算禁止)、

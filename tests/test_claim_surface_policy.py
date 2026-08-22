@@ -1044,8 +1044,11 @@ def test_ptn_spec_interface_declared():
         "| GC-5-T3 PTN-22 ",
     ):
         row = rows[prefix][0]
-        assert "open" in row and "blocking obligation" in row, (
-            f"{prefix!r} must stay open as an A.5a blocking obligation"
+        # states may progress (open -> drafted -> accepted), but the A.5a
+        # blocking-obligation marking must never be dropped ("forwarding"
+        # a packet to GC-5 must not resolve A.5a -- consult #15)
+        assert "blocking obligation" in row, (
+            f"{prefix!r} lost its A.5a blocking-obligation marking"
         )
     # T3 consumes the completed BORD-22 chain, not the atlas alone
     assert "GC-5-T2c" in rows["| GC-5-T3 PTN-22 "][0]
