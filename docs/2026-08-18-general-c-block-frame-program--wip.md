@@ -177,8 +177,10 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
 | GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **accepted(§8.10、R-BORD3 R6 PASS、fixed SHA `87863cc`)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
-| GC-5-T2 BORD-22 | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)| **T3 = 2|2 限定 border 分類** — coverage checklist(正本 = §8.16 (PS-8)): exact merge/support drop・child confluence・二層 blow-up・係数退化・QR transverse blow-up・gcd inner bubble・projective 分母。T3 で閉じなければ full BORD-4/TN-4 へ昇格(consult #15) | open(**A.5a blocking obligation**) |
-| GC-5-T3 PTN-22 | GC-5-T2 | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(BORD-22 の系 — statement 登録 = §8.16 (PS-7)) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
+| GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | open(**A.5a blocking obligation**) |
+| GC-5-T2b BORD22-FRAME | GC-5-T2a | 各 chart の **joint carrier frame**(ℱ⊕ℱ、gauge section U_n + ‖·‖_⊕ 正規化)+ **QR defect frame**(f_n = δ_n⁻¹(C₁+C₂))の Fock-strong 収束・exact limit span・Gram floor(crux = root 合流の iterated divided-difference/SVD frame span{Q_ℓ e^q}, deg ≤ 9) | open(**A.5a blocking obligation**) |
+| GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化 | open(**A.5a blocking obligation**) |
+| GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
@@ -2600,6 +2602,44 @@ checklist を本 (PS-8) が正本化する。
 証明、C₂₂ の有効値、COND9 reduction 本体、A.5b/A.5c/A.6、人間による査読は
 未実施。
 
+**§8.16 追記(2026-08-22 — BORD-22 骨格、consult #16)**: Sol 裁定
+(`sol-bord22-consult.md`)の設計記録:
+- **二段正規化**: 単一 λ_n 𝐁̃_n では QR 極限 (H, −H) で分子が消えるため不十分。
+  gauge section U_n(FR と同じ strong-continuous unitary — PS-1 の一般解析
+  gauge は g には無害だが Fock 等長性を与えない)を先に固定し、
+  **carrier 𝐂_n := ρ_n⁻¹U_n𝐁̃_n**(ρ_n = ‖·‖_⊕ = Hilbert 直和 norm — 成分別
+  正規化は相対振幅を壊すため不採用)と **defect f_n := δ_n⁻¹(C₁,n + C₂,n)**
+  の二段 frame に分ける。
+- **分母処理は chart atlas の一軸**(付録でない): W_zf 上の carrier 床
+  m_C ≤ max(|C₁|, |C₂|) ≤ M_C が projective 版で新たに必要な床。片側
+  ℱ-strong 零 → outer chart [1:0]/[0:1](g → 1、生存成分の零点近傍のみ
+  inner へ)/ 両側関数零 = frame compactness の失敗(起きない事が証明義務)
+  / 一点共倒れ = common-zero bubble(最初の非零 jet pair + inner chart)。
+- **step 0**: within-child は BORD-3 と同じ merge/prune 反復。**cross-child
+  は合算禁止** — exact exponent 一致は matching(0/1/2 本)として記録し、
+  matched 項の係数相殺(全相殺 = exact QR / 部分相殺 = lower-support face)
+  のみ扱う。child 恒等零 = active_children_nonzero 失敗 → redispatch。
+- **rate atlas**: root scale s₀ + child scales s₁, s₂ の比を再帰 blow-up して
+  有限列挙(個別関数形 s^α, e^{−1/s} の列挙はしない)。真正 crux = root も
+  合流する場合の iterated divided-difference/SVD frame(span{Q_ℓ e^q},
+  deg Q_ℓ ≤ 9)。A.2b の 21 chart は metadata/jet-floor atlas であり
+  Fock-strong frame・carrier 床は未供給 — 流用不可。
+- **床の主張形**: moving-center 二段 statement。projective order
+  ν_ζ = ord_ζ(F) − min(ord_ζC₁, ord_ζC₂) **≤ 9(予算)** — D_W*(4) = 8 は
+  診断仮説のまま(sharp 化を critical path に入れない)。
+- **W_zf の帰属分割**: BORD-22(T2a)= 静的有限被覆
+  W = W_reg ∪ collar(S, r_S) ∪ ⋃U_α の証明 / A.5b = chain 上の選択の
+  witness 化(被覆の再証明はしない)。A.3a の W 全域単純拡張は不採用
+  (§9 BORD22-PROBE の無条件反例が否定)。
+- **packet 分割**: T2a ATLAS(被覆完備性のみ)→ T2b FRAME → T2c FLOOR →
+  T3 PTN-22 の 4 packet(consult #15 の見積から 1 本増)。最初の着工 =
+  **T2a、受理条件は被覆完備性の一主張のみ**。
+- **no-go 監視点**: 最危険 = **carrier 床 m_C の消失**(指数自体より)。
+  次点 = QR transverse × common-zero bubble の同時退化(合成交差での
+  defect Gram 潰れ)。追加 fixture 5 種(QR×BUBBLE / DOUBLE-BUBBLE /
+  CARRIER-SWITCH / TWO-LEVEL-SVD / PROJECTIVE-FLOOR)— weighted ratio の
+  横ばいだけでは床の定数崩壊を見逃すため、床そのものの傾きを測る。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -2638,6 +2678,12 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.7(2026-08-22): **consult #16(BORD-22 骨格、Sol)記録** — §8.16
+  追記(二段正規化 carrier/defect、cross-child matching(合算禁止)、
+  3-scale rate atlas、床 ν_ζ ≤ 9(予算)、W_zf 帰属分割、no-go 監視点)。
+  §4 台帳: GC-5-T2 を **T2a ATLAS / T2b FRAME / T2c FLOOR** に 3 分割
+  (+T3 で計 4 packet)。次の着工 = T2a(被覆完備性の一主張のみ)。
 
 - v0.29.6(2026-08-22): **GC-4A.5a1 PBK22-PTN-SPEC 受理**(R-GC4A5A1 R4
   PASS、fixed SHA `5d7400a`、4 round)。BORD-22/PTN-22 の interface 型が
