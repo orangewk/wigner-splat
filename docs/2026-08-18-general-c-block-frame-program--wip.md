@@ -184,7 +184,11 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2b-ii CARRIER-CHART(旧 CHART-FRAME を consult #18 で再定義 — defect 側 chart 消費表の義務は削除(defect は weak 化))| T2b-i(accepted `e5de2f6`)、T2b-0(accepted `7103b2e`)、§8.10 (B3-4a)/(B3-3)/(B3-4)、FR §8.4 | **carrier 側の完結**: 成分別 1/2 原子 strong frame(分離原子・(B3-4a))、⊕ block 対角 Gram の一様床(閉 compact chart constructor 上の下半連続 inf)、**箱供給補題**((CC-5) Möbius margin — T2b-0 の箱前提 obligation を standard box + frame_input-v2.1 で解消 [R-T2BII R1-05])、**raw 再主張系**(gauge の pointwise 移送禁止 — EW-B) | **accepted(§8.22、R-T2BII R3 PASS、fixed SHA `ccb1b6d`)** |
 | GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。配置 = T2c 後・T3 前 | open |
-| GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
+| GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
+| GC-5-T3a0 PTN-LOWER-FACE | T3 集約、(AT-2) exit 行、BORD-3 `87863cc`/TN-3 `906bd1a` | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1)。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
+| GC-5-T3a PTN22-ROUTE | T3a0 | 境界 routing 完備化: c₀→0(→ T3a0 induction)・**one_sided ⇒ c₀→0 吸収補題**(固定 K_χ(c₀) の Gram 床 + 係数下界 ⟹ 両成分生存 — 証明できなければ CC-3/CC-7 上流欠陥)・lower-rank/exact-QR/overflow の排他的分岐・T3 入口 gate(floored×head_good のみ、T2c-ov detected→nogo / not_proven→unresolved 停止) | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
+| GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
+| GC-5-T3c PTN22-REMEZ-CLOSE | T3b | violation_sequence-v1 の列-矛盾実行・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
@@ -3734,6 +3738,78 @@ inner chart / hop 幾何 — 本 packet 非主張)。導出の実行は T3 の�
 PS-9 detected の橋(T2c-ov)、overflow の空性、有効定数、COND9
 reduction・A.5b/A.5c/A.6、人間による査読は未実施。
 
+**追記(consult #19、Sol、2026-08-22 — T3 骨格裁定)**: 受理後の T3 着工
+諮問に対する裁定。(i) **単一 T3 packet は却下** — T3a0 PTN-LOWER-FACE /
+T3a PTN22-ROUTE / T3b PTN22-SCALE-HOP / T3c PTN22-REMEZ-CLOSE の 3+1
+分割(§4 台帳)。(ii) **最危険点の更新**: T2c が固定 (χ,c₀,ρ) 内の床を
+確保した結果、危険は境界パラメータへ移動 — 危険度順に (1) ρ/r_S・bubble
+scale の縮退(s_n→0 で固定 ρ 不存在 — 主縮小 regime、T3b)、(2) c₀→0 の
+lower-rank projective 境界(**BORD-3/TN-3 は PTN-22 の lower-rank 版では
+ない** — 暗黙使用は完全な循環。support rank の well-founded induction +
+rank ≤ 3 base 定理 T3a0 の先行受理で切断)、(3) core 空/Σ handoff の
+有限 scale-neutral cover、(4) one_sided(固定 (χ,c₀) + Gram 床 ⟹ 両成分
+生存の短補題で c₀→0 枝へ吸収 — 「g→1 だから自明」処理は却下)、(5) 通常
+の Remez 代数。(iii) **指数 9 の出所の確定**: head_good の J⁹ +
+projective order ν ≤ 9 + interval-rescaling Remez **一回** — 補題 G の
+乗法窓は周波数 gap の閾値窓であり (L_C/s)⁹ の指数源ではない(用語注意)。
+hop ごとの order-9 Remez は (L/s)^{9N_hop} を生むため却下 — bubble/
+collar/handoff は bounded-overlap・同 scale 移送として定数のみ払う。
+(iv) **中心の構造的不一致**: S は collar 内にあり自然な source 中心は
+通常 W_core 外 — jet 用中心 ζ_S と projective 用中心 ζ_P を分ける schema
+v2、または scale-neutral hop の中心移送補題が必要(単一中心の暗黙同一視
+は却下)。(v) **着工指示**: T3 本文の前に **T3a0 の lower-rank projective
+statement と T3b の scale-covariant floor statement の 2 本だけを正確に
+起こす**(→ §8.24)。総見積 14–24R(計画値 16–20R)。
+
+### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張)
+
+**目的**: consult #19 (v) の指示に従い、T3 本文着工前に危険度上位 2 点の
+**statement を正確な型で登録**する(PTN-SPEC 方式 — 主張はしない。証明
+義務はそれぞれ T3a0 / T3b)。
+
+**(TS-1) T3a0 PTN-LOWER-FACE statement(support rank ≤ 3 の projective
+二窓比較 — well-founded induction base)**:
+- **入力型**: `lower_face_input-v1 := (AT-2 exit witness(rank r ≤ 3 の
+  判定 — §8.17 行 (i)、within-child ≃-class count), **window_contract
+  継承 witness**(exit 時に同一 (S, W, s) 窓と zf/W_zf field を rank-r
+  config に引き継ぐ — 継承の構成は T3a0 の証明義務であり AT-2 は分類のみ
+  供給), rank-r config ref(生存成分と reduced pair))`。
+- **登録 statement(PTN_r、r ≤ 3)**: 各 r ≤ 3 に対し定数 C_r > 0 が存在
+  し、admissible な rank-r config で
+    **‖g_r‖_W ≤ C_r・(L_C/s)^{ν_r}・‖g_r‖_S、ν_r ≤ 9**
+  (g_r は rank-r face の projective 比 — 分母は生存成分の max。ν_r の
+  正確な予算は r 依存(rank 3 は TN-3 の J⁵ 床が示唆する ν₃ ≤ 5 を目標と
+  するが、**登録段階では一様予算 9 のみ**を約束)。
+- **摂動安定性 field**: rank-4 列が rank-r 面に接近する場合の二窓比の
+  limsup 継承(`face_approach_witness` — 近傍列の g と face の g_r の
+  比較可能性。**これが induction の接続点** — 構成は T3a0 義務)。
+- **明示非主張**: C_r の有効値、TN-3 からの直接導出(TN-3 は scalar
+  jet/sup 比で分母付き PTN ではない — consult #19 Q2(a))、rank ≤ 2 の
+  自明性。**出力契約**: `ptn_lower_face-v1 := proven(C_r 存在 ref,
+  ν_r ≤ 9 記録, face_approach 記録)| nogo(反例 ref)` — fail-closed。
+
+**(TS-2) T3b PTN22-SCALE-HOP statement(scale-covariant carrier floor)**:
+- **regime**: PTN-22 は s_n → 0 を許し、r_{S,n} は通常 source scale と
+  共に 0 へ落ちる — 固定 ρ > 0 の admissible_pair_ρ 量化(§8.23)が空に
+  なる主縮小 regime。**m_C(ρ_n) の rate 無制御なそのまま使用は不可**
+  (consult #19 Q2(e))。
+- **登録 statement**: chart (χ, c₀) ごとに定数 κ(χ) > 0 と
+  **m̄_C(χ, c₀) > 0** が存在し、ρ_n := κ・s_n の scale-covariant core/
+  bubble 分解の下で、rescaled inner chart 座標において十分先の n で
+    **min_{W_core,n(ρ_n)} max_i|B̂_{i,n}| ≥ m̄_C(s_n 非依存)**、
+  かつ被覆 {W_core(ρ_n), U_c, Σ, collar} は **bounded overlap** で
+  scale-neutral に移送される(指数 9 の一回払い設計と両立 — 移送は定数
+  のみ払う)。
+- **明示非主張**: m̄_C・κ の有効値、rescaled chart が新しい border frame
+  を要求しないこと(要求する場合 20R 超 — consult #19 Q5)、T2c の固定 ρ
+  床からの直接導出(rescale 極限は新しい compactness 論法が要る)。
+  **出力契約**: `scale_floor-v1 := proven(κ ref, m̄_C 存在 ref,
+  bounded_overlap witness, rescale chart ref)| nogo(m̄_C 消失列 ref —
+  この場合 BORD-22 は full BORD-4/TN-4 昇格へ)` — fail-closed。
+
+**scope(非主張)**: TS-1/TS-2 の証明(T3a0/T3b)、T3a routing 補題
+(one_sided ⇒ c₀→0)、T3c 合成、C₂₂、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -3773,6 +3849,16 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.40(2026-08-22): **consult #19(Sol、T3 骨格裁定)記録**(§8.23
+  追記)— 単一 T3 却下、T3a0 LOWER-FACE / T3a ROUTE / T3b SCALE-HOP /
+  T3c REMEZ-CLOSE の 3+1 分割(§4 台帳に 4 行追加、見積計 14–24R)。
+  最危険点は固定 (c₀,ρ) 床の境界一様化(ρ/scale 縮退 > c₀→0 lower-rank
+  循環 > cover > one_sided)。指数 9 は J⁹ + ν ≤ 9 + Remez 一回払い —
+  補題 G は指数源ではない(用語注意)。**§8.24 起草**: 着工指示に従い
+  TS-1(lower-face PTN statement — window 継承・face_approach・一様予算
+  9)/ TS-2(scale-covariant floor — ρ_n ≍ s_n・m̄_C の s 非依存・
+  bounded overlap)を登録のみ(証明非主張)で追加。
 
 - v0.29.39(2026-08-22): **GC-5-T2c BORD22-FLOOR accepted**(R-T2C R8、
   受理 SHA `15b272e`、全 8 ラウンド: R1-R2 数学的再構成(σ₀ 量化型・
