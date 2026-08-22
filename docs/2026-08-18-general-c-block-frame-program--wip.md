@@ -182,7 +182,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | **accepted(§8.19、R-T2B0 R3 PASS、fixed SHA `7103b2e` — 箱前提の供給は §8.22 (CC-5) で解消(frame_input-v2.1)[R-T2BII R1-05])** |
 | GC-5-T2b-i HEAD9-ACTUAL(旧 HEAD9-FRAME は §8.20 で撤回)| T2b-0(accepted `7103b2e`)、(B3-4) RKHS 規約 | **実 defect 限定の moving-center 二択**(consult #18 — full-span V_n 単位球の strong compactness は PTN-22 が消費しない過剰目標として非目標化): β_n := ‖J⁹_{ζ_n}f_n‖ の **head_good(weak/compact-open 極限 f_* ≠ 0・ord_{ζ_*} ≤ 9)\| head_overflow(typed candidate — PS-9 detected は生成しない、橋は T2c-ov)** | **accepted(§8.21、R-T2BIA R1 PASS、fixed SHA `e5de2f6`)** |
 | GC-5-T2b-ii CARRIER-CHART(旧 CHART-FRAME を consult #18 で再定義 — defect 側 chart 消費表の義務は削除(defect は weak 化))| T2b-i(accepted `e5de2f6`)、T2b-0(accepted `7103b2e`)、§8.10 (B3-4a)/(B3-3)/(B3-4)、FR §8.4 | **carrier 側の完結**: 成分別 1/2 原子 strong frame(分離原子・(B3-4a))、⊕ block 対角 Gram の一様床(閉 compact chart constructor 上の下半連続 inf)、**箱供給補題**((CC-5) Möbius margin — T2b-0 の箱前提 obligation を standard box + frame_input-v2.1 で解消 [R-T2BII R1-05])、**raw 再主張系**(gauge の pointwise 移送禁止 — EW-B) | **accepted(§8.22、R-T2BII R3 PASS、fixed SHA `ccb1b6d`)** |
-| GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ**(head_overflow は T2c-ov へ — 循環なし、consult #18)| **drafted(§8.23、査読待ち R-T2C R1)**(A.5a blocking obligation) |
+| GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ**(head_overflow は T2c-ov へ — 循環なし、consult #18)| **drafted(§8.23、R1 適用済み、査読待ち R-T2C R2)**(A.5a blocking obligation) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。配置 = T2c 後・T3 前 | open |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
@@ -3511,7 +3511,7 @@ T2c-ov へ)。∎
 projective order(T2c)、overflow bridge(T2c-ov)、有効定数、人間による
 査読は未実施。
 
-### 8.23 GC-5-T2c BORD22-FLOOR(chart 床・量的連鎖・projective order — drafted、査読対象 R-T2C R1)
+### 8.23 GC-5-T2c BORD22-FLOOR(chart 床・量的連鎖・projective order — drafted、R1 適用済み、査読対象 R-T2C R2)
 
 **目的**: consult #18 再編の最終 proof packet。head_outcome-v1(T2b-i
 `e5de2f6` — (CC-6a) の raw 版)と carrier_witness-v1(T2b-ii `ccb1b6d`)を
@@ -3520,50 +3520,78 @@ overflow candidate の構成)**、**projective order ν ≤ 9**、量的連鎖�
 本 packet の受理で **BORD-22(T2 chain)完成**。(PTN-22) の二窓 Remez
 合成は T3、overflow → PS-9 bridge は T2c-ov(非主張)。
 
-**(FL22-1) chart 別 defect jet 床の二択**: chart K_χ(c₀)(T2b-ii)上の
-  **σ₀(χ, c₀) := inf{liminf_n β_n^{raw}}**
-(inf は chart に属す全 admissible 列 ×(compact 中心域の)全中心列 —
-β^{raw} は (CC-6a) の raw 版)。二択:
+**(FL22-1) chart 別 defect jet 床の二択([R-T2C R1-01] で量化を型固定)**:
+**量化の型**: `admissible pair := (θ 列(実 config — 各 θ_n は
+t3_witness/window_geometry 持ち、atlas chart 枝 χ・c₀ witness 付きの
+安定化部分列), ζ 列(compact 中心域 D̄(t₀, R_col) 内))`。**inf は chart
+点(閉包点)ではなく admissible pair 全体を走る** — 閉包の非実現点
+(t = 0 面等)は量化に現れない(稠密性論法は不要):
+  **σ₀(χ, c₀) := inf{liminf_n β_n^{raw}(θ, ζ) : admissible pair}**。
+二択:
 - **σ₀ > 0(床成立)**: chart 定数として登録(有効値非主張)。
-- **σ₀ = 0**: inf の最小化列は **実 config の実 defect**から成る(chart
-  点は atlas witness 由来の実現可能 data — 稠密性で実 config 列を取る)
-  ので、その列は T2b-i の **head_overflow 枝に該当** —
-  head_overflow_candidate を構成して T2c-ov へ送付(**本 packet はここで
+- **σ₀ = 0**: 各 k で liminf < 1/k の pair (θ^{(k)}, ζ^{(k)}) を取り、
+  各々から β < 1/k を実現する添字を選ぶ**対角列**(θ^{(k)}_{n_k},
+  ζ^{(k)}_{n_k})を作る — 対角列は**実 config の admissible T3 列**
+  (各要素が実 config — 元 pair の要素だから)で β → 0。この列を atlas に
+  再通し(部分列で chart 安定化 — **χ に留まる必要はない**: β → 0 は部分
+  列で保存)、T2b-i の **head_overflow 枝の実現**として
+  head_overflow_candidate を構成、T2c-ov へ送付(**本 packet はここで
   停止し床を主張しない** — fail-closed。overflow の空性証明はしない、
   consult #18 の循環切断)。
 以下 (FL22-2)–(FL22-5) は σ₀ > 0 の chart(または head_good 部分列)上の
 主張。
 
-**(FL22-2) carrier 床 m_C(Hurwitz + 単位 norm)**: (CC-4) の strong 極限
-𝐂_* と (AT-3) の被覆(W_reg は W-relevant 零点を含まない — 実区間の複素
-近傍帯でも zero-free: 零点は cluster U / transfer Σ に routed 済み)に
-対し、**Hurwitz の定理**より各成分の極限は W_reg の複素近傍で恒等零 or
-zero-free。両成分恒等零は ‖𝐂_*‖_⊕ = 1 に矛盾 ⟹ 少なくとも一方は
-zero-free で、compact W̄_reg 上 **min_{W_reg} max(|C_{1,*}|, |C_{2,*}|)
-> 0**(vanish_flag = one_sided の場合は生存成分が担う — flag の checked
-evidence と整合)。chart 一様化: x ↦ min_{W_reg} max(...) は strong 収束
-と sup-norm 評価の連続性で下半連続 — compact K_χ(c₀) 上の inf が各点正
-から **m_C(χ, c₀) > 0** ✓(有効値非主張)。上界 M_C は box の RKHS 評価
-(sup ≤ C_R‖·‖_ℱ)から ✓。
+**(FL22-2) carrier 床 m_C(raw 側・Hurwitz + 単位 norm [R-T2C R1-02]
+[R1-03])**: 対象は **raw 正規化 pair 𝐁̂_n := 𝐁̃_n/‖𝐁̃_n‖_⊕**(gauge 後
+𝐂_* を raw に pointwise 移送はしない — EW-B)。**raw strong 極限**:
+(CC-6b) の引き戻し frame w^{raw}_{ℓ,n} は raw で ℱ-strong 収束し Gram 床
+も移る — 𝐁̂_n の成分は raw frame の有界係数結合なので **(CC-4) の Gram 鎖
+を raw 空間で逐語適用**でき、部分列で 𝐁̂_n → 𝐁̂_* strong(‖𝐁̂_*‖_⊕ = 1)✓。
+**複素帯の zero-freeness**: 成分零点の実部は W_reg から距離 ≥ r_c
+(cluster U の定義)または ≥ r_S(非 W-relevant)にあるので、複素帯
+  Ω := {ζ : dist(Re ζ, W_reg) < r_c/2}
+上で |z_j − ζ| ≥ |Re z_j − Re ζ| ≥ r_c/2 — **実部距離が複素距離を下から
+抑えるため、Re 投影排除だけで複素開近傍の zero-freeness と一様半径が従う**
+(Im 方向は無条件 ✓。r_c は (AT-3) の部分列一様半径 — W_reg も部分列上
+n 一様)。strong 収束 ⟹ Ω 上局所一様収束(RKHS)⟹ **Hurwitz**: 各成分の
+極限は Ω で恒等零 or zero-free。両成分恒等零は ‖𝐁̂_*‖_⊕ = 1 に矛盾 ⟹
+生存成分(vanish_flag と整合)は W̄_reg 上 min > 0。**chart 一様化は
+sequence-inf 型**([R-T2C R1-03] — 固定領域の下半連続は使わない):
+  m_C(χ, c₀) := inf{liminf_n min_{W_reg,n} max_i|B̂_{i,n}| :
+  admissible pair} — これが 0 なら対角列(実 config)を取り、上の strong
+  極限 + Hurwitz margin で liminf > 0 となり**矛盾** ⟹ **m_C > 0 は無条件
+  に成立**(carrier に overflow 機構がないため二択不要 ✓)。上界 M_C は
+  box の RKHS 評価(sup ≤ C_R‖·‖_ℱ)から ✓。
 
-**(FL22-3) 量的連鎖(raw 座標 — (CC-6) 準拠)**: σ₀ 床の chart 上、
-raw defect f_n と任意中心 ζ_n(compact 域)で
-  **‖J⁹f_n(ζ_n)‖ ≥ σ₀・‖f_n‖_ℱ = σ₀ ≥ (σ₀/C_R)・sup_{D̄(t₀,R_out)}
-  |f_n|**
-((B3-3)(i) の RKHS 上界と同文 — C_R は box 定数)。carrier 側は
-(FL22-2) の m_C ≤ max(|B̃₁|, |B̃₂|)/‖𝐁̃‖-正規化 ≤ M_C(W_reg 上)。
-この対が (PTN-22) の Remez 合成(T3)の全入力 — g = |B̃₁+B̃₂|/max(...) の
-分子床(jet 経由)と分母床の同時供給。**hop 幾何(S, W, s)への接続は
+**(FL22-3) 量的連鎖(raw 座標・eventual 形 [R-T2C R1-04])**: σ₀ > 0 の
+chart 上、任意の admissible pair は liminf β_n ≥ σ₀ を満たすので、
+**十分大きい n で**
+  **‖J⁹f_n^{raw}(ζ_n)‖ = β_n ≥ σ₀/2 ≥ (σ₀/(2C_R))・sup_{D̄(t₀,R_out)}
+  |f_n^{raw}|**
+(消費可能な床は σ₀/2 — 「全 n で ≥ σ₀」は liminf からは出ない(反例
+β_n = σ₀ − 1/n)。eventual 形は T3 の対偶/chain 消費に十分)。
+**g への正確な接続(δ の消去)**: 恒等式
+  **g_n(t) = δ_n・|f_n^{raw}(t)| / max_i|B̂_{i,n}(t)|**、
+  δ_n := ‖B̃₁+B̃₂‖_ℱ/‖𝐁̃_n‖_⊕
+(f^{raw} = (B̃₁+B̃₂)/‖B̃₁+B̃₂‖、B̂ = B̃/‖𝐁̃‖_⊕ — 全て raw)。δ_n は
+**t に依らない共通因子**なので、二窓比 ‖g‖_W/‖g‖_S では**厳密に相殺**
+する — T3 が消費するのは f^{raw} の jet 床(分子)と m_C ≤ max|B̂| ≤ M_C
+(分母、W_reg 上)のみで δ は現れない ✓。**hop 幾何(S, W, s)への接続は
 T3 の義務**(本 packet は床の存在のみ)。
 
-**(FL22-4) projective order ν ≤ 9**: head_good 部分列の弱極限 f_*
-((HA-3) — ord_{ζ_*}(f_*) ≤ 9)と carrier 極限 𝐂_* に対し、
-  **ν_{ζ_*} := ord_{ζ_*}(F_*) − min(ord_{ζ_*}C_{1,*}, ord_{ζ_*}C_{2,*})**
-(F_* = 分子極限 — f_* の定数倍)。ζ_* ∈ W_reg では (FL22-2) より
-min ord = 0 ⟹ **ν_{ζ_*} = ord_{ζ_*}(f_*) ≤ 9** ✓。ζ_* が cluster U /
-CZB 域の場合は inner chart の帰属(atlas)に従い、共通因子の exact 相殺
-((F2²-4))で reduced 側の ν に還元 — いずれも予算 9 内(d₀ 控除は
-stratum_record の同一オブジェクト d₀ を消費)。
+**(FL22-4) projective order ν ≤ 9(主張域 = W_reg [R-T2C R1-05])**:
+対象は **reduced pair 𝐁̃**((PS-1) — g の比較対象。raw 共通因子 D は
+(F2²-4) で g から exact に消えており本節に現れない)。head_good 部分列の
+弱極限 f_*((HA-3) raw 版 — ord_{ζ_*}(f_*) ≤ 9)と raw carrier 極限 𝐁̂_*
+に対し、**ζ_* ∈ W_reg に限り**
+  **ν_{ζ_*} := ord_{ζ_*}(F_*) − min_i ord_{ζ_*}(B̂_{i,*}) =
+  ord_{ζ_*}(f_*) − 0 ≤ 9** ✓
+((FL22-2) より W_reg 上 min ord = 0)。**cluster U / CZB / Σ 域の中心は
+本 packet の主張域外** — これらは (AT-3) 被覆により T3 の hop 幾何から
+除外・移管され(W_reg + collar 側で Remez を張る)、bubble 内部の解析が
+必要になる場合は T3 が (PS-5) inner chart を消費する(𝐁̃ の近接共通零点の
+inner scaling・極限移送は (PS-2)/(PS-5) の型のまま — 本 packet 非主張
+[R-T2C R1-05]: 旧稿の「還元」文言は撤回)。
 **3+1 mixed-span valuation lemma(consult #17 obligation の解消)**:
 HEAD9-ACTUAL 設計では ord ≤ 9 が (HA-3) で **chart 非依存に**出るため、
 span 別 valuation は不要化された(obligation discharge)。記録として初等
@@ -3627,6 +3655,16 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.32(2026-08-22): R-T2C R1(blocking 5)適用 — [R1-01] σ₀ の量化を
+  admissible pair(実 config 列 × 中心列)に型固定(閉包点は量化外 —
+  稠密性不要)、σ₀ = 0 の対角列構成(chart 残留は要求しない)。[R1-02]
+  [R1-03] m_C を raw 正規化 pair で直接証明(raw Gram 鎖 + 実部距離が複素
+  距離を抑える complex 帯 zero-freeness + Hurwitz + sequence-inf 型一様化
+  — carrier は二択不要で無条件正)。[R1-04] 連鎖を eventual 形 σ₀/2 に修正
+  + g = δ|f|/max|B̂| の恒等式と二窓比での δ 厳密相殺を明示。[R1-05] ν ≤ 9
+  の主張域を W_reg に限定(bubble 域の還元文言を撤回 — T3 の (PS-5) 消費
+  に送る)。
 
 - v0.29.31(2026-08-22): **§8.23 GC-5-T2c BORD22-FLOOR 起草** — chart 別
   σ₀ の二択(床 or 実 config 由来 overflow candidate — 空性証明はしない)、
