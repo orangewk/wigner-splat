@@ -181,8 +181,8 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2b BORD22-FRAME | —(集約行: T2b := {T2b-0, T2b-i, T2b-ii} — consult #17 で 3 分割)| **tree-Newton 経路は R-T2B R1(blocking 6)で撤回** — 再設計 = **J⁹-SVD/graph frame + framed \| overflow 二択**(§8.18 追記)。構造原理(carrier 成分直交 block 対角・二段正規化)は存置し下位 packet が再消費 | **withdrawn → 再設計(3 分割 — 下 3 行)**(A.5a blocking obligation) |
 | GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | **accepted(§8.19、R-T2B0 R3 PASS、fixed SHA `7103b2e` — 箱前提の供給は §8.22 (CC-5) で解消(frame_input-v2.1)[R-T2BII R1-05])** |
 | GC-5-T2b-i HEAD9-ACTUAL(旧 HEAD9-FRAME は §8.20 で撤回)| T2b-0(accepted `7103b2e`)、(B3-4) RKHS 規約 | **実 defect 限定の moving-center 二択**(consult #18 — full-span V_n 単位球の strong compactness は PTN-22 が消費しない過剰目標として非目標化): β_n := ‖J⁹_{ζ_n}f_n‖ の **head_good(weak/compact-open 極限 f_* ≠ 0・ord_{ζ_*} ≤ 9)\| head_overflow(typed candidate — PS-9 detected は生成しない、橋は T2c-ov)** | **accepted(§8.21、R-T2BIA R1 PASS、fixed SHA `e5de2f6`)** |
-| GC-5-T2b-ii CARRIER-CHART(旧 CHART-FRAME を consult #18 で再定義 — defect 側 chart 消費表の義務は削除(defect は weak 化))| T2b-i(accepted `e5de2f6`)、T2b-0(accepted `7103b2e`)、§8.10 (B3-4a)/(B3-3)/(B3-4)、FR §8.4 | **carrier 側の完結**: 成分別 1/2 原子 strong frame(分離原子・(B3-4a))、⊕ block 対角 Gram の一様床(閉 compact chart constructor 上の下半連続 inf)、**箱供給補題**((CC-5) Möbius margin — T2b-0 の箱前提 obligation を standard box + frame_input-v2.1 で解消 [R-T2BII R1-05])、**raw 再主張系**(gauge の pointwise 移送禁止 — EW-B) | **drafted(§8.22、R1–R2 適用済み、査読待ち R-T2BII R3)** |
-| GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ**(head_overflow は T2c-ov へ — 循環なし、consult #18)| open(**A.5a blocking obligation**) |
+| GC-5-T2b-ii CARRIER-CHART(旧 CHART-FRAME を consult #18 で再定義 — defect 側 chart 消費表の義務は削除(defect は weak 化))| T2b-i(accepted `e5de2f6`)、T2b-0(accepted `7103b2e`)、§8.10 (B3-4a)/(B3-3)/(B3-4)、FR §8.4 | **carrier 側の完結**: 成分別 1/2 原子 strong frame(分離原子・(B3-4a))、⊕ block 対角 Gram の一様床(閉 compact chart constructor 上の下半連続 inf)、**箱供給補題**((CC-5) Möbius margin — T2b-0 の箱前提 obligation を standard box + frame_input-v2.1 で解消 [R-T2BII R1-05])、**raw 再主張系**(gauge の pointwise 移送禁止 — EW-B) | **accepted(§8.22、R-T2BII R3 PASS、fixed SHA `ccb1b6d`)** |
+| GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ**(head_overflow は T2c-ov へ — 循環なし、consult #18)| open(**A.5a blocking obligation**) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。配置 = T2c 後・T3 前 | open |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
@@ -3368,7 +3368,7 @@ Gram(非目標 — §8.20 追記)、carrier frame・半箱供給(T2b-ii)、chart
 一様 jet 床・jet-to-window 定量鎖・projective order・carrier 床(T2c)、
 overflow → PS-9 bridge(T2c-ov)、有効定数、人間による査読は未実施。
 
-### 8.22 GC-5-T2b-ii CARRIER-CHART(carrier 側の完結と箱供給 — drafted、R1–R2 適用済み、査読対象 R-T2BII R3)
+### 8.22 GC-5-T2b-ii CARRIER-CHART(carrier 側の完結と箱供給 — **accepted、R-T2BII R3 PASS、fixed SHA `ccb1b6d`**)
 
 **目的**: consult #18 再編の第 3 packet。**carrier 側を完結**させる:
 成分別 strong frame、⊕ block 対角 Gram の chart 一様床、**T2b-0 の箱前提の
@@ -3550,6 +3550,11 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.30(2026-08-22): **GC-5-T2b-ii CARRIER-CHART 受理**(R-T2BII R3
+  PASS、fixed SHA `ccb1b6d`、3 round)。**T2b chain 完結**(T2b-0 3R /
+  T2b-i 1R / T2b-ii 3R = 計 7R — consult #18 見積 6–10R 内、2 経路撤回
+  込み)。次 = T2c BORD22-FLOOR(head_good × carrier_witness の消費)。
 
 - v0.29.29(2026-08-22): R-T2BII R2(blocking 4)適用 — [R2-01] d₀ ≤ t₀/√5
 (帯全体で (B3-4a) 適用域を保証)。[R2-02] K_χ(c₀) の閉集合族化(係数
