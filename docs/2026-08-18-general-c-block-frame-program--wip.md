@@ -166,7 +166,8 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
 | GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **accepted(§8.13、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`)** |
 | GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **accepted(§8.14、R-GC4A5A0 R4 PASS、fixed SHA `68d114a`)** |
-| GC-4A.5a PBK22-COND9 | **BORD-22/PTN-22(blocking obligation — consult #15)**、A.2a/A.2b/A.2c/A.3a/A.3b/A.4/A.5a0 | projective one-hop conditioning — **定理 draft は R1 で撤回**。再設計: PTN-SPEC(interface)+ BORD-22(T3 = 2|2 限定 border 分類)+ PTN-22(weighted Remez 系)。COND9 は PTN-22 からの reduction packet に降格。**A.5a は PTN-22 受理まで open** | **withdrawn → 再設計中(§8.15 追記)** |
+| GC-4A.5a1 PBK22-PTN-SPEC | consult #15、GC-2、A.2a/A.2b/A.3a/A.3b/A.4/A.5a0 | BORD-22/PTN-22 の **interface 型固定(proof claim なし)** — raw projective pair・stratum record・t3 witness・window contract(zf 条件必須 — §9 BORD22-PROBE F1b が裏付け)・projective common-zero 拡張・exact QR exit・(PTN-22) statement 登録・ptn22_witness-v1 | **drafted(§8.16、査読待ち R-GC4A5A1 R1)** |
+| GC-4A.5a PBK22-COND9 | **BORD-22/PTN-22(blocking obligation — consult #15)**、A.2a/A.2b/A.2c/A.3a/A.3b/A.4/A.5a0 | projective one-hop conditioning — **定理 draft は R1 で撤回**。再設計: PTN-SPEC(interface — A.5a1、§8.16 drafted)+ BORD-22(GC-5-T2)+ PTN-22(GC-5-T3)。COND9 は PTN-22 からの reduction packet に降格。**A.5a は PTN-22 受理まで open** | **withdrawn → 再設計中(§8.15 追記)** |
 | GC-4A.5b PBK22-RESTART | A.5a/A.3a | g-small ⇒ 実 root/pole 排除 ⇒ zf_witness 再選択(ZF-2 再実行)⇒ fresh principal branch。cell 境界 handoff | open |
 | GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open |
 | GC-4A.6 PBK22-ASM | A.5(:= 集約 {A.5a0, A.5a, A.5b, A.5c} — 本行で正式定義。§8.3/§8.4/§8.12 等の accepted 本文中の「A.5」参照はこの集約を指す)| 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
@@ -176,6 +177,8 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
 | GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **accepted(§8.10、R-BORD3 R6 PASS、fixed SHA `87863cc`)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
+| GC-5-T2 BORD-22 | GC-5-T0/T1 資産、A.5a1(interface)| **T3 = 2|2 限定 border 分類** — coverage checklist(正本 = §8.16 (PS-8)): exact merge/support drop・child confluence・二層 blow-up・係数退化・QR transverse blow-up・gcd inner bubble・projective 分母。T3 で閉じなければ full BORD-4/TN-4 へ昇格(consult #15) | open(**A.5a blocking obligation**) |
+| GC-5-T3 PTN-22 | GC-5-T2 | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(BORD-22 の系 — statement 登録 = §8.16 (PS-7)) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
@@ -2481,6 +2484,91 @@ inner bubble [ξ : ξ+1]/ metadata compactness の流用 / Taylor 剰余の W-no
 - **no-go 判定基準の明文化**: exponent > 9 の bubble、または exponent 9 でも
   定数が 0 へ落ちる列が出れば PBK22 の明確な no-go 信号。
 
+### 8.16 GC-4A.5a1 PBK22-PTN-SPEC(BORD-22/PTN-22 interface — drafted、査読対象 R-GC4A5A1 R1)
+
+**目的**: consult #15 の再設計に基づき、A.5a の blocking obligation である
+BORD-22(GC-5-T2)/ PTN-22(GC-5-T3)の **interface 型を proof claim なしで
+固定**する。両 packet と COND9 reduction(A.5a 本体)はこの型のみを消費する。
+本 packet は**いかなる不等式・分類の成立も主張しない** — 型・witness 契約・
+statement 登録のみ。
+
+**(PS-1) 対象 pair(raw projective 処理 — gcd 大域連続化の放棄)**: 一次対象は
+cell 局所の raw analytic pair
+  **𝐁 := (B₁, B₂) = (P̃₁V₁e^{r₁}, P̃₂V₂e^{r₂}) ∈ 𝒪(Ω)²**
+(§8.3 (F2²-1)/(F2²-4) の記号 — exact 共通因子 D は相殺済み、P̃₁, P̃₂ 互いに素)。
+reduced ratio H = B₁/B₂ を **config 大域の連続関数として扱わない**
+(R-GC4A5A R1 反例: B₁ = t, B₂ = t + ε の inner bubble [ξ : ξ+1])。weighted
+ratio g := |B₁ + B₂|/max(|B₁|, |B₂|)((F2²-2) と同一)は**共通 scalar gauge
+不変**: 𝐁 → (cΨB₁, cΨB₂)(c ∈ ℂ*、Ψ 非零解析)で g 不変。配置空間は 𝐁 の
+common gauge quotient(この商の正規化が BORD-22 の対象)。
+
+**(PS-2) stratum record(divisor/gcd 層別の witness 化)**:
+  `stratum_record := (cell_id, divisor_record 参照(§8.3 (F2²-4)),
+   d₀ := ord_{t₀}D, 共通零点ごとの消滅次数対 (ord B₁, ord B₂),
+   gcd-jump provenance(外側 config との次数差))`
+— d₀ は A.2a/A.2b の jets 3..9−d₀ 域と**同一オブジェクト**(R-GC4A5A R1
+finding 6 の d₀ interface 不一致の解消枠)。fail-closed: field 欠落 = record
+生成禁止。
+
+**(PS-3) t3 witness(2|2 topology の型)**:
+  `t3_witness := (cell_id, SPLIT4 分割 witness(GC-2 — 4 原子の 2|2 pairing),
+   各 child pair の(周波数対, prepared flag), pairing margin(GC-4C.0
+   dispatch 表参照))`
+— BORD-22 の分類対象は**この witness が指す 2|2 限定族のみ**(他 topology =
+scope 外。T3 閉包が他 topology を要求した時点で full BORD-4/TN-4 へ昇格 —
+consult #15)。
+
+**(PS-4) window contract(窓幾何の同一性 + zf 条件 — 型必須)**:
+  `window_contract := (W(cell 窓、|W| = L_C ≤ 1), S = [t_c − s/2, t_c + s/2]
+   ⊂ W, s ∈ (0, L_C/2], zf_witness 参照(A.3a — W は reduced pair の
+   zero-free collar 内、または共通零点は (PS-5) の chart へ routing 済み),
+   WE9 source 窓との関係 flag ∈ {identical, contained, disjoint-forbidden},
+   λ(A.2b chart scale、y = λ(t − t₀))と ℓ_ext = min(r_S/2, 1/λ)(§8.12)の
+   整合 field)`
+— **zf/stratum 条件は省略不能**: 条件を落とした素の二窓不等式は**偽**
+(反例族 = 共通零点 bubble を W∖S に置く配置、R ≈ c/ε 非有界 — §9
+BORD22-PROBE F1b。ZF collar 条件付きは同族で plateau — F1c)。(S, W) と
+WE9/D10 の窓の関係を型で強制し(disjoint は禁止値 — fail-closed)、物理
+scale s と chart scale λ の換算は record 内で完結させる(暗黙換算の禁止 —
+R-GC4A5A R1 finding 6)。
+
+**(PS-5) projective common-zero 拡張**: 𝐁 の共通零点 t₀(P̃ 互いに素でも
+V/e^r 込み pair の近接零は退化列で発生し得る)では
+k := min(ord_{t₀}B₁, ord_{t₀}B₂)、projective 値 = 最初の非零 jet 対
+[a_k : b_k]。被覆は **outer chart(|t − t₀| ≥ δ)+ inner chart
+(t − t₀ = δξ、ξ compact)の 2 枚** — chart 間で連続極限の一致は**要求
+しない**。要求は「任意の退化列が有限枚の outer/inner chart のどれかに入る」
+(被覆完備性 — BORD-22 の証明義務)。
+
+**(PS-6) exact QR exit**: JF₉ 分岐 flag(GCRouteRecord-v4)= v ≡ 0 の場合、
+二窓比較に入る前に A.5a0 QRG(§8.14)へ retract — qr_global_witness 必須
+(fail-closed)。PTN-22 の対象は v ≢ 0 枝のみ。
+
+**(PS-7) (PTN-22) statement の登録(証明なし)**:
+  **(PTN-22) ‖g‖_W ≤ C₂₂ · (L_C/s)⁹ · ‖g‖_S**
+(g は (PS-1)、窓と条件は (PS-4)、C₂₂ は chart 定数 — 有効値非主張・存在
+のみ、指数 9 = D_W(4) 予算)。**本 packet はこの不等式を主張しない** — 型の
+固定と statement の登録のみ。証明は BORD-22(先行)の系として行う
+(consult #15 の順序)。
+
+**(PS-8) BORD-22 coverage checklist(分類義務の正本化 — 証明なし)**:
+BORD-22 は少なくとも次を chart 被覆に含む: ① exact merge/support drop
+② child pair の confluence(片側・両側)③ root scale/child scale の二層
+blow-up ④ 係数退化 ⑤ exact QR locus への transverse blow-up ⑥ gcd inner
+bubble((PS-5))⑦ projective 分母の一様処理。§8.15 追記(consult #15)の
+checklist を本 (PS-8) が正本化する。
+
+**(PS-9) 出力契約**: `ptn22_witness-v1 := (cell_id, stratum_record,
+t3_witness, window_contract, JF₉ 分岐 flag(GCRouteRecord-v4 参照),
+C₂₂ ref, no-go field(exponent > 9 bubble 検出 flag / 定数→0 列検出 flag —
+いずれか true = PBK22 no-go 信号(§8.15 追記の判定基準)))`
+— closed-world fail-closed(未検証 field の欠落 = witness 不成立)。COND9
+reduction(A.5a)・A.5c はこの witness のみを消費する。
+
+**scope(非主張)**: (PTN-22) の証明、BORD-22 の分類・floor・被覆完備性の
+証明、C₂₂ の有効値、COND9 reduction 本体、A.5b/A.5c/A.6、人間による査読は
+未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -2501,6 +2589,7 @@ inner bubble [ξ : ξ+1]/ metadata compactness の流用 / Taylor 剰余の W-no
 | TRIPLE-VALENCY | 接触次数 ≤ 5 でも collar 内の零点数が非有界になる triple 族 | 偏角原理による零点計数(random 12000 + スケール比較) | **結果**: 正規化スケール(chart 座標相当)で最大 5(|y| ≤ 1.5)、非正規化は位相スケールと共に増大(scale 3: 14 / scale 8: 35)⇒ **正規化族での一様上界に整合・非有界の反例なし**(§8.9 (AD-2) が消費。診断) |
 | TN3-RATIO | TN-3(§8.9 比較補題)の c_TN が存在しない(比 ‖J⁵f(z_c)‖/sup|f| が Z₀ 近傍で 0 へ潰れる) | mpmath 50 桁で F3′ 型・GEN(divided-difference 退化係数)・CHAIN の 3 族 × δ 対数列 8 桁 + float64 adversarial(random 20000 + Nelder-Mead 連鎖)。探索箱は実測データの現実域(|B| ≤ 2.5、|A| ≤ 0.8 — PR #179 Endo/Kawasaki 条件参照) | **結果**(`tn3_ratio.py`/`tn3_adv.py`): 全 3 族で **plateau(slope ≈ 0** — F3′: 0.672 / GEN: 0.073 / CHAIN: 0.046)、confluent 方向の減衰信号なし。adversarial 最小 ≈ 3.7e-5 は**非 confluent 配置**(sep 0.79・箱境界張り付き)の指数成長由来で restart 連鎖でも崩壊せず — **c_TN > 0 に整合・反例信号なし**(診断であり証明の代替ではない。TN-3 の証明義務(GC-5)は不変) |
 | COND9-PROBE | A.5a COND9 の線形 one-hop conditioning が成立しない(比 ‖g‖_W/‖g‖_S が (L/s)⁹ 予算を破る) | 2\|2 near-QR 族(pairing 摂動 + p 二次)で R(s) := sup_W g / sup_S g を random 3000+ + Nelder-Mead adversarial、s 対数列 5 点 + confluent 許容変種 | **結果**(`cond9_probe.py`): adversarial max R は s = 10⁻¹→10⁻³ で 2.9×10² → 1.6×10³(**slope ≈ 1 ≪ 9**)、confluent 許容でも ~10³ vs 予算 10¹⁸⁺ — **no-go 信号なし**(consult #14 の黄赤リスクへの経験的反証材料。Nelder-Mead は ord-9 同調方向を見つけにくく sharp 指数の証明代替ではない。診断) |
+| BORD22-PROBE | BORD-22/PTN-22 の未検査機構(consult #15 指摘: gcd-jump inner bubble・exact QR tangent・support drop×scale collapse・rate mismatch・adversarial 共退化)に no-go 信号(指数 > 9 / 定数→0)がある | R(s) := sup_W g/sup_S g を 5 族で測定(bubble 配置 3 変種・QR tangent δ 5 桁・support drop・rate mismatch ladder・Nelder-Mead 60 起点 × s 5 点) | **結果**(`bord22_probe.py`): ① bubble を W∖S に置いた**無条件版は R ≈ 0.25/ε で非有界**(反例族 — 素の二窓不等式は偽、zf/stratum 条件が型必須である設計裏付け。§8.16 (PS-4) が消費)② 同族 ZF collar 条件付きは plateau(~10、ε 5 桁で有界)③ QR tangent slope ≈ 1.0(δ 5 桁で安定)④ support drop / rate mismatch slope ≤ 0.42 ⑤ adversarial slope ≈ 0.90 ≪ 9・max R ≈ 2.8×10³ vs 予算 10²⁷ — **条件付き族に no-go 信号なし**。診断であり証明の代替ではない |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
 
 **実測ベンチマーク候補(pointer)**: 公開 homodyne/quadrature データの調査は
@@ -2518,6 +2607,18 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.2(2026-08-22): **§8.16 GC-4A.5a1 PBK22-PTN-SPEC 起草**(consult #15
+  の再設計第一歩 — BORD-22/PTN-22 interface 型の固定、proof claim なし):
+  raw projective pair(gcd 大域連続化の放棄)、stratum_record(d₀ 同一
+  オブジェクト)、t3_witness、window_contract(zf 条件型必須・disjoint
+  禁止・λ/s 換算閉包)、projective common-zero 拡張(outer/inner 2 chart)、
+  exact QR exit、(PTN-22) statement 登録、ptn22_witness-v1(no-go field
+  付き)。§4 台帳に A.5a1 / GC-5-T2 BORD-22 / GC-5-T3 PTN-22 行を追加。
+  **§9 BORD22-PROBE 記録** — 無条件二窓不等式の反例族(bubble in W∖S、
+  R ≈ 0.25/ε 非有界)と ZF collar 条件付き plateau、QR tangent/support
+  drop/rate mismatch/adversarial の各 slope ≤ 1.0 ≪ 9(条件付き族に
+  no-go 信号なし)。
 
 - v0.29.1(2026-08-19): **COND9 定理 draft 撤回** — R-GC4A5A R1(blocking 7:
   gcd 遷移の config 連続性反例・metadata/関数族 compactness 混同・Taylor 剰余

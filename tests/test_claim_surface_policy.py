@@ -911,6 +911,35 @@ def test_qrg_witness_schema_is_declared():
     assert not bare_v3, "WE9 section still has a bare v3 consumer reference"
 
 
+def test_ptn_spec_interface_declared():
+    """GC-4A.5a1 (PTN-SPEC) must declare the typed BORD-22/PTN-22 interface
+    (consult #15): the ptn22_witness-v1 contract with its no-go field, the
+    mandatory zf/stratum condition (BORD22-PROBE F1b: the unconditioned
+    two-window inequality is false), and the no-proof-claim scope."""
+
+    text = GC_PROGRAM_DOC.read_text(encoding="utf-8")
+    start = text.index("### 8.16 GC-4A.5a1")
+    end = text.index("## 9. 早期検証実験台帳")
+    section = text[start:end]
+    for fragment in (
+        "ptn22_witness-v1",
+        "stratum_record",
+        "t3_witness",
+        "window_contract",
+        "zf_witness",
+        "disjoint-forbidden",
+        "fail-closed",
+        "本 packet はこの不等式を主張しない",
+        "zf/stratum 条件は省略不能",
+    ):
+        assert fragment in section, f"PTN-SPEC fragment missing: {fragment!r}"
+
+    # the probe ledger must record the unconditioned counterexample family
+    # that justifies making the zf condition part of the type
+    assert "BORD22-PROBE" in text
+    assert "素の二窓不等式は偽" in text
+
+
 # --- issue #137 (topological K-epsilon) surfaces -----------------------------
 
 TOPO_DIRS = {
