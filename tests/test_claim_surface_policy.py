@@ -1029,7 +1029,10 @@ def test_ptn_spec_interface_declared():
         assert len(found) == 1, f"ledger row {prefix!r} count != 1"
     a5a1 = rows["| GC-4A.5a1 PBK22-PTN-SPEC "][0]
     assert "GC-3" in a5a1 and "GC-4C.0" in a5a1, "A.5a1 deps lost GC-3/GC-4C.0"
-    assert "drafted" in a5a1
+    # accepted at R-GC4A5A1 R4; the acceptance record must survive
+    assert "accepted" in a5a1 and "5d7400a" in a5a1, (
+        "A.5a1 lost its acceptance record (R-GC4A5A1 R4, fixed SHA 5d7400a)"
+    )
     for prefix in ("| GC-5-T2 BORD-22 ", "| GC-5-T3 PTN-22 "):
         row = rows[prefix][0]
         assert "open" in row and "blocking obligation" in row, (
