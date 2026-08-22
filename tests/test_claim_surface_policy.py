@@ -913,65 +913,106 @@ def test_qrg_witness_schema_is_declared():
 
 def test_ptn_spec_interface_declared():
     """GC-4A.5a1 (PTN-SPEC) must declare the typed BORD-22/PTN-22 interface
-    (consult #15, luna R-GC4A5A1 R1): two-layer raw/reduced pair, d0 as the
-    same object as the unreduced divisor order, identity refs into GC-3
-    D-PBK-22 required keys, the zf-scope split (A.3a covers S/collar only),
-    the valid|nogo discriminated union with mandatory v != 0, and the
-    no-proof-claim scope with section 9 as the sole probe authoring location."""
+    (consult #15, luna R-GC4A5A1 R1-R3). Checks are structural: the section
+    is split into its (PS-n) blocks and each obligation is verified inside
+    the block that owns it, including the constructor-level exclusivity of
+    the valid|nogo union (R3-01)."""
+
+    import re
 
     text = GC_PROGRAM_DOC.read_text(encoding="utf-8")
     start = text.index("### 8.16 GC-4A.5a1")
     end = text.index("## 9. 早期検証実験台帳")
     section = text[start:end]
-    for fragment in (
-        # R1-01: two-layer typing, d0 same-object with the unreduced pair
-        "未約分",
-        "divisor_record",
-        "同一オブジェクト",
-        "D の零点とは別物",
-        # R1-03 / R2-01: identity refs into GC-3 D-PBK-22 required keys,
-        # including the active_children_nonzero consumption condition
+
+    # split into PS blocks: ps[n] = text of (PS-n)
+    parts = re.split(r"\*\*\(PS-(\d)\)", section)
+    ps = {
+        int(parts[i]): parts[i + 1] for i in range(1, len(parts) - 1, 2)
+    }
+    assert set(ps) == set(range(1, 10)), f"PS blocks missing: {sorted(ps)}"
+
+    # PS-1 (R1-01): two-layer raw/reduced typing and gauge invariance
+    for frag in ("未約分", "g(𝐁) = g(𝐁̃)", "common gauge"):
+        assert frag in ps[1], f"PS-1 missing: {frag!r}"
+
+    # PS-2 (R1-01): d0 is the unreduced divisor order, same object;
+    # reduced near-common zeros are a separate field
+    for frag in ("divisor_record", "同一オブジェクト", "D の零点とは別物"):
+        assert frag in ps[2], f"PS-2 missing: {frag!r}"
+
+    # PS-3 (R1-03/R2-01): identity refs into GC-3 D-PBK-22 required keys;
+    # active_children_nonzero must be coupled to its consumption condition
+    for frag in (
         "D-PBK-22 record 参照",
-        "active_children_nonzero",
-        "t3_witness 生成禁止",
+        "certificate_ref",
         "η_dw witness",
         "collision-scale witness",
-        # R1-02: zf scope split + same-object window refs
+    ):
+        assert frag in ps[3], f"PS-3 missing: {frag!r}"
+    acn = ps[3].index("active_children_nonzero")
+    ban = ps[3].index("t3_witness 生成禁止")
+    assert 0 < ban - acn < 200, (
+        "PS-3: active_children_nonzero not coupled to its generation ban"
+    )
+
+    # PS-4 (R1-02): zf-scope split and same-object window refs
+    for frag in (
         "zf_scope",
         "W_zf 被覆 witness",
         "A.3a は供給しない",
         "we9_witness-v1 参照",
         "d10_witness-v1 参照",
         "disjoint-forbidden",
-        # R1-04 / R1-05 / R2-02: discriminated union, mandatory v != 0,
-        # v == 0 generation ban, discriminated scan status, nogo barred
-        "ptn22_witness-v1 := valid | nogo",
-        "v ≢ 0 必須",
-        "valid の生成を**禁止**",
-        "qr_global_witness",
-        "checked_clear(evidence ref)| detected",
-        "status = checked_clear を必須",
-        "消費できるのは **valid",
-        "nogo の証明経路での消費は禁止",
-        # consult #15 items: common gauge quotient, two-chart common-zero
-        # coverage, exponent-9 statement registration
-        "common gauge\nquotient",
-        "outer chart",
-        "inner chart",
-        "‖g‖_W ≤ C₂₂ · (L_C/s)⁹ · ‖g‖_S",
-        # scope: interface only
-        "本 packet はこの不等式を主張しない",
         "zf/stratum 条件は省略不能",
     ):
-        assert fragment in section, f"PTN-SPEC fragment missing: {fragment!r}"
-
-    # R1-06: probe results are authored ONLY in section 9 -- the spec section
-    # may point at BORD22-PROBE but must not restate its numbers.
-    assert "BORD22-PROBE" in section
+        assert frag in ps[4], f"PS-4 missing: {frag!r}"
+    # R1-06: probe results are authored only in section 9
+    assert "BORD22-PROBE" in ps[4]
     for restated in ("0.25/ε", "slope", "plateau", "2.8×10"):
         assert restated not in section, (
             f"PTN-SPEC section restates probe result: {restated!r}"
         )
+
+    # PS-5: two-chart covering with completeness as the stated obligation
+    for frag in ("outer chart", "inner chart", "被覆完備性"):
+        assert frag in ps[5], f"PS-5 missing: {frag!r}"
+
+    # PS-6/PS-7: QR exit and the registered (not claimed) statement
+    assert "qr_global_witness" in ps[6]
+    assert "‖g‖_W ≤ C₂₂ · (L_C/s)⁹ · ‖g‖_S" in ps[7]
+    assert "本 packet はこの不等式を主張しない" in ps[7]
+
+    # PS-8: the seven-item BORD-22 coverage checklist
+    for mark in "①②③④⑤⑥⑦":
+        assert mark in ps[8], f"PS-8 checklist missing item {mark}"
+
+    # PS-9 (R1-04/05, R2-02, R3-01): constructor-level exclusivity.
+    # Split the union into its valid/nogo sub-blocks and check each side.
+    assert "ptn22_witness-v1 := valid | nogo" in ps[9]
+    v_at = ps[9].index("`valid := (")
+    n_at = ps[9].index("`nogo := (")
+    rule_at = ps[9].index("**消費規則**")
+    assert v_at < n_at < rule_at, "PS-9: valid/nogo/rule order broken"
+    valid_sub = ps[9][v_at:n_at]
+    nogo_sub = ps[9][n_at:rule_at]
+    rule_sub = ps[9][rule_at:]
+    # valid carries checked_clear only, and the mandatory v != 0 gate
+    assert "checked_clear" in valid_sub
+    assert "detected" not in valid_sub, (
+        "PS-9: valid sub-block must not admit a detected scan"
+    )
+    assert "v ≢ 0 必須" in valid_sub
+    assert "valid の生成を**禁止**" in valid_sub
+    assert "qr_global_witness" in valid_sub
+    # nogo carries detected only
+    assert "detected" in nogo_sub
+    assert "checked_clear" not in nogo_sub, (
+        "PS-9: nogo sub-block must not admit a checked_clear scan"
+    )
+    # consumption rule couples valid-only consumption with the nogo bar
+    assert "valid" in rule_sub and "のみ" in rule_sub
+    assert "nogo の証明経路での消費は禁止" in rule_sub
 
     # ledger rows: deps recorded, obligations stay open (never resolved by
     # forwarding), COND9 stays withdrawn
