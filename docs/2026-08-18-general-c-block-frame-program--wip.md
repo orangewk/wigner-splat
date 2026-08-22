@@ -179,7 +179,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
 | GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(W ∖ Σ の被覆 + 移管領域 Σ の帰属排反 — bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **accepted(§8.17、R-T2A R9 PASS、fixed SHA `08c2d0e`)**(A.5a blocking obligation — T2b/T2c/T3 受理まで A.5a open) |
 | GC-5-T2b BORD22-FRAME | —(集約行: T2b := {T2b-0, T2b-i, T2b-ii} — consult #17 で 3 分割)| **tree-Newton 経路は R-T2B R1(blocking 6)で撤回** — 再設計 = **J⁹-SVD/graph frame + framed \| overflow 二択**(§8.18 追記)。構造原理(carrier 成分直交 block 対角・二段正規化)は存置し下位 packet が再消費 | **withdrawn → 再設計(3 分割 — 下 3 行)**(A.5a blocking obligation) |
-| GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | **drafted(§8.19、査読待ち R-T2B0 R1)** |
+| GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | **drafted(§8.19、R1 適用済み、査読待ち R-T2B0 R2)** |
 | GC-5-T2b-i HEAD9-FRAME | T2b-0 | **J⁹-rank-revealing SVD/graph frame** — α_n := inf_{v ∈ V_n, ‖v‖=1}‖P₉v‖(基底不変 — 多者従属も最小特異値で検出)、w_ℓ = p_ℓ + A_np_ℓ(A_n = (I−P₉)(P₉\|_{V_n})⁻¹、G = I + A*A ≥ I)、**tail-tightness 補題**(Gaussian 族固有)、出力 = **frame_outcome-v2 := framed(frame_witness) \| overflow(overflow_witness)**(overflow は PS-9 nogo への bridge evidence 付き — 循環なし: non-overflow のみ床が消費、overflow は床を消費せず no-go 判定へ) | open |
 | GC-5-T2b-ii CHART-FRAME | T2b-i | chart 別消費表(PL/CF/XC は分離 + (B3-4a)、**TR3-root_far** = BORD-3 E₃(deg ≤ 5 — R1 指摘どおり deg ≤ 4 は撤回)+ 分離原子、**TR3-root_collapse・RTC** = 4 原子 J⁹ frame(deg ≤ 9)、QRT/CZB 継承)+ **chart 一様 Gram floor**(閉 compact K_χ 上の下半連続 inf — overflow locus は α ≥ ε_χ の閉 subchart 分割で処理) | open |
 | GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(TR3-root_far の projective ord ≤ 9 は BORD-3 次数表から自動でない — consult #17)| open(**A.5a blocking obligation**) |
@@ -2894,7 +2894,7 @@ witness の chart label ごとに frame を建てる。
 Gram 床・carrier 床 m_C の一様性・ord/projective order 床・(PTN-22)・
 A.5b 動的 restart・有効定数、人間による査読は未実施。
 
-### 8.18 GC-5-T2b BORD22-FRAME(chart 別 strong frame — **tree-Newton 経路撤回**(R-T2B R1 blocking 6 + consult #17)。(B22-0) 二段正規化・(B22-1) 成分直交 block 対角・(B22-2a) は T2b-0/i/ii が再消費、**(B22-2b) tree-Newton は失敗経路の記録**(効力なし — 独立性の次数厳増論法に反例 L₃ = L₁ + L₂、停止測度未定義)。再設計 = §8.18 追記)
+### 8.18 GC-5-T2b BORD22-FRAME(chart 別 strong frame — **tree-Newton 経路撤回**(R-T2B R1 blocking 6 + consult #17)。(B22-0) 二段正規化・(B22-1) 成分直交 block 対角・(B22-2a) は T2b-0/i/ii が再消費、**(B22-2b)〜(B22-5) は失敗経路の記録**(効力なし [R-T2B0 R1-01] — tree-Newton とその派生 claim(chart 別 frame 族・Gram 鎖の適用・span 表(TR3 deg ≤ 4 を含む)・frame_witness-v1)は全て撤回。span 表の正は consult #17: TR3-root_far deg ≤ 5 / root_collapse deg ≤ 9)。再設計 = §8.18 追記)
 
 **目的**: T2a atlas_witness(chart label 確定済みの部分列)上で、consult #16
 の二段正規化 — **carrier pair 𝐂_n ∈ ℱ⊕ℱ** と **defect f_n ∈ ℱ** — の
@@ -2970,6 +2970,10 @@ cluster tree T に沿って frame を建てる:
   ≤ 6 + 2·(再帰) だが、**T2c の消費は deg ≤ 9 予算内であることのみ要求**
   し、超過が起こる場合は当該 chart を **RTC-deep sub-chart** として記録
   (T2c が予算判定 — 本 packet は frame の存在と次数の上界記録のみ)。
+**【以下 (B22-2c)〜(B22-5) は撤回済み・効力なし(R-T2B R1 + consult #17
+[R-T2B0 R1-01])— 新設計(J⁹-SVD/graph frame・frame_outcome-v2)は
+T2b-i/ii が §8.20 以降で与える。記録のみ】**
+
 - **(B22-2c) chart 別 frame 族**(atlas label → frame): PL4 = 4 分離原子 /
   CF1 = (B3-4a) 対 + 2 分離 / CF2 = (B3-4a) 対 × 2 / XC1・XC2 = 同上
   (対の child 所属のみ異なる — defect frame は同形)/ TR3 = (B22-2b)
@@ -3063,7 +3067,7 @@ sub-recursion では rank drop を捕捉不能)+ 停止測度未定義。consult
   GAUGE-SCALE-ADAPTER(1–2R), T2b-i HEAD9-FRAME(3–5R), T2b-ii
   CHART-FRAME(2–3R)})。T2b 全体 6–10 round、T2c 3–5 round 見込み。
 
-### 8.19 GC-5-T2b-0 GAUGE-SCALE-ADAPTER(atlas → frame の前処理補題 — drafted、査読対象 R-T2B0 R1)
+### 8.19 GC-5-T2b-0 GAUGE-SCALE-ADAPTER(atlas → frame の前処理補題 — drafted、R1 適用済み、査読対象 R-T2B0 R2)
 
 **目的**: consult #17 の 3 分割の第 1 packet。accepted な atlas_witness-v1
 (§8.17)を書き換えずに、T2b-i/ii が消費する **frame_input-v2** を構成する
@@ -3072,17 +3076,26 @@ sub-recursion では rank drop を捕捉不能)+ 停止測度未定義。consult
 
 **(AD22-0) 型定義**:
   `frame_input-v2 := (atlas_witness-v1 参照(chart 枝),
+   chart_sublabel((AD22-3) — root_scale_limit constructor からのみ生成),
    common_gauge_record-v1)`
   `common_gauge_record-v1 := (pivot_leaf(決定的規約 — 下記), section_id,
    U_n(FR §8.4 gauge section — 消費条件付き), scalar_absorption_table
    (gauge が各原子に生む非零 scalar の exact 係数吸収 — 原子 label ごと),
    transformed_atom_table(変換後の (B, A) パラメタ — exact),
-   all_atoms_in_K evidence(変換後 4 原子すべての K_{δ_ℱ,R_ℱ} 所属検証),
-   strong_section evidence(U_n → U_* strongly の検証 ref),
-   node_scale_bridge 表(木 node ごと — 下記))`
-  `node_scale_bridge := (d_parabolic(= (AT-1) の s_ab — rate atlas 用、
-   変更しない), t_increment := ‖(ΔB, ΔA/2)‖₂(差分商の除数 — (B3-4a) と
-   同一), ν̂ := (ΔB, ΔA/2)/t ∈ S³, exact_difference_ref,
+   half_box_premise evidence(raw 原子の半箱所属 — (AD22-2) [R-T2B0
+   R1-03]), section_param_bound_ref(FR §8.4 のパラメタ作用有界性 —
+   消費条件), all_atoms_in_K evidence(変換後 4 原子すべての K_{δ_ℱ,R_ℱ}
+   所属検証), strong_section evidence(U_n → U_* strongly の検証 ref),
+   root_scale_limit((AD22-3) [R-T2B0 R1-05]),
+   node_scale_bridge 表(合流 node ごと — 下記))`
+  `node_scale_bridge := (対象 node(**合流 node のみ** — 分離 node は
+   差分商を取らないため bridge 不要、型で除外 [R-T2B0 R1-02]),
+   代表葉対(決定的規約 — (AD22-2) [R-T2B0 R1-04]),
+   d_parabolic(= (AT-1) の s_ab — rate atlas 用、変更しない),
+   t_increment := ‖(ΔB, ΔA/2)‖₂(差分商の除数 — (B3-4a) と同一),
+   ν̂ := (ΔB, ΔA/2)/t ∈ S³, exact_difference_ref,
+   verified: **d ≤ 1**(合流 node は d → 0 なので十分先の部分列で成立 —
+   不成立の有限先頭部は record 生成禁止 = 部分列規約 [R-T2B0 R1-02]),
    verified: d²/2 ≤ t ≤ (√5/2)d)`
 — fail-closed: field 欠落・verified 不成立 = record 生成禁止。
 
@@ -3097,11 +3110,18 @@ d = ε, t = ε²/2。consult #17)。差分商は常に **t で割る**(純二次
 
 **(AD22-2) pivot 規約と gauge の共通適用(前処理補題)**: 主張 — atlas の
 chart 枝 witness(安定化済み部分列)に対し frame_input-v2 が構成できる。
-- **pivot_leaf の決定的規約**: chart label で分岐 — 全原子合流系
-  (RTC / TR3-root_collapse)は root cluster の label 最小原子、それ以外
-  (PL4/CF/XC/TR3-root_far/QRT/CZB)は**最細 scale cluster の label 最小
-  原子**(cluster が自明なら label 最小原子)。有限個の選択肢なので部分列
-  で固定 ✓(permutation も同時に固定)。
+- **pivot_leaf の決定的規約([R-T2B0 R1-04] — tie-break 込み)**:
+  chart label で分岐 — 全原子合流系(RTC / TR3-root_collapse)は root
+  cluster の label 最小原子、それ以外は**最細 scale cluster の label 最小
+  原子**。**tie-break**: 最細 scale cluster が複数(例: (12)(34) の 2 対)
+  なら「構成原子の最小 label が最小の cluster」を選ぶ(label 全順序による
+  決定的規約 — 「部分列で固定」に依存しない well-definedness)。cluster が
+  自明なら label 最小原子。permutation も同時に固定。
+  **node 代表葉対の規約**: 各 internal node の差分は「左子 cluster の
+  label 最小葉、右子 cluster の label 最小葉」の対で取る(左右 = 最小
+  label 側を左とする決定的順序)— (B3-4a) の t は二原子差分の量なので、
+  node 単位の (ΔA, ΔB) はこの代表葉対の transformed_atom_table 値から
+  exact に読む(exact_difference_ref = 代表葉対 ref)。
 - **U_n の消費条件**: FR §8.4 の gauge section を pivot の (B, A) 中心で
   適用する。消費条件 = pivot パラメタが chart 箱(Fock-admissible
   K_{δ_ℱ,R_ℱ} — §8.9 追記)に属すこと(atlas の chart 箱束縛から充足 —
@@ -3110,10 +3130,19 @@ chart 枝 witness(安定化済み部分列)に対し frame_input-v2 が構成で
   であり、scalar は係数へ exact に吸収(scalar_absorption_table —
   g は共通 scalar gauge 不変なので (PS-1) と整合、成分別 gauge は使わない
   ✓)。変換後パラメタは transformed_atom_table に exact 記録。
-- **全原子の box 所属**: pivot 中心化後、各原子の変換後 (B′, A′) は
-  「pivot との差分」+「pivot の箱内位置」の連続像 — atlas chart 箱の閉
-  束縛から **閉 Fock-admissible 箱 K_{δ_ℱ,R_ℱ} に属す**(consult #16 の
-  chart 箱条件と同じ束縛 — 検証は record 生成時、fail-closed)。
+- **全原子の box 所属([R-T2B0 R1-03] — FR §8.4 だけからは導けない)**:
+  前提を型に置く: **半箱前提** — window_geometry 経由の verified field
+  として、raw 原子パラメタが半サイズ箱 |A_j| ≤ (1 − δ_ℱ)/2、
+  |B_j| ≤ R_ℱ/2 に属すこと(供給 = F2²/A.0 held witness の基準二次位相
+  束縛 — evidence ref 必須、欠落 = record 生成禁止)。このとき pivot 相対
+  差分は |ΔA| ≤ 1 − δ_ℱ、|ΔB| ≤ R_ℱ を満たし、FR §8.4 section の
+  パラメタ作用の有界性(**消費条件として section_param_bound_ref を型に
+  追加** — section が指数パラメタに exact affine 変換 + scalar を与え、
+  変換後パラメタが pivot 相対差分の連続有界像であること)と併せて
+  **変換後 4 原子すべてが閉 Fock-admissible 箱 K_{δ_ℱ,R_ℱ} に属す**。
+  RTC/TR3-collapse では全差分 → 0 なので変換後原子は原点近傍(自動)✓、
+  root-far の分離原子は半箱前提が直接効く ✓。検証は record 生成時
+  (fail-closed)。
   **「全原子を原点へ」は RTC / TR3-root_collapse 限定**(全差分 → 0 なので
   変換後全原子 → 原点)。root-far 系では pivot のみ原点、分離原子は箱内に
   残る(consult #17)✓。
@@ -3121,12 +3150,16 @@ chart 枝 witness(安定化済み部分列)に対し frame_input-v2 が構成で
   (chart 箱 compact)し、FR §8.4 の section は strong-continuous(accepted
   資産)— よって **U_n → U_* strongly**(evidence = パラメタ収束 ref +
   section の strong-continuity ref)✓。∎
-**(AD22-3) TR3 sublabel(versioned 下流拡張 — T2a 非改変)**:
-  `TR3 ⟶ TR3(root_far) | TR3(root_collapse)`
-判定 flag は atlas が既に記録している root node scale の極限二分岐
-(s₀ → s* > 0 / 0 — (AT-1))をそのまま読む(新しい判定は導入しない —
-coverage theorem の再開不要、consult #17)。sublabel は frame_input-v2 の
-chart 枝 field に付与する(atlas_witness 本体は不変)。
+**(AD22-3) TR3 sublabel(versioned 下流拡張 — T2a 非改変)
+[R-T2B0 R1-05]**: adapter は typed constructor
+  `root_scale_limit := far(evidence ref) | collapse(evidence ref)`
+を common_gauge_record-v1 の field として持つ — evidence = atlas_witness の
+cluster tree 型 field(node scale 付き — (AT-1) の安定化記録)の root node
+scale 極限の ref(**判定不能 = record 生成禁止** — fail-closed。新しい判定
+は導入しない — coverage theorem の再開不要、consult #17)。sublabel は
+  `chart_sublabel := TR3(root_far) | TR3(root_collapse) | none`
+として **frame_input-v2 の明示 field** に置き(型に追加)、root_scale_limit
+constructor からのみ生成可能とする(atlas_witness 本体は不変)。
 
 **scope(非主張)**: frame の strong 収束・α_n と overflow・exact span・
 Gram 床・chart 一様床(T2b-i/ii)、ord 上界・量的連鎖(T2c)、有効定数、
@@ -3171,6 +3204,15 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.21(2026-08-22): R-T2B0 R1(blocking 5)適用 — [R1-01] §8.18 の
+  撤回範囲を (B22-2b)〜(B22-5) 全体に拡大(派生 claim・TR3 deg ≤ 4 も
+  効力なし明示)。[R1-02] node_scale_bridge を合流 node 限定にし
+  verified: d ≤ 1 を必須 field 化。[R1-03] box 所属を半箱前提
+  (|A| ≤ (1−δ_ℱ)/2 — F2²/A.0 供給の verified premise)+
+  section_param_bound_ref で証明構造化。[R1-04] pivot と node 代表葉対の
+  tie-break を label 全順序で決定的に。[R1-05] root_scale_limit :=
+  far | collapse の typed constructor と chart_sublabel field を追加。
 
 - v0.29.20(2026-08-22): **§8.19 GC-5-T2b-0 GAUGE-SCALE-ADAPTER 起草** —
   frame_input-v2 / common_gauge_record-v1 / node_scale_bridge の型定義、
