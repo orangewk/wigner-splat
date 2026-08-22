@@ -166,7 +166,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.3b PBK22-D10 | A.1/A.2a/A.3a/A.2b | 10 階上界・scale cap(WE₉ の純入力)— collar unit 両側 bound、u′ 明示 bound 経由の Cauchy 10 階、正規化剰余 R̂(θ) ≤ C·θ¹⁰ | **accepted(§8.12、R-GC4A3B R2 PASS、fixed SHA `b75aa85`)** |
 | GC-4A.4 PBK22-WE9 | A.0/A.1/A.2a/A.2b/A.2c/A.3a/A.3b | 局所窓外挿(JF₉/d10 の純 consumer)— Chebyshev 係数補題、κ 上界式(深平坦 ⇒ 定量的 near-QR)、二次比枝の kernel 不等式 ρ⁻² | **accepted(§8.13、R-GC4A4 R2 PASS、fixed SHA `9f1a18d`)** |
 | GC-4A.5a0 PBK22-QRG | A.2a/A.4 | exact QR(v ≡ 0)の大域化 — 恒等定理で Φ_p ≡ 0 を entire 恒等式へ、WE-3 の分枝接続条件を無条件供給(consult #14) | **accepted(§8.14、R-GC4A5A0 R4 PASS、fixed SHA `68d114a`)** |
-| GC-4A.5a1 PBK22-PTN-SPEC | consult #15、GC-2、GC-3(D-PBK-22)、GC-4C.0、A.2a/A.2b/A.3a/A.3b/A.4/A.5a0 | BORD-22/PTN-22 の **interface 型固定(proof claim なし)** — raw projective pair・stratum record・t3 witness・window contract(zf 条件必須 — §9 BORD22-PROBE F1b が裏付け)・projective common-zero 拡張・exact QR exit・(PTN-22) statement 登録・ptn22_witness-v1 | **drafted(§8.16、R1 適用済み、査読待ち R-GC4A5A1 R2)** |
+| GC-4A.5a1 PBK22-PTN-SPEC | consult #15、GC-2、GC-3(D-PBK-22)、GC-4C.0、A.2a/A.2b/A.3a/A.3b/A.4/A.5a0 | BORD-22/PTN-22 の **interface 型固定(proof claim なし)** — raw projective pair・stratum record・t3 witness・window contract(zf 条件必須 — §9 BORD22-PROBE F1b が裏付け)・projective common-zero 拡張・exact QR exit・(PTN-22) statement 登録・ptn22_witness-v1 | **drafted(§8.16、R1–R2 適用済み、査読待ち R-GC4A5A1 R3)** |
 | GC-4A.5a PBK22-COND9 | **BORD-22/PTN-22(blocking obligation — consult #15)**、A.2a/A.2b/A.2c/A.3a/A.3b/A.4/A.5a0 | projective one-hop conditioning — **定理 draft は R1 で撤回**。再設計: PTN-SPEC(interface — A.5a1、§8.16 drafted)+ BORD-22(GC-5-T2)+ PTN-22(GC-5-T3)。COND9 は PTN-22 からの reduction packet に降格。**A.5a は PTN-22 受理まで open** | **withdrawn → 再設計中(§8.15 追記)** |
 | GC-4A.5b PBK22-RESTART | A.5a/A.3a | g-small ⇒ 実 root/pole 排除 ⇒ zf_witness 再選択(ZF-2 再実行)⇒ fresh principal branch。cell 境界 handoff | open |
 | GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open |
@@ -2484,7 +2484,7 @@ inner bubble [ξ : ξ+1]/ metadata compactness の流用 / Taylor 剰余の W-no
 - **no-go 判定基準の明文化**: exponent > 9 の bubble、または exponent 9 でも
   定数が 0 へ落ちる列が出れば PBK22 の明確な no-go 信号。
 
-### 8.16 GC-4A.5a1 PBK22-PTN-SPEC(BORD-22/PTN-22 interface — drafted、R1 適用済み、査読対象 R-GC4A5A1 R2)
+### 8.16 GC-4A.5a1 PBK22-PTN-SPEC(BORD-22/PTN-22 interface — drafted、R1–R2 適用済み、査読対象 R-GC4A5A1 R3)
 
 **目的**: consult #15 の再設計に基づき、A.5a の blocking obligation である
 BORD-22(GC-5-T2)/ PTN-22(GC-5-T3)の **interface 型を proof claim なしで
@@ -2518,6 +2518,8 @@ interface 不一致の解消枠)。
 **(PS-3) t3 witness(2|2 topology の型)[R-GC4A5A1 R1-03]**:
   `t3_witness := (cell_id, SPLIT4 分割 witness(GC-2 — 4 原子の 2|2 pairing),
    **D-PBK-22 record 参照**(GC-3 §7.3 の required keys 完全列挙 —
+   **active_children_nonzero**(消費条件: 両 child C_i ≢ 0 — 不成立なら
+   zero-pruning 継承で redispatch、t3_witness 生成禁止 [R-GC4A5A1 R2-01])、
    certificate_ref(C₁)/certificate_ref(C₂)(w=2 variant)、
    nonconstant(q_{C₁} − q_{C₂})、collision-scale witness、η_dw witness、
    補題 G window witness — を **identity ref で消費**。自由 flag での代替
@@ -2579,8 +2581,11 @@ checklist を本 (PS-8) が正本化する。
      JF₉ 分岐 flag = **v ≢ 0 必須**(GCRouteRecord-v4 参照 — v ≡ 0 では
      valid の生成を**禁止**し、(PS-6) の retract 先 qr_global_witness
      (§8.14)の ref を消費側が代わりに要求する), C₂₂ ref,
-     nogo_scan record(no-go 検査の evidence ref — **「未検査」と「検査
-     済み・検出なし」を区別**する。未検査 = valid 生成禁止))`
+     nogo_scan record := **checked_clear(evidence ref)| detected
+     (evidence ref)** の discriminated status [R-GC4A5A1 R2-02] —
+     valid は **status = checked_clear を必須**とし、detected の scan を
+     持つ record は valid に入れない(nogo variant の生成へ強制)。
+     未検査(scan record 欠落)= valid 生成禁止)`
   - `nogo := (cell_id, evidence ref — exponent > 9 bubble の族 witness /
      定数 → 0 列の witness(§8.15 追記の判定基準と同一物))`
   **消費規則**: COND9 reduction(A.5a)・A.5c が消費できるのは **valid
@@ -2629,6 +2634,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.4(2026-08-22): R-GC4A5A1 R2(blocking 3)適用 — [R2-01] (PS-3) の
+  required keys 列挙に active_children_nonzero を消費条件付きで追加。
+  [R2-02] nogo_scan record を checked_clear | detected の discriminated
+  status 化(valid は checked_clear 必須 — detected は nogo variant へ強制)。
+  [R2-03] テストに active_children_nonzero / common gauge quotient /
+  (PS-5) 2 chart / (PTN-22) statement / v ≡ 0 生成禁止 / checked_clear
+  必須 / nogo 消費禁止の検証を追加。
 
 - v0.29.3(2026-08-22): R-GC4A5A1 R1(blocking 6)適用 — [R1-01] 𝐁 を §8.3
   の未約分 pair に戻し raw/reduced の 2 層型化(d₀ = ord D は未約分 pair と

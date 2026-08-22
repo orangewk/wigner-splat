@@ -929,8 +929,11 @@ def test_ptn_spec_interface_declared():
         "divisor_record",
         "同一オブジェクト",
         "D の零点とは別物",
-        # R1-03: identity refs into GC-3 D-PBK-22 required keys
+        # R1-03 / R2-01: identity refs into GC-3 D-PBK-22 required keys,
+        # including the active_children_nonzero consumption condition
         "D-PBK-22 record 参照",
+        "active_children_nonzero",
+        "t3_witness 生成禁止",
         "η_dw witness",
         "collision-scale witness",
         # R1-02: zf scope split + same-object window refs
@@ -940,12 +943,22 @@ def test_ptn_spec_interface_declared():
         "we9_witness-v1 参照",
         "d10_witness-v1 参照",
         "disjoint-forbidden",
-        # R1-04 / R1-05: discriminated union, mandatory v != 0, scan record
+        # R1-04 / R1-05 / R2-02: discriminated union, mandatory v != 0,
+        # v == 0 generation ban, discriminated scan status, nogo barred
         "ptn22_witness-v1 := valid | nogo",
         "v ≢ 0 必須",
+        "valid の生成を**禁止**",
         "qr_global_witness",
-        "nogo_scan record",
+        "checked_clear(evidence ref)| detected",
+        "status = checked_clear を必須",
         "消費できるのは **valid",
+        "nogo の証明経路での消費は禁止",
+        # consult #15 items: common gauge quotient, two-chart common-zero
+        # coverage, exponent-9 statement registration
+        "common gauge\nquotient",
+        "outer chart",
+        "inner chart",
+        "‖g‖_W ≤ C₂₂ · (L_C/s)⁹ · ‖g‖_S",
         # scope: interface only
         "本 packet はこの不等式を主張しない",
         "zf/stratum 条件は省略不能",
