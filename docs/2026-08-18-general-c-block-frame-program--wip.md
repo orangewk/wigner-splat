@@ -177,7 +177,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
 | GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **accepted(§8.10、R-BORD3 R6 PASS、fixed SHA `87863cc`)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
-| GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(W ∖ Σ の被覆 + 移管領域 Σ の帰属排反 — bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **drafted(§8.17、R1–R6 適用済み、査読待ち R-T2A R7)**(A.5a blocking obligation) |
+| GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(W ∖ Σ の被覆 + 移管領域 Σ の帰属排反 — bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **drafted(§8.17、R1–R7 適用済み、査読待ち R-T2A R8)**(A.5a blocking obligation) |
 | GC-5-T2b BORD22-FRAME | GC-5-T2a | 各 chart の **joint carrier frame**(ℱ⊕ℱ、gauge section U_n + ‖·‖_⊕ 正規化)+ **QR defect frame**(f_n = δ_n⁻¹(C₁+C₂))の Fock-strong 収束・exact limit span・Gram floor(crux = root 合流の iterated divided-difference/SVD frame span{Q_ℓ e^q}, deg ≤ 9) | open(**A.5a blocking obligation**) |
 | GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化 | open(**A.5a blocking obligation**) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
@@ -2641,7 +2641,7 @@ checklist を本 (PS-8) が正本化する。
   CARRIER-SWITCH / TWO-LEVEL-SVD / PROJECTIVE-FLOOR)— weighted ratio の
   横ばいだけでは床の定数崩壊を見逃すため、床そのものの傾きを測る。
 
-### 8.17 GC-5-T2a BORD22-ATLAS(T3 = 2|2 有限 chart coverage — drafted、R1–R6 適用済み、査読対象 R-T2A R7)
+### 8.17 GC-5-T2a BORD22-ATLAS(T3 = 2|2 有限 chart coverage — drafted、R1–R7 適用済み、査読対象 R-T2A R8)
 
 **目的**: BORD-22 の第一 packet(consult #16 の 4 分割)。主張は一つ:
 
@@ -2768,11 +2768,12 @@ P̃_i の零点に限られ **各 ≤ 2・計 ≤ 4 個**、P̃₁, P̃₂ 互�
 dist(Re z_j, W) < r_S のもの — ∞ 近傍の零点は有界集合を離れるので
 W-relevant になり得ず、Re は有限 chart でのみ使う)のみ — それ以外の零点は
 被覆簿記から除外する(W 上の下界は距離が直接供給、exclusion 不要)。
-  **U_j := {t ∈ W : |t − Re z_j| < r_j}**(W との交わりとして定義 —
-**U_j ⊂ W は構成から自明** ✓)。**W_reg の定義([R-T2A-R4-03] — 従来
-暗黙)**: **W_reg := W ∖ (collar(S, r_S) ∪ ⋃U_j ∪ Σ)**(補集合として定義 —
-分割恒等式 W = W_reg ∪ collar ∪ ⋃U_j ∪ Σ は自明。実質の主張は
-「W_reg 上に W-relevant 零点がない」= 下記 (δ))。**Σ は移管領域**
+  除外域 U は **Re 投影 cluster 単位**で構成する([R-T2A-R6-01] — 下記
+分離極限分岐): **U_c := {t ∈ W : |t − x_c| < r_c}**(W との交わりとして
+定義 — **U_c ⊂ W は構成から自明** ✓)。**W_reg の定義([R-T2A-R4-03]
+[R-T2A-R7-01])**: **W_reg := W ∖ (collar(S, r_S) ∪ ⋃_c U_c ∪ Σ)**
+(補集合として定義 — 分割恒等式 W = W_reg ∪ collar ∪ ⋃U_c ∪ Σ は自明。
+実質の主張は「W_reg 上に W-relevant 零点がない」= 下記 (δ))。**Σ は移管領域**
 (atlas 時点で本 cell が被覆しない領域と明示 — (AT) の被覆主張は
 「W ∖ Σ の被覆 + Σ の帰属排反」であり、Σ の被覆は受け手 cell の義務
 (chain 接続時に receiver_check で検証 — A.5b/A.5c)。Σ = ∅ の場合は
@@ -2791,57 +2792,67 @@ W-relevant になり得ず、Re は有限 chart でのみ使う)のみ — そ�
   [R-T2A-R5-03])。cluster 間距離は安定化後**正**(距離 → 0 の対は同一
   cluster に統合済み — 構成から)⇒ r_c は **n によらず下に正** ⇒ 被覆が
   **n 一様半径**で成立 ✓(U は cluster 単位: U_c := {t ∈ W :
-  |t − x_c| < r_c})。**x_c ∉ W の cluster**(実部投影が W 外・r_S 未満)
-  は分離極限分岐でなく**境界分岐(handoff の exterior_zero branch —
-  下記)へ routing** [R-T2A-R5-03][R-T2A-R6-02]。dist(x_c, ∂W) → 0 の列も
-  同様に境界分岐 — 排反は極限値で判定。
+  |t − x_c| < r_c})。**x_c ∉ W の cluster**(実部投影が W 外・r_S 未満)と
+  **dist(x_c, ∂W) → 0 の cluster** は分離極限分岐でなく **handoff の
+  transfer_clusters へ routing**(下記 — U を作らない)[R-T2A-R5-03]
+  [R-T2A-R6-02][R-T2A-R7-03]。排反は極限値で判定。
 - **零点対の衝突**(|z_{j,n} − z_{k,n}| → 0)→ (AT-2) 行 4 CZB に該当し
   bubble chart へ routed(当該近傍の被覆役は inner chart が引き継ぐ —
   W_reg から除外)✓。
-- **∂W への接近** → **handoff record(discriminated branch
-  [R-T2A-R2-04][R-T2A-R3-03][R-T2A-R6-02])**:
-  `handoff := boundary_margin(Σ := {t ∈ W : dist(t, ∂W) < ρ_b}(witnessed
-  ρ_b > 0), target cell_id(§8.1 左閉右開規約による帰属),
-  receiver_check)| exterior_zero(cluster c, evidence:
-  **(B(x_c, r_S) ∩ W) ⊂ Σ の検証記録** — 外部投影 cluster の W 側影響域が
-  移管領域に含まれることを constructor 引数で強制)`
-  — `receiver_check(receiver_geometry_ref, evidence: Σ ⊂ W′ の検証記録)`
-  (W′ = 受け手 cell の window geometry。atlas 生成時は **pending 可**だが、
-  pending の効果は型で強制する: **pending の間、(δ) checked_zero_free は
-  「W ∖ Σ」域のみを証書し、Σ を被覆済みに数えることは構成上不可能**
+- **∂W への接近・外部投影** → **handoff record(単一 record 型 —
+  R6 の 2 branch union を置換 [R-T2A-R7-02])**:
+  `handoff := (Σ := {t ∈ W : dist(t, ∂W) < ρ_b}(witnessed ρ_b > 0 —
+  **record レベルで束縛**、全 field が同一 Σ を参照),
+  target cell_id(§8.1 左閉右開規約による帰属),
+  receiver_check(receiver_geometry_ref, evidence: Σ ⊂ W′ の検証記録),
+  **transfer_clusters: {c ↦ evidence((B(x_c, ρ_c^tr) ∩ W) ⊂ Σ)}**(map —
+  複数 cluster 可 [R-T2A-R7-02]。対象 = **外部投影 cluster(x_c ∉ W)と
+  境界接近 cluster(dist(x_c, ∂W) → 0)の両方** [R-T2A-R7-03] —
+  後者は r_c → 0 で (γ) と矛盾するため U を作らず Σ へ移管する。
+  ρ_c^tr = witnessed 影響半径、evidence が Σ の十分な広さを検証 —
+  不足 = 構成不能))`
+  (W′ = 受け手 cell の window geometry。receiver_check は atlas 生成時
+  **pending 可**だが、pending の間 **(δ) checked_zero_free は「W ∖ Σ」域
+  のみを証書し、Σ を被覆済みに数えることは構成上不可能**
   ([R-T2A-R4-03])。A.5c は receiver_check が埋まるまで witness を消費
-  禁止(fail-closed))。**exterior_zero branch の cluster は (α)/(γ) の
+  禁止(fail-closed))。**transfer_clusters の cluster は (α)/(γ) の
   index 集合から型上除外される**(下記結合条件 — evidence なしの除外は
-  構成不能)。routing の動的選択は A.5b、**本 packet は margin の型と
-  帰属の排反のみ**。
+  構成不能)。handoff record 不在 = Σ = ∅(transfer なしの全被覆 case)。
+  routing の動的選択は A.5b、**本 packet は margin の型と帰属の排反
+  のみ**。
 - **S̄ への接近** → zf_witness(A.3a (ZF-3))の invariant (i)
   (dist(Re z, S) ≥ ρ/13)の検証で排除(fail-closed — ref 必須)。
 one-sided 零点近傍での g の極限挙動は**主張しない**(T2b/T2c [R-T2A-05])。
-`wzf_cover record := (零点リスト(ℂP¹・重複度), radii r_j(正値 witness),
-zf_witness 参照, handoff record(境界分岐時 — 上記), invariants)`
+`wzf_cover record := (零点リスト(ℂP¹・重複度), **cluster 表
+{c ↦ (構成零点, x_c, 重複度和)}**, radii **r_c**(正値 witness — index は
+cluster [R-T2A-R7-01]), zf_witness 参照, handoff record(transfer 時 —
+上記), invariants)`
 **invariant の typed constructor([R-T2A-R3-04][R-T2A-R4-04] — §8.16
 (PS-9) の branch constructor と同方式。引数型・結合条件込みで固定し、
 任意 ref の差し込みを排除する)**:
   (α) `checked_subset(defs: {c ↦ U_c 定義 record})` — **結合条件**:
-      index 集合 = **Re 投影 cluster の集合から handoff.exterior_zero の
-      cluster を除いたもの**と 1:1(過不足 = 構成不能 [R-T2A-R6-02]。
-      除外は exterior_zero evidence がある cluster のみ — evidence なしの
-      除外は型上不可能)。包含は定義 U_c := B(x_c, r_c) ∩ W から構成的。
+      index 集合 = **Re 投影 cluster の集合から handoff.transfer_clusters
+      を除いたもの**と 1:1(過不足 = 構成不能 [R-T2A-R6-02]
+      [R-T2A-R7-02]。除外は transfer evidence がある cluster のみ —
+      evidence なしの除外は型上不可能)。包含は定義 U_c := B(x_c, r_c) ∩ W
+      から構成的。
   (δ) `checked_zero_free(table: 端点表 record)` — 端点表 = W ∖ Σ を有限個
-      の区間端点で分割し各小区間の帰属(W_reg / collar / U_j)を列挙、
+      の区間端点で分割し各小区間の帰属(W_reg / collar / U_c)を列挙
+      [R-T2A-R7-01]、
       **各 W-relevant 零点 j について dist(Re z_j, W_reg) ≥ r_{c(j)} の
       検証行を含む**(c(j) = j の属する cluster。Re z_j ∈ W を仮定しない
-      形 [R-T2A-R5-03] — 外部投影 cluster は exterior_zero evidence
-      (影響域 ⊂ Σ)により W_reg = W ∖ (…∪ Σ) から自動的に遠い
-      [R-T2A-R6-02])。
+      形 [R-T2A-R5-03] — transfer cluster(外部投影・境界接近)は
+      evidence(影響域 ⊂ Σ)により W_reg = W ∖ (…∪ Σ) から自動的に遠い
+      [R-T2A-R6-02][R-T2A-R7-03])。
       **結合条件**: 零点行は零点リストと 1:1、区間列は W ∖ Σ を尽くす
       (端点の全順序検証)。証書内容 = 「W_reg 上に W-relevant 零点なし」
       (**Σ は対象外 — 移管領域**。旧 (β) checked_cover は本 constructor
       に置換: 分割恒等式は W_reg の定義から自明のため、証書すべきは
       零点自由性 [R-T2A-R4-03])。
   (γ) `checked_positive(bounds: {c ↦ 有理下界 q_c > 0})` — **結合条件**:
-      (α) と同一 index 集合(= cluster − exterior_zero)、r_c ≥ q_c の
-      検証値 ref。
+      (α) と同一 index 集合(= cluster − transfer_clusters)、r_c ≥ q_c の
+      検証値 ref(境界接近 cluster は transfer 側に居るため r_c → 0 との
+      矛盾は生じない [R-T2A-R7-03])。
 — invariant は **record 生成時の検証条件**(constructor が組めない =
 record 生成禁止 — (ZF-3) と同型)。この record は **(PS-4) zf_scope の W_zf 被覆 witness の
 静的成分を instantiate** する(動的選択 = A.5b — consult #16 帰属分割)。
@@ -2906,6 +2917,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.15(2026-08-22): R-T2A R7(blocking 3)適用 — [R7-01] cluster 表記
+  を被覆定義全体に伝播(U_c/r_c/⋃U_c/W_reg/端点表/record field)。
+  [R7-02] handoff を単一 record 型に再構成(Σ を record レベルで束縛、
+  transfer_clusters map で複数 cluster 対応、receiver_check を field と
+  して明示)。[R7-03] 境界接近 cluster(r_c → 0)を transfer_clusters へ
+  移管し (γ) の正値条件との矛盾を解消(W = [0,1), Re z_n = 1 − 1/n 反例
+  の収容)。
 
 - v0.29.14(2026-08-22): R-T2A R6(blocking 2)適用 — [R6-01] Re 投影
   clustering を導入(投影衝突対は 1 cluster に統合 — 例 P̃₁ = t(t−i) の
