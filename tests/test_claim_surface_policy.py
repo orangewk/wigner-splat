@@ -922,7 +922,12 @@ def test_ptn_spec_interface_declared():
 
     text = GC_PROGRAM_DOC.read_text(encoding="utf-8")
     start = text.index("### 8.16 GC-4A.5a1")
-    end = text.index("## 9. 早期検証実験台帳")
+    # the section ends at the next packet section (S8.17) if present,
+    # else at the experiment ledger
+    try:
+        end = text.index("### 8.17", start)
+    except ValueError:
+        end = text.index("## 9. 早期検証実験台帳")
     section = text[start:end]
 
     # split into PS blocks: ps[n] = text of (PS-n)
