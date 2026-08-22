@@ -913,31 +913,83 @@ def test_qrg_witness_schema_is_declared():
 
 def test_ptn_spec_interface_declared():
     """GC-4A.5a1 (PTN-SPEC) must declare the typed BORD-22/PTN-22 interface
-    (consult #15): the ptn22_witness-v1 contract with its no-go field, the
-    mandatory zf/stratum condition (BORD22-PROBE F1b: the unconditioned
-    two-window inequality is false), and the no-proof-claim scope."""
+    (consult #15, luna R-GC4A5A1 R1): two-layer raw/reduced pair, d0 as the
+    same object as the unreduced divisor order, identity refs into GC-3
+    D-PBK-22 required keys, the zf-scope split (A.3a covers S/collar only),
+    the valid|nogo discriminated union with mandatory v != 0, and the
+    no-proof-claim scope with section 9 as the sole probe authoring location."""
 
     text = GC_PROGRAM_DOC.read_text(encoding="utf-8")
     start = text.index("### 8.16 GC-4A.5a1")
     end = text.index("## 9. 早期検証実験台帳")
     section = text[start:end]
     for fragment in (
-        "ptn22_witness-v1",
-        "stratum_record",
-        "t3_witness",
-        "window_contract",
-        "zf_witness",
+        # R1-01: two-layer typing, d0 same-object with the unreduced pair
+        "未約分",
+        "divisor_record",
+        "同一オブジェクト",
+        "D の零点とは別物",
+        # R1-03: identity refs into GC-3 D-PBK-22 required keys
+        "D-PBK-22 record 参照",
+        "η_dw witness",
+        "collision-scale witness",
+        # R1-02: zf scope split + same-object window refs
+        "zf_scope",
+        "W_zf 被覆 witness",
+        "A.3a は供給しない",
+        "we9_witness-v1 参照",
+        "d10_witness-v1 参照",
         "disjoint-forbidden",
-        "fail-closed",
+        # R1-04 / R1-05: discriminated union, mandatory v != 0, scan record
+        "ptn22_witness-v1 := valid | nogo",
+        "v ≢ 0 必須",
+        "qr_global_witness",
+        "nogo_scan record",
+        "消費できるのは **valid",
+        # scope: interface only
         "本 packet はこの不等式を主張しない",
         "zf/stratum 条件は省略不能",
     ):
         assert fragment in section, f"PTN-SPEC fragment missing: {fragment!r}"
 
-    # the probe ledger must record the unconditioned counterexample family
-    # that justifies making the zf condition part of the type
-    assert "BORD22-PROBE" in text
-    assert "素の二窓不等式は偽" in text
+    # R1-06: probe results are authored ONLY in section 9 -- the spec section
+    # may point at BORD22-PROBE but must not restate its numbers.
+    assert "BORD22-PROBE" in section
+    for restated in ("0.25/ε", "slope", "plateau", "2.8×10"):
+        assert restated not in section, (
+            f"PTN-SPEC section restates probe result: {restated!r}"
+        )
+
+    # ledger rows: deps recorded, obligations stay open (never resolved by
+    # forwarding), COND9 stays withdrawn
+    rows = {
+        prefix: [l for l in text.splitlines() if l.startswith(prefix)]
+        for prefix in (
+            "| GC-4A.5a1 PBK22-PTN-SPEC ",
+            "| GC-5-T2 BORD-22 ",
+            "| GC-5-T3 PTN-22 ",
+            "| GC-4A.5a PBK22-COND9 ",
+        )
+    }
+    for prefix, found in rows.items():
+        assert len(found) == 1, f"ledger row {prefix!r} count != 1"
+    a5a1 = rows["| GC-4A.5a1 PBK22-PTN-SPEC "][0]
+    assert "GC-3" in a5a1 and "GC-4C.0" in a5a1, "A.5a1 deps lost GC-3/GC-4C.0"
+    assert "drafted" in a5a1
+    for prefix in ("| GC-5-T2 BORD-22 ", "| GC-5-T3 PTN-22 "):
+        row = rows[prefix][0]
+        assert "open" in row and "blocking obligation" in row, (
+            f"{prefix!r} must stay open as an A.5a blocking obligation"
+        )
+    assert "withdrawn" in rows["| GC-4A.5a PBK22-COND9 "][0]
+
+    # the probe ledger row stays the sole authoring location and stays a
+    # diagnostic (never a proof substitute)
+    probe_rows = [
+        l for l in text.splitlines() if l.startswith("| BORD22-PROBE ")
+    ]
+    assert len(probe_rows) == 1
+    assert "診断であり証明の代替ではない" in probe_rows[0]
 
 
 # --- issue #137 (topological K-epsilon) surfaces -----------------------------
