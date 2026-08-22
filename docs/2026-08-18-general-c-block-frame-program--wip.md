@@ -180,7 +180,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(W ∖ Σ の被覆 + 移管領域 Σ の帰属排反 — bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **accepted(§8.17、R-T2A R9 PASS、fixed SHA `08c2d0e`)**(A.5a blocking obligation — T2b/T2c/T3 受理まで A.5a open) |
 | GC-5-T2b BORD22-FRAME | —(集約行: T2b := {T2b-0, T2b-i, T2b-ii} — consult #17 で 3 分割)| **tree-Newton 経路は R-T2B R1(blocking 6)で撤回** — 再設計 = **J⁹-SVD/graph frame + framed \| overflow 二択**(§8.18 追記)。構造原理(carrier 成分直交 block 対角・二段正規化)は存置し下位 packet が再消費 | **withdrawn → 再設計(3 分割 — 下 3 行)**(A.5a blocking obligation) |
 | GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | **accepted(§8.19、R-T2B0 R3 PASS、fixed SHA `7103b2e` — 半箱前提供給は T2b-ii obligation)** |
-| GC-5-T2b-i HEAD9-FRAME | T2b-0(accepted `7103b2e`)、GC-1 W_c(4)、§8.10 (B3-4a) | **J⁹-rank-revealing SVD/graph frame** — α_n := inf_{v ∈ V_n, ‖v‖=1}‖P₉v‖(基底不変 — 多者従属も最小特異値で検出)、w_ℓ = p_ℓ + A_np_ℓ(A_n = (I−P₉)(P₉\|_{V_n})⁻¹、G = I + A*A ≥ I)、**tail-tightness 補題**(Gaussian 族固有)、出力 = **frame_outcome-v2 := framed(frame_witness) \| overflow(overflow_witness)**(overflow は PS-9 nogo への bridge evidence 付き — 循環なし: non-overflow のみ床が消費、overflow は床を消費せず no-go 判定へ) | open |
+| GC-5-T2b-i HEAD9-FRAME | T2b-0(accepted `7103b2e`)、GC-1 W_c(4)、§8.10 (B3-4a) | **J⁹-rank-revealing SVD/graph frame** — α_n := inf_{v ∈ V_n, ‖v‖=1}‖P₉v‖(基底不変 — 多者従属も最小特異値で検出)、w_ℓ = p_ℓ + A_np_ℓ(A_n = (I−P₉)(P₉\|_{V_n})⁻¹、G = I + A*A ≥ I)、**tail-tightness 補題**(Gaussian 族固有)、出力 = **frame_outcome-v2 := framed(frame_witness) \| overflow(overflow_witness)**(overflow は PS-9 nogo への bridge evidence 付き — 循環なし: non-overflow のみ床が消費、overflow は床を消費せず no-go 判定へ) | **drafted(§8.20、査読待ち R-T2BI R1)** |
 | GC-5-T2b-ii CHART-FRAME | T2b-i | chart 別消費表(PL/CF/XC は分離 + (B3-4a)、**TR3-root_far** = BORD-3 E₃(deg ≤ 5 — R1 指摘どおり deg ≤ 4 は撤回)+ 分離原子、**TR3-root_collapse・RTC** = 4 原子 J⁹ frame(deg ≤ 9)、QRT/CZB 継承)+ **chart 一様 Gram floor**(閉 compact K_χ 上の下半連続 inf — overflow locus は α ≥ ε_χ の閉 subchart 分割で処理)+ **半箱前提の供給**(chart 箱定義で |A_j| ≤ (1−δ_ℱ)/2, |B_j| ≤ R_ℱ/2 を証明 — T2b-0 adapter の条件を閉じる [R-T2B0 R2-03]) | open |
 | GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(TR3-root_far の projective ord ≤ 9 は BORD-3 次数表から自動でない — consult #17)| open(**A.5a blocking obligation**) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
@@ -3175,6 +3175,101 @@ constructor からのみ生成可能とする(atlas_witness 本体は不変)。
 Gram 床・chart 一様床(T2b-i/ii)、ord 上界・量的連鎖(T2c)、有効定数、
 人間による査読は未実施。
 
+### 8.20 GC-5-T2b-i HEAD9-FRAME(J⁹-SVD/graph frame と framed | overflow — drafted、査読対象 R-T2BI R1)
+
+**目的**: consult #17 の第 2 packet(crux)。frame_input-v2(T2b-0
+`7103b2e` — 条件付き constructor)の defect 空間
+V_n := span{変換後 4 原子} ⊂ ℱ に対し、**J⁹-rank-revealing frame** を建て、
+出力を **frame_outcome-v2 := framed | overflow の型付き二択**で与える。
+chart 別の消費表・一様 Gram 床・span の ord 上界は非主張(T2b-ii/T2c)。
+
+**(H9-0) 設定**: gauge 後座標(T2b-0)で J⁹ := span{z^k : k ≤ 9} ⊂ ℱ
+(Fock 単項式は直交 — P₉ = Taylor 級数の次数 ≤ 9 切断 = 直交射影 ✓)。
+V_n = span{e^{q′_{j,n}} : j ≤ 4}(変換後原子 — transformed_atom_table、
+全原子 K_{δ_ℱ,R_ℱ} 所属(T2b-0 evidence)、step-0 安定化済みで相異なる)。
+  **α_n := inf{‖P₉v‖_ℱ : v ∈ V_n, ‖v‖_ℱ = 1}**
+(= P₉|_{V_n} の最小特異値 — 基底不変。多者従属・rank drop を一括検出)。
+
+**(H9-1) 有限 n での単射性(GC-1 の消費)**: v ∈ V_n ∖ {0} が P₉v = 0 を
+満たすと、v は非零 4 原子指数和で ord₀(v) ≥ 10 — **GC-1 W_c(4)**
+(ord ≤ D_W(4) = 9、任意中心 — accepted `957b252`)に矛盾。よって
+P₉|_{V_n} は単射で **α_n > 0(各 n)** ✓。
+
+**(H9-2) 二択(部分列安定化)**: α_n ∈ (0, 1] の部分列極限で
+  **(framed) liminf α_n =: ε > 0** / **(overflow) α_n → 0**
+のちょうど一方が成立(compact — [0, 1] の部分列収束)。以下 framed 枝で
+frame を構成し、overflow 枝は (H9-5) の witness を出力する。
+
+**(H9-3) framed 枝の frame 構成(graph operator — 独立性の組合せ論証を
+消去)**: W_n := P₉V_n ⊂ J⁹ は 4 次元(単射性)。J⁹ は **10 次元** なので
+W_n の正規直交基底 p_{ℓ,n}(ℓ ≤ 4)は部分列で p_{ℓ,n} → p_{ℓ,*} に収束
+(有限次元 compact ✓ — Grassmann 極限も 4 次元: 正規直交性の極限保存)。
+持上げ
+  **w_{ℓ,n} := (P₉|_{V_n})⁻¹p_{ℓ,n} = p_{ℓ,n} + A_n p_{ℓ,n}**、
+  A_n := (I − P₉)(P₉|_{V_n})⁻¹(graph operator、rank ≤ 4、
+  ‖A_n‖ ≤ ‖(P₉|_{V_n})⁻¹‖ ≤ 1/α_n ≤ 2/ε(十分先))
+とすると {w_{ℓ,n}} は V_n の基底で、**Gram G_n = I + (A_np_ℓ, A_np_{ℓ'})
+≥ I**(unnormalized — 下界が構成から自動)✓。strong 収束は (H9-4)。
+
+**(H9-4) tail-tightness 補題(本 packet の実質)**: 主張 — framed 枝
+(α_n ≥ ε/2)の chart 列上、‖v_n‖_ℱ ≤ M の任意の v_n ∈ V_n は
+**一様 tail 減衰** Σ_{k>K}|⟨v_n, z^k⟩|²/‖z^k‖² ≤ τ(K) → 0(K → ∞、
+τ は box・M のみ依存)を持つ。従って {A_np_{ℓ,n}} は相対 compact で、
+部分列により **w_{ℓ,n} → w_{ℓ,*} ℱ-strong、G_* ≥ I、極限 span は 4 次元**。
+証明:
+- **(i) 分離 cluster の角度下界**: 原子を atlas cluster(d_frame 極限 > 0
+  の対は別 cluster)で分け v = Σ_c v_c(cluster 部分)と書く。相異 cluster
+  の正規化原子対の Gram は、pairwise d_frame ≥ d₀ > 0 の **compact 配置
+  集合上で連続かつ < 1** — compactness で一様 < 1 − c(d₀)。よって
+  cluster 分解は有界: ‖v_c‖ ≤ C(d₀)‖v‖(有限次元 frame の角度論法)。
+- **(ii) cluster 内の定数係数化**: cluster c 内は ΔA → 0(d_frame → 0 は
+  |ΔA|^{1/2} → 0 を含む)。cluster 代表の A_c で
+  u_c := e^{−A_c z²} v_c と置くと(乗算作用素 e^{±A_cz²} は
+  |2A_c| ≤ 1 − δ_ℱ により **δ_ℱ margin 付きの weighted Fock 間で有界** —
+  tail 減衰は margin を消費して両方向に移送可能)、u_c は
+  **線形指数 e^{μ_j z} + 小二次補正**(|補正指数| ≤ |ΔA| → 0)の ≤ 4 項和。
+- **(iii) 係数 recurrence(annihilator ODE)**: 補正なしの主部は定数係数
+  作用素 **L_c := Π_j(D − μ_j)**(可換 — 係数 = μ の基本対称式、box 有界)
+  で消える: L_c u_c = E_c u_c(E_c = 二次補正から生じる摂動項 —
+  係数 O(|ΔA|)·(z·低階))。Taylor 係数(Fock 正規化 â_k := a_k√(k!))への
+  recurrence は、k ≥ K₀(box) で
+    |â_{k+4}| ≤ (C_box/√k)·max(|â_k|, …, |â_{k+3}|)
+  の形(D は次数を 1 下げ z 乗算は √k 重み — 主部・摂動とも同型で摂動は
+  さらに |ΔA| 小)⟹ 窓 max が幾何減衰 ⟹ **‖v_c‖ ≤ C‖v‖ のみに依存する
+  一様 tail 減衰**(係数 b_j の大きさに依存しない — v_c が ODE の解空間に
+  属す事実だけを使う)✓。
+- **(iv) 合成**: (i) の有界分解 + (iii) の cluster 別 tail + (ii) の margin
+  移送で v の一様 tail。相対 compact 性(有界 + 一様 tail = ℱ で
+  precompact)から strong 収束部分列 ✓。G_n → G_* ≥ I(内積の strong
+  連続)、極限 span 次元 = 4(G_* ≥ I ⟹ 独立)∎。
+**J⁹ の中心規約**: P₉ は gauge 後の原点中心 — moving-center 版は T2c が
+(B22-3) 型 RKHS 連続性(J⁹ 汎関数の norm 連続・compact 一様有界 —
+(B3-4) 末尾と同文)で消費する(本 packet は原点中心の二択のみ)。
+
+**(H9-5) overflow witness(no-go への bridge — 循環なし)**: α_n → 0 の
+枝では単位ベクトル v_n ∈ V_n(‖v_n‖ = 1、‖P₉v_n‖ = α_n → 0)を取り、
+  `overflow_witness := (v_n の exact 係数列(原子基底)、gauge 後中心と
+   元 moving center の対応(T2b-0 の U_n record)、‖P₉v_n‖ → 0 の記録、
+   潰れる床の特定(T2c の σ₀ 型 jet 床 — J⁹ 質量消滅はその定数 → 0 と
+   同値)、PS-9 detected(evidence ref) への変換証明(J⁹ 質量消滅 =
+   「指数 9 でも定数が 0 へ落ちる列」(§8.15 追記の no-go 基準)の witness
+   化 — 変換は同一対象の記録形式の書換えのみで数学的内容は同一))`
+**消費規則(循環の切断 — consult #17)**: framed のみ T2c の床が消費する。
+overflow は frame を消費せず **§4 go/no-go 判定へ送付**(T2c で overflow の
+空性を証明することはしない — それは循環。overflow が実在すれば PBK22 の
+正式 no-go outcome)。**出力**:
+  `frame_outcome-v2 := framed(frame_witness-v2) | overflow
+   (overflow_witness)`
+  `frame_witness-v2 := (frame_input-v2 参照, {p_{ℓ,*}}, {w_{ℓ,n}} の
+   strong 収束記録, G_* ≥ I witness, 極限 span 生成元(型付き — 各
+   w_{ℓ,*} = p_{ℓ,*} + (I−P₉) 成分), tail-tightness record(K₀, τ),
+   α 下界 ref)` — fail-closed。
+
+**scope(非主張)**: chart 別の exact span 消費表・一様 Gram 床(subchart
+分割込み — T2b-ii)、span の ord/projective order 上界・moving-center 床・
+量的連鎖(T2c)、overflow の空性(主張しない — 二択の型のみ)、有効定数、
+人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -3214,6 +3309,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.24(2026-08-22): **§8.20 GC-5-T2b-i HEAD9-FRAME 起草** — α_n(J⁹
+  最小特異値)の framed | overflow 二択、W_c(4) 消費による有限 n 単射性、
+  graph operator frame(G ≥ I 自動)、**tail-tightness 補題**(分離
+  cluster 角度下界 + cluster 内定数係数 annihilator ODE の係数 recurrence
+  幾何減衰 + e^{Az²} の δ_ℱ margin 移送)、overflow witness(no-go bridge
+  — 消費規則で循環切断)、frame_outcome-v2 / frame_witness-v2。
 
 - v0.29.23(2026-08-22): **GC-5-T2b-0 GAUGE-SCALE-ADAPTER 受理**(R-T2B0
   R3 PASS、fixed SHA `7103b2e`、3 round)。半箱前提の供給は T2b-ii
