@@ -177,7 +177,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4C PBK-M4 | C.0、GC-4A/B | 多分岐 node kernel 本体(`[4]` held + separated compact + dispatch 接続) | open |
 | GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **accepted(§8.10、R-BORD3 R6 PASS、fixed SHA `87863cc`)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
-| GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **drafted(§8.17、R1 適用済み、査読待ち R-T2A R2)**(A.5a blocking obligation) |
+| GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **drafted(§8.17、R1–R2 適用済み、査読待ち R-T2A R3)**(A.5a blocking obligation) |
 | GC-5-T2b BORD22-FRAME | GC-5-T2a | 各 chart の **joint carrier frame**(ℱ⊕ℱ、gauge section U_n + ‖·‖_⊕ 正規化)+ **QR defect frame**(f_n = δ_n⁻¹(C₁+C₂))の Fock-strong 収束・exact limit span・Gram floor(crux = root 合流の iterated divided-difference/SVD frame span{Q_ℓ e^q}, deg ≤ 9) | open(**A.5a blocking obligation**) |
 | GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化 | open(**A.5a blocking obligation**) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
@@ -2640,7 +2640,7 @@ checklist を本 (PS-8) が正本化する。
   CARRIER-SWITCH / TWO-LEVEL-SVD / PROJECTIVE-FLOOR)— weighted ratio の
   横ばいだけでは床の定数崩壊を見逃すため、床そのものの傾きを測る。
 
-### 8.17 GC-5-T2a BORD22-ATLAS(T3 = 2|2 有限 chart coverage — drafted、R1 適用済み、査読対象 R-T2A R2)
+### 8.17 GC-5-T2a BORD22-ATLAS(T3 = 2|2 有限 chart coverage — drafted、R1–R2 適用済み、査読対象 R-T2A R3)
 
 **目的**: BORD-22 の第一 packet(consult #16 の 4 分割)。主張は一つ:
 
@@ -2679,10 +2679,16 @@ lower-support face label。出力型:
 **(AT-1) rate 座標(4 点 cluster tree — child 割当と独立 [R-T2A-02])**:
 安定化後の全原子対 (a, b)(within/cross の別を問わず ≤ 6 対)に
 **pairwise collision scale**
-  s_ab := |Δβ_ab| + |Δγ′_ab|^{1/2}
-(β, γ′ = 定数 gauge 除去後の指数係数。次数重みは D-PBK-22 collision-scale
-witness の規約 (|ΔA| ≤ s_m², |ΔB| ≤ s_m) と同一)を与える。比 s_ab/s_cd を
-[0, ∞] に compact 化して部分列極限を取ると、階層 clustering により
+  s_ab := d_w(q_a, q_b) = max(|ΔA_ab|^{1/2}, |ΔB_ab|)
+(**§6 の d_w と同一物** [R-T2A-R2-01]。A = 指数の二次係数、B = 一次係数、
+Δ は constant-gauge 除去後。D-PBK-22 collision-scale witness の
+|ΔA| ≤ s_m², |ΔB| ≤ s_m は「s_m ≥ s_ab」と同値 — 型接続 ✓)を与える。
+s_ab = 0 ⟺ q_a ≃ q_b であり、within-child は安定化済みで ≃ 非同値、
+cross-child の ≃ は matching edge として (AT-0) が記録済みなので、
+**未 matched 対の s_ab は正**。root 正規化 s₀ := max_{ab} s_ab とし、比
+s_ab/s₀ ∈ [0, 1](compact — 分母正)の部分列極限を取り、極限 0 の cluster
+内で再帰的に同じ正規化を繰り返す(各段で未確定比が厳減 → 有限深さ)。
+階層 clustering により
 **rooted cluster tree**(葉 = 原子 label、internal node = 分離 scale 水準、
 全 internal node に scale を割当)が定まる。**child 割当(2|2 labeling)は
 木と独立の葉 label** — 木が child 境界と揃う保証はない(例:
@@ -2705,13 +2711,19 @@ s₀ → s* > 0 / 0 の二分岐を重ねる。
 よって対角部分列で**全 flag が同時に安定**する ✓。**割当は決定 list**
 (上から順に最初に該当する行 — 排反は判定順序で強制、全行の条件は安定化
 済み flag のみで判定可能):
-  1. child 恒等零、または総 support rank ≤ 3 → **(i)**。rank は原子数と
-     共に厳減するので、support drop による再判定は高々 3 回で (i) に
-     **終端**する(無限再帰なし ✓ — 旧 SD label は本行に吸収)。
+  1. child 恒等零、または総 support rank ≤ 3 → **(i)**。**support rank :=
+     within-child 安定化後の ≃ 類の総数 Σm_i(cross-child 相殺は数えない —
+     carrier の次元 [R-T2A-R2-02])**。よって exact-QR(両 child 非零・
+     μ = 2 で全相殺)は rank 4 のまま本行に該当しない — 行 1/2 は排反 ✓。
+     rank は原子数と共に厳減するので、support drop による再判定は高々
+     3 回で (i) に**終端**(無限再帰なし ✓ — 旧 SD label は本行に吸収)。
   2. 全 matched edge 相殺 + qr_global_witness ref → **(ii)**。
   3. QR 近接 flag(相殺残差 → 0、exact 相殺でない)→ **QRT**。
-  4. 零点対距離 → 0(common-zero 接近)→ **CZB**(outer/inner —
-     (PS-5))。
+  4. **cross-side** 零点対(P̃₁ の零点と P̃₂ の零点)の距離 → 0 →
+     **CZB**(outer/inner — (PS-5))。**same-side の衝突(P̃_i の重根化)は
+     CZB ではない**((PS-5) は両側 common zero 用 — P̃₁ = (t−a)², P̃₂ = 1
+     は互いに素のまま [R-T2A-R2-03]): 被覆上は重複度 2 の単一 U_j として
+     扱い、chart 割当上は係数退化 flag として行 5–9 の木型判定へ流す。
   5. 木 = 全分離 → **PL4**。
   6. within-child 対のみ合流(1 child / 2 child)→ **CF1 / CF2**。
   7. cross-child 対の合流(1 対 / 2 対)→ **XC1 / XC2**。
@@ -2728,34 +2740,46 @@ cross), 対 2(within×2 / cross×2 / 混在 → 対の label で 6–7 に分配
 P̃_i の零点に限られ **各 ≤ 2・計 ≤ 4 個**、P̃₁, P̃₂ 互いに素より exact 共通
 零点なし。**部分列一様化**: 零点位置は ℂP¹ compact なので部分列で
 z_{j,n} → z_j* が収束し、次の排反分岐が安定する:
-- **分離極限**(z_j* が相異なり W̄ 境界・S̄ から正距離)→ radii
-  r_j := (min 相互距離 ∧ r_S)/3 は **n によらず下に正**(収束列の距離の
-  極限正値性)⇒ 被覆 W = W_reg ∪ collar(S, r_S) ∪ ⋃ U_j が **n 一様半径**
-  で成立 ✓。
+- **分離極限**(z_j* が相異なり ∂W・S̄ から正距離)→ radii
+  **r_j := (min 相互距離 ∧ dist(z_j, ∂W) ∧ r_S)/3**(∂W 距離を含める
+  [R-T2A-R2-04] — U_j ⊂ W が半径の定義から従う)は **n によらず下に正**
+  (収束列の距離の極限正値性)⇒ 被覆 W = W_reg ∪ collar(S, r_S) ∪ ⋃ U_j
+  が **n 一様半径**で成立 ✓。dist(z_{j,n}, ∂W) → 0 の列は本分岐でなく
+  境界分岐(下記)に落ちる — 排反は極限値で判定。
 - **零点対の衝突**(|z_{j,n} − z_{k,n}| → 0)→ (AT-2) 行 4 CZB に該当し
   bubble chart へ routed(当該近傍の被覆役は inner chart が引き継ぐ —
   W_reg から除外)✓。
-- **W̄ 境界への接近** → handoff flag(隣接 cell の被覆に帰属 — 動的選択は
-  A.5b。本 packet は flag の型と「本 cell / 隣接 cell のどちらかに属す」の
-  排反のみ)。
+- **∂W への接近** → **handoff record(型付き [R-T2A-R2-04])**:
+  `handoff := (境界 margin Σ := {t ∈ W : dist(t, ∂W) < ρ_b}(witnessed
+  ρ_b > 0), target cell_id(§8.1 左閉右開規約による帰属), 接近零点リスト,
+  受け手 cover への接続義務 flag)` — margin Σ は本 cell の W_reg から除外
+  され、被覆 invariant (β) は Σ を明示項として持つ(下記)。routing の
+  動的選択は A.5b、**本 packet は margin の型と帰属の排反のみ**。
 - **S̄ への接近** → zf_witness(A.3a (ZF-3))の invariant (i)
   (dist(Re z, S) ≥ ρ/13)の検証で排除(fail-closed — ref 必須)。
 one-sided 零点近傍での g の極限挙動は**主張しない**(T2b/T2c [R-T2A-05])。
 `wzf_cover record := (零点リスト(ℂP¹・重複度), radii r_j(正値 witness),
-zf_witness 参照, verified invariants: (α) 各 U_j ⊂ W または handoff flag、
-(β) W ⊆ W_reg ∪ collar(S, r_S) ∪ ⋃U_j(被覆検証)、(γ) r_j > 0)`
+zf_witness 参照, handoff record(境界分岐時 — 上記),
+verified invariants(**checked constructor — 検証 evidence 付きでのみ構成
+可能** [R-T2A-R2-05]): (α) checked(各 U_j ⊂ W — r_j の定義から)、
+(β) checked(W ⊆ W_reg ∪ collar(S, r_S) ∪ ⋃U_j ∪ Σ_handoff — 被覆検証、
+Σ は handoff margin)、(γ) checked(r_j > 0))`
 — invariant は **record 生成時の検証条件**(不成立 = record 生成禁止 —
 (ZF-3) と同型)。この record は **(PS-4) zf_scope の W_zf 被覆 witness の
 静的成分を instantiate** する(動的選択 = A.5b — consult #16 帰属分割)。
 
-**(AT-4) 出力契約 [R-T2A-05]**: `atlas_witness-v1 := (cell_id,
-t3_witness 参照, **window_contract 参照(§8.16 (PS-4) — identity ref)**,
-step0_record, cluster tree 型(node scale 付き), chart label,
-wzf_cover record((AT-3) — (PS-4) W_zf 静的成分), exit 分岐 ∈
-{lower_rank, exact_qr(**qr_global_witness ref 必須**), chart})`
-— fail-closed は **field の存在 + verified invariant の検証**(invariant
-不成立 = witness 生成禁止 — 欠落チェックだけでは不変条件を検証できない
-[R-T2A-05])。T2b はこの witness の chart label ごとに frame を建てる。
+**(AT-4) 出力契約 [R-T2A-05][R-T2A-R2-05]**: `atlas_witness-v1 :=
+(cell_id, t3_witness 参照, **window_contract 参照(§8.16 (PS-4) —
+identity ref)**, step0_record, cluster tree 型(node scale 付き),
+wzf_cover record((AT-3) — (PS-4) W_zf 静的成分),
+exit = **lower_rank(redispatch record)| exact_qr(qr_global_witness
+ref)| chart(chart label)** の discriminated union — exact_qr 側は
+qr_global_witness ref を **constructor 引数**として持ち、ref なしの
+exact_qr は型上構成不能((PS-9) の valid | nogo と同じ branch
+constructor 方式))`
+— fail-closed は **field の存在 + checked invariant**((AT-3) の
+(α)(β)(γ) を含む — invariant 不成立 = witness 生成禁止)。T2b はこの
+witness の chart label ごとに frame を建てる。
 ∎(被覆完備性のみ — 各 chart の解析は T2b/T2c)
 
 **scope(非主張)**: 各 chart の limit span の正しさ・Fock-strong 収束・
@@ -2801,6 +2825,18 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.10(2026-08-22): R-T2A R2(blocking 5)適用 — [R2-01] s_ab を §6
+  の d_w = max(|ΔA|^{1/2}, |ΔB|) と同一物として型接続(A = 二次係数、
+  root 正規化 s₀ = max s_ab、未 matched 対の s_ab > 0)。[R2-02] support
+  rank := within-child 安定化後の ≃ 類総数(cross-child 相殺は数えない)
+  — exact-QR(rank 4)と行 1 の排反を確定。[R2-03] 零点衝突を cross-side
+  (→ CZB)と same-side 重根化(→ 重複度付き U_j + 係数退化 flag)に分離。
+  [R2-04] r_j に dist(z_j, ∂W) を追加(U_j ⊂ W が定義から従う)、handoff
+  を型付き record 化(margin Σ・target cell_id・帰属排反)、invariant (β)
+  に Σ を明示。[R2-05] exit を discriminated union 化(exact_qr は
+  qr_global_witness ref を constructor 引数に)、invariants を checked
+  constructor 化。
 
 - v0.29.9(2026-08-22): R-T2A R1(blocking 5)適用 — [01] constant-gauge
   同値・matching edge・係数 witness の型定義、exact-QR exit に
