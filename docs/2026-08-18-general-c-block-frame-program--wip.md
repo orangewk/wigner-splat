@@ -179,8 +179,8 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
 | GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(W ∖ Σ の被覆 + 移管領域 Σ の帰属排反 — bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **accepted(§8.17、R-T2A R9 PASS、fixed SHA `08c2d0e`)**(A.5a blocking obligation — T2b/T2c/T3 受理まで A.5a open) |
 | GC-5-T2b BORD22-FRAME | —(集約行: T2b := {T2b-0, T2b-i, T2b-ii} — consult #17 で 3 分割)| **tree-Newton 経路は R-T2B R1(blocking 6)で撤回** — 再設計 = **J⁹-SVD/graph frame + framed \| overflow 二択**(§8.18 追記)。構造原理(carrier 成分直交 block 対角・二段正規化)は存置し下位 packet が再消費 | **withdrawn → 再設計(3 分割 — 下 3 行)**(A.5a blocking obligation) |
-| GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | **drafted(§8.19、R1–R2 適用済み、査読待ち R-T2B0 R3)** |
-| GC-5-T2b-i HEAD9-FRAME | T2b-0 | **J⁹-rank-revealing SVD/graph frame** — α_n := inf_{v ∈ V_n, ‖v‖=1}‖P₉v‖(基底不変 — 多者従属も最小特異値で検出)、w_ℓ = p_ℓ + A_np_ℓ(A_n = (I−P₉)(P₉\|_{V_n})⁻¹、G = I + A*A ≥ I)、**tail-tightness 補題**(Gaussian 族固有)、出力 = **frame_outcome-v2 := framed(frame_witness) \| overflow(overflow_witness)**(overflow は PS-9 nogo への bridge evidence 付き — 循環なし: non-overflow のみ床が消費、overflow は床を消費せず no-go 判定へ) | open |
+| GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | **accepted(§8.19、R-T2B0 R3 PASS、fixed SHA `7103b2e` — 半箱前提供給は T2b-ii obligation)** |
+| GC-5-T2b-i HEAD9-FRAME | T2b-0(accepted `7103b2e`)、GC-1 W_c(4)、§8.10 (B3-4a) | **J⁹-rank-revealing SVD/graph frame** — α_n := inf_{v ∈ V_n, ‖v‖=1}‖P₉v‖(基底不変 — 多者従属も最小特異値で検出)、w_ℓ = p_ℓ + A_np_ℓ(A_n = (I−P₉)(P₉\|_{V_n})⁻¹、G = I + A*A ≥ I)、**tail-tightness 補題**(Gaussian 族固有)、出力 = **frame_outcome-v2 := framed(frame_witness) \| overflow(overflow_witness)**(overflow は PS-9 nogo への bridge evidence 付き — 循環なし: non-overflow のみ床が消費、overflow は床を消費せず no-go 判定へ) | open |
 | GC-5-T2b-ii CHART-FRAME | T2b-i | chart 別消費表(PL/CF/XC は分離 + (B3-4a)、**TR3-root_far** = BORD-3 E₃(deg ≤ 5 — R1 指摘どおり deg ≤ 4 は撤回)+ 分離原子、**TR3-root_collapse・RTC** = 4 原子 J⁹ frame(deg ≤ 9)、QRT/CZB 継承)+ **chart 一様 Gram floor**(閉 compact K_χ 上の下半連続 inf — overflow locus は α ≥ ε_χ の閉 subchart 分割で処理)+ **半箱前提の供給**(chart 箱定義で |A_j| ≤ (1−δ_ℱ)/2, |B_j| ≤ R_ℱ/2 を証明 — T2b-0 adapter の条件を閉じる [R-T2B0 R2-03]) | open |
 | GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(TR3-root_far の projective ord ≤ 9 は BORD-3 次数表から自動でない — consult #17)| open(**A.5a blocking obligation**) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
@@ -3068,7 +3068,7 @@ sub-recursion では rank drop を捕捉不能)+ 停止測度未定義。consult
   GAUGE-SCALE-ADAPTER(1–2R), T2b-i HEAD9-FRAME(3–5R), T2b-ii
   CHART-FRAME(2–3R)})。T2b 全体 6–10 round、T2c 3–5 round 見込み。
 
-### 8.19 GC-5-T2b-0 GAUGE-SCALE-ADAPTER(atlas → frame の前処理補題 — drafted、R1–R2 適用済み、査読対象 R-T2B0 R3)
+### 8.19 GC-5-T2b-0 GAUGE-SCALE-ADAPTER(atlas → frame の前処理補題 — **accepted、R-T2B0 R3 PASS、fixed SHA `7103b2e`**。半箱前提の供給は T2b-ii obligation — それまで条件付き constructor)
 
 **目的**: consult #17 の 3 分割の第 1 packet。accepted な atlas_witness-v1
 (§8.17)を書き換えずに、T2b-i/ii が消費する **frame_input-v2** を構成する
@@ -3214,6 +3214,11 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.23(2026-08-22): **GC-5-T2b-0 GAUGE-SCALE-ADAPTER 受理**(R-T2B0
+  R3 PASS、fixed SHA `7103b2e`、3 round)。半箱前提の供給は T2b-ii
+  obligation として open(adapter は条件付き constructor)。次 = T2b-i
+  HEAD9-FRAME(crux)。
 
 - v0.29.22(2026-08-22): R-T2B0 R2(blocking 3)適用 — [R2-01] 撤回 marker
   を (B22-2b) 直前へ移動(派生 claim 全体を効力なしに)。[R2-02] bridge の
