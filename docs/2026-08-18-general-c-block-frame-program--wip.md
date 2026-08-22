@@ -178,8 +178,11 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **accepted(§8.10、R-BORD3 R6 PASS、fixed SHA `87863cc`)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
 | GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(W ∖ Σ の被覆 + 移管領域 Σ の帰属排反 — bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **accepted(§8.17、R-T2A R9 PASS、fixed SHA `08c2d0e`)**(A.5a blocking obligation — T2b/T2c/T3 受理まで A.5a open) |
-| GC-5-T2b BORD22-FRAME | GC-5-T2a(accepted `08c2d0e`)、§8.10 (B3-4a)/(B3-3)/(B3-4) 鎖、§8.9 追記(Fock-admissible chart box)、FR §8.4 gauge section | 各 chart の **joint carrier frame**(ℱ⊕ℱ — 成分直交で Gram block 対角 ⟹ 成分別 ≤ 2 原子 = BORD-3 資産)+ **defect frame**(f_n = δ_n⁻¹(C₁+C₂) — ≤ 4 原子 cluster、**tree-Newton frame** + 方向衝突 sub-recursion)の Fock-strong 収束・exact limit span・Gram floor | **drafted(§8.18、査読待ち R-T2B R1)**(A.5a blocking obligation) |
-| GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化 | open(**A.5a blocking obligation**) |
+| GC-5-T2b BORD22-FRAME | —(集約行: T2b := {T2b-0, T2b-i, T2b-ii} — consult #17 で 3 分割)| **tree-Newton 経路は R-T2B R1(blocking 6)で撤回** — 再設計 = **J⁹-SVD/graph frame + framed \| overflow 二択**(§8.18 追記)。構造原理(carrier 成分直交 block 対角・二段正規化)は存置し下位 packet が再消費 | **withdrawn → 再設計(3 分割 — 下 3 行)**(A.5a blocking obligation) |
+| GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | open |
+| GC-5-T2b-i HEAD9-FRAME | T2b-0 | **J⁹-rank-revealing SVD/graph frame** — α_n := inf_{v ∈ V_n, ‖v‖=1}‖P₉v‖(基底不変 — 多者従属も最小特異値で検出)、w_ℓ = p_ℓ + A_np_ℓ(A_n = (I−P₉)(P₉\|_{V_n})⁻¹、G = I + A*A ≥ I)、**tail-tightness 補題**(Gaussian 族固有)、出力 = **frame_outcome-v2 := framed(frame_witness) \| overflow(overflow_witness)**(overflow は PS-9 nogo への bridge evidence 付き — 循環なし: non-overflow のみ床が消費、overflow は床を消費せず no-go 判定へ) | open |
+| GC-5-T2b-ii CHART-FRAME | T2b-i | chart 別消費表(PL/CF/XC は分離 + (B3-4a)、**TR3-root_far** = BORD-3 E₃(deg ≤ 5 — R1 指摘どおり deg ≤ 4 は撤回)+ 分離原子、**TR3-root_collapse・RTC** = 4 原子 J⁹ frame(deg ≤ 9)、QRT/CZB 継承)+ **chart 一様 Gram floor**(閉 compact K_χ 上の下半連続 inf — overflow locus は α ≥ ε_χ の閉 subchart 分割で処理) | open |
+| GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(TR3-root_far の projective ord ≤ 9 は BORD-3 次数表から自動でない — consult #17)| open(**A.5a blocking obligation**) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
@@ -2891,7 +2894,7 @@ witness の chart label ごとに frame を建てる。
 Gram 床・carrier 床 m_C の一様性・ord/projective order 床・(PTN-22)・
 A.5b 動的 restart・有効定数、人間による査読は未実施。
 
-### 8.18 GC-5-T2b BORD22-FRAME(chart 別 strong frame・exact span・Gram 床 — drafted、査読対象 R-T2B R1)
+### 8.18 GC-5-T2b BORD22-FRAME(chart 別 strong frame — **tree-Newton 経路撤回**(R-T2B R1 blocking 6 + consult #17)。(B22-0) 二段正規化・(B22-1) 成分直交 block 対角・(B22-2a) は T2b-0/i/ii が再消費、**(B22-2b) tree-Newton は失敗経路の記録**(効力なし — 独立性の次数厳増論法に反例 L₃ = L₁ + L₂、停止測度未定義)。再設計 = §8.18 追記)
 
 **目的**: T2a atlas_witness(chart label 確定済みの部分列)上で、consult #16
 の二段正規化 — **carrier pair 𝐂_n ∈ ℱ⊕ℱ** と **defect f_n ∈ ℱ** — の
@@ -3006,6 +3009,60 @@ W_CONFL/W′/混合消去の消費先)、carrier 床 m_C の値と一様性(T2c)
 moving-center 床・量的連鎖・対偶(T2c)、(PTN-22)(T3)、有効定数、
 人間による査読は未実施。
 
+**§8.18 追記(2026-08-22 — tree-Newton 撤回と再設計、consult #17)**:
+R-T2B R1(blocking 6)の核心 = (B22-2b) の独立性論法が偽(次数厳増は
+L₁ = z, L₂ = z², L₃ = z + z² の三者従属を排除しない — pairwise 比例検出の
+sub-recursion では rank drop を捕捉不能)+ 停止測度未定義。consult #17
+(Sol、`sol-t2b-consult.md`)の裁定:
+- **証明エンジンの交換**: tree-Newton(組合せ的独立性)を撤回し、
+  **J⁹-rank-revealing SVD/graph frame** に置換 —
+  α_n := inf{‖P₉v‖ : v ∈ V_n, ‖v‖_ℱ = 1}(P₉ = 0..9 次 jet への直交射影)
+  を正本とする(基底不変・多者従属を最小特異値で一括検出 — greedy pivot の
+  順序依存も排除)。W_n := P₉V_n の正規直交基底 p_ℓ を持上げ
+  w_ℓ := (P₉|_{V_n})⁻¹p_ℓ = p_ℓ + A_np_ℓ(graph operator
+  A_n := (I−P₉)(P₉|_{V_n})⁻¹)とすれば **G_n = I + A_n*A_n ≥ I** —
+  独立性を次数・方向の組合せから証明する必要が消滅する。
+- **framed | overflow の型付き二択**: liminf α_n > 0 = non-overflow(frame
+  成立)/ α_n → 0 = **overflow**(単位ベクトルの 0..9 jet 質量消滅 —
+  §8.15 追記の no-go 基準「指数 9 の定数 → 0」への **bridge evidence 付き
+  witness** として出力)。**循環の切り方**: non-overflow 列のみ T2c の床が
+  frame を消費、overflow 列は frame を消費せず no-go 判定へ —
+  「T2c で overflow の空性を証明」はしない(それは循環)。出力型 =
+  `frame_outcome-v2 := framed(frame_witness) | overflow(overflow_witness
+  := (exact 単位ベクトル列と係数, gauge 後中心と moving center の対応,
+  ‖P₉v_n‖ → 0 の記録, 潰れる床定数の特定, PS-9 detected(evidence) への
+  変換証明))`。
+- **残る証明義務**: strong compactness は「低 grade に質量が残る」だけでは
+  出ない — **tail-tightness 補題**(α ≥ ε の chart 列で A_n が有限 rank
+  同一化後 operator-norm precompact — Gaussian Taylor remainder / 係数
+  recurrence から)が T2b-i の実質。
+- **正規化子は統一しない**: d_w = max(|ΔB|, |ΔA|^{1/2})(parabolic rate
+  atlas 用 — T2a 不変)と t = ‖(ΔB, ΔA/2)‖₂(差分商の除数 — B3-4a と
+  同一)を型分離し、**node_scale_bridge**(d²/2 ≤ t ≤ (√5/2)d — 二側
+  t ≍ d は偽: 純二次差分で d = ε, t = ε²/2)で接続。差分商は常に t 割り
+  (純二次差分でも極限方向 z² が生存)。
+- **TR3 は二分岐**: root_far(3 原子 cluster と singleton の root 距離が
+  正極限)= BORD-3 の E₃ = span{Q₀e^p, Q₁e^p, Q₂e^p}(**deg ≤ 5** —
+  R1 指摘どおり deg ≤ 4 は撤回)+ span{e^q}(q − p ≢ const)/
+  root_collapse(root scale → 0 — singleton も合流、e^p ∈ E₃ の危険で
+  4 本目を失い得る)= nested 3+1 の 4 原子 J⁹ frame(deg ≤ 9)。
+  sublabel は T2a 非改変の versioned 下流拡張(T2b-0)。T2c には
+  **3+1 mixed-span valuation lemma** が別途必要(義務登録済み — §4)。
+- **common gauge 契約**: frame_input-v2 := (atlas_witness-v1 ref,
+  common_gauge_record-v1(pivot leaf・section id・U_n・scalar 吸収表・
+  変換後原子表・全 4 原子 box 所属 evidence・strong section evidence・
+  node_scale_bridge 表))— accepted atlas を書き換えず **T2b-0 の前処理
+  補題**として構成。「全原子を原点へ」は RTC/TR3-collapse 限定(root-far
+  は pivot のみ原点・分離原子は box 内)。
+- **chart 一様 Gram floor**: 閉 compact K_χ(rate・pivot・permutation・
+  boundary strata 込み)+ support rank 一定 + strong frame 収束 + 全境界点
+  で極限独立 + strong section ⟹ λ_min G は下半連続、compact 上 inf > 0。
+  **overflow locus を除いた集合は非 compact** — α ≥ ε_χ の閉 subchart 分割
+  で扱う(または空性の独立証明 — T2c の床とは別経路)。
+- **packet 3 分割**(consult #16 の 4 分割を改訂 — T2b := {T2b-0
+  GAUGE-SCALE-ADAPTER(1–2R), T2b-i HEAD9-FRAME(3–5R), T2b-ii
+  CHART-FRAME(2–3R)})。T2b 全体 6–10 round、T2c 3–5 round 見込み。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -3045,6 +3102,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.19(2026-08-22): **§8.18 tree-Newton 経路撤回**(R-T2B R1 blocking
+  6 — 独立性論法の反例・停止測度未定義)。consult #17(Sol)裁定を §8.18
+  追記に記録: J⁹-SVD/graph frame + framed | overflow 二択(循環の切り方
+  込み)、tail-tightness 補題、d/t 型分離 + node_scale_bridge、TR3 二分岐
+  (root_far deg ≤ 5 / root_collapse deg ≤ 9)、frame_input-v2 adapter、
+  chart 一様 Gram floor 条件、**T2b の 3 分割**(T2b-0/T2b-i/T2b-ii —
+  §4 台帳に行追加、T2c に 3+1 mixed-span valuation lemma 義務追加)。
 
 - v0.29.18(2026-08-22): **§8.18 GC-5-T2b BORD22-FRAME 起草** — 構造原理 =
   「carrier は ℱ⊕ℱ 成分直交で Gram block 対角(成分別 ≤ 2 原子 = BORD-3
