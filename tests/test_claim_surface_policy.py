@@ -1020,7 +1020,11 @@ def test_ptn_spec_interface_declared():
         prefix: [l for l in text.splitlines() if l.startswith(prefix)]
         for prefix in (
             "| GC-4A.5a1 PBK22-PTN-SPEC ",
-            "| GC-5-T2 BORD-22 ",
+            # consult #16 split GC-5-T2 into three packets; all four stay
+            # open A.5a blocking obligations until accepted
+            "| GC-5-T2a BORD22-ATLAS ",
+            "| GC-5-T2b BORD22-FRAME ",
+            "| GC-5-T2c BORD22-FLOOR ",
             "| GC-5-T3 PTN-22 ",
             "| GC-4A.5a PBK22-COND9 ",
         )
@@ -1033,11 +1037,18 @@ def test_ptn_spec_interface_declared():
     assert "accepted" in a5a1 and "5d7400a" in a5a1, (
         "A.5a1 lost its acceptance record (R-GC4A5A1 R4, fixed SHA 5d7400a)"
     )
-    for prefix in ("| GC-5-T2 BORD-22 ", "| GC-5-T3 PTN-22 "):
+    for prefix in (
+        "| GC-5-T2a BORD22-ATLAS ",
+        "| GC-5-T2b BORD22-FRAME ",
+        "| GC-5-T2c BORD22-FLOOR ",
+        "| GC-5-T3 PTN-22 ",
+    ):
         row = rows[prefix][0]
         assert "open" in row and "blocking obligation" in row, (
             f"{prefix!r} must stay open as an A.5a blocking obligation"
         )
+    # T3 consumes the completed BORD-22 chain, not the atlas alone
+    assert "GC-5-T2c" in rows["| GC-5-T3 PTN-22 "][0]
     assert "withdrawn" in rows["| GC-4A.5a PBK22-COND9 "][0]
 
     # the probe ledger row stays the sole authoring location and stays a
