@@ -178,7 +178,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T0 BORD-3 | c=3 資産(補題 W_c/W′、FR-S1′ §8.4/A′-4 (L-d)、FR-S1″ §9.3–9.5 (L-d)、Fock RKHS 評価、2 原子 confluent 補題 (B3-4a)) | 3 原子 border 極限の**点一様 ord ≤ 5**(moving-center sequence 形 — TN-3 の消費補題。consult #13 で独立 packet 先行と裁定) | **accepted(§8.10、R-BORD3 R6 PASS、fixed SHA `87863cc`)** |
 | GC-5-T1 TN-3 | GC-5-T0 | 比較補題 TN-3 本体 — **BORD-3 の (B3-2)–(B3-4) が任意列に対して証明されたため curve selection は不要化**(consult #13 α′ の部分解析幾何は消滅)。列の対偶だけの短い系 | **accepted(§8.11、R-TN3 R2 PASS、fixed SHA `906bd1a`)** |
 | GC-5-T2a BORD22-ATLAS | GC-5-T0/T1 資産、A.5a1(interface — accepted `5d7400a`)、GC-2/GC-3 | **有限 chart coverage theorem**(consult #16 で T2 を 3 分割): within-child merge/prune 反復 + cross-child matching(合算禁止 — 相殺記録のみ)、support rank routing、root/child 3-scale rate atlas(比の再帰 blow-up で有限)、QR/outer-inner common-zero/denominator chart、**W_zf 静的被覆(W ∖ Σ の被覆 + 移管領域 Σ の帰属排反 — bubble-routing 被覆補題)**。受理条件 = 「任意の admissible T3 列が lower-rank / QR exit / 有限 chart のいずれかへ必ず入る」の一主張のみ | **accepted(§8.17、R-T2A R9 PASS、fixed SHA `08c2d0e`)**(A.5a blocking obligation — T2b/T2c/T3 受理まで A.5a open) |
-| GC-5-T2b BORD22-FRAME | GC-5-T2a(accepted `08c2d0e`)| 各 chart の **joint carrier frame**(ℱ⊕ℱ、gauge section U_n + ‖·‖_⊕ 正規化)+ **QR defect frame**(f_n = δ_n⁻¹(C₁+C₂))の Fock-strong 収束・exact limit span・Gram floor(crux = root 合流の iterated divided-difference/SVD frame span{Q_ℓ e^q}, deg ≤ 9) | open(**A.5a blocking obligation**) |
+| GC-5-T2b BORD22-FRAME | GC-5-T2a(accepted `08c2d0e`)、§8.10 (B3-4a)/(B3-3)/(B3-4) 鎖、§8.9 追記(Fock-admissible chart box)、FR §8.4 gauge section | 各 chart の **joint carrier frame**(ℱ⊕ℱ — 成分直交で Gram block 対角 ⟹ 成分別 ≤ 2 原子 = BORD-3 資産)+ **defect frame**(f_n = δ_n⁻¹(C₁+C₂) — ≤ 4 原子 cluster、**tree-Newton frame** + 方向衝突 sub-recursion)の Fock-strong 収束・exact limit span・Gram floor | **drafted(§8.18、査読待ち R-T2B R1)**(A.5a blocking obligation) |
 | GC-5-T2c BORD22-FLOOR | GC-5-T2b | moving-center **projective order ν_ζ = ord(F) − min(ord C₁, ord C₂) ≤ 9**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖(defect: ‖J⁹f‖ ≥ σ₀‖f‖_ℱ ≥ (σ₀/C_R)sup_W、carrier: W_zf 上 m_C ≤ max(\|C₁\|,\|C₂\|) ≤ M_C)+ 対偶。ここで BORD-22 を accepted 化 | open(**A.5a blocking obligation**) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo) | open(**A.5a blocking obligation** — 受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
@@ -2891,6 +2891,121 @@ witness の chart label ごとに frame を建てる。
 Gram 床・carrier 床 m_C の一様性・ord/projective order 床・(PTN-22)・
 A.5b 動的 restart・有効定数、人間による査読は未実施。
 
+### 8.18 GC-5-T2b BORD22-FRAME(chart 別 strong frame・exact span・Gram 床 — drafted、査読対象 R-T2B R1)
+
+**目的**: T2a atlas_witness(chart label 確定済みの部分列)上で、consult #16
+の二段正規化 — **carrier pair 𝐂_n ∈ ℱ⊕ℱ** と **defect f_n ∈ ℱ** — の
+Fock-strong 収束 frame・exact limit span・Gram 床を chart ごとに建てる。
+**ord 上界・carrier 床 m_C の値・moving-center 床は非主張**(T2c の義務)。
+
+**(B22-0) 入力と二段正規化**: 入力は atlas_witness-v1(§8.17 — exit =
+chart(label) の枝のみ。lower_rank/exact_qr は T2b に入らない)と
+window_geometry。chart 箱は Fock-admissible(|A| ≤ 1 − δ_ℱ、|B| ≤ R_ℱ —
+§8.9 追記の chart box 定数、(B3-1) と同一の束縛)とする。gauge section
+**U_n** は FR §8.4 の strong-continuous unitary gauge section(accepted 資産
+— recenter/rescale を chart 箱 K_{δ_ℱ,R_ℱ} 内へ写す)を pair の両成分に
+**共通に**適用する(common gauge quotient の代表選択 — 成分別 gauge は
+(PS-1) の相対振幅を壊すため禁止、consult #16)。正規化:
+  ρ_n := ‖U_n𝐁̃_n‖_⊕(‖(u, v)‖_⊕² := ‖u‖_ℱ² + ‖v‖_ℱ²)、
+  **𝐂_n := ρ_n⁻¹U_n𝐁̃_n**(‖𝐂_n‖_⊕ = 1)、
+  δ_n := ‖C_{1,n} + C_{2,n}‖_ℱ、**f_n := δ_n⁻¹(C_{1,n} + C_{2,n})**
+(δ_n = 0 は exact QR で atlas が (ii) に routing 済み — T2b の定義域では
+δ_n > 0 ✓)。step-0 安定化(AT-0)後の各成分は **≤ 2 原子**:
+C_{i,n} = Σ_{j≤m_i} c_{ij,n} e^{q_{ij,n}}(m_i ∈ {1, 2})。
+
+**(B22-1) carrier frame(成分直交 ⟹ Gram block 対角)**: ℱ⊕ℱ で
+⟨(u, 0), (0, v)⟩_⊕ = 0 — **成分をまたぐ Gram 交差項は恒等的に零**であり、
+carrier の joint Gram は **G_⊕ = diag(G₁, G₂) と block 対角**になる
+(cross-child の解析は carrier 側には現れない — 現れるのは defect 側のみ。
+これが本 packet の構造原理)。各成分の frame は m_i で分岐:
+- **m_i = 1**: 単原子 e^{q}/‖e^{q}‖ — chart 箱で ℱ-norm 連続、strong 収束
+  ((B3-1) と同じ box 束縛)。G_i = 1。
+- **m_i = 2・分離**(within-child 合流 flag なし): 2 原子、対距離下界 > 0
+  ⟹ 極限原子は相異なり独立 — G_i → G_{i,*} > 0。
+- **m_i = 2・合流**(CF/RTC 等で当該 child が合流): **(B3-4a) の 2 原子
+  Newton frame をそのまま消費**(§8.10 accepted — 積分表示、ℱ-strong 極限
+  {e^{q*}, L_{ν̂*}e^{q*}}、L_{ν̂*} ≢ 0 非定数 ⟹ 独立)。
+いずれも child frame の strong 極限は独立 ⟹ G_{i,*} > 0 ⟹
+**G_{⊕,*} = diag(G_{1,*}, G_{2,*}) > 0**(chart 定数の床 — 有効値非主張)。
+(B3-4) の Gram 鎖(G_n → G_* > 0 ⟹ 単位球係数有界 ⟹ strong 極限・norm 1)
+を ‖𝐂_n‖_⊕ = 1 に適用し **𝐂_n → 𝐂_* strong、‖𝐂_*‖_⊕ = 1** ✓。成分消滅
+flag(‖C_{i,*}‖ = 0 の側)は部分列で安定し、atlas の outer routing
+([1:0]/[0:1])と整合する(消滅側の極限挙動の解析は T2c — 本 packet は
+flag の安定化のみ)。
+
+**(B22-2) defect frame(≤ 4 原子 cluster — child label は無関係)**:
+f_n は**和**なので ℱ 内の ≤ 4 原子系であり、child 割当は frame 構成に
+関与しない(atlas の cluster tree(AT-1 — child 独立)だけが構造を決める。
+XC 系 chart が CF 系と同じ frame 族に落ちるのはこのため)。安定化済み
+cluster tree T に沿って frame を建てる:
+- **(B22-2a) 対 cluster**: (B3-4a) の Newton frame(引用 — 再証明しない)。
+- **(B22-2b) tree-Newton frame(k ≤ 4 原子、深さ ≥ 2 の木 — 本 packet の
+  新規補題)**: 木 T の内部 node を細 scale から粗 scale の順に処理し、
+  **反復差分商 frame** を作る: 各 node で、その子 cluster の代表元
+  (処理済み frame の第 0 ベクトル = 当該 cluster の基準原子)の対に
+  (B3-4a) と同じ正規化差分商
+    D_node := (代表₂ − 代表₁)/t_node(t_node = node scale の正規化距離)
+  を割当て、frame := {基準原子} ∪ {各 node の D_node を、その node より細の
+  frame ベクトルに乗る形で展開したもの}(k 原子 → k 本 — 次元勘定 ✓)。
+  **積分表示の帰納**: (B3-4a) の表示を node ごとに適用すると、各 frame
+  ベクトルは
+    (Π_{node ∈ path} L_{ν̂_node} の主部 + 高次補正)· e^{q_基準} の形の
+  ℱ-値積分で書け、chart 箱束縛(二次係数 < 1/2 一様)の下でパラメタに
+  ℱ-norm 連続 — **部分列で ℱ-strong 極限 {Q_ℓ e^{q*}} を持つ**(Q_ℓ =
+  差分方向の極限多項式の積、**deg Q_ℓ ≤ 2 × (path 上の node 数) ≤ 6**)。
+  **独立性(方向非衝突時)**: 各 L_{ν̂*} は非零・非定数(ν̂ ∈ S³ 正規化)
+  なので、path の node 集合が異なる frame ベクトル同士は Q_ℓ の**次数が
+  厳増**し独立 ✓ — ただし異 path で同次数となる場合(例: 木 (12)(34) の
+  2 対方向)は L 同士の比例が起こり得る。
+  **方向衝突 sub-recursion([B22-2b-r])**: 極限方向対が比例
+  (ν̂*_a ∥ ν̂*_b)で {Q_ℓ} が従属になる場合、当該対の**次階差分商**
+  (D_a − κ_n D_b)/t′_n(κ_n = 比例係数の n 実現値、t′_n = 正規化残差
+  scale)を frame ベクトルに置換して再収束させる。**停止性**: 各再帰は
+  正規化方向データ(node ごとの ν̂ ∈ S³ — 有限次元)の**追加の exact 一致を
+  極限で強制**し、未一致パラメタの実次元を厳減させる ⟹ 再帰深さ ≤ 4
+  (有限次元の厳減)✓。各再帰は Q の次数を高々 +2 する — k ≤ 4 で総次数
+  ≤ 6 + 2·(再帰) だが、**T2c の消費は deg ≤ 9 予算内であることのみ要求**
+  し、超過が起こる場合は当該 chart を **RTC-deep sub-chart** として記録
+  (T2c が予算判定 — 本 packet は frame の存在と次数の上界記録のみ)。
+- **(B22-2c) chart 別 frame 族**(atlas label → frame): PL4 = 4 分離原子 /
+  CF1 = (B3-4a) 対 + 2 分離 / CF2 = (B3-4a) 対 × 2 / XC1・XC2 = 同上
+  (対の child 所属のみ異なる — defect frame は同形)/ TR3 = (B22-2b)
+  3 原子木 + 1 分離 / RTC = (B22-2b) 4 原子木 / QRT・CZB = **下部の木
+  pattern の frame を継承**(これらの chart label の役割は T2c の中心選択・
+  分母処理であり、frame は木構造のみで決まる)。
+
+**(B22-3) Gram 床と strong 極限の鎖**: (B3-4) の鎖をそのまま適用する —
+各 chart の frame w_{ℓ,n}((B22-1)(B22-2))は ℱ-strong 収束し極限は独立
+⟹ G_n → G_* > 0 ⟹ 単位球の係数有界 ⟹ **V_n := span{w_{ℓ,n}} の任意の単位
+ベクトル列は部分列で ℱ-strong 極限(norm 1・極限 span 所属)を持つ**。
+f_n(‖f_n‖_ℱ = 1、f_n ∈ V_n^{defect})と 𝐂_n(‖·‖_⊕ = 1)の双方に適用 ✓。
+moving-center RKHS 連続性((B3-4) 末尾)も chart 箱ごと不変に成立 —
+**J^9 版**(k ≤ 9 階微分評価汎関数の norm 連続・compact 一様有界)を同文で
+記録する(T2c が消費)。
+
+**(B22-4) exact limit span 表(ord 上界は非主張 — T2c)**:
+  | chart | defect 極限 span |
+  | PL4 | plain 4 class {e^{q_j*}} |
+  | CF1/XC1 | {e^{p}, L e^{p}, e^{q}, e^{r}}(L 非定数 deg ≤ 2) |
+  | CF2/XC2 | {e^{p}, L₁e^{p}, e^{q}, L₂e^{q}}(= {P₁e^{p}, P₂e^{q}} 形) |
+  | TR3 | {Q₀e^{p}, Q₁e^{p}, Q₂e^{p}, e^{q}}(deg Q ≤ 4) |
+  | RTC | {Q_ℓ e^{q*}}(ℓ ≤ 3、deg Q_ℓ ≤ 6 + sub-recursion 加算・記録付き) |
+  | QRT/CZB | 下部木 pattern の span を継承 |
+carrier 極限は成分ごとに {原子} / {e^{q*}, L e^{q*}}(m_i 別)。
+
+**(B22-5) 出力契約**: `frame_witness-v1 := (atlas_witness 参照(chart 枝),
+gauge section record(U_n — FR §8.4 型), carrier frame record(成分別
+m_i・frame 型・G_{i,*} > 0 witness), defect frame record(木 T、frame 型
+(分離 / (B3-4a) / tree-Newton + sub-recursion 深さと次数記録), G_* > 0
+witness), limit span label((B22-4) の行 — 生成元の型付き記述),
+J⁹ RKHS record((B22-3)))` — fail-closed(field 欠落・invariant 不成立 =
+witness 生成禁止)。T2c はこの witness のみを消費して床を張る。∎
+
+**scope(非主張)**: 各 span の ord/projective order 上界(T2c — W_c(4)/
+W_CONFL/W′/混合消去の消費先)、carrier 床 m_C の値と一様性(T2c)、
+moving-center 床・量的連鎖・対偶(T2c)、(PTN-22)(T3)、有効定数、
+人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -2930,6 +3045,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.18(2026-08-22): **§8.18 GC-5-T2b BORD22-FRAME 起草** — 構造原理 =
+  「carrier は ℱ⊕ℱ 成分直交で Gram block 対角(成分別 ≤ 2 原子 = BORD-3
+  資産)/ 新規性は defect(和)側の ≤ 4 原子 cluster frame に集中」。
+  二段正規化(B22-0)、成分別 carrier frame(B22-1)、tree-Newton frame +
+  方向衝突 sub-recursion(B22-2b — 新規補題)、chart 別 frame 族
+  (B22-2c)、Gram 鎖の J⁹ 版(B22-3)、exact limit span 表(B22-4)、
+  frame_witness-v1(B22-5)。ord 上界・m_C・床は T2c 送り(非主張)。
 
 - v0.29.17(2026-08-22): **GC-5-T2a BORD22-ATLAS 受理**(R-T2A R9 PASS、
   fixed SHA `08c2d0e`、9 round)。被覆完備性 (AT) が確定 — T3 列は
