@@ -211,3 +211,58 @@ def test_development_checkpoint_is_bound_to_runner_plan_and_git(tmp_path):
         pump._load_development_checkpoint(
             checkpoint, {**expected, "runner_sha256": "d" * 64}
         )
+
+
+def test_committed_development_gate_is_recomputed_from_attempts():
+    artifact_path = EXP / "pump_development.json"
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    plan = pump.load_plan()
+    model = pump.model_map(plan)["bbdag_r4k4"]
+    assert artifact["run_kind"] == "development"
+    assert artifact["publication_status"] == "train-only-development"
+    assert artifact["git"]["dirty"] is False
+    assert artifact["plan_sha256"] == pump.sha256_path(pump.PLAN_PATH)
+    assert artifact["runner_sha256"] == pump.sha256_path(pump.RUNNER_PATH)
+    assert artifact["source_manifest_sha256"] == pump.sha256_path(
+        pump.MANIFEST_PATH
+    )
+
+    records = artifact["records"]
+    identities = {
+        (row["reshuffle_seed"], row["scale_arm"], row["phase_arm"])
+        for row in records
+    }
+    assert identities == {
+        (seed, scale, phase)
+        for seed in plan["split"]["reshuffle_seeds"]
+        for scale in ("stored", "sqrt2")
+        for phase in ("H1", "H2")
+    }
+    selected_drops = []
+    for row in records:
+        attempts = row["attempts"]
+        assert [attempt["init_seed"] for attempt in attempts] == model[
+            "init_seeds"
+        ]
+        for attempt in attempts:
+            assert attempt["final_100_iteration_train_nll_drop"] == pytest.approx(
+                pump.convergence_drop(attempt["trace"], model["iters"]),
+                rel=0.0,
+                abs=1e-15,
+            )
+        selected = min(
+            attempts,
+            key=lambda attempt: (attempt["train_nll"], attempt["init_seed"]),
+        )
+        assert row["selected_init_seed"] == selected["init_seed"]
+        assert row["selected_train_nll"] == selected["train_nll"]
+        assert row["selected_final_100_iteration_train_nll_drop"] == selected[
+            "final_100_iteration_train_nll_drop"
+        ]
+        selected_drops.append(selected["final_100_iteration_train_nll_drop"])
+
+    maximum = plan["development_gate"]["maximum_drop"]
+    recomputed_pass = all(
+        np.isfinite(value) and value <= maximum for value in selected_drops
+    )
+    assert artifact["development_gate"]["passed"] is recomputed_pass is True
