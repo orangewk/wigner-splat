@@ -40,8 +40,9 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
-    manifest = json.loads(path.read_text(encoding="utf-8"))
+def _validate_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(manifest, dict):
+        raise DataContractError("Manifest is not an object")
     required = {
         "schema_version",
         "source",
@@ -65,8 +66,11 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
         or len(vocabulary) != len(set(vocabulary))
     ):
         raise DataContractError("Convention status vocabulary is invalid")
+    records = manifest["convention_record"]
+    if not isinstance(records, dict):
+        raise DataContractError("Convention records are not an object")
     allowed_statuses = set(vocabulary)
-    for name, record in manifest["convention_record"].items():
+    for name, record in records.items():
         if not isinstance(record, dict):
             raise DataContractError(f"Convention record {name!r} is not an object")
         if record.get("status") not in allowed_statuses:
@@ -78,6 +82,11 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
     if len(names) != len(set(names)):
         raise DataContractError("Manifest file names are not unique")
     return manifest
+
+
+def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    return _validate_manifest(manifest)
 
 
 def file_entries(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -95,6 +104,15 @@ def public_download_url(manifest: dict[str, Any], entry: dict[str, Any]) -> str:
 
 
 def _verify_bytes(path: Path, entry: dict[str, Any]) -> None:
+    resolved = path.resolve()
+    try:
+        resolved.relative_to(ROOT.resolve())
+    except ValueError:
+        pass
+    else:
+        raise DataContractError(
+            f"Source files must be outside the repository: {resolved}"
+        )
     if not path.is_file():
         raise FileNotFoundError(path)
     size = path.stat().st_size
@@ -114,7 +132,7 @@ def inspect_source_file(
     manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Verify bytes and MAT directory information without loading values."""
-    manifest = load_manifest() if manifest is None else manifest
+    manifest = load_manifest() if manifest is None else _validate_manifest(manifest)
     try:
         entry = file_entries(manifest)[path.name]
     except KeyError as exc:
@@ -168,7 +186,7 @@ def load_condition(
     manifest: dict[str, Any] | None = None,
 ) -> LoadedCondition:
     """Load one verified MAT file as ``[(theta_rad, samples), ...]``."""
-    manifest = load_manifest() if manifest is None else manifest
+    manifest = load_manifest() if manifest is None else _validate_manifest(manifest)
     inspected = inspect_source_file(path, manifest)
     if inspected["role"] != "quadrature":
         raise DataContractError(f"Not a quadrature MAT file: {path.name}")
@@ -209,7 +227,7 @@ def verify_data_dir(
     manifest: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Verify all pinned files; value loading is explicit and statistic-free."""
-    manifest = load_manifest() if manifest is None else manifest
+    manifest = load_manifest() if manifest is None else _validate_manifest(manifest)
     data_dir = data_dir.resolve()
     try:
         data_dir.relative_to(ROOT)

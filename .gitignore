@@ -19,7 +19,7 @@ serviceAccountKey.json
 # Experiment outputs
 experiments/*/out/
 experiments/32_kawasaki_data/data/
-experiments/32_kawasaki_data/*.mat
+*.mat
 .venv/
 
 # Agent working directories (not tracked)

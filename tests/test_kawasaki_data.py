@@ -59,6 +59,8 @@ def _fixture(tmp_path: Path, *, names=("p60deg", "p90deg")):
             "stored_shape": [1, 3],
             "matlab_class": "double",
         },
+        "convention_status_vocabulary": ["synthetic"],
+        "convention_record": {},
         "files": [
             {
                 "file_id": 1,
@@ -124,7 +126,7 @@ def test_committed_manifest_is_self_consistent():
     assert len({row["file_id"] for row in entries}) == len(entries)
     assert all(len(row["sha256"]) == 64 for row in entries)
     assert all("X-Amz-Signature" not in json.dumps(row) for row in entries)
-    assert not list(EXP.glob("*.mat"))
+    assert not list(ROOT.rglob("*.mat"))
 
 
 def test_protocol_predeclares_both_convention_axes_for_both_series():
@@ -135,6 +137,15 @@ def test_protocol_predeclares_both_convention_axes_for_both_series():
     assert "4 armすべてを同じsplit、model、scheduleでfitする" in protocol
     assert "phase-convention dependent" in protocol
     assert "全conditionで§3と同じ2×2 convention armを実行" in protocol
+
+
+def test_repository_ignores_mat_files_at_every_depth():
+    rules = {
+        line.strip()
+        for line in (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    }
+    assert "*.mat" in rules
 
 
 @pytest.mark.parametrize(
@@ -211,7 +222,37 @@ def test_data_directory_inside_repository_is_rejected(tmp_path):
         "schema_version": 1,
         "source": {},
         "expected_mat_schema": {},
+        "convention_status_vocabulary": ["synthetic"],
+        "convention_record": {},
         "files": [],
     }
     with pytest.raises(kawasaki.DataContractError, match="outside the repository"):
         kawasaki.verify_data_dir(ROOT / "experiments", manifest=manifest)
+
+
+def test_direct_file_entry_points_reject_repository_containment(
+    tmp_path, monkeypatch
+):
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    source, manifest, _arrays = _fixture(repository)
+    monkeypatch.setattr(kawasaki, "ROOT", repository)
+
+    with pytest.raises(kawasaki.DataContractError, match="outside the repository"):
+        kawasaki.inspect_source_file(source, manifest)
+    with pytest.raises(kawasaki.DataContractError, match="outside the repository"):
+        kawasaki.load_condition(source, manifest)
+
+
+def test_passed_manifest_is_validated_at_every_file_entry_point(tmp_path):
+    source, manifest, _arrays = _fixture(tmp_path)
+    manifest["convention_record"] = {"junk": {}}
+
+    actions = (
+        lambda: kawasaki.inspect_source_file(source, manifest),
+        lambda: kawasaki.load_condition(source, manifest),
+        lambda: kawasaki.verify_data_dir(tmp_path, manifest=manifest),
+    )
+    for action in actions:
+        with pytest.raises(kawasaki.DataContractError, match="uncontrolled status"):
+            action()
