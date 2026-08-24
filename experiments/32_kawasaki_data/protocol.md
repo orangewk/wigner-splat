@@ -30,7 +30,7 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 | K32-D1 | 公開物の同一性 | `source_manifest.json.source` / `.files` | source identityだけを消費し、状態の意味を推論しない。 |
 | K32-D2 | MAT schema | `source_manifest.json.expected_mat_schema` | schema-only観察を分布観察として扱わない。 |
 | K32-D3 | series provenance | `source_manifest.json.series_record` | manifestに記録されたsource-supported部分と推論部分を混ぜない。 |
-| K32-D4 | 位相 | `source_manifest.json.convention_record.phase_mapping` / `.phase_sign_identifiability` | loaderはH1だけを実装する。H2はparity仮定下で識別不能なためfit armにせず、未解決statusを保持する。 |
+| K32-D4 | 位相 | `source_manifest.json.convention_record.phase_mapping` / `.phase_sign_identifiability` | loaderはH1だけを実装する。fitはH1/H2を固定armとして両方実行し、parity仮定をarm省略や規約選択に使わない。 |
 | K32-D5 | quadrature単位 | `source_manifest.json.convention_record.quadrature_scale` | loaderはprimary ruleだけを実装し、別解釈は§3の固定armに限定する。 |
 | K32-D6 | added loss | `source_manifest.json.convention_record.additional_loss` | source conditionとfit parameterを別fieldで保持する。 |
 | K32-N1 | model比較 | 本文 §3–5 | 次packetまでnot run。現packetから性能・物理状態の結論を出さない。 |
@@ -41,22 +41,16 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 - `01mW` は development condition。fitコードのsmokeとtrain-only convergence確認に使う。
 - `03/10/25mW` は validation conditions。01mWでコードとscheduleを固定するまで値を読まない。
 - 各位相内で80/20 split。reshuffle seedsは0と1。
-- `source_manifest.json.convention_record.phase_sign_identifiability.diagnostic`をparity診断の
-  唯一のauthoring locationとする。runnerは同recordのscope、統計量、閾値、実行順、
-  condition単位のactionをそのまま消費し、値を手書きしない。診断が出力したH1 eligibilityに
-  従ってfitまたはseparate diagnostic packetへroutingする。
-- H1 eligibleのconditionに限り、quadrature scaleのconvention armを次の2条件へ適用し、
-  結果を見て選ばない。
+- convention armは次の2×2直積を全条件へ適用し、結果を見て選ばない。
 
   | axis | primary | fixed sensitivity |
   |---|---|---|
   | quadrature scale | stored value | 全sampleを`sqrt(2)`倍 |
+  | phase interpretation | H1 | H2: stored phaseは維持し、stored phaseが180度以上のsampleだけ符号反転 |
 
-  2 armを同じsplit、model、scheduleでfitする。
-- 位相はmanifestのH1をprimary loader interpretation、H2を未解決のalternativeとする。
-  H2をstored-label frameへ写す符号反転は、同manifestのparity仮定下では分布上H1と同一で
-  解釈を識別できないため、fit armとして実行しない。後続結果表のphase mapping assessmentと
-  H1勝敗の可否は、manifestの診断actionから生成する。
+  4 armすべてを同じsplit、model、scheduleでfitする。
+- manifestのparity recordは、H1/H2が一致し得る理論上の説明にだけ使う。両armの一致を
+  parity symmetryの証明やH1の選択に使わず、同recordを理由にH2を省略しない。
 - article phaseからstored phaseへのglobal `-60 deg` shiftも独立armにしない。現在のBB† familyは
   `alpha, xi`のglobal rotationによる再parameterizationに閉じ、fixed-cutoff MLEのFock空間も
   位相回転に閉じる。共通x binsも角度非依存なので、有限最適化による差は位相規約でなく
@@ -71,14 +65,17 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 各 condition / reshuffle の `BB† R4K4 - MLE16` CIを、上端<0ならdescriptive win、
 下端>0ならdescriptive loss、それ以外はunresolvedと機械分類する。これは条件付きCIであり、
 model選択や複数条件を含むconfirmatory inferenceではない。primaryからscale軸だけを変えて
-分類が変わる場合は **unit-convention dependent** とする。その場合は外部妥当性のheadlineを
-作らない。位相解釈はmanifestの診断actionに従い、blocked conditionの勝敗を出力しない。
+分類が変わる場合は **unit-convention dependent**、phase軸だけを変えて分類が変わる場合は
+**phase-convention dependent** とする。両軸のinteractionも4 arm表から報告し、いずれかが
+convention-dependentなら外部妥当性のheadlineを作らない。
 
 ## 4. 後続 loss-series packet（pump packetから分離）
 
 `series=post_psa_loss_tolerance` は、同一生成状態へ既知state lossを加えた系列として
 扱わない。目的はPSA後measurement-chain degradationに対する再構成の頑健性記述に限定する。
 manifestの `post_psa_loss_db` と fitted `eta` は別列に置き、同値変換や校正値比較をしない。
+全conditionで§3と同じ2×2 convention armを実行し、convention-dependentな場合は
+規約を限定しないmeasurement-chain robustnessのheadlineを作らない。
 
 ## 5. result surface
 

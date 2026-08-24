@@ -7,7 +7,6 @@ import importlib.util
 import json
 import sys
 from pathlib import Path
-from statistics import NormalDist
 
 import numpy as np
 import pytest
@@ -105,33 +104,14 @@ def test_committed_manifest_is_self_consistent():
     assert phase["hypotheses"]["H1"]["protocol_role"] == (
         "primary loader interpretation"
     )
-    assert "negate" in phase["hypotheses"]["H2"]["protocol_role"]
+    assert phase["hypotheses"]["H2"]["protocol_role"] == (
+        "fixed convention sensitivity interpretation"
+    )
     identifiability = manifest["convention_record"]["phase_sign_identifiability"]
     assert identifiability["status"] in vocabulary
     assert "cannot identify" in identifiability["mathematical_consequence"]
-    diagnostic = identifiability["diagnostic"]
-    factors = diagnostic["test_count_factors"]
-    pump_conditions = [row for row in quadrature if row["series"] == "pump_power"]
-    assert factors == {
-        "conditions": len(pump_conditions),
-        "reshuffle_seeds": len(diagnostic["data_scope"]["reshuffle_seeds"]),
-        "phases": len(schema["phases_deg"]),
-        "moments": len(diagnostic["statistics"]),
-    }
-    assert diagnostic["test_count"] == int(np.prod(list(factors.values())))
-    expected_critical_z = NormalDist().inv_cdf(
-        1.0
-        - diagnostic["family_wise_alpha"] / (2.0 * diagnostic["test_count"])
-    )
-    assert diagnostic["critical_abs_z"] == pytest.approx(
-        expected_critical_z, abs=1e-15
-    )
-    assert {row["moment_order"] for row in diagnostic["statistics"]} == {1, 3}
-    assert diagnostic["data_scope"]["split"] == "train-only"
-    assert diagnostic["on_any_exceedance"]["primary_h1_verdict"] == "blocked"
-    assert diagnostic["on_no_exceedance"]["primary_h1_verdict"] == (
-        "eligible-subject-to-other-gates"
-    )
+    assert "diagnostic" not in identifiability
+    assert "suppress H2" in identifiability["protocol_rule"]
     stored = schema["phases_deg"]
     article = phase["article_phase_bases_deg"]
     relation = phase["observed_set_relations"]
@@ -145,6 +125,16 @@ def test_committed_manifest_is_self_consistent():
     assert all(len(row["sha256"]) == 64 for row in entries)
     assert all("X-Amz-Signature" not in json.dumps(row) for row in entries)
     assert not list(EXP.glob("*.mat"))
+
+
+def test_protocol_predeclares_both_convention_axes_for_both_series():
+    protocol = (EXP / "protocol.md").read_text(encoding="utf-8")
+    assert "convention armは次の2×2直積" in protocol
+    assert "| quadrature scale | stored value |" in protocol
+    assert "| phase interpretation | H1 | H2:" in protocol
+    assert "4 armすべてを同じsplit、model、scheduleでfitする" in protocol
+    assert "phase-convention dependent" in protocol
+    assert "全conditionで§3と同じ2×2 convention armを実行" in protocol
 
 
 @pytest.mark.parametrize(

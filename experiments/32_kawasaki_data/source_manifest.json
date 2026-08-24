@@ -63,7 +63,7 @@
         },
         "H2": {
           "loader_output_semantics": "Samples stored as p180deg and p210deg represent x_0 and x_30, respectively, and therefore equal -x_180 and -x_210 when expressed in the stored-label frame.",
-          "protocol_role": "unresolved alternative; expressing it in the stored-label frame would negate only the p180deg and p210deg samples"
+          "protocol_role": "fixed convention sensitivity interpretation"
         }
       },
       "loader_rule": "Apply H1: use expected_mat_schema.phases_deg and stored samples without an implicit phase shift or sign change.",
@@ -73,56 +73,7 @@
       "status": "theory-motivated-assumption",
       "assumption": "The measured target density operator approximately commutes with photon-number parity. The source article reports photon subtraction from squeezed light and compares the reconstructed state with a squeezed single-photon state, but experimental imperfections may introduce parity-breaking components, so this is not a proof about the released samples.",
       "mathematical_consequence": "If [rho, Pi] = 0, then P(x|theta) = P(-x|theta) for every theta; phase-insensitive loss preserves this commutation. The H2 sign transform is therefore distributionally identical to H1 under the assumption and cannot identify which source interpretation is correct.",
-      "diagnostic": {
-        "packet": "pump-series",
-        "run_before": "any fit",
-        "data_scope": {
-          "series": "pump_power",
-          "conditions": "all",
-          "split": "train-only",
-          "train_fraction": 0.8,
-          "reshuffle_seeds": [0, 1],
-          "phases_ref": "expected_mat_schema.phases_deg"
-        },
-        "statistics": [
-          {
-            "moment_order": 1,
-            "estimator": "mean(x)",
-            "null_value": 0.0,
-            "standard_error": "sample_sd(x, ddof=1) / sqrt(n)"
-          },
-          {
-            "moment_order": 3,
-            "estimator": "mean(x**3)",
-            "null_value": 0.0,
-            "standard_error": "sample_sd(x**3, ddof=1) / sqrt(n)"
-          }
-        ],
-        "test_count": 96,
-        "test_count_factors": {
-          "conditions": 4,
-          "reshuffle_seeds": 2,
-          "phases": 6,
-          "moments": 2
-        },
-        "test": "two-sided normal z approximation with Bonferroni correction",
-        "family_wise_alpha": 0.01,
-        "critical_abs_z": 3.8806756879110544,
-        "invalid_or_nonfinite_standard_error_action": "block-primary-verdict-for-condition",
-        "decision_scope": "per-condition",
-        "on_any_exceedance": {
-          "parity_assumption_assessment": "rejected-for-condition",
-          "phase_mapping_assessment": "unresolved-identifiable-risk",
-          "primary_h1_verdict": "blocked",
-          "required_next_packet": "separate-predeclared-phase-diagnostic"
-        },
-        "on_no_exceedance": {
-          "parity_assumption_assessment": "not-rejected",
-          "phase_mapping_assessment": "unresolved-non-identifiable-under-assumption",
-          "primary_h1_verdict": "eligible-subject-to-other-gates"
-        }
-      },
-      "protocol_rule": "Apply the sibling diagnostic exactly and route outcomes by its action fields. A non-rejection does not prove parity symmetry or select H1 over H2."
+      "protocol_rule": "Explanatory only: do not use this assumption to select H1, suppress H2, or authorize an H1-only verdict."
     },
     "quadrature_scale": {
       "status": "source-wording-conflict",
