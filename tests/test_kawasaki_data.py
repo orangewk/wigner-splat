@@ -143,14 +143,19 @@ def test_protocol_predeclares_both_convention_axes_for_both_series():
     assert "| quadrature scale | stored value |" in protocol
     assert "| phase interpretation | H1 | H2:" in protocol
     assert "4 armすべてを同じsplit、model、scheduleでfitする" in protocol
-    assert "phase-convention dependent" in protocol
+    assert "phase-convention-dependent" in protocol
     assert "全conditionで§3と同じ2×2 convention armを実行" in protocol
     assert "両armの不一致はparity破れの証拠ではない" in protocol
     assert "有限標本" in protocol
     assert "`scale_arm`, `phase_arm`" in protocol
     assert "`delta_nll_vs_mle16`, `ci_low`, `ci_high`" in protocol
     assert "mode countを含む全報告量を4 armごとに出力" in protocol
-    assert "arm-specific difference" in protocol
+    assert "arm-specific-difference" in protocol
+    assert "`source_file`, `series`" in protocol
+    assert "source_file × series × condition" in protocol
+    assert "`unit-and-phase-convention-dependent`" in protocol
+    assert "`source-assignment-inferred`" in protocol
+    assert "runnerは表外の値を拒否する" in protocol
 
 
 @pytest.mark.parametrize(

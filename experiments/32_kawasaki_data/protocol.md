@@ -53,7 +53,7 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
   parity symmetryの証明やH1の選択に使わず、同recordを理由にH2を省略しない。
   逆に、両armの不一致はparity破れの証拠ではない。母集団がparity対称でも有限標本の
   揺らぎでfitとCIはずれ、0境界付近では分類が反転し得るためである。各armのCI値そのものを
-  分類と併記し、`phase-convention dependent` は保守的なrobustness flagとしてだけ使う。
+  分類と併記し、`phase-convention-dependent` は保守的なrobustness flagとしてだけ使う。
 - article phaseからstored phaseへのglobal `-60 deg` shiftも独立armにしない。現在のBB† familyは
   `alpha, xi`のglobal rotationによる再parameterizationに閉じ、fixed-cutoff MLEのFock空間も
   位相回転に閉じる。共通x binsも角度非依存なので、有限最適化による差は位相規約でなく
@@ -68,8 +68,8 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 各 condition / reshuffle の `BB† R4K4 - MLE16` CIを、上端<0ならdescriptive win、
 下端>0ならdescriptive loss、それ以外はunresolvedと機械分類する。これは条件付きCIであり、
 model選択や複数条件を含むconfirmatory inferenceではない。primaryからscale軸だけを変えて
-分類が変わる場合は **unit-convention dependent**、phase軸だけを変えて分類が変わる場合は
-**phase-convention dependent** とする。両軸のinteractionも4 arm表から報告し、いずれかが
+分類が変わる場合は `unit-convention-dependent`、phase軸だけを変えて分類が変わる場合は
+`phase-convention-dependent` とする。両軸のinteractionも4 arm表から報告し、いずれかが
 convention-dependentなら外部妥当性のheadlineを作らない。分類以外の報告量もarm間で
 畳み込まず、§5のarm-indexed result surfaceで差を個別に示す。
 
@@ -85,11 +85,12 @@ manifestの `post_psa_loss_db` と fitted `eta` は別列に置き、同値変�
 
 後続runnerは測定値と判定入力をJSONへ書き、READMEの結果blockはJSONから生成する。
 runnerやREADME proseへ結論文字列を手書きしない。result tableは
-`condition × reshuffle_seed × scale_arm × phase_arm × model` の1行1claimとし、最低限
-次の列を持つ。
+`source_file × series × condition × reshuffle_seed × scale_arm × phase_arm × model` の
+1行1claimとし、最低限次の列を持つ。
 
 | 列 | 内容 |
 |---|---|
+| `source_file`, `series` | manifestで一意なsource identityとseries provenance |
 | `condition`, `reshuffle_seed` | source conditionとsplit identity |
 | `scale_arm`, `phase_arm` | scale規約とH1/H2を別列で明示 |
 | `model`, `mode_count` | model identityと、そのarmで報告するmode count |
@@ -98,8 +99,16 @@ runnerやREADME proseへ結論文字列を手書きしない。result tableは
 | `classification` | CIから機械生成したwin / loss / unresolved |
 | `convention_status`, `epistemic_status` | 規約依存性とclaimの限定 |
 
+result-surface status語彙の唯一のauthoring locationを次の表とする。`convention_status`は単一値、
+`epistemic_status`は必要なtagを並べるJSON arrayとし、runnerは表外の値を拒否する。
+
+| field | allowed values |
+|---|---|
+| `convention_status` | `convention-stable`; `unit-convention-dependent`; `phase-convention-dependent`; `unit-and-phase-convention-dependent`; `arm-specific-difference` |
+| `epistemic_status` | `descriptive-conditional-ci`; `source-assignment-inferred`; `convention-conditional`; `unresolved` |
+
 mode countを含む全報告量を4 armごとに出力し、H1/H2やscaleの値を単一point estimateへ
 集約しない。convention comparison tableも報告量ごとに1行とし、H1/H2の値、数値なら差、
-categoricalなら一致/不一致を保持する。分類の不一致は`phase-convention dependent`、それ以外の
-差は`arm-specific difference`とし、その量に関するheadlineは両armを包含するrangeまたは
+categoricalなら一致/不一致を保持する。分類の不一致は`phase-convention-dependent`、それ以外の
+差は`arm-specific-difference`とし、その量に関するheadlineは両armを包含するrangeまたは
 両armで共通に成立する記述に限定する。
