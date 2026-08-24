@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -126,7 +127,14 @@ def test_committed_manifest_is_self_consistent():
     assert len({row["file_id"] for row in entries}) == len(entries)
     assert all(len(row["sha256"]) == 64 for row in entries)
     assert all("X-Amz-Signature" not in json.dumps(row) for row in entries)
-    assert not list(ROOT.rglob("*.mat"))
+    tracked_mat = subprocess.run(
+        ["git", "ls-files", "--", "*.mat"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    assert tracked_mat == []
 
 
 def test_protocol_predeclares_both_convention_axes_for_both_series():
@@ -139,13 +147,23 @@ def test_protocol_predeclares_both_convention_axes_for_both_series():
     assert "全conditionで§3と同じ2×2 convention armを実行" in protocol
 
 
-def test_repository_ignores_mat_files_at_every_depth():
-    rules = {
-        line.strip()
-        for line in (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
-        if line.strip() and not line.lstrip().startswith("#")
-    }
-    assert "*.mat" in rules
+@pytest.mark.parametrize(
+    "candidate",
+    [
+        "sample.mat",
+        "tests/fixtures/sample.mat",
+        "experiments/33_next/sample.mat",
+        "experiments/32_kawasaki_data/raw/sample.mat",
+        "experiments/32_kawasaki_data/raw/deep/sample.mat",
+    ],
+)
+def test_repository_ignores_mat_files_at_every_depth(candidate):
+    result = subprocess.run(
+        ["git", "check-ignore", "--no-index", "-q", "--", candidate],
+        cwd=ROOT,
+        check=False,
+    )
+    assert result.returncode == 0
 
 
 @pytest.mark.parametrize(

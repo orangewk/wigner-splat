@@ -18,7 +18,6 @@ serviceAccountKey.json
 
 # Experiment outputs
 experiments/*/out/
-experiments/32_kawasaki_data/data/
 *.mat
 .venv/
 
