@@ -42,7 +42,14 @@ def sha256_file(path: Path) -> str:
 
 def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
     manifest = json.loads(path.read_text(encoding="utf-8"))
-    required = {"schema_version", "source", "expected_mat_schema", "files"}
+    required = {
+        "schema_version",
+        "source",
+        "expected_mat_schema",
+        "convention_status_vocabulary",
+        "convention_record",
+        "files",
+    }
     missing = required.difference(manifest)
     if missing:
         raise DataContractError(f"Manifest missing keys: {sorted(missing)}")
@@ -50,6 +57,23 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
         raise DataContractError(
             f"Unsupported manifest schema: {manifest['schema_version']}"
         )
+    vocabulary = manifest["convention_status_vocabulary"]
+    if (
+        not isinstance(vocabulary, list)
+        or not vocabulary
+        or not all(isinstance(status, str) and status for status in vocabulary)
+        or len(vocabulary) != len(set(vocabulary))
+    ):
+        raise DataContractError("Convention status vocabulary is invalid")
+    allowed_statuses = set(vocabulary)
+    for name, record in manifest["convention_record"].items():
+        if not isinstance(record, dict):
+            raise DataContractError(f"Convention record {name!r} is not an object")
+        if record.get("status") not in allowed_statuses:
+            raise DataContractError(
+                f"Convention record {name!r} has uncontrolled status "
+                f"{record.get('status')!r}"
+            )
     names = [entry["name"] for entry in manifest["files"]]
     if len(names) != len(set(names)):
         raise DataContractError("Manifest file names are not unique")

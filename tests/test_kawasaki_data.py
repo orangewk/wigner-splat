@@ -35,6 +35,11 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _write_manifest(path: Path, manifest: dict) -> Path:
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    return path
+
+
 def _fixture(tmp_path: Path, *, names=("p60deg", "p90deg")):
     source = tmp_path / "quad_test.mat"
     arrays = {
@@ -88,11 +93,21 @@ def test_committed_manifest_is_self_consistent():
     assert {row["series"] for row in quadrature} == set(
         manifest["series_record"]
     )
+    vocabulary = set(manifest["convention_status_vocabulary"])
     assert all(
-        "status" in record
+        isinstance(record, dict) and record.get("status") in vocabulary
         for record in manifest["convention_record"].values()
     )
     phase = manifest["convention_record"]["phase_mapping"]
+    assert phase["loader_rule"].startswith("Apply H1:")
+    assert set(phase["hypotheses"]) == {"H1", "H2"}
+    assert phase["hypotheses"]["H1"]["protocol_role"] == (
+        "primary loader interpretation"
+    )
+    assert "negate" in phase["hypotheses"]["H2"]["protocol_role"]
+    identifiability = manifest["convention_record"]["phase_sign_identifiability"]
+    assert identifiability["status"] in vocabulary
+    assert "cannot identify" in identifiability["mathematical_consequence"]
     stored = schema["phases_deg"]
     article = phase["article_phase_bases_deg"]
     relation = phase["observed_set_relations"]
@@ -106,6 +121,26 @@ def test_committed_manifest_is_self_consistent():
     assert all(len(row["sha256"]) == 64 for row in entries)
     assert all("X-Amz-Signature" not in json.dumps(row) for row in entries)
     assert not list(EXP.glob("*.mat"))
+
+
+@pytest.mark.parametrize(
+    "mutation, message",
+    [
+        (lambda manifest: manifest["convention_record"].update(note="status quo"),
+         "not an object"),
+        (lambda manifest: manifest["convention_record"]["phase_mapping"].update(
+            status="review-me-later"
+        ), "uncontrolled status"),
+    ],
+)
+def test_manifest_rejects_untyped_or_uncontrolled_convention_records(
+    tmp_path, mutation, message
+):
+    manifest = kawasaki.load_manifest()
+    mutation(manifest)
+    path = _write_manifest(tmp_path / "manifest.json", manifest)
+    with pytest.raises(kawasaki.DataContractError, match=message):
+        kawasaki.load_manifest(path)
 
 
 def test_schema_only_does_not_load_quadrature_values(tmp_path, monkeypatch):

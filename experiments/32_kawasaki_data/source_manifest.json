@@ -1,5 +1,11 @@
 {
   "schema_version": 1,
+  "convention_status_vocabulary": [
+    "source-supported",
+    "source-wording-conflict",
+    "unresolved",
+    "theory-motivated-assumption"
+  ],
   "recorded_at": "2026-08-24",
   "source": {
     "title": "High-rate generation and state tomography of non-gaussian quantum states for ultra-fast clock frequency quantum processors",
@@ -50,8 +56,24 @@
         "elementwise_stored_minus_article_deg": 60,
         "stored_mod_180_equals_article_set": true
       },
-      "unresolved_assumption": "The sources do not state whether p180deg and p210deg are literal phase labels with raw quadrature signs or modulo-180 aliases whose quadrature signs were already normalized.",
-      "loader_rule": "Use expected_mat_schema.phases_deg and stored samples without an implicit phase shift or sign change. Alternative sign handling belongs only to a predeclared fit sensitivity arm."
+      "hypotheses": {
+        "H1": {
+          "loader_output_semantics": "Samples stored as p180deg and p210deg represent x_180 and x_210, respectively.",
+          "protocol_role": "primary loader interpretation"
+        },
+        "H2": {
+          "loader_output_semantics": "Samples stored as p180deg and p210deg represent x_0 and x_30, respectively, and therefore equal -x_180 and -x_210 when expressed in the stored-label frame.",
+          "protocol_role": "unresolved alternative; expressing it in the stored-label frame would negate only the p180deg and p210deg samples"
+        }
+      },
+      "loader_rule": "Apply H1: use expected_mat_schema.phases_deg and stored samples without an implicit phase shift or sign change.",
+      "identifiability_ref": "convention_record.phase_sign_identifiability"
+    },
+    "phase_sign_identifiability": {
+      "status": "theory-motivated-assumption",
+      "assumption": "The measured target density operator approximately commutes with photon-number parity. The source article reports photon subtraction from squeezed light and compares the reconstructed state with a squeezed single-photon state, but experimental imperfections may introduce parity-breaking components, so this is not a proof about the released samples.",
+      "mathematical_consequence": "If [rho, Pi] = 0, then P(x|theta) = P(-x|theta) for every theta; phase-insensitive loss preserves this commutation. The H2 sign transform is therefore distributionally identical to H1 under the assumption and cannot identify which source interpretation is correct.",
+      "protocol_rule": "Do not use an H2 sign-flip fit arm or classify results as phase-convention dependent. Keep the phase mapping unresolved and non-identifiable under this assumption; future evidence of parity-breaking asymmetry requires a separate predeclared diagnostic packet and is not by itself evidence selecting H1 or H2."
     },
     "quadrature_scale": {
       "status": "source-wording-conflict",
