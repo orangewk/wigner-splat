@@ -49,8 +49,12 @@ python experiments\32_kawasaki_data\run_pump_series.py smoke `
 ```powershell
 python experiments\32_kawasaki_data\run_pump_series.py development `
   --data-dir C:\data\kawasaki-2024 `
+  --checkpoint-dir C:\temp\kawasaki-pump-checkpoints `
   --output experiments\32_kawasaki_data\pump_development.json
 ```
+
+checkpointは1 seed×1 armごとに書かれ、同じplan・runner・git SHAで再実行した場合だけ
+再利用される。
 
 validation conditionは、passing development artifactを含むfixed SHAの独立review recordが
 揃うまでrunner自身が拒否する。`execute --help` に必要な3入力を表示する。

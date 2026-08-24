@@ -187,3 +187,27 @@ def test_validation_requires_matching_fixed_sha_review_record(tmp_path):
         pump.validate_review_record(
             review_path, development, plan_hash, runner_hash, git
         )
+
+
+def test_development_checkpoint_is_bound_to_runner_plan_and_git(tmp_path):
+    expected = {
+        "schema_version": 1,
+        "plan_sha256": "a" * 64,
+        "runner_sha256": "b" * 64,
+        "git_head_sha": "c" * 40,
+        "source_file": "source.mat",
+        "reshuffle_seed": 0,
+        "scale_arm": "stored",
+        "phase_arm": "H1",
+        "init_seed": 0,
+    }
+    checkpoint = tmp_path / "checkpoint.json"
+    attempt = {"init_seed": 0, "train_nll": 1.25}
+    checkpoint.write_text(
+        json.dumps({**expected, "attempt": attempt}), encoding="utf-8"
+    )
+    assert pump._load_development_checkpoint(checkpoint, expected) == attempt
+    with pytest.raises(pump.PumpSeriesError, match="runner_sha256"):
+        pump._load_development_checkpoint(
+            checkpoint, {**expected, "runner_sha256": "d" * 64}
+        )

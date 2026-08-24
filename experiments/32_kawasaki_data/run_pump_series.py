@@ -509,7 +509,38 @@ def load_pump_conditions(data_dir: Path, pumps: list[int]):
     return manifest, [load_condition(data_dir / row["name"], manifest) for row in selected]
 
 
-def run_development(data_dir: Path, plan: dict[str, Any], *, smoke: bool):
+def _checkpoint_name(split_seed: int, scale_id: str, phase_id: str, init_seed: int):
+    return (
+        f"split{split_seed}_{scale_id}_{phase_id}_init{init_seed}.json"
+    )
+
+
+def _load_development_checkpoint(path: Path, expected: dict[str, Any]):
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    for field, value in expected.items():
+        if payload.get(field) != value:
+            raise PumpSeriesError(
+                f"Checkpoint {path.name} field {field} "
+                f"{payload.get(field)!r} != {value!r}"
+            )
+    attempt = payload.get("attempt")
+    train_nll = attempt.get("train_nll") if isinstance(attempt, dict) else None
+    if (
+        not isinstance(train_nll, (int, float))
+        or not np.isfinite(train_nll)
+    ):
+        raise PumpSeriesError(f"Checkpoint {path.name} has no finite attempt")
+    return attempt
+
+
+def run_development(
+    data_dir: Path,
+    plan: dict[str, Any],
+    *,
+    smoke: bool,
+    checkpoint_dir: Path | None = None,
+    checkpoint_identity: dict[str, Any] | None = None,
+):
     manifest, loaded_conditions = load_pump_conditions(
         data_dir, plan["development_pump_mw"]
     )
@@ -526,6 +557,12 @@ def run_development(data_dir: Path, plan: dict[str, Any], *, smoke: bool):
     seeds = budget["reshuffle_seeds"] if smoke else plan["split"]["reshuffle_seeds"]
     models = model_map(plan)
     records = []
+    if not smoke:
+        if checkpoint_dir is None or checkpoint_identity is None:
+            raise PumpSeriesError(
+                "Development requires a checkpoint directory and identity"
+            )
+        checkpoint_dir.mkdir(parents=True, exist_ok=True)
     for split_seed in seeds:
         canonical_train, canonical_test = split_within_phase(
             data, split_seed, plan["split"]["train_fraction"]
@@ -533,12 +570,65 @@ def run_development(data_dir: Path, plan: dict[str, Any], *, smoke: bool):
         for scale, phase in arm_pairs(plan):
             train = apply_arm(canonical_train, scale, phase)
             test = apply_arm(canonical_test, scale, phase)
-            bb = fit_bbdag(
-                train,
-                models["bbdag_r4k4"],
-                init_seeds=(budget["bbdag_init_seeds"] if smoke else None),
-                iters=(budget["bbdag_iters"] if smoke else None),
-            )
+            if smoke:
+                bb = fit_bbdag(
+                    train,
+                    models["bbdag_r4k4"],
+                    init_seeds=budget["bbdag_init_seeds"],
+                    iters=budget["bbdag_iters"],
+                )
+            else:
+                attempts = []
+                for init_seed in models["bbdag_r4k4"]["init_seeds"]:
+                    checkpoint_path = checkpoint_dir / _checkpoint_name(
+                        split_seed, scale["id"], phase["id"], init_seed
+                    )
+                    expected = {
+                        **checkpoint_identity,
+                        "source_file": loaded.source_file,
+                        "reshuffle_seed": split_seed,
+                        "scale_arm": scale["id"],
+                        "phase_arm": phase["id"],
+                        "init_seed": init_seed,
+                    }
+                    if checkpoint_path.is_file():
+                        attempt = _load_development_checkpoint(
+                            checkpoint_path, expected
+                        )
+                        print(
+                            f"checkpoint reuse: {checkpoint_path.name}",
+                            flush=True,
+                        )
+                    else:
+                        fitted = fit_bbdag(
+                            train,
+                            models["bbdag_r4k4"],
+                            init_seeds=[init_seed],
+                        )
+                        attempt = fitted["attempts"][0]
+                        write_payload(
+                            checkpoint_path,
+                            {**expected, "attempt": attempt},
+                        )
+                        print(
+                            f"checkpoint wrote: {checkpoint_path.name} "
+                            f"train_nll={attempt['train_nll']:.6f}",
+                            flush=True,
+                        )
+                    attempts.append(attempt)
+                selected = min(
+                    attempts,
+                    key=lambda row: (row["train_nll"], row["init_seed"]),
+                )
+                bb = {
+                    "selected_init_seed": selected["init_seed"],
+                    "train_nll": selected["train_nll"],
+                    "fitted_eta": selected["fitted_eta"],
+                    "selected_convergence_drop": selected[
+                        "final_100_iteration_train_nll_drop"
+                    ],
+                    "attempts": attempts,
+                }
             record = {
                 "source_file": loaded.source_file,
                 "series": loaded.series,
@@ -746,10 +836,14 @@ def run_execute(data_dir: Path, plan: dict[str, Any]):
 
 def write_payload(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
+    if path.exists():
+        raise PumpSeriesError(f"Refusing to overwrite existing artifact: {path}")
+    partial = path.with_suffix(path.suffix + ".partial")
+    partial.write_text(
         json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n",
         encoding="utf-8",
     )
+    partial.replace(path)
 
 
 def main() -> None:
@@ -759,6 +853,8 @@ def main() -> None:
         stage = sub.add_parser(command)
         stage.add_argument("--data-dir", type=Path, required=True)
         stage.add_argument("--output", type=Path, required=True)
+        if command == "development":
+            stage.add_argument("--checkpoint-dir", type=Path, required=True)
     execute = sub.add_parser("execute")
     execute.add_argument("--data-dir", type=Path, required=True)
     execute.add_argument("--output", type=Path, required=True)
@@ -780,8 +876,21 @@ def main() -> None:
         "git": git,
     }
     if args.command in {"smoke", "development"}:
+        checkpoint_identity = {
+            "schema_version": 1,
+            "plan_sha256": plan_sha256,
+            "runner_sha256": runner_sha256,
+            "git_head_sha": git["head_sha"],
+        }
         _manifest, result = run_development(
-            args.data_dir.resolve(), plan, smoke=args.command == "smoke"
+            args.data_dir.resolve(),
+            plan,
+            smoke=args.command == "smoke",
+            checkpoint_dir=(
+                args.checkpoint_dir.resolve()
+                if args.command == "development" else None
+            ),
+            checkpoint_identity=checkpoint_identity,
         )
     else:
         review = validate_review_record(
