@@ -18,6 +18,7 @@ serviceAccountKey.json
 
 # Experiment outputs
 experiments/*/out/
+*.mat
 .venv/
 
 # Agent working directories (not tracked)

@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "convention_status_vocabulary": [
+    "source-supported",
+    "source-wording-conflict",
+    "unresolved",
+    "theory-motivated-assumption"
+  ],
+  "series_assignment_status_vocabulary": [
+    "source-supported",
+    "inferred"
+  ],
+  "series_record_status_vocabulary": [
+    "source-supported",
+    "mixed"
+  ],
+  "recorded_at": "2026-08-24",
+  "source": {
+    "title": "High-rate generation and state tomography of non-gaussian quantum states for ultra-fast clock frequency quantum processors",
+    "citation": "Kawasaki, Akito et al. (2024). Dryad dataset. https://doi.org/10.5061/dryad.9p8cz8wqn",
+    "doi": "10.5061/dryad.9p8cz8wqn",
+    "dataset_page": "https://datadryad.org/dataset/doi:10.5061/dryad.9p8cz8wqn",
+    "article_url": "https://www.nature.com/articles/s41467-024-53408-w",
+    "api_dataset_url": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.9p8cz8wqn",
+    "api_files_url": "https://datadryad.org/api/v2/versions/323325/files",
+    "api_version": "2.1.0",
+    "dataset_id": 127679,
+    "version_number": 3,
+    "version_id": 323325,
+    "publication_date": "2024-10-21",
+    "storage_size_bytes": 2647499,
+    "license_spdx": "CC0-1.0",
+    "license_url": "https://spdx.org/licenses/CC0-1.0.html",
+    "raw_or_processed": "processed quadrature events obtained by temporal-mode integration of oscilloscope signals"
+  },
+  "download_contract": {
+    "raw_files_committed_to_git": false,
+    "destination_requirement": "outside this repository",
+    "digest_source": "Dryad API v2.1.0 files response, observed 2026-08-24",
+    "digest_type": "sha-256",
+    "public_download_url_template": "https://datadryad.org/downloads/file_stream/{file_id}",
+    "api_download_url_template": "https://datadryad.org/api/v2/files/{file_id}/download",
+    "observed_2026_08_24": {
+      "api_download_without_bearer_token": "HTTP 401",
+      "public_download_from_python_requests": "HTTP 403",
+      "public_download_from_dataset_web_ui": "succeeded"
+    },
+    "rule": "Use the stable dataset page or the listed public URLs, then accept a file only after byte-size and SHA-256 verification. Signed S3 redirect URLs are intentionally not recorded because they expire."
+  },
+  "expected_mat_schema": {
+    "matlab_format": "5.0",
+    "variable_name_template": "p{phase_deg}deg",
+    "phases_deg": [60, 90, 120, 150, 180, 210],
+    "stored_shape": [1, 5000],
+    "matlab_class": "double",
+    "loader_transform": "none"
+  },
+  "convention_record": {
+    "phase_mapping": {
+      "status": "unresolved",
+      "article_phase_bases_deg": [0, 30, 60, 90, 120, 150],
+      "stored_variable_phases_ref": "expected_mat_schema.phases_deg",
+      "observed_set_relations": {
+        "elementwise_stored_minus_article_deg": 60,
+        "stored_mod_180_equals_article_set": true
+      },
+      "hypotheses": {
+        "H1": {
+          "loader_output_semantics": "Samples stored as p180deg and p210deg represent x_180 and x_210, respectively.",
+          "protocol_role": "primary loader interpretation"
+        },
+        "H2": {
+          "loader_output_semantics": "Samples stored as p180deg and p210deg represent x_0 and x_30, respectively, and therefore equal -x_180 and -x_210 when expressed in the stored-label frame.",
+          "protocol_role": "fixed convention sensitivity interpretation"
+        }
+      },
+      "loader_rule": "Apply H1: use expected_mat_schema.phases_deg and stored samples without an implicit phase shift or sign change.",
+      "identifiability_ref": "convention_record.phase_sign_identifiability"
+    },
+    "phase_sign_identifiability": {
+      "status": "theory-motivated-assumption",
+      "assumption": "The measured target density operator approximately commutes with photon-number parity. The source article reports photon subtraction from squeezed light and compares the reconstructed state with a squeezed single-photon state, but experimental imperfections may introduce parity-breaking components, so this is not a proof about the released samples.",
+      "mathematical_consequence": "If [rho, Pi] = 0, then P(x|theta) = P(-x|theta) for every theta; phase-insensitive loss preserves this commutation. The H2 sign transform is therefore distributionally identical to H1 under the assumption and cannot identify which source interpretation is correct.",
+      "protocol_rule": "Explanatory only: do not use this assumption to select H1, suppress H2, or authorize an H1-only verdict."
+    },
+    "quadrature_scale": {
+      "status": "source-wording-conflict",
+      "article_convention": "[x,p]=i (hbar=1)",
+      "dryad_readme_convention": "dimensionless unit with hbar=1/2",
+      "loader_rule": "Do not rescale in the loader. The later fit protocol fixes raw scale as primary and sqrt(2) as a sensitivity arm."
+    },
+    "additional_loss": {
+      "status": "source-supported",
+      "location": "after the measurement phase-sensitive amplifier (PSA)",
+      "loader_rule": "Record as post_psa_loss_db; do not identify it with the state-loss model transmissivity eta."
+    }
+  },
+  "series_record": {
+    "pump_power": {
+      "member_rule": "filenames without _2",
+      "status": "mixed",
+      "rationale": "03/10/25 mW assignments are source-supported; the unsuffixed 01 mW baseline assignment is inferred from the filename group and MAT creation order."
+    },
+    "post_psa_loss_tolerance": {
+      "member_rule": "filenames with _2",
+      "status": "mixed",
+      "rationale": "The nonzero loss assignments and post-PSA placement are source-supported; the _2 00 dB baseline assignment is inferred from the filename group and MAT creation order."
+    }
+  },
+  "files": [
+    {
+      "file_id": 3556848,
+      "name": "quad_01GHz_01mW_00dB.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "0cac3088af7ba01607847e488ac5f4bdc842c8e38b3c6eb95181a388446374c1",
+      "series": "pump_power",
+      "series_assignment": "inferred",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 0},
+      "mat_header_created_on": "Thu Jan 11 14:14:27 2024"
+    },
+    {
+      "file_id": 3556849,
+      "name": "quad_01GHz_01mW_00dB_2.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "8a85e4b8747927cc309f98666c04e209c1f7b1e6cbebf1d4b4265e6012ad3dc7",
+      "series": "post_psa_loss_tolerance",
+      "series_assignment": "inferred",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 0},
+      "mat_header_created_on": "Thu Jan 11 14:15:32 2024"
+    },
+    {
+      "file_id": 3556850,
+      "name": "quad_01GHz_01mW_01dB_2.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "b9fe0ab0e4da7ff266c319005b2848d7d76cab9048bf917cc9d93b77a290a9c5",
+      "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 1},
+      "mat_header_created_on": "Thu Jan 11 14:16:32 2024"
+    },
+    {
+      "file_id": 3556851,
+      "name": "quad_01GHz_01mW_02dB_2.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "03a3c80db213360d81eb3d07cb033457e7b829f3094a538b63390f45bbff0d3c",
+      "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 2},
+      "mat_header_created_on": "Thu Jan 11 14:17:32 2024"
+    },
+    {
+      "file_id": 3556852,
+      "name": "quad_01GHz_01mW_05dB_2.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "cb2fe778bca10582bf24abe1de70406c053de82b9149a21930381ca03270dbec",
+      "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 5},
+      "mat_header_created_on": "Thu Jan 11 14:18:33 2024"
+    },
+    {
+      "file_id": 3556854,
+      "name": "quad_01GHz_01mW_10dB_2.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "3653714915b1736c5248f3b89b0a015423980b8a9a19930cb90f8f634ad6cd71",
+      "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 10},
+      "mat_header_created_on": "Thu Jan 11 14:20:54 2024"
+    },
+    {
+      "file_id": 3556853,
+      "name": "quad_01GHz_01mW_15dB_2.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "36cafb3d71ea454e537380bafc2e3bfadd783722e828f9d9a4be95ae0f50614c",
+      "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 15},
+      "mat_header_created_on": "Thu Jan 11 14:22:09 2024"
+    },
+    {
+      "file_id": 3556857,
+      "name": "quad_01GHz_01mW_20dB_2.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "7eac1acc8ccf15ef4fca8240e966559bf41e88f2e34617c8c3408f45296332a8",
+      "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 20},
+      "mat_header_created_on": "Thu Jan 11 14:23:19 2024"
+    },
+    {
+      "file_id": 3556855,
+      "name": "quad_01GHz_03mW_00dB.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "660e6d01613802a69b22ebd3b0a48d208a2e74651ad7175360f8982749a4a600",
+      "series": "pump_power",
+      "series_assignment": "source-supported",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 3, "post_psa_loss_db": 0},
+      "mat_header_created_on": "Thu Jan 11 14:27:33 2024"
+    },
+    {
+      "file_id": 3556856,
+      "name": "quad_01GHz_10mW_00dB.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "a564c6a1451bc50e21d2f54249a0525d023729dd341ce1bf5a16336dc0aa7992",
+      "series": "pump_power",
+      "series_assignment": "source-supported",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 10, "post_psa_loss_db": 0},
+      "mat_header_created_on": "Thu Jan 11 14:28:47 2024"
+    },
+    {
+      "file_id": 3556858,
+      "name": "quad_01GHz_25mW_00dB.mat",
+      "role": "quadrature",
+      "size_bytes": 240512,
+      "sha256": "9cca027251ba412d0dcf12655c8de6775a3c70f51b81c12abb8578fa144c948a",
+      "series": "pump_power",
+      "series_assignment": "source-supported",
+      "condition": {"bandwidth_ghz": 1, "pump_mw": 25, "post_psa_loss_db": 0},
+      "mat_header_created_on": "Thu Jan 11 14:29:49 2024"
+    },
+    {
+      "file_id": 3556868,
+      "name": "README.md",
+      "role": "source_readme",
+      "size_bytes": 1867,
+      "sha256": "fe16fef12cccb69bd8373e30883d5830fcf96acf50c105a11a2acf63efc72940"
+    }
+  ]
+}
