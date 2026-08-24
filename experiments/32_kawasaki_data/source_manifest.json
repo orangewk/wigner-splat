@@ -42,14 +42,28 @@
     "loader_transform": "none"
   },
   "convention_record": {
-    "article_phase_bases_deg": [0, 30, 60, 90, 120, 150],
-    "stored_variable_phases_ref": "expected_mat_schema.phases_deg",
-    "phase_rule": "Use expected_mat_schema.phases_deg as theta. Do not apply an implicit shift.",
-    "article_quadrature_convention": "[x,p]=i (hbar=1)",
-    "dryad_readme_quadrature_convention": "dimensionless unit with hbar=1/2",
-    "scale_rule": "Do not rescale in the loader. The later fit protocol fixes raw scale as primary and sqrt(2) as a sensitivity arm.",
-    "additional_loss_location": "after the measurement phase-sensitive amplifier (PSA)",
-    "loss_rule": "Record as post_psa_loss_db; do not identify it with the state-loss model transmissivity eta."
+    "phase_mapping": {
+      "status": "unresolved",
+      "article_phase_bases_deg": [0, 30, 60, 90, 120, 150],
+      "stored_variable_phases_ref": "expected_mat_schema.phases_deg",
+      "observed_set_relations": {
+        "elementwise_stored_minus_article_deg": 60,
+        "stored_mod_180_equals_article_set": true
+      },
+      "unresolved_assumption": "The sources do not state whether p180deg and p210deg are literal phase labels with raw quadrature signs or modulo-180 aliases whose quadrature signs were already normalized.",
+      "loader_rule": "Use expected_mat_schema.phases_deg and stored samples without an implicit phase shift or sign change. Alternative sign handling belongs only to a predeclared fit sensitivity arm."
+    },
+    "quadrature_scale": {
+      "status": "source-wording-conflict",
+      "article_convention": "[x,p]=i (hbar=1)",
+      "dryad_readme_convention": "dimensionless unit with hbar=1/2",
+      "loader_rule": "Do not rescale in the loader. The later fit protocol fixes raw scale as primary and sqrt(2) as a sensitivity arm."
+    },
+    "additional_loss": {
+      "status": "source-supported",
+      "location": "after the measurement phase-sensitive amplifier (PSA)",
+      "loader_rule": "Record as post_psa_loss_db; do not identify it with the state-loss model transmissivity eta."
+    }
   },
   "series_record": {
     "pump_power": {

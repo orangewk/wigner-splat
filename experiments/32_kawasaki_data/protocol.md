@@ -30,8 +30,9 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 | K32-D1 | 公開物の同一性 | `source_manifest.json.source` / `.files` | source identityだけを消費し、状態の意味を推論しない。 |
 | K32-D2 | MAT schema | `source_manifest.json.expected_mat_schema` | schema-only観察を分布観察として扱わない。 |
 | K32-D3 | series provenance | `source_manifest.json.series_record` | manifestに記録されたsource-supported部分と推論部分を混ぜない。 |
-| K32-D4 | 位相・quadrature単位 | `source_manifest.json.convention_record` | loaderはmanifestのruleをそのまま実装する。 |
-| K32-D5 | added loss | `source_manifest.json.convention_record` | source conditionとfit parameterを別fieldで保持する。 |
+| K32-D4 | 位相 | `source_manifest.json.convention_record.phase_mapping` | loaderはprimary ruleだけを実装し、別解釈は§3の固定armに限定する。 |
+| K32-D5 | quadrature単位 | `source_manifest.json.convention_record.quadrature_scale` | loaderはprimary ruleだけを実装し、別解釈は§3の固定armに限定する。 |
+| K32-D6 | added loss | `source_manifest.json.convention_record.additional_loss` | source conditionとfit parameterを別fieldで保持する。 |
 | K32-N1 | model比較 | 本文 §3–5 | 次packetまでnot run。現packetから性能・物理状態の結論を出さない。 |
 
 ## 3. 後続 pump-series packet（まだ実行しない）
@@ -40,8 +41,15 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 - `01mW` は development condition。fitコードのsmokeとtrain-only convergence確認に使う。
 - `03/10/25mW` は validation conditions。01mWでコードとscheduleを固定するまで値を読まない。
 - 各位相内で80/20 split。reshuffle seedsは0と1。
-- primary scaleはstored valueそのまま。`sqrt(2)`倍を固定 sensitivity arm とし、結果を見て
-  scaleを選ばない。
+- convention armは次の2×2直積を全条件へ適用し、結果を見て選ばない。
+
+  | axis | primary | fixed sensitivity |
+  |---|---|---|
+  | quadrature scale | stored value | 全sampleを`sqrt(2)`倍 |
+  | phase sign | stored phase / stored sample | stored phaseは維持し、stored phaseが180度以上のsampleだけ符号反転 |
+
+  4 armすべてを同じsplit、model、scheduleでfitする。phase sensitivityはmanifestに記録した
+  unresolved sign-normalisation assumptionだけを動かし、loaderの出力は変えない。
 - primary physical modelは exp18 と同一の mixed BB† `R=4,K=4`、fitted `eta`、
   `iters=500`、`lr=0.05`、`eta0=0.8`、init seeds `{0,1,2}`、train NLL選択。
 - opponentは fixed MLE `n_max=16`。matched-dof対照として fixed `n_max=10` も報告する。
@@ -51,8 +59,10 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 
 各 condition / reshuffle の `BB† R4K4 - MLE16` CIを、上端<0ならdescriptive win、
 下端>0ならdescriptive loss、それ以外はunresolvedと機械分類する。これは条件付きCIであり、
-model選択や複数条件を含むconfirmatory inferenceではない。raw / `sqrt(2)` armで分類が変わる
-場合、結果は **unit-convention dependent** とし、外部妥当性のheadlineを作らない。
+model選択や複数条件を含むconfirmatory inferenceではない。primaryからscale軸だけを変えて
+分類が変わる場合は **unit-convention dependent**、phase-sign軸だけを変えて分類が変わる
+場合は **phase-convention dependent** とする。両軸のinteractionも4 arm表から報告し、
+いずれかがconvention-dependentなら外部妥当性のheadlineを作らない。
 
 ## 4. 後続 loss-series packet（pump packetから分離）
 

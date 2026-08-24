@@ -88,6 +88,20 @@ def test_committed_manifest_is_self_consistent():
     assert {row["series"] for row in quadrature} == set(
         manifest["series_record"]
     )
+    assert all(
+        "status" in record
+        for record in manifest["convention_record"].values()
+    )
+    phase = manifest["convention_record"]["phase_mapping"]
+    stored = schema["phases_deg"]
+    article = phase["article_phase_bases_deg"]
+    relation = phase["observed_set_relations"]
+    assert [left - right for left, right in zip(stored, article)] == [
+        relation["elementwise_stored_minus_article_deg"]
+    ] * len(stored)
+    assert (sorted(degree % 180 for degree in stored) == sorted(article)) is (
+        relation["stored_mod_180_equals_article_set"]
+    )
     assert len({row["file_id"] for row in entries}) == len(entries)
     assert all(len(row["sha256"]) == 64 for row in entries)
     assert all("X-Amz-Signature" not in json.dumps(row) for row in entries)
