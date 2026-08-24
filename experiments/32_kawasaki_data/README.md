@@ -28,7 +28,29 @@ python experiments\32_kawasaki_data\kawasaki_data.py verify --data-dir C:\data\k
 ## テスト
 
 ```powershell
-python -m pytest tests\test_kawasaki_data.py -q
+python -m pytest tests\test_kawasaki_data.py tests\test_kawasaki_pump_series.py -q
 ```
 
 テストはsynthetic MATだけを使用し、公開raw fileへアクセスしない。
+
+## pump-series実行gate
+
+`pump_series_plan.json` が数値scheduleの唯一のauthoring locationで、runnerはplan外の
+model・arm・判定語彙を受け付けない。まず01mWだけをtiny budgetで配線確認する。
+
+```powershell
+python experiments\32_kawasaki_data\run_pump_series.py smoke `
+  --data-dir C:\data\kawasaki-2024 `
+  --output C:\temp\kawasaki-pump-smoke.json
+```
+
+次にclean worktreeの固定SHAで01mWのtrain-only development gateを実行する。
+
+```powershell
+python experiments\32_kawasaki_data\run_pump_series.py development `
+  --data-dir C:\data\kawasaki-2024 `
+  --output experiments\32_kawasaki_data\pump_development.json
+```
+
+validation conditionは、passing development artifactを含むfixed SHAの独立review recordが
+揃うまでrunner自身が拒否する。`execute --help` に必要な3入力を表示する。

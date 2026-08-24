@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "series": "pump_power",
+  "development_pump_mw": [1],
+  "validation_pump_mw": [3, 10, 25],
+  "split": {
+    "unit": "within_phase",
+    "train_fraction": 0.8,
+    "reshuffle_seeds": [0, 1]
+  },
+  "arms": {
+    "scale": [
+      {
+        "id": "stored",
+        "multiplier": 1.0
+      },
+      {
+        "id": "sqrt2",
+        "multiplier": 1.4142135623730951
+      }
+    ],
+    "phase": [
+      {
+        "id": "H1",
+        "sign_flip_min_stored_phase_deg": null
+      },
+      {
+        "id": "H2",
+        "sign_flip_min_stored_phase_deg": 180
+      }
+    ]
+  },
+  "models": [
+    {
+      "id": "bbdag_r4k4",
+      "kind": "bbdag_mixed_lossy",
+      "mode_count": 1,
+      "R": 4,
+      "K": 4,
+      "fit_eta": true,
+      "eta0": 0.8,
+      "iters": 500,
+      "learning_rate": 0.05,
+      "init_seeds": [0, 1, 2],
+      "selection": "minimum_train_nll"
+    },
+    {
+      "id": "mle16",
+      "kind": "fixed_mle",
+      "mode_count": 1,
+      "n_max": 16,
+      "bins": 80,
+      "max_iters": 2000
+    },
+    {
+      "id": "mle10",
+      "kind": "fixed_mle",
+      "mode_count": 1,
+      "n_max": 10,
+      "bins": 80,
+      "max_iters": 2000
+    }
+  ],
+  "primary_comparison": {
+    "left_model": "bbdag_r4k4",
+    "right_model": "mle16",
+    "metric": "held_out_per_sample_nll",
+    "bootstrap": {
+      "replicates": 2000,
+      "seed": 123,
+      "quantiles": [0.025, 0.975]
+    },
+    "classification": {
+      "ci_high_lt_zero": "win",
+      "ci_low_gt_zero": "loss",
+      "otherwise": "unresolved"
+    }
+  },
+  "development_gate": {
+    "metric": "selected_init_final_100_iteration_train_nll_drop",
+    "maximum_drop": 0.001,
+    "pass_rule": "all_selected_fits_finite_and_at_or_below_maximum_drop"
+  },
+  "smoke_budget": {
+    "samples_per_phase": 32,
+    "reshuffle_seeds": [0],
+    "bbdag_init_seeds": [0],
+    "bbdag_iters": 1,
+    "mle_max_iters": 2,
+    "bootstrap_replicates": 20
+  },
+  "vocabulary": {
+    "classification": ["win", "loss", "unresolved"],
+    "convention_status": [
+      "convention-stable",
+      "unit-convention-dependent",
+      "phase-convention-dependent",
+      "unit-and-phase-convention-dependent"
+    ],
+    "comparison_status": [
+      "same-across-arms",
+      "arm-specific-difference"
+    ],
+    "epistemic_status": [
+      "descriptive-conditional-ci",
+      "source-assignment-inferred",
+      "convention-conditional",
+      "unresolved"
+    ]
+  }
+}
