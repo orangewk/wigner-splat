@@ -97,18 +97,31 @@ runnerやREADME proseへ結論文字列を手書きしない。result tableは
 | `fitted_eta`, `train_nll`, `test_nll` | arm-indexed point estimates |
 | `delta_nll_vs_mle16`, `ci_low`, `ci_high` | 勝敗の測定値とCI値そのもの |
 | `classification` | CIから機械生成したwin / loss / unresolved |
-| `convention_status`, `epistemic_status` | 規約依存性とclaimの限定 |
+| `convention_status`, `epistemic_status` | classificationの規約依存性とclaimの限定 |
 
-result-surface status語彙の唯一のauthoring locationを次の表とする。`convention_status`は単一値、
-`epistemic_status`は必要なtagを並べるJSON arrayとし、runnerは表外の値を拒否する。
+result-surface statusの語彙と付与条件の唯一のauthoring locationを次の表とする。
+classificationを `C(scale_arm, phase_arm)` と書き、
+`scale_dep = (C(stored,H1) != C(sqrt2,H1)) or (C(stored,H2) != C(sqrt2,H2))`、
+`phase_dep = (C(stored,H1) != C(stored,H2)) or (C(sqrt2,H1) != C(sqrt2,H2))`
+として機械計算する。`convention_status`はclassificationだけに付く単一値、
+`comparison_status`はclassification以外の報告量ごとにcomparison tableへ付く単一値、
+`epistemic_status`は必要なtagを並べるJSON arrayとする。runnerは表外の値を拒否する。
 
-| field | allowed values |
+| field / tag | 付与条件 |
 |---|---|
-| `convention_status` | `convention-stable`; `unit-convention-dependent`; `phase-convention-dependent`; `unit-and-phase-convention-dependent`; `arm-specific-difference` |
-| `epistemic_status` | `descriptive-conditional-ci`; `source-assignment-inferred`; `convention-conditional`; `unresolved` |
+| `convention_status=convention-stable` | `not scale_dep and not phase_dep`。4 armのclassificationが同一。 |
+| `convention_status=unit-convention-dependent` | `scale_dep and not phase_dep`。scale軸だけでclassificationが変わる。 |
+| `convention_status=phase-convention-dependent` | `not scale_dep and phase_dep`。phase軸だけでclassificationが変わる。 |
+| `convention_status=unit-and-phase-convention-dependent` | `scale_dep and phase_dep`。両単軸の変化と、単軸primary contrastは不変でも対角armだけが変わるinteraction-only caseを含む。 |
+| `comparison_status=same-across-arms` | classification以外の当該報告量が4 armで同一。 |
+| `comparison_status=arm-specific-difference` | classification以外の当該報告量が1 arm以上で異なる。 |
+| `epistemic_status+=descriptive-conditional-ci` | fixed fitted modelsのdelta / CI / classificationを含む全result rowに付ける。confirmatory inferenceではないことを示す。 |
+| `epistemic_status+=source-assignment-inferred` | `files[*].series_assignment == inferred` のsource_fileにだけ付ける。 |
+| `epistemic_status+=convention-conditional` | 単一のscale / phase armに条件づけられた全result rowに付ける。 |
+| `epistemic_status+=unresolved` | 当該rowの`classification == unresolved`の場合だけ付ける。他のepistemic tagと併存する。 |
 
 mode countを含む全報告量を4 armごとに出力し、H1/H2やscaleの値を単一point estimateへ
 集約しない。convention comparison tableも報告量ごとに1行とし、H1/H2の値、数値なら差、
 categoricalなら一致/不一致を保持する。分類の不一致は`phase-convention-dependent`、それ以外の
-差は`arm-specific-difference`とし、その量に関するheadlineは両armを包含するrangeまたは
+差は`comparison_status=arm-specific-difference`とし、その量に関するheadlineは両armを包含するrangeまたは
 両armで共通に成立する記述に限定する。

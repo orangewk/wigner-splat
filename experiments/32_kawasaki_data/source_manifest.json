@@ -6,6 +6,14 @@
     "unresolved",
     "theory-motivated-assumption"
   ],
+  "series_assignment_status_vocabulary": [
+    "source-supported",
+    "inferred"
+  ],
+  "series_record_status_vocabulary": [
+    "source-supported",
+    "mixed"
+  ],
   "recorded_at": "2026-08-24",
   "source": {
     "title": "High-rate generation and state tomography of non-gaussian quantum states for ultra-fast clock frequency quantum processors",
@@ -90,11 +98,13 @@
   "series_record": {
     "pump_power": {
       "member_rule": "filenames without _2",
-      "status": "directly supported for 03/10/25 mW and inferred for the unsuffixed 01 mW baseline from the filename group and MAT creation order"
+      "status": "mixed",
+      "rationale": "03/10/25 mW assignments are source-supported; the unsuffixed 01 mW baseline assignment is inferred from the filename group and MAT creation order."
     },
     "post_psa_loss_tolerance": {
       "member_rule": "filenames with _2",
-      "status": "the loss values and post-PSA placement are source-supported; assigning _2 00 dB as this series baseline is inferred from the filename group and MAT creation order"
+      "status": "mixed",
+      "rationale": "The nonzero loss assignments and post-PSA placement are source-supported; the _2 00 dB baseline assignment is inferred from the filename group and MAT creation order."
     }
   },
   "files": [
@@ -105,6 +115,7 @@
       "size_bytes": 240512,
       "sha256": "0cac3088af7ba01607847e488ac5f4bdc842c8e38b3c6eb95181a388446374c1",
       "series": "pump_power",
+      "series_assignment": "inferred",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 0},
       "mat_header_created_on": "Thu Jan 11 14:14:27 2024"
     },
@@ -115,6 +126,7 @@
       "size_bytes": 240512,
       "sha256": "8a85e4b8747927cc309f98666c04e209c1f7b1e6cbebf1d4b4265e6012ad3dc7",
       "series": "post_psa_loss_tolerance",
+      "series_assignment": "inferred",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 0},
       "mat_header_created_on": "Thu Jan 11 14:15:32 2024"
     },
@@ -125,6 +137,7 @@
       "size_bytes": 240512,
       "sha256": "b9fe0ab0e4da7ff266c319005b2848d7d76cab9048bf917cc9d93b77a290a9c5",
       "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 1},
       "mat_header_created_on": "Thu Jan 11 14:16:32 2024"
     },
@@ -135,6 +148,7 @@
       "size_bytes": 240512,
       "sha256": "03a3c80db213360d81eb3d07cb033457e7b829f3094a538b63390f45bbff0d3c",
       "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 2},
       "mat_header_created_on": "Thu Jan 11 14:17:32 2024"
     },
@@ -145,6 +159,7 @@
       "size_bytes": 240512,
       "sha256": "cb2fe778bca10582bf24abe1de70406c053de82b9149a21930381ca03270dbec",
       "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 5},
       "mat_header_created_on": "Thu Jan 11 14:18:33 2024"
     },
@@ -155,6 +170,7 @@
       "size_bytes": 240512,
       "sha256": "3653714915b1736c5248f3b89b0a015423980b8a9a19930cb90f8f634ad6cd71",
       "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 10},
       "mat_header_created_on": "Thu Jan 11 14:20:54 2024"
     },
@@ -165,6 +181,7 @@
       "size_bytes": 240512,
       "sha256": "36cafb3d71ea454e537380bafc2e3bfadd783722e828f9d9a4be95ae0f50614c",
       "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 15},
       "mat_header_created_on": "Thu Jan 11 14:22:09 2024"
     },
@@ -175,6 +192,7 @@
       "size_bytes": 240512,
       "sha256": "7eac1acc8ccf15ef4fca8240e966559bf41e88f2e34617c8c3408f45296332a8",
       "series": "post_psa_loss_tolerance",
+      "series_assignment": "source-supported",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 1, "post_psa_loss_db": 20},
       "mat_header_created_on": "Thu Jan 11 14:23:19 2024"
     },
@@ -185,6 +203,7 @@
       "size_bytes": 240512,
       "sha256": "660e6d01613802a69b22ebd3b0a48d208a2e74651ad7175360f8982749a4a600",
       "series": "pump_power",
+      "series_assignment": "source-supported",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 3, "post_psa_loss_db": 0},
       "mat_header_created_on": "Thu Jan 11 14:27:33 2024"
     },
@@ -195,6 +214,7 @@
       "size_bytes": 240512,
       "sha256": "a564c6a1451bc50e21d2f54249a0525d023729dd341ce1bf5a16336dc0aa7992",
       "series": "pump_power",
+      "series_assignment": "source-supported",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 10, "post_psa_loss_db": 0},
       "mat_header_created_on": "Thu Jan 11 14:28:47 2024"
     },
@@ -205,6 +225,7 @@
       "size_bytes": 240512,
       "sha256": "9cca027251ba412d0dcf12655c8de6775a3c70f51b81c12abb8578fa144c948a",
       "series": "pump_power",
+      "series_assignment": "source-supported",
       "condition": {"bandwidth_ghz": 1, "pump_mw": 25, "post_psa_loss_db": 0},
       "mat_header_created_on": "Thu Jan 11 14:29:49 2024"
     },

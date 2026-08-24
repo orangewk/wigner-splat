@@ -49,6 +49,9 @@ def _validate_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
         "expected_mat_schema",
         "convention_status_vocabulary",
         "convention_record",
+        "series_assignment_status_vocabulary",
+        "series_record_status_vocabulary",
+        "series_record",
         "files",
     }
     missing = required.difference(manifest)
@@ -77,6 +80,47 @@ def _validate_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
             raise DataContractError(
                 f"Convention record {name!r} has uncontrolled status "
                 f"{record.get('status')!r}"
+            )
+    assignment_statuses = manifest["series_assignment_status_vocabulary"]
+    record_statuses = manifest["series_record_status_vocabulary"]
+    for label, statuses in (
+        ("Series assignment", assignment_statuses),
+        ("Series record", record_statuses),
+    ):
+        if (
+            not isinstance(statuses, list)
+            or not statuses
+            or not all(isinstance(status, str) and status for status in statuses)
+            or len(statuses) != len(set(statuses))
+        ):
+            raise DataContractError(f"{label} status vocabulary is invalid")
+    series_records = manifest["series_record"]
+    if not isinstance(series_records, dict):
+        raise DataContractError("Series records are not an object")
+    allowed_record_statuses = set(record_statuses)
+    allowed_assignment_statuses = set(assignment_statuses)
+    for name, record in series_records.items():
+        if not isinstance(record, dict):
+            raise DataContractError(f"Series record {name!r} is not an object")
+        if record.get("status") not in allowed_record_statuses:
+            raise DataContractError(
+                f"Series record {name!r} has uncontrolled status "
+                f"{record.get('status')!r}"
+            )
+        if not isinstance(record.get("rationale"), str) or not record["rationale"]:
+            raise DataContractError(f"Series record {name!r} lacks rationale")
+    for entry in manifest["files"]:
+        if entry.get("role") != "quadrature":
+            continue
+        if entry.get("series") not in series_records:
+            raise DataContractError(
+                f"File {entry.get('name')!r} has unregistered series "
+                f"{entry.get('series')!r}"
+            )
+        if entry.get("series_assignment") not in allowed_assignment_statuses:
+            raise DataContractError(
+                f"File {entry.get('name')!r} has uncontrolled series assignment "
+                f"{entry.get('series_assignment')!r}"
             )
     names = [entry["name"] for entry in manifest["files"]]
     if len(names) != len(set(names)):

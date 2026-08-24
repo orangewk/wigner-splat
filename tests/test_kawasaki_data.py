@@ -62,6 +62,14 @@ def _fixture(tmp_path: Path, *, names=("p60deg", "p90deg")):
         },
         "convention_status_vocabulary": ["synthetic"],
         "convention_record": {},
+        "series_assignment_status_vocabulary": ["source-supported", "inferred"],
+        "series_record_status_vocabulary": ["source-supported", "mixed"],
+        "series_record": {
+            "synthetic": {
+                "status": "source-supported",
+                "rationale": "Synthetic fixture assignment.",
+            }
+        },
         "files": [
             {
                 "file_id": 1,
@@ -70,6 +78,7 @@ def _fixture(tmp_path: Path, *, names=("p60deg", "p90deg")):
                 "size_bytes": source.stat().st_size,
                 "sha256": _sha256(source),
                 "series": "synthetic",
+                "series_assignment": "source-supported",
                 "condition": {
                     "bandwidth_ghz": 1,
                     "pump_mw": 1,
@@ -96,6 +105,24 @@ def test_committed_manifest_is_self_consistent():
     assert {row["series"] for row in quadrature} == set(
         manifest["series_record"]
     )
+    assignment_vocabulary = set(
+        manifest["series_assignment_status_vocabulary"]
+    )
+    record_vocabulary = set(manifest["series_record_status_vocabulary"])
+    assert all(
+        row["series_assignment"] in assignment_vocabulary for row in quadrature
+    )
+    assert all(
+        record["status"] in record_vocabulary and record["rationale"]
+        for record in manifest["series_record"].values()
+    )
+    inferred_files = {
+        row["name"] for row in quadrature if row["series_assignment"] == "inferred"
+    }
+    assert inferred_files == {
+        "quad_01GHz_01mW_00dB.mat",
+        "quad_01GHz_01mW_00dB_2.mat",
+    }
     vocabulary = set(manifest["convention_status_vocabulary"])
     assert all(
         isinstance(record, dict) and record.get("status") in vocabulary
@@ -153,9 +180,15 @@ def test_protocol_predeclares_both_convention_axes_for_both_series():
     assert "arm-specific-difference" in protocol
     assert "`source_file`, `series`" in protocol
     assert "source_file × series × condition" in protocol
-    assert "`unit-and-phase-convention-dependent`" in protocol
-    assert "`source-assignment-inferred`" in protocol
+    assert "convention_status=unit-and-phase-convention-dependent" in protocol
+    assert "epistemic_status+=source-assignment-inferred" in protocol
     assert "runnerは表外の値を拒否する" in protocol
+    assert "scale_dep =" in protocol
+    assert "phase_dep =" in protocol
+    assert "interaction-only caseを含む" in protocol
+    assert "comparison_status=same-across-arms" in protocol
+    assert "files[*].series_assignment == inferred" in protocol
+    assert "classification == unresolved" in protocol
 
 
 @pytest.mark.parametrize(
@@ -185,6 +218,15 @@ def test_repository_ignores_mat_files_at_every_depth(candidate):
         (lambda manifest: manifest["convention_record"]["phase_mapping"].update(
             status="review-me-later"
         ), "uncontrolled status"),
+        (lambda manifest: manifest["series_record"]["pump_power"].update(
+            status="review-me-later"
+        ), "Series record.*uncontrolled status"),
+        (lambda manifest: manifest["series_record"]["pump_power"].pop(
+            "rationale"
+        ), "lacks rationale"),
+        (lambda manifest: manifest["files"][0].update(
+            series_assignment="review-me-later"
+        ), "uncontrolled series assignment"),
     ],
 )
 def test_manifest_rejects_untyped_or_uncontrolled_convention_records(
@@ -253,6 +295,9 @@ def test_data_directory_inside_repository_is_rejected(tmp_path):
         "expected_mat_schema": {},
         "convention_status_vocabulary": ["synthetic"],
         "convention_record": {},
+        "series_assignment_status_vocabulary": ["source-supported", "inferred"],
+        "series_record_status_vocabulary": ["source-supported", "mixed"],
+        "series_record": {},
         "files": [],
     }
     with pytest.raises(kawasaki.DataContractError, match="outside the repository"):
