@@ -7,6 +7,7 @@ import importlib.util
 import json
 import sys
 from pathlib import Path
+from statistics import NormalDist
 
 import numpy as np
 import pytest
@@ -108,6 +109,29 @@ def test_committed_manifest_is_self_consistent():
     identifiability = manifest["convention_record"]["phase_sign_identifiability"]
     assert identifiability["status"] in vocabulary
     assert "cannot identify" in identifiability["mathematical_consequence"]
+    diagnostic = identifiability["diagnostic"]
+    factors = diagnostic["test_count_factors"]
+    pump_conditions = [row for row in quadrature if row["series"] == "pump_power"]
+    assert factors == {
+        "conditions": len(pump_conditions),
+        "reshuffle_seeds": len(diagnostic["data_scope"]["reshuffle_seeds"]),
+        "phases": len(schema["phases_deg"]),
+        "moments": len(diagnostic["statistics"]),
+    }
+    assert diagnostic["test_count"] == int(np.prod(list(factors.values())))
+    expected_critical_z = NormalDist().inv_cdf(
+        1.0
+        - diagnostic["family_wise_alpha"] / (2.0 * diagnostic["test_count"])
+    )
+    assert diagnostic["critical_abs_z"] == pytest.approx(
+        expected_critical_z, abs=1e-15
+    )
+    assert {row["moment_order"] for row in diagnostic["statistics"]} == {1, 3}
+    assert diagnostic["data_scope"]["split"] == "train-only"
+    assert diagnostic["on_any_exceedance"]["primary_h1_verdict"] == "blocked"
+    assert diagnostic["on_no_exceedance"]["primary_h1_verdict"] == (
+        "eligible-subject-to-other-gates"
+    )
     stored = schema["phases_deg"]
     article = phase["article_phase_bases_deg"]
     relation = phase["observed_set_relations"]

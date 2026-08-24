@@ -41,7 +41,12 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 - `01mW` は development condition。fitコードのsmokeとtrain-only convergence確認に使う。
 - `03/10/25mW` は validation conditions。01mWでコードとscheduleを固定するまで値を読まない。
 - 各位相内で80/20 split。reshuffle seedsは0と1。
-- quadrature scaleのconvention armは次の2条件を全条件へ適用し、結果を見て選ばない。
+- `source_manifest.json.convention_record.phase_sign_identifiability.diagnostic`をparity診断の
+  唯一のauthoring locationとする。runnerは同recordのscope、統計量、閾値、実行順、
+  condition単位のactionをそのまま消費し、値を手書きしない。診断が出力したH1 eligibilityに
+  従ってfitまたはseparate diagnostic packetへroutingする。
+- H1 eligibleのconditionに限り、quadrature scaleのconvention armを次の2条件へ適用し、
+  結果を見て選ばない。
 
   | axis | primary | fixed sensitivity |
   |---|---|---|
@@ -50,8 +55,8 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
   2 armを同じsplit、model、scheduleでfitする。
 - 位相はmanifestのH1をprimary loader interpretation、H2を未解決のalternativeとする。
   H2をstored-label frameへ写す符号反転は、同manifestのparity仮定下では分布上H1と同一で
-  解釈を識別できないため、fit armとして実行しない。後続結果表でもphase mappingは
-  `unresolved / non-identifiable under recorded assumption` として参照し、勝敗分類へ使わない。
+  解釈を識別できないため、fit armとして実行しない。後続結果表のphase mapping assessmentと
+  H1勝敗の可否は、manifestの診断actionから生成する。
 - article phaseからstored phaseへのglobal `-60 deg` shiftも独立armにしない。現在のBB† familyは
   `alpha, xi`のglobal rotationによる再parameterizationに閉じ、fixed-cutoff MLEのFock空間も
   位相回転に閉じる。共通x binsも角度非依存なので、有限最適化による差は位相規約でなく
@@ -67,7 +72,7 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 下端>0ならdescriptive loss、それ以外はunresolvedと機械分類する。これは条件付きCIであり、
 model選択や複数条件を含むconfirmatory inferenceではない。primaryからscale軸だけを変えて
 分類が変わる場合は **unit-convention dependent** とする。その場合は外部妥当性のheadlineを
-作らない。位相解釈は勝敗分類と分離し、manifestの未解決statusを結果表で参照する。
+作らない。位相解釈はmanifestの診断actionに従い、blocked conditionの勝敗を出力しない。
 
 ## 4. 後続 loss-series packet（pump packetから分離）
 
