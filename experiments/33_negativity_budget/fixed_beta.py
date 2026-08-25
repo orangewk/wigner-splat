@@ -75,6 +75,14 @@ class FixedBetaDifferenceModel:
         return (1.0 - self.beta) / gap, -self.beta / gap
 
     def pdf(self, X, theta, eta, extra_noise_var=0.0) -> np.ndarray:
+        X = np.asarray(X)
+        theta = np.asarray(theta)
+        if X.ndim != 2 or X.shape[1] != self.positive.M:
+            raise ValueError(
+                f"X must have shape (samples, {self.positive.M})"
+            )
+        if theta.ndim != 1 or len(theta) != self.positive.M:
+            raise ValueError(f"theta must have shape ({self.positive.M},)")
         positive = np.asarray(
             lossy_pdf_mixed(
                 self.positive, X, theta, eta, extra_noise_var
@@ -105,14 +113,14 @@ def per_sample_nll(
     rows = []
     for group_index, (theta, X) in enumerate(data):
         X = np.asarray(X)
-        if X.ndim == 0 or len(X) == 0:
+        if X.ndim > 0 and len(X) == 0:
             raise ValueError(
                 f"density group {group_index} must contain at least one sample"
             )
-        sample_count = len(X)
         density = np.asarray(
             model.pdf(X, theta, eta, extra_noise_var), dtype=float
         )
+        sample_count = len(X)
         if density.ndim != 1 or len(density) != sample_count:
             raise ValueError(f"density group {group_index} has invalid shape")
         invalid = ~np.isfinite(density) | (density <= 0.0)

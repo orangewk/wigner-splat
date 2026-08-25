@@ -100,6 +100,18 @@ def test_fixed_mass_formula_and_density_normalization():
 
     xs = np.linspace(-10.0, 10.0, 20001)
     density = model.pdf(xs[:, None], np.array([0.0]), eta=0.8)
+    p_positive = lossy_pdf_mixed(
+        positive, xs[:, None], np.array([0.0]), eta=0.8
+    )
+    p_negative = lossy_pdf_mixed(
+        negative, xs[:, None], np.array([0.0]), eta=0.8
+    )
+    np.testing.assert_allclose(
+        density,
+        (4.0 * p_positive - p_negative) / 3.0,
+        rtol=5e-14,
+        atol=np.finfo(float).eps,
+    )
     assert np.trapezoid(density, xs) == pytest.approx(1.0, abs=2e-8)
 
 
@@ -120,14 +132,37 @@ def test_strict_nll_returns_unfloored_per_sample_values_when_positive():
     negative = _component(alpha=0.15)
     model = fixed.FixedBetaDifferenceModel(positive, negative, beta=0.01)
     data = _group(np.linspace(-1.0, 1.0, 21))
-    density = model.pdf(data[0][1], data[0][0], eta=0.8)
-    assert np.all(density > 0.0)
+    p_positive = lossy_pdf_mixed(
+        positive, data[0][1], data[0][0], eta=0.8
+    )
+    p_negative = lossy_pdf_mixed(
+        negative, data[0][1], data[0][0], eta=0.8
+    )
+    expected_density = (0.99 * p_positive - 0.01 * p_negative) / 0.98
+    assert np.all(expected_density > 0.0)
     np.testing.assert_allclose(
         fixed.per_sample_nll(model, data, eta=0.8),
-        -np.log(density),
+        -np.log(expected_density),
         rtol=0.0,
-        atol=0.0,
+        atol=4.0 * np.finfo(float).eps,
     )
+
+
+@pytest.mark.parametrize(
+    ("component", "X", "theta"),
+    [
+        (_component(), np.zeros((2, 2)), np.zeros(1)),
+        (_component(), np.zeros(2), np.zeros(1)),
+        (_component(modes=2), np.zeros((2, 2)), np.zeros(1)),
+        (_component(), np.zeros((2, 1)), np.array(0.0)),
+    ],
+)
+def test_observation_shapes_are_fail_closed(component, X, theta):
+    model = fixed.FixedBetaDifferenceModel(component, None, 0.0)
+    with pytest.raises(ValueError):
+        model.pdf(X, theta, eta=0.8)
+    with pytest.raises(ValueError):
+        fixed.per_sample_nll(model, [(theta, X)], eta=0.8)
 
 
 def test_empty_data_is_rejected():
