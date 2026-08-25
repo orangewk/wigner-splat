@@ -570,6 +570,28 @@ def test_topo_readme_generated_blocks_match_artifacts():
         )
 
 
+def test_kawasaki_readme_generated_block_matches_artifact():
+    """Register issue #180 in the repository-wide claim-surface policy."""
+    import importlib.util
+
+    exp_dir = EXPERIMENTS / "32_kawasaki_data"
+    spec = importlib.util.spec_from_file_location(
+        "kawasaki_pump_result_summary", exp_dir / "pump_result_summary.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    results = module.load_json(exp_dir / "pump_results.json")
+    readme = (exp_dir / "README.md").read_text(encoding="utf-8")
+    start = readme.find(module.BEGIN)
+    stop = readme.find(module.END)
+    assert start >= 0 and stop >= 0, "experiment 32 lost its generated markers"
+    block = readme[start : stop + len(module.END)]
+    assert block == module.render(results), (
+        "experiment 32 README diverges from pump_results.json; "
+        "run pump_result_summary.py --write instead of editing the block"
+    )
+
+
 def test_run_logs_are_excluded_from_the_scan():
     """The exclusion is deliberate; assert it stays deliberate.
 

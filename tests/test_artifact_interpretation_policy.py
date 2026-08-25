@@ -38,3 +38,20 @@ def test_issue_71_generator_sources_have_no_conclusion_strings():
     for generator in generators:
         source = generator.read_text(encoding="utf-8").lower()
         assert all(token.lower() not in source for token in forbidden), generator
+
+
+def test_kawasaki_result_artifact_has_no_conclusion_prose_fields():
+    artifact = ROOT / "experiments/32_kawasaki_data/pump_results.json"
+    forbidden = {
+        "claim",
+        "conclusion",
+        "description",
+        "finding",
+        "interpretation",
+        "note",
+        "remark",
+        "summary",
+        "verdict",
+    }
+    payload = json.loads(artifact.read_text(encoding="utf-8"))
+    assert forbidden.isdisjoint(_keys(payload)), artifact

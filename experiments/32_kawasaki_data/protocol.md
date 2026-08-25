@@ -1,6 +1,6 @@
 # Experiment 32 — Kawasaki homodyne external-data protocol
 
-状態: **pre-data-values / packet 1**
+状態: **packet 1 protocol frozen / pump-series result published separately**
 
 固定日: 2026-08-24 JST
 
@@ -8,7 +8,8 @@ Issue: #180
 
 本 packet は取得契約・loader・後続解析の事前固定だけを扱う。2026-08-24 の
 固定時点で確認した source metadata の範囲は `source_manifest.json` に記録した。
-quadrature 値、統計量、分布、fit 結果は確認していない。
+その固定時点ではquadrature 値、統計量、分布、fit 結果を確認していなかった。
+後続pump-series実行の数値結果は `pump_results.json` だけに置き、本protocolへ転記しない。
 
 ## 1. Packet 1 の gate
 
@@ -89,7 +90,8 @@ manifestの `post_psa_loss_db` と fitted `eta` は別列に置き、同値変�
 
 ## 5. result surface
 
-後続runnerは測定値と判定入力をJSONへ書き、READMEの結果blockはJSONから生成する。
+runnerは測定値と判定入力をJSONへ書き、committed pump-series outputのauthoring locationを
+`pump_results.json` とする。READMEの結果blockは同JSONから生成する。
 runnerやREADME proseへ結論文字列を手書きしない。result tableは
 `source_file × series × condition × reshuffle_seed × scale_arm × phase_arm × model` の
 1行1claimとし、最低限次の列を持つ。
