@@ -29,6 +29,8 @@ Wigner負体積とは別の量である。
 
 ## 3. fail-closed evaluation boundary
 
+- 各measurement groupは `X` shape `(N, M)`、`theta` shape `(M,)`、`N >= 1` とし、
+  不一致はdensity評価前に拒否する。
 - forward評価はsigned densityをclip・floor・renormalizeしない。
 - held-out sampleの1点でもdensityが非finiteまたは0以下なら、そのfitはinvalidとし
   NLLを返さない。
