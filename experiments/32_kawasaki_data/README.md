@@ -57,4 +57,8 @@ checkpointは1 seed×1 armごとに書かれ、同じplan・runner・git SHAで�
 再利用される。
 
 validation conditionは、passing development artifactを含むfixed SHAの独立review recordが
-揃うまでrunner自身が拒否する。`execute --help` に必要な3入力を表示する。
+揃うまでrunner自身が拒否する。artifact内のclean execution SHAはreviewed SHAの祖先であり、
+plan・runner・manifestのgit blobが両SHAで同一、artifact自体がreviewed SHAにcommitされた
+blobとbyte一致することも検証する。review recordにはreviewed SHA、development execution
+SHA、4 artifact/input SHA-256、tracked artifact path、PASS review URLが必要である。
+`execute --help` に必要な3入力を表示する。

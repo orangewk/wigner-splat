@@ -41,7 +41,9 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
   authoring locationを `pump_series_plan.json` とする。本節はその意図と解釈境界だけを記す。
 - 同planのdevelopment conditionはfitコードのsmokeとtrain-only convergence確認だけに使う。
 - validation conditionsはdevelopment gate通過後、runner・plan・development artifactを含む
-  fixed SHAの独立reviewがPASSするまで値を読まない。
+  fixed SHAの独立reviewがPASSするまで値を読まない。development artifactの生成SHAは
+  reviewed SHAの祖先とし、plan・runner・manifestのblob同一性、reviewed SHAに含まれる
+  artifact blob、外部review recordのSHA/pathをrunnerが照合する。
 - 同planの2×2 convention armを全条件へ適用し、結果を見て選ばない。
 
   | axis | primary | fixed sensitivity |

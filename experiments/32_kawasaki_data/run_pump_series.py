@@ -25,6 +25,9 @@ ROOT = HERE.parents[1]
 PLAN_PATH = HERE / "pump_series_plan.json"
 MANIFEST_PATH = HERE / "source_manifest.json"
 RUNNER_PATH = Path(__file__).resolve()
+DEVELOPMENT_ARTIFACT_RELATIVE = Path(
+    "experiments/32_kawasaki_data/pump_development.json"
+)
 
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(HERE))
@@ -50,15 +53,31 @@ class PumpSeriesError(ValueError):
 
 
 def sha256_path(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return sha256_bytes(path.read_bytes())
 
 
-def load_plan(path: Path = PLAN_PATH) -> dict[str, Any]:
-    plan = json.loads(path.read_text(encoding="utf-8"))
+def sha256_bytes(snapshot: bytes) -> str:
+    return hashlib.sha256(snapshot).hexdigest()
+
+
+def read_json_snapshot(path: Path) -> tuple[bytes, dict[str, Any], str]:
+    snapshot = path.read_bytes()
+    try:
+        payload = json.loads(snapshot.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise PumpSeriesError(f"Invalid JSON snapshot: {path}") from exc
+    if not isinstance(payload, dict):
+        raise PumpSeriesError(f"JSON snapshot is not an object: {path}")
+    return snapshot, payload, sha256_bytes(snapshot)
+
+
+def load_plan(
+    path: Path = PLAN_PATH,
+    *,
+    raw: bytes | None = None,
+) -> dict[str, Any]:
+    snapshot = path.read_bytes() if raw is None else raw
+    plan = json.loads(snapshot.decode("utf-8"))
     required = {
         "schema_version",
         "series",
@@ -177,6 +196,34 @@ def git_identity(*, require_clean: bool) -> dict[str, Any]:
     return {"head_sha": head, "dirty": bool(status)}
 
 
+def git_blob_bytes(revision: str, relative_path: Path) -> bytes:
+    result = subprocess.run(
+        ["git", "show", f"{revision}:{relative_path.as_posix()}"],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        raise PumpSeriesError(
+            f"Missing git blob {revision}:{relative_path.as_posix()}"
+        )
+    return result.stdout
+
+
+def require_git_ancestor(ancestor: str, descendant: str) -> None:
+    result = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", ancestor, descendant],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        raise PumpSeriesError(
+            f"Development execution SHA {ancestor} is not an ancestor of "
+            f"reviewed SHA {descendant}"
+        )
+
+
 def model_map(plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return {row["id"]: row for row in plan["models"]}
 
@@ -247,6 +294,56 @@ def convergence_drop(trace: list[dict[str, float]], iters: int) -> float | None:
     if not eligible:
         return None
     return float(eligible[-1]["train_nll"] - final["train_nll"])
+
+
+def validate_fit_attempt(
+    attempt: Any,
+    *,
+    expected_seed: int,
+    model: dict[str, Any],
+) -> dict[str, Any]:
+    if not isinstance(attempt, dict):
+        raise PumpSeriesError("Fit attempt is not an object")
+    if attempt.get("init_seed") != expected_seed:
+        raise PumpSeriesError(
+            f"Fit attempt init_seed {attempt.get('init_seed')!r} != "
+            f"slice seed {expected_seed}"
+        )
+    for field in ("train_nll", "fitted_eta", "wall_seconds"):
+        value = attempt.get(field)
+        if not isinstance(value, (int, float)) or not np.isfinite(value):
+            raise PumpSeriesError(f"Fit attempt {field} is not finite")
+    if not 0.0 < attempt["fitted_eta"] < 1.0:
+        raise PumpSeriesError("Fit attempt fitted_eta is outside (0, 1)")
+    trace = attempt.get("trace")
+    expected_iterations = list(range(25, model["iters"] + 1, 25))
+    if (
+        not isinstance(trace, list)
+        or [row.get("iteration") for row in trace
+            if isinstance(row, dict)] != expected_iterations
+        or len(trace) != len(expected_iterations)
+    ):
+        raise PumpSeriesError("Fit attempt trace iterations are incomplete")
+    for row in trace:
+        for field in ("train_nll", "fitted_eta"):
+            value = row.get(field)
+            if not isinstance(value, (int, float)) or not np.isfinite(value):
+                raise PumpSeriesError(f"Fit trace {field} is not finite")
+    if (
+        attempt["train_nll"] != trace[-1]["train_nll"]
+        or attempt["fitted_eta"] != trace[-1]["fitted_eta"]
+    ):
+        raise PumpSeriesError("Fit attempt final values do not match its trace")
+    recomputed_drop = convergence_drop(trace, model["iters"])
+    recorded_drop = attempt.get("final_100_iteration_train_nll_drop")
+    if (
+        recomputed_drop is None
+        or not isinstance(recorded_drop, (int, float))
+        or not np.isfinite(recorded_drop)
+        or not np.isclose(recorded_drop, recomputed_drop, rtol=0.0, atol=1e-15)
+    ):
+        raise PumpSeriesError("Fit attempt convergence drop is inconsistent")
+    return attempt
 
 
 def fit_bbdag(
@@ -494,8 +591,11 @@ def build_comparison_rows(rows, plan):
     return output
 
 
-def load_pump_conditions(data_dir: Path, pumps: list[int]):
-    manifest = load_manifest()
+def load_pump_conditions(
+    data_dir: Path,
+    pumps: list[int],
+    manifest: dict[str, Any],
+):
     selected = []
     for entry in manifest["files"]:
         if (
@@ -506,7 +606,7 @@ def load_pump_conditions(data_dir: Path, pumps: list[int]):
             selected.append(entry)
     if sorted(row["condition"]["pump_mw"] for row in selected) != sorted(pumps):
         raise PumpSeriesError(f"Pump source selection is incomplete: {pumps}")
-    return manifest, [load_condition(data_dir / row["name"], manifest) for row in selected]
+    return [load_condition(data_dir / row["name"], manifest) for row in selected]
 
 
 def _checkpoint_name(split_seed: int, scale_id: str, phase_id: str, init_seed: int):
@@ -515,34 +615,36 @@ def _checkpoint_name(split_seed: int, scale_id: str, phase_id: str, init_seed: i
     )
 
 
-def _load_development_checkpoint(path: Path, expected: dict[str, Any]):
-    payload = json.loads(path.read_text(encoding="utf-8"))
+def _load_development_checkpoint(
+    path: Path,
+    expected: dict[str, Any],
+    model: dict[str, Any],
+):
+    _snapshot, payload, _digest = read_json_snapshot(path)
     for field, value in expected.items():
         if payload.get(field) != value:
             raise PumpSeriesError(
                 f"Checkpoint {path.name} field {field} "
                 f"{payload.get(field)!r} != {value!r}"
             )
-    attempt = payload.get("attempt")
-    train_nll = attempt.get("train_nll") if isinstance(attempt, dict) else None
-    if (
-        not isinstance(train_nll, (int, float))
-        or not np.isfinite(train_nll)
-    ):
-        raise PumpSeriesError(f"Checkpoint {path.name} has no finite attempt")
-    return attempt
+    return validate_fit_attempt(
+        payload.get("attempt"),
+        expected_seed=expected["init_seed"],
+        model=model,
+    )
 
 
 def run_development(
     data_dir: Path,
     plan: dict[str, Any],
+    manifest: dict[str, Any],
     *,
     smoke: bool,
     checkpoint_dir: Path | None = None,
     checkpoint_identity: dict[str, Any] | None = None,
 ):
-    manifest, loaded_conditions = load_pump_conditions(
-        data_dir, plan["development_pump_mw"]
+    loaded_conditions = load_pump_conditions(
+        data_dir, plan["development_pump_mw"], manifest
     )
     if len(loaded_conditions) != 1:
         raise PumpSeriesError("Development must load exactly one condition")
@@ -593,7 +695,9 @@ def run_development(
                     }
                     if checkpoint_path.is_file():
                         attempt = _load_development_checkpoint(
-                            checkpoint_path, expected
+                            checkpoint_path,
+                            expected,
+                            models["bbdag_r4k4"],
                         )
                         print(
                             f"checkpoint reuse: {checkpoint_path.name}",
@@ -606,6 +710,11 @@ def run_development(
                             init_seeds=[init_seed],
                         )
                         attempt = fitted["attempts"][0]
+                        validate_fit_attempt(
+                            attempt,
+                            expected_seed=init_seed,
+                            model=models["bbdag_r4k4"],
+                        )
                         write_payload(
                             checkpoint_path,
                             {**expected, "attempt": attempt},
@@ -694,14 +803,177 @@ def run_development(
     }
 
 
-def validate_review_record(
-    review_path: Path,
+def validate_development_artifact(
+    development: dict[str, Any],
+    development_snapshot: bytes,
     development_path: Path,
+    plan: dict[str, Any],
+    manifest: dict[str, Any],
+    *,
     plan_sha256: str,
     runner_sha256: str,
+    manifest_sha256: str,
+    reviewed_git_sha: str,
+) -> str:
+    try:
+        snapshot_payload = json.loads(development_snapshot.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise PumpSeriesError("Development artifact snapshot is invalid JSON") from exc
+    if snapshot_payload != development:
+        raise PumpSeriesError(
+            "Development object does not come from the supplied byte snapshot"
+        )
+    expected_artifact_path = (ROOT / DEVELOPMENT_ARTIFACT_RELATIVE).resolve()
+    if development_path.resolve() != expected_artifact_path:
+        raise PumpSeriesError(
+            "Development artifact must be the committed protocol path"
+        )
+    if (
+        development.get("schema_version") != 1
+        or development.get("run_kind") != "development"
+        or development.get("publication_status") != "train-only-development"
+    ):
+        raise PumpSeriesError("Development artifact identity is invalid")
+    expected_hashes = {
+        "plan_sha256": plan_sha256,
+        "runner_sha256": runner_sha256,
+        "source_manifest_sha256": manifest_sha256,
+    }
+    for field, value in expected_hashes.items():
+        if development.get(field) != value:
+            raise PumpSeriesError(
+                f"Development artifact {field} does not match current input"
+            )
+    execution_git = development.get("git")
+    if (
+        not isinstance(execution_git, dict)
+        or execution_git.get("dirty") is not False
+        or not isinstance(execution_git.get("head_sha"), str)
+    ):
+        raise PumpSeriesError("Development artifact lacks a clean execution SHA")
+    execution_sha = execution_git["head_sha"]
+    require_git_ancestor(execution_sha, reviewed_git_sha)
+
+    tracked_inputs = (
+        (PLAN_PATH.relative_to(ROOT), plan_sha256),
+        (RUNNER_PATH.relative_to(ROOT), runner_sha256),
+        (MANIFEST_PATH.relative_to(ROOT), manifest_sha256),
+    )
+    for relative_path, expected_hash in tracked_inputs:
+        for revision in (execution_sha, reviewed_git_sha):
+            actual = sha256_bytes(git_blob_bytes(revision, relative_path))
+            if actual != expected_hash:
+                raise PumpSeriesError(
+                    f"{relative_path.as_posix()} at {revision} does not match "
+                    "the development input snapshot"
+                )
+    reviewed_artifact = git_blob_bytes(
+        reviewed_git_sha, DEVELOPMENT_ARTIFACT_RELATIVE
+    )
+    if reviewed_artifact != development_snapshot:
+        raise PumpSeriesError(
+            "Development artifact bytes do not match the reviewed git blob"
+        )
+
+    candidates = [
+        row for row in manifest["files"]
+        if row.get("role") == "quadrature"
+        and row.get("series") == plan["series"]
+        and row.get("condition", {}).get("pump_mw")
+        in plan["development_pump_mw"]
+    ]
+    if len(candidates) != 1:
+        raise PumpSeriesError("Development source identity is not unique")
+    source = candidates[0]
+    records = development.get("records")
+    if not isinstance(records, list):
+        raise PumpSeriesError("Development records are missing")
+    expected_identities = {
+        (seed, scale["id"], phase["id"])
+        for seed in plan["split"]["reshuffle_seeds"]
+        for scale, phase in arm_pairs(plan)
+    }
+    actual_identities = {
+        (row.get("reshuffle_seed"), row.get("scale_arm"), row.get("phase_arm"))
+        for row in records if isinstance(row, dict)
+    }
+    if len(records) != len(expected_identities) or actual_identities != expected_identities:
+        raise PumpSeriesError("Development artifact does not cover each arm once")
+
+    bb_model = model_map(plan)["bbdag_r4k4"]
+    selected_drops = []
+    for row in records:
+        if (
+            row.get("source_file") != source["name"]
+            or row.get("series") != source["series"]
+            or row.get("condition") != source["condition"]
+            or row.get("model") != "bbdag_r4k4"
+        ):
+            raise PumpSeriesError("Development record source/model identity drifted")
+        attempts = row.get("attempts")
+        if not isinstance(attempts, list) or len(attempts) != len(
+            bb_model["init_seeds"]
+        ):
+            raise PumpSeriesError("Development record has incomplete init attempts")
+        for expected_seed, attempt in zip(bb_model["init_seeds"], attempts):
+            validate_fit_attempt(
+                attempt,
+                expected_seed=expected_seed,
+                model=bb_model,
+            )
+        selected = min(
+            attempts,
+            key=lambda attempt: (attempt["train_nll"], attempt["init_seed"]),
+        )
+        selected_fields = {
+            "selected_init_seed": selected["init_seed"],
+            "selected_train_nll": selected["train_nll"],
+            "selected_fitted_eta": selected["fitted_eta"],
+            "selected_final_100_iteration_train_nll_drop": selected[
+                "final_100_iteration_train_nll_drop"
+            ],
+        }
+        for field, value in selected_fields.items():
+            if row.get(field) != value:
+                raise PumpSeriesError(
+                    f"Development record {field} is not selected by train NLL"
+                )
+        selected_drops.append(
+            selected["final_100_iteration_train_nll_drop"]
+        )
+
+    gate_plan = plan["development_gate"]
+    recomputed_pass = all(
+        np.isfinite(value) and value <= gate_plan["maximum_drop"]
+        for value in selected_drops
+    )
+    expected_gate = {
+        "evaluated": True,
+        "passed": bool(recomputed_pass),
+        "metric": gate_plan["metric"],
+        "maximum_drop": gate_plan["maximum_drop"],
+        "pass_rule": gate_plan["pass_rule"],
+    }
+    if development.get("development_gate") != expected_gate:
+        raise PumpSeriesError("Development gate is not computed from attempts")
+    if not recomputed_pass:
+        raise PumpSeriesError("Development convergence gate did not pass")
+    return execution_sha
+
+
+def validate_review_record(
+    review: dict[str, Any],
+    development: dict[str, Any],
+    development_snapshot: bytes,
+    development_path: Path,
+    plan: dict[str, Any],
+    manifest: dict[str, Any],
+    plan_sha256: str,
+    runner_sha256: str,
+    manifest_sha256: str,
+    development_sha256: str,
     git: dict[str, Any],
 ):
-    review = json.loads(review_path.read_text(encoding="utf-8"))
     required = {
         "schema_version",
         "review_status",
@@ -709,32 +981,58 @@ def validate_review_record(
         "reviewed_git_sha",
         "plan_sha256",
         "runner_sha256",
+        "source_manifest_sha256",
         "development_artifact_sha256",
+        "development_artifact_path",
+        "development_execution_sha",
     }
     if required.difference(review):
         raise PumpSeriesError("Review record is incomplete")
-    if review["schema_version"] != 1 or review["review_status"] != "pass":
+    if (
+        review["schema_version"] != 1
+        or review["review_status"] != "pass"
+        or not isinstance(review["review_url"], str)
+        or not review["review_url"]
+    ):
         raise PumpSeriesError("Validation requires a passing review record")
     expected = {
         "reviewed_git_sha": git["head_sha"],
         "plan_sha256": plan_sha256,
         "runner_sha256": runner_sha256,
-        "development_artifact_sha256": sha256_path(development_path),
+        "source_manifest_sha256": manifest_sha256,
+        "development_artifact_sha256": development_sha256,
+        "development_artifact_path": DEVELOPMENT_ARTIFACT_RELATIVE.as_posix(),
     }
     for field, value in expected.items():
         if review[field] != value:
             raise PumpSeriesError(
                 f"Review record {field} {review[field]!r} != {value!r}"
             )
-    development = json.loads(development_path.read_text(encoding="utf-8"))
-    if development.get("development_gate", {}).get("passed") is not True:
-        raise PumpSeriesError("Development convergence gate did not pass")
+    execution_sha = validate_development_artifact(
+        development,
+        development_snapshot,
+        development_path,
+        plan,
+        manifest,
+        plan_sha256=plan_sha256,
+        runner_sha256=runner_sha256,
+        manifest_sha256=manifest_sha256,
+        reviewed_git_sha=git["head_sha"],
+    )
+    if review["development_execution_sha"] != execution_sha:
+        raise PumpSeriesError(
+            "Review record development_execution_sha does not match artifact"
+        )
     return review
 
 
-def run_execute(data_dir: Path, plan: dict[str, Any]):
+def run_execute(
+    data_dir: Path,
+    plan: dict[str, Any],
+    manifest: dict[str, Any],
+):
     pumps = plan["development_pump_mw"] + plan["validation_pump_mw"]
-    manifest, loaded_conditions = load_pump_conditions(data_dir, pumps)
+    loaded_conditions = load_pump_conditions(data_dir, pumps, manifest)
     models = model_map(plan)
     raw_results = []
     fit_attempts = []
@@ -862,16 +1160,33 @@ def main() -> None:
     execute.add_argument("--review-record", type=Path, required=True)
     args = parser.parse_args()
 
-    plan = load_plan()
-    plan_sha256 = sha256_path(PLAN_PATH)
-    runner_sha256 = sha256_path(RUNNER_PATH)
     official = args.command != "smoke"
     git = git_identity(require_clean=official)
+    plan_snapshot = PLAN_PATH.read_bytes()
+    plan_sha256 = sha256_bytes(plan_snapshot)
+    plan = load_plan(raw=plan_snapshot)
+    manifest_snapshot = MANIFEST_PATH.read_bytes()
+    manifest_sha256 = sha256_bytes(manifest_snapshot)
+    manifest = load_manifest(raw=manifest_snapshot)
+    runner_snapshot = RUNNER_PATH.read_bytes()
+    runner_sha256 = sha256_bytes(runner_snapshot)
+    if official:
+        tracked_snapshots = (
+            (PLAN_PATH.relative_to(ROOT), plan_snapshot),
+            (MANIFEST_PATH.relative_to(ROOT), manifest_snapshot),
+            (RUNNER_PATH.relative_to(ROOT), runner_snapshot),
+        )
+        for relative_path, snapshot in tracked_snapshots:
+            if git_blob_bytes(git["head_sha"], relative_path) != snapshot:
+                raise PumpSeriesError(
+                    f"Runtime snapshot differs from fixed SHA: "
+                    f"{relative_path.as_posix()}"
+                )
     metadata = {
         "schema_version": 1,
         "run_kind": args.command,
         "plan_sha256": plan_sha256,
-        "source_manifest_sha256": sha256_path(MANIFEST_PATH),
+        "source_manifest_sha256": manifest_sha256,
         "runner_sha256": runner_sha256,
         "git": git,
     }
@@ -885,6 +1200,7 @@ def main() -> None:
         _manifest, result = run_development(
             args.data_dir.resolve(),
             plan,
+            manifest,
             smoke=args.command == "smoke",
             checkpoint_dir=(
                 args.checkpoint_dir.resolve()
@@ -893,15 +1209,34 @@ def main() -> None:
             checkpoint_identity=checkpoint_identity,
         )
     else:
+        _review_snapshot, review_payload, _review_sha256 = read_json_snapshot(
+            args.review_record.resolve()
+        )
+        development_snapshot, development_payload, development_sha256 = (
+            read_json_snapshot(args.development_artifact.resolve())
+        )
         review = validate_review_record(
-            args.review_record.resolve(),
+            review_payload,
+            development_payload,
+            development_snapshot,
             args.development_artifact.resolve(),
+            plan,
+            manifest,
             plan_sha256,
             runner_sha256,
+            manifest_sha256,
+            development_sha256,
             git,
         )
         metadata["review_record"] = review
-        _manifest, result = run_execute(args.data_dir.resolve(), plan)
+        final_git = git_identity(require_clean=True)
+        if final_git != git:
+            raise PumpSeriesError(
+                "Git identity changed after review validation"
+            )
+        _manifest, result = run_execute(
+            args.data_dir.resolve(), plan, manifest
+        )
     payload = {**metadata, **result}
     write_payload(args.output.resolve(), payload)
     print(json.dumps({

@@ -30,6 +30,28 @@ def _load_module():
 pump = _load_module()
 
 
+def _synthetic_attempt(seed=0, *, model=None):
+    model = pump.model_map(pump.load_plan())["bbdag_r4k4"] if model is None else model
+    trace = [
+        {
+            "iteration": iteration,
+            "train_nll": 1.5 - iteration * 1e-6,
+            "fitted_eta": 0.8,
+        }
+        for iteration in range(25, model["iters"] + 1, 25)
+    ]
+    return {
+        "init_seed": seed,
+        "train_nll": trace[-1]["train_nll"],
+        "fitted_eta": trace[-1]["fitted_eta"],
+        "final_100_iteration_train_nll_drop": pump.convergence_drop(
+            trace, model["iters"]
+        ),
+        "trace": trace,
+        "wall_seconds": 1.0,
+    }
+
+
 def test_plan_pins_four_arms_and_fixed_models():
     plan = pump.load_plan()
     assert [row["id"] for row in plan["arms"]["scale"]] == ["stored", "sqrt2"]
@@ -117,9 +139,8 @@ def test_development_source_selection_cannot_load_validation_values(monkeypatch)
         loaded_names.append(path.name)
         return path.name
 
-    monkeypatch.setattr(pump, "load_manifest", lambda: manifest)
     monkeypatch.setattr(pump, "load_condition", fake_load)
-    _manifest, loaded = pump.load_pump_conditions(Path("outside"), [1])
+    loaded = pump.load_pump_conditions(Path("outside"), [1], manifest)
     assert loaded == ["pump_1.mat"]
     assert loaded_names == ["pump_1.mat"]
 
@@ -159,13 +180,16 @@ def test_result_surface_keeps_model_rows_and_arm_comparison_separate():
     ] == pytest.approx(0.1)
 
 
-def test_validation_requires_matching_fixed_sha_review_record(tmp_path):
-    development = tmp_path / "development.json"
-    development.write_text(
-        json.dumps({"development_gate": {"passed": True}}), encoding="utf-8"
-    )
+def test_validation_requires_matching_fixed_sha_review_record(
+    tmp_path, monkeypatch
+):
+    development = {"development_gate": {"passed": True}}
+    development_snapshot = b"development"
     plan_hash = "a" * 64
     runner_hash = "b" * 64
+    manifest_hash = "d" * 64
+    artifact_hash = "e" * 64
+    execution_sha = "f" * 40
     git = {"head_sha": "c" * 40, "dirty": False}
     review = {
         "schema_version": 1,
@@ -174,18 +198,43 @@ def test_validation_requires_matching_fixed_sha_review_record(tmp_path):
         "reviewed_git_sha": git["head_sha"],
         "plan_sha256": plan_hash,
         "runner_sha256": runner_hash,
-        "development_artifact_sha256": pump.sha256_path(development),
+        "source_manifest_sha256": manifest_hash,
+        "development_artifact_sha256": artifact_hash,
+        "development_artifact_path": pump.DEVELOPMENT_ARTIFACT_RELATIVE.as_posix(),
+        "development_execution_sha": execution_sha,
     }
-    review_path = tmp_path / "review.json"
-    review_path.write_text(json.dumps(review), encoding="utf-8")
+    monkeypatch.setattr(
+        pump,
+        "validate_development_artifact",
+        lambda *_args, **_kwargs: execution_sha,
+    )
     assert pump.validate_review_record(
-        review_path, development, plan_hash, runner_hash, git
+        review,
+        development,
+        development_snapshot,
+        tmp_path / "development.json",
+        pump.load_plan(),
+        pump.load_manifest(),
+        plan_hash,
+        runner_hash,
+        manifest_hash,
+        artifact_hash,
+        git,
     ) == review
     review["review_status"] = "pending"
-    review_path.write_text(json.dumps(review), encoding="utf-8")
     with pytest.raises(pump.PumpSeriesError, match="passing review"):
         pump.validate_review_record(
-            review_path, development, plan_hash, runner_hash, git
+            review,
+            development,
+            development_snapshot,
+            tmp_path / "development.json",
+            pump.load_plan(),
+            pump.load_manifest(),
+            plan_hash,
+            runner_hash,
+            manifest_hash,
+            artifact_hash,
+            git,
         )
 
 
@@ -202,14 +251,162 @@ def test_development_checkpoint_is_bound_to_runner_plan_and_git(tmp_path):
         "init_seed": 0,
     }
     checkpoint = tmp_path / "checkpoint.json"
-    attempt = {"init_seed": 0, "train_nll": 1.25}
+    model = pump.model_map(pump.load_plan())["bbdag_r4k4"]
+    attempt = _synthetic_attempt(0, model=model)
     checkpoint.write_text(
         json.dumps({**expected, "attempt": attempt}), encoding="utf-8"
     )
-    assert pump._load_development_checkpoint(checkpoint, expected) == attempt
+    assert pump._load_development_checkpoint(
+        checkpoint, expected, model
+    ) == attempt
     with pytest.raises(pump.PumpSeriesError, match="runner_sha256"):
         pump._load_development_checkpoint(
-            checkpoint, {**expected, "runner_sha256": "d" * 64}
+            checkpoint,
+            {**expected, "runner_sha256": "d" * 64},
+            model,
+        )
+
+
+def test_checkpoint_rejects_internal_seed_or_trace_drift(tmp_path):
+    plan = pump.load_plan()
+    model = pump.model_map(plan)["bbdag_r4k4"]
+    expected = {
+        "schema_version": 1,
+        "plan_sha256": "a" * 64,
+        "runner_sha256": "b" * 64,
+        "git_head_sha": "c" * 40,
+        "source_file": "source.mat",
+        "reshuffle_seed": 0,
+        "scale_arm": "stored",
+        "phase_arm": "H1",
+        "init_seed": 0,
+    }
+    for name, mutate, message in (
+        ("seed", lambda attempt: attempt.update(init_seed=99), "init_seed"),
+        ("trace", lambda attempt: attempt["trace"].pop(), "trace iterations"),
+        ("drop", lambda attempt: attempt.update(
+            final_100_iteration_train_nll_drop=0.5
+        ), "convergence drop"),
+    ):
+        attempt = _synthetic_attempt(0, model=model)
+        mutate(attempt)
+        path = tmp_path / f"{name}.json"
+        path.write_text(
+            json.dumps({**expected, "attempt": attempt}), encoding="utf-8"
+        )
+        with pytest.raises(pump.PumpSeriesError, match=message):
+            pump._load_development_checkpoint(path, expected, model)
+
+
+def _synthetic_development_artifact():
+    plan = pump.load_plan()
+    manifest = pump.load_manifest()
+    source = next(
+        row for row in manifest["files"]
+        if row.get("series") == "pump_power"
+        and row.get("condition", {}).get("pump_mw") == 1
+    )
+    model = pump.model_map(plan)["bbdag_r4k4"]
+    records = []
+    for split_seed in plan["split"]["reshuffle_seeds"]:
+        for scale, phase in pump.arm_pairs(plan):
+            attempts = []
+            for init_seed in model["init_seeds"]:
+                attempt = _synthetic_attempt(init_seed, model=model)
+                offset = init_seed * 1e-4
+                for trace_row in attempt["trace"]:
+                    trace_row["train_nll"] += offset
+                attempt["train_nll"] = attempt["trace"][-1]["train_nll"]
+                attempts.append(attempt)
+            selected = min(
+                attempts,
+                key=lambda row: (row["train_nll"], row["init_seed"]),
+            )
+            records.append({
+                "source_file": source["name"],
+                "series": source["series"],
+                "condition": source["condition"],
+                "reshuffle_seed": split_seed,
+                "scale_arm": scale["id"],
+                "phase_arm": phase["id"],
+                "model": "bbdag_r4k4",
+                "selected_init_seed": selected["init_seed"],
+                "selected_train_nll": selected["train_nll"],
+                "selected_fitted_eta": selected["fitted_eta"],
+                "selected_final_100_iteration_train_nll_drop": selected[
+                    "final_100_iteration_train_nll_drop"
+                ],
+                "attempts": attempts,
+            })
+    execution_sha = "1" * 40
+    payload = {
+        "schema_version": 1,
+        "run_kind": "development",
+        "publication_status": "train-only-development",
+        "plan_sha256": pump.sha256_path(pump.PLAN_PATH),
+        "runner_sha256": pump.sha256_path(pump.RUNNER_PATH),
+        "source_manifest_sha256": pump.sha256_path(pump.MANIFEST_PATH),
+        "git": {"head_sha": execution_sha, "dirty": False},
+        "development_gate": {
+            "evaluated": True,
+            "passed": True,
+            "metric": plan["development_gate"]["metric"],
+            "maximum_drop": plan["development_gate"]["maximum_drop"],
+            "pass_rule": plan["development_gate"]["pass_rule"],
+        },
+        "records": records,
+    }
+    return payload, plan, manifest, execution_sha
+
+
+def test_development_artifact_is_bound_to_execution_and_reviewed_blobs(
+    monkeypatch
+):
+    payload, plan, manifest, execution_sha = _synthetic_development_artifact()
+    snapshot = (
+        json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    ).encode()
+    reviewed_sha = "2" * 40
+    tracked = {
+        pump.PLAN_PATH.relative_to(pump.ROOT): pump.PLAN_PATH.read_bytes(),
+        pump.RUNNER_PATH.relative_to(pump.ROOT): pump.RUNNER_PATH.read_bytes(),
+        pump.MANIFEST_PATH.relative_to(pump.ROOT): pump.MANIFEST_PATH.read_bytes(),
+        pump.DEVELOPMENT_ARTIFACT_RELATIVE: snapshot,
+    }
+    monkeypatch.setattr(pump, "require_git_ancestor", lambda *_args: None)
+    monkeypatch.setattr(
+        pump,
+        "git_blob_bytes",
+        lambda _revision, relative_path: tracked[relative_path],
+    )
+    assert pump.validate_development_artifact(
+        payload,
+        snapshot,
+        EXP / "pump_development.json",
+        plan,
+        manifest,
+        plan_sha256=pump.sha256_path(pump.PLAN_PATH),
+        runner_sha256=pump.sha256_path(pump.RUNNER_PATH),
+        manifest_sha256=pump.sha256_path(pump.MANIFEST_PATH),
+        reviewed_git_sha=reviewed_sha,
+    ) == execution_sha
+
+    payload["records"][0]["attempts"][0]["init_seed"] = 99
+    mutated_snapshot = (
+        json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n"
+    ).encode()
+    tracked[pump.DEVELOPMENT_ARTIFACT_RELATIVE] = mutated_snapshot
+    with pytest.raises(pump.PumpSeriesError, match="init_seed"):
+        pump.validate_development_artifact(
+            payload,
+            mutated_snapshot,
+            EXP / "pump_development.json",
+            plan,
+            manifest,
+            plan_sha256=pump.sha256_path(pump.PLAN_PATH),
+            runner_sha256=pump.sha256_path(pump.RUNNER_PATH),
+            manifest_sha256=pump.sha256_path(pump.MANIFEST_PATH),
+            reviewed_git_sha=reviewed_sha,
         )
 
 
