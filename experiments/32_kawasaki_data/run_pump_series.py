@@ -53,11 +53,19 @@ class PumpSeriesError(ValueError):
 
 
 def sha256_path(path: Path) -> str:
-    return sha256_bytes(path.read_bytes())
+    return sha256_text_bytes(path.read_bytes())
 
 
 def sha256_bytes(snapshot: bytes) -> str:
     return hashlib.sha256(snapshot).hexdigest()
+
+
+def normalize_text_snapshot(snapshot: bytes) -> bytes:
+    return snapshot.replace(b"\r\n", b"\n")
+
+
+def sha256_text_bytes(snapshot: bytes) -> str:
+    return sha256_bytes(normalize_text_snapshot(snapshot))
 
 
 def read_json_snapshot(path: Path) -> tuple[bytes, dict[str, Any], str]:
@@ -68,7 +76,7 @@ def read_json_snapshot(path: Path) -> tuple[bytes, dict[str, Any], str]:
         raise PumpSeriesError(f"Invalid JSON snapshot: {path}") from exc
     if not isinstance(payload, dict):
         raise PumpSeriesError(f"JSON snapshot is not an object: {path}")
-    return snapshot, payload, sha256_bytes(snapshot)
+    return snapshot, payload, sha256_text_bytes(snapshot)
 
 
 def load_plan(
@@ -861,7 +869,7 @@ def validate_development_artifact(
     )
     for relative_path, expected_hash in tracked_inputs:
         for revision in (execution_sha, reviewed_git_sha):
-            actual = sha256_bytes(git_blob_bytes(revision, relative_path))
+            actual = sha256_text_bytes(git_blob_bytes(revision, relative_path))
             if actual != expected_hash:
                 raise PumpSeriesError(
                     f"{relative_path.as_posix()} at {revision} does not match "
@@ -870,7 +878,9 @@ def validate_development_artifact(
     reviewed_artifact = git_blob_bytes(
         reviewed_git_sha, DEVELOPMENT_ARTIFACT_RELATIVE
     )
-    if reviewed_artifact != development_snapshot:
+    if normalize_text_snapshot(reviewed_artifact) != normalize_text_snapshot(
+        development_snapshot
+    ):
         raise PumpSeriesError(
             "Development artifact bytes do not match the reviewed git blob"
         )
@@ -1163,13 +1173,13 @@ def main() -> None:
     official = args.command != "smoke"
     git = git_identity(require_clean=official)
     plan_snapshot = PLAN_PATH.read_bytes()
-    plan_sha256 = sha256_bytes(plan_snapshot)
+    plan_sha256 = sha256_text_bytes(plan_snapshot)
     plan = load_plan(raw=plan_snapshot)
     manifest_snapshot = MANIFEST_PATH.read_bytes()
-    manifest_sha256 = sha256_bytes(manifest_snapshot)
+    manifest_sha256 = sha256_text_bytes(manifest_snapshot)
     manifest = load_manifest(raw=manifest_snapshot)
     runner_snapshot = RUNNER_PATH.read_bytes()
-    runner_sha256 = sha256_bytes(runner_snapshot)
+    runner_sha256 = sha256_text_bytes(runner_snapshot)
     if official:
         tracked_snapshots = (
             (PLAN_PATH.relative_to(ROOT), plan_snapshot),
@@ -1177,7 +1187,9 @@ def main() -> None:
             (RUNNER_PATH.relative_to(ROOT), runner_snapshot),
         )
         for relative_path, snapshot in tracked_snapshots:
-            if git_blob_bytes(git["head_sha"], relative_path) != snapshot:
+            if normalize_text_snapshot(
+                git_blob_bytes(git["head_sha"], relative_path)
+            ) != normalize_text_snapshot(snapshot):
                 raise PumpSeriesError(
                     f"Runtime snapshot differs from fixed SHA: "
                     f"{relative_path.as_posix()}"

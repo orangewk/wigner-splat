@@ -60,5 +60,6 @@ validation conditionは、passing development artifactを含むfixed SHAの独�
 揃うまでrunner自身が拒否する。artifact内のclean execution SHAはreviewed SHAの祖先であり、
 plan・runner・manifestのgit blobが両SHAで同一、artifact自体がreviewed SHAにcommitされた
 blobとbyte一致することも検証する。review recordにはreviewed SHA、development execution
-SHA、4 artifact/input SHA-256、tracked artifact path、PASS review URLが必要である。
+SHA、4 artifact/input SHA-256、tracked artifact path、PASS review URLが必要である。tracked
+textのhashとblob比較はWindows checkoutのCRLF差を意味差にしないようLF正規化後に行う。
 `execute --help` に必要な3入力を表示する。
