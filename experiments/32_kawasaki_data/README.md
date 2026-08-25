@@ -78,3 +78,44 @@ BB-daggerはsource×split×arm×init seed、MLEはsource×split×arm×modelご�
 source/split/arm/model identityを照合する。さらにBB stateからtrain NLLを再計算し、MLEの
 密度行列はshape・finite・Hermitian・trace・PSDに加え、同じtrain splitから再計算したNLLを
 検証する。したがって中断後も、検証済みのfitだけを再利用して続行できる。
+
+## pump-series結果
+
+[`pump_results.json`](pump_results.json) が数値結果の唯一のauthoring locationである。
+以下は `pump_result_summary.py` が同artifactから生成し、専用policy testがartifactとの
+一致を検査する。表は4 convention armを畳み込まず、splitごとの分類をそのまま示す。
+
+<!-- generated-block: do not edit (written by pump_result_summary.py from pump_results.json) -->
+- Artifact identity: normalized SHA-256 `4279a3dda0c08caf3b3466bb7fa2843468534a6c44680362278cb28dc25f83fe`; execution code SHA `1571886893cb5137cee83147c500dc389d8edd3b`.
+- Arm-indexed primary classifications: win 7; loss 0; unresolved 25 (total 32).
+- Convention-stable condition/seed groups: 3 of 8; classified win among them: 0 of 3.
+
+| pump condition | reshuffle seed | stored/H1 | stored/H2 | sqrt2/H1 | sqrt2/H2 | convention status |
+| --- | ---: | --- | --- | --- | --- | --- |
+| 1 mW (source assignment inferred) | 0 | unresolved | unresolved | win | win | unit-convention-dependent |
+| 1 mW (source assignment inferred) | 1 | unresolved | unresolved | unresolved | win | unit-and-phase-convention-dependent |
+| 3 mW | 0 | win | unresolved | unresolved | unresolved | unit-and-phase-convention-dependent |
+| 3 mW | 1 | unresolved | unresolved | unresolved | unresolved | convention-stable |
+| 10 mW | 0 | win | unresolved | unresolved | unresolved | unit-and-phase-convention-dependent |
+| 10 mW | 1 | win | win | unresolved | unresolved | unit-convention-dependent |
+| 25 mW | 0 | unresolved | unresolved | unresolved | unresolved | convention-stable |
+| 25 mW | 1 | unresolved | unresolved | unresolved | unresolved | convention-stable |
+
+- Conditions classified win in all four convention arms and both reshuffle seeds: **none**.
+<!-- generated-block: end -->
+
+`unresolved` や `loss` 非検出は、同等性・非劣性・model同一性を意味しない。各行は
+事前固定したfit、split、arm、paired-bootstrap CIに条件づく記述結果であり、詳しい
+解釈境界とstatus語彙は [`protocol.md`](protocol.md) §3・§5を参照する。
+
+生成blockの再現・検査だけならraw MATを読まない。
+
+```powershell
+python experiments\32_kawasaki_data\pump_result_summary.py
+```
+
+artifactを正当に更新したpacketでは、固定SHA review後に次を実行してblockを再生成する。
+
+```powershell
+python experiments\32_kawasaki_data\pump_result_summary.py --write
+```
