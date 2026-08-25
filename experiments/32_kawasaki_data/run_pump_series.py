@@ -515,13 +515,22 @@ def reconstruct_mle(train, model, *, max_iters: int | None = None):
     )
 
 
-def evaluate_mle(rho, iterations, train, test):
-    train_vector = per_sample_nll_mle(rho, train)
+def evaluate_mle(
+    rho,
+    iterations,
+    train,
+    test,
+    *,
+    verified_train_nll: float | None = None,
+):
+    train_nll = verified_train_nll
+    if train_nll is None:
+        train_nll = float(np.mean(per_sample_nll_mle(rho, train)))
     test_vector = per_sample_nll_mle(rho, test)
     return {
         "rho": rho,
         "iterations": iterations,
-        "train_nll": float(np.mean(train_vector)),
+        "train_nll": train_nll,
         "test_nll": float(np.mean(test_vector)),
         "test_vector": test_vector,
     }
@@ -797,6 +806,7 @@ def _load_execute_mle_checkpoint(
     path: Path,
     expected: dict[str, Any],
     model: dict[str, Any],
+    train,
 ) -> dict[str, Any]:
     _snapshot, payload, _digest = read_json_snapshot(path)
     _validate_checkpoint_identity(path, payload, expected)
@@ -809,9 +819,30 @@ def _load_execute_mle_checkpoint(
         raise PumpSeriesError(
             f"Checkpoint {path.name} MLE iterations are invalid"
         )
+    rho = decode_mle_rho(payload.get("rho"), model)
+    recorded_train_nll = payload.get("train_nll")
+    if (
+        isinstance(recorded_train_nll, bool)
+        or not isinstance(recorded_train_nll, (int, float))
+        or not np.isfinite(recorded_train_nll)
+    ):
+        raise PumpSeriesError(
+            f"Checkpoint {path.name} MLE train NLL is invalid"
+        )
+    recomputed_train_nll = float(np.mean(per_sample_nll_mle(rho, train)))
+    if not np.isclose(
+        recomputed_train_nll,
+        recorded_train_nll,
+        rtol=1e-12,
+        atol=1e-12,
+    ):
+        raise PumpSeriesError(
+            f"Checkpoint {path.name} MLE rho does not reproduce train NLL"
+        )
     return {
-        "rho": decode_mle_rho(payload.get("rho"), model),
+        "rho": rho,
         "iterations": iterations,
+        "train_nll": recomputed_train_nll,
     }
 
 
@@ -1341,11 +1372,15 @@ def run_execute(
                     )
                     if not checkpoint_path.is_file():
                         rho, iterations = reconstruct_mle(train, model)
+                        train_nll = float(
+                            np.mean(per_sample_nll_mle(rho, train))
+                        )
                         write_payload(
                             checkpoint_path,
                             {
                                 **expected,
                                 "iterations": int(iterations),
+                                "train_nll": train_nll,
                                 "rho": encode_complex_array(rho),
                             },
                         )
@@ -1363,12 +1398,14 @@ def run_execute(
                         checkpoint_path,
                         expected,
                         model,
+                        train,
                     )
                     fits[model_id] = evaluate_mle(
                         loaded_mle["rho"],
                         loaded_mle["iterations"],
                         train,
                         test,
+                        verified_train_nll=loaded_mle["train_nll"],
                     )
                 difference = bb_vector - fits["mle16"]["test_vector"]
                 bootstrap = plan["primary_comparison"]["bootstrap"]

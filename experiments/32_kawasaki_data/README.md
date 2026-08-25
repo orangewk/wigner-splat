@@ -76,5 +76,5 @@ python experiments\32_kawasaki_data\run_pump_series.py execute `
 BB-daggerはsource×split×arm×init seed、MLEはsource×split×arm×modelごとに保存する。
 再利用時はplan・runner・manifest・reviewed SHA・development artifact・review recordと
 source/split/arm/model identityを照合する。さらにBB stateからtrain NLLを再計算し、MLEの
-密度行列はshape・finite・Hermitian・trace・PSDを検証する。したがって中断後も、検証済みの
-fitだけを再利用して続行できる。
+密度行列はshape・finite・Hermitian・trace・PSDに加え、同じtrain splitから再計算したNLLを
+検証する。したがって中断後も、検証済みのfitだけを再利用して続行できる。

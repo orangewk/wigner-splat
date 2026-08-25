@@ -378,27 +378,32 @@ def test_execute_mle_checkpoint_is_identity_bound_and_physical(tmp_path):
     model = pump.model_map(pump.load_plan())["mle10"]
     expected = _execute_checkpoint_identity("mle10", init_seed=None)
     rho = np.eye(model["n_max"], dtype=complex) / model["n_max"]
+    train = [(0.0, np.array([-0.4, 0.2, 0.7]))]
+    train_nll = float(np.mean(pump.per_sample_nll_mle(rho, train)))
     checkpoint = tmp_path / "mle.json"
     checkpoint.write_text(
         json.dumps({
             **expected,
             "iterations": 42,
+            "train_nll": train_nll,
             "rho": pump.encode_complex_array(rho),
         }),
         encoding="utf-8",
     )
 
     loaded = pump._load_execute_mle_checkpoint(
-        checkpoint, expected, model
+        checkpoint, expected, model, train
     )
     np.testing.assert_allclose(loaded["rho"], rho)
     assert loaded["iterations"] == 42
+    assert loaded["train_nll"] == pytest.approx(train_nll)
 
     with pytest.raises(pump.PumpSeriesError, match="review_record_sha256"):
         pump._load_execute_mle_checkpoint(
             checkpoint,
             {**expected, "review_record_sha256": "0" * 64},
             model,
+            train,
         )
 
     payload = json.loads(checkpoint.read_text(encoding="utf-8"))
@@ -406,7 +411,15 @@ def test_execute_mle_checkpoint_is_identity_bound_and_physical(tmp_path):
     payload["rho"]["real"][1] = 0.2
     checkpoint.write_text(json.dumps(payload), encoding="utf-8")
     with pytest.raises(pump.PumpSeriesError, match="Hermitian"):
-        pump._load_execute_mle_checkpoint(checkpoint, expected, model)
+        pump._load_execute_mle_checkpoint(checkpoint, expected, model, train)
+
+    payload = json.loads(checkpoint.read_text(encoding="utf-8"))
+    vacuum = np.zeros_like(rho)
+    vacuum[0, 0] = 1.0
+    payload["rho"] = pump.encode_complex_array(vacuum)
+    checkpoint.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(pump.PumpSeriesError, match="reproduce train NLL"):
+        pump._load_execute_mle_checkpoint(checkpoint, expected, model, train)
 
 
 def test_execute_cli_requires_checkpoint_directory():

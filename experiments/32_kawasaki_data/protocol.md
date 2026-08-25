@@ -49,8 +49,8 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 - PASS後の全条件fitは、BB-daggerをsource×split×arm×init seed、MLEを
   source×split×arm×modelのcheckpointとして原子的に保存する。checkpointはplan・runner・
   manifest・reviewed SHA・development artifact・review record・source/split/arm/modelに
-  結び、再開時にBBのtrain NLLとMLE密度行列の物理条件を再検証する。checkpointは実行継続用で
-  あり、結果artifactやclaim surfaceではない。
+  結び、再開時にBBのtrain NLL、MLE密度行列の物理条件とtrain NLLを再検証する。checkpointは
+  実行継続用であり、結果artifactやclaim surfaceではない。
 
   | axis | primary | fixed sensitivity |
   |---|---|---|
