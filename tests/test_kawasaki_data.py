@@ -166,9 +166,10 @@ def test_committed_manifest_is_self_consistent():
 
 def test_protocol_predeclares_both_convention_axes_for_both_series():
     protocol = (EXP / "protocol.md").read_text(encoding="utf-8")
-    assert "convention armは次の2×2直積" in protocol
-    assert "| quadrature scale | stored value |" in protocol
-    assert "| phase interpretation | H1 | H2:" in protocol
+    assert "pump_series_plan.json" in protocol
+    assert "同planの2×2 convention arm" in protocol
+    assert "| quadrature scale | `arms.scale[0]` | `arms.scale[1]` |" in protocol
+    assert "| phase interpretation | `arms.phase[0]` | `arms.phase[1]` |" in protocol
     assert "4 armすべてを同じsplit、model、scheduleでfitする" in protocol
     assert "phase-convention-dependent" in protocol
     assert "全conditionで§3と同じ2×2 convention armを実行" in protocol

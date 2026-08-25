@@ -35,18 +35,27 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
 | K32-D6 | added loss | `source_manifest.json.convention_record.additional_loss` | source conditionとfit parameterを別fieldで保持する。 |
 | K32-N1 | model比較 | 本文 §3–5 | 次packetまでnot run。現packetから性能・物理状態の結論を出さない。 |
 
-## 3. 後続 pump-series packet（まだ実行しない）
+## 3. pump-series packet
 
-- 対象: `series=pump_power` の4条件。
-- `01mW` は development condition。fitコードのsmokeとtrain-only convergence確認に使う。
-- `03/10/25mW` は validation conditions。01mWでコードとscheduleを固定するまで値を読まない。
-- 各位相内で80/20 split。reshuffle seedsは0と1。
-- convention armは次の2×2直積を全条件へ適用し、結果を見て選ばない。
+- 数値schedule、condition分担、model、split、arm、判定語彙の唯一のmachine-readable
+  authoring locationを `pump_series_plan.json` とする。本節はその意図と解釈境界だけを記す。
+- 同planのdevelopment conditionはfitコードのsmokeとtrain-only convergence確認だけに使う。
+- validation conditionsはdevelopment gate通過後、runner・plan・development artifactを含む
+  fixed SHAの独立reviewがPASSするまで値を読まない。development artifactの生成SHAは
+  reviewed SHAの祖先とし、plan・runner・manifestのblob同一性、reviewed SHAに含まれる
+  artifact blob、外部review recordのSHA/pathをrunnerが照合する。tracked textの同一性は
+  LF正規化後のbyte列で判定し、checkoutのCRLF差だけでは棄却しない。
+- 同planの2×2 convention armを全条件へ適用し、結果を見て選ばない。
+- PASS後の全条件fitは、BB-daggerをsource×split×arm×init seed、MLEを
+  source×split×arm×modelのcheckpointとして原子的に保存する。checkpointはplan・runner・
+  manifest・reviewed SHA・development artifact・review record・source/split/arm/modelに
+  結び、再開時にBBのtrain NLL、MLE密度行列の物理条件とtrain NLLを再検証する。checkpointは
+  実行継続用であり、結果artifactやclaim surfaceではない。
 
   | axis | primary | fixed sensitivity |
   |---|---|---|
-  | quadrature scale | stored value | 全sampleを`sqrt(2)`倍 |
-  | phase interpretation | H1 | H2: stored phaseは維持し、stored phaseが180度以上のsampleだけ符号反転 |
+  | quadrature scale | `arms.scale[0]` | `arms.scale[1]` |
+  | phase interpretation | `arms.phase[0]` | `arms.phase[1]` |
 
   4 armすべてを同じsplit、model、scheduleでfitする。
 - manifestのparity recordは、H1/H2が一致し得る理論上の説明にだけ使う。両armの一致を
@@ -58,15 +67,12 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
   `alpha, xi`のglobal rotationによる再parameterizationに閉じ、fixed-cutoff MLEのFock空間も
   位相回転に閉じる。共通x binsも角度非依存なので、有限最適化による差は位相規約でなく
   init sensitivityとして扱う。
-- primary physical modelは exp18 と同一の mixed BB† `R=4,K=4`、fitted `eta`、
-  `iters=500`、`lr=0.05`、`eta0=0.8`、init seeds `{0,1,2}`、train NLL選択。
-- opponentは fixed MLE `n_max=16`。matched-dof対照として fixed `n_max=10` も報告する。
-  cutoffをtest NLLで選択しない。MLE histogram binsは80。
-- metricはheld-out per-sample NLL。既 fitted model間のpaired bootstrapは
-  `B=2000, seed=123` とする。
+- physical model、fixed MLE opponent、matched-dof対照、histogram、optimizer、init、metric、
+  bootstrapの値はplanの `models` と `primary_comparison` をそのまま消費する。runner側の
+  fallback値やtest NLLによるcutoff選択を認めない。
 
-各 condition / reshuffle の `BB† R4K4 - MLE16` CIを、上端<0ならdescriptive win、
-下端>0ならdescriptive loss、それ以外はunresolvedと機械分類する。これは条件付きCIであり、
+各 condition / reshuffle のplan指定primary comparisonを同planのruleで機械分類する。
+これは条件付きCIであり、
 model選択や複数条件を含むconfirmatory inferenceではない。primaryからscale軸だけを変えて
 分類が変わる場合は `unit-convention-dependent`、phase軸だけを変えて分類が変わる場合は
 `phase-convention-dependent` とする。両軸のinteractionも4 arm表から報告し、いずれかが

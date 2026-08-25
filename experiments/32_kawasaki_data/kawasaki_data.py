@@ -128,8 +128,18 @@ def _validate_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
     return manifest
 
 
-def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
-    manifest = json.loads(path.read_text(encoding="utf-8"))
+def load_manifest(
+    path: Path = MANIFEST_PATH,
+    *,
+    raw: bytes | None = None,
+) -> dict[str, Any]:
+    """Load and validate one manifest byte snapshot.
+
+    ``raw`` lets gated callers hash and parse the exact same bytes rather than
+    hashing a path and reopening it later.
+    """
+    snapshot = path.read_bytes() if raw is None else raw
+    manifest = json.loads(snapshot.decode("utf-8"))
     return _validate_manifest(manifest)
 
 
