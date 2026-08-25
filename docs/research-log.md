@@ -2255,3 +2255,55 @@ survey's classifications. Dated resolution notes were added at the
 Gate S′ withholding sentences (earlier entries of this log, the exp24
 and exp26 READMEs, the exp26 §7 memo section, and the exp28/29/30
 memos); each states that nothing else in its document changes.
+
+## 2026-08-25 — experiment 32 Kawasaki pump-series packet (pointer entry)
+
+Canonical surfaces: the numerical results live only in
+experiments/32_kawasaki_data/pump_results.json
+(normalized SHA-256 `4279a3dd…`), and the result block in that experiment's
+README is generated from the artifact and checked against it by test. The
+interpretation boundaries, arm definitions, and status vocabulary are in
+experiments/32_kawasaki_data/protocol.md §3 and §5. This
+entry is a pointer, not a restatement: it records routing, provenance, and
+review history only, and reproduces no measured value, no classification count,
+and no scientific conclusion.
+
+Source: Kawasaki *et al.*, Nature Communications 2024, Dryad
+`doi:10.5061/dryad.9p8cz8wqn` (CC0). The manifest pins each file by byte size
+and SHA-256; raw MAT files are held outside the repository and the loader
+refuses in-repository source paths.
+
+Timeline, exact. **Pre-registration** (issue #180, PR #181, merged `0ec41a0`):
+acquisition contract and loader `f00df13` → phase-ambiguity typing `2cb30ac` →
+`e44a1f1` → `e805a0c` → convention arms fixed `f1d24cf` → raw-safety `3bbe3f9`
+→ `8a55981` → result-surface schema `0fd0349` → `e8b9d88` → status assignment
+rules and per-file series provenance `1a17bc8`. Ten fixed-SHA reviews by the
+independent reviewer (winger), five of them BLOCKED; every mandatory finding
+closed before merge. No quadrature value was read during this stage.
+
+**Implementation** (PR #184, merged `18d1338`): gated runner and development
+gate `4435dda` → identity-binding and checkpoint hardening `7dec42b` →
+restartable execute checkpoints with MLE binding `1571886`. The first review
+was by winger (BLOCKED on a working-tree-dependent identity hash); the closure
+reviews at `7dec42b` and `1571886` were performed by an independent third-party
+reviewer (Luna/xhigh) because winger had declared self-design involvement in
+the §3/§5 result-surface design. Validation conditions were read only after the
+development gate passed and a pinned review record was supplied.
+
+**Result publication** (PR #185, merged `3fe3d71`): results artifact, pure
+validator, and generated README block `59022a6` → claim-surface and validator
+hardening `1c4b167`. Reviewed by winger (PASS, one MEDIUM claim-surface finding
+closed in the follow-up) and adversarially by Luna/xhigh; the canonical
+artifact was not modified by the follow-up.
+
+Reviewer-independence record, as required by
+docs/review-cadence.md: winger declared self-design
+involvement for the §3/§5 result surface and for the claim-surface line added
+in `1c4b167`, and is therefore not fully independent for those parts; the
+third-party reviews above stand alongside its verdicts. This discoverability
+entry itself was written by winger and should be reviewed by another party.
+
+Effect scope: exactly this — a pointer from the public narrative surfaces to
+the experiment. This entry adds no claim, changes no status, edits no claim
+table, and does not alter the one-authoring-location policy for the numerical
+results.

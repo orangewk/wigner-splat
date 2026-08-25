@@ -177,6 +177,27 @@ research-log entries
 ([exp14](docs/research-log.md#2026-07-14--rank-freedom-on-real-data-exploratory-rank-hypothesis-test-experiment-14-issue-40),
 [exp18](docs/research-log.md#2026-07-16--rank-saturation-on-the-gkp-data-the-frontier-gap-closes-experiment-18-issue-40)).
 
+### Public homodyne data: broadband non-Gaussian states
+
+A second public homodyne dataset — Kawasaki *et al.* (Nature Communications
+2024; [Dryad DOI](https://doi.org/10.5061/dryad.9p8cz8wqn)) — is analysed in
+[`experiments/32_kawasaki_data`](experiments/32_kawasaki_data). The acquisition
+contract, loader, split, convention arms, models, and classification vocabulary
+were fixed and independently reviewed at pinned SHAs before any quadrature value
+was read.
+
+Its numerical outcomes are deliberately not restated on this page. The sole
+authoring location is
+[`pump_results.json`](experiments/32_kawasaki_data/pump_results.json); the
+result block in
+[`experiments/32_kawasaki_data/README.md`](experiments/32_kawasaki_data/README.md)
+is generated from that artifact and checked against it by test. Interpretation
+boundaries and the status vocabulary live in
+[`protocol.md`](experiments/32_kawasaki_data/protocol.md) §3 and §5, and the
+routing, provenance, and review history are recorded in the dated research-log
+entry
+([exp32](docs/research-log.md#2026-08-25--experiment-32-kawasaki-pump-series-packet-pointer-entry)).
+
 ## Reproduce
 
 The repository is intentionally lightweight. For the core synthetic experiment:

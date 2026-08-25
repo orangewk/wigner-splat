@@ -242,6 +242,23 @@ oracle = MLE に有利な設定)。(c) bootstrap CI はフィット済みモデ�
 [exp14](docs/research-log.md#2026-07-14--rank-freedom-on-real-data-exploratory-rank-hypothesis-test-experiment-14-issue-40)、
 [exp18](docs/research-log.md#2026-07-16--rank-saturation-on-the-gkp-data-the-frontier-gap-closes-experiment-18-issue-40))にある。
 
+## 実データ戦: 公開 homodyne データの広帯域非ガウス状態(実験32、2026-08-24〜25)
+
+2 本目の公開 homodyne データセットとして Kawasaki *et al.* (Nature Communications 2024、
+[Dryad DOI](https://doi.org/10.5061/dryad.9p8cz8wqn)) を
+[`experiments/32_kawasaki_data`](experiments/32_kawasaki_data) で扱う。取得契約・loader・
+split・convention arm・model・分類語彙は、quadrature 値を一切読む前に固定し、固定 SHA で
+独立レビューを通してある。
+
+数値結果は本ページに再掲しない。唯一の authoring location は
+[`pump_results.json`](experiments/32_kawasaki_data/pump_results.json) で、
+[`experiments/32_kawasaki_data/README.md`](experiments/32_kawasaki_data/README.md) の
+結果 block は同 artifact から生成され、一致を test が固定している。解釈境界と status 語彙は
+[`protocol.md`](experiments/32_kawasaki_data/protocol.md) §3・§5 にあり、routing・provenance・
+レビュー履歴は research-log の日付エントリ
+([exp32](docs/research-log.md#2026-08-25--experiment-32-kawasaki-pump-series-packet-pointer-entry))
+に記録してある。
+
 ## 構成
 
 ```
