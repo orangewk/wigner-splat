@@ -62,4 +62,19 @@ plan・runner・manifestのgit blobが両SHAで同一、artifact自体がreviewe
 blobとbyte一致することも検証する。review recordにはreviewed SHA、development execution
 SHA、4 artifact/input SHA-256、tracked artifact path、PASS review URLが必要である。tracked
 textのhashとblob比較はWindows checkoutのCRLF差を意味差にしないようLF正規化後に行う。
-`execute --help` に必要な3入力を表示する。
+PASS後の全条件実行は、fit単位のcheckpoint directoryを必須にする。
+
+```powershell
+python experiments\32_kawasaki_data\run_pump_series.py execute `
+  --data-dir C:\data\kawasaki-2024 `
+  --development-artifact experiments\32_kawasaki_data\pump_development.json `
+  --review-record C:\temp\kawasaki-pump-review.json `
+  --checkpoint-dir C:\temp\kawasaki-pump-execute-checkpoints `
+  --output C:\temp\kawasaki-pump-result.json
+```
+
+BB-daggerはsource×split×arm×init seed、MLEはsource×split×arm×modelごとに保存する。
+再利用時はplan・runner・manifest・reviewed SHA・development artifact・review recordと
+source/split/arm/model identityを照合する。さらにBB stateからtrain NLLを再計算し、MLEの
+密度行列はshape・finite・Hermitian・trace・PSDを検証する。したがって中断後も、検証済みの
+fitだけを再利用して続行できる。

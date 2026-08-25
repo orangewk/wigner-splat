@@ -46,6 +46,11 @@ quadrature 値、統計量、分布、fit 結果は確認していない。
   artifact blob、外部review recordのSHA/pathをrunnerが照合する。tracked textの同一性は
   LF正規化後のbyte列で判定し、checkoutのCRLF差だけでは棄却しない。
 - 同planの2×2 convention armを全条件へ適用し、結果を見て選ばない。
+- PASS後の全条件fitは、BB-daggerをsource×split×arm×init seed、MLEを
+  source×split×arm×modelのcheckpointとして原子的に保存する。checkpointはplan・runner・
+  manifest・reviewed SHA・development artifact・review record・source/split/arm/modelに
+  結び、再開時にBBのtrain NLLとMLE密度行列の物理条件を再検証する。checkpointは実行継続用で
+  あり、結果artifactやclaim surfaceではない。
 
   | axis | primary | fixed sensitivity |
   |---|---|---|

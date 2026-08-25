@@ -305,6 +305,221 @@ def test_checkpoint_rejects_internal_seed_or_trace_drift(tmp_path):
             pump._load_development_checkpoint(path, expected, model)
 
 
+def _execute_checkpoint_identity(model_id, *, init_seed):
+    return {
+        "schema_version": 1,
+        "checkpoint_kind": "pump-execute-fit",
+        "plan_sha256": "a" * 64,
+        "runner_sha256": "b" * 64,
+        "source_manifest_sha256": "c" * 64,
+        "reviewed_git_sha": "d" * 40,
+        "development_artifact_sha256": "e" * 64,
+        "review_record_sha256": "f" * 64,
+        "source_file": "source.mat",
+        "source_series": "pump_power",
+        "source_condition": {"pump_mw": 3},
+        "reshuffle_seed": 0,
+        "scale_arm": "stored",
+        "phase_arm": "H1",
+        "model": model_id,
+        "init_seed": init_seed,
+    }
+
+
+def test_execute_bb_checkpoint_roundtrips_state_and_recomputes_train_nll(
+    tmp_path,
+):
+    model = pump.model_map(pump.load_plan())["bbdag_r4k4"]
+    state = pump.MixedSqueezedKetState.random_init(
+        model["R"], model["K"], model["mode_count"], rng=12
+    )
+    train = [(0.0, np.array([-0.4, 0.2, 0.7]))]
+    eta = 0.8
+    train_nll = float(
+        pump.nll_lossy_mixed(state, pump.as_bbdag(train), eta)
+    )
+    attempt = _synthetic_attempt(0, model=model)
+    for row in attempt["trace"]:
+        row["train_nll"] += train_nll - attempt["train_nll"]
+    attempt["trace"][-1]["train_nll"] = train_nll
+    attempt["train_nll"] = train_nll
+    attempt["fitted_eta"] = eta
+    attempt["trace"][-1]["fitted_eta"] = eta
+    attempt["final_100_iteration_train_nll_drop"] = pump.convergence_drop(
+        attempt["trace"], model["iters"]
+    )
+    expected = _execute_checkpoint_identity(
+        "bbdag_r4k4", init_seed=0
+    )
+    checkpoint = tmp_path / "bb.json"
+    checkpoint.write_text(
+        json.dumps({
+            **expected,
+            "attempt": attempt,
+            "state": pump.encode_bb_state(state),
+        }),
+        encoding="utf-8",
+    )
+
+    loaded = pump._load_execute_bb_checkpoint(
+        checkpoint, expected, model, train
+    )
+    np.testing.assert_allclose(loaded["state"].z, state.z)
+    assert loaded["attempt"] == attempt
+
+    payload = json.loads(checkpoint.read_text(encoding="utf-8"))
+    payload["state"]["alpha"]["real"][0] += 3.0
+    checkpoint.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(pump.PumpSeriesError, match="reproduce train NLL"):
+        pump._load_execute_bb_checkpoint(checkpoint, expected, model, train)
+
+
+def test_execute_mle_checkpoint_is_identity_bound_and_physical(tmp_path):
+    model = pump.model_map(pump.load_plan())["mle10"]
+    expected = _execute_checkpoint_identity("mle10", init_seed=None)
+    rho = np.eye(model["n_max"], dtype=complex) / model["n_max"]
+    checkpoint = tmp_path / "mle.json"
+    checkpoint.write_text(
+        json.dumps({
+            **expected,
+            "iterations": 42,
+            "rho": pump.encode_complex_array(rho),
+        }),
+        encoding="utf-8",
+    )
+
+    loaded = pump._load_execute_mle_checkpoint(
+        checkpoint, expected, model
+    )
+    np.testing.assert_allclose(loaded["rho"], rho)
+    assert loaded["iterations"] == 42
+
+    with pytest.raises(pump.PumpSeriesError, match="review_record_sha256"):
+        pump._load_execute_mle_checkpoint(
+            checkpoint,
+            {**expected, "review_record_sha256": "0" * 64},
+            model,
+        )
+
+    payload = json.loads(checkpoint.read_text(encoding="utf-8"))
+    payload["rho"]["real"][0] = -0.1
+    payload["rho"]["real"][1] = 0.2
+    checkpoint.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(pump.PumpSeriesError, match="Hermitian"):
+        pump._load_execute_mle_checkpoint(checkpoint, expected, model)
+
+
+def test_execute_cli_requires_checkpoint_directory():
+    source = pump.RUNNER_PATH.read_text(encoding="utf-8")
+    assert 'execute.add_argument("--checkpoint-dir"' in source
+    assert "checkpoint_identity=checkpoint_identity" in source
+
+
+def test_execute_reuses_every_completed_fit_checkpoint(tmp_path, monkeypatch):
+    plan = pump.load_plan()
+    plan["development_pump_mw"] = [1]
+    plan["validation_pump_mw"] = []
+    plan["split"]["reshuffle_seeds"] = [0]
+    plan["primary_comparison"]["bootstrap"]["replicates"] = 5
+    loaded = pump.LoadedCondition(
+        source_file="source.mat",
+        series="pump_power",
+        condition={"pump_mw": 1},
+        data=((0.0, np.arange(5.0)),),
+    )
+    manifest = {
+        "files": [{
+            "name": "source.mat",
+            "series_assignment": "source-supported",
+        }]
+    }
+    monkeypatch.setattr(
+        pump, "load_pump_conditions", lambda *_args: [loaded]
+    )
+    counts = {"bb": 0, "mle": 0}
+
+    def fake_fit_bbdag(_train, model, *, init_seeds, **_kwargs):
+        counts["bb"] += 1
+        seed = init_seeds[0]
+        state = pump.MixedSqueezedKetState.random_init(
+            model["R"], model["K"], model["mode_count"], rng=seed
+        )
+        attempt = _synthetic_attempt(seed, model=model)
+        offset = 1.0 - attempt["train_nll"]
+        for row in attempt["trace"]:
+            row["train_nll"] += offset
+        attempt["trace"][-1]["train_nll"] = 1.0
+        attempt["train_nll"] = 1.0
+        attempt["final_100_iteration_train_nll_drop"] = pump.convergence_drop(
+            attempt["trace"], model["iters"]
+        )
+        return {
+            "state": state,
+            "fitted_eta": attempt["fitted_eta"],
+            "train_nll": attempt["train_nll"],
+            "selected_init_seed": seed,
+            "attempts": [attempt],
+        }
+
+    def fake_reconstruct_mle(_train, model, **_kwargs):
+        counts["mle"] += 1
+        return np.eye(model["n_max"], dtype=complex) / model["n_max"], 12
+
+    monkeypatch.setattr(pump, "fit_bbdag", fake_fit_bbdag)
+    monkeypatch.setattr(pump, "reconstruct_mle", fake_reconstruct_mle)
+    monkeypatch.setattr(pump, "nll_lossy_mixed", lambda *_args: 1.0)
+    monkeypatch.setattr(
+        pump,
+        "per_sample_nll_bb",
+        lambda _state, _eta, data: np.full(
+            sum(len(samples) for _theta, samples in data), 0.9
+        ),
+    )
+    monkeypatch.setattr(
+        pump,
+        "per_sample_nll_mle",
+        lambda _rho, data: np.full(
+            sum(len(samples) for _theta, samples in data), 1.0
+        ),
+    )
+    identity = {
+        key: value
+        for key, value in _execute_checkpoint_identity(
+            "unused", init_seed=None
+        ).items()
+        if key not in {
+            "source_file",
+            "source_series",
+            "source_condition",
+            "reshuffle_seed",
+            "scale_arm",
+            "phase_arm",
+            "model",
+            "init_seed",
+        }
+    }
+
+    _manifest, first = pump.run_execute(
+        tmp_path,
+        plan,
+        manifest,
+        checkpoint_dir=tmp_path / "checkpoints",
+        checkpoint_identity=identity,
+    )
+    assert counts == {"bb": 12, "mle": 8}
+    assert len(list((tmp_path / "checkpoints").glob("*.json"))) == 20
+
+    _manifest, second = pump.run_execute(
+        tmp_path,
+        plan,
+        manifest,
+        checkpoint_dir=tmp_path / "checkpoints",
+        checkpoint_identity=identity,
+    )
+    assert counts == {"bb": 12, "mle": 8}
+    assert second == first
+
+
 def _synthetic_development_artifact():
     plan = pump.load_plan()
     manifest = pump.load_manifest()

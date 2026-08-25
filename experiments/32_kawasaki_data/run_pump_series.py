@@ -39,6 +39,7 @@ from kawasaki_data import (  # noqa: E402
     load_manifest,
 )
 from wigner_splat.bbdagS import (  # noqa: E402
+    MixedSqueezedKetState,
     fit_bbdagS_lossy_mixed,
     lossy_pdf_mixed,
     nll_lossy_mixed,
@@ -354,6 +355,95 @@ def validate_fit_attempt(
     return attempt
 
 
+def encode_complex_array(array: np.ndarray) -> dict[str, Any]:
+    values = np.asarray(array, complex)
+    if not np.all(np.isfinite(values)):
+        raise PumpSeriesError("Cannot checkpoint a non-finite complex array")
+    return {
+        "shape": list(values.shape),
+        "real": np.real(values).ravel().tolist(),
+        "imag": np.imag(values).ravel().tolist(),
+    }
+
+
+def decode_complex_array(
+    payload: Any,
+    *,
+    expected_shape: tuple[int, ...],
+    label: str,
+) -> np.ndarray:
+    if not isinstance(payload, dict) or payload.get("shape") != list(
+        expected_shape
+    ):
+        raise PumpSeriesError(f"Checkpoint {label} shape is invalid")
+    size = int(np.prod(expected_shape))
+    real = payload.get("real")
+    imag = payload.get("imag")
+    if (
+        not isinstance(real, list)
+        or not isinstance(imag, list)
+        or len(real) != size
+        or len(imag) != size
+    ):
+        raise PumpSeriesError(f"Checkpoint {label} values are incomplete")
+    try:
+        values = np.asarray(real, float) + 1j * np.asarray(imag, float)
+    except (TypeError, ValueError) as exc:
+        raise PumpSeriesError(f"Checkpoint {label} values are invalid") from exc
+    if not np.all(np.isfinite(values)):
+        raise PumpSeriesError(f"Checkpoint {label} contains non-finite values")
+    return values.reshape(expected_shape)
+
+
+def encode_bb_state(state: MixedSqueezedKetState) -> dict[str, Any]:
+    return {
+        "z": encode_complex_array(state.z),
+        "alpha": encode_complex_array(state.alpha),
+        "xi": encode_complex_array(state.xi),
+    }
+
+
+def decode_bb_state(payload: Any, model: dict[str, Any]) -> MixedSqueezedKetState:
+    if not isinstance(payload, dict):
+        raise PumpSeriesError("BB checkpoint state is not an object")
+    R, K, M = model["R"], model["K"], model["mode_count"]
+    state = MixedSqueezedKetState(
+        z=decode_complex_array(
+            payload.get("z"), expected_shape=(R, K), label="BB z"
+        ),
+        alpha=decode_complex_array(
+            payload.get("alpha"),
+            expected_shape=(R, K, M),
+            label="BB alpha",
+        ),
+        xi=decode_complex_array(
+            payload.get("xi"),
+            expected_shape=(R, K, M),
+            label="BB xi",
+        ),
+    )
+    norm = state.norm_sq()
+    if not np.isfinite(norm) or norm <= 0.0:
+        raise PumpSeriesError("BB checkpoint state has invalid norm")
+    return state
+
+
+def decode_mle_rho(payload: Any, model: dict[str, Any]) -> np.ndarray:
+    n_max = model["n_max"]
+    rho = decode_complex_array(
+        payload,
+        expected_shape=(n_max, n_max),
+        label=f"{model['id']} rho",
+    )
+    if not np.allclose(rho, rho.conj().T, rtol=0.0, atol=1e-10):
+        raise PumpSeriesError(f"{model['id']} checkpoint rho is not Hermitian")
+    if not np.isclose(np.trace(rho), 1.0, rtol=0.0, atol=1e-10):
+        raise PumpSeriesError(f"{model['id']} checkpoint rho trace is not one")
+    if np.min(np.linalg.eigvalsh(rho)) < -1e-8:
+        raise PumpSeriesError(f"{model['id']} checkpoint rho is not PSD")
+    return rho
+
+
 def fit_bbdag(
     train,
     model,
@@ -415,14 +505,17 @@ def fit_bbdag(
     }
 
 
-def fit_mle(train, test, model, *, max_iters: int | None = None):
+def reconstruct_mle(train, model, *, max_iters: int | None = None):
     centers, targets = histogram_targets(train, bins=model["bins"])
-    rho, iterations = mle_reconstruct(
+    return mle_reconstruct(
         centers,
         targets,
         n_max=model["n_max"],
         max_iters=model["max_iters"] if max_iters is None else max_iters,
     )
+
+
+def evaluate_mle(rho, iterations, train, test):
     train_vector = per_sample_nll_mle(rho, train)
     test_vector = per_sample_nll_mle(rho, test)
     return {
@@ -432,6 +525,11 @@ def fit_mle(train, test, model, *, max_iters: int | None = None):
         "test_nll": float(np.mean(test_vector)),
         "test_vector": test_vector,
     }
+
+
+def fit_mle(train, test, model, *, max_iters: int | None = None):
+    rho, iterations = reconstruct_mle(train, model, max_iters=max_iters)
+    return evaluate_mle(rho, iterations, train, test)
 
 
 def paired_bootstrap_ci(
@@ -623,23 +721,98 @@ def _checkpoint_name(split_seed: int, scale_id: str, phase_id: str, init_seed: i
     )
 
 
-def _load_development_checkpoint(
+def _validate_checkpoint_identity(
     path: Path,
+    payload: dict[str, Any],
     expected: dict[str, Any],
-    model: dict[str, Any],
-):
-    _snapshot, payload, _digest = read_json_snapshot(path)
+) -> None:
     for field, value in expected.items():
         if payload.get(field) != value:
             raise PumpSeriesError(
                 f"Checkpoint {path.name} field {field} "
                 f"{payload.get(field)!r} != {value!r}"
             )
+
+
+def _load_development_checkpoint(
+    path: Path,
+    expected: dict[str, Any],
+    model: dict[str, Any],
+):
+    _snapshot, payload, _digest = read_json_snapshot(path)
+    _validate_checkpoint_identity(path, payload, expected)
     return validate_fit_attempt(
         payload.get("attempt"),
         expected_seed=expected["init_seed"],
         model=model,
     )
+
+
+def _execute_checkpoint_name(
+    source_file: str,
+    split_seed: int,
+    scale_id: str,
+    phase_id: str,
+    model_id: str,
+    init_seed: int | None = None,
+) -> str:
+    source_key = sha256_bytes(source_file.encode("utf-8"))[:10]
+    init_key = "" if init_seed is None else f"_init{init_seed}"
+    return (
+        f"{Path(source_file).stem}_{source_key}_split{split_seed}_"
+        f"{scale_id}_{phase_id}_{model_id}{init_key}.json"
+    )
+
+
+def _load_execute_bb_checkpoint(
+    path: Path,
+    expected: dict[str, Any],
+    model: dict[str, Any],
+    train,
+) -> dict[str, Any]:
+    _snapshot, payload, _digest = read_json_snapshot(path)
+    _validate_checkpoint_identity(path, payload, expected)
+    attempt = validate_fit_attempt(
+        payload.get("attempt"),
+        expected_seed=expected["init_seed"],
+        model=model,
+    )
+    state = decode_bb_state(payload.get("state"), model)
+    recomputed_nll = float(
+        nll_lossy_mixed(state, as_bbdag(train), attempt["fitted_eta"])
+    )
+    if not np.isclose(
+        recomputed_nll,
+        attempt["train_nll"],
+        rtol=1e-12,
+        atol=1e-12,
+    ):
+        raise PumpSeriesError(
+            f"Checkpoint {path.name} BB state does not reproduce train NLL"
+        )
+    return {"state": state, "attempt": attempt}
+
+
+def _load_execute_mle_checkpoint(
+    path: Path,
+    expected: dict[str, Any],
+    model: dict[str, Any],
+) -> dict[str, Any]:
+    _snapshot, payload, _digest = read_json_snapshot(path)
+    _validate_checkpoint_identity(path, payload, expected)
+    iterations = payload.get("iterations")
+    if (
+        isinstance(iterations, bool)
+        or not isinstance(iterations, int)
+        or not 1 <= iterations <= model["max_iters"]
+    ):
+        raise PumpSeriesError(
+            f"Checkpoint {path.name} MLE iterations are invalid"
+        )
+    return {
+        "rho": decode_mle_rho(payload.get("rho"), model),
+        "iterations": iterations,
+    }
 
 
 def run_development(
@@ -1040,7 +1213,11 @@ def run_execute(
     data_dir: Path,
     plan: dict[str, Any],
     manifest: dict[str, Any],
+    *,
+    checkpoint_dir: Path,
+    checkpoint_identity: dict[str, Any],
 ):
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
     pumps = plan["development_pump_mw"] + plan["validation_pump_mw"]
     loaded_conditions = load_pump_conditions(data_dir, pumps, manifest)
     models = model_map(plan)
@@ -1054,7 +1231,74 @@ def run_execute(
             for scale, phase in arm_pairs(plan):
                 train = apply_arm(canonical_train, scale, phase)
                 test = apply_arm(canonical_test, scale, phase)
-                bb = fit_bbdag(train, models["bbdag_r4k4"])
+                bb_model = models["bbdag_r4k4"]
+                bb_fitted = []
+                for init_seed in bb_model["init_seeds"]:
+                    expected = {
+                        **checkpoint_identity,
+                        "source_file": loaded.source_file,
+                        "source_series": loaded.series,
+                        "source_condition": loaded.condition,
+                        "reshuffle_seed": split_seed,
+                        "scale_arm": scale["id"],
+                        "phase_arm": phase["id"],
+                        "model": bb_model["id"],
+                        "init_seed": init_seed,
+                    }
+                    checkpoint_path = checkpoint_dir / _execute_checkpoint_name(
+                        loaded.source_file,
+                        split_seed,
+                        scale["id"],
+                        phase["id"],
+                        bb_model["id"],
+                        init_seed,
+                    )
+                    if not checkpoint_path.is_file():
+                        fitted = fit_bbdag(
+                            train,
+                            bb_model,
+                            init_seeds=[init_seed],
+                        )
+                        write_payload(
+                            checkpoint_path,
+                            {
+                                **expected,
+                                "attempt": fitted["attempts"][0],
+                                "state": encode_bb_state(fitted["state"]),
+                            },
+                        )
+                        print(
+                            f"checkpoint wrote: {checkpoint_path.name} "
+                            f"train_nll={fitted['train_nll']:.6f}",
+                            flush=True,
+                        )
+                    else:
+                        print(
+                            f"checkpoint reuse: {checkpoint_path.name}",
+                            flush=True,
+                        )
+                    loaded_bb = _load_execute_bb_checkpoint(
+                        checkpoint_path,
+                        expected,
+                        bb_model,
+                        train,
+                    )
+                    attempt = loaded_bb["attempt"]
+                    bb_fitted.append((
+                        attempt["train_nll"],
+                        init_seed,
+                        loaded_bb["state"],
+                        attempt["fitted_eta"],
+                        attempt,
+                    ))
+                selected_bb = min(bb_fitted, key=lambda row: (row[0], row[1]))
+                bb = {
+                    "state": selected_bb[2],
+                    "fitted_eta": selected_bb[3],
+                    "train_nll": selected_bb[0],
+                    "selected_init_seed": selected_bb[1],
+                    "attempts": [row[4] for row in bb_fitted],
+                }
                 bb_vector = per_sample_nll_bb(
                     bb["state"], bb["fitted_eta"], test
                 )
@@ -1076,7 +1320,56 @@ def run_execute(
                     "attempts": bb["attempts"],
                 })
                 for model_id in ("mle16", "mle10"):
-                    fits[model_id] = fit_mle(train, test, models[model_id])
+                    model = models[model_id]
+                    expected = {
+                        **checkpoint_identity,
+                        "source_file": loaded.source_file,
+                        "source_series": loaded.series,
+                        "source_condition": loaded.condition,
+                        "reshuffle_seed": split_seed,
+                        "scale_arm": scale["id"],
+                        "phase_arm": phase["id"],
+                        "model": model_id,
+                        "init_seed": None,
+                    }
+                    checkpoint_path = checkpoint_dir / _execute_checkpoint_name(
+                        loaded.source_file,
+                        split_seed,
+                        scale["id"],
+                        phase["id"],
+                        model_id,
+                    )
+                    if not checkpoint_path.is_file():
+                        rho, iterations = reconstruct_mle(train, model)
+                        write_payload(
+                            checkpoint_path,
+                            {
+                                **expected,
+                                "iterations": int(iterations),
+                                "rho": encode_complex_array(rho),
+                            },
+                        )
+                        print(
+                            f"checkpoint wrote: {checkpoint_path.name} "
+                            f"iterations={iterations}",
+                            flush=True,
+                        )
+                    else:
+                        print(
+                            f"checkpoint reuse: {checkpoint_path.name}",
+                            flush=True,
+                        )
+                    loaded_mle = _load_execute_mle_checkpoint(
+                        checkpoint_path,
+                        expected,
+                        model,
+                    )
+                    fits[model_id] = evaluate_mle(
+                        loaded_mle["rho"],
+                        loaded_mle["iterations"],
+                        train,
+                        test,
+                    )
                 difference = bb_vector - fits["mle16"]["test_vector"]
                 bootstrap = plan["primary_comparison"]["bootstrap"]
                 ci_low, ci_high = paired_bootstrap_ci(
@@ -1168,6 +1461,7 @@ def main() -> None:
     execute.add_argument("--output", type=Path, required=True)
     execute.add_argument("--development-artifact", type=Path, required=True)
     execute.add_argument("--review-record", type=Path, required=True)
+    execute.add_argument("--checkpoint-dir", type=Path, required=True)
     args = parser.parse_args()
 
     official = args.command != "smoke"
@@ -1221,7 +1515,7 @@ def main() -> None:
             checkpoint_identity=checkpoint_identity,
         )
     else:
-        _review_snapshot, review_payload, _review_sha256 = read_json_snapshot(
+        _review_snapshot, review_payload, review_sha256 = read_json_snapshot(
             args.review_record.resolve()
         )
         development_snapshot, development_payload, development_sha256 = (
@@ -1246,8 +1540,22 @@ def main() -> None:
             raise PumpSeriesError(
                 "Git identity changed after review validation"
             )
+        checkpoint_identity = {
+            "schema_version": 1,
+            "checkpoint_kind": "pump-execute-fit",
+            "plan_sha256": plan_sha256,
+            "runner_sha256": runner_sha256,
+            "source_manifest_sha256": manifest_sha256,
+            "reviewed_git_sha": git["head_sha"],
+            "development_artifact_sha256": development_sha256,
+            "review_record_sha256": review_sha256,
+        }
         _manifest, result = run_execute(
-            args.data_dir.resolve(), plan, manifest
+            args.data_dir.resolve(),
+            plan,
+            manifest,
+            checkpoint_dir=args.checkpoint_dir.resolve(),
+            checkpoint_identity=checkpoint_identity,
         )
     payload = {**metadata, **result}
     write_payload(args.output.resolve(), payload)
