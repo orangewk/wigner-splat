@@ -8,7 +8,7 @@
   },
   "git": {
     "dirty": false,
-    "head_sha": "72f40b63d74c840f0801c2070ff2a47273e38a6d"
+    "head_sha": "f52b18095cecd355bbfb9eeca65ea111cdcedf15"
   },
   "plan_sha256": "f5e78357f726110fc1a0ae18cd810b22d47ac1e59002f1d3fab08206e72922b0",
   "publication_status": "train-only-development",
@@ -122,7 +122,7 @@
             }
           ],
           "train_nll": 1.4240769819609396,
-          "wall_seconds": 195.28296699997736
+          "wall_seconds": 183.165712099988
         },
         {
           "final_100_iteration_train_nll_drop": 2.086213049778962e-05,
@@ -231,7 +231,7 @@
             }
           ],
           "train_nll": 1.4240374019120892,
-          "wall_seconds": 204.75945530002355
+          "wall_seconds": 177.9615592000191
         },
         {
           "final_100_iteration_train_nll_drop": 2.5817493777280376e-05,
@@ -340,7 +340,7 @@
             }
           ],
           "train_nll": 1.4240559373351405,
-          "wall_seconds": 197.09486029998516
+          "wall_seconds": 176.90590929999598
         }
       ],
       "condition": {
@@ -468,7 +468,7 @@
             }
           ],
           "train_nll": 1.425492678048936,
-          "wall_seconds": 200.9727630999987
+          "wall_seconds": 176.83791479998035
         },
         {
           "final_100_iteration_train_nll_drop": 2.2381987033748274e-05,
@@ -577,7 +577,7 @@
             }
           ],
           "train_nll": 1.4254632499436597,
-          "wall_seconds": 196.3137582000054
+          "wall_seconds": 175.06472190000932
         },
         {
           "final_100_iteration_train_nll_drop": 3.458965857228158e-05,
@@ -686,7 +686,7 @@
             }
           ],
           "train_nll": 1.4255065594025025,
-          "wall_seconds": 198.5794778999989
+          "wall_seconds": 178.43580279999878
         }
       ],
       "condition": {
@@ -814,7 +814,7 @@
             }
           ],
           "train_nll": 1.7695991836302016,
-          "wall_seconds": 203.71745190001093
+          "wall_seconds": 177.72741930000484
         },
         {
           "final_100_iteration_train_nll_drop": 3.355593862219841e-05,
@@ -923,7 +923,7 @@
             }
           ],
           "train_nll": 1.7697345084654366,
-          "wall_seconds": 206.204338200012
+          "wall_seconds": 179.32115069997963
         },
         {
           "final_100_iteration_train_nll_drop": 6.112060430907285e-05,
@@ -1032,7 +1032,7 @@
             }
           ],
           "train_nll": 1.7697219833304845,
-          "wall_seconds": 199.57937890000176
+          "wall_seconds": 192.57122470001923
         }
       ],
       "condition": {
@@ -1160,7 +1160,7 @@
             }
           ],
           "train_nll": 1.7711163394894212,
-          "wall_seconds": 186.94100350001827
+          "wall_seconds": 182.84547770000063
         },
         {
           "final_100_iteration_train_nll_drop": 5.7325405473207525e-05,
@@ -1269,7 +1269,7 @@
             }
           ],
           "train_nll": 1.7712231372957836,
-          "wall_seconds": 186.3048315999913
+          "wall_seconds": 182.57439269998576
         },
         {
           "final_100_iteration_train_nll_drop": 8.151838918912802e-05,
@@ -1378,7 +1378,7 @@
             }
           ],
           "train_nll": 1.7711295177270026,
-          "wall_seconds": 185.27208579998114
+          "wall_seconds": 184.33207390000462
         }
       ],
       "condition": {
@@ -1506,7 +1506,7 @@
             }
           ],
           "train_nll": 1.4259208299323975,
-          "wall_seconds": 181.1062954000081
+          "wall_seconds": 194.754291499994
         },
         {
           "final_100_iteration_train_nll_drop": 2.133049250674368e-05,
@@ -1615,7 +1615,7 @@
             }
           ],
           "train_nll": 1.425878268919277,
-          "wall_seconds": 177.38921590000973
+          "wall_seconds": 199.45775470000808
         },
         {
           "final_100_iteration_train_nll_drop": 2.2055187965497325e-05,
@@ -1724,7 +1724,7 @@
             }
           ],
           "train_nll": 1.4259045844221827,
-          "wall_seconds": 177.32250270000077
+          "wall_seconds": 189.29256560001522
         }
       ],
       "condition": {
@@ -1852,7 +1852,7 @@
             }
           ],
           "train_nll": 1.427498533019424,
-          "wall_seconds": 178.41880640000454
+          "wall_seconds": 184.14787539999816
         },
         {
           "final_100_iteration_train_nll_drop": 1.850152717342013e-05,
@@ -1961,7 +1961,7 @@
             }
           ],
           "train_nll": 1.4274833045155495,
-          "wall_seconds": 174.4791072999942
+          "wall_seconds": 178.66552519999095
         },
         {
           "final_100_iteration_train_nll_drop": 2.7646140439818723e-05,
@@ -2070,7 +2070,7 @@
             }
           ],
           "train_nll": 1.4275158078354753,
-          "wall_seconds": 175.2481415999937
+          "wall_seconds": 179.79976569997962
         }
       ],
       "condition": {
@@ -2198,7 +2198,7 @@
             }
           ],
           "train_nll": 1.7715526308983678,
-          "wall_seconds": 180.0731458000082
+          "wall_seconds": 181.94816620001802
         },
         {
           "final_100_iteration_train_nll_drop": 8.825231197007177e-05,
@@ -2307,7 +2307,7 @@
             }
           ],
           "train_nll": 1.7715997867602247,
-          "wall_seconds": 180.2233411000052
+          "wall_seconds": 184.73771169999964
         },
         {
           "final_100_iteration_train_nll_drop": 0.00010768647370573703,
@@ -2416,7 +2416,7 @@
             }
           ],
           "train_nll": 1.771547591346771,
-          "wall_seconds": 179.0611576999945
+          "wall_seconds": 186.65206229998148
         }
       ],
       "condition": {
@@ -2544,7 +2544,7 @@
             }
           ],
           "train_nll": 1.7732733839210046,
-          "wall_seconds": 179.04663900000742
+          "wall_seconds": 182.96574029998737
         },
         {
           "final_100_iteration_train_nll_drop": 5.835803983633703e-05,
@@ -2653,7 +2653,7 @@
             }
           ],
           "train_nll": 1.7732853103291066,
-          "wall_seconds": 178.87060899997596
+          "wall_seconds": 182.2897912999906
         },
         {
           "final_100_iteration_train_nll_drop": 0.00011231294571678596,
@@ -2762,7 +2762,7 @@
             }
           ],
           "train_nll": 1.773361484939737,
-          "wall_seconds": 179.43661380000412
+          "wall_seconds": 182.11707120001665
         }
       ],
       "condition": {
@@ -2783,7 +2783,7 @@
     }
   ],
   "run_kind": "development",
-  "runner_sha256": "f17610bdb685510945e80b209751757904dced15750df8125349b6d27e4bebf0",
+  "runner_sha256": "6fa8520e844984947e6b2ac1e629f65d94e6ebb5b1f94fef7624a26d2e94b7a4",
   "schema_version": 1,
   "source_manifest_sha256": "ec30fe64bd8be4b2582db8c975d12d3cd9390bc093b9bbf147863ab0add359d3"
 }
