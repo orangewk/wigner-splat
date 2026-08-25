@@ -77,9 +77,13 @@ class FixedBetaDifferenceModel:
     def pdf(self, X, theta, eta, extra_noise_var=0.0) -> np.ndarray:
         X = np.asarray(X)
         theta = np.asarray(theta)
-        if X.ndim != 2 or X.shape[1] != self.positive.M:
+        if (
+            X.ndim != 2
+            or X.shape[0] < 1
+            or X.shape[1] != self.positive.M
+        ):
             raise ValueError(
-                f"X must have shape (samples, {self.positive.M})"
+                f"X must have shape (samples >= 1, {self.positive.M})"
             )
         if theta.ndim != 1 or len(theta) != self.positive.M:
             raise ValueError(f"theta must have shape ({self.positive.M},)")

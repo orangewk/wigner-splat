@@ -153,6 +153,7 @@ def test_strict_nll_returns_unfloored_per_sample_values_when_positive():
     [
         (_component(), np.zeros((2, 2)), np.zeros(1)),
         (_component(), np.zeros(2), np.zeros(1)),
+        (_component(), np.empty((0, 1)), np.zeros(1)),
         (_component(modes=2), np.zeros((2, 2)), np.zeros(1)),
         (_component(), np.zeros((2, 1)), np.array(0.0)),
     ],
