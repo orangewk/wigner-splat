@@ -72,3 +72,53 @@ def test_validator_rejects_missing_or_mutated_claim_rows():
     comparison["comparison_rows"][0]["arm_values"]["stored/H1"] = None
     with pytest.raises(publication.PublicationError):
         publication.validate(comparison)
+
+
+def test_validator_rederives_delta_and_rejects_duplicate_init_trials():
+    payload = publication.load_json(publication.ARTIFACT_PATH)
+
+    delta = copy.deepcopy(payload)
+    primary = next(
+        row for row in delta["result_rows"] if row["classification"] is not None
+    )
+    primary["delta_nll_vs_mle16"] += 123.0
+    delta["comparison_rows"] = publication._comparison_rows(delta["result_rows"])
+    with pytest.raises(publication.PublicationError):
+        publication.validate(delta)
+
+    duplicate = copy.deepcopy(payload)
+    duplicate["fit_attempts"][0]["attempts"].append(
+        copy.deepcopy(duplicate["fit_attempts"][0]["attempts"][0])
+    )
+    with pytest.raises(publication.PublicationError):
+        publication.validate(duplicate)
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda payload: payload.__setitem__("secret", "unexpected"),
+        lambda payload: payload["fit_attempts"][0]["attempts"][0].__setitem__(
+            "raw_samples", [1.0]
+        ),
+        lambda payload: payload["result_rows"][0].__setitem__(
+            "reshuffle_seed", True
+        ),
+        lambda payload: (
+            payload["git"].__setitem__("head_sha", "not-a-sha"),
+            payload["review_record"].__setitem__("reviewed_git_sha", "not-a-sha"),
+        ),
+    ],
+)
+def test_validator_rejects_schema_type_and_sha_smuggling(mutate):
+    payload = publication.load_json(publication.ARTIFACT_PATH)
+    mutate(payload)
+    with pytest.raises(publication.PublicationError):
+        publication.validate(payload)
+
+
+def test_readme_rejects_duplicate_generated_blocks():
+    payload = publication.load_json(publication.ARTIFACT_PATH)
+    block = publication.render(payload)
+    with pytest.raises(publication.PublicationError):
+        publication._readme_block(f"{block}\n{block}")

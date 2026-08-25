@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 from collections import Counter
 from itertools import product
 from pathlib import Path
@@ -51,6 +52,50 @@ RESULT_KEYS = {
     "convention_status",
     "epistemic_status",
 }
+TOP_LEVEL_KEYS = {
+    "comparison_rows",
+    "fit_attempts",
+    "git",
+    "plan_sha256",
+    "publication_status",
+    "result_rows",
+    "review_record",
+    "run_kind",
+    "runner_sha256",
+    "schema_version",
+    "source_manifest_sha256",
+}
+GIT_KEYS = {"dirty", "head_sha"}
+REVIEW_KEYS = {
+    "development_artifact_path",
+    "development_artifact_sha256",
+    "development_execution_sha",
+    "plan_sha256",
+    "review_status",
+    "review_url",
+    "reviewed_git_sha",
+    "runner_sha256",
+    "schema_version",
+    "source_manifest_sha256",
+}
+FIT_GROUP_KEYS = {
+    "attempts",
+    "model",
+    "phase_arm",
+    "reshuffle_seed",
+    "scale_arm",
+    "selected_init_seed",
+    "source_file",
+}
+FIT_TRIAL_KEYS = {
+    "final_100_iteration_train_nll_drop",
+    "fitted_eta",
+    "init_seed",
+    "trace",
+    "train_nll",
+    "wall_seconds",
+}
+TRACE_KEYS = {"fitted_eta", "iteration", "train_nll"}
 
 
 class PublicationError(ValueError):
@@ -88,6 +133,24 @@ def _finite(value, label: str) -> float:
     if not math.isfinite(value):
         raise PublicationError(f"{label} is not finite")
     return value
+
+
+def _exact_keys(value, expected: set[str], label: str) -> None:
+    if not isinstance(value, dict) or set(value) != expected:
+        raise PublicationError(f"Unexpected {label} schema")
+
+
+def _require_hex(value, digits: int, label: str) -> None:
+    if not isinstance(value, str) or re.fullmatch(
+        rf"[0-9a-f]{{{digits}}}", value
+    ) is None:
+        raise PublicationError(f"{label} is not a {digits}-digit lowercase hex id")
+
+
+def _same_typed_json(left, right) -> bool:
+    return json.dumps(left, sort_keys=True, separators=(",", ":")) == json.dumps(
+        right, sort_keys=True, separators=(",", ":")
+    )
 
 
 def _classification(ci_low: float, ci_high: float, plan: dict) -> str:
@@ -182,8 +245,10 @@ def _comparison_rows(rows: list[dict]) -> list[dict]:
 def validate(payload: dict, artifact_path: Path = ARTIFACT_PATH) -> dict:
     if normalized_sha256(artifact_path) != ARTIFACT_SHA256_NORMALIZED:
         raise PublicationError("Published artifact SHA-256 does not match review")
+    _exact_keys(payload, TOP_LEVEL_KEYS, "top-level artifact")
     if (
-        payload.get("schema_version") != 1
+        type(payload.get("schema_version")) is not int
+        or payload.get("schema_version") != 1
         or payload.get("run_kind") != "execute"
         or payload.get("publication_status") != "descriptive-conditional"
     ):
@@ -191,6 +256,26 @@ def validate(payload: dict, artifact_path: Path = ARTIFACT_PATH) -> dict:
 
     git = payload.get("git", {})
     review = payload.get("review_record", {})
+    _exact_keys(git, GIT_KEYS, "git identity")
+    _exact_keys(review, REVIEW_KEYS, "review record")
+    if (
+        type(review.get("schema_version")) is not int
+        or review["schema_version"] != 1
+    ):
+        raise PublicationError("Unsupported review-record identity")
+    _require_hex(git.get("head_sha"), 40, "git.head_sha")
+    _require_hex(review.get("reviewed_git_sha"), 40, "reviewed_git_sha")
+    _require_hex(
+        review.get("development_execution_sha"), 40, "development_execution_sha"
+    )
+    for key in ("plan_sha256", "source_manifest_sha256", "runner_sha256"):
+        _require_hex(payload.get(key), 64, key)
+        _require_hex(review.get(key), 64, f"review.{key}")
+    _require_hex(
+        review.get("development_artifact_sha256"),
+        64,
+        "development_artifact_sha256",
+    )
     if git.get("dirty") is not False or review.get("review_status") != "pass":
         raise PublicationError("Result was not produced from a clean passing review")
     if git.get("head_sha") != review.get("reviewed_git_sha"):
@@ -237,6 +322,10 @@ def validate(payload: dict, artifact_path: Path = ARTIFACT_PATH) -> dict:
     rows = payload.get("result_rows")
     if not isinstance(rows, list):
         raise PublicationError("result_rows is not a list")
+    if not all(isinstance(row, dict) for row in rows):
+        raise PublicationError("result_rows contains a non-object")
+    if any(type(row.get("reshuffle_seed")) is not int for row in rows):
+        raise PublicationError("Result reshuffle_seed is not an integer")
     identities = {
         (
             row.get("source_file"),
@@ -262,9 +351,14 @@ def validate(payload: dict, artifact_path: Path = ARTIFACT_PATH) -> dict:
         if set(row) != RESULT_KEYS:
             raise PublicationError(f"Unexpected result-row schema: {identity}")
         source = sources[row["source_file"]]
-        if row["series"] != "pump_power" or row["condition"] != source["condition"]:
+        if row["series"] != "pump_power" or not _same_typed_json(
+            row["condition"], source["condition"]
+        ):
             raise PublicationError(f"Source routing differs: {identity}")
-        if row["mode_count"] != models[row["model"]]["mode_count"]:
+        if (
+            type(row["mode_count"]) is not int
+            or row["mode_count"] != models[row["model"]]["mode_count"]
+        ):
             raise PublicationError(f"Mode count differs from plan: {identity}")
         _finite(row["train_nll"], f"train_nll {identity}")
         _finite(row["test_nll"], f"test_nll {identity}")
@@ -283,7 +377,9 @@ def validate(payload: dict, artifact_path: Path = ARTIFACT_PATH) -> dict:
                 raise PublicationError(f"Invalid comparison interval: {identity}")
             expected_class = _classification(low, high, plan)
             if row["classification"] != expected_class:
-                raise PublicationError(f"Classification is not data-derived: {identity}")
+                raise PublicationError(
+                    f"Classification is not data-derived: {identity}"
+                )
             if expected_class == "unresolved":
                 tags.append("unresolved")
         else:
@@ -297,11 +393,36 @@ def validate(payload: dict, artifact_path: Path = ARTIFACT_PATH) -> dict:
                     "convention_status",
                 )
             ):
-                raise PublicationError(f"Non-primary row carries verdict fields: {identity}")
+                raise PublicationError(
+                    f"Non-primary row carries verdict fields: {identity}"
+                )
         if row["epistemic_status"] != tags:
             raise PublicationError(f"Epistemic tags differ from routing: {identity}")
 
     primary = [row for row in rows if row["model"] == primary_model]
+    right_model = plan["primary_comparison"]["right_model"]
+    for source_file, seed, scale, phase in product(sources, seeds, scales, phases):
+        by_model = {
+            row["model"]: row
+            for row in rows
+            if row["source_file"] == source_file
+            and row["reshuffle_seed"] == seed
+            and row["scale_arm"] == scale
+            and row["phase_arm"] == phase
+        }
+        expected_delta = (
+            by_model[primary_model]["test_nll"] - by_model[right_model]["test_nll"]
+        )
+        if not math.isclose(
+            by_model[primary_model]["delta_nll_vs_mle16"],
+            expected_delta,
+            rel_tol=0.0,
+            abs_tol=1e-12,
+        ):
+            raise PublicationError(
+                f"Delta is not derived from model test NLLs: "
+                f"{source_file}/{seed}/{scale}/{phase}"
+            )
     for source_file, seed in product(sources, seeds):
         group = [
             row
@@ -323,6 +444,14 @@ def validate(payload: dict, artifact_path: Path = ARTIFACT_PATH) -> dict:
         raise PublicationError("Comparison rows are not derived from result rows")
 
     attempts = payload.get("fit_attempts")
+    if not isinstance(attempts, list):
+        raise PublicationError("fit_attempts is not a list")
+    for group in attempts:
+        _exact_keys(group, FIT_GROUP_KEYS, "fit-attempt group")
+        if type(group["reshuffle_seed"]) is not int:
+            raise PublicationError("Fit-attempt reshuffle_seed is not an integer")
+        if type(group["selected_init_seed"]) is not int:
+            raise PublicationError("selected_init_seed is not an integer")
     expected_attempts = set(product(sources, seeds, scales, phases))
     attempt_ids = {
         (
@@ -339,8 +468,17 @@ def validate(payload: dict, artifact_path: Path = ARTIFACT_PATH) -> dict:
         if group.get("model") != primary_model:
             raise PublicationError("Fit-attempt group has the wrong model")
         trials = group.get("attempts", [])
-        if {trial.get("init_seed") for trial in trials} != set(
-            models[primary_model]["init_seeds"]
+        expected_init_seeds = models[primary_model]["init_seeds"]
+        if not isinstance(trials, list):
+            raise PublicationError("Fit-attempt trials is not a list")
+        for trial in trials:
+            _exact_keys(trial, FIT_TRIAL_KEYS, "fit trial")
+            if type(trial["init_seed"]) is not int:
+                raise PublicationError("Fit trial init_seed is not an integer")
+        trial_seeds = [trial["init_seed"] for trial in trials]
+        if (
+            len(trials) != len(expected_init_seeds)
+            or trial_seeds != expected_init_seeds
         ):
             raise PublicationError("Fit-attempt group has the wrong init seeds")
         selected = min(trials, key=lambda trial: trial["train_nll"])["init_seed"]
@@ -356,7 +494,13 @@ def validate(payload: dict, artifact_path: Path = ARTIFACT_PATH) -> dict:
                 raise PublicationError("Attempt wall_seconds is negative")
             _finite(trial["final_100_iteration_train_nll_drop"], "attempt drop")
             trace = trial.get("trace")
-            if not trace or [row.get("iteration") for row in trace] != list(
+            if not isinstance(trace, list) or not trace:
+                raise PublicationError("Fit trace is not a nonempty list")
+            for point in trace:
+                _exact_keys(point, TRACE_KEYS, "fit trace point")
+                if type(point["iteration"]) is not int:
+                    raise PublicationError("Trace iteration is not an integer")
+            if [row.get("iteration") for row in trace] != list(
                 range(25, 501, 25)
             ):
                 raise PublicationError("Fit trace does not reach the declared budget")
@@ -420,6 +564,20 @@ def render(payload: dict) -> str:
         f"win {counts['win']}; loss {counts['loss']}; "
         f"unresolved {counts['unresolved']} (total {sum(counts.values())})."
     )
+    stable_groups = [
+        group
+        for group in by_source_seed.values()
+        if group[0]["convention_status"] == "convention-stable"
+    ]
+    stable_wins = sum(
+        all(row["classification"] == "win" for row in group)
+        for group in stable_groups
+    )
+    lines.append(
+        "- Convention-stable condition/seed groups: "
+        f"{len(stable_groups)} of {len(by_source_seed)}; classified win among "
+        f"them: {stable_wins} of {len(stable_groups)}."
+    )
     lines.extend(
         [
             "",
@@ -470,6 +628,8 @@ def render(payload: dict) -> str:
 
 
 def _readme_block(readme: str) -> str:
+    if readme.count(BEGIN) != 1 or readme.count(END) != 1:
+        raise PublicationError("README must contain exactly one generated block")
     start = readme.find(BEGIN)
     stop = readme.find(END)
     if start < 0 or stop < start:

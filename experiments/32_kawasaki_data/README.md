@@ -88,6 +88,7 @@ source/split/arm/model identityを照合する。さらにBB stateからtrain NL
 <!-- generated-block: do not edit (written by pump_result_summary.py from pump_results.json) -->
 - Artifact identity: normalized SHA-256 `4279a3dda0c08caf3b3466bb7fa2843468534a6c44680362278cb28dc25f83fe`; execution code SHA `1571886893cb5137cee83147c500dc389d8edd3b`.
 - Arm-indexed primary classifications: win 7; loss 0; unresolved 25 (total 32).
+- Convention-stable condition/seed groups: 3 of 8; classified win among them: 0 of 3.
 
 | pump condition | reshuffle seed | stored/H1 | stored/H2 | sqrt2/H1 | sqrt2/H2 | convention status |
 | --- | ---: | --- | --- | --- | --- | --- |
