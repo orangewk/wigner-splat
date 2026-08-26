@@ -9,6 +9,13 @@ import numpy as np
 from wigner_splat.bbdagS import MixedSqueezedKetState, lossy_pdf_mixed
 
 
+MAX_BETA = 0.4
+
+
+class ObservationInputError(ValueError):
+    """Observation values violate the real, finite shape contract."""
+
+
 class NonPositiveDensityError(ValueError):
     """A strict likelihood encountered a nonfinite or nonpositive density."""
 
@@ -38,6 +45,14 @@ def _validate_component(state, label: str) -> None:
         raise ValueError(f"{label} norm must be finite and positive")
 
 
+def _as_real_finite(array: np.ndarray, label: str) -> np.ndarray:
+    if np.iscomplexobj(array) or not np.issubdtype(array.dtype, np.number):
+        raise ObservationInputError(f"{label} must contain real numbers")
+    if not np.all(np.isfinite(array)):
+        raise ObservationInputError(f"{label} must contain finite values")
+    return np.asarray(array, dtype=float)
+
+
 @dataclass(frozen=True)
 class FixedBetaDifferenceModel:
     """Signed model implementing the fixed-beta protocol interface."""
@@ -52,8 +67,8 @@ class FixedBetaDifferenceModel:
         ):
             raise TypeError("beta must be a real scalar")
         beta = float(self.beta)
-        if not np.isfinite(beta) or not 0.0 <= beta < 0.5:
-            raise ValueError("beta must be finite and in [0, 0.5)")
+        if not np.isfinite(beta) or not 0.0 <= beta <= MAX_BETA:
+            raise ValueError(f"beta must be finite and in [0, {MAX_BETA}]")
         object.__setattr__(self, "beta", beta)
         _validate_component(self.positive, "positive")
         if beta == 0.0 and self.negative is not None:
@@ -82,11 +97,15 @@ class FixedBetaDifferenceModel:
             or X.shape[0] < 1
             or X.shape[1] != self.positive.M
         ):
-            raise ValueError(
+            raise ObservationInputError(
                 f"X must have shape (samples >= 1, {self.positive.M})"
             )
         if theta.ndim != 1 or len(theta) != self.positive.M:
-            raise ValueError(f"theta must have shape ({self.positive.M},)")
+            raise ObservationInputError(
+                f"theta must have shape ({self.positive.M},)"
+            )
+        X = _as_real_finite(X, "X")
+        theta = _as_real_finite(theta, "theta")
         positive = np.asarray(
             lossy_pdf_mixed(
                 self.positive, X, theta, eta, extra_noise_var
@@ -118,7 +137,7 @@ def per_sample_nll(
     for group_index, (theta, X) in enumerate(data):
         X = np.asarray(X)
         if X.ndim > 0 and len(X) == 0:
-            raise ValueError(
+            raise ObservationInputError(
                 f"density group {group_index} must contain at least one sample"
             )
         density = np.asarray(
