@@ -9,11 +9,15 @@ import numpy as np
 from wigner_splat.bbdagS import MixedSqueezedKetState, lossy_pdf_mixed
 
 
-MAX_BETA = 0.4
+MAX_BETA = 0.49
 
 
 class ObservationInputError(ValueError):
     """Observation values violate the real, finite shape contract."""
+
+
+class LossParameterError(ValueError):
+    """A loss parameter violates its real, finite scalar contract."""
 
 
 class NonPositiveDensityError(ValueError):
@@ -51,6 +55,31 @@ def _as_real_finite(array: np.ndarray, label: str) -> np.ndarray:
     if not np.all(np.isfinite(array)):
         raise ObservationInputError(f"{label} must contain finite values")
     return np.asarray(array, dtype=float)
+
+
+def _as_loss_scalar(value, label: str) -> float:
+    array = np.asarray(value)
+    if (
+        array.ndim != 0
+        or np.issubdtype(array.dtype, np.bool_)
+        or np.iscomplexobj(array)
+        or not np.issubdtype(array.dtype, np.number)
+    ):
+        raise LossParameterError(f"{label} must be a real scalar")
+    scalar = float(array.item())
+    if not np.isfinite(scalar):
+        raise LossParameterError(f"{label} must be finite")
+    return scalar
+
+
+def _validate_loss_parameters(eta, extra_noise_var) -> tuple[float, float]:
+    eta = _as_loss_scalar(eta, "eta")
+    extra_noise_var = _as_loss_scalar(extra_noise_var, "extra_noise_var")
+    if not 0.0 <= eta <= 1.0:
+        raise LossParameterError("eta must be in [0, 1]")
+    if extra_noise_var < 0.0:
+        raise LossParameterError("extra_noise_var must be nonnegative")
+    return eta, extra_noise_var
 
 
 @dataclass(frozen=True)
@@ -106,6 +135,9 @@ class FixedBetaDifferenceModel:
             )
         X = _as_real_finite(X, "X")
         theta = _as_real_finite(theta, "theta")
+        eta, extra_noise_var = _validate_loss_parameters(
+            eta, extra_noise_var
+        )
         positive = np.asarray(
             lossy_pdf_mixed(
                 self.positive, X, theta, eta, extra_noise_var

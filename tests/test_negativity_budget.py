@@ -65,7 +65,7 @@ def _group(xs, theta=0.0):
 
 @pytest.mark.parametrize(
     "beta",
-    [-0.1, np.nextafter(0.4, np.inf), 0.49, 0.5, 0.7, np.nan, np.inf],
+    [-0.1, np.nextafter(0.49, np.inf), 0.499, 0.5, 0.7, np.nan, np.inf],
 )
 def test_beta_domain_is_fail_closed(beta):
     with pytest.raises(ValueError):
@@ -135,12 +135,12 @@ def test_beta_zero_strict_nll_diverges_when_legacy_floor_binds():
 
 
 def test_fixed_mass_formula_and_density_normalization():
-    beta = 0.4
+    beta = 0.49
     positive = _component(alpha=-0.8)
     negative = _component(alpha=0.9)
     model = fixed.FixedBetaDifferenceModel(positive, negative, beta)
-    assert model.pre_normalization_masses == pytest.approx((0.6, 0.4))
-    assert model.density_coefficients == pytest.approx((3.0, -2.0))
+    assert model.pre_normalization_masses == pytest.approx((0.51, 0.49))
+    assert model.density_coefficients == pytest.approx((25.5, -24.5))
 
     xs = np.linspace(-10.0, 10.0, 20001)
     density = model.pdf(xs[:, None], np.array([0.0]), eta=0.8)
@@ -152,7 +152,7 @@ def test_fixed_mass_formula_and_density_normalization():
     )
     np.testing.assert_allclose(
         density,
-        3.0 * p_positive - 2.0 * p_negative,
+        25.5 * p_positive - 24.5 * p_negative,
         rtol=5e-14,
         atol=np.finfo(float).eps,
     )
@@ -160,7 +160,8 @@ def test_fixed_mass_formula_and_density_normalization():
 
 
 @pytest.mark.parametrize(
-    ("beta_1", "beta_2"), [(0.0, 0.1), (0.1, 0.3), (0.3, 0.4)]
+    ("beta_1", "beta_2"),
+    [(0.0, 0.1), (0.1, 0.3), (0.3, 0.4), (0.4, 0.49)],
 )
 def test_larger_beta_class_reproduces_smaller_beta_with_rank_expansion(
     beta_1, beta_2
@@ -274,6 +275,31 @@ def test_observation_values_are_real_finite_numeric(X, theta):
         model.pdf(X, theta, eta=0.8)
     with pytest.raises(fixed.ObservationInputError):
         fixed.per_sample_nll(model, [(theta, X)], eta=0.8)
+
+
+@pytest.mark.parametrize(
+    "eta",
+    [True, np.bool_(True), np.nan, np.inf, 0.8 + 0.0j, [0.8], -0.1, 1.1],
+)
+def test_eta_is_a_real_finite_scalar_in_unit_interval(eta):
+    model = fixed.FixedBetaDifferenceModel(_component(), None, 0.0)
+    with pytest.raises(fixed.LossParameterError):
+        model.pdf(np.array([[0.0]]), np.array([0.0]), eta=eta)
+
+
+@pytest.mark.parametrize(
+    "extra_noise_var",
+    [True, np.bool_(False), np.nan, np.inf, 0.1 + 0.0j, [0.1], -0.1],
+)
+def test_extra_noise_is_a_real_finite_nonnegative_scalar(extra_noise_var):
+    model = fixed.FixedBetaDifferenceModel(_component(), None, 0.0)
+    with pytest.raises(fixed.LossParameterError):
+        model.pdf(
+            np.array([[0.0]]),
+            np.array([0.0]),
+            eta=0.8,
+            extra_noise_var=extra_noise_var,
+        )
 
 
 def test_empty_data_is_rejected():
