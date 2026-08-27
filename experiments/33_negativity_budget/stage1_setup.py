@@ -18,38 +18,9 @@ FixedBetaParameterization = _packet2.FixedBetaParameterization
 
 POSITIVE_SHAPE = (4, 4, 1)
 NEGATIVE_SHAPE = (1, 2, 1)
-
-
-@dataclass(frozen=True)
-class Stage1SetupConfig:
-    grid_points: int = 1025
-    grid_sigma_extent: float = 6.0
-    negative_seed_offset: int = 1_000_003
-
-    def __post_init__(self) -> None:
-        if (
-            isinstance(self.grid_points, bool)
-            or not isinstance(self.grid_points, (int, np.integer))
-            or self.grid_points < 3
-        ):
-            raise ValueError("grid_points must be an integer of at least 3")
-        if not _is_finite_real(self.grid_sigma_extent) or not (
-            float(self.grid_sigma_extent) > 0.0
-        ):
-            raise ValueError("grid_sigma_extent must be finite and positive")
-        if (
-            isinstance(self.negative_seed_offset, bool)
-            or not isinstance(self.negative_seed_offset, (int, np.integer))
-            or self.negative_seed_offset < 0
-        ):
-            raise ValueError("negative_seed_offset must be a nonnegative integer")
-        object.__setattr__(self, "grid_points", int(self.grid_points))
-        object.__setattr__(
-            self, "grid_sigma_extent", float(self.grid_sigma_extent)
-        )
-        object.__setattr__(
-            self, "negative_seed_offset", int(self.negative_seed_offset)
-        )
+GRID_POINTS = 1025
+GRID_SIGMA_EXTENT = 6.0
+NEGATIVE_SEED_OFFSET = 1_000_003
 
 
 @dataclass(frozen=True)
@@ -126,16 +97,24 @@ def prepare_train_groups(data) -> tuple[tuple[np.ndarray, np.ndarray], ...]:
         if theta_key in seen_theta:
             raise ValueError("train measurement angles must be unique")
         seen_theta.add(theta_key)
-        if float(np.std(X_float[:, 0])) <= 0.0:
+        with np.errstate(over="ignore", invalid="ignore"):
+            train_std = float(np.std(X_float[:, 0]))
+        if not np.isfinite(train_std):
+            raise ValueError("train statistics must be finite in float64")
+        if train_std <= 0.0:
             raise ValueError("each train group must have positive variance")
-        groups.append((theta_float.copy(), X_float.copy()))
+        theta_copy = theta_float.copy()
+        X_copy = X_float.copy()
+        theta_copy.setflags(write=False)
+        X_copy.setflags(write=False)
+        groups.append((theta_copy, X_copy))
     if not groups:
         raise ValueError("train data must contain at least one group")
     return tuple(groups)
 
 
 def build_train_grids(
-    train_groups, config: Stage1SetupConfig = Stage1SetupConfig()
+    train_groups,
 ) -> tuple[
     tuple[tuple[np.ndarray, np.ndarray], ...], tuple[GridRecord, ...]
 ]:
@@ -144,14 +123,26 @@ def build_train_grids(
     records = []
     for group_index, (theta, X) in enumerate(groups):
         values = X[:, 0]
-        mean = float(np.mean(values))
-        std = float(np.std(values))
+        with np.errstate(over="ignore", invalid="ignore"):
+            mean = float(np.mean(values))
+            std = float(np.std(values))
         train_min = float(np.min(values))
         train_max = float(np.max(values))
-        lower = min(train_min, mean - config.grid_sigma_extent * std)
-        upper = max(train_max, mean + config.grid_sigma_extent * std)
-        grid = np.linspace(lower, upper, config.grid_points)[:, None]
-        grids.append((theta.copy(), grid))
+        if not np.isfinite(mean) or not np.isfinite(std):
+            raise ValueError("train statistics must be finite in float64")
+        with np.errstate(over="ignore", invalid="ignore"):
+            lower = min(train_min, mean - GRID_SIGMA_EXTENT * std)
+            upper = max(train_max, mean + GRID_SIGMA_EXTENT * std)
+        if not np.isfinite(lower) or not np.isfinite(upper):
+            raise ValueError("train-derived grid bounds must be finite")
+        with np.errstate(over="ignore", invalid="ignore"):
+            grid = np.linspace(lower, upper, GRID_POINTS)[:, None]
+        if not np.all(np.isfinite(grid)):
+            raise ValueError("train-derived grid must be finite")
+        theta_copy = theta.copy()
+        theta_copy.setflags(write=False)
+        grid.setflags(write=False)
+        grids.append((theta_copy, grid))
         records.append(
             GridRecord(
                 group_index=group_index,
@@ -163,7 +154,7 @@ def build_train_grids(
                 train_std=std,
                 lower=float(lower),
                 upper=float(upper),
-                points=config.grid_points,
+                points=GRID_POINTS,
             )
         )
     return tuple(grids), tuple(records)
@@ -183,7 +174,6 @@ def _normalized(state: MixedSqueezedKetState) -> MixedSqueezedKetState:
 def initialize_candidate_model(
     beta: float,
     seed: int,
-    config: Stage1SetupConfig = Stage1SetupConfig(),
 ) -> FixedBetaDifferenceModel:
     """Create the exact beta-zero or shared-column feasible initialization."""
     if not _is_finite_real(beta) or not 0.0 <= float(beta) <= _fixed.MAX_BETA:
@@ -201,7 +191,7 @@ def initialize_candidate_model(
     )
     negative = _normalized(
         MixedSqueezedKetState.random_init(
-            *NEGATIVE_SHAPE, rng=seed + config.negative_seed_offset
+            *NEGATIVE_SHAPE, rng=seed + NEGATIVE_SEED_OFFSET
         )
     )
     gap = 1.0 - 2.0 * beta
@@ -228,13 +218,14 @@ def prepare_stage1_candidate(
     train_groups,
     beta: float,
     seed: int,
-    config: Stage1SetupConfig = Stage1SetupConfig(),
 ) -> Stage1CandidateSetup:
     """Build the single setup object consumed by the next objective packet."""
     prepared = prepare_train_groups(train_groups)
-    grids, records = build_train_grids(prepared, config)
-    model = initialize_candidate_model(beta, seed, config)
+    grids, records = build_train_grids(prepared)
+    model = initialize_candidate_model(beta, seed)
     parameterization = FixedBetaParameterization.from_model(model)
+    initial_parameters = parameterization.pack(model)
+    initial_parameters.setflags(write=False)
     return Stage1CandidateSetup(
         beta=float(beta),
         seed=_validate_seed(seed),
@@ -242,5 +233,5 @@ def prepare_stage1_candidate(
         grid_groups=grids,
         grid_records=records,
         parameterization=parameterization,
-        initial_parameters=parameterization.pack(model),
+        initial_parameters=initial_parameters,
     )

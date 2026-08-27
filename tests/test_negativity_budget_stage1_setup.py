@@ -32,11 +32,11 @@ def _normalized(state):
     )
 
 
-def _independent_reference(seed, config):
+def _independent_reference(seed):
     core = _normalized(MixedSqueezedKetState.random_init(3, 4, 1, rng=seed))
     negative = _normalized(
         MixedSqueezedKetState.random_init(
-            1, 2, 1, rng=seed + config.negative_seed_offset
+            1, 2, 1, rng=seed + setup.NEGATIVE_SEED_OFFSET
         )
     )
     z = np.zeros((4, 4), complex)
@@ -52,10 +52,9 @@ def _independent_reference(seed, config):
 
 
 def test_default_setup_contract_is_predeclared():
-    config = setup.Stage1SetupConfig()
-    assert config.grid_points == 1025
-    assert config.grid_sigma_extent == 6.0
-    assert config.negative_seed_offset == 1_000_003
+    assert setup.GRID_POINTS == 1025
+    assert setup.GRID_SIGMA_EXTENT == 6.0
+    assert setup.NEGATIVE_SEED_OFFSET == 1_000_003
     assert setup.POSITIVE_SHAPE == (4, 4, 1)
     assert setup.NEGATIVE_SHAPE == (1, 2, 1)
 
@@ -63,8 +62,7 @@ def test_default_setup_contract_is_predeclared():
 def test_train_grid_uses_declared_statistics_and_copies_inputs():
     data = _train_groups()
     original_X = data[0][1].copy()
-    config = setup.Stage1SetupConfig(grid_points=9, grid_sigma_extent=2.5)
-    candidate = setup.prepare_stage1_candidate(data, beta=0.0, seed=0, config=config)
+    candidate = setup.prepare_stage1_candidate(data, beta=0.0, seed=0)
     assert len(candidate.grid_groups) == len(candidate.grid_records) == 2
     for (theta, grid), (_, X), record in zip(
         candidate.grid_groups,
@@ -75,14 +73,14 @@ def test_train_grid_uses_declared_statistics_and_copies_inputs():
         values = X[:, 0]
         expected_lower = min(
             float(np.min(values)),
-            float(np.mean(values) - 2.5 * np.std(values)),
+            float(np.mean(values) - setup.GRID_SIGMA_EXTENT * np.std(values)),
         )
         expected_upper = max(
             float(np.max(values)),
-            float(np.mean(values) + 2.5 * np.std(values)),
+            float(np.mean(values) + setup.GRID_SIGMA_EXTENT * np.std(values)),
         )
         np.testing.assert_array_equal(theta, np.array([record.theta]))
-        assert grid.shape == (9, 1)
+        assert grid.shape == (setup.GRID_POINTS, 1)
         assert grid[0, 0] == pytest.approx(expected_lower)
         assert grid[-1, 0] == pytest.approx(expected_upper)
         assert record.train_sample_count == len(values)
@@ -116,6 +114,12 @@ def test_duplicate_measurement_angle_is_rejected():
         setup.prepare_train_groups(duplicate)
 
 
+def test_float64_overflow_in_train_statistics_fails_closed():
+    data = [(np.array([0.0]), np.array([[1.7e308], [-1.7e308]]))]
+    with pytest.raises(ValueError, match="statistics must be finite"):
+        setup.prepare_stage1_candidate(data, beta=0.0, seed=0)
+
+
 def test_beta_zero_initial_vector_is_exact_existing_random_init():
     candidate = setup.prepare_stage1_candidate(
         _train_groups(), beta=0.0, seed=7
@@ -132,14 +136,12 @@ def test_beta_zero_initial_vector_is_exact_existing_random_init():
 @pytest.mark.parametrize("beta", [0.02, 0.1, 0.4, 0.49])
 def test_signed_initialization_matches_independent_rank4_physical_reference(beta):
     seed = 11
-    config = setup.Stage1SetupConfig()
-    candidate = setup.prepare_stage1_candidate(
-        _train_groups(), beta=beta, seed=seed, config=config
-    )
+    candidate = setup.prepare_stage1_candidate(_train_groups(), beta=beta, seed=seed)
     model = candidate.parameterization.unpack(candidate.initial_parameters)
-    reference = _independent_reference(seed, config)
+    reference = _independent_reference(seed)
     assert model.positive.norm_sq() == pytest.approx(1.0, abs=3e-14)
     assert model.negative.norm_sq() == pytest.approx(1.0, abs=3e-14)
+    assert all(column.norm_sq() > 0.0 for column in model.positive.columns())
     X = np.linspace(-3.0, 3.0, 31)[:, None]
     for theta in (np.array([0.0]), np.array([0.63])):
         np.testing.assert_allclose(
@@ -161,6 +163,21 @@ def test_setup_is_deterministic_for_same_train_beta_and_seed():
         np.testing.assert_array_equal(first_group[1], second_group[1])
 
 
+def test_returned_setup_arrays_are_read_only():
+    candidate = setup.prepare_stage1_candidate(_train_groups(), beta=0.2, seed=5)
+    arrays = (
+        candidate.train_groups[0][0],
+        candidate.train_groups[0][1],
+        candidate.grid_groups[0][0],
+        candidate.grid_groups[0][1],
+        candidate.initial_parameters,
+    )
+    assert all(not array.flags.writeable for array in arrays)
+    for array in arrays:
+        with pytest.raises(ValueError, match="read-only"):
+            array.flat[0] = 0.0
+
+
 @pytest.mark.parametrize(
     ("beta", "seed"),
     [(-0.1, 0), (0.5, 0), (np.nan, 0), (True, 0), (0.1, -1), (0.1, True)],
@@ -168,18 +185,3 @@ def test_setup_is_deterministic_for_same_train_beta_and_seed():
 def test_beta_and_seed_fail_closed(beta, seed):
     with pytest.raises(ValueError):
         setup.prepare_stage1_candidate(_train_groups(), beta=beta, seed=seed)
-
-
-@pytest.mark.parametrize(
-    "kwargs",
-    [
-        {"grid_points": 2},
-        {"grid_points": True},
-        {"grid_sigma_extent": 0.0},
-        {"grid_sigma_extent": np.inf},
-        {"negative_seed_offset": -1},
-    ],
-)
-def test_setup_config_fails_closed(kwargs):
-    with pytest.raises(ValueError):
-        setup.Stage1SetupConfig(**kwargs)
