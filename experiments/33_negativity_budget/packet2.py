@@ -207,6 +207,64 @@ class FixedBetaParameterization:
         return density, jacobian
 
 
+def _reduce_grid_barrier(group_outputs) -> tuple[float, np.ndarray | None]:
+    """Apply the declared equal-group squared-hinge reduction once."""
+    group_values = []
+    group_gradients = []
+    gradient_mode = None
+    for density, jacobian in group_outputs:
+        density = np.asarray(density, dtype=float)
+        if density.ndim != 1 or len(density) < 1:
+            raise ValueError("grid density must be a nonempty vector")
+        if not np.all(np.isfinite(density)):
+            raise FloatingPointError("grid density must be finite")
+        negative = np.minimum(density, 0.0)
+        group_values.append(float(np.mean(negative ** 2)))
+        has_gradient = jacobian is not None
+        if gradient_mode is None:
+            gradient_mode = has_gradient
+        elif gradient_mode != has_gradient:
+            raise RuntimeError("grid barrier groups mixed value and gradient modes")
+        if has_gradient:
+            jacobian = np.asarray(jacobian, dtype=float)
+            if jacobian.ndim != 2 or jacobian.shape[0] != len(density):
+                raise ValueError("grid Jacobian has invalid shape")
+            if not np.all(np.isfinite(jacobian)):
+                raise FloatingPointError("grid Jacobian must be finite")
+            group_gradients.append(
+                np.mean(2.0 * negative[:, None] * jacobian, axis=0)
+            )
+    if not group_values:
+        raise ValueError("grid_groups must contain at least one group")
+    value = float(np.mean(group_values))
+    if not gradient_mode:
+        return value, None
+    return value, np.mean(np.stack(group_gradients), axis=0)
+
+
+def _dense_grid_barrier_value(
+    parameterization: FixedBetaParameterization,
+    parameters,
+    grid_groups,
+    eta: float,
+    extra_noise_var: float = 0.0,
+) -> float:
+    """Internal value-only evaluation of the declared grid barrier."""
+    if not isinstance(parameterization, FixedBetaParameterization):
+        raise TypeError("parameterization must be a FixedBetaParameterization")
+    vector = np.asarray(parameters)
+    model = parameterization.unpack(vector)
+    value, gradient = _reduce_grid_barrier(
+        (
+            (model.pdf(X, theta, eta, extra_noise_var), None)
+            for theta, X in grid_groups
+        )
+    )
+    if gradient is not None:
+        raise RuntimeError("value-only grid barrier produced a gradient")
+    return value
+
+
 def dense_grid_barrier_and_grad(
     parameterization: FixedBetaParameterization,
     parameters,
@@ -221,20 +279,14 @@ def dense_grid_barrier_and_grad(
     vector = np.asarray(parameters)
     # Validate the vector even when grid_groups is empty.
     parameterization.unpack(vector)
-    group_values = []
-    group_gradients = []
-    for theta, X in grid_groups:
-        density, jacobian = parameterization.density_and_jacobian(
-            vector, X, theta, eta, extra_noise_var, chunk
+    value, gradient = _reduce_grid_barrier(
+        (
+            parameterization.density_and_jacobian(
+                vector, X, theta, eta, extra_noise_var, chunk
+            )
+            for theta, X in grid_groups
         )
-        negative = np.minimum(density, 0.0)
-        group_values.append(float(np.mean(negative ** 2)))
-        group_gradients.append(
-            np.mean(2.0 * negative[:, None] * jacobian, axis=0)
-        )
-    if not group_values:
-        raise ValueError("grid_groups must contain at least one group")
-    return (
-        float(np.mean(group_values)),
-        np.mean(np.stack(group_gradients), axis=0),
     )
+    if gradient is None:
+        raise RuntimeError("gradient grid barrier did not produce a gradient")
+    return value, gradient
