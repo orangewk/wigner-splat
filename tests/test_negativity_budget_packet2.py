@@ -118,6 +118,9 @@ def test_dense_grid_barrier_equal_weights_groups_and_matches_gradient_fd():
     value, gradient = packet2.dense_grid_barrier_and_grad(
         parameterization, vector, groups, eta
     )
+    value_only = packet2.dense_grid_barrier(
+        parameterization, vector, groups, eta
+    )
     densities = [
         parameterization.density_and_jacobian(
             vector, X, theta, eta
@@ -129,6 +132,7 @@ def test_dense_grid_barrier_equal_weights_groups_and_matches_gradient_fd():
         np.mean(np.minimum(density, 0.0) ** 2) for density in densities
     ])
     assert value == pytest.approx(expected, rel=2e-14)
+    assert value_only == pytest.approx(value, rel=2e-14)
 
     gradient_fd = np.zeros_like(vector)
     eps = 1e-5
@@ -157,6 +161,10 @@ def test_packet2_boundaries_fail_closed():
         parameterization.unpack(invalid)
     with pytest.raises(ValueError, match="grid_groups"):
         packet2.dense_grid_barrier_and_grad(
+            parameterization, vector, [], eta=0.8
+        )
+    with pytest.raises(ValueError, match="grid_groups"):
+        packet2.dense_grid_barrier(
             parameterization, vector, [], eta=0.8
         )
     with pytest.raises(NotImplementedError, match="sigma2"):

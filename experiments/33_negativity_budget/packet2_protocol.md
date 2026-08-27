@@ -64,6 +64,10 @@ measurement group数を `A`、group `a` の明示grid点数を `N_a` とする�
 この関数は係数を掛けない裸のbarrierを返す。stage 1 runnerがtrain-onlyの感度確認後に
 係数を掛ける。
 
+後続objectiveのeta有限差分はgradientを必要としないため、値だけを返す
+`dense_grid_barrier` も公開する。値だけの経路とgradient経路は同じ内部reducerを使い、
+上の二乗hingeとequal-group meanを別実装しない。
+
 ## 4. packet 2 gates
 
 1. component density Jacobianが既存forward値と一致し、全parameterで中心差分と一致する。
