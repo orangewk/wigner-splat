@@ -430,6 +430,16 @@ def _check_loss_params(eta, extra_noise_var):
     Without this, eta > 1 makes sigma2 negative and silently falls into the
     sigma2 ~ 0 pure-model branch, and eta < 0 NaNs through sqrt(eta).
     """
+    for value, label in ((eta, "eta"), (extra_noise_var, "extra_noise_var")):
+        array = np.asarray(value)
+        if (
+            array.ndim != 0
+            or np.issubdtype(array.dtype, np.bool_)
+            or np.iscomplexobj(array)
+            or not np.issubdtype(array.dtype, np.number)
+            or not np.isfinite(array.item())
+        ):
+            raise ValueError(f"{label} must be a finite real scalar")
     if not (0.0 <= eta <= 1.0):
         raise ValueError(f"eta must be in [0, 1], got {eta}")
     if extra_noise_var < 0.0:
@@ -735,10 +745,18 @@ def lossy_pdf_mixed(state, X, theta, eta, extra_noise_var=0.0):
             np.abs(c.psi_at(X, np.asarray(theta, float))) ** 2
             for c in state.columns()
         ) / Z
-    return sum(
-        lossy_pdf(c, X, theta, eta, extra_noise_var) * c.norm_sq()
-        for c in state.columns()
-    ) / state.norm_sq()
+    weighted_columns = []
+    for col in state.columns():
+        column_norm = col.norm_sq()
+        if column_norm == 0.0:
+            continue
+        weighted_columns.append(
+            lossy_pdf(col, X, theta, eta, extra_noise_var) * column_norm
+        )
+    total_norm = state.norm_sq()
+    if not weighted_columns:
+        return np.zeros(len(np.asarray(X))) / total_norm
+    return sum(weighted_columns) / total_norm
 
 
 def lossy_pdf_and_jac_mixed(state, X, theta, eta, extra_noise_var=0.0,
@@ -819,6 +837,8 @@ def lossy_pdf_and_jac_mixed(state, X, theta, eta, extra_noise_var=0.0,
             for p in ("ar", "ai", "xr", "xi")
         }
         for r, col in enumerate(cols):
+            if column_norms[r] == 0.0:
+                continue
             mode_params, mode_triples = col_ctx[r]
             per_mode = [
                 _lossy_mode_pair_density(

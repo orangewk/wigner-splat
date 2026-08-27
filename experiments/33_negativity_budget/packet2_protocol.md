@@ -72,6 +72,8 @@ measurement group数を `A`、group `a` の明示grid点数を `N_a` とする�
 4. signed density Jacobianがpacket 1 forward値および中心差分と一致する。
 5. 複数group・不均一点数のbarrierが上式の等group平均と一致し、gradientが中心差分と一致する。
 6. parameter長・finite条件、空grid、shape、pure-detection対象外をfail closedで拒否する。
+7. rank上限内で一部column normが厳密に0の状態を受け入れ、そのcolumnのdensity寄与と
+   一階gradientを0として扱う。
 
 ## 5. 実装前に確認した一次資料
 
