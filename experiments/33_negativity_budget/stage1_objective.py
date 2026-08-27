@@ -16,6 +16,8 @@ Stage1CandidateSetup = _setup.Stage1CandidateSetup
 
 ETA_FD_STEP = 1e-4
 ETA_FD_HALVINGS = 12
+ETA_FD_CONSISTENCY_RTOL = 1e-2
+ETA_FD_CONSISTENCY_ATOL = 1e-8
 
 
 class EtaGradientUnavailable(RuntimeError):
@@ -149,14 +151,31 @@ class Stage1Objective:
             try:
                 plus = self.value(parameters, eta_logit + step).objective
                 minus = self.value(parameters, eta_logit - step).objective
+                plus_wide = self.value(
+                    parameters, eta_logit + 2.0 * step
+                ).objective
+                minus_wide = self.value(
+                    parameters, eta_logit - 2.0 * step
+                ).objective
             except (_fixed.NonPositiveDensityError, FloatingPointError):
                 step *= 0.5
                 continue
             candidate = (plus - minus) / (2.0 * step)
-            if np.isfinite(candidate):
-                eta_gradient = float(candidate)
-                break
-            step *= 0.5
+            wide_candidate = (plus_wide - minus_wide) / (4.0 * step)
+            if not np.isfinite(candidate) or not np.isfinite(wide_candidate):
+                step *= 0.5
+                continue
+            if not np.isclose(
+                candidate,
+                wide_candidate,
+                rtol=ETA_FD_CONSISTENCY_RTOL,
+                atol=ETA_FD_CONSISTENCY_ATOL,
+            ):
+                raise EtaGradientUnavailable(
+                    "eta-logit finite differences are inconsistent across steps"
+                )
+            eta_gradient = float(candidate)
+            break
         if eta_gradient is None:
             raise EtaGradientUnavailable(
                 "no valid symmetric eta-logit finite difference was found"

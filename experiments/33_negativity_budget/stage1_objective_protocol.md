@@ -55,16 +55,22 @@ state gradientはPacket 2のsample density Jacobianへstrict NLLのchain ruleを
 Packet 2のbarrier gradientへ `lambda` を掛けて加える。返却gradientはPacket 2 packed
 state vectorの後ろへ `dL/dt` を1 scalar連結したread-only vectorとする。
 
-`dL/dt` はobjectiveの同じvalue経路を使う中心差分で計算する。初期stepは `1e-4`。
-片側がstrict likelihoodまたは有限性の定義域外ならstepを半分にし、最大12回のhalvingを
-許す。両側が有効なstepを得られなければ `EtaGradientUnavailable` として終了する。
+`dL/dt` はobjectiveの同じvalue経路を使う中心差分で計算する。初期stepは `h=1e-4`。
+`h` と `2h` の中心差分が `rtol=1e-2, atol=1e-8` で一致する場合だけ `h` の値を採用する。
+有限だが一致しない場合は、logit飽和による桁落ちを疑い、stepをさらに小さくせず
+`EtaGradientUnavailable` でfail closedにする。
+
+`h` または `2h` の片側がstrict likelihood・有限性の定義域外なら、定義域内へ戻すため
+stepを半分にし、最大12回のhalvingを許す。両方の対称差分が有効なstepを得られなければ
+同じく `EtaGradientUnavailable` として終了する。
 
 ## 4. gates
 
 1. valueがPacket 1 strict train NLLとPacket 2 value-only barrierの宣言済み合成に一致する。
 2. value-only barrierと既存value-and-gradient barrierが同じ値を返す。
 3. beta=0とbeta>0のstate gradientが全packed parameterの独立中心差分と一致する。
-4. eta-logit gradientがobjective valueの独立中心差分と一致する。
+4. eta-logit gradientがobjective valueの独立中心差分と一致し、`h` と `2h` が不一致な
+   飽和領域をfail closedで拒否する。
 5. nonpositive train density、invalid setup/parameter/eta-logit/barrier係数をfail closedで拒否する。
 6. adaptive eta stepが最初に有効な対称stepを採用し、12 halvingsでも得られなければ停止する。
 7. objective resultへtest data、optimizer state、実データ値が混入しない。

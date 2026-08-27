@@ -182,6 +182,18 @@ def test_value_and_grad_inherits_packet2_high_eta_boundary():
         objective.value_and_grad(candidate.initial_parameters, eta_logit)
 
 
+def test_eta_gradient_rejects_finite_but_inconsistent_saturated_difference():
+    candidate = stage1_setup_module.prepare_stage1_candidate(
+        _positive_train_groups(), beta=0.4, seed=0
+    )
+    objective = objective_module.Stage1Objective(candidate, barrier_weight=10.0)
+    vector = _signed_probe_vector(candidate)
+    with pytest.raises(
+        objective_module.EtaGradientUnavailable, match="inconsistent"
+    ):
+        objective.value_and_grad(vector, eta_logit=12.0)
+
+
 def test_invalid_setup_and_parameter_vector_fail_closed():
     with pytest.raises(TypeError, match="Stage1CandidateSetup"):
         objective_module.Stage1Objective(object(), 1.0)
@@ -219,7 +231,7 @@ def test_eta_gradient_halves_to_first_valid_symmetric_step(monkeypatch):
         objective_module.Stage1Objective, "_state_gradient", fake_state_gradient
     )
     result = objective.value_and_grad(candidate.initial_parameters, 0.0)
-    assert result.eta_fd_step == pytest.approx(5e-5)
+    assert result.eta_fd_step == pytest.approx(2.5e-5)
 
 
 def test_eta_gradient_unavailable_after_declared_halvings(monkeypatch):
