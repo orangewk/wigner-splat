@@ -136,12 +136,12 @@ def build_train_grids(
         if not np.isfinite(lower) or not np.isfinite(upper):
             raise ValueError("train-derived grid bounds must be finite")
         with np.errstate(over="ignore", invalid="ignore"):
-            grid = np.linspace(lower, upper, GRID_POINTS)[:, None]
+            grid = np.linspace(lower, upper, GRID_POINTS).reshape(-1, 1).copy()
         if not np.all(np.isfinite(grid)):
             raise ValueError("train-derived grid must be finite")
+        grid.setflags(write=False)
         theta_copy = theta.copy()
         theta_copy.setflags(write=False)
-        grid.setflags(write=False)
         grids.append((theta_copy, grid))
         records.append(
             GridRecord(

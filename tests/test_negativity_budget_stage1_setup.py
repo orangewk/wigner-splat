@@ -173,6 +173,8 @@ def test_returned_setup_arrays_are_read_only():
         candidate.initial_parameters,
     )
     assert all(not array.flags.writeable for array in arrays)
+    assert candidate.grid_groups[0][1].flags.owndata
+    assert candidate.grid_groups[0][1].base is None
     for array in arrays:
         with pytest.raises(ValueError, match="read-only"):
             array.flat[0] = 0.0
