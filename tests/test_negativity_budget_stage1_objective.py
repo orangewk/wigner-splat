@@ -63,7 +63,7 @@ def test_objective_value_composes_declared_train_nll_and_grid_barrier():
     evaluation = objective.value(vector, eta_logit)
     model = candidate.parameterization.unpack(vector)
     expected_nll = fixed.mean_nll(model, candidate.train_groups, eta)
-    expected_barrier = packet2.dense_grid_barrier(
+    expected_barrier = packet2._dense_grid_barrier_value(
         candidate.parameterization,
         vector,
         candidate.grid_groups,
@@ -167,6 +167,19 @@ def test_eta_logit_fails_closed(eta_logit):
     objective = objective_module.Stage1Objective(candidate, barrier_weight=0.0)
     with pytest.raises((fixed.LossParameterError, FloatingPointError)):
         objective.value(candidate.initial_parameters, eta_logit)
+
+
+def test_value_and_grad_inherits_packet2_high_eta_boundary():
+    candidate = stage1_setup_module.prepare_stage1_candidate(
+        _positive_train_groups(), beta=0.0, seed=0
+    )
+    objective = objective_module.Stage1Objective(candidate, barrier_weight=0.0)
+    eta_logit = 32.0
+    assert np.isfinite(
+        objective.value(candidate.initial_parameters, eta_logit).objective
+    )
+    with pytest.raises(NotImplementedError, match="sigma2"):
+        objective.value_and_grad(candidate.initial_parameters, eta_logit)
 
 
 def test_invalid_setup_and_parameter_vector_fail_closed():

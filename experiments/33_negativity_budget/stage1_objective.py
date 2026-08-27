@@ -77,7 +77,7 @@ class Stage1Objective:
         _, eta = _eta_from_logit(eta_logit)
         model = self.setup.parameterization.unpack(parameters)
         train_nll = _fixed.mean_nll(model, self.setup.train_groups, eta)
-        barrier = _packet2.dense_grid_barrier(
+        barrier = _packet2._dense_grid_barrier_value(
             self.setup.parameterization,
             parameters,
             self.setup.grid_groups,

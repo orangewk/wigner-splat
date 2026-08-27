@@ -38,14 +38,18 @@ nonfiniteまたは0以下ならPacket 1の `NonPositiveDensityError` をその�
 `Stage1ObjectiveEvaluation` は `objective`、`train_nll`、`barrier`、`eta` の4 scalarだけを
 返す。test metric、fit status、解釈文は含めない。
 
-eta有限差分のvalue-only評価ではgrid Jacobianを作らない。Packet 2に追加する
-`dense_grid_barrier` と既存 `dense_grid_barrier_and_grad` は同じ内部reducerを使い、
-二乗hingeとgroup weightingを二重authoringしない。
+eta有限差分のvalue-only評価ではgrid Jacobianを作らない。Packet 2の内部value helperと
+既存 `dense_grid_barrier_and_grad` は同じ内部reducerを使い、二乗hingeとgroup weightingを
+二重authoringしない。Packet 2の公開interfaceは増やさない。
 
 ## 3. state gradient と eta-logit gradient
 
 etaは既存exp18と同じく `eta=sigmoid(t)` のlogit `t` で渡し、float64で厳密に
 `0 < eta < 1` へ写らない値をfail closedで拒否する。
+
+`value_and_grad` はさらにPacket 2 analytic Jacobianのpositive-convolution-variance境界を
+継承する。`value` が定義できてもetaが1へ近すぎてJacobian対象外なら、gradientを推測せず
+`NotImplementedError` でfail closedにする。
 
 state gradientはPacket 2のsample density Jacobianへstrict NLLのchain ruleを適用し、
 Packet 2のbarrier gradientへ `lambda` を掛けて加える。返却gradientはPacket 2 packed

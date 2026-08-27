@@ -242,14 +242,14 @@ def _reduce_grid_barrier(group_outputs) -> tuple[float, np.ndarray | None]:
     return value, np.mean(np.stack(group_gradients), axis=0)
 
 
-def dense_grid_barrier(
+def _dense_grid_barrier_value(
     parameterization: FixedBetaParameterization,
     parameters,
     grid_groups,
     eta: float,
     extra_noise_var: float = 0.0,
 ) -> float:
-    """Value-only evaluation of the declared explicit-grid barrier."""
+    """Internal value-only evaluation of the declared grid barrier."""
     if not isinstance(parameterization, FixedBetaParameterization):
         raise TypeError("parameterization must be a FixedBetaParameterization")
     vector = np.asarray(parameters)

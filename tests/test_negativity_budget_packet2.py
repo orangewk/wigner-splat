@@ -118,7 +118,7 @@ def test_dense_grid_barrier_equal_weights_groups_and_matches_gradient_fd():
     value, gradient = packet2.dense_grid_barrier_and_grad(
         parameterization, vector, groups, eta
     )
-    value_only = packet2.dense_grid_barrier(
+    value_only = packet2._dense_grid_barrier_value(
         parameterization, vector, groups, eta
     )
     densities = [
@@ -164,7 +164,7 @@ def test_packet2_boundaries_fail_closed():
             parameterization, vector, [], eta=0.8
         )
     with pytest.raises(ValueError, match="grid_groups"):
-        packet2.dense_grid_barrier(
+        packet2._dense_grid_barrier_value(
             parameterization, vector, [], eta=0.8
         )
     with pytest.raises(NotImplementedError, match="sigma2"):
