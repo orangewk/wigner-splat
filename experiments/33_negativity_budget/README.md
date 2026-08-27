@@ -1,10 +1,13 @@
 # Experiment 33 — negativity-budget sweep
 
-Issue #140。packet 1は、後続sweepが消費するfixed-β difference forward interfaceだけを扱う。
-定義・非物理性の境界・fail-closed評価規則は [`protocol.md`](protocol.md) を参照する。
+Issue #140。
 
-このpacketはGKP quadrature値を読まず、optimizer、barrier、stage 1/2 resultを生成しない。
+- Packet 1 forward model: [`protocol.md`](protocol.md) / [`fixed_beta.py`](fixed_beta.py)
+- Packet 2 density Jacobian・grid barrier: [`packet2_protocol.md`](packet2_protocol.md) / [`packet2.py`](packet2.py)
+- gates: [`../../tests/test_negativity_budget.py`](../../tests/test_negativity_budget.py) / [`../../tests/test_negativity_budget_packet2.py`](../../tests/test_negativity_budget_packet2.py)
+
+両packetともGKP quadrature値を読まず、optimizerやstage 1/2 resultを生成しない。
 
 ```powershell
-python -m pytest tests\test_negativity_budget.py -q
+python -m pytest tests\test_negativity_budget.py tests\test_negativity_budget_packet2.py -q
 ```

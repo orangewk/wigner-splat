@@ -430,6 +430,16 @@ def _check_loss_params(eta, extra_noise_var):
     Without this, eta > 1 makes sigma2 negative and silently falls into the
     sigma2 ~ 0 pure-model branch, and eta < 0 NaNs through sqrt(eta).
     """
+    for value, label in ((eta, "eta"), (extra_noise_var, "extra_noise_var")):
+        array = np.asarray(value)
+        if (
+            array.ndim != 0
+            or np.issubdtype(array.dtype, np.bool_)
+            or np.iscomplexobj(array)
+            or not np.issubdtype(array.dtype, np.number)
+            or not np.isfinite(array.item())
+        ):
+            raise ValueError(f"{label} must be a finite real scalar")
     if not (0.0 <= eta <= 1.0):
         raise ValueError(f"eta must be in [0, 1], got {eta}")
     if extra_noise_var < 0.0:
@@ -735,10 +745,160 @@ def lossy_pdf_mixed(state, X, theta, eta, extra_noise_var=0.0):
             np.abs(c.psi_at(X, np.asarray(theta, float))) ** 2
             for c in state.columns()
         ) / Z
-    return sum(
-        lossy_pdf(c, X, theta, eta, extra_noise_var) * c.norm_sq()
-        for c in state.columns()
-    ) / state.norm_sq()
+    weighted_columns = []
+    for col in state.columns():
+        column_norm = col.norm_sq()
+        if column_norm == 0.0:
+            continue
+        weighted_columns.append(
+            lossy_pdf(col, X, theta, eta, extra_noise_var) * column_norm
+        )
+    total_norm = state.norm_sq()
+    if not weighted_columns:
+        return np.zeros(len(np.asarray(X))) / total_norm
+    return sum(weighted_columns) / total_norm
+
+
+def lossy_pdf_and_jac_mixed(state, X, theta, eta, extra_noise_var=0.0,
+                            chunk=8192):
+    """Measured pdf and analytic Jacobian w.r.t. ``_pack_mixed(state)``.
+
+    Returns ``(density, jacobian)`` with shapes ``(S,)`` and ``(S, P)``.
+    The Jacobian covers only the packed state parameters; eta is deliberately
+    excluded.  As in ``nll_and_grad_lossy_mixed``, this path requires positive
+    total convolution variance.
+    """
+    _check_loss_params(eta, extra_noise_var)
+    sigma2 = (1.0 - eta) / 2.0 + extra_noise_var
+    if sigma2 <= 1e-14:
+        raise NotImplementedError(
+            "rank-R Jacobian needs sigma2 > 0 (eta < 1 or extra noise)")
+    if isinstance(chunk, bool) or not isinstance(chunk, (int, np.integer)) \
+            or chunk < 1:
+        raise ValueError("chunk must be a positive integer")
+
+    R, K, M = state.R, state.K, state.M
+    X_array = np.asarray(X)
+    theta_array = np.asarray(theta)
+    if np.iscomplexobj(X_array) or np.iscomplexobj(theta_array):
+        raise ValueError("X and theta must be real")
+    X_array = np.asarray(X_array, float)
+    theta_array = np.asarray(theta_array, float)
+    if X_array.ndim != 2 or X_array.shape[0] < 1 or X_array.shape[1] != M:
+        raise ValueError(f"X must have shape (samples >= 1, {M})")
+    if theta_array.shape != (M,):
+        raise ValueError(f"theta must have shape ({M},)")
+    if not np.all(np.isfinite(X_array)) or not np.all(np.isfinite(theta_array)):
+        raise ValueError("X and theta must be finite")
+
+    cols = state.columns()
+    Z = 0.0
+    column_norms = []
+    dZ_zr = np.zeros((R, K))
+    dZ_zi = np.zeros((R, K))
+    dZ = {p: np.zeros((R, K, M)) for p in ("ar", "ai", "xr", "xi")}
+    for r, col in enumerate(cols):
+        Zr, dzr, dzi, dz = _z_block(col)
+        Z += Zr
+        column_norms.append(Zr)
+        dZ_zr[r], dZ_zi[r] = dzr, dzi
+        for p in dZ:
+            dZ[p][r] = dz[p]
+    if not np.isfinite(Z) or Z <= 0.0:
+        raise ValueError("state norm must be finite and positive")
+    dZ_packed = np.concatenate([
+        dZ_zr.ravel(), dZ_zi.ravel(), dZ["ar"].ravel(),
+        dZ["ai"].ravel(), dZ["xr"].ravel(), dZ["xi"].ravel(),
+    ])
+
+    col_ctx = []
+    for col in cols:
+        rot_a = col.alpha * np.exp(-1j * theta_array)[None, :]
+        rot_x = col.xi * np.exp(-2j * theta_array)[None, :]
+        mode_params = [
+            _gauss_params(rot_a[:, m], rot_x[:, m]) for m in range(M)
+        ]
+        mode_triples = [
+            _rot_coeff_triples(rot_a[:, m], rot_x[:, m], theta_array[m])
+            for m in range(M)
+        ]
+        col_ctx.append((mode_params, mode_triples))
+
+    density_parts = []
+    jacobian_parts = []
+    for s0 in range(0, X_array.shape[0], chunk):
+        Xc = X_array[s0:s0 + chunk]
+        size = Xc.shape[0]
+        numerator = np.zeros(size)
+        dnum_zr = np.zeros((size, R, K))
+        dnum_zi = np.zeros((size, R, K))
+        dnum = {
+            p: np.zeros((size, R, K, M))
+            for p in ("ar", "ai", "xr", "xi")
+        }
+        for r, col in enumerate(cols):
+            if column_norms[r] == 0.0:
+                continue
+            mode_params, mode_triples = col_ctx[r]
+            per_mode = [
+                _lossy_mode_pair_density(
+                    mode_params[m], Xc[:, m], eta, sigma2
+                )
+                for m in range(M)
+            ]
+            Q = np.ones((size, K, K), complex)
+            for O, _, _ in per_mode:
+                Q *= O
+            Qz = np.einsum("scd,d->sc", Q, col.z)
+            column_numerator = np.real(
+                np.einsum(
+                    "c,scd,d->s", np.conj(col.z), Q, col.z
+                )
+            )
+            column_positive = column_numerator > 0.0
+            # Preserve lossy_pdf_mixed's column-wise evaluation order exactly:
+            # lossy_pdf(column) * column.norm_sq().  The cancellation is kept
+            # intentionally so beta=0 is array-identical to the old forward.
+            numerator += (
+                np.maximum(column_numerator, 0.0)
+                / column_norms[r]
+                * column_norms[r]
+            )
+            dnum_zr[:, r] = (
+                2.0 * np.real(Qz) * column_positive[:, None]
+            )
+            dnum_zi[:, r] = (
+                2.0 * np.imag(Qz) * column_positive[:, None]
+            )
+            zz = np.conj(col.z)[:, None] * col.z[None, :]
+            W = zz[None, :, :] * Q
+            for m in range(M):
+                _, R1, R2 = per_mode[m]
+                for p, (a, b, c) in mode_triples[m].items():
+                    E = (
+                        np.conj(a)[None, :, None]
+                        + np.conj(b)[None, :, None] * R1
+                        + np.conj(c)[None, :, None] * R2
+                    )
+                    dnum[p][:, r, :, m] = (
+                        2.0
+                        * np.sum(np.real(W * E), axis=2)
+                        * column_positive[:, None]
+                    )
+
+        dnum_packed = np.concatenate([
+            dnum_zr.reshape(size, -1), dnum_zi.reshape(size, -1),
+            dnum["ar"].reshape(size, -1), dnum["ai"].reshape(size, -1),
+            dnum["xr"].reshape(size, -1), dnum["xi"].reshape(size, -1),
+        ], axis=1)
+        density = numerator / Z
+        jacobian = (
+            dnum_packed - density[:, None] * dZ_packed[None, :]
+        ) / Z
+        density_parts.append(density)
+        jacobian_parts.append(jacobian)
+
+    return np.concatenate(density_parts), np.concatenate(jacobian_parts)
 
 
 def nll_lossy_mixed(state, data, eta, extra_noise_var=0.0):

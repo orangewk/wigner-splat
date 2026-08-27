@@ -11,8 +11,9 @@ import pytest
 
 from wigner_splat.bbdagS import (
     MixedSqueezedKetState, SqueezedKetState, _pack_mixed, _unpack_mixed,
-    fit_bbdagS_lossy_mixed, lossy_pdf_mixed, nll_and_grad_lossy,
-    nll_and_grad_lossy_mixed, nll_lossy, nll_lossy_mixed, nll_mixed,
+    fit_bbdagS_lossy_mixed, lossy_pdf_and_jac_mixed, lossy_pdf_mixed,
+    nll_and_grad_lossy, nll_and_grad_lossy_mixed, nll_lossy,
+    nll_lossy_mixed, nll_mixed,
 )
 from wigner_splat.fock import _coherent_coeffs, marginal_from_rho
 
@@ -121,6 +122,105 @@ def test_mixed_lossy_grad_matches_central_difference(R, K, M, squeeze):
         ) / (2 * eps)
     scale = np.maximum(np.abs(g_fd), 1e-3 * np.max(np.abs(g_fd)))
     assert np.max(np.abs(g - g_fd) / scale) < 2e-7
+
+
+def test_mixed_lossy_pdf_jacobian_matches_central_difference():
+    state, _ = _random_problem(R=2, K=2, M=1, squeeze=0.25, samples=5)
+    X = np.array([[-1.1], [-0.3], [0.2], [0.8], [1.4]])
+    theta = np.array([0.47])
+    eta = 0.73
+    density, jacobian = lossy_pdf_and_jac_mixed(state, X, theta, eta)
+    np.testing.assert_allclose(
+        density, lossy_pdf_mixed(state, X, theta, eta), rtol=2e-14, atol=1e-15
+    )
+
+    v0 = _pack_mixed(state)
+    jacobian_fd = np.zeros_like(jacobian)
+    eps = 1e-5
+    for i in range(len(v0)):
+        vp = v0.copy(); vp[i] += eps
+        vm = v0.copy(); vm[i] -= eps
+        jacobian_fd[:, i] = (
+            lossy_pdf_mixed(_unpack_mixed(vp, 2, 2, 1), X, theta, eta)
+            - lossy_pdf_mixed(_unpack_mixed(vm, 2, 2, 1), X, theta, eta)
+        ) / (2.0 * eps)
+    scale = np.maximum(
+        np.abs(jacobian_fd), 1e-3 * np.max(np.abs(jacobian_fd))
+    )
+    assert np.max(np.abs(jacobian - jacobian_fd) / scale) < 2e-7
+
+
+def test_mixed_lossy_pdf_jacobian_accepts_exact_zero_column():
+    state = MixedSqueezedKetState(
+        z=np.array([[1.0], [0.0]], complex),
+        alpha=np.array([[[0.3 + 0.1j]], [[1.7 - 0.2j]]]),
+        xi=np.array([[[0.1 - 0.05j]], [[0.2 + 0.1j]]]),
+    )
+    active = MixedSqueezedKetState(
+        z=state.z[:1], alpha=state.alpha[:1], xi=state.xi[:1]
+    )
+    X = np.linspace(-1.0, 1.0, 5)[:, None]
+    theta = np.array([0.37])
+    eta = 0.78
+    density, jacobian = lossy_pdf_and_jac_mixed(state, X, theta, eta)
+    np.testing.assert_array_equal(
+        density, lossy_pdf_mixed(state, X, theta, eta)
+    )
+    np.testing.assert_array_equal(
+        density, lossy_pdf_mixed(active, X, theta, eta)
+    )
+    zero_column_indices = np.array([1, 3, 5, 7, 9, 11])
+    np.testing.assert_array_equal(jacobian[:, zero_column_indices], 0.0)
+
+    vector = _pack_mixed(state)
+    eps = 1e-5
+    for index in zero_column_indices:
+        vp = vector.copy(); vp[index] += eps
+        vm = vector.copy(); vm[index] -= eps
+        derivative = (
+            lossy_pdf_mixed(_unpack_mixed(vp, 2, 1, 1), X, theta, eta)
+            - lossy_pdf_mixed(_unpack_mixed(vm, 2, 1, 1), X, theta, eta)
+        ) / (2.0 * eps)
+        np.testing.assert_allclose(derivative, 0.0, atol=1e-13)
+
+
+@pytest.mark.parametrize(
+    ("eta", "extra_noise_var"),
+    [(True, 0.0), (np.nan, 0.0), (0.8, np.inf)],
+)
+def test_mixed_lossy_pdf_jacobian_rejects_nonfinite_or_bool_loss_params(
+    eta, extra_noise_var
+):
+    state, _ = _random_problem(R=1, K=1, M=1)
+    with pytest.raises(ValueError, match="finite real scalar"):
+        lossy_pdf_and_jac_mixed(
+            state, np.zeros((1, 1)), np.zeros(1), eta, extra_noise_var
+        )
+
+
+def test_mixed_pdf_jacobian_aggregates_to_existing_nll_gradient():
+    state, data = _random_problem(
+        R=2, K=2, M=2, squeeze=0.2, groups=2, samples=7
+    )
+    eta = 0.76
+    value, gradient = nll_and_grad_lossy_mixed(state, data, eta)
+    densities = []
+    jacobians = []
+    for theta, X in data:
+        density, jacobian = lossy_pdf_and_jac_mixed(
+            state, X, theta, eta
+        )
+        densities.append(density)
+        jacobians.append(jacobian)
+    density = np.concatenate(densities)
+    jacobian = np.concatenate(jacobians)
+    assert value == pytest.approx(float(np.mean(-np.log(density))), rel=1e-12)
+    np.testing.assert_allclose(
+        gradient,
+        -np.mean(jacobian / density[:, None], axis=0),
+        rtol=2e-10,
+        atol=2e-12,
+    )
 
 
 def test_mixed_validation_and_pure_grad_refusal():
