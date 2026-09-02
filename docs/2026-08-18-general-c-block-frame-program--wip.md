@@ -3761,7 +3761,7 @@ v2、または scale-neutral hop の中心移送補題が必要(単一中心の�
 statement と T3b の scale-covariant floor statement の 2 本だけを正確に
 起こす**(→ §8.24)。総見積 14–24R(計画値 16–20R)。
 
-### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張。R-T3S R5 適用済み、査読対象 R-T3S R6)
+### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張。R-T3S R6 適用済み、査読対象 R-T3S R7)
 
 **目的**: consult #19 (v) の指示に従い、T3 本文着工前に危険度上位 2 点の
 **statement を正確な型で登録**する(PTN-SPEC 方式 — 主張はしない。証明
@@ -3773,17 +3773,20 @@ statement と T3b の scale-covariant floor statement の 2 本だけを正確�
 constructor** で定義する:
 - **`c0_witness-v1`(config-level — chart-level の (CC-3) c₀ witness と
   区別)** := `(config ref, step0_record ref(raw 合算係数 c̄_k の exact 値
-  — 安定化後の生存 ≃ 類 k), gauge_transform_ref(§8.19 common_gauge_record-
-  v1.1 の transformed_atom_table — scalar absorption による係数変換
-  c̄_k ↦ c̃_k の記録。chart 枝 χ の config は T2b-0 adapter の入力なので
+  — 安定化後の生存 ≃ 類 k), gauge_transform_ref := (§8.19 common_gauge_
+  record-v1.1 の **scalar_absorption_table**(係数吸収の記録 — 係数変換
+  c̄_k ↦ c̃_k の源はこちら)+ **transformed_atom_table**(変換後の原子
+  (B, A) パラメータの記録 — 類 label k と原子の対応付けに使う)[R-T3S
+  R6-01]。chart 枝 χ の config は T2b-0 adapter の入力なので両 field を
   必ず持つ), **c₀(config) := min_k |ĉ_k|、ĉ := c̃/‖c̃‖₂**((CC-3) と**同一
   座標**: scalar absorption 後の係数を係数単位球 ‖·‖₂ = 1 に正規化 — 正規化
   は計算で定まり追加 evidence 不要。生存類は c̃_k ≠ 0 なので c₀(config) > 0),
   rank_drop_flag(AT-2 行 (i) の判定 ref — true でも構成可能: 係数退化列を
   定義域から外さないのが本型の目的))` — constructor
-  `derived_from(step0_record ref, transformed_atom_table ref, AT-2 判定
-  ref)`(step0 単独からは導出しない — 座標変換と判定は別 accepted 型の
-  field [R-T3S R5-02])、field 欠落 = 構成不能。**座標の同一性は定義で
+  `derived_from(step0_record ref, scalar_absorption_table ref,
+  transformed_atom_table ref, AT-2 判定 ref)`(step0 単独からは導出しない
+  — 係数変換・原子対応・判定は別 accepted 型の field [R-T3S R5-02]
+  [R6-01])、field 欠落 = 構成不能。**座標の同一性は定義で
   固定**(c₀(config) は (CC-3) の係数球上の量そのもの)なので、(CC-3) の
   chart-level c₀ witness「安定化部分列上 inf_n c₀(config_n) ≥ c₀」との関係
   は座標変換なしの inf 関係のみ — その検証(inf ≥ c₀ の evidence 照合)が
@@ -3892,8 +3895,10 @@ constructor** で定義する:
   face 列 ref(各 n で同要素の生存 child 係数を落とした rank_r_config —
   同 provenance、checked_same_provenance), 近接 evidence(落とした
   成分の係数 → 0 の記録 — **`c0_seq_ref` := 各要素の config-level
-  `c0_witness-v1`(本節冒頭の補助型 — step0_record から導出。(CC-3) の
-  chart-level witness ではない [R-T3S R4-01])への identity ref の列**。
+  `c0_witness-v1`(本節冒頭の補助型 — step0_record + scalar_absorption_
+  table + transformed_atom_table + AT-2 判定から導出、c₀(config) は (CC-3)
+  座標の係数球上の量。(CC-3) の chart-level witness ではない [R-T3S
+  R4-01][R6-02])への identity ref の列**。
   **floor_input-v1 自体は参照しない**: floor_input-v1 は固定 c₀ の量化を
   要求し c₀^{(n)} → 0 列はその量化外(§8.23)なので producer にならない
   [R-T3S R3-03]。同一正規化
@@ -3994,6 +3999,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.46(2026-09-03): R-T3S R6(blocking 2)適用 — [R6-01] c̃ の導出元を
+  §8.19 の実 field に合わせ scalar_absorption_table(係数吸収)+
+  transformed_atom_table(原子パラメータ・類対応)の両参照に是正、
+  constructor 入力に scalar_absorption_table を追加。[R6-02]
+  face_approach_witness-v1 の c0_seq_ref 記述(active interface)を現行
+  constructor の provenance に同期。
 
 - v0.29.45(2026-09-03): R-T3S R5(blocking 2)適用 — [R5-01]
   prune_record-v1 を「消去 ≃ 類 list(空可、within-child 含む)」に一般化
