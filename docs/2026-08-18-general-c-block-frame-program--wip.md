@@ -3761,7 +3761,7 @@ v2、または scale-neutral hop の中心移送補題が必要(単一中心の�
 statement と T3b の scale-covariant floor statement の 2 本だけを正確に
 起こす**(→ §8.24)。総見積 14–24R(計画値 16–20R)。
 
-### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張。R-T3S R4 適用済み、査読対象 R-T3S R5)
+### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張。R-T3S R5 適用済み、査読対象 R-T3S R6)
 
 **目的**: consult #19 (v) の指示に従い、T3 本文着工前に危険度上位 2 点の
 **statement を正確な型で登録**する(PTN-SPEC 方式 — 主張はしない。証明
@@ -3772,25 +3772,40 @@ statement と T3b の scale-covariant floor statement の 2 本だけを正確�
 存在しないため、accepted な step0_record((AT-0))の field から**導出
 constructor** で定義する:
 - **`c0_witness-v1`(config-level — chart-level の (CC-3) c₀ witness と
-  区別)** := `(config ref, step0_record ref, 正規化 ‖𝐁̂‖_⊕ = 1 の evidence,
-  c₀(config) := min{|c̄_k| : k = 安定化後の生存 ≃ 類}(c̄_k は step0_record
-  の合算係数 exact 値 ref — 生存類は合算値 ≠ 0 なので c₀(config) > 0),
-  rank_drop_flag(AT-2 行 (i) の判定 ref — true でも構成可能: 係数退化列
-  を定義域から外さないのが本型の目的))` — constructor
-  `derived_from_step0(step0_record ref)`、field 欠落 = 構成不能。(CC-3) の
-  chart-level c₀ witness は「安定化部分列上の inf_n c₀(config_n) ≥ c₀」の
-  chart 割当 record であり、本型はその**要素側**(登録のみ — 両者の整合
-  = inf 関係の検証は T3a の義務)。c₀^{(n)} → 0 は c₀(config_n) → 0 の
-  意味で読む。
-- **`prune_record-v1`** := step0_record の**射影**: `(step0_record ref,
-  消去 child label(∈ {1, 2}), 消去 child の ≃ 類ごとの合算係数 = 0 の
-  exact evidence ref(step0_record の合算係数 field), exact_zero flag,
-  support_before(prune 前の原子 label 集合), support_after(prune 後),
-  active_children_nonzero 判定 ref)` — constructor
-  `derived_from_step0(step0_record ref)`。atlas_witness-v1 の lower-rank
-  exit が持つ「redispatch record」は、本 packet 以降 **prune_record-v1 を
-  必須 field として含む**(§8.17 の型は不変更 — 拡張は下流の消費契約と
-  して本節に登録: (AT-2) 行 (i) exit を T3a0 が消費する際 prune_record-v1
+  区別)** := `(config ref, step0_record ref(raw 合算係数 c̄_k の exact 値
+  — 安定化後の生存 ≃ 類 k), gauge_transform_ref(§8.19 common_gauge_record-
+  v1.1 の transformed_atom_table — scalar absorption による係数変換
+  c̄_k ↦ c̃_k の記録。chart 枝 χ の config は T2b-0 adapter の入力なので
+  必ず持つ), **c₀(config) := min_k |ĉ_k|、ĉ := c̃/‖c̃‖₂**((CC-3) と**同一
+  座標**: scalar absorption 後の係数を係数単位球 ‖·‖₂ = 1 に正規化 — 正規化
+  は計算で定まり追加 evidence 不要。生存類は c̃_k ≠ 0 なので c₀(config) > 0),
+  rank_drop_flag(AT-2 行 (i) の判定 ref — true でも構成可能: 係数退化列を
+  定義域から外さないのが本型の目的))` — constructor
+  `derived_from(step0_record ref, transformed_atom_table ref, AT-2 判定
+  ref)`(step0 単独からは導出しない — 座標変換と判定は別 accepted 型の
+  field [R-T3S R5-02])、field 欠落 = 構成不能。**座標の同一性は定義で
+  固定**(c₀(config) は (CC-3) の係数球上の量そのもの)なので、(CC-3) の
+  chart-level c₀ witness「安定化部分列上 inf_n c₀(config_n) ≥ c₀」との関係
+  は座標変換なしの inf 関係のみ — その検証(inf ≥ c₀ の evidence 照合)が
+  T3a の義務。c₀^{(n)} → 0 は c₀(config_n) → 0 の意味で読む。
+- **`prune_record-v1`** := step0_record の**射影**(消去 list は**空でも
+  よい** [R-T3S R5-01]): `(step0_record ref, pruned_classes := 消去された
+  ≃ 類の list(各要素: child label ∈ {1,2}, 類 id, 合算係数 = 0 の exact
+  evidence ref — step0_record の合算係数 field; within-child の類消去も
+  含む), support_before(prune 前の原子 label 集合), support_after(prune
+  後), active_children_nonzero 判定 ref)` — constructor
+  `derived_from_step0(step0_record ref)`。消去 child label は**導出量**:
+  child i が dead ⟺ その全類が pruned_classes に含まれる。
+- **`lower_rank_record-v1`(AT-2 行 (i) exit の全域型)** := `(prune_record-
+  v1, support_rank_record := (m₁, m₂ := 各 child の生存 ≃ 類数, r := m₁ +
+  m₂ ≤ 3), 生存構造 := two_children(m₁, m₂ ≥ 1)| one_component(i*)
+  (m_{3−i*} = 0 — 導出))`。行 (i) の両 sub-case — **child 恒等零**(prune で
+  m_i = 0)と**両 child 非零の support rank ≤ 3**(pruned_classes が空
+  または within-child のみ)— を共に覆い、全 exit で構成可能(step0_record
+  は常に存在する)✓。atlas_witness-v1 の lower-rank exit が持つ
+  「redispatch record」は、本 packet 以降 **lower_rank_record-v1 を必須
+  field として含む**(§8.17 の型は不変更 — 拡張は下流の消費契約として
+  本節に登録: (AT-2) 行 (i) exit を T3a0 が消費する際 lower_rank_record-v1
   を構成できなければ lower_face_input-v1 は不成立、fail-closed)。
 
 **(TS-1) T3a0 PTN-LOWER-FACE statement(support rank ≤ 3 の projective
@@ -3811,14 +3826,16 @@ constructor** で定義する:
     と `not_parent_reuse`(親 record の id と異なり、計算 evidence が face
     pair を入力にしていることの検証 constructor)を必須とする), 生存構造
     constructor(**排他的・total** [R-T3S R2-01][R3-02]):
-    **two_children**(両 child ≢ 0 の evidence 必須 — r = 2+1 / 1+1 等 —
-    stratum_record_r の ord 対 field はこの枝でのみ二成分)|
+    **two_children**(両 child ≢ 0 の evidence = lower_rank_record-v1 の
+    m₁, m₂ ≥ 1 — r = 2+1 / 1+1 等 — stratum_record_r の ord 対 field は
+    この枝でのみ二成分)|
     **one_component(i*)**(i* ∈ {1, 2} = 生存 child の label、dead_child
     := 3 − i*。upstream (AT-0) は恒等零 child を step-0 で除去してから
     rank-r pair を作るので、**零 child は保持しない**: 表現は生存成分
-    B̃_{i*,r} のみ + dead_child label + **prune_record-v1 ref**(本節冒頭
-    の補助型 — step0_record の射影 [R-T3S R4-02])。両 child 恒等零は
-    t3_witness と矛盾し構成不能))`。
+    B̃_{i*,r} のみ + dead_child label + **lower_rank_record-v1 ref**(本節
+    冒頭の補助型 — prune_record-v1 + support_rank_record、生存構造はそこ
+    から導出 [R-T3S R4-02][R5-01])。両 child 恒等零は t3_witness と矛盾し
+    構成不能))`。
   - **one_component(i*) contract**(total 化 [R-T3S R2-01][R3-02]):
     片 child が死んだ config は (PS-1) の二成分 g(B₂ ≢ 0 前提)の対象外
     なので、**one-component 専用契約**で閉じる: 生存成分 B̃_{i*,r}(i* は
@@ -3890,7 +3907,7 @@ constructor** で定義する:
   scalar jet/sup 比で分母付き PTN ではない — consult #19 Q2(a))、rank ≤ 2
   の two_children 枝の自明性、face_approach 比較の成立。**出力契約**:
   `ptn_lower_face-v1 := proven(C_r 存在 ref, ν_r ≤ 9 記録,
-  face_approach 記録)| trivial_one_component(i*, prune_record-v1 ref)|
+  face_approach 記録)| trivial_one_component(i*, lower_rank_record-v1 ref)|
   nogo(反例 ref)` — fail-closed(構成子名は上の契約と同一 [R-T3S R3-01])。
 
 **(TS-2) T3b PTN22-SCALE-HOP statement(scale-covariant carrier floor)**:
@@ -3977,6 +3994,18 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.45(2026-09-03): R-T3S R5(blocking 2)適用 — [R5-01]
+  prune_record-v1 を「消去 ≃ 類 list(空可、within-child 含む)」に一般化
+  し、AT-2 行 (i) exit の全域型 lower_rank_record-v1 := (prune_record,
+  support_rank_record (m₁, m₂), 生存構造 導出)を登録 — child 恒等零と
+  両 child 非零 rank ≤ 3 の両 sub-case を覆う。redispatch record への
+  必須化・one_component・出力契約・two_children evidence の参照先をこれに
+  統一。[R5-02] c0_witness-v1 の c₀(config) を (CC-3) と同一座標で定義
+  (transformed_atom_table による scalar absorption 後の係数を係数単位球で
+  正規化)、constructor を derived_from(step0, transformed_atom_table,
+  AT-2 判定)に是正、座標同一性を定義で固定し T3a 義務を inf 関係の照合
+  のみに縮小。
 
 - v0.29.44(2026-09-03): R-T3S R4(blocking 2)適用 — [R4-01] config-level
   `c0_witness-v1` を §8.24 冒頭に登録(step0_record の合算係数 exact 値から
