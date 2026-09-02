@@ -185,7 +185,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。配置 = T2c 後・T3 前 | open |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
-| GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行(GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 3–5R |
+| GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行(GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **drafted(§8.25、査読待ち R-T3A0 R1)**(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
 | GC-5-T3a PTN22-ROUTE | T3a0 | 境界 routing 完備化: c₀→0(→ T3a0 induction)・**one_sided ⇒ c₀→0 吸収補題**(固定 K_χ(c₀) の Gram 床 + 係数下界 ⟹ 両成分生存 — 証明できなければ CC-3/CC-7 上流欠陥)・lower-rank/exact-QR/overflow の排他的分岐・T3 入口 gate(floored×head_good のみ、T2c-ov detected→nogo / not_proven→unresolved 停止) | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b | violation_sequence-v1 の列-矛盾実行・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
@@ -3960,6 +3960,132 @@ constructor** で定義する:
 **scope(非主張)**: TS-1/TS-2 の証明(T3a0/T3b)、T3a routing 補題
 (one_sided ⇒ c₀→0)、T3c 合成、C₂₂、人間による査読は未実施。
 
+### 8.25 GC-5-T3a0 PTN-LOWER-FACE(support rank ≤ 3 の projective 二窓比較 base — drafted、査読対象 R-T3A0 R1)
+
+**目的**: consult #19 の順序どおり T3 の底。§8.24 (TS-1) の登録 statement
+PTN_r を two_children 枝(r ∈ {2, 3})で証明し、one_component 枝を契約で
+閉じ、window_contract_r の face 側再導出義務を構成し、face_approach を
+(α) 非 deep-flat sub-case で証明・(β) deep-flat sub-case を typed routing
+で T3a に送る。**主張は 1 つ**: PTN_r(two_children、ν_r = 5、C_r は c₀
+非依存)。
+
+**(LF-0) 補題(jet → 区間 sup — Taylor/Cauchy)**: F を D̄(ζ, R) 上解析、
+M_R := sup_{D̄(ζ,R)}|F|、ζ ∈ ℝ、S := [ζ − s/2, ζ + s/2]、0 < s ≤ R とする。
+  **sup_S |F| ≥ c₅ (s/2)⁵ max_{j≤5} |F^{(j)}(ζ)|/j! − 2 M_R (s/(2R))⁶**
+(c₅ > 0 は絶対定数: deg ≤ 5 多項式の [−1, 1] 上 sup と係数 max の
+有限次元ノルム同値)。証明: F(ζ + u) = Σ_{j≤5} F^{(j)}(ζ)u^j/j! + R₆(u)、
+Cauchy より |R₆(u)| ≤ M_R (|u|/R)⁶/(1 − |u|/R) ≤ 2M_R(s/(2R))⁶(|u| ≤ s/2
+≤ R/2)。多項式部は x := 2u/s ∈ [−1, 1] で Σ b_j x^j、b_j = F^{(j)}(ζ)(s/2)^j/j!、
+sup ≥ c₅ max|b_j| ≥ c₅ (s/2)⁵ max_j |F^{(j)}(ζ)|/j!(s/2 ≤ 1)。∎
+
+**(LF-1) 単一原子 child と分母の非零性(rank ≤ 3 の構造)**: two_children で
+r = m₁ + m₂ ≤ 3、m_i ≥ 1 ⟹ **min(m₁, m₂) = 1**: ある child(WLOG label 2 —
+(F2²-2) の G(w) = G(1/w) 対称性で index 交換は合法)が単一 ≃ 類 = 単一
+Gauss 原子 c₂e^{q₂}。held cell 上の F2 分解 (F2²-1) では単一原子は **D1/D2
+枝(P₂ = 定数、|V₂| ∈ [0.84, 1.16])** — **P₂ の零点 = B₂ の零点 = ∅**、
+すなわち **B₂ = P₂V₂e^{r₂} は cell 上非零** ✓。従って D = gcd(P₁, P₂) は
+定数(reduced pair = raw pair、stratum_record_r は d₀,r = 0 の退化 record —
+構成は可能)、H := B₁/B₂ は cell 上 **entire**(極なし)、g = G(H) =
+|1 + H|/max(1, |H|)((F2²-2))。B₂ の両側評価: box premise(下記 (LF-2)
+box_fit)の下で |e^{r₂}| ∈ [e^{−C_box}, e^{C_box}](|W| ≤ 1)なので
+  **κ_B := sup_W |B₂| / inf_W |B₂| ≤ (1.16/0.84)·e^{2C_box}**
+— **|c₂| は分子分母で相殺し κ_B は c₀ に依存しない** ✓(T3a の induction
+接続で本質的: base の定数は c₀ → 0 で劣化しない)。
+
+**(LF-2) 入力 field の構成(§8.24 lower_face_input-v1 の face 側義務の
+discharge)**:
+- `face_wzf_cover`: 分母床は D ≥ |B₂| > 0 が cell 全域で成立するため **零点
+  bubble の被覆は不要** — 構成子 `denominator_nonvanishing(single-atom child
+  の D1/D2 branch record ref — (F2²-1) の cell witness)`(§8.24 の
+  derived(AT-3 法)の代替構成子として本 packet で追加登録。two_children
+  r ≤ 3 では常にこの構成子が取れる)。
+- `face_jet_witness := not_needed(evidence: 本 packet は TN-3 (T1-1) の jet
+  床を直接消費し、we9/d10 類似物を消費する下流は存在しない)`、
+  `face_relation_flag := not_needed(同 evidence)`。
+- `box_fit`(本 packet で追加する field): F̃ の 3 原子(child 1 の 2 原子 +
+  child 2 の 1 原子)が TN-3 の K の Fock 箱 |A_j| ≤ 1 − δ_ℱ、|B_j| ≤ R_ℱ に
+  入る evidence — **親 config の common_gauge_record-v1.1 standard_box_premise
+  (§8.22 (CC-5) box 供給、pivot 正規化下で原子ごと)の部分集合継承**
+  (face の原子は親の原子の部分集合 — identity ref、checked_subset)。
+- `domain_fit`(追加 field): S の中心 t_c ∈ D̄(t₀, R_col)(TN-3/(B3-4) の
+  moving-center 域)かつ W ⊂ D̄(t₀, R_out)(RKHS 評価域)の evidence —
+  window_contract の λ・ℓ_ext field から chart 座標 y = λ(t − t₀) で検証
+  (物理 s と chart scale の換算は record 内で完結 — 暗黙換算禁止)。
+  **不成立の場合**: W を有限個の chart 円板で覆う bounded-overlap 被覆
+  (T3b と同型の義務)— 本 packet 非主張、`domain_fit` 欠落 = PTN_r 不成立
+  (fail-closed)。
+- F2 record の継承: child 1(2 原子、不変)の B₁ = P₁V₁e^{r₁} は親 record の
+  identity 継承、child 2(単一原子)は再導出(自明: P₂ = c₂ 定数)。held
+  条件 sup|η̃| ≤ 1/8 は A.0 held witness の cell 単位条件で原子部分集合に
+  そのまま適用 ✓。
+
+**(LF-3) PTN_r の証明(two_children、r ∈ {2, 3})**: F̃ := B₁ + B₂(= 3 原子
+和 c₁e^{q₁} + c₂e^{q₂} + c₃e^{q₃}、r = 2 のときは 2 原子 — TN-3 の K は
+係数球 ‖c‖₂ = 1 上の 3 原子空間で、係数 1 個が 0 の点を含む ✓)。
+F̃ ≡ 0 なら g ≡ 0 で PTN_r は自明(0 ≤ 0)— 以下 F̃ ≢ 0(K ∖ Z₀)。
+**Case (a) source 上の block 支配**((F2²-3)(a) 逐語): ∃t* ∈ S で
+max(|H(t*)|, 1/|H(t*)|) ≥ e ⟹ g(t*) ≥ 1 − 1/e ⟹ **‖g‖_W ≤ 2 ≤ 3.2‖g‖_S** ✓。
+**Case (a) 否**: S 全体で e^{−1} ≤ |H| ≤ e。このとき
+  ‖g‖_S ≥ sup_S |1 + H|/e = sup_S(|F̃|/|B₂|)/e ≥ sup_S|F̃| / (e·sup_W|B₂|)。
+一方 max(1, |H|) ≥ 1 より g ≤ |1 + H| = |F̃|/|B₂| なので
+  ‖g‖_W ≤ sup_W|F̃| / inf_W|B₂|。
+**TN-3 の消費**: (T1-1) ‖J⁵F̃(t_c)‖₂ ≥ c_TN·sup_{D̄(t₀,R_out)}|F̃| =: c_TN M
+(中心 t_c ∈ D̄(t₀, R_col) — (B3-4) の moving-center 域、domain_fit)。
+max_{j≤5}|F̃^{(j)}(t_c)|/j! ≥ ‖J⁵F̃(t_c)‖₂/(5!√6) ≥ c_TN M/(5!√6)。(LF-0) を
+R := R_out − R_col > 0(chart 定数)、M_R ≤ M で適用:
+  sup_S|F̃| ≥ c₅(s/2)⁵ c_TN M/(5!√6) − 2M(s/(2R))⁶ ≥ c_* s⁵ M
+(s ≤ s₀ := chart 定数で第 2 項が第 1 項の半分以下; s ∈ [s₀, L_C/2] では
+s⁵ ≤ 1 より sup_S|F̃| ≥ c_* s₀⁵ M ≥ c_* s₀⁵ s⁵ M — いずれも **c_* > 0 の
+存在**、有効値非主張)。domain_fit より sup_W|F̃| ≤ M。合成:
+  **‖g‖_W ≤ (sup_W|F̃|/inf_W|B₂|) ≤ M/inf_W|B₂| ≤ (sup_S|F̃|/(c_* s⁵))/inf_W|B₂|
+  ≤ (e·κ_B/c_*)·s⁻⁵·‖g‖_S**。
+**chart 座標への換算**: s は物理 scale。window_contract の λ field で
+chart 座標 y = λ(t − t₀) に移すと s ↦ λs、R_out・R_col・c_* は chart 定数
+なので上の不等式は **‖g‖_W ≤ C_r (λs)⁻⁵ ‖g‖_S** の形(C_r := e κ_B/c_* —
+c₀ 非依存 ✓)。(PS-7) の (L_C/s)^ν 形への換算は window_contract の λ と
+L_C の記録値で record 内完結(λL_C ≤ R_out は domain_fit の一部 ⟹
+(λs)⁻⁵ ≤ (R_out/(λ L_C))⁵ (L_C/s)⁵ ≤ … ではなく **(λs)⁻⁵ = (λL_C)⁻⁵ (L_C/s)⁵
+≤ (λL_C)⁻⁵(L_C/s)⁵** — (λL_C)⁻⁵ は chart 定数の下界 λL_C ≥ λ_min L_C を
+witness に記録して吸収)。**ν_r = 5 ≤ 9** ✓。∎
+
+**(LF-4) one_component(i*) 枝**: §8.24 の専用契約(g_r ≡ 1、
+trivial_one_component)— 証明不要(定義)。lower_rank_record-v1 の m_{3−i*}
+= 0 から構成子が導出される。
+
+**(LF-5) face_approach(rank-4 列の face 近接 — (α) 証明・(β) routing)**:
+rank-4 config θ_n が face(2+1)に近接: child 2 = c e^{q} + ε_n e^{q′}、
+|ε_n| = c₀(config_n) → 0(c0_seq_ref)、c は unit-size。B₂ = c e^q(1 + (ε/c)
+e^{q′−q}) は |ε_n| 十分小で cell 上非零(|B₂| ≥ |c|·0.84·e^{−C}(1 − 2|ε_n/c|
+e^{2C}))なので (LF-1)(LF-3) の構造はそのまま成立し、F̃₄ = F̃₃ + ε_n e^{q′}
+(F̃₃ = face の 3 原子和)。E := sup_W|e^{q′}| ≤ e^{C_box}、M₃ :=
+sup_{D̄}|F̃₃|。
+- **(α) 非 deep-flat**: |ε_n|E ≤ (c_*/2)s⁵M₃ のとき、sup_S|F̃₄| ≥
+  c_* s⁵ M₃ − |ε_n|E ≥ (c_*/2)s⁵M₃、sup_W|F̃₄| ≤ M₃ + |ε_n|E ≤ 2M₃ ⟹
+  **‖g_n‖_W ≤ (4e κ_B/c_*) s⁻⁵ ‖g_n‖_S** — face と同じ指数 5、定数 4 倍
+  (C_face = 4 で §8.24 の比較 statement が成立)✓。
+- **(β) deep-flat**: |ε_n|E > (c_*/2)s⁵M₃ ⟹ M₃ < (2E/c_*)s⁻⁵|ε_n| — 3 原子
+  部分 F̃₃/ε_n は D̄(t₀,R_out) 上 K_s := 2E/(c_* s⁵) で有界(Montel より
+  compact-open 前 compact)。これは **λ_n := 1/ε_n の border 再正規化で
+  「3 原子 border 極限 h + 単位原子 e^{q′}」型の rank-4 列**になる regime
+  であり、rank-3 face の PTN では制御できない(4 原子の deep cancellation
+  — D_W(4) = 9 の領域)。**typed routing**: `face_deep_flat-v1 :=
+  (ε_n 列 ref, K_s 有界 evidence, F̃₃/ε_n の compact-open 前 compact
+  evidence, λ_n 再正規化 record)` を構成して **T3a の c₀ → 0 枝へ送付**
+  (本 packet 非主張 — §8.24 face_approach の nogo 構成子ではなく routing:
+  比較 statement の成否は T3a が border 極限で判定)。
+
+**(LF-6) 出力契約**: `ptn_lower_face-v1 := proven(C_r 存在 ref((LF-3) —
+c₀ 非依存 flag), ν_r = 5 記録, face_approach 記録 := alpha_proven(C_face
+= 4)| beta_routed(face_deep_flat-v1 ref))| trivial_one_component(i*,
+lower_rank_record-v1 ref)| nogo(反例 ref)`。§8.24 (TS-1) の型に
+`box_fit`・`domain_fit` field と face_wzf_cover の `denominator_nonvanishing`
+構成子、face_approach 記録の alpha/beta 分岐を**本 packet で versioned 追加**
+(§8.24 本文は不変更 — 拡張は本節に登録)。
+
+**scope(非主張)**: C_r・c_*・c_TN の有効値、domain_fit 不成立時の
+多円板被覆、(β) deep-flat の解決(T3a)、rank-4 の PTN 本体(T2c/T3c)、
+人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -3999,6 +4125,18 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.48(2026-09-03): **§8.25 GC-5-T3a0 PTN-LOWER-FACE 起草** — (LF-0)
+  jet→区間 sup 補題(Taylor/Cauchy + deg ≤ 5 多項式のノルム同値)、(LF-1)
+  rank ≤ 3 two_children では単一原子 child が F2 の D1/D2 枝で cell 上非零
+  ⟹ H entire・κ_B は c₀ 非依存、(LF-2) face 側 field の discharge
+  (denominator_nonvanishing 構成子・not_needed・box_fit 部分集合継承・
+  domain_fit)、(LF-3) PTN_r 証明: (a) block 支配は (F2²-3) 逐語、(a) 否は
+  TN-3 (T1-1) の J⁵ 床 + (LF-0) で sup_S|F̃| ≥ c_* s⁵ M ⟹ ‖g‖_W ≤
+  (eκ_B/c_*) s⁻⁵ ‖g‖_S、ν_r = 5、chart 座標換算は λ record 内完結、(LF-4)
+  one_component 契約、(LF-5) face_approach: (α) 非 deep-flat を C_face = 4 で
+  証明、(β) deep-flat は face_deep_flat-v1 で T3a へ typed routing、(LF-6)
+  出力契約(§8.24 型への versioned 追加)。
 
 - v0.29.47(2026-09-03): **§8.24 GC-5-T3 statement 登録 accepted**(R-T3S
   R7、受理 SHA `dfc572b`、全 7 ラウンド: R1 closed-world 化・window_contract
