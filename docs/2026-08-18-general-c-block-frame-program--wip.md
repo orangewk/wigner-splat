@@ -3761,7 +3761,7 @@ v2、または scale-neutral hop の中心移送補題が必要(単一中心の�
 statement と T3b の scale-covariant floor statement の 2 本だけを正確に
 起こす**(→ §8.24)。総見積 14–24R(計画値 16–20R)。
 
-### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張。R-T3S R1 適用済み、査読対象 R-T3S R2)
+### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張。R-T3S R2 適用済み、査読対象 R-T3S R3)
 
 **目的**: consult #19 (v) の指示に従い、T3 本文着工前に危険度上位 2 点の
 **statement を正確な型で登録**する(PTN-SPEC 方式 — 主張はしない。証明
@@ -3775,15 +3775,29 @@ statement と T3b の scale-covariant floor statement の 2 本だけを正確�
     𝐁_r(§8.17 行 (i) — active_children_nonzero が false の child は除去、
     within-child ≃-class の総数 = r), **reduced pair** 𝐁̃_r(𝐁_r から
     (PS-1)/(PS-2) の exact 共通因子 D_r を消したもの — D_r は面上で再計算し
-    親の stratum_record を流用しない), 生存構造 flag ∈ {two_children(両
-    child 非零、r = 2+1 または 1+1 等), single_child(一方の child が恒等零
-    — 両 child 恒等零は t3_witness と矛盾し構成不能)})`。**量化域**: 「admissible
+    親の stratum_record を流用しない — **型束縛** [R-T3S R2-02]:
+    `divisor_record_r` := (PS-2) と同型の face 用 record(divisor_record・
+    d₀,r・reduced common-zero data・gcd-jump provenance)を面上の 𝐁_r から
+    独立に計算し、`checked_face_exactness`(D_r が 𝐁_r の exact 共通因子
+    である検証 ref)と `not_parent_reuse`(親 record の id と異なり、計算
+    evidence が face pair を入力にしていることの検証 constructor)を必須と
+    する), 生存構造 constructor(**排他的・total** [R-T3S R2-01]):
+    **two_children**(両 child ≢ 0 の evidence 必須 — r = 2+1 / 1+1 等)|
+    **one_component**(ちょうど一方の child が恒等零 — 両 child 恒等零は
+    t3_witness と矛盾し構成不能))`。
+  - **one_component contract**(single_child 枝の total 化 [R-T3S
+    R2-01]): 死んだ child を含む pair は (PS-1) の二成分 g(B₂ ≢ 0 前提)の
+    対象外なので、**one-component 専用契約**で閉じる: 生存成分 B̃_{1,r} に
+    対し g_r :≡ 1(B̃_{1,r} ≠ 0 の点では |B̃_{1,r}|/|B̃_{1,r}| = 1、零点では
+    連続延長 = 1 — 0/0 点は除去可能)。この枝では分母床が不要なので
+    `face_wzf_cover := not_needed(one_component)` 構成子を取る(恒等零
+    成分の零点集合は全窓で (AT-3) の有限零点前提と両立しないため、AT-3 は
+    **適用しない**)。PTN_r は C = 1・ν = 0 で自明(`trivial_one_component`)。**量化域**: 「admissible
     rank-r config」= admissible T3 列の要素から AT-2 行 (i) exit で得られる
     rank_r_config-v1 全体(それ以外の rank-r 対象は本 statement の量化外)。
-  - `g_r := |B̃_{1,r} + B̃_{2,r}| / max_i |B̃_{i,r}|`(reduced pair 上 —
-    (PS-1) の g と同形)。single_child 枝では g_r ≡ 1(分子 = 分母)なので
-    PTN_r は C = 1・ν = 0 で自明 — `trivial_single_child` 構成子で閉じ、
-    non-trivial 主張は two_children 枝のみ。
+  - `g_r := |B̃_{1,r} + B̃_{2,r}| / max_i |B̃_{i,r}|`(**two_children 枝
+    のみ** — reduced pair 上、(PS-1) の g と同形。one_component 枝の g_r は
+    上の専用契約で定義)。non-trivial 主張は two_children 枝のみ。
   - `ν_r`: **r のみに依存し config に依存しない**一様指数(chart 定数
     ではなく face 定数)。登録は ν_r ≤ 9 のみ(ν₃ ≤ 5 は目標であって約束
     ではない)。
@@ -3795,18 +3809,27 @@ statement と T3b の scale-covariant floor statement の 2 本だけを正確�
   witness)・we9/d10/λ/ℓ_ext の**同一オブジェクト参照**を要求し、AT-2 は
   window_geometry のみを入力し W_zf は T2a の wzf_cover 出力で合成する
   (§8.17)。face 側では次の 3 群に分けて fail-closed に束縛する:
+  **(PS-4) の全 field を列挙して群割当する** [R-T3S R2-04]: W, S, s,
+  zf_scope = (zf_witness, W_zf 被覆 witness), we9_witness ref, d10_witness
+  ref, **relation flag ∈ {identical, contained, disjoint-forbidden}**, λ,
+  ℓ_ext — 以下の 3 群で漏れなく束縛する:
   - **同一オブジェクト継承(幾何 — 親と identity ref を共有)**: W, S, s,
     λ, ℓ_ext, r_S、および zf_witness の**制限**(生存 child の V は親の V 族
     の部分集合 — 制限 evidence ref。A.3a (ZF-3) の保証域 S + collar は不変)。
   - **face 側再導出(pair 依存 — 親から流用不可、T3a0 の構成義務)**:
     `face_wzf_cover`((AT-3) の方法を生存 reduced pair 𝐁̃_r に再適用した
     W_zf 被覆 witness — 親の wzf_cover は親 pair の零点に対するもので、
-    prune 後の零点集合は全く異なるため継承しない)、`face_jet_witness`
+    prune 後の零点集合は全く異なるため継承しない。two_children 枝で必須、
+    one_component 枝は not_needed(one_component))、`face_jet_witness`
     (we9/d10 の rank-r 類似物 — 構成子 := derived(ref)| not_needed
     (evidence: rank r で当該 witness を消費する下流不在の証明)。いずれか
-    必須)。
+    必須)、**`face_relation_flag`**(face_jet_witness の source 窓と S の
+    関係 ∈ {identical, contained, disjoint-forbidden} — we9 が pair 依存で
+    再導出されるため flag も face 側で再評価。face_jet_witness =
+    not_needed のときは not_needed(同 evidence) — 欠落は不可)。
   - `inherit_identity_ref`: 親 window_contract オブジェクトへの参照
-    (同一性の検証 constructor `checked_inherited`)。
+    (同一性の検証 constructor `checked_inherited` — **上記列挙の全 field
+    について群割当が済んでいることを検証**する)。
   いずれの field も欠落 = window_contract_r 不成立(fail-closed)。
 - **登録 statement(PTN_r、r ≤ 3、two_children 枝)**: 各 r に対し定数
   C_r > 0 と一様指数 ν_r ≤ 9 が存在し、全 admissible rank-r config で
@@ -3815,8 +3838,11 @@ statement と T3b の scale-covariant floor statement の 2 本だけを正確�
   (rank-4 列 ref(admissible T3 列 — AT-2 行 (i) で exit **しない**要素),
   face 列 ref(各 n で同要素の生存 child 係数を落とした rank_r_config —
   同 provenance、checked_same_provenance), 近接 evidence(落とした
-  成分の係数 → 0 の記録 = c₀^{(n)} → 0 witness — T3a の c₀ 枝と同一
-  オブジェクト), 比較 statement(登録のみ): 定数 C_face が存在し
+  成分の係数 → 0 の記録 — **`c0_ref` := 同 provenance の floor_input-v1
+  (§8.23)が持つ c₀ witness((CC-3) 構成)への identity ref** と、同一
+  正規化 ‖𝐁̂_n‖_⊕ = 1・同一係数列であることの検証 constructor
+  `checked_same_c0_provenance` を必須とし、T3a の c₀ 枝はこの ref 経由で
+  のみ消費する [R-T3S R2-03]), 比較 statement(登録のみ): 定数 C_face が存在し
   limsup_n ‖g_n‖_W/‖g_n‖_S ≤ C_face・limsup_n ‖g_{r,n}‖_W/‖g_{r,n}‖_S
   — **成立しない場合は nogo 構成子**(rank-4 近傍で face の比が破綻する
   反例 ref)で停止)`。
@@ -3853,10 +3879,11 @@ statement と T3b の scale-covariant floor statement の 2 本だけを正確�
   (物理座標の値 — rescaled 座標でも同じ数)。
 - **被覆(erosion band を含む [R-T3S R1-04])**: §8.23 の W_core,n(ρ) は
   U ∪ Σ から距離 ≥ ρ の部分のみで、距離 0〜ρ_n の **erosion band** が
-  残る。被覆は **ρ_n-拡大 bubble** で張る: U_c⁺ := B(x_c, r_c + ρ_n) ∩ W、
-  Σ⁺ := Σ の W 内 ρ_n-近傍。すると W_reg ∖ W_core(ρ_n) ⊂ ⋃U_c⁺ ∪ Σ⁺ で
-  band が塞がり、**W = collar ∪ W_core(ρ_n) ∪ ⋃U_c⁺ ∪ Σ⁺** が被覆となる。
-  bounded overlap は**拡大族 {U_c⁺, Σ⁺}** について主張し(rescaled 座標で
+  残る。被覆は **ρ_n-拡大 bubble** で張る(全て同一 n に束縛 [R-T3S R2
+  補足]): U_{c,n}⁺ := B(x_{c,n}, r_{c,n} + ρ_n) ∩ W、Σ_n⁺ := Σ_n の W 内
+  ρ_n-近傍。すると W_reg,n ∖ W_core,n(ρ_n) ⊂ ⋃_c U_{c,n}⁺ ∪ Σ_n⁺ で band が
+  塞がり、**W = collar ∪ W_core,n(ρ_n) ∪ ⋃_c U_{c,n}⁺ ∪ Σ_n⁺** が被覆と
+  なる。bounded overlap は**拡大族 {U_{c,n}⁺, Σ_n⁺}** について主張し(rescaled 座標で
   拡大幅は定数 κ)、拡大 bubble 上の inner-chart 解析(projective floor)は
   T3b の証明義務。移送は scale-neutral(指数 9 の一回払い設計と両立 —
   定数のみ払う)。
@@ -3910,6 +3937,17 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.42(2026-09-03): R-T3S R2(blocking 4)適用 — [R2-01] 生存構造を
+  排他的・total な two_children | one_component 構成子にし、one_component
+  専用契約(g_r ≡ 1 連続延長・face_wzf_cover = not_needed・AT-3 不適用・
+  trivial_one_component)を定義。[R2-02] D_r を divisor_record_r((PS-2)
+  同型)+ checked_face_exactness + not_parent_reuse で型束縛。[R2-03]
+  face_approach の c₀ evidence を floor_input-v1 の c₀ witness への
+  identity ref(c0_ref)+ checked_same_c0_provenance に接続。[R2-04]
+  window_contract_r で (PS-4) 全 field を列挙し群割当、relation flag を
+  face_relation_flag として再導出群に追加、checked_inherited が全 field の
+  群割当を検証。補足: 被覆集合を同一 n に添字束縛。
 
 - v0.29.41(2026-09-03): R-T3S R1(blocking 5)適用 — [R1-01] TS-1 を
   closed-world 化(rank_r_config-v1: r ∈ {1,2,3}・生存 raw/reduced pair・
