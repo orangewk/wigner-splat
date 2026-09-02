@@ -185,7 +185,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。配置 = T2c 後・T3 前 | open |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
-| GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行、BORD-3 `87863cc`/TN-3 `906bd1a`(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1)。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
+| GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行(GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1)。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
 | GC-5-T3a PTN22-ROUTE | T3a0 | 境界 routing 完備化: c₀→0(→ T3a0 induction)・**one_sided ⇒ c₀→0 吸収補題**(固定 K_χ(c₀) の Gram 床 + 係数下界 ⟹ 両成分生存 — 証明できなければ CC-3/CC-7 上流欠陥)・lower-rank/exact-QR/overflow の排他的分岐・T3 入口 gate(floored×head_good のみ、T2c-ov detected→nogo / not_proven→unresolved 停止) | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b | violation_sequence-v1 の列-矛盾実行・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
@@ -3761,7 +3761,7 @@ v2、または scale-neutral hop の中心移送補題が必要(単一中心の�
 statement と T3b の scale-covariant floor statement の 2 本だけを正確に
 起こす**(→ §8.24)。総見積 14–24R(計画値 16–20R)。
 
-### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張。R-T3S R2 適用済み、査読対象 R-T3S R3)
+### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張。R-T3S R3 適用済み、査読対象 R-T3S R4)
 
 **目的**: consult #19 (v) の指示に従い、T3 本文着工前に危険度上位 2 点の
 **statement を正確な型で登録**する(PTN-SPEC 方式 — 主張はしない。証明
@@ -3775,21 +3775,29 @@ statement と T3b の scale-covariant floor statement の 2 本だけを正確�
     𝐁_r(§8.17 行 (i) — active_children_nonzero が false の child は除去、
     within-child ≃-class の総数 = r), **reduced pair** 𝐁̃_r(𝐁_r から
     (PS-1)/(PS-2) の exact 共通因子 D_r を消したもの — D_r は面上で再計算し
-    親の stratum_record を流用しない — **型束縛** [R-T3S R2-02]:
-    `divisor_record_r` := (PS-2) と同型の face 用 record(divisor_record・
-    d₀,r・reduced common-zero data・gcd-jump provenance)を面上の 𝐁_r から
-    独立に計算し、`checked_face_exactness`(D_r が 𝐁_r の exact 共通因子
-    である検証 ref)と `not_parent_reuse`(親 record の id と異なり、計算
-    evidence が face pair を入力にしていることの検証 constructor)を必須と
-    する), 生存構造 constructor(**排他的・total** [R-T3S R2-01]):
-    **two_children**(両 child ≢ 0 の evidence 必須 — r = 2+1 / 1+1 等)|
-    **one_component**(ちょうど一方の child が恒等零 — 両 child 恒等零は
+    親の stratum_record を流用しない — **型束縛** [R-T3S R2-02][R3 補足]:
+    `stratum_record_r` := (PS-2) の stratum_record と**同名 field** で
+    face 用に再計算した record `(cell_id_r, divisor_record_r 参照(§8.3
+    (F2²-4) の方法を 𝐁_r に適用), d₀,r := ord D_r(exact), 𝐁̃_r の近接
+    共通零点ごとの消滅次数対 (ord B̃₁,r, ord B̃₂,r), gcd-jump provenance
+    (親 config との次数差))` を面上の 𝐁_r から独立に計算し、
+    `checked_face_exactness`(D_r が 𝐁_r の exact 共通因子である検証 ref)
+    と `not_parent_reuse`(親 record の id と異なり、計算 evidence が face
+    pair を入力にしていることの検証 constructor)を必須とする), 生存構造
+    constructor(**排他的・total** [R-T3S R2-01][R3-02]):
+    **two_children**(両 child ≢ 0 の evidence 必須 — r = 2+1 / 1+1 等 —
+    stratum_record_r の ord 対 field はこの枝でのみ二成分)|
+    **one_component(i*)**(i* ∈ {1, 2} = 生存 child の label、dead_child
+    := 3 − i*。upstream (AT-0) は恒等零 child を step-0 で除去してから
+    rank-r pair を作るので、**零 child は保持しない**: 表現は生存成分
+    B̃_{i*,r} のみ + dead_child label + prune record ref。両 child 恒等零は
     t3_witness と矛盾し構成不能))`。
-  - **one_component contract**(single_child 枝の total 化 [R-T3S
-    R2-01]): 死んだ child を含む pair は (PS-1) の二成分 g(B₂ ≢ 0 前提)の
-    対象外なので、**one-component 専用契約**で閉じる: 生存成分 B̃_{1,r} に
-    対し g_r :≡ 1(B̃_{1,r} ≠ 0 の点では |B̃_{1,r}|/|B̃_{1,r}| = 1、零点では
-    連続延長 = 1 — 0/0 点は除去可能)。この枝では分母床が不要なので
+  - **one_component(i*) contract**(total 化 [R-T3S R2-01][R3-02]):
+    片 child が死んだ config は (PS-1) の二成分 g(B₂ ≢ 0 前提)の対象外
+    なので、**one-component 専用契約**で閉じる: 生存成分 B̃_{i*,r}(i* は
+    どちらでもよい — 契約は i* について対称)に対し g_r :≡ 1
+    (B̃_{i*,r} ≠ 0 の点では |B̃_{i*,r}|/|B̃_{i*,r}| = 1、零点では連続延長
+    = 1 — 0/0 点は除去可能)。この枝では分母床が不要なので
     `face_wzf_cover := not_needed(one_component)` 構成子を取る(恒等零
     成分の零点集合は全窓で (AT-3) の有限零点前提と両立しないため、AT-3 は
     **適用しない**)。PTN_r は C = 1・ν = 0 で自明(`trivial_one_component`)。**量化域**: 「admissible
@@ -3835,14 +3843,18 @@ statement と T3b の scale-covariant floor statement の 2 本だけを正確�
   C_r > 0 と一様指数 ν_r ≤ 9 が存在し、全 admissible rank-r config で
     **‖g_r‖_W ≤ C_r・(L_C/s)^{ν_r}・‖g_r‖_S**。
 - **摂動安定性(induction 接続点)**: `face_approach_witness-v1 :=
-  (rank-4 列 ref(admissible T3 列 — AT-2 行 (i) で exit **しない**要素),
+  (rank-4 列 ref(admissible T3 列 — AT-2 行 (i) で exit **しない**要素で、
+  **chart 枝 χ 一定の atlas_witness-v1 ref を各要素が持つ** evidence 付き),
   face 列 ref(各 n で同要素の生存 child 係数を落とした rank_r_config —
   同 provenance、checked_same_provenance), 近接 evidence(落とした
-  成分の係数 → 0 の記録 — **`c0_ref` := 同 provenance の floor_input-v1
-  (§8.23)が持つ c₀ witness((CC-3) 構成)への identity ref** と、同一
-  正規化 ‖𝐁̂_n‖_⊕ = 1・同一係数列であることの検証 constructor
-  `checked_same_c0_provenance` を必須とし、T3a の c₀ 枝はこの ref 経由で
-  のみ消費する [R-T3S R2-03]), 比較 statement(登録のみ): 定数 C_face が存在し
+  成分の係数 → 0 の記録 — **`c0_seq_ref` := 各要素の (CC-3) c₀ witness
+  (§8.22 — config ごとの coefficient lower-bound 構成、floor_input-v1 が
+  同じ構成を参照する)への identity ref の列**。**floor_input-v1 自体は
+  参照しない**: floor_input-v1 は固定 c₀ の量化を要求し c₀^{(n)} → 0 列は
+  その量化外(§8.23)なので producer にならない [R-T3S R3-03]。同一正規化
+  ‖𝐁̂_n‖_⊕ = 1・同一係数列であることの検証 constructor
+  `checked_same_c0_provenance` を必須とし、T3a の c₀ → 0 枝は**この型の
+  object のみ**を消費する), 比較 statement(登録のみ): 定数 C_face が存在し
   limsup_n ‖g_n‖_W/‖g_n‖_S ≤ C_face・limsup_n ‖g_{r,n}‖_W/‖g_{r,n}‖_S
   — **成立しない場合は nogo 構成子**(rank-4 近傍で face の比が破綻する
   反例 ref)で停止)`。
@@ -3850,8 +3862,8 @@ statement と T3b の scale-covariant floor statement の 2 本だけを正確�
   scalar jet/sup 比で分母付き PTN ではない — consult #19 Q2(a))、rank ≤ 2
   の two_children 枝の自明性、face_approach 比較の成立。**出力契約**:
   `ptn_lower_face-v1 := proven(C_r 存在 ref, ν_r ≤ 9 記録,
-  face_approach 記録 | trivial_single_child)| nogo(反例 ref)` —
-  fail-closed。
+  face_approach 記録)| trivial_one_component(i*, prune record ref)|
+  nogo(反例 ref)` — fail-closed(構成子名は上の契約と同一 [R-T3S R3-01])。
 
 **(TS-2) T3b PTN22-SCALE-HOP statement(scale-covariant carrier floor)**:
 - **regime**: PTN-22 は s_n → 0 を許し、r_{S,n} は通常 source scale と
@@ -3937,6 +3949,17 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.43(2026-09-03): R-T3S R3(blocking 4 + 補足)適用 — [R3-01] 出力
+  契約の構成子名を trivial_one_component(i*, prune record ref)に統一。
+  [R3-02] one_component を生存 label i* ∈ {1,2} で total 化(零 child は
+  step-0 除去済みのため保持せず、dead_child label + prune record ref で
+  表現)。[R3-03] c₀ evidence を floor_input-v1 参照から切り離し、要素ごとの
+  (CC-3) c₀ witness への identity ref 列 c0_seq_ref + chart 枝一定の
+  atlas_witness ref に束縛(固定 c₀ 量化外の c₀ → 0 列に producer を与える)。
+  [R3-04] §4 T3a0 依存に GC-5-T2a/T2b-ii/T2c を明示。補足: face record を
+  (PS-2) と同名 field の stratum_record_r(cell_id_r・divisor_record_r・
+  d₀,r・ord 対・gcd-jump provenance)に改名。
 
 - v0.29.42(2026-09-03): R-T3S R2(blocking 4)適用 — [R2-01] 生存構造を
   排他的・total な two_children | one_component 構成子にし、one_component
