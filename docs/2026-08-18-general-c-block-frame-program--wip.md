@@ -185,7 +185,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。配置 = T2c 後・T3 前 | open |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
-| GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行(GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **drafted(§8.25、R2 適用済み・査読待ち R-T3A0 R3)**(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
+| GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **drafted(§8.25、R3 適用済み・査読待ち R-T3A0 R4)**(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
 | GC-5-T3a PTN22-ROUTE | T3a0 | 境界 routing 完備化: c₀→0(→ T3a0 induction)・**one_sided ⇒ c₀→0 吸収補題**(固定 K_χ(c₀) の Gram 床 + 係数下界 ⟹ 両成分生存 — 証明できなければ CC-3/CC-7 上流欠陥)・lower-rank/exact-QR/overflow の排他的分岐・T3 入口 gate(floored×head_good のみ、T2c-ov detected→nogo / not_proven→unresolved 停止) | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b | violation_sequence-v1 の列-矛盾実行・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
@@ -3960,7 +3960,7 @@ constructor** で定義する:
 **scope(非主張)**: TS-1/TS-2 の証明(T3a0/T3b)、T3a routing 補題
 (one_sided ⇒ c₀→0)、T3c 合成、C₂₂、人間による査読は未実施。
 
-### 8.25 GC-5-T3a0 PTN-LOWER-FACE(support rank ≤ 3 の projective 二窓比較 base — drafted、R2 適用済み、査読対象 R-T3A0 R3)
+### 8.25 GC-5-T3a0 PTN-LOWER-FACE(support rank ≤ 3 の projective 二窓比較 base — drafted、R3 適用済み、査読対象 R-T3A0 R4)
 
 **目的**: consult #19 の順序どおり T3 の底。§8.24 (TS-1) の登録 statement
 PTN_r を two_children 枝(r ∈ {2, 3})で証明し、one_component 枝を契約で
@@ -4005,8 +4005,15 @@ compact 性・Fock 所属 |Â| ≤ 1 − δ_ℱ < 1・R_col < R_out のみを使
 
 **(LF-1) 単一原子 child と分母の非零性(rank ≤ 3 の構造)[R-T3A0
 R1-01]**: two_children で r = m₁ + m₂ ≤ 3、m_i ≥ 1 ⟹ **min(m₁, m₂) = 1**:
-ある child(WLOG label 2 — (F2²-2) の G(w) = G(1/w) 対称性で index 交換は
-合法)が単一 ≃ 類 = 単一原子 B₂ = ĉ₂e^{q̂₂}。**F2 record は使わない**(F2 は
+ある child が単一 ≃ 類 = 単一原子。その label を 2 に揃えるため **typed
+relabel** を前置する [R-T3A0 R3-03]:
+  `relabel_witness-v1 := (π := child 交換 (1 ↔ 2), π の全 record への適用:
+  step0_record の原子 label 第 1 桁交換・lower_rank_record-v1 の (m₁, m₂)
+  交換・F2 record の B₁ ↔ B₂・c0_witness-v2 の類 id 更新(値は不変)・
+  window_contract_r-v2 不変, checked_invariants: 関数 B₁ + B₂ 不変・D 不変・
+  g 不変((F2²-2) G(w) = G(1/w))・K_face の元 p̂ 不変)`
+— 単一原子 child が label 1 の場合は relabel_witness を適用してから以下を
+読む(「WLOG」の実体は provenance 込みのこの構成子)。以後 B₂ = ĉ₂e^{q̂₂}。**F2 record は使わない**(F2 は
 二原子対の補題で単一原子用の w を持たない): 直接
   **P₂ := ĉ₂(定数)、V₂ := 1、r₂ := q̂₂**
 と置く(B_i = P_iV_ie^{r_i} の形に自明に整合)。指数関数は零を持たないので
@@ -4034,7 +4041,7 @@ stratum_record_r は d₀,r = 0 の退化 record — 構成可能)、H := B₁/B
     の箱((CC-5) transformed box)は**参照しない** — TN-3 の K は raw 原子・
     raw 関数上の量化であり、(CC-6) の raw ↔ gauge pointwise 移送禁止に
     抵触しない [R1-03]。
-  - **`rescale_record`**: (LF-0) の (t₀, L_C, T₀) と (Â_j, B̂_j, ĉ_j) の
+  - **`rescale_record`**: (LF-0) の (t₀, L_C) と (Â_j, B̂_j, ĉ_j) の
     exact 計算 ref、‖ĉ‖₂ = 1 再正規化 ref、K_face 所属の検証 ref。
   - **同一関数 evidence**: F̃ := B₁ + B₂ が raw 3 原子和 Σ ĉ_je^{q̂_j} と
     **同一の関数**であること — child 1 の B₁ = P₁V₁e^{r₁} は (F2²-1) の
@@ -4044,21 +4051,35 @@ stratum_record_r は d₀,r = 0 の退化 record — 構成可能)、H := B₁/B
   - **`origin`(face の出所 — v1 の AT-2 exit witness field を一般化
     [R-T3A0 R2-03])**: `exit_face(AT-2 行 (i) exit witness、lower_rank_
     record-v1)| synthetic_face(親 rank-4 config ref(chart 枝 — AT-2 で exit
-    **しない**要素)、落とした ≃ 類 id、step0_record ref、係数を 0 に置いた
-    exact 計算 ref)`。face_approach の face 列は **synthetic_face** で
-    構成する(v1 の「AT-2 exit で得られる」量化域を v2 で拡張 — 同時に
-    rank_r_config-v2 := rank_r_config-v1 + origin field)。
+    **しない**要素)、**drop_set**(落とす ≃ 類の集合 — 同一 child 内:
+    {k_min} で 2+1 face、{k_min, mate} で当該 child 全消去 = one_component
+    face [R-T3A0 R3-05])、**synthetic_records** [R-T3A0 R3-01] :=
+    (step0_record_syn: 親 step0_record の drop_set 係数を exact に 0 と
+    置いた導出 record, prune_record-v1: pruned_classes = drop_set(exact_zero
+    は構成による — evidence = 置換 ref), lower_rank_record-v1: drop 後の
+    (m₁, m₂) と生存構造(two_children | one_component(i*) の導出),
+    stratum_record_r: 単一原子 child により D 定数 — d₀,r = 0 の退化 record
+    evidence, 係数を 0 に置いた関数の exact 計算 ref))`。face_approach の
+    face 列は **synthetic_face** で構成する(v1 の「AT-2 exit で得られる」
+    量化域を v2 で拡張 — 同時に rank_r_config-v2 := rank_r_config-v1 の
+    lower_rank_record-v1 ref を origin 経由の ref に置換した型)。
   - **`face_hypotheses-v1`((LF-4) が実際に使う仮定の列挙 — 両 origin から
-    供給)**: (H1) child 1 は held cell 上の 2 原子 child で F2 record を持つ
-    (exit_face: 親の identity 継承 / synthetic_face: 落とした類は child 2
-    側なので child 1 は親と同一 — identity 継承)、(H2) child 2 は単一原子
+    供給)**: (H1) child 1 は **(H1a)** held cell 上の 2 原子 child で F2
+    record を持つ(exit_face: 親の identity 継承 / synthetic_face:
+    relabel 後 drop_set は child 2 側なので child 1 は親と同一 — identity
+    継承)**または (H1b)** 単一原子((LF-1) と同じ直接定義 P₁ := ĉ₁、V₁ := 1、
+    r₁ := q̂₁ — **r = 2 の 1+1 枝** [R-T3A0 R3-02])、(H2) child 2 は単一原子
     ((LF-1) の直接定義)、(H3) box_fit、(H4) window_geometry の同一
-    オブジェクト継承(W, S, s, t₀)。**(LF-4) の証明はこの 4 仮定のみを
-    使う**ので、t3_witness(2|2 限定)は face に要求しない — face は 2|2
+    オブジェクト継承(W, S, s, t₀)。**(LF-4) の証明は child 1 を「F̃ が cell
+    上で raw 原子和に等しい」ことにしか使わない**((H1a) は (F2²-1) の等式、
+    (H1b) は定義)ので (H1a)/(H1b) いずれでも成立し、t3_witness(2|2 限定)は face に要求しない — face は 2|2
     topology ではなく、その witness 生成は不要かつ不可能。
-  - v1 → v2 写像: v1 の各 constructor はそのまま埋め込み(v1 の AT-2 exit
-    witness は origin = exit_face に写る)、新 field(box_fit・rescale_record・
-    origin・face_hypotheses)は**必須**(欠落 = v2 不成立、fail-closed)。
+  - v1 → v2 写像 [R-T3A0 R3-01]: **v1 の「AT-2 exit witness」field は v2
+    では origin field に置換される**(v1 の値は origin = exit_face(…) として
+    埋め込む — v2 は v1 の全 field を保持するのではなく、この 1 field を
+    origin に**置換**した型)。他の v1 field(rank_r_config・window_contract_r・
+    face_approach_witness)は同名で保持、新 field(box_fit・rescale_record・
+    face_hypotheses)は**必須**(欠落 = v2 不成立、fail-closed)。
 - `window_contract_r-v2 := window_contract_r(v1)` で face_wzf_cover の
   constructor を **derived(AT-3 法)| denominator_nonvanishing(単一原子
   child の (LF-1) 定義 ref)** に拡張(two_children r ≤ 3 では常に後者が
@@ -4079,7 +4100,9 @@ stratum_record_r は d₀,r = 0 の退化 record — 構成可能)、H := B₁/B
   したもの、ĉ_mate が face の単一原子係数。ĉ_mate = none または比が → 0
   しない場合は order_drop)+ 比較記録 :=
   alpha_proven(C_face = 3)| beta_routed(face_deep_flat-v1 ref)|
-  order_drop(rank r−1 face の lower_face_input-v2 ref)| nogo(反例 ref)`
+  order_drop(**synthetic_face(drop_set = 当該 child の全類)の one_component
+  face の lower_face_input-v2 ref** — 同じ synthetic_records で構成可能
+  [R-T3A0 R3-05])| nogo(反例 ref)`
   (v1 の nogo constructor は保持、比較 statement の登録形は不変)。
 - domain_fit は**不要**((LF-0) で Ŵ ⊂ D̄(0, 1/2) ⊂ D̄(0, R_col = 1)、
   ŝ_c ∈ Ŵ、ŝ ≤ 1/2 ≤ R_out − R_col = 1 が構成的に成立 [R1-04][R1-05])。
@@ -4094,8 +4117,11 @@ Cauchy より |R₆(u)| ≤ M_R (|u|/R)⁶/(1 − |u|/R) ≤ 2M_R(ŝ/(2R))⁶(|u
 sup ≥ c₅ max|b_j| ≥ c₅ (ŝ/2)⁵ max_j |F^{(j)}(ζ)|/j!(ŝ/2 ≤ 1)。∎
 **適用域**: (LF-4) では R := R_out − R_col = 1、ŝ ≤ 1/2 ≤ R で常に充足 ✓。
 
-**(LF-4) PTN_r の証明(two_children、r ∈ {2, 3})**: y 座標で F̃ := B₁ + B₂
-= f_{p̂}(p̂ ∈ K_face — 3 原子、r = 2 は係数 1 個が 0 の点 ✓)。F̃ ≡ 0 なら
+**(LF-4) PTN_r の証明(two_children、r ∈ {2, 3} — 2+1 と 1+1 の両枝)**:
+y 座標で F̃ := B₁ + B₂ = f_{p̂}(p̂ ∈ K_face — 3 原子、r = 2 の 1+1 枝は
+係数 1 個が 0 の点 ✓)。1+1 枝では child 1 も単一原子((H1b))で H は
+entire かつ非零 — 以下の連鎖は child 1 の構造を「F̃ = raw 原子和」以外に
+使わないのでそのまま適用 [R-T3A0 R3-02]。F̃ ≡ 0 なら
 g ≡ 0 で PTN_r は自明(0 ≤ 0)— 以下 p̂ ∈ K_face ∖ Z₀。
 **Case (a) source 上の block 支配**((F2²-3)(a) 逐語): ∃y* ∈ Ŝ で
 max(|H(y*)|, 1/|H(y*)|) ≥ e ⟹ g(y*) ≥ 1 − 1/e ⟹ **‖g‖_Ŵ ≤ 2 ≤ 3.2‖g‖_Ŝ** ✓。
@@ -4127,11 +4153,15 @@ trivial_one_component)— 証明不要(定義)。lower_rank_record-v1 の m_{3�
 **(LF-6) face_approach(rank-4 列の face 近接)[R-T3A0 R1-06][R1-07]**:
 rank-4 config θ_n(chart 枝、AT-2 で exit しない)で、c0_witness-v2 の
 argmin 類 k_min の係数を ε_n := ĉ_{k_min,n}、class-mate を ĉ_n := ĉ_mate,n
-とする(**|ε_n| = c₀(config_n) は定義** [R-T3A0 R2-04])。face は k_min 類を
-落とした synthetic_face(2+1): child 2 = ĉ_n e^{q̂} + ε_n e^{q̂′} → 単一原子
-ĉ_n e^{q̂}。**dominant_ratio**: r_n := |ε_n|/|ĉ_n| → 0(型付き evidence —
-不成立(ĉ_mate = none、または比が → 0 しない = child 2 全体が消える)は
-rank-2 / one_component face への order_drop 構成子で routing、本節非主張)。
+とする(**|ε_n| = c₀(config_n) は定義** [R-T3A0 R2-04])。k_min が child 1
+側なら **relabel_witness-v1 を全 record に適用**してから読む(以後 k_min ∈
+child 2 [R-T3A0 R3-03])。face は drop_set = {k_min} の synthetic_face
+(2+1): child 2 = ĉ_n e^{q̂} + ε_n e^{q̂′} → 単一原子 ĉ_n e^{q̂}。
+**dominant_ratio**: r_n := |ε_n|/|ĉ_n| → 0(型付き evidence)。**不成立
+(ĉ_mate = none、または比が → 0 しない = child 2 全体が消える regime)は
+order_drop**: drop_set = {k_min, mate} の synthetic_face(one_component(1)
+face — synthetic_records で構成可能、PTN は trivial_one_component)への
+routing [R-T3A0 R3-05]、本節非主張(rank-4 列自体の PTN は T3a)。
 同一 θ 列・同一窓 (Ŵ, Ŝ) 上で face 側 g₃ := G(H₃)、H₃ := B₁/B₂⁽³⁾、
 B₂⁽³⁾ := ĉ_n e^{q̂}、rank-4 側 g₄ := G(H₄)、H₄ = B₁/B₂⁽⁴⁾ = H₃/(1 + η_n)、
 η_n := (ε_n/ĉ_n)e^{q̂′ − q̂}、|η_n| ≤ r_n e^{2C_box} =: η̄_n → 0 on Ŵ。
@@ -4161,7 +4191,8 @@ on Ŵ(pointwise、同一窓)。
 **(LF-7) 出力契約**: `ptn_lower_face-v2 := proven(C_r 存在 ref((LF-4) —
 c₀ 非依存 flag, (L_C/s)⁵ 形), ν_r = 5 記録, face_approach 記録 :=
 alpha_proven(C_face = 3)| beta_routed(face_deep_flat-v1 ref)| order_drop
-(rank r−1 face ref))| trivial_one_component(i*, lower_rank_record-v1 ref)|
+(synthetic one_component face ref))| trivial_one_component(i*,
+lower_rank_record-v1 ref)|
 nogo(反例 ref)`。v1(§8.24)からの写像: proven の 3 field は v1 と同名、
 face_approach 記録が v1 の単一 ref から 3 分岐 constructor に拡張(v1 の
 nogo は保持)。
@@ -4210,6 +4241,19 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.51(2026-09-03): R-T3A0 R3(blocking 5)適用 — [R3-01] v1 → v2 で
+  AT-2 exit witness field を origin に置換(保持ではない)と明示し、
+  synthetic_face に synthetic_records(step0_syn・prune・lower_rank・
+  stratum_record_r の導出)を必須化。[R3-02] face_hypotheses (H1) を
+  (H1a) 2 原子 + F2 record | (H1b) 単一原子直接定義に分岐し、(LF-4) が
+  child 1 を「F̃ = raw 原子和」以外に使わないことを明示して 1+1 枝を閉じる。
+  [R3-03] relabel_witness-v1(child 交換 π の全 record 適用 + 不変量検証)を
+  定義し、WLOG を provenance 込みの構成子に置換。[R3-04] rescale_record
+  から T₀ を除去。[R3-05] order_drop の対象を drop_set = child 全類の
+  synthetic one_component face として実構成。同期: §4 T3a0 依存に
+  synthetic_face の親(chart 枝の非 exit config)を明示; v0.29.50 の
+  「R_ℱ のみ」は正確には K_face・C_box が (δ_ℱ, R_ℱ) に依存の意。
 
 - v0.29.50(2026-09-03): R-T3A0 R2(blocking 5)適用 — [R2-01] box_fit の
   参照先を親 common_gauge_record-v1.1 の standard_box_premise(raw 箱前提)
