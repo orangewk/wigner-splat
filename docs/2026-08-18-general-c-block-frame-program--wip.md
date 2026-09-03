@@ -192,7 +192,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`(§8.26 (N7)(N8)(RS-3)・route_context 段階型・restrict_carrier_witness)、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.17 atlas_witness-v1(chart label の閉世界)、§8.19 (AD22-0)(AD22-2)(AD22-3)(common_gauge_record・pivot 規約・strong section・sublabel)、§8.21 (HA-1)–(HA-6)、§8.22 (CC-2)(CC-3)(frame・d₀・λ_χ)(CC-6a)(CC-6b)(CC-7)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **accepted(§8.28、luna `6b7133c` R-T3A3 R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 5–8R → 実績 9R) |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1 `6557d6b`(§8.26 (RS-1)–(RS-5))、T3a0 `ca11257`(§8.25 (LF-4)(LF-6)(LF-7))、T3a-2 `61a14c1`(§8.27 (OS-1)(OS-2))、T3a-3 `6b7133c`(§8.28 (DF-0′)(DF-0″)(DF-6))、§8.21 (HA-2)、§8.22 (CC-7)、§8.16 (PS-9)、§8.15 追記(no-go 判定基準) | 全 node の排他・網羅証明(部分列規約)・t3_gate-v1.1(8 constructor — t3c_handoff 追加)の terminal への落着・absorb_via_t3a0-v1.1 と block_dominant の違反度矛盾導出(exact rank drop のみ、非 exact は LR-EXIT)・nogo → detected 変換 adapter(realized family 必須、不能なら unresolved)・violation_sequence-v2.deep_flat の identity 組立・countersequence 矛盾への統合(条件付き閉包 statement) | **accepted(§8.29、luna `104105e` R-T3A4 R6、6R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 6R。**open: LR-EXIT**(非 exact lower-rank exit の routing — Sol consult #21 で要素粒度案を採択、下 4 packet)) |
 | GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数退化 flag と退化集合 D は全 variant 共通の top-level metadata(atlas_witness-v1.1 で露出した (AT-2) 内部の係数 vector・flag への identity ref — v2 は再構成しない)に保持、極限でのみ退化する chart 列は **boundary chart** — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **accepted(§8.30、luna `62c150f` R-T2ARD R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 9R) |
-| GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | open、見積 4–7R |
+| GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | **drafted(§8.31、査読待ち R-T2BIII R1)**、見積 4–7R |
 | GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | open、見積 3–5R |
 | GC-5-T3a-6 ROUTE-CLOSE-v2 | T3a-5、T3a-4 | lane 表の再証明、LR-EXIT tag の削除(CTX/REF 欠落は fail-closed 維持) | open、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
@@ -5805,6 +5805,107 @@ legacy consumer は frame_input-v2.2 で interior chart に束縛、(v) §8.17
 carrier_witness・HEAD9(T2b-iii)、route_context-v2 と決定 list の更新
 (T3a-5)、lane 表の再証明(T3a-6)、有効定数、人間による査読は未実施。
 
+### 8.31 GC-5-T2b-iii C0-BOUNDARY-CARRIER(carrier_witness-v2 — c₀ 非依存の幾何部分と固定 c₀ の interior 床の分離 — drafted、査読対象 R-T2BIII R1)
+
+**目的**: Sol consult #21 の第 2 packet。§8.22 (CC-2)–(CC-7) の carrier
+構成のうち **係数下界 c₀ を使わない部分**(成分 frame・strong section・
+raw 引き戻し・frame 幾何のみに依る Gram 床・正規化 carrier の strong 極限
+と vanish_flag)を **boundary chart**(§8.30 atlas_witness-v2.chart with
+boundary_flag = true)まで拡張し、**固定 c₀ を使う部分**((CC-3) の
+K_χ(c₀) inf と c₀ witness)を interior chart 限定の variant として分離する。
+新しい解析は §8.27 (OS-3a)(受理済み)の reading「Gram 床は frame 幾何のみ
+に依存」を **producer として登録**することだけで、他は (AD22-2)・(CC-2)・
+(CC-6) の逐語再利用である。§8.22 本文は不変。
+
+**(BC-0) 入力(型)**: `boundary_carrier_input-v1 := (atlas_witness-v2 ref
+(exit = chart(label, boundary_record-v1) — interior / boundary の両方;
+lower_rank_exact / exact_qr は対象外), degeneracy_metadata-v1 ref(同
+witness の top-level field), (AT) 対角安定化部分列 ref, checked_same_
+provenance)`。support rank は chart 列で一定(各要素 rank 4 — boundary
+chart は極限退化であって exact 退化ではない: §8.30 (AE-2) 1″)。
+
+**(BC-1) frame_input の boundary 拡張(versioned)**: §8.19 (AD22-2) の
+frame_input 構成が使うのは chart label(pivot 規約の分岐)、原子 label
+全順序と scale tree(pivot・代表葉対)、原子の指数パラメタ (B, A)(gauge
+section の中心・transformed_atom_table)、半箱前提と (CC-5) の箱供給、
+strong section(pivot パラメタの compact 収束)であり、**係数の値・係数
+退化 flag はどこにも入らない**(scalar_absorption_table は gauge が生む
+非零 scalar を係数へ exact に吸収する記録であって、係数への制約では
+ない)。よって
+  `frame_input-v2.3 := frame_input-v2.2(§8.30 — 入力 atlas_witness-v2.chart
+   (interior))| frame_input-boundary(同一の constructor を atlas_witness-v2.
+   chart(boundary) に適用 — common_gauge_record-v1.1 の全 field を (AD22-2)
+   の逐語で構成、boundary_flag = true を record に保持)`
+(v2.1/v2.2 の定義本文は不変 — versioned 拡張)。(AD22-2) の証明は両
+variant で逐語成立(仮定に係数が現れないため)。∎
+
+**(BC-2) 幾何 Gram 床(c₀ 非依存 — (OS-3a) の reading の producer 化)**:
+(CC-2) の成分 frame(単原子 / SEP_i(d₀) の分離対 / CONF_i(d₀) の (B3-4a)
+Newton frame)の Gram 行列 G_i は **frame の幾何(chart 型座標: 変換後
+パラメタ・d_frame・(t, ν̂))のみの関数**で、係数 c に依存しない((CC-2) の
+定義から直接)。(CC-3) の chart 型 constructor SEP_i(d₀) / CONF_i(d₀) は
+それ自体で閉 compact(閉箱・距離下界・compact 化された方向)であり、
+K_χ(c₀) の係数因子 {|c_a| ≥ c₀} を掛けなくても compact。(CC-3) の論証
+「frame map の ℱ-norm 連続 / strong 収束 + 全境界点の極限独立 + strong
+section ⟹ λ_min G は下半連続、compact 上の inf は各点正値から正」は
+**chart 型因子上でそのまま成立**する(係数因子は G に入らないので inf の
+定義域から落としても値は同じ)。よって
+  **λ_χ := inf_{chart 型因子} min_i λ_min G_i > 0(c₀ 非依存の chart 定数、
+  有効値非主張)**
+— (CC-3) の inf_{K_χ(c₀)} λ_min G_⊕ はこの λ_χ に等しい(c₀ ごとの定数
+という (CC-3) の記述は上界的な表現で、値は c₀ に依らない — §8.27 (OS-3a)
+の受理済み reading)。**boundary chart でも同じ**: 各要素は rank 4 で
+frame が定義され、chart 型因子は interior/boundary で共通。∎
+
+**(BC-3) 正規化 carrier の strong 極限と vanish_flag(c₀ 非依存)**: raw
+正規化 𝐁̂_n := 𝐁̃_n/‖𝐁̃_n‖_⊕、gauge 側 𝐂_n = U_n𝐁̂_n(‖𝐂_n‖_⊕ = 1)。
+(BC-2) の λ_χ により各成分の frame 係数 b_{i,n} は ‖b_{i,n}‖ ≤ λ_χ^{−1/2}
+で有界、frame は部分列で strong 収束((CC-2))、よって **𝐂_n → 𝐂_* strong、
+‖𝐂_*‖_⊕ = 1**(§8.27 (OS-3a) の証明の逐語 — そこでは既に「chart 枝で
+あれば bounded_c0 / vanishing_c0 の両 lane」と述べられており、boundary
+chart は係数が極限で退化する chart 列そのもの)。成分消滅 flag(‖C_{i,*}‖
+= 0 の側)は部分列で安定((CC-4) と同文 — ただし係数有界性の出所が
+(CC-3) の K_χ(c₀) ではなく (BC-2) の λ_χ)。raw 引き戻しは (CC-6b) 逐語
+(strong section は (BC-1) から)。∎
+
+**(BC-4) interior 床(固定 c₀ — (CC-3)(CC-4) の identity)**: interior chart
+(boundary_flag = false)では §8.30 (AE-4) により atlas_witness-v2.chart
+(interior) = v1.chart ∩ {flag = false} で、(CC-3) の c₀ witness と
+K_χ(c₀) inf、(CC-4) の strong 極限は**既存 object をそのまま参照**する
+(再証明なし)。boundary chart では c₀ witness は存在しない(§8.30
+boundary_record.c₀ witness = absent)ので interior 床は構成不能 — 型で
+absent。
+
+**(BC-5) raw 再主張系**: (CC-6a) defect の raw 系(provenance 非依存 —
+boundary でも逐語)、(CC-6b) carrier frame の raw 引き戻し(strong section
+から — (BC-1))、raw_restatement の検証 flag — いずれも (CC-6) 逐語。
+
+**(BC-6) 出力契約と consumer 表**:
+  `carrier_witness-v2 := (frame_input-v2.3 ref(interior | boundary variant
+   を記録), 成分別 frame 記録(m_i・chart 型・strong 収束 ref — (CC-2)),
+   **geometric_floor_checked**(λ_χ の下半連続 inf 論証 ref — (BC-2)、c₀
+   非依存), **interior_floor := present((CC-3) の K_χ(c₀) inf ref + c₀
+   witness ref — interior のみ)| absent(boundary)**,
+   vanish_flag := none(evidence: 両成分の norm 極限が正である検証 ref +
+   atlas outer routing 不在の検証)| one_sided(side ∈ {[1:0], [0:1]}、
+   evidence: 消滅側成分の norm 極限 ref + atlas outer routing との一致
+   検証)— (CC-7) と同一の checked constructor、係数有界性の出所は (BC-3),
+   raw_restatement((BC-5) — 検証 flag 込み), degeneracy_metadata-v1 ref,
+   checked_same_provenance)`。
+  **adapter `to_carrier_v1`**: interior variant(interior_floor = present)
+  ↦ carrier_witness-v1(identity — frame_input-v2.3.interior = v2.2、
+  floor_checked := interior_floor.present、他 field 同名)。boundary variant
+  は v1 に像なし(v1 consumer = T2c は消費しない — 型で排除)。
+  **consumer 表**: T2c(§8.23 floor_input-v1)— v1 / interior のみ(不変);
+  T3a-2 (OS-3a) / T3a-3 (DF-3)(DF-4) — geometric 部分のみを使う(既に
+  c₀ 非依存で受理済み — 本 packet は producer を与える); T3a-5 route_
+  context-v2 — boundary variant の consumer(登録のみ); HEAD9(§8.21)は
+  (CC-6a) により boundary でも head_outcome-v1 が構成可能(系 — 証明なし)。
+
+**scope(非主張)**: boundary chart 上の T2c 型の床(σ₀・m_C の chart 一様
+性 — c₀ 非依存の sequence 形は T3a-3 が既に供給)、route_context-v2 と
+決定 list(T3a-5)、lane 表(T3a-6)、有効定数、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -5844,6 +5945,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.102(2026-09-03): **§8.31 GC-5-T2b-iii C0-BOUNDARY-CARRIER 起草** —
+  (BC-0) 入力型、(BC-1) frame_input-v2.3(boundary 拡張 — (AD22-2) は係数
+  非依存)、(BC-2) 幾何 Gram 床 λ_χ((OS-3a) の reading の producer 化)、
+  (BC-3) strong 極限と vanish_flag(c₀ 非依存)、(BC-4) interior 床は
+  (CC-3)(CC-4) の identity、(BC-5) raw 再主張系、(BC-6) carrier_witness-v2
+  と to_carrier_v1・consumer 表。
 
 - v0.29.101(2026-09-03): **GC-5-T2a-rd ATLAS-EXACT-EXIT 受理記録** — luna
   fixed-SHA `62c150f`(R-T2ARD R9、9R)。§8.30 見出し・受理記録・§4 行を
