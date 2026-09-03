@@ -184,7 +184,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2b-ii CARRIER-CHART(旧 CHART-FRAME を consult #18 で再定義 — defect 側 chart 消費表の義務は削除(defect は weak 化))| T2b-i(accepted `e5de2f6`)、T2b-0(accepted `7103b2e`)、§8.10 (B3-4a)/(B3-3)/(B3-4)、FR §8.4 | **carrier 側の完結**: 成分別 1/2 原子 strong frame(分離原子・(B3-4a))、⊕ block 対角 Gram の一様床(閉 compact chart constructor 上の下半連続 inf)、**箱供給補題**((CC-5) Möbius margin — T2b-0 の箱前提 obligation を standard box + frame_input-v2.1 で解消 [R-T2BII R1-05])、**raw 再主張系**(gauge の pointwise 移送禁止 — EW-B) | **accepted(§8.22、R-T2BII R3 PASS、fixed SHA `ccb1b6d`)** |
 | GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE(集約 — **consult #22 で 2 分割**、下 2 行) | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。**consult #22(Sol)裁定**: 読みは (a) no-go 検出器であって contradiction lane ではない — β_n → 0 は違反(R_n ŝ_n⁹ → ∞)と**同じ向き**で、L9/L13/L20/L27 を矛盾で吸収しない。countersequence 起源の overflow から detected を生成することは (RC-4) により循環(仮定の言い直し)なので禁止。配置 = T2c 後・T3 前 | open(集約) |
-| GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC | T2c-ov、§8.21 (HA-4)、§8.23 (FL22-1)、§8.29 (RC-4)、§8.33 L9/L13/L20/L27 | **型・source authority・provenance のみ**: source constructor `realized_diagonal((FL22-1) σ₀ = 0 の対角列 ref — 実現族)\| countersequence_lane(L9 \| L13 \| L20 \| L27, selector ref)`、出力 `overflow_resolution-v1 := detected(ps9_evidence, realized_family_ref) \| unresolved_head_overflow(COUNTERSEQUENCE_ORIGIN \| RATE_MISSING \| DENOMINATOR_CONTROL_MISSING \| PROVENANCE_MISSING)`(not_proven は PS-9 の第三 variant にしない — router の unresolved 作業状態)。countersequence_lane は現状 **COUNTERSEQUENCE_ORIGIN で終端** | **drafted(§8.34、R1–R2 適用済み・査読待ち R-T2COV1 R3)**、見積 2–3R(Sol #22) |
+| GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC | T2c-ov、§8.21 (HA-4)、§8.23 (FL22-1)、§8.29 (RC-4)、§8.33 L9/L13/L20/L27 | **型・source authority・provenance のみ**: source constructor `realized_diagonal((FL22-1) σ₀ = 0 の対角列 ref — 実現族)\| countersequence_lane(L9 \| L13 \| L20 \| L27, selector ref)`、出力 `overflow_resolution-v1 := detected(ps9_evidence, realized_family_ref) \| unresolved_head_overflow(COUNTERSEQUENCE_ORIGIN \| RATE_MISSING \| DENOMINATOR_CONTROL_MISSING \| PROVENANCE_MISSING)`(not_proven は PS-9 の第三 variant にしない — router の unresolved 作業状態)。countersequence_lane は現状 **COUNTERSEQUENCE_ORIGIN で終端** | **drafted(§8.34、R1–R3 適用済み・査読待ち R-T2COV1 R4)**、見積 2–3R(Sol #22) |
 | GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | open、見積 4–7R(Sol #22) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
@@ -6544,7 +6544,7 @@ T2c-ov の設計と残工程)**: 設計記録(本文は不変):
   countersequence にも与えられる場合にのみ開く**。T2c-ov-1 は標準 GO の
   範囲(型 packet)で起草する。T2c-ov-2 の stop/go は orange 判断。
 
-### 8.34 GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC(overflow の source authority と型 — drafted、R1–R2 適用済み、査読対象 R-T2COV1 R3)
+### 8.34 GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC(overflow の source authority と型 — drafted、R1–R3 適用済み、査読対象 R-T2COV1 R4)
 
 **目的**: consult #22 の第 1 packet。head_overflow(§8.21 (HA-4)、§8.31
 head_overflow_candidate-v1.1)を消費する T2c-ov の **入力・出力型と source
@@ -6663,7 +6663,12 @@ valid | nogo のまま)。unresolved_head_overflow は router の作業状態。
    側の unresolved は t3_gate の外(§8.23 (FL22-1) の fail-closed 停止
    状態)に留まる)[R-T2COV1 R1-05][R2-01]、
   `t2cov_discharge-v1 := (t2cov_handoff record ref(t3_gate-v1.2),
-   overflow_resolution-v1 with source = countersequence_lane) ↦
+   overflow_resolution-v1 with source = countersequence_lane,
+   **identity check**: source.countersequence_lane.t2cov_handoff ≡ 第 1
+   引数の t2cov_handoff record(同一オブジェクト)、かつ resolution の
+   candidate ref ≡ その record の t2cov_handoff.candidate、かつ source.lane
+   ≡ その record を生成した lane(§8.33 (RC2-2) の lane 割当 ref)— 不一致
+   = constructor 不成立 [R-T2COV1 R3-01]) ↦
    unresolved_head_overflow → unresolved-v1.2(to_not_proven の出力,
    OVERFLOW-PENDING)` — **overflow_detected-v1 は countersequence_input から
    構成不能なので、t2cov_discharge-v1 に nogo 分岐は存在しない**(型の
@@ -6676,8 +6681,10 @@ valid | nogo のまま)。unresolved_head_overflow は router の作業状態。
 **帰結(型の事実、主張ではない)**: countersequence lane L9/L13/L20/L27 の
 t2cov_handoff は本 packet の下で **必ず unresolved-v1.2(OVERFLOW-PENDING /
 COUNTERSEQUENCE_ORIGIN)に落ちる**(t2cov_discharge-v1 の出力型が
-unresolved-v1.2 のみ、かつ candidate の identity binding により
-realized_input への差し替えが型上不可能 — [R1-02])。§8.33 (RC2-6) の条件付き閉包 statement
+unresolved-v1.2 のみ、candidate の identity binding により realized_input
+への差し替えが型上不可能 [R1-02]、かつ handoff / candidate / lane の
+identity check により別 lane の resolution の誤接続が型上不可能
+[R3-01])。§8.33 (RC2-6) の条件付き閉包 statement
 は「T2c-ov が各 handoff lane で矛盾を導けば」を条件に含むが、T2c-ov は
 矛盾を導く packet ではない(OV-0)ので、**この条件は T2c-ov では充足され
 ない** — L9/L13/L20/L27 は構造的 open lane として (RC2-6) の open lane
@@ -6753,6 +6760,10 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.122(2026-09-03): R-T2COV1 R3(blocking 1)適用 — [R3-01] t2cov_
+  discharge-v1 に handoff record・candidate・lane の identity check を追加
+  (別 lane の resolution 誤接続を型で排除)。
 
 - v0.29.121(2026-09-03): R-T2COV1 R2(blocking 1)適用 — [R2-01] not_proven-
   v1.1(発生 node に (N8′) を追加)、to_not_proven の lane_node 明示表(L9 →
