@@ -192,7 +192,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`(§8.26 (N7)(N8)(RS-3)・route_context 段階型・restrict_carrier_witness)、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.17 atlas_witness-v1(chart label の閉世界)、§8.19 (AD22-0)(AD22-2)(AD22-3)(common_gauge_record・pivot 規約・strong section・sublabel)、§8.21 (HA-1)–(HA-6)、§8.22 (CC-2)(CC-3)(frame・d₀・λ_χ)(CC-6a)(CC-6b)(CC-7)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **accepted(§8.28、luna `6b7133c` R-T3A3 R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 5–8R → 実績 9R) |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1 `6557d6b`(§8.26 (RS-1)–(RS-5))、T3a0 `ca11257`(§8.25 (LF-4)(LF-6)(LF-7))、T3a-2 `61a14c1`(§8.27 (OS-1)(OS-2))、T3a-3 `6b7133c`(§8.28 (DF-0′)(DF-0″)(DF-6))、§8.21 (HA-2)、§8.22 (CC-7)、§8.16 (PS-9)、§8.15 追記(no-go 判定基準) | 全 node の排他・網羅証明(部分列規約)・t3_gate-v1.1(8 constructor — t3c_handoff 追加)の terminal への落着・absorb_via_t3a0-v1.1 と block_dominant の違反度矛盾導出(exact rank drop のみ、非 exact は LR-EXIT)・nogo → detected 変換 adapter(realized family 必須、不能なら unresolved)・violation_sequence-v2.deep_flat の identity 組立・countersequence 矛盾への統合(条件付き閉包 statement) | **accepted(§8.29、luna `104105e` R-T3A4 R6、6R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 6R。**open: LR-EXIT**(非 exact lower-rank exit の routing — Sol consult #21 で要素粒度案を採択、下 4 packet)) |
 | GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数退化 flag と退化集合 D は全 variant 共通の top-level metadata(atlas_witness-v1.1 で露出した (AT-2) 内部の係数 vector・flag への identity ref — v2 は再構成しない)に保持、極限でのみ退化する chart 列は **boundary chart** — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **accepted(§8.30、luna `62c150f` R-T2ARD R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 9R) |
-| GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | **drafted(§8.31、R2 適用済み・査読待ち R-T2BIII R3)**、見積 4–7R |
+| GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | **accepted(§8.31、luna `b21b0fc` R-T2BIII R3、3R)**(見積 4–7R → 実績 3R) |
 | GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | open、見積 3–5R |
 | GC-5-T3a-6 ROUTE-CLOSE-v2 | T3a-5、T3a-4 | lane 表の再証明、LR-EXIT tag の削除(CTX/REF 欠落は fail-closed 維持) | open、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
@@ -5805,7 +5805,7 @@ legacy consumer は frame_input-v2.2 で interior chart に束縛、(v) §8.17
 carrier_witness・HEAD9(T2b-iii)、route_context-v2 と決定 list の更新
 (T3a-5)、lane 表の再証明(T3a-6)、有効定数、人間による査読は未実施。
 
-### 8.31 GC-5-T2b-iii C0-BOUNDARY-CARRIER(carrier_witness-v2 — c₀ 非依存の幾何部分と固定 c₀ の interior 床の分離 — drafted、R2 適用済み、査読対象 R-T2BIII R3)
+### 8.31 GC-5-T2b-iii C0-BOUNDARY-CARRIER(carrier_witness-v2 — c₀ 非依存の幾何部分と固定 c₀ の interior 床の分離 — **accepted、luna fixed-SHA `b21b0fc` R-T2BIII R3、3R**)
 
 **目的**: Sol consult #21 の第 2 packet。§8.22 (CC-2)–(CC-7) の carrier
 構成のうち **係数下界 c₀ を使わない部分**(成分 frame・strong section・
@@ -5961,6 +5961,14 @@ to_carrier_v1、geometric_view / carrier_geometric-v1、head_outcome-v1.1):
   T2c-ov handoff へ(既存規約どおり)。consumer(T3a-3 (DF-1)、(N8)、
   T2c-ov)の v1.1 への置換は T3a-5 の義務。
 
+**受理記録**: luna fixed-SHA `b21b0fc9e5431b7c78a0b4375a066c258c79ebb0`
+(R-T2BIII R3、2026-09-03)。R1–R2 の blocking 計 6 件を適用。登録 object:
+frame_input-v2.3、λ_χ((BC-2))、carrier_witness-v2(one_sided_unrouted
+込み)、to_carrier_v1、geometric_view / carrier_geometric-v1、head_outcome-
+v1.1(good_witness-v1.1 / head_overflow_candidate-v1.1)。consumer の
+versioned 置換(T3a-2/T3a-3/T2c-ov/(N8))は T3a-5 の義務。証明ドラフト・
+複数 LLM の fixed-SHA 査読のみ・人間による査読は未実施。
+
 **scope(非主張)**: boundary chart 上の T2c 型の床(σ₀・m_C の chart 一様
 性 — c₀ 非依存の sequence 形は T3a-3 が既に供給)、route_context-v2 と
 決定 list(T3a-5)、lane 表(T3a-6)、有効定数、人間による査読は未実施。
@@ -6004,6 +6012,10 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.105(2026-09-03): **GC-5-T2b-iii C0-BOUNDARY-CARRIER 受理記録** —
+  luna fixed-SHA `b21b0fc`(R-T2BIII R3、3R)。§8.31 見出し・受理記録・§4
+  行を accepted に更新。次: T3a-5 C0-BOUNDARY-ROUTE-SPEC 起草。
 
 - v0.29.104(2026-09-03): R-T2BIII R2(blocking 2)適用 — [R2-01] to_carrier_
   v1 に checked_same_provenance の前提条件と破棄を明記。[R2-02] head_
