@@ -191,7 +191,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`(§8.26 (N7)(N8)(RS-3)・route_context 段階型・restrict_carrier_witness)、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.17 atlas_witness-v1(chart label の閉世界)、§8.19 (AD22-0)(AD22-2)(AD22-3)(common_gauge_record・pivot 規約・strong section・sublabel)、§8.21 (HA-1)–(HA-6)、§8.22 (CC-2)(CC-3)(frame・d₀・λ_χ)(CC-6a)(CC-6b)(CC-7)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **accepted(§8.28、luna `6b7133c` R-T3A3 R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 5–8R → 実績 9R) |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1 `6557d6b`(§8.26 (RS-1)–(RS-5))、T3a0 `ca11257`(§8.25 (LF-4)(LF-6)(LF-7))、T3a-2 `61a14c1`(§8.27 (OS-1)(OS-2))、T3a-3 `6b7133c`(§8.28 (DF-0′)(DF-0″)(DF-6))、§8.21 (HA-2)、§8.22 (CC-7)、§8.16 (PS-9)、§8.15 追記(no-go 判定基準) | 全 node の排他・網羅証明(部分列規約)・t3_gate-v1.1(8 constructor — t3c_handoff 追加)の terminal への落着・absorb_via_t3a0-v1.1 と block_dominant の違反度矛盾導出(exact rank drop のみ、非 exact は LR-EXIT)・nogo → detected 変換 adapter(realized family 必須、不能なら unresolved)・violation_sequence-v2.deep_flat の identity 組立・countersequence 矛盾への統合(条件付き閉包 statement) | **accepted(§8.29、luna `104105e` R-T3A4 R6、6R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 6R。**open: LR-EXIT**(非 exact lower-rank exit の routing — Sol consult #21 で要素粒度案を採択、下 4 packet)) |
-| GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数退化 flag と退化集合 D は全 variant 共通の top-level metadata((AT-2) の係数 vector と同一 object 上)に保持、極限でのみ退化する chart 列は **boundary chart** — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **drafted(§8.30、R6 適用済み・査読待ち R-T2ARD R7)**(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
+| GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数退化 flag と退化集合 D は全 variant 共通の top-level metadata((AT-2) の係数 vector と同一 object 上)に保持、極限でのみ退化する chart 列は **boundary chart** — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **drafted(§8.30、R7 適用済み・査読待ち R-T2ARD R8)**(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | open、見積 4–7R |
 | GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | open、見積 3–5R |
 | GC-5-T3a-6 ROUTE-CLOSE-v2 | T3a-5、T3a-4 | lane 表の再証明、LR-EXIT tag の削除(CTX/REF 欠落は fail-closed 維持) | open、見積 2–4R |
@@ -5550,7 +5550,7 @@ label**のみで chart 枝と判定し sequence-level の c₀ witness を要求
 「lower-rank exit lane に chart 相当の object と比較を供給する packet」が
 必要になる可能性が高い。
 
-### 8.30 GC-5-T2a-rd ATLAS-EXACT-EXIT(atlas_witness-v2 — 要素ごとの exact exit と boundary chart — drafted、R6 適用済み、査読対象 R-T2ARD R7)
+### 8.30 GC-5-T2a-rd ATLAS-EXACT-EXIT(atlas_witness-v2 — 要素ごとの exact exit と boundary chart — drafted、R7 適用済み、査読対象 R-T2ARD R8)
 
 **目的**: Sol consult #21 の採択(§8.29 追記)を実装する第 1 packet。
 §8.17 (AT-2) 行 1 は「係数退化 flag(正規化係数成分の**極限**が 0)による
@@ -5611,19 +5611,35 @@ record-v1 の「pruned_classes が空または within-child のみ」と整合)�
    **degeneracy_metadata-v1**(**全 variant 共通の top-level field・D と
    flag の唯一の正本** [R-T2ARD R5-01][R6-02] — exit の種類に依らず witness
    生成時に存在する量のみから構成):
-   `degeneracy_metadata-v1 := (coef_vector_ref := **(AT-2) 第 1 項目の係数
-    vector そのもの**(「common gauge quotient 後 単位球に正規化」— v1
-    witness の安定化対象量として生成時に存在する object への identity
-    ref。索引・正規化はその object の定義に従い、本 packet は座標を
-    再定義しない [R6-04]; 単位球上なので ‖·‖₂ = 1 は object の不変条件 —
-    空 support は起こらない: 各要素は t3_witness を持ち active_children_
-    nonzero により少なくとも一方の child に非零係数の原子がある [R6-03]),
+   `degeneracy_metadata-v1 := (coef_vector := **本 packet が v1 契約の
+    field から構成する producer** [R-T2ARD R7-02](v1 の出力契約 (AT-4) は
+    係数 vector object を field に持たないので identity ref では束縛でき
+    ない — R7 指摘): `coef_vector-v1 := 原子 label a ∈ {11, 12, 21, 22} で
+    索引した vector (ĉ_a)_a、ĉ_a := c_a e^{γ_{a,a₀(a)}} / N_n、ここで c_a は
+    t3_witness の config の原子係数(v1 契約の field)、a₀(a) は a の ≃ 類の
+    代表原子(terminal_ledger-v1 の類 id — step0_record から)、γ_{a,a₀} :=
+    q_a − q_{a₀}((AT-0) annotation の規約 — 「common gauge quotient 後」
+    の実体: 定数 gauge を係数へ exact に移す)、N_n := ‖(c_a e^{γ_{a,a₀}})_a‖₂
+    (単位球正規化)`。**原子 level の vector**であり(類 level の c̄_k =
+    Σ_{a∈類} ĉ_a・N_n ではない)、terminal_ledger-v1 の c̄_k は rank 判定
+    ((AE-0))専用 [R6-04]。空 support は起こらない: 各要素は t3_witness を
+    持ち active_children_nonzero により少なくとも一方の child の関数が
+    ≢ 0、よって少なくとも 1 つの c_a ≠ 0、N_n > 0 [R6-03]。
+    **(AT-2) の係数 vector との関係**: (AT-2) 第 1 項目「係数 vector (c_a):
+    common gauge quotient 後 単位球に正規化」は原子 label a で索引されて
+    おり、上の構成はその自然な読み — **同一構成なら同一物**だが、v1 は
+    object を出力契約に持たないため identity ref は取れない。よって v2 の
+    D・flag は **coef_vector-v1 上で定義された v2 の正本**であり、v1 の
+    係数退化 flag との一致は主張しない(v1 flag は v1 の定義で読む —
+    (AE-4) の読み別対応と legacy 束縛は下記のとおり v1 flag を別 field で
+    参照する)),
     index := (AT) 対角安定化部分列 {n_j} ref(係数 vector は compact 球上で
     この部分列に沿って収束), D := {成分 index i : lim_j (coef_vector)_{i,n_j}
     = 0}(極限成分で判定 — 元の列の liminf ではない [R2-B03]), flag :=
-    (D ≠ ∅)(**(AT-2) の係数退化 flag と同一物** — 同じ object の同じ
-    極限成分について定義するので座標の不一致はない [R6-04]; terminal_
-    ledger-v1 の c̄_k は rank 判定((AE-0))専用で D の座標には使わない))`,
+    (D ≠ ∅)(v2 の退化 flag — coef_vector-v1 上の定義), v1_flag_ref := v1
+    witness の安定化済み係数退化 flag((AT-2) 第 1 項目 — v1 の record が
+    保持する compactification metadata への ref、v1 の定義のまま; v2 は
+    その構成を再定義しない [R7-02]))`,
    exit-v2 = **lower_rank_exact(redispatch record, exact_drop_evidence-v1)**
    | exact_qr(qr_global_witness ref — v1 と同一)
    | **chart(chart label, boundary_record-v1)** の discriminated union)`
@@ -5642,8 +5658,11 @@ record-v1 の「pruned_classes が空または within-child のみ」と整合)�
    false)の部分列」に対して自前で導く [R2-B01])| absent(D ≠ ∅ — boundary
    chart には T2b-0 がなく ĉ も c₀ witness も存在しない; ĉ 座標の producer
    は T2b-iii の義務))`。
-**interior chart** := chart with boundary_flag = false、**boundary chart**
-:= chart with boundary_flag = true。
+**interior chart** := chart with **metadata.flag = false ∧ v1_flag_ref =
+false**(両 flag を要求 — legacy consumer((CC-3) 以下)の定義域は v1 flag =
+false なので、v2 の interior はその部分集合になるよう保守的に定義
+[R-T2ARD R7-02])、**boundary chart** := chart で interior でないもの
+(いずれかの flag = true)。boundary_flag := ¬interior(派生値)。
 
 **(AE-2) 割当決定 list v2(v1 の (AT-2) list の行 1 のみ分割 — 他行不変)**:
 安定化対象量と部分列安定化は v1 (AT-2) と同一(係数 vector・scale 比・
@@ -5727,8 +5746,9 @@ v1 の全域性(行 5–9 は 4 葉 rooted tree の cluster 型を尽くす)+ �
     (ref) のみ)[R-T2ARD R4-02]:
       `atlas_view_flagged-v1 := (atlas_witness-v1 ref, 係数退化 flag((AT-2)
        第 1 項目の安定化済み flag — witness 生成時に存在する compactification
-       metadata を view の field として露出), D(退化類集合 — atlas 座標
-       c̄̂、(AE-1)))`
+       metadata を view の field として露出 — v1_flag_ref と同一物), D
+       (degeneracy_metadata-v1 の D — coef_vector-v1 上の定義、(AE-1)
+       [R-T2ARD R7-01]))`
     で、flag・D は**全 variant 共通の degeneracy_metadata-v1**(top-level
     field [R-T2ARD R5-01])から取る: interior chart ↦ view(v1.chart, flag =
     false, D = ∅)、boundary chart ↦ view(v1.chart, flag = true, D)、
@@ -5811,6 +5831,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.99(2026-09-03): R-T2ARD R7(blocking 2)適用 — [R7-01] view の D
+  記述から c̄̂ を除去し metadata の D(coef_vector-v1 上)へ束縛。[R7-02]
+  v1 契約が係数 vector object を持たないため identity ref を撤回し、
+  coef_vector-v1(t3_witness の原子係数 + step0 の γ 規約で構成、原子
+  level、単位球正規化)を v2 の producer として定義、v1 flag は v1_flag_ref
+  として別 field で参照(一致は主張しない)、interior chart を両 flag =
+  false で保守的に定義(legacy consumer の定義域 ⊆ (CC-3) の定義域)。
 
 - v0.29.98(2026-09-03): R-T2ARD R6(blocking 4)適用 — [R6-01] 行 1″ の
   boundary_record への記録を撤回し D は top-level metadata を参照。
