@@ -592,6 +592,44 @@ def test_kawasaki_readme_generated_block_matches_artifact():
     )
 
 
+def test_exp27_closure_table_is_the_complete_status_surface():
+    """Issue #126 closes by one table, while historical run output stays evidence.
+
+    The test checks the status-surface shape without copying its scientific
+    dispositions into a second authoring location.  Exact dispositions are a
+    fixed-SHA review responsibility.
+    """
+    readme = (EXPERIMENTS / "27_row1_classical" / "README.md").read_text(
+        encoding="utf-8"
+    )
+    rows = {
+        match.group(1): line
+        for line in readme.splitlines()
+        if (match := re.match(r"\| (E27-[A-Z]\d) \|", line))
+    }
+    assert set(rows) == {
+        "E27-D0",
+        "E27-P1",
+        "E27-E1",
+        "E27-V1",
+        "E27-R1",
+        "E27-K1",
+        "E27-N1",
+    }
+    assert all(line.count("|") == 6 for line in rows.values())
+    assert "sole authoring location" in readme
+    assert "RUN_REPORT.md" in readme and "not acceptance surfaces" in readme
+
+    log = (ROOT / "docs" / "research-log.md").read_text(encoding="utf-8")
+    pointer = log[log.index("## 2026-09-03 — experiment 27 / issue #126 closure pointer"):]
+    assert "experiments/27_row1_classical/README.md" in pointer
+    for claim_shaped_term in ("R_obs", "K > 1", "Wigner", "negative result"):
+        assert claim_shaped_term not in pointer, (
+            "the research-log pointer must not become a second exp27 "
+            f"status surface: {claim_shaped_term}"
+        )
+
+
 def test_run_logs_are_excluded_from_the_scan():
     """The exclusion is deliberate; assert it stays deliberate.
 
