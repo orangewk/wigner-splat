@@ -187,12 +187,12 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
-| GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **drafted(§8.26、R3 適用済み・査読待ち R-T3A1 R4)**(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
+| GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **drafted(§8.26、R4 適用済み・査読待ち R-T3A1 R5)**(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | open(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor interface(T2c 床の c₀→0 使用は循環 — 新規床)・overflow handoff | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
-| GC-5-T3c PTN22-REMEZ-CLOSE | T3b | violation_sequence-v1 の列-矛盾実行・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
+| GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
@@ -4353,7 +4353,7 @@ T3a-3 DEEP-FLAT-HEAD(5–8R)/ T3a-4 ROUTE-CLOSE(2–4R)、計 14–24R
 (#19 の 2–4R は撤回)。routing 型・versioned adapter・provenance 排他の
 査読負荷を「短補題」として過小評価しない。
 
-### 8.26 GC-5-T3a-1 PTN22-ROUTE-SPEC(routing 型・決定順・入口 gate — 登録のみ、drafted、R3 適用済み、査読対象 R-T3A1 R4)
+### 8.26 GC-5-T3a-1 PTN22-ROUTE-SPEC(routing 型・決定順・入口 gate — 登録のみ、drafted、R4 適用済み、査読対象 R-T3A1 R5)
 
 **目的**: consult #20 (iii)(iv) の routing 型を **proof claim なしで登録**
 する(PTN-SPEC 方式)。本 packet は**いかなる不等式・排他性・網羅性の
@@ -4506,13 +4506,47 @@ cs_selector-v1 により部分列を取ってよい — 違反度・provenance �
    ref, rescale_input-v1(ρ_n = κ s_n・零点 margin κ・core 非空 evidence —
    §8.24 (TS-2)), head_good ref, 違反度 → ∞ の selector 制限 evidence,
    checked_same_provenance)`。
-  **列-矛盾 schema の適用**: §8.23 の schema は「選択部分列上の eventual
-  床(defect σ/2・carrier m/2、M_C、ν ≤ 9)と違反度 → ∞ の矛盾」のみを使う
-  ので、v2 の 3 variant はいずれも同じ field を供給する — **schema を
-  各 variant で実行する義務は T3c**(fixed_chart は §8.23 登録済み、
-  deep_flat / scale は T3c で同形に再登録・実行)。**変換不能時**: lane が
-  自分の variant の必須 field を構成できない場合は t3_gate-v1.unresolved
-  (不足 field の列挙 ref)で fail-closed に停止(PS-9 object 未生成)。
+  **§8.23 消費契約との field 対応(「同一 field」主張の撤回 [R-T3A1
+  R4-01])**: violation_sequence-v1 の必須 field は §8.23 (FL22-5) の
+  とおり {θ 列(t3_witness・window_geometry・χ atlas witness with
+  wzf_cover.checked_zero_free), ζ 列(D̄(t₀,R_col) 所属), chart 安定化,
+  共通 c₀, K_χ(c₀) threshold, core 非空(同一 ρ・threshold), core-interior
+  中心 flag, ρ ≤ r_{S,n} eventual, head_good(good_witness), raw_restatement,
+  floor_input-v1 ref(vanish_flag = none 継承), checked_same_provenance,
+  違反度 → ∞} であり、床と違反度だけではない。deep_flat / scale variant は
+  これを **field 単位で次のとおり対応**させる(直接供給 / 置換 / adapter
+  義務 の 3 区分):
+  - **直接供給(同一 field)**: θ 列(atlas witness の checked_zero_free
+    込み — chart_context)、ζ 列(head_outcome の ζ 列)、chart 安定化
+    (base_context の atlas 列)、head_good、raw_restatement(carrier_witness-
+    v1)、checked_same_provenance、違反度 → ∞(cs_selector-v1 の制限 evidence)。
+  - **置換(v1 の field を variant 固有 field で置き換える — 消費側は置換
+    後の field を読む)**: 共通 c₀ + K_χ(c₀) threshold → deep_flat:
+    vanishing_c0 selector / scale: c0_dichotomy の当該枝 selector;
+    ρ ≤ r_{S,n} eventual → deep_flat: fixed_geometry_witness-v1 の ρ_* /
+    scale: rescale_input-v1 の零点 margin κ(ρ_n = κ s_n); core 非空・
+    core-interior → deep_flat: fixed_geometry_witness-v1 / scale:
+    rescale_input-v1 の core 非空 evidence + T3b の bounded-overlap cover
+    (core-interior 中心は scale lane では拡大 bubble 被覆側で処理 — 置換
+    先 = scale_floor-v1 の cover 記録); floor_input-v1(vanish_flag = none
+    継承)→ deep_flat: deep_flat_floor-v1(vanish_flag は metadata)/
+    scale: scale_floor-v1.proven(同上)。
+  - **adapter 義務(登録のみ — 構成は当該 packet の義務)**: (a) σ・ν の
+    供給: deep_flat は deep_flat_floor-v1 の σ_df / ν ≤ 9 記録が直接供給;
+    **scale は scale_floor-v1 が m̄_C・κ・cover しか持たない**ので、defect
+    側 σ_sc は head_good の列ごとの ε 下界(liminf β ≥ ε — (HA-2))から
+    `head_to_sigma(good_witness) — T3b 義務`で、ν ≤ 9 は good_witness の
+    ord 記録から直接供給; (b) M_C: 両 variant とも RKHS 上界 C_R(全 n) —
+    直接; (c) 連鎖不等式記録(両側 eventual 形): deep_flat は
+    deep_flat_floor-v1 に含む / scale は `scale_chain_adapter — T3b 義務`
+    (σ_sc/2・m̄_C/2 の eventual 形を rescale 座標で記録)。
+  **schema 実行**: 各 variant について §8.23 の列-矛盾 schema を上の対応表
+  の field で実行する義務は **T3c**(fixed_chart は §8.23 登録済み、
+  deep_flat / scale は対応表を伴って T3c で再登録・実行)。**変換不能時**:
+  `not_proven-v1 := (不足 field の列挙 ref(上の対応表の未充足行),
+  発生 node((N1)–(N8)のいずれか), cs_selector-v1 ref, 発生 lane)` を構成
+  して t3_gate-v1.unresolved(not_proven-v1)で fail-closed に停止(PS-9
+  object 未生成)。
   remez_ready の floor_certificate-v1 field は、この v2 variant への
   ref を伴って初めて構成される(fixed_chart_floor ↔ fixed_chart、
   deep_flat_floor ↔ deep_flat、scale_floor ↔ scale の一対一)。
@@ -4524,7 +4558,7 @@ cs_selector-v1 により部分列を取ってよい — 違反度・provenance �
    provenance, **T3c 完了 ref, 全 route closure ref(T3a-4 出力), C₂₂ ref,
    checked_clear evidence** — 4 field 欠落 = constructor 不成立、premature
    valid を型で排除)| retract_exact_qr(qr_global_witness ref)|
-   nogo(detected evidence ref)| unresolved(not_proven ref)|
+   nogo(detected evidence ref)| unresolved(not_proven-v1)|
    t2cov_handoff(head_overflow_candidate ref)| t3b_handoff(t3b_handoff-v1)`。
 「floored × head_good のみ通す」は既存 T2c lane(fixed_chart_floor)では
 正確だが、T3 全体では floor_certificate の 3 variant を通す。
@@ -4587,6 +4621,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.62(2026-09-03): R-T3A1 R4(blocking 2)適用 — [R4-01] 「3 variant が
+  同一 field を供給」の主張を撤回し、violation_sequence-v1 の必須 field
+  全列挙に対する deep_flat / scale の field 単位対応表(直接供給 / 置換 /
+  adapter 義務 — head_to_sigma・scale_chain_adapter は T3b 義務)に置換、
+  not_proven-v1(不足 field 列挙・発生 node・selector・lane)を定義して
+  unresolved に束縛。[R4-02] §4 T3c 行を violation_sequence-v2 の各 variant
+  実行に同期。
 
 - v0.29.61(2026-09-03): R-T3A1 R3(blocking 2 + 軽微 1)適用 — [R3-01]
   消費型を violation_sequence-v2 := fixed_chart(v1)| deep_flat | scale の
