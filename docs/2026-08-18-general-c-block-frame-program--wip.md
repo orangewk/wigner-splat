@@ -186,8 +186,8 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。配置 = T2c 後・T3 前 | open |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
-| GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257` | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
-| GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.23 消費契約、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **drafted(§8.26、査読待ち R-T3A1 R1)**(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
+| GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
+| GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **drafted(§8.26、R1 適用済み・査読待ち R-T3A1 R2)**(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | open(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor interface(T2c 床の c₀→0 使用は循環 — 新規床)・overflow handoff | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
@@ -4350,50 +4350,81 @@ T3a-3 DEEP-FLAT-HEAD(5–8R)/ T3a-4 ROUTE-CLOSE(2–4R)、計 14–24R
 (#19 の 2–4R は撤回)。routing 型・versioned adapter・provenance 排他の
 査読負荷を「短補題」として過小評価しない。
 
-### 8.26 GC-5-T3a-1 PTN22-ROUTE-SPEC(routing 型・決定順・入口 gate — 登録のみ、drafted、査読対象 R-T3A1 R1)
+### 8.26 GC-5-T3a-1 PTN22-ROUTE-SPEC(routing 型・決定順・入口 gate — 登録のみ、drafted、R1 適用済み、査読対象 R-T3A1 R2)
 
 **目的**: consult #20 (iii)(iv) の routing 型を **proof claim なしで登録**
 する(PTN-SPEC 方式)。本 packet は**いかなる不等式・排他性・網羅性の
 成立も主張しない** — 型・決定順・adapter・gate のみ。排他・網羅の証明は
 T3a-4、各 lane の証明は T3a-2/T3a-3/T3b/T3c の義務。
 
-**(RS-1) raw countersequence 型(floor 非依存)**:
+**(RS-1) raw countersequence 型(floor 非依存)[R-T3A1 R1-01][R1-05]**:
   `ptn22_countersequence-v1 := (θ 列 ref(admissible T3 config 列 — 各
    要素は t3_witness と window_geometry を持つ。**chart・c₀・vanish_flag・
-   head_outcome のいかなる仮定も置かない**), 窓列 (W_n, S_n, s_n) の ref
-   (window_contract の同一オブジェクト参照), 違反度 record(R_n :=
-   ‖g_n‖_{W_n}/‖g_n‖_{S_n} と正規化違反度 R_n·(s_n/L_{C,n})⁹ → ∞ の
-   evidence), provenance(checked_same_provenance の対象 = 上 3 field))`
+   head_outcome のいかなる仮定も置かない**), **要素ごとの raw/reduced pair
+   ref**(𝐁_n、𝐁̃_n — (PS-1)/(PS-2) の 2 層、divisor_record 経由の写像 ref、
+   g(𝐁_n) = g(𝐁̃_n) は (F2²-4) の exact 相殺で**同一オブジェクト参照**),
+   窓列 (W_n, S_n, s_n, L_{C,n}) の ref(window_contract の同一オブジェクト
+   参照 — L_{C,n} = |W_n| はここから読む), **g_n の定義 ref**((PS-1)/(F2²-2)
+   の g := G(H_n)、H_n = B̃₁,n/B̃₂,n), 違反度 record(R_n := ‖g_n‖_{W_n}/
+   ‖g_n‖_{S_n} と正規化違反度 R_n·(s_n/L_{C,n})⁹ → ∞ の evidence),
+   provenance(checked_same_provenance の対象 = 上の全 field))`。
+  **部分列 selector**(countersequence 用の独立型):
+  `cs_selector-v1 := (添字集合 {n_k} ref, 違反度 evidence の {n_k} への
+   制限(発散列の部分列は発散 — 移送 evidence), 上の全 field の {n_k} への
+   制限 + checked_same_provenance の再検証)` — §8.25 の
+   subsequence_transport はこの型の face_approach 側の instance(参照方向:
+   §8.25 → 本型ではなく、本型が独立に定義され §8.25 の field と同形)。
+  **route_context-v1(決定 list が各 node で要求する上流 witness を同一列に
+  束ねる adapter)**: `(countersequence ref, cs_selector-v1, 要素ごとの
+   atlas_witness-v1 ref(§8.17 — (N1) が消費), c0_witness-v2 列 ref(§8.24 —
+   (N2)), face_approach_witness-v2 ref(§8.25 — (N3)/(N4)、chart 枝のみ),
+   carrier_witness-v1 ref(§8.22 — (N5)), head_outcome-v1 ref(§8.21 —
+   (N8)/(N8′)), 各 ref の checked_same_provenance(同一 θ 列・同一部分列・
+   同一 raw pair))` — **各 node は route_context-v1 を入力とし、当該 node が
+  要求する ref が欠落なら node 不成立(fail-closed)**。
 — (PS-7) の一様定数不存在の仮定から T3c が抽出する列の**型**。§8.23 の
 violation_sequence-v1 は固定 c₀・vanish_flag = none・head_good を要求する
 ので routing の**開始型には使えない**: それは (RS-2) の最終 floored lane
-でのみ **adapter** `to_violation_sequence(countersequence, chart ref,
-c₀ 固定 evidence, floor_input-v1, head_good ref)` により構成する。
+でのみ **adapter** `to_violation_sequence(route_context-v1, chart ref,
+c₀ 固定 evidence((N2) bounded_c0), floor_input-v1, head_good ref)` により
+構成する。
 
 **(RS-2) 決定順(decision list — 各 node は typed record、排他・網羅は
-T3a-4 の証明義務であり本節は登録のみ)**: 入力 = ptn22_countersequence-v1
-の部分列(各段で部分列を取ってよい — subsequence_transport(§8.25)で
-違反度・provenance を移送)。
+T3a-4 の証明義務であり本節は登録のみ)**: 入力 = route_context-v1(各段で
+cs_selector-v1 により部分列を取ってよい — 違反度・provenance を移送)。
 - **(N1) atlas outcome**(§8.17 (AT) — closed-world: lower-rank | exact-QR |
   chart。**overflow は atlas exit ではない**: chart 後の HEAD9 outcome):
-  - lower-rank → **T3a0 消費**: ptn_lower_face-v2 = proven ⟹ R_n ≤
-    C_r(L/s)⁵ ≤ C_r(L/s)⁹(L/s ≥ 2)で違反度有界 — 矛盾材料
-    `directly_absorbed(T3a0 proven ref)`; trivial_one_component ⟹ g ≡ 1、
-    R_n = 1 — 同じく directly_absorbed; nogo ⟹ (RS-6) の nogo lane。
+  - lower-rank → **T3a0 消費の adapter**(登録のみ [R-T3A1 R1-02]):
+    `absorb_via_t3a0-v1 := (ptn_lower_face-v2 ref(proven |
+    trivial_one_component), **identity_adapter**(countersequence の g_n と
+    T3a0 の g_r が同一 reduced pair・同一 window_contract 上の同一関数で
+    あることの identity ref — raw/reduced 写像は (F2²-4)、窓は window_
+    contract の同一オブジェクト参照), 違反度矛盾の導出 := **T3a-4 義務**
+    (本節は「T3a0 の accepted 不等式が identity_adapter の下で
+    countersequence に適用可能」という消費条件の型のみ — 不等式・矛盾は
+    主張しない))` → 終端 `directly_absorbed(absorb_via_t3a0-v1)`;
+    nogo ⟹ (RS-3) の nogo lane。
   - exact-QR → `retract_exact_qr(qr_global_witness ref)`((PS-6) retract —
     valid/nogo の外)。
   - chart → (N2)。
-- **(N2) c₀ 二択(chart 枝、部分列 — c₀ 分岐を one_sided より先に判定)**:
-  c0_witness-v2 の c₀(config_n) について **c₀ → 0** | **c₀ ≥ c* > 0**。
-  - **c₀ → 0** → (N3)。one_sided flag はこの側では metadata(α/β/order_drop
-    と競合する branch にしない)。
-  - **c₀ ≥ c*** → (N5)。
+- **(N2) c₀ 二択(chart 枝 — c₀ 分岐を one_sided より先に判定)[R-T3A1
+  R1-06]**: `c0_dichotomy-v1 := vanishing_c0(cs_selector-v1, c₀(config_{n_k})
+  → 0 の evidence)| bounded_c0(cs_selector-v1, c* > 0 と c₀(config_{n_k})
+  ≥ c* eventual の evidence)` — **同一 selector の部分列上で両 constructor は
+  evidence により排他**(極限 0 と下界 c* > 0 は両立しない)、任意の列は
+  liminf の二択でいずれかの部分列を持つ(網羅の証明は T3a-4)。branch
+  provenance = selector ref を後続 node に伝搬。
+  - **vanishing_c0** → (N3)。one_sided flag はこの側では metadata(α/β/
+    order_drop と競合する branch にしない)。
+  - **bounded_c0** → (N5)。
 - **(N3) ratio_branch**(§8.25 face_approach_witness-v2): **vanishing** →
   (N4); **bounded_below** → order_drop(§8.25 — one_component face)→
   **終端ではない**: rank-4 pair が one-component face に近づくことを示す
   のみ ⟹ **(N6) one_sided_route へ接続**。
-- **(N4) face approach**(§8.25 (LF-6)): **alpha_proven** ⟹ R₄ ≤ 3R₃ ≤
-  3C_r(L/s)⁵ — `directly_absorbed(T3a0 alpha ref)`; **beta_routed**
+- **(N4) face approach**(§8.25 (LF-6)): **alpha_proven** → `absorb_via_t3a0-v1`(ptn_lower_face-v2 の
+  alpha_proven ref + identity_adapter(rank-4 の g_n と face の g₃ が同一窓
+  列上 — §8.25 (LF-6) の同一 θ 列・同一窓 (Ŵ, Ŝ) 束縛の identity ref)—
+  矛盾導出は T3a-4)→ directly_absorbed; **beta_routed**
   (face_deep_flat-v1)⟹ **(N7) fixed geometry?**: no → T3b handoff /
   yes → (N8) HEAD9 actual defect。
 - **(N5) carrier vanish_flag**(carrier_witness-v1): **one_sided** → (N6);
@@ -4413,24 +4444,39 @@ T3a-4 の証明義務であり本節は登録のみ)**: 入力 = ptn22_counterse
   `t3b_handoff-v1 := (失敗 field の列挙, countersequence 部分列 ref)`)。
   ŝ = s/L_C の下界だけでは物理領域が一点へ縮む場合を除けないため、
   s_n ≥ s_* は物理 scale で要求する。
-- **(N8) HEAD9 actual defect(deep-flat lane — 登録、証明は T3a-3)**: 実
-  defect を **exact Fock norm で一度だけ正規化** f_n := N_n/‖N_n‖_ℱ
-  (N_n = B̃₁ + B̃₂ — §8.21 (CC-6a) の raw defect と同一 object)し、(HA-2)/
-  (HA-3) の二択を消費: head_good → `deep_flat_floor`(floor_certificate の
-  variant — **T2c の σ₀(χ,c₀)/m_C は c₀ → 0 で使えない(循環)ので新規床、
-  T3a-3 義務**)| head_overflow → T2c-ov。§8.25 (LF-6)(β) の λ_n = 1/ε_n
+- **(N8) HEAD9 actual defect(deep-flat lane — 登録、証明は T3a-3)
+  [R-T3A1 R1-03]**: 消費する object は §8.22 (CC-6a) の **raw defect そのもの
+  f_n^{raw} := (B̃₁,n + B̃₂,n)/‖B̃₁,n + B̃₂,n‖_ℱ**(正規化前の分子 N_n :=
+  B̃₁ + B̃₂ は別 object — f_n^{raw} は N_n の exact norm 正規化)。必須
+  field: `(f_n^{raw} ref((CC-6a) identity), N_n ≢ 0 の evidence(exact-QR
+  は (N1) で除外済み — その ref), ζ_n 列 ref(moving center — head_outcome
+  の ζ 列と同一オブジェクト), raw_restatement 検証 ref((CC-6)),
+  checked_same_provenance)`。(HA-2)/(HA-3) の二択を消費: head_good →
+  `deep_flat_floor-v1`(下記 (RS-3) — **T2c の σ₀(χ,c₀)/m_C は c₀ → 0 で
+  使えない(循環)ので新規床、T3a-3 義務**)| head_overflow → T2c-ov
+  handoff。§8.25 (LF-6)(β) の λ_n = 1/ε_n
   記録は**情報 field に降格**(消費は本 lane の exact 正規化経由。1/ε_n
   表現を消費する場合は checked_renorm_boundedness 必須 — 本 packet では
   消費しない)。
 
-**(RS-3) 入口 gate と共通 floor interface**:
+**(RS-3) 入口 gate と共通 floor interface [R-T3A1 R1-04]**:
+  `deep_flat_floor-v1 := (cs_selector-v1(vanishing_c0 の部分列), f_n^{raw}
+   ref((N8)), head_good ref, **床 statement(登録のみ — 証明は T3a-3)**:
+   ∃σ_df > 0: 十分先で ‖J⁹f_{n_k}^{raw}(ζ_{n_k})‖ ≥ σ_df、および carrier 側
+   ∃m_df > 0: 十分先で min_{W_core,n_k(ρ_*)} max_i|B̂_{i,n_k}| ≥ m_df
+   (fixed_geometry_witness-v1 の ρ_* 上 — (N7) 通過が前提), eventual flag
+   (両側), checked_same_provenance)` — floor_witness-v1 の floored と同じ
+  消費形(eventual 床 + 列-矛盾 schema)で、c₀ 固定を要求しない点のみ異なる。
   `floor_certificate-v1 := fixed_chart_floor(floor_witness-v1.floored ref)|
-   deep_flat_floor(T3a-3 の出力 ref)| scale_floor(scale_floor-v1.proven
+   deep_flat_floor(deep_flat_floor-v1)| scale_floor(scale_floor-v1.proven
    ref — §8.24 (TS-2))`、
-  `t3_gate-v1 := directly_absorbed(proof ref — T3a0 proven / alpha /
-   block_dominant)| remez_ready(floor_certificate-v1, head_good ref,
-   checked_same_provenance)| retract_exact_qr(qr_global_witness ref)|
-   nogo(detected evidence ref)| unresolved(not_proven ref)`。
+  `t3_gate-v1 := directly_absorbed(absorb_via_t3a0-v1 | block_dominant
+   ref)| remez_ready(floor_certificate-v1, head_good ref, checked_same_
+   provenance, **T3c 完了 ref, 全 route closure ref(T3a-4 出力), C₂₂ ref,
+   checked_clear evidence** — 4 field 欠落 = constructor 不成立、premature
+   valid を型で排除)| retract_exact_qr(qr_global_witness ref)|
+   nogo(detected evidence ref)| unresolved(not_proven ref)|
+   t2cov_handoff(head_overflow_candidate ref)| t3b_handoff(t3b_handoff-v1)`。
 「floored × head_good のみ通す」は既存 T2c lane(fixed_chart_floor)では
 正確だが、T3 全体では floor_certificate の 3 variant を通す。
 
@@ -4442,9 +4488,11 @@ valid; directly_absorbed は countersequence を除去する証明材料であ�
 **単独では valid を生成しない**; exact-QR は valid/nogo の外((PS-6))。
 
 **(RS-5) 排他・網羅の登録(主張しない)**: (N1)–(N8) の各 node の分岐が
-排他かつ網羅であること、および全 lane の終端が {directly_absorbed,
-remez_ready, retract_exact_qr, nogo, unresolved, T3b handoff} のいずれか
-に落ちることは **T3a-4 ROUTE-CLOSE の証明義務**。本 packet は各 node の
+排他かつ網羅であること、および全 lane の終端が t3_gate-v1 の 7 constructor
+{directly_absorbed, remez_ready, retract_exact_qr, nogo, unresolved,
+t2cov_handoff, t3b_handoff} のいずれかに落ちることは **T3a-4 ROUTE-CLOSE の
+証明義務**((N5)/(N8) の T2c-ov 送付 = t2cov_handoff、(N6) inner_window /
+(N7) 失敗 = t3b_handoff)。本 packet は各 node の
 型が well-formed であることのみ。
 
 **scope(非主張)**: 排他性・網羅性(T3a-4)、one_sided 二分岐の証明
@@ -4490,6 +4538,20 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.59(2026-09-03): R-T3A1 R1(blocking 7)適用 — [R1-01][R1-05]
+  ptn22_countersequence-v1 に raw/reduced pair・g_n 定義・L_{C,n} を束縛、
+  独立型 cs_selector-v1 と route_context-v1(上流 witness の同一列
+  adapter)を登録。[R1-02] (N1)/(N4) の不等式主張を absorb_via_t3a0-v1
+  (identity_adapter + 矛盾導出は T3a-4 義務)の消費条件登録に置換。
+  [R1-03] (N8) を (CC-6a) の f_n^{raw} と同一 object に是正し必須 field
+  (N_n ≢ 0・ζ_n・raw_restatement・provenance)を追加。[R1-04]
+  deep_flat_floor-v1 を定義、remez_ready に T3c 完了・route closure・C₂₂・
+  checked_clear を必須化、t2cov_handoff / t3b_handoff constructor を追加。
+  [R1-05] RS-6 参照を RS-3 に修正、終端集合を gate の 7 constructor に統一。
+  [R1-06] c0_dichotomy-v1(selector・下界 evidence・排他)を型化。[R1-07]
+  §4 集約行に子行 4 つを blocking dependency として列挙、T3a-1 依存に
+  §8.17/§8.21/§8.22 を追加。
 
 - v0.29.58(2026-09-03): **§8.26 GC-5-T3a-1 PTN22-ROUTE-SPEC 起草**(登録
   のみ)— (RS-1) ptn22_countersequence-v1(floor 非依存)と violation_
