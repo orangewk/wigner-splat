@@ -191,7 +191,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`(§8.26 (N7)(N8)(RS-3)・route_context 段階型・restrict_carrier_witness)、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.17 atlas_witness-v1(chart label の閉世界)、§8.19 (AD22-0)(AD22-2)(AD22-3)(common_gauge_record・pivot 規約・strong section・sublabel)、§8.21 (HA-1)–(HA-6)、§8.22 (CC-2)(CC-3)(frame・d₀・λ_χ)(CC-6a)(CC-6b)(CC-7)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **accepted(§8.28、luna `6b7133c` R-T3A3 R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 5–8R → 実績 9R) |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1 `6557d6b`(§8.26 (RS-1)–(RS-5))、T3a0 `ca11257`(§8.25 (LF-4)(LF-6)(LF-7))、T3a-2 `61a14c1`(§8.27 (OS-1)(OS-2))、T3a-3 `6b7133c`(§8.28 (DF-0′)(DF-0″)(DF-6))、§8.21 (HA-2)、§8.22 (CC-7)、§8.16 (PS-9)、§8.15 追記(no-go 判定基準) | 全 node の排他・網羅証明(部分列規約)・t3_gate-v1.1(8 constructor — t3c_handoff 追加)の terminal への落着・absorb_via_t3a0-v1.1 と block_dominant の違反度矛盾導出(exact rank drop のみ、非 exact は LR-EXIT)・nogo → detected 変換 adapter(realized family 必須、不能なら unresolved)・violation_sequence-v2.deep_flat の identity 組立・countersequence 矛盾への統合(条件付き閉包 statement) | **accepted(§8.29、luna `104105e` R-T3A4 R6、6R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 6R。**open: LR-EXIT**(非 exact lower-rank exit の routing — Sol consult #21 で要素粒度案を採択、下 4 packet)) |
-| GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数が列として 0 に近づくが各要素は rank 4 の列は **boundary chart** constructor(chart label + 係数退化 flag を列 metadata として保持)を返す — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **drafted(§8.30、R1 適用済み・査読待ち R-T2ARD R2)**(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
+| GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数が列として 0 に近づくが各要素は rank 4 の列は **boundary chart** constructor(chart label + 係数退化 flag を列 metadata として保持)を返す — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **drafted(§8.30、R2 適用済み・査読待ち R-T2ARD R3)**(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | open、見積 4–7R |
 | GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | open、見積 3–5R |
 | GC-5-T3a-6 ROUTE-CLOSE-v2 | T3a-5、T3a-4 | lane 表の再証明、LR-EXIT tag の削除(CTX/REF 欠落は fail-closed 維持) | open、見積 2–4R |
@@ -5536,7 +5536,7 @@ label**のみで chart 枝と判定し sequence-level の c₀ witness を要求
 「lower-rank exit lane に chart 相当の object と比較を供給する packet」が
 必要になる可能性が高い。
 
-### 8.30 GC-5-T2a-rd ATLAS-EXACT-EXIT(atlas_witness-v2 — 要素ごとの exact exit と boundary chart — drafted、R1 適用済み、査読対象 R-T2ARD R2)
+### 8.30 GC-5-T2a-rd ATLAS-EXACT-EXIT(atlas_witness-v2 — 要素ごとの exact exit と boundary chart — drafted、R2 適用済み、査読対象 R-T2ARD R3)
 
 **目的**: Sol consult #21 の採択(§8.29 追記)を実装する第 1 packet。
 §8.17 (AT-2) 行 1 は「係数退化 flag(正規化係数成分の**極限**が 0)による
@@ -5552,14 +5552,24 @@ packet 非主張**(T2b-iii / T3a-5)。
 **(AE-0) 要素ごとの exact rank drop(定義)[R-T2ARD R1-02]**: config θ_n
 の step0_record((AT-0)、全類 ledger 付き [R-T3A0 R7-01])に対し、まず
 ledger の**最終段への射影**を型で固定する:
-  `terminal_ledger-v1 := (step0 の merge/prune 反復が停止した段の entry
-   集合 — 各 entry = (最終類 id k, child label, 構成原子 label 集合(≃ で
-   合流した原子の集合 — 1 個なら merge なし), exact 合算値 c̄_k(値 ref は
-   exact 演算 c_a + c_b e^{γ_ab} の結果のみ), status ∈ {active(c̄_k ≠ 0),
-   pruned(c̄_k = 0 exact)}), 反復段数 ≤ 3 の記録, checked_exact(全 entry の
-   値 ref が exact 演算の結果である検証))`
-— (AT-0) の ledger は各段の類を保持するので、terminal_ledger はその
-最終段の射影(構成 constructor `project_terminal(step0_record)`)。
+  `terminal_ledger-v1 := (child ごとの **≃ 分割**: 当該 child の原子 label
+   集合を constant-gauge 同値 ≃(指数の同値関係 — (AT-0))で類別した分割
+   (**反復に依らず一意** — ≃ は同値関係なので分割は canonical、merge の
+   順序に依存しない), 各類 k の entry = (類 id k := 構成原子 label 集合の
+   最小 label(決定的), child label, 構成原子 label 集合, exact 合算値
+   c̄_k := Σ_{a ∈ 類} c_a e^{γ_{a,a₀}}(a₀ = 代表原子、値 ref は exact 演算の
+   結果のみ), status ∈ {active(c̄_k ≠ 0), pruned(c̄_k = 0 exact)}),
+   checked_exact(全 entry の値 ref が exact 演算の結果である検証),
+   checked_partition(各 child の entry の構成原子集合が当該 child の原子
+   集合の分割であることの検証))` [R-T2ARD R2-B03]
+— (AT-0) の反復 merge/prune はこの分割を段階的に計算する手続きであり、
+その停止状態は分割そのもの(停止 predicate = 「active 類の間に ≃ 対が
+なく、合算値 0 の類が active に残っていない」— 分割で書けば自動的に
+成立)。よって terminal_ledger は (AT-0) ledger の最終段の射影であると
+同時に、step0_record の原子 label・指数・係数から**直接** constructor
+`canonical_partition(step0_record)` で構成でき、反復の段遷移の一意性を
+別途検証する必要はない(段数 ≤ 3 は「各 merge/prune が原子数 ≤ 4 を厳減」
+から従うが本定義では不要)。
   `exact_drop_evidence-v1 := (terminal_ledger-v1 ref, Z_n := status =
    pruned の類集合(exact 0 — 近似 0 は不可), M_n := 構成原子 ≥ 2 の
    active 類集合(**exact merge** — 合算値は非零だが類数が減る、例: 同一
@@ -5581,23 +5591,29 @@ record-v1 の「pruned_classes が空または within-child のみ」と整合)�
    exit-v2 = **lower_rank_exact(redispatch record, exact_drop_evidence-v1)**
    | exact_qr(qr_global_witness ref — v1 と同一)
    | **chart(chart label, boundary_record-v1)** の discriminated union)`、
-  `boundary_record-v1 := (**座標の束縛** [R-T2ARD R1-03]: 係数 vector は
-   §8.24 c0_witness-v1 の ĉ(scalar_absorption_table 適用後・‖ĉ‖₂ = 1 に
-   正規化 — c₀(config) := min_k|ĉ_k| の定義座標、(CC-3) の係数球と同一
-   [§8.24「座標の同一性は定義で固定」])とし、(AT-2) の「common gauge
-   quotient 後 単位球に正規化」した係数 vector が**この ĉ と同一
-   オブジェクト**であることの identity ref(scalar_absorption_table の
-   同一性)を必須とする — raw / transformed 係数間の列一様比較は主張
-   しない,
-   degenerate_class_set D := {k ∈ active 類 : 安定化部分列上 ĉ_{k,n} → 0}
-   (係数 vector は compact 球上で収束するので極限成分で判定 — (AT-2) の
-   係数退化 flag の対象そのもの、**exit の根拠にはしない**),
+  `boundary_record-v1 := (**座標** [R-T2ARD R1-03][R2-B01]: 係数 vector は
+   **atlas 自身の座標** — (AT-2) 第 1 項目の「common gauge quotient 後
+   (= (AT-0) の constant-gauge 同値による合算 — terminal_ledger-v1 の
+   c̄_k)、単位球に正規化」した vector c̄̂_n := c̄_n/‖c̄_n‖₂(atlas witness の
+   step0_record のみから構成可能 — T2b-0 の gauge section・scalar_
+   absorption_table を要求しない。R2 指摘: boundary chart は atlas_witness-
+   v1 に像を持たないので T2b-0 経由の ĉ は生成不能 — よって ĉ 座標との
+   identity は要求しない・主張しない),
+   degenerate_class_set D := {k ∈ active 類 : lim_j c̄̂_{k,n_j} = 0}(**index
+   は (AT) の対角安定化部分列 {n_j}** — 係数 vector は compact 球上で
+   この部分列に沿って収束するので極限成分で判定。元の列での liminf では
+   ない: 偶奇で退化を交替させる列は安定化で一方の部分列に落ちる
+   [R2-B03]。(AT-2) の係数退化 flag の対象そのもの、**exit の根拠には
+   しない**),
    boundary_flag := (D ≠ ∅),
-   要素ごとの c₀(config_n) > 0 の列 ref(active 類の ĉ_k は各 n で非零 —
-   exact 0 なら Z_n 側),
-   sequence-level c₀ witness := present(D = ∅ ⟺ 極限係数の全成分非零 ⟺
-   liminf_n min_k|ĉ_{k,n}| > 0 — 有理下界 ref、(CC-3) の c₀ witness と同一
-   座標・同一量)| absent(D ≠ ∅))`。
+   要素ごとの正値 ref(active 類の c̄_k は各 n で非零 — exact 0 なら Z_n 側),
+   sequence-level c₀ witness := interior_ref(D = ∅ — **(CC-3) の c₀ witness
+   (ĉ 座標)は interior chart 上で T2b-0 → (CC-3) の既存 producer が構成
+   する object への参照**。本 packet は atlas 座標 c̄̂ と ĉ の関係(gauge
+   scalar の列一様性)を主張しない — (CC-3) が「chart 枝(係数退化 flag =
+   false)の部分列」に対して自前で導く)| absent(D ≠ ∅ — boundary chart
+   には T2b-0 がなく ĉ も c₀ witness も存在しない; ĉ 座標の producer は
+   T2b-iii の義務))`。
 **interior chart** := chart with boundary_flag = false、**boundary chart**
 := chart with boundary_flag = true。
 
@@ -5609,9 +5625,15 @@ record-v1 の「pruned_classes が空または within-child のみ」と整合)�
 (退化原子を極限配置から除く within-child pruning)を発火**させ、除去後の
 Σm_i ≤ 3 で行 1 に落とす(本文「再判定を発火させるのは within-child
 pruning のみ(係数退化 flag により…除く操作 — Σm_i を必ず ≥ 1 減らす)」)。
-この読みでは **v1.chart ⟹ flag = false**((CC-3) の仮定と整合)。よって
-v1 の行 1 は「exact な rank drop」と「極限退化による再判定」の**和**で
-あり、v2 はこの和を 1′ / 1″ に分割する。
+この読みでは **v1.chart ⟹ flag = false**。**ただしこれは v1 本文の唯一の
+読みではない** [R-T2ARD R2-B02]: 形式的な行 1 は「child 恒等零 ∨ Σm_i ≤ 3」
+のみで、flag を compactification metadata と読む別解釈(rank-4 の v1.chart
+に flag = true が残る)も本文と矛盾しない。本 packet は **v2 自身の決定
+list を v1 の解釈に依存せず定義し**、v1 との対応 (AE-4) を「rejudge 読み
+の下では…、metadata 読みの下では…」の**両読みで条件付きに**述べる
+(いずれの読みでも consumer 保存は成立 — (AE-4) 参照)。rejudge 読みでは
+v1 の行 1 は「exact な rank drop」と「極限退化による再判定」の和であり、
+v2 はこの和を 1′ / 1″ に分割する。
   1′. **要素ごとの exact rank drop**: 当該部分列の全要素で lower_rank_exact
       (θ_n)が成立(要素ごとの述語なので、列としては鳩の巣で「全要素
       成立」か「全要素不成立」の部分列を取る — 混在列は分割)→
@@ -5636,18 +5658,27 @@ v1 の全域性(行 5–9 は 4 葉 rooted tree の cluster 型を尽くす)+ �
 一つ**で安定する。証明は v1 (AT) の逐語 + (AE-2) の分割。∎
 
 **(AE-4) v1 との対応(consumer 保存)**:
-- **v1.chart ≅ v2.chart(interior)**: v1 で chart 枝に落ちる列は係数退化
-  flag = false なので v2 でも行 1″ を通らず interior chart(D = ∅、
-  sequence-level c₀ witness = present)— 同一オブジェクト。よって
-  **§8.22 (CC-3) の「chart 枝 ⇒ liminf|c_a| > 0 ⇒ c₀ witness」と T2b-0/i/ii・
-  T2c の消費は、v2 では interior chart に対する主張としてそのまま成立**
-  (本文の再解釈ではなく object の同一性 — (CC-3) の authoring location は
-  不変更、consult #21 のリスク「同一 claim の二義化」はここで回避)。
-- **v1.lower_rank** は v2 で **三分割** [R-T2ARD R1-01]: (i) exact な rank
-  drop ↦ lower_rank_exact; (ii) 極限退化 + 行 2 の全 matched edge exact
-  相殺 ↦ **v2.exact_qr(D ≠ ∅)**(R1 反例: q₁₁ = q₂₁ = p、q₁₂ = q₂₂ = q、
-  係数 (ε, 1, −ε, −1) — v1 は再判定で lower_rank、v2 は 1″ を通過して行 2
-  で exact_qr); (iii) 極限退化のみ ↦ chart(boundary)。
+- **v2.chart(interior) = v1.chart ∩ {係数退化 flag = false}(両読みで
+  成立)** [R-T2ARD R2-B02]: rejudge 読みでは v1.chart ⊆ {flag = false} なので
+  v2.interior = v1.chart; metadata 読みでは v1.chart ⊇ {flag = false} で
+  v2.interior はその部分集合、残り v1.chart ∩ {flag = true} は v2 では
+  boundary chart。**consumer 保存は読みに依らない**: §8.22 (CC-3) の本文は
+  「atlas chart 枝(**係数退化 flag = false**)の部分列は正規化係数の極限が
+  非零 ⟹ c₀ witness」と flag = false を明示して主張しており、T2b-0/i/ii・
+  T2c はこの (CC-3) 経由で c₀ witness を消費する。よって (CC-3) 以下の
+  accepted 消費の定義域は両読みで v2.interior と一致し、object の同一性
+  で保存される((CC-3) の authoring location は不変更、consult #21 の
+  リスク「同一 claim の二義化」はここで回避)。
+- **v1.lower_rank の v2 像(rejudge 読み)** [R-T2ARD R1-01][R2-B02]:
+  **三分割** — (i) exact な rank drop ↦ lower_rank_exact; (ii) 極限退化 +
+  行 2 の全 matched edge exact 相殺 ↦ **v2.exact_qr(D ≠ ∅)**(R1 反例:
+  q₁₁ = q₂₁ = p、q₁₂ = q₂₂ = q、係数 (ε, 1, −ε, −1) — v1 は再判定で
+  lower_rank、v2 は 1″ を通過して行 2 で exact_qr); (iii) 極限退化のみ ↦
+  chart(boundary)。**metadata 読み**では v1.lower_rank = exact な rank
+  drop のみ = v2.lower_rank_exact(identity)で、極限退化列は v1 でも行 2
+  以降へ進むため (ii)(iii) は v1.exact_qr(flag = true) / v1.chart(flag =
+  true) に対応する。いずれの読みでも v2 の像の全体は同じ 3 constructor
+  であり、v1 側の名前だけが読みで変わる。
 - **v1.exact_qr = v2.exact_qr(D = ∅)**; v2.exact_qr(D ≠ ∅) は v1 では
   lower_rank だった列(上の (ii))— (PS-6) retract は qr_global_witness の
   みを消費するので v2 の exact_qr は D の有無に依らず同じ retract 先へ
@@ -5711,6 +5742,15 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.94(2026-09-03): R-T2ARD R2(blocking 3)適用 — [B01] boundary_record
+  の係数座標を atlas 自身の c̄̂(step0_record のみから構成)に変更し、ĉ
+  座標との identity 要求を撤回(boundary chart には T2b-0 が無く生成不能)。
+  [B02] v1 行 1 の rejudge 読みを唯一の読みとせず、両読み(rejudge /
+  metadata)で v1 対応を条件付きに記述、consumer 保存は (CC-3) の明示的
+  flag = false 定義域により読みに依らないと明記。[B03] terminal_ledger を
+  ≃ 分割の canonical 構成に置換(反復・停止性の検証不要)、D の index を
+  (AT) 対角安定化部分列に固定。
 
 - v0.29.93(2026-09-03): R-T2ARD R1(blocking 3)適用 — [R1-01] v1 行 1 の
   読み(係数退化 flag は再判定経由で行 1 に落ちる)を明示し、v1.lower_rank
