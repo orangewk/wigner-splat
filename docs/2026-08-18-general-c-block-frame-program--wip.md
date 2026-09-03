@@ -189,7 +189,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
-| GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`(§8.26 (N7)(N8)(RS-3)・route_context 段階型・restrict_carrier_witness)、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.17 atlas_witness-v1(chart label の閉世界)、§8.19 (AD22-0)(AD22-2)(AD22-3)(common_gauge_record・pivot 規約・strong section・sublabel)、§8.21 (HA-1)–(HA-6)、§8.22 (CC-2)(CC-3)(frame・d₀・λ_χ)(CC-6a)(CC-6b)(CC-7)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **drafted(§8.28、R6 適用済み・査読待ち R-T3A3 R7)**(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
+| GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`(§8.26 (N7)(N8)(RS-3)・route_context 段階型・restrict_carrier_witness)、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.17 atlas_witness-v1(chart label の閉世界)、§8.19 (AD22-0)(AD22-2)(AD22-3)(common_gauge_record・pivot 規約・strong section・sublabel)、§8.21 (HA-1)–(HA-6)、§8.22 (CC-2)(CC-3)(frame・d₀・λ_χ)(CC-6a)(CC-6b)(CC-7)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **drafted(§8.28、R7 適用済み・査読待ち R-T3A3 R8)**(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
@@ -4849,7 +4849,7 @@ marker [R-T3A2 R1-01][R1-02][R2-03][R3-01][R4-01][R4-02][R4-03][R5-01]
 決定(= (N5)/(CC-7) の object)、c₀ → 0 側 one_sided metadata の消費、
 有効値、人間による査読は未実施。
 
-### 8.28 GC-5-T3a-3 DEEP-FLAT-HEAD(deep-flat lane の床 — drafted、R6 適用済み、査読対象 R-T3A3 R7)
+### 8.28 GC-5-T3a-3 DEEP-FLAT-HEAD(deep-flat lane の床 — drafted、R7 適用済み、査読対象 R-T3A3 R8)
 
 **目的**: §8.26 (N8) が登録した deep-flat lane(vanishing_c0 側 — (N4)
 beta_routed → (N7) yes、および (N3) order_drop → (N5) none → (N7) yes)で、
@@ -4893,9 +4893,27 @@ violation_sequence-v2.deep_flat が要求する「atlas witness 列(chart 安定
       子は親の真部分集合、兄弟は互いに素))`;
      `forget_scale : cluster_tree-v1 → rooted_cluster_topology-v1` := 各
       internal node の scale 値を落とし、node をその子孫葉 label 集合に置換
-      する(well-defined: (AT-1) の木は葉が原子 label で node は葉集合を
-      一意に定める)。shape は nested_leaf_sets から再帰定義(§6.1)で
-      一意に読める(検証 field)。
+      する。**source-type 不変条件(消費側の検証 — forget_scale の構成
+      条件、不成立なら constructor 不成立 = fail-closed)[R-T3A3 R7-01]**:
+      (i) 各 internal node は **≥ 2 子**(単一子 node 禁止 — R7 反例
+      root → 単一子 → 4 葉では両 node の葉集合が一致し identity が衝突
+      する)、(ii) 子の葉集合は親の葉集合の**分割**(互いに素・和 = 親)、
+      (iii) internal node の葉集合は非 singleton(|·| ≥ 2)、(iv) 葉集合族は
+      laminar(任意の 2 集合は包含か互いに素)、(v) shape と集合族の一致を
+      constructor で検証。(i)–(iv) の下で **葉集合 → node は単射**((i)(ii)
+      より子の葉集合は親の真部分集合、よって異なる node は異なる葉集合)
+      — これが well-definedness の根拠であり、「node → 葉集合」だけでは
+      足りない。(AT-1) の階層 clustering(各 internal node = 分離 scale
+      水準で ≥ 2 cluster に分かれる)は構成上 (i)–(iv) を満たすと読めるが、
+      本 packet はそれを主張せず**検証条件として要求する**(source type
+      の不変条件の正本化は (AT-1)/(AT-4) 側の versioned 拡張候補 — 上流
+      観察として scope に記録)。
+      **再構成規則(集合族 → parent / children / shape)**: parent(S) :=
+      族の中で S ⊊ T を満たす最小の T(laminar + 有限なので一意)、
+      children(T) := T の真部分集合のうち極大なもの(分割 (ii) により T
+      を覆う)、shape := root から arity を再帰的に読んだもの(§6.1 の
+      再帰定義 T(1)/T(2)/T(3)/T(4) に沿って 5 種のいずれかに一意に落ちる
+      — (v) で検証)。
    **canonical 表現と等式**: node identity = 葉 label 集合、child 順序は
    集合族に現れない(順序非依存)。等式 = nested_leaf_sets の集合族としての
    等しさ(label-preserving rooted-tree equality)。**有限性**: 4 label 上の
@@ -5095,8 +5113,11 @@ restatement 検証 ref は (DF-0″) の制限済み ref と同一オブジェ�
 **scope(非主張)**: chart 一様な σ/m 床(sequence 形のみ)、core 非空性と
 帯域 routing(fixed_geometry_witness の field / T3b)、T2c-ov 橋、
 violation_sequence-v2.deep_flat の組立(T3a-4)、node_scale_bridge の消費、
-有効値、人間による査読は未実施。**上流観察(本 packet 非依存・記録のみ)
-[R-T3A3 R4-02]**: §8.19 (AD22-2) の node 代表葉対規約は「左子 / 右子」を
+cluster_tree-v1 の不変条件 (i)–(iv) が (AT-1) の構成から従うことの証明
+(本 packet は消費側で検証するのみ — [R-T3A3 R7-01])、有効値、人間による
+査読は未実施。**上流観察(本 packet 非依存・記録のみ)[R-T3A3 R4-02]
+[R7-01]**: cluster_tree-v1 の型不変条件(≥ 2 子・分割・非 singleton・
+laminar)は (AT-1)/(AT-4) に明記されていない(versioned 拡張候補); §8.19 (AD22-2) の node 代表葉対規約は「左子 / 右子」を
 前提とし、(AT-1) の多分岐 node(root arity 3/4)では未定義 — node_scale_
 bridge を消費する下流 packet(現時点でなし)が現れた時点で versioned
 拡張の obligation として §4 に登録する(orange 判断)。
@@ -5140,6 +5161,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.81(2026-09-03): R-T3A3 R7(blocking 1)適用 — [R7-01] forget_scale
+  の source-type 不変条件 (i) ≥ 2 子 (ii) 分割 (iii) 非 singleton (iv)
+  laminar (v) shape 一致を消費側検証(fail-closed)として明記、(i)(ii) から
+  葉集合 → node の単射性を導いて well-definedness を閉鎖、集合族からの
+  parent/children/shape 再構成規則を追加、(AT-1)/(AT-4) 側の不変条件
+  未明記を上流観察として scope に記録。
 
 - v0.29.80(2026-09-03): R-T3A3 R6(blocking 1)適用 — [R6-01]
   rooted_cluster_topology-v1 を typed projection として定義(source =
