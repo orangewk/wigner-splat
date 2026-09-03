@@ -27,6 +27,21 @@ class Stage1BarrierSelectionStatus(str, Enum):
     NO_STABLE_ADMISSIBLE_PAIR = "no_stable_admissible_pair"
 
 
+def _finite_real_scalar(value, label: str) -> float:
+    array = np.asarray(value)
+    if (
+        array.ndim != 0
+        or np.issubdtype(array.dtype, np.bool_)
+        or np.iscomplexobj(array)
+        or not np.issubdtype(array.dtype, np.number)
+    ):
+        raise ValueError(f"{label} must be a real numeric scalar")
+    result = float(array.item())
+    if not np.isfinite(result):
+        raise ValueError(f"{label} must be finite")
+    return result
+
+
 @dataclass(frozen=True)
 class GridDiagnostics:
     point_count: int
@@ -59,9 +74,11 @@ class GridDiagnostics:
             if minimum is not None or nonpositive_count != 0:
                 raise ValueError("an all-nonfinite grid has no finite minimum")
         else:
-            if minimum is None or not np.isfinite(minimum):
+            if minimum is None:
                 raise ValueError("a partly finite grid needs a finite minimum")
-            minimum = float(minimum)
+            minimum = _finite_real_scalar(
+                minimum, "minimum_finite_density"
+            )
             if (nonpositive_count == 0) != (minimum > 0.0):
                 raise ValueError("grid minimum and nonpositive count disagree")
 
@@ -95,15 +112,13 @@ class Stage1BarrierAssessment:
             raise TypeError("run must be a Stage1CandidateRun")
         if not isinstance(self.grid, GridDiagnostics):
             raise TypeError("grid must be GridDiagnostics")
-        if (
-            isinstance(self.barrier_weight, (bool, np.bool_))
-            or self.barrier_weight not in BARRIER_WEIGHT_CANDIDATES
-        ):
+        barrier_weight = _finite_real_scalar(
+            self.barrier_weight, "barrier_weight"
+        )
+        if barrier_weight not in BARRIER_WEIGHT_CANDIDATES:
             raise ValueError("barrier_weight is outside the declared ladder")
-        if isinstance(self.beta, (bool, np.bool_)):
-            raise ValueError("barrier selection assessments require beta > 0")
-        beta = float(self.beta)
-        if not np.isfinite(beta) or beta <= 0.0:
+        beta = _finite_real_scalar(self.beta, "beta")
+        if beta <= 0.0:
             raise ValueError("barrier selection assessments require beta > 0")
         if (
             isinstance(self.seed, bool)
@@ -114,7 +129,7 @@ class Stage1BarrierAssessment:
         object.__setattr__(self, "setup_index", int(self.setup_index))
         object.__setattr__(self, "beta", beta)
         object.__setattr__(self, "seed", int(self.seed))
-        object.__setattr__(self, "barrier_weight", float(self.barrier_weight))
+        object.__setattr__(self, "barrier_weight", barrier_weight)
 
     @property
     def admissible(self) -> bool:
@@ -138,9 +153,16 @@ def _summarize_grid_densities(density_groups) -> GridDiagnostics:
     nonfinite_count = 0
     minima = []
     for density in density_groups:
-        values = np.asarray(density, dtype=float)
-        if values.ndim != 1 or len(values) < 1:
+        raw = np.asarray(density)
+        if raw.ndim != 1 or len(raw) < 1:
             raise ValueError("each grid density must be a nonempty vector")
+        if (
+            np.issubdtype(raw.dtype, np.bool_)
+            or np.iscomplexobj(raw)
+            or not np.issubdtype(raw.dtype, np.number)
+        ):
+            raise ValueError("grid density must contain real numeric values")
+        values = np.asarray(raw, dtype=float)
         finite = np.isfinite(values)
         point_count += len(values)
         nonfinite_count += int(np.count_nonzero(~finite))
@@ -239,6 +261,16 @@ class Stage1BarrierSelection:
         expected_count = int(self.setup_count) * len(BARRIER_WEIGHT_CANDIDATES)
         if len(assessments) != expected_count:
             raise ValueError("assessment count differs from the declared matrix")
+        expected_order = [
+            (setup_index, weight)
+            for setup_index in range(int(self.setup_count))
+            for weight in BARRIER_WEIGHT_CANDIDATES
+        ]
+        observed_order = [
+            (row.setup_index, row.barrier_weight) for row in assessments
+        ]
+        if observed_order != expected_order:
+            raise ValueError("assessment order differs from the declared matrix")
         admissible = _admissible_weights(assessments, int(self.setup_count))
         expected_selected = _selected_weight(admissible)
         expected_status = (
@@ -246,15 +278,21 @@ class Stage1BarrierSelection:
             if expected_selected is not None
             else Stage1BarrierSelectionStatus.NO_STABLE_ADMISSIBLE_PAIR
         )
-        if isinstance(self.selected_weight, (bool, np.bool_)):
-            raise ValueError("selected_weight must not be boolean")
+        selected_weight = self.selected_weight
+        if selected_weight is not None:
+            selected_weight = _finite_real_scalar(
+                selected_weight, "selected_weight"
+            )
+            if selected_weight not in BARRIER_WEIGHT_CANDIDATES:
+                raise ValueError("selected_weight is outside the declared ladder")
         if (
-            self.selected_weight != expected_selected
+            selected_weight != expected_selected
             or self.status is not expected_status
         ):
             raise ValueError("selection verdict differs from the assessment data")
         object.__setattr__(self, "assessments", assessments)
         object.__setattr__(self, "setup_count", int(self.setup_count))
+        object.__setattr__(self, "selected_weight", selected_weight)
 
     @property
     def admissible_weights(self) -> tuple[float, ...]:

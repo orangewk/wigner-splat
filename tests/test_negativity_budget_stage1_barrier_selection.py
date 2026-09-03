@@ -198,6 +198,22 @@ def test_grid_diagnostics_count_strict_and_nonfinite_failures_separately():
         selection.GridDiagnostics(3, 1, 0, 1e-9)
     with pytest.raises(ValueError, match="minimum"):
         selection.GridDiagnostics(3, 0, 0, 0.0)
+    with pytest.raises(ValueError, match="real numeric scalar"):
+        selection.GridDiagnostics(3, 0, 0, True)
+
+
+@pytest.mark.parametrize(
+    "density",
+    [
+        np.array([1.0 + 2.0j]),
+        np.array([True]),
+        np.array(["1.0"]),
+        np.array([1.0], dtype=object),
+    ],
+)
+def test_grid_diagnostics_reject_non_real_or_coercible_density(density):
+    with pytest.raises(ValueError, match="real numeric"):
+        selection._summarize_grid_densities([density])
 
 
 def test_terminal_grid_diagnostic_rejects_wrong_pdf_shape(monkeypatch):
@@ -269,6 +285,8 @@ def test_selection_verdict_cannot_be_replaced_independently_of_data(
     assert result.selected_weight == 0.0
     with pytest.raises(ValueError, match="verdict"):
         replace(result, selected_weight=1.0)
+    with pytest.raises(ValueError, match="real numeric scalar"):
+        replace(result, selected_weight=np.array([0.0]))
     with pytest.raises(ValueError, match="verdict"):
         replace(
             result,
@@ -277,3 +295,31 @@ def test_selection_verdict_cannot_be_replaced_independently_of_data(
             ),
             selected_weight=None,
         )
+    with pytest.raises(ValueError, match="order"):
+        replace(result, assessments=tuple(reversed(result.assessments)))
+
+
+def test_unexpected_runner_and_diagnostic_exceptions_propagate(monkeypatch):
+    setup = _setup()
+
+    def runner_bug(*_args):
+        raise RuntimeError("runner bug")
+
+    monkeypatch.setattr(runner_module, "run_stage1_candidate", runner_bug)
+    with pytest.raises(RuntimeError, match="runner bug"):
+        selection.run_stage1_barrier_selection([setup])
+
+    monkeypatch.setattr(
+        runner_module,
+        "run_stage1_candidate",
+        lambda setup, weight: _run(setup, weight),
+    )
+
+    def diagnostic_bug(*_args):
+        raise RuntimeError("diagnostic bug")
+
+    monkeypatch.setattr(
+        selection, "_terminal_grid_diagnostics", diagnostic_bug
+    )
+    with pytest.raises(RuntimeError, match="diagnostic bug"):
+        selection.run_stage1_barrier_selection([setup])

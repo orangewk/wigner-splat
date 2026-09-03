@@ -73,7 +73,7 @@ beta点、解釈文を持たない。
 
 1. 候補列が固定6点で、全setupに対して全点を実行する。
 2. 同一setup objectを候補間で再利用し、空入力・`beta = 0`・object重複を拒否する。
-3. zero、negative、nonfinite densityを別々に数え、strict positivityだけをadmissibleにする。
+3. nonpositiveとnonfinite densityを別々に数え、strict positivityだけをadmissibleにする。
 4. numerical stopはgridが正でもadmissibleにしない。
 5. 全cellに共通する最初の隣接admissible pairの下端だけを選ぶ。
 6. 孤立点またはpairなしではselected weightを返さない。

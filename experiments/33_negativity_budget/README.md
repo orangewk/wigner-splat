@@ -11,8 +11,7 @@ Issue #140。
 - Stage 1 barrier selection: [`stage1_barrier_selection_protocol.md`](stage1_barrier_selection_protocol.md) / [`stage1_barrier_selection.py`](stage1_barrier_selection.py)
 - gates: [`../../tests/test_negativity_budget.py`](../../tests/test_negativity_budget.py) / [`../../tests/test_negativity_budget_packet2.py`](../../tests/test_negativity_budget_packet2.py) / [`../../tests/test_negativity_budget_stage1_setup.py`](../../tests/test_negativity_budget_stage1_setup.py) / [`../../tests/test_negativity_budget_stage1_objective.py`](../../tests/test_negativity_budget_stage1_objective.py) / [`../../tests/test_negativity_budget_stage1_adam_step.py`](../../tests/test_negativity_budget_stage1_adam_step.py) / [`../../tests/test_negativity_budget_stage1_runner.py`](../../tests/test_negativity_budget_stage1_runner.py) / [`../../tests/test_negativity_budget_stage1_barrier_selection.py`](../../tests/test_negativity_budget_stage1_barrier_selection.py)
 
-ここまでのpacketはGKP quadrature値を読まず、sweep、artifact、Stage 1/2の科学的結果を生成しない。
-barrier selectorまでの返却物はtrain-onlyのin-memory recordだけである。
+各packetのscopeとresult境界は対応するprotocolだけを正本とし、このREADMEは入口だけを置く。
 
 ```powershell
 python -m pytest -p no:cacheprovider tests\test_negativity_budget.py tests\test_negativity_budget_packet2.py tests\test_negativity_budget_stage1_setup.py tests\test_negativity_budget_stage1_objective.py tests\test_negativity_budget_stage1_adam_step.py tests\test_negativity_budget_stage1_runner.py tests\test_negativity_budget_stage1_barrier_selection.py -q
