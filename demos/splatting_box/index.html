@@ -1,0 +1,1996 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Splatting Box Concept Instrument</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Splatting Box Concept Instrument" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;Splatting Box Concept Instrument&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: var(--border-radius-lg, 12.5px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress {
+  display: flex;
+  height: 6px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 6px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: 16px !important;
+  height: 16px !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;splatting-box-prototype&quot;&gt;
+  &lt;section class=&quot;sb-shell&quot; aria-label=&quot;Splatting Box conceptual instrument&quot;&gt;
+    &lt;header class=&quot;sb-topbar&quot;&gt;
+      &lt;div class=&quot;sb-brand&quot;&gt;
+        &lt;span class=&quot;sb-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+        &lt;div&gt;
+          &lt;strong&gt;Splatting Box&lt;/strong&gt;
+          &lt;span&gt;homodyne state monitor&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;sb-demo-flag&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;SYNTHETIC INPUT&lt;/div&gt;
+    &lt;/header&gt;
+
+    &lt;div class=&quot;sb-toolbar&quot;&gt;
+      &lt;fieldset class=&quot;sb-scenarios&quot; aria-label=&quot;光源シナリオ&quot;&gt;
+        &lt;legend&gt;Source condition&lt;/legend&gt;
+        &lt;button type=&quot;button&quot; data-scenario=&quot;healthy&quot; aria-pressed=&quot;true&quot;&gt;Healthy GKP&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-scenario=&quot;drift&quot; aria-pressed=&quot;false&quot;&gt;Phase drift&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-scenario=&quot;noise&quot; aria-pressed=&quot;false&quot;&gt;Noise rising&lt;/button&gt;
+      &lt;/fieldset&gt;
+      &lt;button type=&quot;button&quot; class=&quot;sb-run&quot; id=&quot;sbx-run&quot;&gt;測定を開始&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;sb-workspace&quot;&gt;
+      &lt;main class=&quot;sb-main&quot;&gt;
+        &lt;div class=&quot;sb-view-heading&quot;&gt;
+          &lt;div&gt;
+            &lt;span class=&quot;sb-eyebrow&quot;&gt;LIVE RECONSTRUCTION&lt;/span&gt;
+            &lt;h2&gt;Phase-space estimate&lt;/h2&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;sb-legend&quot; aria-label=&quot;凡例&quot;&gt;
+            &lt;span&gt;&lt;i class=&quot;sb-positive&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;positive&lt;/span&gt;
+            &lt;span&gt;&lt;i class=&quot;sb-negative&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;negative&lt;/span&gt;
+            &lt;span&gt;&lt;i class=&quot;sb-measured&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;measured axis&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;svg id=&quot;sbx-phase&quot; class=&quot;sb-phase&quot; viewBox=&quot;0 0 560 400&quot; role=&quot;img&quot; aria-labelledby=&quot;sbx-phase-title sbx-phase-desc&quot;&gt;
+          &lt;title id=&quot;sbx-phase-title&quot;&gt;位相空間の符号付きスプラット推定&lt;/title&gt;
+          &lt;desc id=&quot;sbx-phase-desc&quot;&gt;測定ショットの蓄積に合わせて正と負のガウス成分が安定し、現在のホモダイン測定軸が回転する概念表示。&lt;/desc&gt;
+          &lt;defs&gt;
+            &lt;clipPath id=&quot;sbx-plot-clip&quot;&gt;&lt;rect x=&quot;52&quot; y=&quot;18&quot; width=&quot;456&quot; height=&quot;350&quot; rx=&quot;10&quot;&gt;&lt;/rect&gt;&lt;/clipPath&gt;
+          &lt;/defs&gt;
+          &lt;rect class=&quot;sb-plot-bg&quot; x=&quot;52&quot; y=&quot;18&quot; width=&quot;456&quot; height=&quot;350&quot; rx=&quot;10&quot;&gt;&lt;/rect&gt;
+          &lt;g class=&quot;sb-grid-lines&quot; aria-hidden=&quot;true&quot;&gt;
+            &lt;line x1=&quot;97.6&quot; y1=&quot;18&quot; x2=&quot;97.6&quot; y2=&quot;368&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;143.2&quot; y1=&quot;18&quot; x2=&quot;143.2&quot; y2=&quot;368&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;188.8&quot; y1=&quot;18&quot; x2=&quot;188.8&quot; y2=&quot;368&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;234.4&quot; y1=&quot;18&quot; x2=&quot;234.4&quot; y2=&quot;368&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;325.6&quot; y1=&quot;18&quot; x2=&quot;325.6&quot; y2=&quot;368&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;371.2&quot; y1=&quot;18&quot; x2=&quot;371.2&quot; y2=&quot;368&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;416.8&quot; y1=&quot;18&quot; x2=&quot;416.8&quot; y2=&quot;368&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;462.4&quot; y1=&quot;18&quot; x2=&quot;462.4&quot; y2=&quot;368&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;52&quot; y1=&quot;53&quot; x2=&quot;508&quot; y2=&quot;53&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;52&quot; y1=&quot;88&quot; x2=&quot;508&quot; y2=&quot;88&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;52&quot; y1=&quot;123&quot; x2=&quot;508&quot; y2=&quot;123&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;52&quot; y1=&quot;158&quot; x2=&quot;508&quot; y2=&quot;158&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;52&quot; y1=&quot;228&quot; x2=&quot;508&quot; y2=&quot;228&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;52&quot; y1=&quot;263&quot; x2=&quot;508&quot; y2=&quot;263&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;52&quot; y1=&quot;298&quot; x2=&quot;508&quot; y2=&quot;298&quot;&gt;&lt;/line&gt;
+            &lt;line x1=&quot;52&quot; y1=&quot;333&quot; x2=&quot;508&quot; y2=&quot;333&quot;&gt;&lt;/line&gt;
+          &lt;/g&gt;
+          &lt;g clip-path=&quot;url(#sbx-plot-clip)&quot;&gt;
+            &lt;g id=&quot;sbx-splats&quot;&gt;&lt;/g&gt;
+            &lt;g id=&quot;sbx-shot-dots&quot;&gt;&lt;/g&gt;
+            &lt;line id=&quot;sbx-axis-line&quot; class=&quot;sb-axis-line&quot; x1=&quot;76&quot; y1=&quot;193&quot; x2=&quot;484&quot; y2=&quot;193&quot;&gt;&lt;/line&gt;
+            &lt;circle class=&quot;sb-axis-origin&quot; cx=&quot;280&quot; cy=&quot;193&quot; r=&quot;4&quot;&gt;&lt;/circle&gt;
+          &lt;/g&gt;
+          &lt;line class=&quot;sb-zero-line&quot; x1=&quot;52&quot; y1=&quot;193&quot; x2=&quot;508&quot; y2=&quot;193&quot;&gt;&lt;/line&gt;
+          &lt;line class=&quot;sb-zero-line&quot; x1=&quot;280&quot; y1=&quot;18&quot; x2=&quot;280&quot; y2=&quot;368&quot;&gt;&lt;/line&gt;
+          &lt;text class=&quot;sb-axis-label&quot; x=&quot;514&quot; y=&quot;198&quot;&gt;q&lt;/text&gt;
+          &lt;text class=&quot;sb-axis-label&quot; x=&quot;274&quot; y=&quot;13&quot;&gt;p&lt;/text&gt;
+          &lt;text class=&quot;sb-tick-label&quot; x=&quot;52&quot; y=&quot;387&quot;&gt;−4&lt;/text&gt;
+          &lt;text class=&quot;sb-tick-label&quot; x=&quot;276&quot; y=&quot;387&quot;&gt;0&lt;/text&gt;
+          &lt;text class=&quot;sb-tick-label&quot; x=&quot;498&quot; y=&quot;387&quot;&gt;4&lt;/text&gt;
+        &lt;/svg&gt;
+
+        &lt;div class=&quot;sb-marginal-heading&quot;&gt;
+          &lt;div&gt;&lt;span&gt;Quadrature marginal&lt;/span&gt;&lt;strong id=&quot;sbx-marginal-angle&quot;&gt;θ = 0°&lt;/strong&gt;&lt;/div&gt;
+          &lt;div class=&quot;sb-marginal-key&quot;&gt;&lt;span&gt;&lt;i aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;shots&lt;/span&gt;&lt;span&gt;&lt;i aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;model&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;svg id=&quot;sbx-marginal&quot; class=&quot;sb-marginal&quot; viewBox=&quot;0 0 560 122&quot; role=&quot;img&quot; aria-labelledby=&quot;sbx-marginal-title sbx-marginal-desc&quot;&gt;
+          &lt;title id=&quot;sbx-marginal-title&quot;&gt;現在位相のquadrature周辺分布&lt;/title&gt;
+          &lt;desc id=&quot;sbx-marginal-desc&quot;&gt;蓄積された合成ショットのヒストグラムと現在モデルの予測曲線。&lt;/desc&gt;
+          &lt;rect class=&quot;sb-marginal-bg&quot; x=&quot;38&quot; y=&quot;8&quot; width=&quot;478&quot; height=&quot;88&quot; rx=&quot;8&quot;&gt;&lt;/rect&gt;
+          &lt;line class=&quot;sb-marginal-baseline&quot; x1=&quot;38&quot; y1=&quot;96&quot; x2=&quot;516&quot; y2=&quot;96&quot;&gt;&lt;/line&gt;
+          &lt;g id=&quot;sbx-bars&quot;&gt;&lt;/g&gt;
+          &lt;path id=&quot;sbx-model-path&quot; class=&quot;sb-model-path&quot; d=&quot;&quot;&gt;&lt;/path&gt;
+          &lt;text class=&quot;sb-tick-label&quot; x=&quot;35&quot; y=&quot;116&quot;&gt;−4&lt;/text&gt;
+          &lt;text class=&quot;sb-tick-label&quot; x=&quot;273&quot; y=&quot;116&quot;&gt;0&lt;/text&gt;
+          &lt;text class=&quot;sb-tick-label&quot; x=&quot;508&quot; y=&quot;116&quot;&gt;4&lt;/text&gt;
+        &lt;/svg&gt;
+      &lt;/main&gt;
+
+      &lt;aside class=&quot;sb-side&quot; aria-label=&quot;測定状態&quot;&gt;
+        &lt;section class=&quot;sb-phase-control&quot;&gt;
+          &lt;div class=&quot;sb-side-heading&quot;&gt;
+            &lt;span class=&quot;sb-eyebrow&quot;&gt;ACTIVE MEASUREMENT&lt;/span&gt;
+            &lt;h3&gt;LO phase&lt;/h3&gt;
+          &lt;/div&gt;
+          &lt;svg id=&quot;sbx-dial&quot; class=&quot;sb-dial&quot; viewBox=&quot;0 0 200 178&quot; role=&quot;img&quot; aria-labelledby=&quot;sbx-dial-title sbx-dial-desc&quot;&gt;
+            &lt;title id=&quot;sbx-dial-title&quot;&gt;局部発振器位相ダイヤル&lt;/title&gt;
+            &lt;desc id=&quot;sbx-dial-desc&quot;&gt;実線が現在の測定位相、破線が再構成器の推奨する次の位相。&lt;/desc&gt;
+            &lt;circle class=&quot;sb-dial-face&quot; cx=&quot;100&quot; cy=&quot;85&quot; r=&quot;64&quot;&gt;&lt;/circle&gt;
+            &lt;g id=&quot;sbx-dial-ticks&quot;&gt;&lt;/g&gt;
+            &lt;line id=&quot;sbx-current-hand&quot; class=&quot;sb-current-hand&quot; x1=&quot;100&quot; y1=&quot;85&quot; x2=&quot;156&quot; y2=&quot;85&quot;&gt;&lt;/line&gt;
+            &lt;line id=&quot;sbx-next-hand&quot; class=&quot;sb-next-hand&quot; x1=&quot;100&quot; y1=&quot;85&quot; x2=&quot;145&quot; y2=&quot;85&quot;&gt;&lt;/line&gt;
+            &lt;circle class=&quot;sb-dial-hub&quot; cx=&quot;100&quot; cy=&quot;85&quot; r=&quot;5&quot;&gt;&lt;/circle&gt;
+            &lt;text class=&quot;sb-dial-caption&quot; x=&quot;100&quot; y=&quot;169&quot; text-anchor=&quot;middle&quot;&gt;current &lt;tspan id=&quot;sbx-current-angle&quot;&gt;0°&lt;/tspan&gt; · next &lt;tspan id=&quot;sbx-next-angle&quot;&gt;30°&lt;/tspan&gt;&lt;/text&gt;
+          &lt;/svg&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;sb-readouts&quot; aria-label=&quot;ライブ指標&quot;&gt;
+          &lt;div&gt;&lt;span&gt;shots&lt;/span&gt;&lt;strong id=&quot;sbx-shots&quot;&gt;0&lt;/strong&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;span&gt;demo held-out NLL&lt;/span&gt;&lt;strong id=&quot;sbx-nll&quot;&gt;—&lt;/strong&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;span&gt;phase coverage&lt;/span&gt;&lt;strong id=&quot;sbx-coverage&quot;&gt;0 / 6&lt;/strong&gt;&lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;sb-pipeline&quot; aria-labelledby=&quot;sbx-pipeline-heading&quot;&gt;
+          &lt;div class=&quot;sb-side-heading&quot;&gt;
+            &lt;span class=&quot;sb-eyebrow&quot;&gt;TWO-LANE ESTIMATE&lt;/span&gt;
+            &lt;h3 id=&quot;sbx-pipeline-heading&quot;&gt;Reconstruction state&lt;/h3&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;sb-pipeline-row&quot;&gt;
+            &lt;span class=&quot;sb-pipe-dot sb-pipe-input&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+            &lt;div&gt;&lt;strong&gt;Signal interface&lt;/strong&gt;&lt;span id=&quot;sbx-input-status&quot;&gt;waiting for shots&lt;/span&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;sb-pipeline-row&quot;&gt;
+            &lt;span class=&quot;sb-pipe-dot sb-pipe-preview&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+            &lt;div&gt;&lt;strong&gt;Signed preview&lt;/strong&gt;&lt;span id=&quot;sbx-preview-status&quot;&gt;not started&lt;/span&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;sb-pipeline-row&quot;&gt;
+            &lt;span class=&quot;sb-pipe-dot sb-pipe-physical&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
+            &lt;div&gt;&lt;strong&gt;Physical ρ = BB†&lt;/strong&gt;&lt;span id=&quot;sbx-physical-status&quot;&gt;simulated lane · queued&lt;/span&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;sb-progress&quot; role=&quot;progressbar&quot; aria-label=&quot;測定進捗&quot; aria-valuenow=&quot;0&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;
+            &lt;span id=&quot;sbx-progress&quot;&gt;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;sb-diagnostic&quot; aria-live=&quot;polite&quot;&gt;
+          &lt;span id=&quot;sbx-diagnostic-label&quot;&gt;Calibration&lt;/span&gt;
+          &lt;strong id=&quot;sbx-diagnostic&quot;&gt;vacuum reference ready&lt;/strong&gt;
+          &lt;p id=&quot;sbx-diagnostic-detail&quot;&gt;Start the synthetic stream to form a state estimate.&lt;/p&gt;
+        &lt;/section&gt;
+      &lt;/aside&gt;
+    &lt;/div&gt;
+
+    &lt;footer class=&quot;sb-footer&quot;&gt;
+      Concept simulation only — values are synthetic and are not produced by the research fitter.
+    &lt;/footer&gt;
+    &lt;div class=&quot;sb-sr-status&quot; id=&quot;sbx-sr-status&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+  #splatting-box-prototype {
+    color-scheme: light dark;
+    --sb-bg: light-dark(#f4f1e9, #0d1211);
+    --sb-surface: light-dark(#fffdf8, #151b19);
+    --sb-surface-2: light-dark(#ece8dd, #1e2724);
+    --sb-text: light-dark(#222622, #eef4f0);
+    --sb-muted: light-dark(#626c66, #9eaaa4);
+    --sb-border: light-dark(#d6d1c5, #303b37);
+    --sb-grid: light-dark(#ddd9d0, #28322f);
+    --sb-positive: light-dark(#1f756b, #68d3bd);
+    --sb-positive-soft: light-dark(rgba(31, 117, 107, 0.22), rgba(104, 211, 189, 0.22));
+    --sb-negative: light-dark(#b64e49, #ff8b7e);
+    --sb-negative-soft: light-dark(rgba(182, 78, 73, 0.20), rgba(255, 139, 126, 0.20));
+    --sb-axis: light-dark(#7656bd, #b9a1ff);
+    --sb-accent: light-dark(#202f2b, #dce9e4);
+    --sb-accent-text: light-dark(#f8faf8, #14201c);
+    --sb-warning: light-dark(#a56518, #f1ba67);
+    --sb-shadow: light-dark(rgba(43, 39, 30, 0.14), rgba(0, 0, 0, 0.48));
+    width: 100%;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;
+    font-size: 14px;
+    color: var(--sb-text);
+  }
+
+  #splatting-box-prototype * { box-sizing: border-box; }
+
+  #splatting-box-prototype .sb-shell {
+    width: 100%;
+    overflow: hidden;
+    background: var(--sb-bg);
+    border: 1px solid var(--sb-border);
+    border-radius: 18px;
+    box-shadow: 0 18px 48px var(--sb-shadow);
+  }
+
+  #splatting-box-prototype .sb-topbar,
+  #splatting-box-prototype .sb-toolbar,
+  #splatting-box-prototype .sb-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
+  }
+
+  #splatting-box-prototype .sb-topbar {
+    background: var(--sb-surface);
+    border-bottom: 1px solid var(--sb-border);
+  }
+
+  #splatting-box-prototype .sb-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #splatting-box-prototype .sb-mark {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 36% 34%, var(--sb-negative) 0 17%, transparent 18%),
+      radial-gradient(circle at 62% 62%, var(--sb-positive) 0 22%, transparent 23%),
+      var(--sb-surface-2);
+    border: 1px solid var(--sb-border);
+  }
+
+  #splatting-box-prototype .sb-brand strong,
+  #splatting-box-prototype .sb-brand span { display: block; }
+  #splatting-box-prototype .sb-brand strong { font-weight: 500; letter-spacing: 0.01em; }
+  #splatting-box-prototype .sb-brand div &gt; span { color: var(--sb-muted); font-size: 0.82em; }
+
+  #splatting-box-prototype .sb-demo-flag {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--sb-muted);
+    font-size: 0.76em;
+    letter-spacing: 0.12em;
+  }
+
+  #splatting-box-prototype .sb-demo-flag span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--sb-warning);
+  }
+
+  #splatting-box-prototype .sb-toolbar {
+    align-items: end;
+    background: var(--sb-bg);
+    border-bottom: 1px solid var(--sb-border);
+  }
+
+  #splatting-box-prototype .sb-scenarios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  #splatting-box-prototype .sb-scenarios legend {
+    width: 100%;
+    margin-bottom: 6px;
+    color: var(--sb-muted);
+    font-size: 0.78em;
+  }
+
+  #splatting-box-prototype button {
+    appearance: none;
+    border: 1px solid var(--sb-border);
+    border-radius: 8px;
+    padding: 8px 11px;
+    background: var(--sb-surface);
+    color: var(--sb-text);
+    font: inherit;
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  #splatting-box-prototype button[aria-pressed=&quot;true&quot;] {
+    background: var(--sb-surface-2);
+    border-color: var(--sb-positive);
+    color: var(--sb-text);
+  }
+
+  #splatting-box-prototype .sb-run {
+    min-width: 112px;
+    background: var(--sb-accent);
+    color: var(--sb-accent-text);
+    border-color: transparent;
+    font-weight: 500;
+  }
+
+  #splatting-box-prototype .sb-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 30%);
+    min-width: 0;
+  }
+
+  #splatting-box-prototype .sb-main {
+    min-width: 0;
+    padding: 18px;
+    background: var(--sb-surface);
+  }
+
+  #splatting-box-prototype .sb-side {
+    min-width: 0;
+    padding: 18px;
+    background: var(--sb-bg);
+    border-left: 1px solid var(--sb-border);
+  }
+
+  #splatting-box-prototype .sb-view-heading,
+  #splatting-box-prototype .sb-side-heading,
+  #splatting-box-prototype .sb-marginal-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  #splatting-box-prototype h2,
+  #splatting-box-prototype h3 {
+    margin: 3px 0 0;
+    font-weight: 500;
+  }
+
+  #splatting-box-prototype h2 { font-size: 1.15em; }
+  #splatting-box-prototype h3 { font-size: 1em; }
+  #splatting-box-prototype .sb-eyebrow { color: var(--sb-muted); font-size: 0.72em; letter-spacing: 0.11em; }
+
+  #splatting-box-prototype .sb-legend,
+  #splatting-box-prototype .sb-marginal-key {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    gap: 10px;
+    color: var(--sb-muted);
+    font-size: 0.76em;
+  }
+
+  #splatting-box-prototype .sb-legend span,
+  #splatting-box-prototype .sb-marginal-key span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  #splatting-box-prototype .sb-legend i,
+  #splatting-box-prototype .sb-marginal-key i {
+    width: 9px;
+    height: 9px;
+    display: inline-block;
+  }
+
+  #splatting-box-prototype .sb-legend .sb-positive { border-radius: 50%; background: var(--sb-positive); }
+  #splatting-box-prototype .sb-legend .sb-negative { border-radius: 50%; background: var(--sb-negative); }
+  #splatting-box-prototype .sb-legend .sb-measured { height: 2px; background: var(--sb-axis); }
+  #splatting-box-prototype .sb-marginal-key span:first-child i { background: var(--sb-positive-soft); }
+  #splatting-box-prototype .sb-marginal-key span:last-child i { height: 2px; background: var(--sb-axis); }
+
+  #splatting-box-prototype .sb-phase,
+  #splatting-box-prototype .sb-marginal,
+  #splatting-box-prototype .sb-dial {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  #splatting-box-prototype .sb-phase { margin-top: 8px; }
+  #splatting-box-prototype .sb-plot-bg,
+  #splatting-box-prototype .sb-marginal-bg { fill: var(--sb-bg); }
+  #splatting-box-prototype .sb-grid-lines line { stroke: var(--sb-grid); stroke-width: 1; }
+  #splatting-box-prototype .sb-zero-line { stroke: var(--sb-border); stroke-width: 1.2; }
+  #splatting-box-prototype .sb-axis-line { stroke: var(--sb-axis); stroke-width: 2.3; }
+  #splatting-box-prototype .sb-axis-origin { fill: var(--sb-axis); }
+  #splatting-box-prototype .sb-axis-label,
+  #splatting-box-prototype .sb-tick-label { fill: var(--sb-muted); font-size: 12px; }
+  #splatting-box-prototype .sb-splat-positive { fill: var(--sb-positive-soft); stroke: var(--sb-positive); stroke-width: 1.2; }
+  #splatting-box-prototype .sb-splat-negative { fill: var(--sb-negative-soft); stroke: var(--sb-negative); stroke-width: 1.2; }
+  #splatting-box-prototype .sb-shot-dot { fill: var(--sb-axis); }
+
+  #splatting-box-prototype .sb-marginal-heading {
+    align-items: center;
+    margin-top: 8px;
+    color: var(--sb-muted);
+    font-size: 0.82em;
+  }
+
+  #splatting-box-prototype .sb-marginal-heading &gt; div:first-child {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  #splatting-box-prototype .sb-marginal-heading strong { color: var(--sb-text); font-weight: 500; }
+  #splatting-box-prototype .sb-marginal-baseline { stroke: var(--sb-border); stroke-width: 1; }
+  #splatting-box-prototype .sb-hist-bar { fill: var(--sb-positive-soft); }
+  #splatting-box-prototype .sb-model-path { fill: none; stroke: var(--sb-axis); stroke-width: 2; }
+
+  #splatting-box-prototype .sb-phase-control,
+  #splatting-box-prototype .sb-readouts,
+  #splatting-box-prototype .sb-pipeline,
+  #splatting-box-prototype .sb-diagnostic { margin-bottom: 18px; }
+
+  #splatting-box-prototype .sb-dial { max-width: 210px; margin: 4px auto 0; }
+  #splatting-box-prototype .sb-dial-face { fill: var(--sb-surface); stroke: var(--sb-border); stroke-width: 1.2; }
+  #splatting-box-prototype .sb-dial-tick { stroke: var(--sb-muted); stroke-width: 1; }
+  #splatting-box-prototype .sb-dial-label,
+  #splatting-box-prototype .sb-dial-caption { fill: var(--sb-muted); font-size: 11px; }
+  #splatting-box-prototype .sb-current-hand { stroke: var(--sb-positive); stroke-width: 3; }
+  #splatting-box-prototype .sb-next-hand { stroke: var(--sb-axis); stroke-width: 2; stroke-dasharray: 5 4; }
+  #splatting-box-prototype .sb-dial-hub { fill: var(--sb-text); }
+
+  #splatting-box-prototype .sb-readouts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid var(--sb-border);
+    border-bottom: 1px solid var(--sb-border);
+  }
+
+  #splatting-box-prototype .sb-readouts div:last-child { grid-column: 1 / -1; }
+  #splatting-box-prototype .sb-readouts span,
+  #splatting-box-prototype .sb-readouts strong { display: block; }
+  #splatting-box-prototype .sb-readouts span { color: var(--sb-muted); font-size: 0.74em; }
+  #splatting-box-prototype .sb-readouts strong { margin-top: 3px; font-size: 1.15em; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  #splatting-box-prototype .sb-pipeline-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 12px minmax(0, 1fr);
+    gap: 9px;
+    padding-top: 13px;
+  }
+
+  #splatting-box-prototype .sb-pipeline-row strong,
+  #splatting-box-prototype .sb-pipeline-row span { display: block; }
+  #splatting-box-prototype .sb-pipeline-row strong { font-size: 0.83em; font-weight: 500; }
+  #splatting-box-prototype .sb-pipeline-row div &gt; span { margin-top: 2px; color: var(--sb-muted); font-size: 0.76em; }
+  #splatting-box-prototype .sb-pipe-dot { width: 8px; height: 8px; margin-top: 3px; border-radius: 50%; background: var(--sb-border); }
+  #splatting-box-prototype .sb-pipe-dot.is-live { background: var(--sb-positive); }
+  #splatting-box-prototype .sb-pipe-dot.is-working { background: var(--sb-axis); }
+  #splatting-box-prototype .sb-pipe-dot.is-warning { background: var(--sb-warning); }
+
+  #splatting-box-prototype .sb-progress {
+    height: 4px;
+    margin-top: 15px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--sb-surface-2);
+  }
+
+  #splatting-box-prototype .sb-progress span {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--sb-positive);
+    transition: width 220ms ease;
+  }
+
+  #splatting-box-prototype .sb-diagnostic {
+    padding: 13px 14px;
+    border-radius: 10px;
+    background: var(--sb-surface);
+    border: 1px solid var(--sb-border);
+  }
+
+  #splatting-box-prototype .sb-diagnostic span,
+  #splatting-box-prototype .sb-diagnostic strong { display: block; }
+  #splatting-box-prototype .sb-diagnostic span { color: var(--sb-muted); font-size: 0.73em; }
+  #splatting-box-prototype .sb-diagnostic strong { margin-top: 4px; font-weight: 500; }
+  #splatting-box-prototype .sb-diagnostic p { margin: 6px 0 0; color: var(--sb-muted); font-size: 0.78em; }
+  #splatting-box-prototype .sb-diagnostic.is-warning { border-color: var(--sb-warning); }
+
+  #splatting-box-prototype .sb-footer {
+    justify-content: center;
+    color: var(--sb-muted);
+    background: var(--sb-surface);
+    border-top: 1px solid var(--sb-border);
+    font-size: 0.75em;
+    text-align: center;
+  }
+
+  #splatting-box-prototype .sb-sr-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 620px) {
+    #splatting-box-prototype .sb-workspace { grid-template-columns: 1fr; }
+    #splatting-box-prototype .sb-side { border-left: 0; border-top: 1px solid var(--sb-border); }
+    #splatting-box-prototype .sb-toolbar { align-items: stretch; flex-direction: column; }
+    #splatting-box-prototype .sb-run { width: 100%; }
+    #splatting-box-prototype .sb-view-heading { align-items: start; flex-direction: column; }
+    #splatting-box-prototype .sb-legend { justify-content: start; }
+    #splatting-box-prototype .sb-phase-control { display: grid; grid-template-columns: 1fr minmax(150px, 44%); align-items: center; }
+    #splatting-box-prototype .sb-dial { margin: 0; }
+  }
+
+  @media (max-width: 390px) {
+    #splatting-box-prototype { font-size: 13px; }
+    #splatting-box-prototype .sb-topbar { align-items: start; flex-direction: column; }
+    #splatting-box-prototype .sb-main,
+    #splatting-box-prototype .sb-side { padding: 14px; }
+    #splatting-box-prototype .sb-scenarios button { flex: 1 1 30%; padding-inline: 7px; }
+    #splatting-box-prototype .sb-marginal-heading { align-items: start; flex-direction: column; }
+    #splatting-box-prototype .sb-marginal-key { justify-content: start; }
+    #splatting-box-prototype .sb-phase-control { display: block; }
+    #splatting-box-prototype .sb-dial { margin: 4px auto 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #splatting-box-prototype .sb-progress span { transition: none; }
+  }
+&lt;/style&gt;
+
+&lt;script&gt;
+(() =&gt; {
+  const root = document.getElementById(&#x27;splatting-box-prototype&#x27;);
+  if (!root) return;
+
+  const svgNS = &#x27;http://www.w3.org/2000/svg&#x27;;
+  const maxShots = 32000;
+  const phases = [0, 30, 60, 90, 120, 150];
+  const state = { scenario: &#x27;healthy&#x27;, shots: 0, running: false, timer: null, phaseIndex: 0 };
+  const configs = {
+    healthy: {
+      diagnostic: &#x27;vacuum reference locked&#x27;,
+      detail: &#x27;Stable lattice and negative interference structure.&#x27;,
+      sigma: 0.34,
+      nllStart: 1.780,
+      nllDrop: 0.151,
+      recommendationShift: 1
+    },
+    drift: {
+      diagnostic: &#x27;phase lock wandering&#x27;,
+      detail: &#x27;The lattice rotates between batches; hold or re-lock the LO.&#x27;,
+      sigma: 0.38,
+      nllStart: 1.802,
+      nllDrop: 0.116,
+      recommendationShift: 2
+    },
+    noise: {
+      diagnostic: &#x27;electronic noise increasing&#x27;,
+      detail: &#x27;Negative structure loses contrast as the measured variance rises.&#x27;,
+      sigma: 0.56,
+      nllStart: 1.838,
+      nllDrop: 0.098,
+      recommendationShift: 3
+    }
+  };
+
+  const els = {
+    run: root.querySelector(&#x27;#sbx-run&#x27;),
+    shots: root.querySelector(&#x27;#sbx-shots&#x27;),
+    nll: root.querySelector(&#x27;#sbx-nll&#x27;),
+    coverage: root.querySelector(&#x27;#sbx-coverage&#x27;),
+    splats: root.querySelector(&#x27;#sbx-splats&#x27;),
+    dots: root.querySelector(&#x27;#sbx-shot-dots&#x27;),
+    axis: root.querySelector(&#x27;#sbx-axis-line&#x27;),
+    marginalAngle: root.querySelector(&#x27;#sbx-marginal-angle&#x27;),
+    bars: root.querySelector(&#x27;#sbx-bars&#x27;),
+    modelPath: root.querySelector(&#x27;#sbx-model-path&#x27;),
+    dialTicks: root.querySelector(&#x27;#sbx-dial-ticks&#x27;),
+    currentHand: root.querySelector(&#x27;#sbx-current-hand&#x27;),
+    nextHand: root.querySelector(&#x27;#sbx-next-hand&#x27;),
+    currentAngle: root.querySelector(&#x27;#sbx-current-angle&#x27;),
+    nextAngle: root.querySelector(&#x27;#sbx-next-angle&#x27;),
+    inputStatus: root.querySelector(&#x27;#sbx-input-status&#x27;),
+    previewStatus: root.querySelector(&#x27;#sbx-preview-status&#x27;),
+    physicalStatus: root.querySelector(&#x27;#sbx-physical-status&#x27;),
+    progressTrack: root.querySelector(&#x27;.sb-progress&#x27;),
+    progress: root.querySelector(&#x27;#sbx-progress&#x27;),
+    diagnosticBox: root.querySelector(&#x27;.sb-diagnostic&#x27;),
+    diagnostic: root.querySelector(&#x27;#sbx-diagnostic&#x27;),
+    diagnosticDetail: root.querySelector(&#x27;#sbx-diagnostic-detail&#x27;),
+    srStatus: root.querySelector(&#x27;#sbx-sr-status&#x27;),
+    pipeInput: root.querySelector(&#x27;.sb-pipe-input&#x27;),
+    pipePreview: root.querySelector(&#x27;.sb-pipe-preview&#x27;),
+    pipePhysical: root.querySelector(&#x27;.sb-pipe-physical&#x27;)
+  };
+
+  const makeSvg = (tag, attributes = {}) =&gt; {
+    const node = document.createElementNS(svgNS, tag);
+    Object.entries(attributes).forEach(([key, value]) =&gt; node.setAttribute(key, String(value)));
+    return node;
+  };
+
+  const setHand = (line, angle, length) =&gt; {
+    const rad = angle * Math.PI / 180;
+    line.setAttribute(&#x27;x2&#x27;, String(100 + length * Math.cos(rad)));
+    line.setAttribute(&#x27;y2&#x27;, String(85 - length * Math.sin(rad)));
+  };
+
+  for (let angle = 0; angle &lt; 360; angle += 30) {
+    const rad = angle * Math.PI / 180;
+    const inner = angle % 90 === 0 ? 54 : 58;
+    const tick = makeSvg(&#x27;line&#x27;, {
+      x1: 100 + inner * Math.cos(rad),
+      y1: 85 - inner * Math.sin(rad),
+      x2: 100 + 64 * Math.cos(rad),
+      y2: 85 - 64 * Math.sin(rad),
+      class: &#x27;sb-dial-tick&#x27;
+    });
+    els.dialTicks.appendChild(tick);
+  }
+
+  const lattice = [];
+  [-2, -1, 0, 1, 2].forEach((ix) =&gt; {
+    [-2, -1, 0, 1, 2].forEach((iy) =&gt; {
+      lattice.push({ ix, iy, sign: (ix + iy) % 2 === 0 ? 1 : -1 });
+    });
+  });
+
+  const splatNodes = lattice.map((point) =&gt; {
+    const node = makeSvg(&#x27;ellipse&#x27;, {
+      cx: 280 + point.ix * 72,
+      cy: 193 - point.iy * 57,
+      rx: 20,
+      ry: 13,
+      class: point.sign &gt; 0 ? &#x27;sb-splat-positive&#x27; : &#x27;sb-splat-negative&#x27;
+    });
+    els.splats.appendChild(node);
+    return node;
+  });
+
+  const dotNodes = Array.from({ length: 28 }, () =&gt; {
+    const node = makeSvg(&#x27;circle&#x27;, { cx: 280, cy: 193, r: 2.2, class: &#x27;sb-shot-dot&#x27;, opacity: 0 });
+    els.dots.appendChild(node);
+    return node;
+  });
+
+  const barNodes = Array.from({ length: 36 }, (_, index) =&gt; {
+    const width = 478 / 36;
+    const node = makeSvg(&#x27;rect&#x27;, {
+      x: 38 + index * width + 1,
+      y: 96,
+      width: Math.max(1, width - 2),
+      height: 0,
+      class: &#x27;sb-hist-bar&#x27;
+    });
+    els.bars.appendChild(node);
+    return node;
+  });
+
+  const normal = (x, mean, sigma) =&gt; Math.exp(-0.5 * ((x - mean) / sigma) ** 2);
+
+  const density = (x, scenario, observed) =&gt; {
+    const cfg = configs[scenario];
+    const drift = scenario === &#x27;drift&#x27; ? 0.27 * Math.sin(state.shots / 4200) : 0;
+    const centers = [-2.55, -0.86, 0.86, 2.55];
+    let value = centers.reduce((sum, center, index) =&gt; {
+      const amp = index === 0 || index === 3 ? 0.68 : 1;
+      return sum + amp * normal(x, center + drift, cfg.sigma);
+    }, 0);
+    if (scenario !== &#x27;noise&#x27;) value *= 1 - 0.10 * Math.cos(3.55 * x);
+    if (observed &amp;&amp; state.shots &gt; 0) {
+      const phase = x * 2.7 + state.shots * 0.00031;
+      const sampling = Math.min(0.16, 2.8 / Math.sqrt(state.shots / 640 + 1));
+      value *= 1 + sampling * (0.55 * Math.sin(phase) + 0.32 * Math.cos(phase * 1.7));
+    }
+    return Math.max(0, value);
+  };
+
+  const updateSplats = () =&gt; {
+    const cfg = configs[state.scenario];
+    const settle = 0.20 + 0.80 * (1 - Math.exp(-state.shots / 6500));
+    const drift = state.scenario === &#x27;drift&#x27; ? 10 * Math.sin(state.shots / 4300) : 0;
+    const blur = state.scenario === &#x27;noise&#x27; ? 1.48 : 1;
+    const negativeContrast = state.scenario === &#x27;noise&#x27; ? 0.46 : 1;
+
+    splatNodes.forEach((node, index) =&gt; {
+      const point = lattice[index];
+      const edge = Math.abs(point.ix) + Math.abs(point.iy);
+      const opacity = Math.max(0.08, settle * (1 - edge * 0.045) * (point.sign &lt; 0 ? negativeContrast : 1));
+      node.setAttribute(&#x27;rx&#x27;, String((18 + (edge % 2) * 2) * blur));
+      node.setAttribute(&#x27;ry&#x27;, String((11 + ((point.ix - point.iy + 4) % 2) * 3) * blur));
+      node.setAttribute(&#x27;opacity&#x27;, String(opacity));
+      node.setAttribute(&#x27;transform&#x27;, `rotate(${drift + point.ix * 2} ${node.getAttribute(&#x27;cx&#x27;)} ${node.getAttribute(&#x27;cy&#x27;)})`);
+    });
+
+    const current = phases[state.phaseIndex];
+    const rad = current * Math.PI / 180;
+    const half = 245;
+    els.axis.setAttribute(&#x27;x1&#x27;, String(280 - half * Math.cos(rad)));
+    els.axis.setAttribute(&#x27;y1&#x27;, String(193 + half * Math.sin(rad)));
+    els.axis.setAttribute(&#x27;x2&#x27;, String(280 + half * Math.cos(rad)));
+    els.axis.setAttribute(&#x27;y2&#x27;, String(193 - half * Math.sin(rad)));
+
+    dotNodes.forEach((node, index) =&gt; {
+      if (!state.shots) {
+        node.setAttribute(&#x27;opacity&#x27;, &#x27;0&#x27;);
+        return;
+      }
+      const t = ((index * 37 + Math.floor(state.shots / 320)) % 101) / 100 - 0.5;
+      const offset = (((index * 19 + state.phaseIndex * 11) % 17) / 16 - 0.5) * (state.scenario === &#x27;noise&#x27; ? 20 : 9);
+      const along = t * 390;
+      const x = 280 + along * Math.cos(rad) + offset * Math.sin(rad);
+      const y = 193 - along * Math.sin(rad) + offset * Math.cos(rad);
+      node.setAttribute(&#x27;cx&#x27;, String(x));
+      node.setAttribute(&#x27;cy&#x27;, String(y));
+      node.setAttribute(&#x27;opacity&#x27;, String(0.16 + (index % 4) * 0.06));
+    });
+  };
+
+  const updateMarginal = () =&gt; {
+    const progress = state.shots / maxShots;
+    const observed = barNodes.map((_, index) =&gt; {
+      const x = -4 + (index + 0.5) * 8 / barNodes.length;
+      return density(x, state.scenario, true) * (0.16 + 0.84 * Math.sqrt(progress));
+    });
+    const model = Array.from({ length: 91 }, (_, index) =&gt; {
+      const x = -4 + index * 8 / 90;
+      return { x, value: density(x, state.scenario, false) };
+    });
+    const maxValue = Math.max(1, ...observed, ...model.map((d) =&gt; d.value));
+
+    barNodes.forEach((node, index) =&gt; {
+      const height = 78 * observed[index] / maxValue;
+      node.setAttribute(&#x27;y&#x27;, String(96 - height));
+      node.setAttribute(&#x27;height&#x27;, String(height));
+    });
+
+    const path = model.map((point, index) =&gt; {
+      const x = 38 + (point.x + 4) * 478 / 8;
+      const y = 96 - 78 * point.value / maxValue;
+      return `${index === 0 ? &#x27;M&#x27; : &#x27;L&#x27;}${x.toFixed(2)},${y.toFixed(2)}`;
+    }).join(&#x27; &#x27;);
+    els.modelPath.setAttribute(&#x27;d&#x27;, path);
+    els.modelPath.setAttribute(&#x27;opacity&#x27;, state.shots ? &#x27;1&#x27; : &#x27;0.42&#x27;);
+  };
+
+  const updateStatus = () =&gt; {
+    const cfg = configs[state.scenario];
+    const pct = Math.round(100 * state.shots / maxShots);
+    const coverage = state.shots ? Math.min(6, Math.ceil(state.shots / 3840)) : 0;
+    const current = phases[state.phaseIndex];
+    const next = phases[(state.phaseIndex + cfg.recommendationShift) % phases.length];
+    const nll = state.shots
+      ? cfg.nllStart - cfg.nllDrop * (1 - Math.exp(-state.shots / 7200))
+      : null;
+
+    els.shots.textContent = state.shots.toLocaleString(&#x27;en-US&#x27;);
+    els.nll.textContent = nll ? nll.toFixed(4) : &#x27;—&#x27;;
+    els.coverage.textContent = `${coverage} / 6`;
+    els.marginalAngle.textContent = `θ = ${current}°`;
+    els.currentAngle.textContent = `${current}°`;
+    els.nextAngle.textContent = `${next}°`;
+    setHand(els.currentHand, current, 55);
+    setHand(els.nextHand, next, 46);
+    els.progress.style.width = `${pct}%`;
+    els.progressTrack.setAttribute(&#x27;aria-valuenow&#x27;, String(pct));
+
+    [els.pipeInput, els.pipePreview, els.pipePhysical].forEach((node) =&gt; {
+      node.classList.remove(&#x27;is-live&#x27;, &#x27;is-working&#x27;, &#x27;is-warning&#x27;);
+    });
+
+    if (!state.shots) {
+      els.inputStatus.textContent = &#x27;waiting for shots&#x27;;
+      els.previewStatus.textContent = &#x27;not started&#x27;;
+      els.physicalStatus.textContent = &#x27;simulated lane · queued&#x27;;
+    } else {
+      els.pipeInput.classList.add(&#x27;is-live&#x27;);
+      els.inputStatus.textContent = state.running ? &#x27;receiving synthetic batches&#x27; : &#x27;stream paused&#x27;;
+      if (state.shots &lt; 5500) {
+        els.pipePreview.classList.add(&#x27;is-working&#x27;);
+        els.previewStatus.textContent = &#x27;forming signed components&#x27;;
+        els.physicalStatus.textContent = &#x27;simulated lane · queued&#x27;;
+      } else {
+        els.pipePreview.classList.add(&#x27;is-live&#x27;);
+        els.previewStatus.textContent = &#x27;live preview available&#x27;;
+        els.pipePhysical.classList.add(state.shots &lt; 22000 ? &#x27;is-working&#x27; : (state.scenario === &#x27;healthy&#x27; ? &#x27;is-live&#x27; : &#x27;is-warning&#x27;));
+        els.physicalStatus.textContent = state.shots &lt; 22000
+          ? &#x27;simulated lane · updating&#x27;
+          : (state.scenario === &#x27;healthy&#x27; ? &#x27;simulated lane · settled&#x27; : &#x27;simulated lane · review required&#x27;);
+      }
+    }
+
+    const warning = state.scenario !== &#x27;healthy&#x27; &amp;&amp; state.shots &gt; 6500;
+    els.diagnosticBox.classList.toggle(&#x27;is-warning&#x27;, warning);
+    els.diagnostic.textContent = cfg.diagnostic;
+    els.diagnosticDetail.textContent = state.shots ? cfg.detail : &#x27;Start the synthetic stream to form a state estimate.&#x27;;
+    els.run.textContent = state.running ? &#x27;一時停止&#x27; : (state.shots &gt;= maxShots ? &#x27;再測定&#x27; : (state.shots ? &#x27;測定を再開&#x27; : &#x27;測定を開始&#x27;));
+  };
+
+  const render = () =&gt; {
+    updateSplats();
+    updateMarginal();
+    updateStatus();
+  };
+
+  const stop = () =&gt; {
+    state.running = false;
+    if (state.timer) window.clearInterval(state.timer);
+    state.timer = null;
+    render();
+  };
+
+  const tick = () =&gt; {
+    state.shots = Math.min(maxShots, state.shots + 640);
+    state.phaseIndex = (state.phaseIndex + 1) % phases.length;
+    render();
+    if (state.shots &gt;= maxShots) {
+      stop();
+      els.srStatus.textContent = &#x27;Synthetic measurement complete.&#x27;;
+    }
+  };
+
+  els.run.addEventListener(&#x27;click&#x27;, () =&gt; {
+    if (state.running) {
+      stop();
+      els.srStatus.textContent = &#x27;Synthetic measurement paused.&#x27;;
+      return;
+    }
+    if (state.shots &gt;= maxShots) state.shots = 0;
+    state.running = true;
+    render();
+    state.timer = window.setInterval(tick, 260);
+    els.srStatus.textContent = &#x27;Synthetic measurement started.&#x27;;
+  });
+
+  root.querySelectorAll(&#x27;[data-scenario]&#x27;).forEach((button) =&gt; {
+    button.addEventListener(&#x27;click&#x27;, () =&gt; {
+      stop();
+      state.scenario = button.getAttribute(&#x27;data-scenario&#x27;);
+      state.shots = 0;
+      state.phaseIndex = 0;
+      root.querySelectorAll(&#x27;[data-scenario]&#x27;).forEach((peer) =&gt; {
+        peer.setAttribute(&#x27;aria-pressed&#x27;, String(peer === button));
+      });
+      render();
+      els.srStatus.textContent = `Scenario changed to ${button.textContent}.`;
+    });
+  });
+
+  render();
+})();
+&lt;/script&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handleLeave = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>
