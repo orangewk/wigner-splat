@@ -190,7 +190,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`(§8.26 (N7)(N8)(RS-3)・route_context 段階型・restrict_carrier_witness)、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.17 atlas_witness-v1(chart label の閉世界)、§8.19 (AD22-0)(AD22-2)(AD22-3)(common_gauge_record・pivot 規約・strong section・sublabel)、§8.21 (HA-1)–(HA-6)、§8.22 (CC-2)(CC-3)(frame・d₀・λ_χ)(CC-6a)(CC-6b)(CC-7)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **accepted(§8.28、luna `6b7133c` R-T3A3 R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 5–8R → 実績 9R) |
-| GC-5-T3a-4 ROUTE-CLOSE | T3a-1 `6557d6b`(§8.26 (RS-1)–(RS-5))、T3a0 `ca11257`(§8.25 (LF-4)(LF-6)(LF-7))、T3a-2 `61a14c1`(§8.27 (OS-1)(OS-2))、T3a-3 `6b7133c`(§8.28 (DF-0′)(DF-0″)(DF-6))、§8.21 (HA-2)、§8.22 (CC-7)、§8.16 (PS-9)、§8.15 追記(no-go 判定基準) | 全 node の排他・網羅証明(部分列規約)・t3_gate-v1.1(8 constructor — t3c_handoff 追加)の terminal への落着・absorb_via_t3a0-v1.1 と block_dominant の違反度矛盾導出(exact rank drop のみ、非 exact は LR-EXIT)・nogo → detected 変換 adapter(realized family 必須、不能なら unresolved)・violation_sequence-v2.deep_flat の identity 組立・countersequence 矛盾への統合(条件付き閉包 statement) | **drafted(§8.29、R5 適用済み・査読待ち R-T3A4 R6)**(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
+| GC-5-T3a-4 ROUTE-CLOSE | T3a-1 `6557d6b`(§8.26 (RS-1)–(RS-5))、T3a0 `ca11257`(§8.25 (LF-4)(LF-6)(LF-7))、T3a-2 `61a14c1`(§8.27 (OS-1)(OS-2))、T3a-3 `6b7133c`(§8.28 (DF-0′)(DF-0″)(DF-6))、§8.21 (HA-2)、§8.22 (CC-7)、§8.16 (PS-9)、§8.15 追記(no-go 判定基準) | 全 node の排他・網羅証明(部分列規約)・t3_gate-v1.1(8 constructor — t3c_handoff 追加)の terminal への落着・absorb_via_t3a0-v1.1 と block_dominant の違反度矛盾導出(exact rank drop のみ、非 exact は LR-EXIT)・nogo → detected 変換 adapter(realized family 必須、不能なら unresolved)・violation_sequence-v2.deep_flat の identity 組立・countersequence 矛盾への統合(条件付き閉包 statement) | **accepted(§8.29、luna `104105e` R-T3A4 R6、6R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 6R。**open: LR-EXIT**(非 exact lower-rank exit の routing — Sol consult #21)) |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
@@ -5137,7 +5137,7 @@ laminar)は (AT-1)/(AT-4) に明記されていない(versioned 拡張候補); �
 bridge を消費する下流 packet(現時点でなし)が現れた時点で versioned
 拡張の obligation として §4 に登録する(orange 判断)。
 
-### 8.29 GC-5-T3a-4 ROUTE-CLOSE(決定 list の閉包 — drafted、R5 適用済み、査読対象 R-T3A4 R6)
+### 8.29 GC-5-T3a-4 ROUTE-CLOSE(決定 list の閉包 — **accepted、luna fixed-SHA `104105e` R-T3A4 R6、6R**)
 
 **目的**: §8.26 (RS-5) が T3a-4 に委ねた義務を果たす: (A) (N1)–(N8) の各
 node の分岐が**部分列規約の下で排他かつ網羅**であること、(B) 全 lane が
@@ -5480,6 +5480,15 @@ t2cov_handoff(T2c-ov)), checked_same_provenance)` — t3_gate-v1.1.remez_
 ready の「全 route closure ref(T3a-4 出力)」field はこの record を指す
 (一方向参照 — (RC-3)(0))。
 
+**受理記録**: luna fixed-SHA `104105e8ff014e995f225aa67083ae1f504294d1`
+(R-T3A4 R6、2026-09-03)。R1–R5 の blocking 計 23 件を適用。主要な帰結:
+(i) lower-rank exit lane の吸収は exact な rank drop に限定され、非 exact は
+unresolved(tag LR-EXIT — 構造的 open、Sol consult #21 対象); (ii)
+t3_gate-v1.1(t3c_handoff 追加・directly_absorbed 入力型置換)と
+absorb_via_t3a0-v1.1(g_identity・window_identity-v1)を versioned 登録;
+(iii) ptn22_countersequence-v1.1(jf9_branch_ref・checked_qr_consistency)。
+証明ドラフト・複数 LLM の fixed-SHA 査読のみ・人間による査読は未実施。
+
 **scope(非主張)**: C₂₂ の存在・有効値、T3c の schema 実行、T3b・T2c-ov、
 nogo 反例族の rank-4 への持ち上げ、人間による査読は未実施。
 **open obligation 候補 LR-EXIT(構造的観察 — orange 判断で §4 登録)
@@ -5539,6 +5548,11 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.90(2026-09-03): **GC-5-T3a-4 ROUTE-CLOSE 受理記録** — luna
+  fixed-SHA `104105e`(R-T3A4 R6、6R)。§8.29 見出し・受理記録・§4 T3a-4 行
+  を accepted に更新(LR-EXIT を open として明記)。次: Sol consult #21
+  (LR-EXIT の設計)→ T3b / T3c / T2c-ov の順序決定。
 
 - v0.29.89(2026-09-03): R-T3A4 R5(blocking 2)適用 — [R5-01] §4 T3a-4 行を
   v1.1(8 constructor)・exact 限定の吸収に同期、(RC-2) の stale 表現
