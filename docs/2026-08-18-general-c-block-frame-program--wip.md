@@ -188,7 +188,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
-| GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **drafted(§8.27、R7 適用済み・査読待ち R-T3A2 R8)**(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
+| GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor interface(T2c 床の c₀→0 使用は循環 — 新規床)・overflow handoff | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
@@ -4675,7 +4675,7 @@ t2cov_handoff, t3b_handoff} のいずれかに落ちることは **T3a-4 ROUTE-C
 (T3a-2)、deep_flat_floor(T3a-3)、scale_floor(T3b)、Remez 合成と C₂₂
 (T3c)、人間による査読は未実施。
 
-### 8.27 GC-5-T3a-2 ONE-SIDED-INNER(one_sided routing の証明 — drafted、R7 適用済み、査読対象 R-T3A2 R8)
+### 8.27 GC-5-T3a-2 ONE-SIDED-INNER(one_sided routing の証明 — **accepted、luna fixed-SHA `61a14c1` R-T3A2 R8、8R**)
 
 **目的**: consult #20 (i) の one_sided 独立 routing(§8.26 (N6)
 one_sided_route-v1)を証明する。**主張は 2 つ**: (OS-2) block_dominant の
@@ -4831,6 +4831,16 @@ zero/bubble rescaling 入力。
 pair の norm 極限 evidence), atlas 一致検証 ref | not_proven-v1)`。
 fail-closed(field 欠落 = constructor 不成立)。
 
+**受理記録**: luna fixed-SHA `61a14c19ace5c196c54198c07969812f68a4c022`
+(R-T3A2 R8、2026-09-03)。R1–R7 の blocking 計 16 件(境界規約の排他化・
+ℂP¹ 上の D・窓規約・(OS-3a) の正規化と c₀ 非依存 Gram 床・order_drop →
+one_sided の (N5) 経由化・§8.26 配管訂正 3 件・(N8′) 定義・restrict_
+carrier_witness・段階型 route_context・side 記法)を適用。§8.3 (F2²-2)
+(F2²-3)・§8.26・consult #20 記録への reviewer 指示 in-place 訂正は audit
+marker [R-T3A2 R1-01][R1-02][R2-03][R3-01][R4-01][R4-02][R4-03][R5-01]
+[R6-01] 付き。証明ドラフト・複数 LLM の fixed-SHA 査読のみ・人間による
+査読は未実施。
+
 **scope(非主張)**: T3b の inner 解析(t_* 周りの rescaling と床)、
 (OS-0)(b) の atlas 一致の証明、order_drop lane における vanish_flag の
 決定(= (N5)/(CC-7) の object)、c₀ → 0 側 one_sided metadata の消費、
@@ -4875,6 +4885,10 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.73(2026-09-03): **GC-5-T3a-2 ONE-SIDED-INNER 受理記録** — luna
+  fixed-SHA `61a14c1`(R-T3A2 R8、8R)。§8.27 見出し・受理記録・§4 T3a-2 行
+  を accepted に更新。次: T3a-3 DEEP-FLAT-HEAD 起草。
 
 - v0.29.72(2026-09-03): R-T3A2 R7(blocking 2)適用 — [R7-01] (OS-3) に
   side 記法の対応を明記((CC-7) の射影 side [1:0]/[0:1] ↦ vanish(side) ∈
