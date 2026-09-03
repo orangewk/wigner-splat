@@ -189,7 +189,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
-| GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor interface(T2c 床の c₀→0 使用は循環 — 新規床)・overflow handoff | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
+| GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.21 (HA-1)–(HA-6)、§8.22 (CC-6a)(CC-6b)、§8.23 (FL22-2)–(FL22-4)(逐語再利用) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **drafted(§8.28、査読待ち R-T3A3 R1)**(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
@@ -4846,6 +4846,115 @@ marker [R-T3A2 R1-01][R1-02][R2-03][R3-01][R4-01][R4-02][R4-03][R5-01]
 決定(= (N5)/(CC-7) の object)、c₀ → 0 側 one_sided metadata の消費、
 有効値、人間による査読は未実施。
 
+### 8.28 GC-5-T3a-3 DEEP-FLAT-HEAD(deep-flat lane の床 — drafted、査読対象 R-T3A3 R1)
+
+**目的**: §8.26 (N8) が登録した deep-flat lane(vanishing_c0 側 — (N4)
+beta_routed → (N7) yes、および (N3) order_drop → (N5) none → (N7) yes)で、
+(RS-3) に **statement 登録済み**の `deep_flat_floor-v1` の床を**証明**する。
+T2c(§8.23)の σ₀(χ, c₀)・m_C(χ, c₀, ρ) は K_χ(c₀) 固定の chart 一様床で
+c₀ → 0 列には使えない(循環 — (N8) 注記)。本 packet の床は **選択部分列上
+の eventual 床**(certificate_adapter の selected_sequence 形)であり、
+chart 一様性は主張しない。**新規に必要な解析道具は 1 つだけ**: c₀ 非依存の
+raw strong 極限 — §8.27 (OS-3a)(受理済み)。残りは §8.21/§8.23 の逐語
+再利用である。
+
+**(DF-0) 入力(型)**: `deep_flat_input-v1 := (vanishing_chart_context ref
+(§8.26 route_context-v1 段階型 — (N4) beta_routed 経路)| order_drop_none_
+context ref(vanishing_chart_context + restrict_carrier_witness 出力
+(vanish_flag = none)— (N3) → (N5) none 経路), cs_selector-v1(vanishing_c0
+の部分列 {n_k} — 以下添字 n はこの部分列上), fixed_geometry_witness-v1
+((N7) yes: s_n ≥ s_*、ρ_* ≤ r_{S,n} eventual、W_core,n(ρ_*) ≠ ∅ eventual、
+中心 core-interior flag), f_n^{raw} ref((CC-6a) identity — (N8) 必須
+field), N_n ≢ 0 evidence((N1) の exact-QR 除外 ref), ζ_n 列 ref,
+raw_restatement 検証 ref((CC-6)), checked_same_provenance)` — fail-closed。
+入力 lane に **vanish_flag の要求はない**((RS-3) の「metadata で要求
+しない」に整合 — (DF-3)/(DF-4) は one_sided を許す形で証明する)。
+
+**(DF-1) exact-norm HEAD9 adapter(macro 側の二択)**: (CC-6a) のとおり
+(HA-1)–(HA-3) は f の provenance(原子構造・箱・gauge・**c₀**)を使わず、
+単位 norm・weak compact・核 norm 連続のみを使う。よって選択部分列上の
+f_n^{raw}(‖f_n^{raw}‖_ℱ = 1、N_n ≢ 0)と ζ_n ∈ D̄(t₀, R_col) に対し
+**逐語成立**: β_n := ‖J⁹_{ζ_n} f_n^{raw}‖ ∈ [0, C_R]、部分列で
+  **head_good: liminf β_n =: ε > 0** / **head_overflow: β_n → 0**
+のちょうど一方((HA-2))。head_good では (HA-3) により f_n^{raw} ⇀ f_*
+(weak、compact-open 収束込み)、ζ_n → ζ_*、**f_* ≢ 0、ord_{ζ_*}(f_*) ≤ 9**。
+head_overflow では (HA-4) の `head_overflow_candidate`(frame_input-v2.1
+ref は chart_context の atlas witness 列から — standard box は standing
+束縛で c₀ に依らない)を構成し **T2c-ov handoff**(PS-9 detected は生成
+しない — fail-closed、(HA-4) と同文)。§8.25 (LF-6)(β) の λ_n = 1/ε_n は
+消費しない((N8) の降格規約)。∎
+
+**(DF-2) defect 床 σ_df(選択部分列上・eventual 形)**: head_good の
+liminf β_n = ε > 0 から **σ_df := ε** とおくと、十分先で
+  **‖J⁹ f_n^{raw}(ζ_n)‖ = β_n ≥ σ_df/2 ≥ (σ_df/(2C_R))・sup_{D̄(t₀,R_out)}
+  |f_n^{raw}|**
+(sup ≤ C_R‖f_n^{raw}‖_ℱ = C_R — RKHS)。(FL22-3) と同形(半減 eventual
+規約)。σ_df は**列ごとの存在のみ**(chart 一様下界は非主張 — (HA-2) の
+注記と同じ)。∎
+
+**(DF-3) carrier 床 m_df(選択部分列上・c₀ 非依存)**: 対象は raw 正規化
+pair 𝐁̂_n = 𝐁̃_n/‖𝐁̃_n‖_⊕(§8.27 (OS-3a) の正規化)。
+- **(a) core**: W_core,n(ρ_*) := closure{t ∈ W_reg,n : dist(t, ⋃_c U_{c,n}
+  ∪ Σ_n) ≥ ρ_*}((FL22-2)(a) 逐語 — ρ を fixed_geometry_witness の ρ_* に
+  固定)。compact、min 達成、非空は witness の field(eventual)。
+- **(b) 円板 zero-freeness**: (FL22-2)(b) 逐語 — (AT-3) checked_zero_free
+  membership + t 側の erosion により、十分先(ρ_* ≤ r_{S,n} 以降)で
+  t ∈ W_core,n(ρ_*) なら各 B̂_{i,n} は D(t, ρ_*) 上 zero-free。**c₀ は
+  使われていない**(U_c membership と実部距離のみ)。
+- **(c) 床**: **m_df := liminf_n min_{W_core,n(ρ_*)} max_i|B̂_{i,n}(t)| > 0**
+  を示す。0 と仮定すると、さらなる部分列で min → 0: min 達成点
+  t_m ∈ W_core,m(ρ_*) で max_i|B̂_{i,m}(t_m)| → 0。**raw strong 極限は
+  (OS-3a)**(c₀ 非依存: 成分 Gram 床 λ_χ は frame 幾何のみ、(CC-6b)
+  引き戻し)により部分列で 𝐁̂_m → 𝐁̂_* raw strong、‖𝐁̂_*‖_⊕ = 1
+  (norm 保存)。t_m → t_* ∈ W̄(compact)。十分先で D(t_*, ρ_*/2) ⊂
+  D(t_m, ρ_*) なので各 B̂_{i,m} は固定円板 D(t_*, ρ_*/2) 上 zero-free、
+  strong ⟹ 局所一様収束 ⟹ **Hurwitz**: 各成分極限は円板上 zero-free か
+  恒等零。両成分は t_* で消える(max → 0 の極限値)から zero-free 側は
+  不可能 ⟹ 両成分とも円板上恒等零 ⟹ 一致定理で全平面恒等零 ⟹
+  ‖𝐁̂_*‖_⊕ = 0 ≠ 1 — **矛盾**。よって m_df > 0、十分先で
+  **min_{W_core,n(ρ_*)} max_i|B̂_{i,n}| ≥ m_df/2**((RS-3) の半減 eventual
+  規約)。**one_sided でも成立**: 論法は「両成分が同時に恒等零になれない」
+  のみを使い、片側消滅(‖B̂_{2,*}‖ = 0)でも生存側が zero-free で t_* で
+  非零 ⟹ 矛盾は同じ。(FL22-2)(c) との差は「対角列 + K_χ(c₀) threshold」
+  が「選択部分列 + (OS-3a)」に置き換わった点だけ。
+- **(d) 上界**: M_C := C_R、max_i|B̂_{i,n}(t)| ≤ C_R‖B̂_{i,n}‖_ℱ ≤ C_R
+  (pointwise・全 n — (FL22-3) と同一)。∎
+
+**(DF-4) projective order ν ≤ 9(defect-order 形・core-interior 中心)**:
+(FL22-4) 逐語 — **ν_{ζ_*} := ord_{ζ_*}(f_*) − min_i ord_{ζ_*}(B̂_{i,*})**
+(和の極限は経由しない)。core-interior flag(十分先で ζ_n ∈
+W_core,n(ρ_*))より (DF-3)(b) で各 B̂_{i,n} は D(ζ_n, ρ_*) 上 zero-free、
+ζ_n → ζ_* だから固定円板 D(ζ_*, ρ_*/2) 上で Hurwitz((OS-3a) の raw
+strong 極限): 各成分極限は恒等零 or 円板上 zero-free。両成分恒等零は
+‖𝐁̂_*‖_⊕ = 1 に矛盾 ⟹ 非恒等零の成分は ζ_* で非零 ⟹ **min_i
+ord_{ζ_*}(B̂_{i,*}) = 0** ⟹ **ν_{ζ_*} = ord_{ζ_*}(f_*) ≤ 9**((DF-1) の
+head_good)。(FL22-4) の「vanish_flag = none 限定」は T2c の floor_input の
+型制約であって論法の要件ではない — 本 lane は min_i を取るので
+one_sided でも成立(生存成分が ord 0)。∎
+
+**(DF-5) 量的連鎖記録**: (FL22-3) の恒等式 **g_n(t) = δ_n・|f_n^{raw}(t)|
+/ max_i|B̂_{i,n}(t)|**、δ_n := ‖B̃₁+B̃₂‖_ℱ/‖𝐁̃_n‖_⊕ は raw 定義のみから
+出るので選択部分列上でそのまま成立、δ_n は t 非依存で二窓比 ‖g‖_W/‖g‖_S
+で厳密相殺(T3c が消費するのは (DF-2) の分子床と (DF-3) の分母床のみ)。
+両側とも eventual 形 flag 付きで記録。hop 幾何(S, W, s)への接続は
+T3c/T3b の義務(本 packet は床の存在のみ — (FL22-3) と同じ線引き)。∎
+
+**(DF-6) 出力契約**: (RS-3) の `deep_flat_floor-v1` を**全 field 充足で
+構成**: cs_selector-v1、f_n^{raw} ref、head_good ref((DF-1))、σ_df/2 床
+evidence((DF-2))、m_df/2 床 evidence(ρ_* 上・(DF-3))、M_C ref
+((DF-3)(d))、ν ≤ 9 記録(core-interior flag 付き・(DF-4))、連鎖記録
+((DF-5))、raw_restatement 検証 ref、checked_same_provenance —
+→ `floor_certificate-v1.deep_flat_floor`。head_overflow 枝は
+`t2cov_handoff(head_overflow_candidate)`((DF-1))。fail-closed(field
+欠落 = constructor 不成立)。violation_sequence-v2.deep_flat の**組立**
+(本出力 + chart_context + fixed_geometry_witness + 違反度 selector
+evidence)は T3a-4 ROUTE-CLOSE の義務。
+
+**scope(非主張)**: chart 一様な σ/m 床(sequence 形のみ)、core 非空性と
+帯域 routing(fixed_geometry_witness の field / T3b)、T2c-ov 橋、
+violation_sequence-v2.deep_flat の組立(T3a-4)、有効値、人間による査読は
+未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -4885,6 +4994,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.74(2026-09-03): **§8.28 GC-5-T3a-3 DEEP-FLAT-HEAD 起草** — (DF-0)
+  入力型(vanish_flag 非要求)、(DF-1) exact-norm HEAD9 adapter((CC-6a)
+  逐語・overflow handoff)、(DF-2) σ_df := ε の eventual 床、(DF-3) m_df
+  carrier 床((FL22-2) 逐語 + (OS-3a) の c₀ 非依存 raw strong 極限 —
+  one_sided 許容)、(DF-4) ν ≤ 9(defect-order 形、min_i で one_sided
+  許容)、(DF-5) 連鎖記録、(DF-6) deep_flat_floor-v1 の全 field 構成。
 
 - v0.29.73(2026-09-03): **GC-5-T3a-2 ONE-SIDED-INNER 受理記録** — luna
   fixed-SHA `61a14c1`(R-T3A2 R8、8R)。§8.27 見出し・受理記録・§4 T3a-2 行
