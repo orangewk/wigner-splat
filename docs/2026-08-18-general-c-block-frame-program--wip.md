@@ -189,7 +189,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
-| GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.21 (HA-1)–(HA-6)、§8.22 (CC-6a)(CC-6b)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **drafted(§8.28、R1 適用済み・査読待ち R-T3A3 R2)**(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
+| GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`(§8.26 (N7)(N8)(RS-3)・route_context 段階型・restrict_carrier_witness)、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.17 atlas_witness-v1(chart label の閉世界)、§8.19 (AD22-0)(AD22-2)(AD22-3)(common_gauge_record・pivot 規約・strong section・sublabel)、§8.21 (HA-1)–(HA-6)、§8.22 (CC-2)(CC-3)(frame・d₀・λ_χ)(CC-6a)(CC-6b)(CC-7)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **drafted(§8.28、R2 適用済み・査読待ち R-T3A3 R3)**(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
@@ -4849,7 +4849,7 @@ marker [R-T3A2 R1-01][R1-02][R2-03][R3-01][R4-01][R4-02][R4-03][R5-01]
 決定(= (N5)/(CC-7) の object)、c₀ → 0 側 one_sided metadata の消費、
 有効値、人間による査読は未実施。
 
-### 8.28 GC-5-T3a-3 DEEP-FLAT-HEAD(deep-flat lane の床 — drafted、R1 適用済み、査読対象 R-T3A3 R2)
+### 8.28 GC-5-T3a-3 DEEP-FLAT-HEAD(deep-flat lane の床 — drafted、R2 適用済み、査読対象 R-T3A3 R3)
 
 **目的**: §8.26 (N8) が登録した deep-flat lane(vanishing_c0 側 — (N4)
 beta_routed → (N7) yes、および (N3) order_drop → (N5) none → (N7) yes)で、
@@ -4876,21 +4876,62 @@ raw_restatement 検証 ref((CC-6)), checked_same_provenance)` — fail-closed。
 **(DF-0′) chart 安定化 selector(typed producer)[R-T3A3 R1-02]**: (RS-3) の
 violation_sequence-v2.deep_flat が要求する「atlas witness 列(chart 安定化)」
 の producer を本 packet で定義する:
-  `chart_stabilization-v1 := (χ(chart 枝 — (CC-3) の成分別 chart 型
-   (SEP/CONF/単原子)の組), chart_sublabel((AD22-3) — TR3(root_far) |
-   TR3(root_collapse) | none), stabilized selector(cs_selector-v1 の合成 —
-   入力 selector の部分列で全要素の atlas witness が同一 (χ, sublabel) を
-   持つもの), 全要素検証 ref(各 n_k の atlas_witness-v1 が (χ, sublabel) を
-   持つ), frame identity ref((CC-2) の成分 frame 定義は χ で決まる — 同一
-   χ 上で frame 族は同一構成), 違反度 evidence の再制限, checked_same_
-   provenance の再検証)`。
-**存在(鳩の巣)**: chart 型は closed-world の typed constructor で **有限
-個**((CC-3) の成分型 3 種 × 2 成分、(AD22-3) の sublabel 3 種)なので、
-無限列 {n_k} のうち少なくとも一組 (χ, sublabel) が無限回現れる — その
-添字集合が stabilized selector。cs_selector-v1 の合成は再び cs_selector-v1
-(発散列の部分列は発散、全 field の制限、provenance 再検証)。以下の
-添字 n はすべて **stabilized selector 上**とする((DF-0) の cs_selector-v1
+  `chart_stabilization-v1 := (
+   **label 安定化** [R-T3A3 R2-01]: chart_label(§8.17 atlas_witness-v1 の
+   chart label — RTC / TR3 / PL4 / XC1 等の closed-world constructor)、
+   chart_sublabel((AD22-3) — TR3(root_far) | TR3(root_collapse) | none)、
+   χ((CC-3) の成分別 chart 型(SEP/CONF/単原子)の組 — chart_label から
+   決まる)、原子 label 割当(4 原子の label 全順序 — 有限)、
+   stabilized selector(cs_selector-v1 の合成 — 入力 selector の部分列で
+   全要素の atlas witness が同一 (chart_label, sublabel, χ, label 割当) を
+   持つもの)、全要素検証 ref;
+   **gauge データの identity(安定化ではなく transport)**: frame_input-v2.1
+   ref(chart_context の carrier_witness-v1 が持つ ref — 同一オブジェクト)
+   とその common_gauge_record-v1.1 の field identity: pivot_leaf(= (AD22-2)
+   の決定的規約 — chart_label と label 割当の関数なので stabilized selector
+   上で**自動的に一定**)、permutation(同上)、section_id(FR §8.4 の
+   section 識別子 — record の field をそのまま参照、変更しない)、U_n
+   (同 record)、strong_section evidence(**同 record の U_n → U_* strong
+   検証 ref を stabilized selector へ制限** — strong 収束列の部分列は同一
+   極限へ strong 収束、(AD22-2) の再証明はしない);
+   **frame identity**: (CC-2) の成分 frame 記録(carrier_witness-v1 の
+   「成分別 frame 記録(strong 収束 ref)」— restrict_carrier_witness
+   (§8.26 [R-T3A2 R4-03])で stabilized selector へ制限したもの)、
+   d₀ identity ref((CC-3) の帯 [d₀, 2d₀] を定める chart 定数 — global
+   ref、列に依らない);
+   違反度 evidence の再制限, checked_same_provenance の再検証)`。
+**存在(鳩の巣)**: label 安定化の対象 (chart_label, sublabel, χ, label
+割当) は closed-world の typed constructor の直積で **有限個**なので、
+無限列 {n_k} のうち少なくとも一組が無限回現れる — その添字集合が
+stabilized selector。cs_selector-v1 の合成は再び cs_selector-v1(発散列の
+部分列は発散、全 field の制限、provenance 再検証)。**gauge データは
+安定化の対象ではない**: pivot_leaf / permutation は label 安定化から
+決定的規約で一定、section_id・U_n・strong section は carrier_witness-v1
+経由の frame_input-v2.1 record が θ 列全体で既に持つ evidence を制限する
+だけ(strong section が record に無い列は (CC-7) の constructor 条件を
+満たさず、そもそも chart_context_pre が構成されない — fail-closed)。
+**(OS-3a) の条件 (i)(iii) はこの record で供給される**((DF-3a))。以下
+の添字 n はすべて **stabilized selector 上**とする((DF-0) の cs_selector-v1
 field はこの出力で置換 — 入力段階の selector は情報 field に降格)。∎
+
+**(DF-0″) 選択部分列への ref transport(型閉包)[R-T3A3 R2-02]**: 本
+packet が消費・出力する全 ref を **同一の stabilized selector** に制限する
+adapter を定義する:
+  `restrict_deep_flat_refs(stabilized selector) := (
+   fixed_geometry_witness-v1 → 同型(s_n ≥ s_*・ρ_* ≤ r_{S,n}・core 非空は
+   eventual 条件で部分列に保存、core-interior flag も eventual — identity
+   ref + 制限 evidence),
+   head_outcome-v1 → 同型((HA-6) の完全 constructor: head_good では
+   liminf β ≥ ε が部分列で保存(liminf は部分列で非減少)、ζ 列・
+   weak/compact-open 極限記録・ord ≤ 9 記録を制限; head_overflow では
+   β → 0 が保存),
+   f_n^{raw} ref・N_n ≢ 0 evidence・ζ_n 列 ref・raw_restatement 検証 ref
+   → 要素ごとの ref の制限,
+   carrier_witness-v1 → restrict_carrier_witness(§8.26),
+   chart_context(段階型 — vanishing_chart_context)→ 上の全 ref の制限の
+   組 + checked_same_provenance の再検証)`。
+以後 (DF-1)–(DF-6) の各 ref はこの adapter の出力を指す(略記「head_good
+ref」= restrict 済み head_outcome-v1.head_good の ref)。∎
 
 **(DF-3a) (OS-3a) の適用条件(lane 非依存の明示)[R-T3A3 R1-01]**: §8.27
 (OS-3a) の証明が使う仮定は (i) chart 枝で χ 一定(成分 frame が (CC-2)/
@@ -4980,9 +5021,14 @@ defect-order 形」は形の参照であり、(FL22-4) の vanish_flag 制約を
 T3c/T3b の義務(本 packet は床の存在のみ — (FL22-3) と同じ線引き)。∎
 
 **(DF-6) 出力契約**: (RS-3) の `deep_flat_floor-v1` を**全 field 充足で
-構成**: cs_selector-v1(= (DF-0′) の stabilized selector)、chart_
-stabilization-v1 ref((DF-0′) — (RS-3) deep_flat variant の「chart 安定化」
-field の producer)、f_n^{raw} ref、head_good ref((DF-1))、σ_df/2 床
+構成**: cs_selector-v1(= (DF-0′) の stabilized selector — 以下の全 ref は
+(DF-0″) でこの selector に制限済み)、chart_stabilization-v1 ref((DF-0′) —
+(RS-3) deep_flat variant の「chart 安定化」field の producer)、
+**fixed_geometry_witness-v1 identity ref**((DF-0″) 制限済み — (DF-3) の
+ρ_* と (DF-4) の core-interior flag の出所)、**head_outcome-v1 ref**
+((HA-6) の完全 constructor、(DF-0″) 制限済み — head_good variant)、
+**carrier_witness-v1 ref**(restrict_carrier_witness 済み)、**vanishing_
+chart_context ref**((DF-0″) 制限済み)、f_n^{raw} ref、σ_df/2 床
 evidence((DF-2))、m_df/2 床 evidence(ρ_* 上・(DF-3))、M_C ref
 ((DF-3)(d))、ν ≤ 9 記録(core-interior flag 付き・(DF-4))、連鎖記録
 ((DF-5))、raw_restatement 検証 ref、checked_same_provenance —
@@ -4990,7 +5036,12 @@ evidence((DF-2))、m_df/2 床 evidence(ρ_* 上・(DF-3))、M_C ref
 `t2cov_handoff(head_overflow_candidate)`((DF-1))。fail-closed(field
 欠落 = constructor 不成立)。violation_sequence-v2.deep_flat の**組立**
 (本出力 + chart_context + fixed_geometry_witness + 違反度 selector
-evidence)は T3a-4 ROUTE-CLOSE の義務。
+evidence)は T3a-4 ROUTE-CLOSE の義務 — ただし **同一 selector・同一
+provenance の束縛は本 packet で完了**: deep_flat variant の cs_selector-v1
+(vanishing_c0)field は (DF-0′) の stabilized selector と同一オブジェクト、
+chart_context ref・fixed_geometry_witness-v1・head_good ref・raw_
+restatement 検証 ref は (DF-0″) の制限済み ref と同一オブジェクトで
+なければならない(T3a-4 は identity 検証のみ — 再選択・再制限は禁止)。
 
 **scope(非主張)**: chart 一様な σ/m 床(sequence 形のみ)、core 非空性と
 帯域 routing(fixed_geometry_witness の field / T3b)、T2c-ov 橋、
@@ -5036,6 +5087,19 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.76(2026-09-03): R-T3A3 R2(blocking 3)適用 — [R2-01] (DF-0′) の
+  安定化対象を atlas chart_label・sublabel・χ・原子 label 割当の有限直積
+  に拡張し、pivot_leaf/permutation は決定的規約で自動一定、section_id・
+  U_n・strong section は carrier_witness-v1 経由の frame_input-v2.1 record
+  の identity + 制限(再証明なし)、d₀ は (CC-3) の global ref と明記。
+  [R2-02] (DF-0″) restrict_deep_flat_refs adapter を新設(fixed_geometry_
+  witness・head_outcome-v1 完全 constructor・raw defect 系 ref・carrier_
+  witness・chart_context を同一 stabilized selector に制限)、(DF-6) の
+  出力 field に identity ref を追加し、violation_sequence-v2.deep_flat の
+  同一 selector・同一 provenance 束縛を本 packet で完了(T3a-4 は identity
+  検証のみ)。[R2-03] §4 依存欄を本文の直接依存((AD22-*)、(CC-2)(CC-3)
+  (CC-7)、(N7)(N8)(RS-3)、atlas_witness-v1)まで列挙。
 
 - v0.29.75(2026-09-03): R-T3A3 R1(blocking 3)適用 — [R1-01] (OS-3a) の
   適用条件を lane 非依存と明示((DF-3a) 新設、§8.27 (OS-3a) に annotation)。
