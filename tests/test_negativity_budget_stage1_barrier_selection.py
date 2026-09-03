@@ -41,28 +41,47 @@ def _setup(seed=0, offset=0.0, beta=0.1):
     )
 
 
-def _run(setup, weight, status=runner_module.Stage1RunStatus.COMPLETED):
+def _run(
+    setup,
+    weight,
+    status=runner_module.Stage1RunStatus.COMPLETED,
+    terminal_train_nll=None,
+    terminal_eta=runner_module.ETA0,
+):
     completed = status is runner_module.Stage1RunStatus.COMPLETED
     iteration = runner_module.STAGE1_ITERATIONS if completed else 0
     count = setup.parameterization.parameter_count + 1
+    eta_logit = float(np.log(terminal_eta / (1.0 - terminal_eta)))
+    _, terminal_eta = objective_module._eta_from_logit(eta_logit)
     state = adam_module.Stage1AdamState(
         parameters=setup.initial_parameters,
-        eta_logit=float(np.log(4.0)),
+        eta_logit=eta_logit,
         moment1=np.zeros(count),
         moment2=np.zeros(count),
         iteration=iteration,
     )
-    evaluation = objective_module.Stage1ObjectiveEvaluation(
+    initial_evaluation = objective_module.Stage1ObjectiveEvaluation(
         objective=float(weight),
         train_nll=float(weight),
         barrier=0.0,
         eta=runner_module.ETA0,
     )
+    terminal_train_nll = (
+        float(weight)
+        if terminal_train_nll is None
+        else float(terminal_train_nll)
+    )
+    terminal_evaluation = objective_module.Stage1ObjectiveEvaluation(
+        objective=terminal_train_nll,
+        train_nll=terminal_train_nll,
+        barrier=0.0,
+        eta=terminal_eta,
+    )
     return runner_module.Stage1CandidateRun(
         status=status,
         state=state,
-        initial_evaluation=evaluation,
-        terminal_evaluation=evaluation,
+        initial_evaluation=initial_evaluation,
+        terminal_evaluation=terminal_evaluation,
         backtracked_steps=0,
         total_backtracks=0,
         max_backtracks_used=0,
@@ -234,6 +253,35 @@ def test_terminal_grid_diagnostic_rejects_wrong_pdf_shape(monkeypatch):
         selection._terminal_grid_diagnostics(setup, run)
 
 
+@pytest.mark.parametrize(
+    ("value", "dtype"),
+    [
+        (1.0 + 2.0j, None),
+        (True, None),
+        ("1.0", None),
+        (1.0, object),
+    ],
+)
+def test_terminal_grid_path_rejects_coercible_density(
+    monkeypatch, value, dtype
+):
+    setup = _setup()
+    run = _run(setup, 0.1)
+
+    class CoercibleModel:
+        @staticmethod
+        def pdf(X, _theta, _eta):
+            return np.full(len(X), value, dtype=dtype)
+
+    monkeypatch.setattr(
+        type(setup.parameterization),
+        "unpack",
+        lambda _self, _parameters: CoercibleModel(),
+    )
+    with pytest.raises(ValueError, match="real numeric"):
+        selection._terminal_grid_diagnostics(setup, run)
+
+
 def test_input_boundary_is_train_setup_only_and_identity_unique():
     positive = _setup()
     beta_zero = _setup(beta=0.0)
@@ -297,6 +345,42 @@ def test_selection_verdict_cannot_be_replaced_independently_of_data(
         )
     with pytest.raises(ValueError, match="order"):
         replace(result, assessments=tuple(reversed(result.assessments)))
+
+
+def test_train_nll_and_eta_do_not_select_the_weight(monkeypatch):
+    setup = _setup()
+    monkeypatch.setattr(
+        selection,
+        "_terminal_grid_diagnostics",
+        lambda _setup, _run: _diagnostic(True),
+    )
+
+    def first_metrics(setup, weight):
+        return _run(
+            setup,
+            weight,
+            terminal_train_nll=1000.0 - weight,
+            terminal_eta=0.6 + weight / 3000.0,
+        )
+
+    monkeypatch.setattr(
+        runner_module, "run_stage1_candidate", first_metrics
+    )
+    first = selection.run_stage1_barrier_selection([setup])
+
+    def reversed_metrics(setup, weight):
+        return _run(
+            setup,
+            weight,
+            terminal_train_nll=weight,
+            terminal_eta=0.95 - weight / 20000.0,
+        )
+
+    monkeypatch.setattr(
+        runner_module, "run_stage1_candidate", reversed_metrics
+    )
+    second = selection.run_stage1_barrier_selection([setup])
+    assert first.selected_weight == second.selected_weight == 0.0
 
 
 def test_unexpected_runner_and_diagnostic_exceptions_propagate(monkeypatch):

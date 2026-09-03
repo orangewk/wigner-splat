@@ -189,7 +189,7 @@ def _terminal_grid_diagnostics(
 
     def densities():
         for theta, X in setup.grid_groups:
-            density = np.asarray(model.pdf(X, theta, eta), dtype=float)
+            density = np.asarray(model.pdf(X, theta, eta))
             if density.shape != (len(X),):
                 raise ValueError("terminal grid density has an invalid shape")
             yield density
