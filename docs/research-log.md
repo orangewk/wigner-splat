@@ -2307,3 +2307,16 @@ Effect scope: exactly this — a pointer from the public narrative surfaces to
 the experiment. This entry adds no claim, changes no status, edits no claim
 table, and does not alter the one-authoring-location policy for the numerical
 results.
+
+## 2026-09-03 — experiment 27 / issue #126 closure pointer
+
+The canonical scientific status and all current dispositions for experiment 27
+live only in `experiments/27_row1_classical/README.md`'s closure table.  This
+entry is a discoverability and provenance pointer; it does not restate a result,
+disposition, or scope qualifier.
+
+Timeline: the historical run artifacts entered `main` through PR #171; the
+2026-08-01 independent audit is
+`docs/2026-08-01-sebastian-drift-audit--done.md`; orange authorized the closure
+packet in issue #126 comment 5521760656.  The artifact and run-report files are
+unchanged by this pointer packet.  Review verdicts belong on the fixed-SHA PR.
