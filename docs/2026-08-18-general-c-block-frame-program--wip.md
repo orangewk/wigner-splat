@@ -186,6 +186,8 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE(集約 — **consult #22 で 2 分割**、下 2 行) | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。**consult #22(Sol)裁定**: 読みは (a) no-go 検出器であって contradiction lane ではない — β_n → 0 は違反(R_n ŝ_n⁹ → ∞)と**同じ向き**で、L9/L13/L20/L27 を矛盾で吸収しない。countersequence 起源の overflow から detected を生成することは (RC-4) により循環(仮定の言い直し)なので禁止。配置 = T2c 後・T3 前 | open(集約) |
 | GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC | T2c-ov、§8.21 (HA-4)、§8.23 (FL22-1)、§8.29 (RC-4)、§8.33 L9/L13/L20/L27 | **型・source authority・provenance のみ**: source constructor `realized_diagonal((FL22-1) σ₀ = 0 の対角列 ref — 実現族)\| countersequence_lane(L9 \| L13 \| L20 \| L27, selector ref)`、出力 `overflow_resolution-v1 := detected(ps9_evidence, realized_family_ref) \| unresolved_head_overflow(COUNTERSEQUENCE_ORIGIN \| RATE_MISSING \| DENOMINATOR_CONTROL_MISSING \| PROVENANCE_MISSING)`(not_proven は PS-9 の第三 variant にしない — router の unresolved 作業状態)。countersequence_lane は現状 **COUNTERSEQUENCE_ORIGIN で終端** | **accepted(§8.34、luna `7788dca` R-T2COV1 R4、4R)**(見積 2–3R → 実績 4R) |
 | GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | **accepted(§8.35、luna `f1c7c3b` R-T2COV2 R3、3R)— gate 判定 = not_proven**: 比較不等式と Taylor–Cauchy 還元は受理、denominator / rate / limit-realization の 3 evidence とも現行 (FL22-1) record では供給不能。**stop/go 裁定(orange 2026-09-03)= (α)**: fl22_1_record-v1.1(rate 付き対角列)を試す。**Sol consult #23 の判定**: σ₀′ := inf liminf β_n/‖f_n‖_W 案は**採択不可**(window_mass を消したのではなく未制御の s_n/‖f_n‖_W に移しただけ; 負枝に必要な量は β_n/(a_n·min(a_n, h_n)⁹) → 0、a_n := ‖f_n‖_W、h_n := 許容窓幅)。(α) は v1.1 一枚では閉じず **5 packet 15–26R**(①centered-subwindow closure((PS-4) の zf/we9/d10/W_zf 継承、3–5R)②scale-feasibility dichotomy(h_n 込み、3–5R)③realized diagonal + core producer(3–5R)④positive branch consumers の再証明(4–7R)⑤overflow bridge integration(2–4R))。①②が閉じるまで §8.35 の not_proven を維持。**規模の再裁定(orange 2026-09-03)= ①②まで着手して再評価**(③–⑤の GO は①②受理後に改めて) |
+| GC-5-α1 SUBWINDOW-CLOSURE(consult #23 ①) | §8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.16 (PS-4)、§8.17 (AT-3) wzf_cover | **(PS-4) window_contract の部分窓への versioned 閉包**: 同一 zf 窓 S 内の任意の部分窓 S′ = [c′ − s′/2, c′ + s′/2) ⊂ S に対し window_contract-v1.1 を構成(zf_witness-v1.1 は invariants の部分集合単調継承、wzf_cover-v1.1 は collar 差分の再 label を zf の (i)(ii) で証書、we9/d10 は (PS-4) の関係 flag = contained で原 witness を identity 参照 — 中心 t₀ = center(S) の主張は S′ に依らない)。PTN-22 (PS-7) の C₂₂ は v1.1 contract にも一様(量化の帰結、非主張) | **drafted(§8.36、査読待ち R-A1 R1)**、見積 3–5R(Sol #23) |
+| GC-5-α2 SCALE-FEASIBILITY(consult #23 ②) | α1、§8.23 (FL22-1)(FL22-2)、§8.35 | 許容窓幅 h_n(zf 窓 S 内・core 内の ζ_n の量的余白)込みの二択: β_n/(a_n·min(a_n, h_n)⁹) → 0 型の量の inf-liminf 二分と、負枝の rate 付き対角列 | open(α1 受理後)、見積 3–5R(Sol #23) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
@@ -6954,6 +6956,102 @@ fl22_1_record-v1 からは not_proven、detected / C₂₂ / lane absorption は
   ①②(6–10R)が feasibility を決めるので、着手するなら①②までで再評価
   するのが安価。**orange 裁定(2026-09-03)**: ①②まで着手して再評価。
 
+### 8.36 GC-5-α1 SUBWINDOW-CLOSURE((PS-4) window_contract の部分窓閉包 — drafted、査読対象 R-A1 R1)
+
+**目的**: consult #23 の packet ①。§8.35 (OB-3) の rate evidence は source
+窓 S の中心・幅を要素ごとに選ぶ自由度を要するが、§8.16 (PS-4) は S を
+zf_witness((ZF-3)、|S| = ρ/13)・d10_witness-v1・we9_witness-v1 と同一
+オブジェクトで束縛している(consult #23 Q3(1))。本 packet は、**同一 zf
+窓 S の内部の任意の部分窓 S′** に対して (PS-4) 型の contract を
+**versioned に構成**し(window_contract-v1.1)、既存 witness からの継承を
+証明する。不等式は新しく主張しない(継承は部分集合単調性と既存 invariant
+のみ)。§8.5/§8.12/§8.13/§8.16/§8.17 本文は不変。
+
+**(SW-0) 入力と対象**: accepted な window_contract-v1(§8.16 (PS-4)):
+cell 窓 W(|W| = L_C ≤ 1)、zf_witness(S = [a_S, b_S)、|S| = ρ/13、r_S ∈
+(0, min(ρ/26, h_V)]、invariants (i)(ii)(iii))、d10_witness-v1(t₀ =
+center(S)、ℓ_ext = min(r_S/2, 1/λ))、we9_witness-v1(d10 参照、d₀ = ord_{t₀}D)、
+wzf_cover record((AT-3) — 端点表 (δ) で W ∖ Σ を W_reg / collar / U_c に
+分割)、λ・ℓ_ext の整合 field。パラメータ: 中心 c′ ∈ ℝ、幅 s′ > 0 で
+**S′ := [c′ − s′/2, c′ + s′/2) ⊂ S**(閉包でなく部分集合 — S は半開)。
+
+**(SW-1) zf_witness-v1.1(S′)**:
+  `zf_witness-v1.1 := (cell_id, S′(半開、b′ − a′ = s′ ∈ (0, ρ/13]),
+   r_S(**不変** — 親の値), h_V(不変), zeros_P̃₁ / zeros_P̃₂(親と同一
+   object ref), parent := zf_witness(S) ref, invariants: (i)′ ∀z: dist(Re z,
+   S′) ≥ ρ/13、(ii)′ collar(S′, r_S) 上 V₁V₂ ≠ 0、(iii)′ S′ ⊂ J_k)`。
+**継承の証明**: S′ ⊂ S ⟹ dist(Re z, S′) ≥ dist(Re z, S) ≥ ρ/13(距離の
+部分集合単調性)⟹ (i)′ ✓; collar(S′, r_S) = {w : dist(w, S′) ≤ r_S} ⊂
+collar(S, r_S)(同じ単調性)で親の (ii) から (ii)′ ✓; S′ ⊂ S ⊂ J_k ⟹
+(iii)′ ✓。(ZF-3) の scope(D の零点は除外対象外、d₀ は中心で読む)は
+不変。**注**: (ZF-3) v1 の型は |S| = ρ/13 を field 条件として持つので、
+S′ は v1 の instance ではない — v1.1 は長さ条件を s′ ≤ ρ/13 に緩めた
+versioned 型(invariants は同文)。∎
+
+**(SW-2) d10 / we9 の identity 参照(再導出不要)**: d10_witness-v1 の
+主張は「collar(S, r_S) 上 |u′| ≤ M₁、sup_S |u⁽¹⁰⁾| ≤ M₁₀、t₀ = center(S)
+での 9 次 Taylor 剰余 R̂(θ)(線分 ⊂ S)」、we9_witness-v1 の主張は
+「t₀ での JF₉ target と d₀ = ord_{t₀}D による κ_WE(θ; σ)(v ≢ 0 枝)/ J_k
+上の kernel 定数(v ≡ 0 枝)」— いずれも **S 自身の量**であり S′ を参照
+しない。(PS-4) の we9 同一性 field は「we9_witness-v1 参照 + d10_witness-
+v1 参照 — source 窓 S の同一オブジェクト参照、関係 flag ∈ {identical,
+contained, disjoint-forbidden}」で、**contained** は「contract の source
+窓が witness の窓に含まれる」関係として型に既に存在する。よって
+window_contract-v1.1 は d10/we9 を**親の object への identity ref** で持ち、
+flag := contained とする(t₀ = center(S) は親のまま — S′ の中心 c′ とは
+一般に異なるが、d10/we9 の消費者(A.5/A.6 の near-QR 合成)は t₀ の
+量を読むので不整合はない)。**主張しないこと**: S′ 中心 c′ での d10/we9
+(必要なら別 packet — 本 packet の消費者(§8.35 (OB-3))は f_n の Taylor を
+RKHS 定数で評価し d10/we9 を使わない)。
+
+**(SW-3) wzf_cover-v1.1(collar 差分の再 label)**: 親の端点表 (δ) は
+W ∖ Σ を有限個の区間に分割し各区間を W_reg / collar / U_c に帰属させる
+(collar = collar(S, r_S) ∩ ℝ ∩ W)。S′ に対し collar(S′, r_S) ⊂ collar(S,
+r_S) なので、差分 Δ := (collar(S, r_S) ∖ collar(S′, r_S)) ∩ W ∖ Σ を
+**W_reg に再 label** した端点表を作る(区間端点は a′ − r_S, b′ + r_S を
+追加した全順序 — 有限)。(δ) の証書内容「W_reg 上に W-relevant 零点なし」
+の Δ 上での成立: 親の zf invariant (i) より全 reduced 零点は Re z が S
+から ≥ ρ/13 > r_S 離れるので Δ に入らず、(ii) より V 零点は collar(S, r_S)
+に無い; 零点 membership 行(各 W-relevant 零点が自 cluster の U に入る)は
+親と同一(零点リスト・cluster 表・r_c・Σ・transfer_clusters は不変)。
+  `wzf_cover-v1.1 := 親 record の zf_witness 参照を zf_witness-v1.1(S′) に、
+   端点表を上の再 label 表に置換したもの(零点リスト・cluster 表・r_c・
+   handoff・(α)(γ) の constructor は親と同一 object ref; (δ) は再 label 表
+   + 「Δ ⊂ W_reg の零点自由性 = 親 zf (i)(ii) の帰結」証書で再構成)`。
+(α)(γ) の index 集合は cluster のみに依存し S に依らないので不変 ✓。∎
+
+**(SW-4) window_contract-v1.1**:
+  `window_contract-v1.1 := (W(親と同一), S′, s′(= |S′| ≤ ρ/13 < L_C/2 —
+   ρ ≤ |J_k| ≤ L_C から), zf_scope′ := (zf_witness-v1.1(S′), wzf_cover-v1.1),
+   we9 同一性 := (we9_witness-v1 親 ref, d10_witness-v1 親 ref, flag =
+   contained), λ・ℓ_ext 整合 field(親と同一 — ℓ_ext は d10 の t₀ 線分の
+   量), parent := window_contract-v1 ref, checked_same_provenance(親と
+   同一 cell・同一 raw pair・同一 divisor_record))`
+— (PS-4) の各 field を s′ ∈ (0, ρ/13]、c′ ∈ [a_S + s′/2, b_S − s′/2] の
+任意の選択に対して充足する(fail-closed: S′ ⊄ S なら構成不能)。
+**(PS-4) 型との関係**: v1.1 は v1 の versioned 拡張で、v1 の consumer
+((PS-7) の量化・(RS-1) countersequence の window_contract ref・(FL22-*)
+の窓量 s, L_C, r_S)は field 名が同じなので v1.1 を読める — ただし本
+packet はその consumer の再証明を主張せず、**§8.35 の consumer(OB-2/OB-3
+の窓量)についてのみ** v1.1 を読むことを宣言する。
+
+**(SW-5) PTN-22 の一様性(型の帰結、非主張)**: (PS-7) の C₂₂ は「成立
+した全 window contract」に対して s に一様。v1.1 contract は (PS-4) 型の
+instance((SW-4))なので、C₂₂ が存在するならそれは v1.1 contract にも
+一様に効く。本 packet は C₂₂ の存在を主張しない — 主張は「(α) の
+rate 付き対角列が S′ を要素ごとに選ぶことは、(PS-7) の量化域の内側で
+行われる」という型の事実のみ。
+
+**(SW-6) 消費側への引き渡し(②の入力)**: ② は各要素 n について
+(c′_n, s′_n) を ζ_n と core から選ぶ。本 packet が保証するのは「S′_n ⊂ S_n
+である限り contract v1.1 が存在する」ことのみで、**ζ_n ∈ S_n(zf 窓の
+内部)であること・余白 h_n > 0・core との両立は ② の義務**(consult #23
+Q2 の量的余白)。
+
+**scope(非主張)**: C₂₂、S′ 中心での d10/we9、v1.1 を読む (FL22-*)/T3
+consumer の再証明、ζ_n ∈ S_n の保証、h_n の rate、L9/L13/L20/L27 の
+閉鎖、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -6993,6 +7091,12 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.131(2026-09-03): **§8.36 GC-5-α1 SUBWINDOW-CLOSURE 起草** — (SW-1)
+  zf_witness-v1.1 の継承証明、(SW-2) d10/we9 の contained flag による
+  identity 参照、(SW-3) wzf_cover-v1.1 の collar 差分再 label、(SW-4)
+  window_contract-v1.1、(SW-5) 一様性の型的帰結、(SW-6) ②への引き渡し。
+  §4 に α1/α2 行を追加。
 
 - v0.29.130(2026-09-03): (α) の規模再裁定を記録 — orange は「①②まで着手
   して再評価」を選択。§4 T2c-ov-2 行と §8.35 追記に反映。
