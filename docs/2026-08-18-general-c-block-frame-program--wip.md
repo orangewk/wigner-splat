@@ -186,7 +186,11 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。配置 = T2c 後・T3 前 | open |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
-| GC-5-T3a PTN22-ROUTE | T3a0 | 境界 routing 完備化: c₀→0(→ T3a0 induction)・**one_sided ⇒ c₀→0 吸収補題**(固定 K_χ(c₀) の Gram 床 + 係数下界 ⟹ 両成分生存 — 証明できなければ CC-3/CC-7 上流欠陥)・lower-rank/exact-QR/overflow の排他的分岐・T3 入口 gate(floored×head_good のみ、T2c-ov detected→nogo / not_proven→unresolved 停止) | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
+| GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257` | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
+| GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.23 消費契約、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **drafted(§8.26、査読待ち R-T3A1 R1)**(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
+| GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | open(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
+| GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor interface(T2c 床の c₀→0 使用は循環 — 新規床)・overflow handoff | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
+| GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b | violation_sequence-v1 の列-矛盾実行・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
@@ -4295,6 +4299,57 @@ nogo は保持)。
 可能だが接続は T3a)、rank-4 の PTN 本体(T2c/T3c)、人間による査読は
 未実施。
 
+**追記(consult #20、Sol、2026-09-03 — T3a 骨格裁定)**: T3a0 受理後の
+諮問に対する裁定。(i) **one_sided 吸収補題の撤回**: CONF_i(d₀) の合流
+成分 C₂ = c(e^{q_a} − e^{q_b}) = −ct·(e^{q_b} − e^{q_a})/t は Newton frame
+係数 (0, −ct) で ‖C₂‖_ℱ ≍ |c|t → 0 — 原子係数下界 |c| ≥ c₀ から成分 norm
+の正の極限は出ず、K_χ(c₀) は t = 0 の閉包点を含むので**固定 c₀ のまま
+one_sided は到達可能**。(CC-4)(CC-7) が one_sided を明示的に許すことと
+整合し、修正対象は consult #19 追記の (ii)(4)(iv) の推論であって CC-3/
+CC-7 の受理結果ではない(#19 の記録は不変、本追記で annotation)。
+one_sided は独立 routing `one_sided_route-v1 := block_dominant(t* ∈ S で
+max(|H|, 1/|H|) ≥ e — 3.2 で吸収)| inner_window(S 全域で e^{−1} ≤ |H| ≤ e
+— 消える成分が compact-open に 0、生存成分も S_n 上 0 に近づくので一致
+定理より窓が縮み中心は生存成分の零点へ — T3b の zero/bubble rescaling へ
+送付)`。却下: 「one_sided なら g → 1」(生存成分の零点へ窓が縮む場合を
+落とす)、全 one_sided を c₀→0 へ送る(raw 係数と成分 norm の混同)。
+(ii) **deep-flat**: λ_n = 1/ε_n の手動再帰を主機構にしない — 実 defect を
+exact Fock norm で一度だけ正規化 f_n := N_n/‖N_n‖_ℱ し (HA-2)/(HA-3) の
+二択(head_good | head_overflow → T2c-ov)を消費する(次 order の推測不要
+— exact 正規化が全 scale を拾う)。(LF-6)(β) の「F̃₃/ε_n 有界」は g₃ の
+bound から自動ではない(mate 振幅・carrier gauge・ŝ_n⁻⁵ を結ぶ証明が
+要る)ので、1/ε_n 表現を残すなら checked_renorm_boundedness 必須。
+border 再帰を本当に閉じる場合(T2c-ov の not_proven 除去)は有限
+`border_flag-v1`(support rank r ≤ 4 + 有限 filtration + scale tiers +
+graded order ≤ 9、辞書式指標 (r, 残 grade) の厳減)で型付け — 別 packet
+3+1-BORDER-FLAG(7–12R、T3a の一部ではない)。BORD-3 は「limit span」
+ではなく (B3-4) の strong pattern frame を induction base として消費。
+却下: T2c の床を c₀ → 0 で使う(σ₀(χ,c₀)・m_C の一様性を証明したい局面で
+循環)、無制限の次 order 再帰(well-founded measure なし)。**T3b との
+分離**: cut は「固定 geometry witness を構成できるか」— T3a macro:
+s_n ≥ s_* > 0・固定 ρ_* ≤ r_{S,n}・core 非空・中心 core-interior; いずれか
+失敗で T3b/handoff(ŝ の下界だけでは物理領域が一点へ縮む場合を除けない)。
+(iii) **排他的 routing**: violation_sequence-v1 は固定 c₀・vanish none・
+head_good を要求するので routing 開始型に使えない — floor 非依存の
+**ptn22_countersequence-v1** を先に置き、最終 floored 枝だけ adapter。
+overflow は atlas exit ではなく chart 後の HEAD9 outcome。固定 c₀ でも
+one_sided と geometry failure があり直ちに T2c 床へは行けない。
+bounded_below → order_drop は終端ではなく one_sided route へ接続。c₀ 分岐
+を先に判定して重複を解消(c₀ → 0 側の one_sided flag は metadata)。
+決定 list は §8.26 (RS-2)。(iv) **入口 gate**: PS-9 は valid | nogo のまま、
+前に `t3_gate-v1 := directly_absorbed | remez_ready(floor_certificate,
+head_good, provenance) | retract_exact_qr | nogo | unresolved` を置き、
+`floor_certificate := fixed_chart_floor | deep_flat_floor | scale_floor`
+で共通 consumer interface に一般化(floored 一種類限定では T3b/deep-flat
+lane が入れない)。PS-9 写像: detected → nogo、not_proven → unresolved
+(PS-9 object 未生成の作業状態 — 第三 variant にしない)、remez_ready →
+T3c 完了・全 route closure・C₂₂ ref・checked_clear 後のみ valid、
+directly_absorbed 単独では valid を生成しない、exact-QR は valid/nogo 外。
+(v) **分割**: T3a-1 ROUTE-SPEC(3–5R)/ T3a-2 ONE-SIDED-INNER(4–7R)/
+T3a-3 DEEP-FLAT-HEAD(5–8R)/ T3a-4 ROUTE-CLOSE(2–4R)、計 14–24R
+(#19 の 2–4R は撤回)。routing 型・versioned adapter・provenance 排他の
+査読負荷を「短補題」として過小評価しない。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -4334,6 +4389,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.57(2026-09-03): **consult #20(Sol、T3a 骨格裁定)記録**(§8.25
+  追記)— one_sided ⇒ c₀→0 吸収補題を CONF 反例で撤回(#19 追記の推論を
+  annotation、CC-3/CC-7 は不変)、one_sided_route(block_dominant |
+  inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、
+  ptn22_countersequence-v1 を violation_sequence-v1 の前に置く、t3_gate /
+  floor_certificate の共通 interface、T3a を 4 分割(§4 台帳 4 行追加、
+  計 14–24R)。
 
 - v0.29.56(2026-09-03): **GC-5-T3a0 PTN-LOWER-FACE accepted**(R-T3A0 R8、
   受理 SHA `ca11257`、全 8 ラウンド: R1–R2 数学的再構成(単位 cell dilation
