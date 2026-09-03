@@ -193,7 +193,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1 `6557d6b`(§8.26 (RS-1)–(RS-5))、T3a0 `ca11257`(§8.25 (LF-4)(LF-6)(LF-7))、T3a-2 `61a14c1`(§8.27 (OS-1)(OS-2))、T3a-3 `6b7133c`(§8.28 (DF-0′)(DF-0″)(DF-6))、§8.21 (HA-2)、§8.22 (CC-7)、§8.16 (PS-9)、§8.15 追記(no-go 判定基準) | 全 node の排他・網羅証明(部分列規約)・t3_gate-v1.1(8 constructor — t3c_handoff 追加)の terminal への落着・absorb_via_t3a0-v1.1 と block_dominant の違反度矛盾導出(exact rank drop のみ、非 exact は LR-EXIT)・nogo → detected 変換 adapter(realized family 必須、不能なら unresolved)・violation_sequence-v2.deep_flat の identity 組立・countersequence 矛盾への統合(条件付き閉包 statement) | **accepted(§8.29、luna `104105e` R-T3A4 R6、6R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 6R。**open: LR-EXIT**(非 exact lower-rank exit の routing — Sol consult #21 で要素粒度案を採択、下 4 packet)) |
 | GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数退化 flag と退化集合 D は全 variant 共通の top-level metadata(atlas_witness-v1.1 で露出した (AT-2) 内部の係数 vector・flag への identity ref — v2 は再構成しない)に保持、極限でのみ退化する chart 列は **boundary chart** — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **accepted(§8.30、luna `62c150f` R-T2ARD R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 9R) |
 | GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | **accepted(§8.31、luna `b21b0fc` R-T2BIII R3、3R)**(見積 4–7R → 実績 3R) |
-| GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | **drafted(§8.32、R1–R4 適用済み・査読待ち R-T3A5 R5)**、見積 3–5R |
+| GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | **drafted(§8.32、R1–R5 適用済み・査読待ち R-T3A5 R6)**、見積 3–5R |
 | GC-5-T3a-6 ROUTE-CLOSE-v2 | T3a-5、T3a-4 | lane 表の再証明(§8.32 (N5)-v2 の 3 分岐を lane 化、unresolved_tag-v1.1)、LR-EXIT tag の削除(CTX/REF 欠落は fail-closed 維持) | open、見積 2–4R |
 | **ROUTE-PROD ATLAS-OUTER-ROUTING(open obligation 候補)** | §8.16 追記(設計記録)、§8.17 (AT-*)、§8.22 (CC-7)、§8.27 (OS-0)(b)、§8.31 carrier_witness-v2 | atlas outer routing([1:0]/[0:1] の成分射影 routing)の **typed producer**、または (OS-0)(b) の一致検証を norm 極限による side 決定へ置換する versioned 改訂。producer が無い現状では **interior・boundary 双方の one_sided lane が unresolved(ROUTING-PENDING)** のまま(§8.32 [R-T3A5 R1-02][R2-02]) | **候補(orange 裁定待ち — 登録は §8.32 R2 で追加、着手は未決)** |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
@@ -5974,7 +5974,7 @@ versioned 置換(T3a-2/T3a-3/T2c-ov/(N8))は T3a-5 の義務。証明ドラフ�
 性 — c₀ 非依存の sequence 形は T3a-3 が既に供給)、route_context-v2 と
 決定 list(T3a-5)、lane 表(T3a-6)、有効定数、人間による査読は未実施。
 
-### 8.32 GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC(route_context-v2 と決定 list の v2 入力 — drafted、R1–R4 適用済み、査読対象 R-T3A5 R5)
+### 8.32 GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC(route_context-v2 と決定 list の v2 入力 — drafted、R1–R5 適用済み、査読対象 R-T3A5 R6)
 
 **目的**: Sol consult #21 の第 3 packet。§8.26 の決定 list (RS-2) と
 route_context-v1(段階型)を、§8.30 atlas_witness-v2 / §8.31 carrier_
@@ -5988,27 +5988,43 @@ T3a-3 の deep_flat_floor)への **consumer 置換 adapter** を登録する。
 - (N1) の入力: `base_context-v2 := (**ptn22_countersequence-v1.2** ref
   (下記 — §8.29 (RC-0′) v1.1 の checked_qr_consistency を v1.1 版に置換
   したもの)[R-T3A5 R4-01], cs_selector-v1, 要素ごとの **atlas_witness-v2**
-  ref(§8.30 — atlas_witness-v1.1 経由)、checked_same_provenance)`。v1.1 を
-  読む既存 consumer(absorb_via_t3a0-v1.1 の countersequence ref、
-  route_closure-v1)には **field 射影 adapter**
-    `to_countersequence_v1_1(v1.2) := v1.2 から (ii′) の検証 ref を落とし
-     た field 射影(他 field は同一 object ref — 型変換であって identity
-     ではない、前例 to_carrier_v1 [R-T2BIII R1-01])`
-  を経由させる(v1.2 ⊂ v1.1 の検証条件なので射影は常に構成可能)。
+  ref(§8.30 — atlas_witness-v1.1 経由)、checked_same_provenance)`。
+  **v1.1 consumer への射影は置かない [R-T3A5 R5-01]**(R4 版の
+  to_countersequence_v1_1 は撤回): v1.1 の checked_qr_consistency (ii) は
+  各要素の atlas_witness-v1.exit を要求するが、§8.30 to_v1_rejudge は
+  exact_qr(D ≠ ∅) と boundary chart に像を持たないので、v2 要素列から
+  v1.1 record への射影は total でない。よって v1.1 を読む consumer は
+  **versioned 置換**で v1.2 を読む(下記 absorb_via_t3a0-v1.2、
+  route_closure-v2、t3_gate-v1.2)。
 - (N1)-v2 の分岐 = exit-v2 の closed-world: **lower_rank_exact** →
-  absorb_via_t3a0-v1.1(g_identity = exact — §8.29 (RC-3)(a-exact)、exact
-  以外は型上存在しない)→ directly_absorbed; **exact_qr** → 型上空 —
-  ただし §8.29 の checked_qr_consistency (ii) は v1 の exit tag しか検査
-  しないので(§8.30 では v2.exact_qr(D ≠ ∅) が rejudge 読みで v1.lower_rank
-  に対応し得る)、v2 入力では
-    `checked_qr_consistency-v1.1 := checked_qr_consistency + (ii′) 各要素の
-     atlas_witness-v2.exit の constructor tag ≠ exact_qr の直接検証(D の
-     有無に依らず — exact_qr は全 matched edge の exact 相殺 = qr_global_
-     witness を持つ要素であり、v ≢ 0 の jf9_branch_ref と両立しないことは
-     (i) と独立に (ii′) で直接検査する)` [R-T3A5 R1-01]
-  を要求する: `ptn22_countersequence-v1.2 := v1.1 の checked_qr_consistency
-  を checked_qr_consistency-v1.1 に置換したもの(他 field 不変)` —
-  base_context-v2 はこれを直接入力とする [R4-01]。
+  **absorb_via_t3a0-v1.2**(下記; g_identity = exact — §8.29 (RC-3)
+  (a-exact)、exact 以外は型上存在しない)→ directly_absorbed; **exact_qr**
+  → 型上空 — ただし §8.29 の checked_qr_consistency (ii) は v1 の exit tag
+  を検査するもので v2 要素には適用できない(boundary chart と exact_qr
+  (D ≠ ∅) は v1 に像なし — §8.30)ので、v2 要素列では (ii) を **(ii′) で
+  置換**する [R-T3A5 R1-01][R5-01]:
+    `checked_qr_consistency-v1.1 := (
+     (i) §8.29 と同文(GCRouteRecord-v4 ref と jf9 分岐 flag v ≢ 0 の直接
+     検証),
+     (ii′) 各要素の **atlas_witness-v2.exit** の constructor tag ≠ exact_qr
+     の直接検証(D の有無に依らず tag 比較 — v1.exit は要求しない),
+     (iii) (i)(ii′) の record が同一 cell_id・同一要素を指す ref 同一性,
+     いずれか不成立 = constructor 不成立)`。
+  `ptn22_countersequence-v1.2 := v1.1 の要素ごとの atlas ref を atlas_
+  witness-v2 に、checked_qr_consistency を checked_qr_consistency-v1.1 に
+  置換したもの(他 field 不変)` — base_context-v2 はこれを直接入力とする
+  [R4-01]。**consumer の versioned 置換 [R5-01]**:
+    `absorb_via_t3a0-v1.2 := absorb_via_t3a0-v1.1 の countersequence ref を
+     v1.2 に、要素の atlas ref を atlas_witness-v2 に置換したもの(他 field
+     不変)` — **確認(主張)**: §8.29 (RC-3)(a)(b)(c) の矛盾導出は
+     jf9_branch_ref・窓 identity・g_identity・違反度 selector のみを読み、
+     atlas exit tag と atlas_witness-v1 の field を読まない(読むなら本
+     置換は無効で、T3a-6 が再証明する);
+    `route_closure-v2 := route_closure-v1 の入力型 ref を ptn22_counter
+     sequence-v1.2 に、lane 表を v2 lane 表(T3a-6 出力)に、absorb_via_t3a0
+     / t3_gate の定義 ref を v1.2 に、L21 tag 一覧を unresolved_tag-v1.1 に
+     置換したもの` — **producer は T3a-6**(本 packet は型の登録のみ、
+     record は構成しない)。
   retract_exact_qr は非 countersequence 入力の終端; **chart(label,
   boundary_record-v1)** → (N1′) interior / boundary
   の判定(degeneracy_metadata-v1.flag)→ chart_context_pre-v2。
@@ -6103,10 +6119,18 @@ T3a-3 の deep_flat_floor)への **consumer 置換 adapter** を登録する。
     射影 to_unresolved_v1 で得る)、
     `t3_gate-v1.2 := t3_gate-v1.1 の unresolved を unresolved-v1.1 に、
      t3c_handoff を t3c_handoff-v1.1 に、t2cov_handoff の入力型を
-     (head_overflow_candidate-v1 | head_overflow_candidate-v1.1) に置換した
-     もの(他 constructor 不変 — t3c_handoff-v1.1 は下記 [R4-04])`
+     (head_overflow_candidate-v1 | head_overflow_candidate-v1.1) に、
+     directly_absorbed の入力型を (absorb_via_t3a0-v1.2 | block_dominant
+     ref) に、remez_ready を
+       `remez_ready-v1.2(t3c_handoff-v1.1 record ref, T3c 完了 ref(T3c は
+        violation_sequence-v2.1 を読む), 全 route closure ref := route_
+        closure-v2(T3a-6 出力), C₂₂ ref, checked_clear evidence)`
+     に置換したもの(nogo / retract_exact_qr / t3b_handoff 不変 — t3c_
+     handoff-v1.1 は下記 [R4-04]) [R5-02]`
   を登録し、本 packet 以降の terminal は t3_gate-v1.2 に落ちる(lane 表の
-  v1.2 への再証明は T3a-6)。
+  v1.2 への再証明は T3a-6)。remez_ready-v1.2 の 4 field 規約(§8.26
+  (RS-3))は不変で、route_closure-v2 は T3a-6、T3c 完了 ref は T3c が
+  供給するまで構成不能(fail-closed)。
   **open obligation 候補 ROUTE-PROD**(§4 に候補行を登録済み — 着手は
   orange 裁定待ち): atlas outer routing の typed producer を与える packet
   (または (OS-0)(b) の検証を「norm 極限による side の決定」で置換する
@@ -6182,10 +6206,11 @@ evidence-v1 を constructor 引数に持つ)で、非 exact の退化列は char
 
 **(RS2-3) 出力契約**: `route_context-v2 := base_context-v2 | chart_context_
 pre-v2 | bounded_chart_context-v2 | vanishing_chart_context-v2`、consumer
-置換 object: ptn22_countersequence-v1.2 / checked_qr_consistency-v1.1(+
-射影 adapter to_countersequence_v1_1)、c0_interior_consistency、
-unresolved_tag-v1.1 / unresolved-v1.1 / t3_gate-v1.2、n5_none_dispatch-v2、
-floor_certificate-v1.1 / t3c_handoff-v1.1、
+置換 object: ptn22_countersequence-v1.2 / checked_qr_consistency-v1.1、
+absorb_via_t3a0-v1.2、route_closure-v2(型のみ — producer は T3a-6)、
+c0_interior_consistency、unresolved_tag-v1.1 / unresolved-v1.1 / t3_gate-
+v1.2(remez_ready-v1.2 込み)、n5_none_dispatch-v2、floor_certificate-v1.1 /
+t3c_handoff-v1.1、
 face_approach_witness-v2.1、one_sided_route-v1.1(checked のみ —
 ROUTE-PROD 充足後に到達)、deep_flat_input-v1.1 / deep_flat_floor-v1.1、
 violation_sequence-v2.1、(N8′) の interior 限定。各置換は「他 field 不変・証明
@@ -6237,6 +6262,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.111(2026-09-03): R-T3A5 R5(blocking 2)適用 — [R5-01] 射影 adapter
+  to_countersequence_v1_1 を撤回(v2 要素列から v1.1 への射影は total で
+  ない)、checked_qr_consistency-v1.1 を (ii) → (ii′) 置換として v2 atlas
+  上で定義、ptn22_countersequence-v1.2 の要素 atlas ref を v2 に、
+  absorb_via_t3a0-v1.2 / route_closure-v2(T3a-6 producer)を登録。[R5-02]
+  t3_gate-v1.2 に directly_absorbed 入力型と remez_ready-v1.2 の置換を追加。
 
 - v0.29.110(2026-09-03): R-T3A5 R4(blocking 4)適用 — [R4-01] base_context-
   v2 の入力を ptn22_countersequence-v1.2 に、v1.1 consumer へは射影
