@@ -188,7 +188,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
-| GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **drafted(§8.27、R5 適用済み・査読待ち R-T3A2 R6)**(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
+| GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **drafted(§8.27、R6 適用済み・査読待ち R-T3A2 R7)**(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor interface(T2c 床の c₀→0 使用は循環 — 新規床)・overflow handoff | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
@@ -4408,24 +4408,33 @@ T3a-4、各 lane の証明は T3a-2/T3a-3/T3b/T3c の義務。
   束ねる adapter — 段階型 [R-T3A1 R2-01])**: discriminated union
   `base_context(countersequence ref, cs_selector-v1, 要素ごとの
    atlas_witness-v1 ref(§8.17 — (N1) が消費), checked_same_provenance)|
-   chart_context(base_context + c0_witness-v2 列 ref(§8.25 — (N2)),
-   face_slot := face_approach_witness-v2 ref(§8.25 — (N3)/(N4)、
-   **vanishing_c0 lane のみ**)| not_needed(bounded_c0 evidence ref —
-   (N2) の c* > 0 と部分列 ref)〔[R-T3A2 R5-01] reviewer 指示による
-   in-place 型訂正(前例 [R-T3A0 R7-01]): 旧記載は face_approach_witness-v2
-   を全 chart lane で必須化していたが、同型は「落とした成分の係数 → 0・
-   c₀⁽ⁿ⁾ → 0」を必須 field とするため bounded_c0 lane((N2) で c₀ ≥ c* >
-   0)では構成不能で (N5)/(N7′)/(N8′) が型上到達不能だった。face_slot は
-   (N2) の判定結果と一致しなければならない(vanishing_c0 ⟺ face_approach_
-   witness-v2 ref、bounded_c0 ⟺ not_needed — 不一致は fail-closed)。(N3)/
-   (N4) は face_approach_witness-v2 ref 側のみを入力とする〕,
-   carrier_witness-v1 ref
-   (§8.22 — (N5)), head_outcome-v1 ref(§8.21 — (N8)/(N8′)), 追加 ref の
-   checked_same_provenance(同一 θ 列・同一部分列・同一 raw pair))`。
+   chart_context_pre(base_context + c0_witness-v2 列 ref(§8.25 — (N2)
+   の入力), carrier_witness-v1 ref(§8.22 — (N5)), head_outcome-v1 ref
+   (§8.21 — (N8)/(N8′)), 追加 ref の checked_same_provenance(同一 θ 列・
+   同一部分列・同一 raw pair))|
+   bounded_chart_context(chart_context_pre + c0_dichotomy-v1.bounded_c0
+   ref((N2) の出力 — c* > 0 と部分列 ref))|
+   vanishing_chart_context(chart_context_pre + c0_dichotomy-v1.vanishing_c0
+   ref((N2) の出力)+ face_approach_witness-v2 ref(§8.25 — (N3)/(N4)))`
+   〔[R-T3A2 R5-01][R6-01] reviewer 指示による in-place 型訂正(前例
+   [R-T3A0 R7-01]): 旧記載 chart_context は face_approach_witness-v2 を全
+   chart lane で必須化していたが、同型は「落とした成分の係数 → 0・c₀⁽ⁿ⁾
+   → 0」を必須 field とするため bounded_c0 lane では構成不能で (N5)/(N7′)/
+   (N8′) が型上到達不能だった(R5)。R5 の face_slot 版は (N1) 時点で (N2)
+   の判定が未確定なため構成循環が残った(R6)。よって **段階型**に分離:
+   (N1) は chart_context_pre を構成、(N2) が c0_dichotomy-v1 を判定して
+   lane 別 context を構成し、(N3)/(N4) は vanishing_chart_context のみ、
+   (N5) 以降は両 context を入力とする(lane は context の constructor で
+   決まる — 不一致は fail-closed)。以後「chart_context」と書かれた箇所は
+   段階に応じて chart_context_pre / bounded_chart_context /
+   vanishing_chart_context のいずれかを指す(各 node の入力段階は上記)〕。
   **(N1) は base_context を入力**とし、atlas outcome = chart の場合にのみ
-  chart_context を構成して (N2) 以降へ渡す(lower-rank / exact-QR 枝は
-  chart 専用 witness を要求しない — base_context で終端)。各 node は自分の
-  段階の context を入力とし、要求 ref が欠落なら node 不成立(fail-closed)。
+  chart_context_pre を構成して (N2) へ渡す(lower-rank / exact-QR 枝は
+  chart 専用 witness を要求しない — base_context で終端)。**(N2) は
+  chart_context_pre を入力**とし、判定結果で bounded_chart_context |
+  vanishing_chart_context を構成して後続 node へ渡す〔[R-T3A2 R6-01]〕。
+  各 node は自分の段階の context を入力とし、要求 ref が欠落なら node
+  不成立(fail-closed)。
 — (PS-7) の一様定数不存在の仮定から T3c が抽出する列の**型**。§8.23 の
 violation_sequence-v1 は固定 c₀・vanish_flag = none・head_good を要求する
 ので routing の**開始型には使えない**: それは (RS-2) の最終 floored lane
@@ -4459,7 +4468,9 @@ cs_selector-v1 により部分列を取ってよい — 違反度・provenance �
   ≥ c* eventual の evidence)` — **同一 selector の部分列上で両 constructor は
   evidence により排他**(極限 0 と下界 c* > 0 は両立しない)、任意の列は
   liminf の二択でいずれかの部分列を持つ(網羅の証明は T3a-4)。branch
-  provenance = selector ref を後続 node に伝搬。
+  provenance = selector ref を後続 node に伝搬。出力 context は
+  bounded_chart_context | vanishing_chart_context(route_context-v1 の
+  段階型 — [R-T3A2 R6-01])。
   - **vanishing_c0** → (N3)。one_sided flag はこの側では metadata(α/β/
     order_drop と競合する branch にしない)。
   - **bounded_c0** → (N5)。
@@ -4664,7 +4675,7 @@ t2cov_handoff, t3b_handoff} のいずれかに落ちることは **T3a-4 ROUTE-C
 (T3a-2)、deep_flat_floor(T3a-3)、scale_floor(T3b)、Remez 合成と C₂₂
 (T3c)、人間による査読は未実施。
 
-### 8.27 GC-5-T3a-2 ONE-SIDED-INNER(one_sided routing の証明 — drafted、R5 適用済み、査読対象 R-T3A2 R6)
+### 8.27 GC-5-T3a-2 ONE-SIDED-INNER(one_sided routing の証明 — drafted、R6 適用済み、査読対象 R-T3A2 R7)
 
 **目的**: consult #20 (i) の one_sided 独立 routing(§8.26 (N6)
 one_sided_route-v1)を証明する。**主張は 2 つ**: (OS-2) block_dominant の
@@ -4765,7 +4776,11 @@ Gram は unitary 不変なので、**B̂_{i,n} = Σ_ℓ b_{ℓ,n} w^{raw}_{ℓ,n
 bounded_c0 / vanishing_c0(order_drop 経由)の両 lane で適用可能。∎
 
 **(OS-3) inner_window 局在補題**: 仮定: chart 枝、carrier_witness-v1 の
-vanish_flag = one_sided(side = 2 — ‖B̂_{2,n}‖_ℱ → 0、‖B̂_{1,n}‖_ℱ → 1 —
+vanish_flag = one_sided(**side = 2 で述べる — side = 1 は添字交換
+(1 ↔ 2) で逐語**: 仮定(D の定義・inner_window・正規化 ‖𝐁̂‖_⊕ = 1・
+(OS-3a))と結論は全て交換対称であり、(OS-4) の inner_window_record-v1 は
+side field に実際の側を記録し、生存成分 := 3 − side と読む [R-T3A2 R6-02]。
+side = 2 の場合: ‖B̂_{2,n}‖_ℱ → 0、‖B̂_{1,n}‖_ℱ → 1 —
 raw 正規化 ‖𝐁̂_n‖_⊕ = 1 と U_n のユニタリ性により raw/gauge の norm は
 一致 — (OS-3a)。vanish_flag は (N5) carrier_witness-v1 から消費 —
 (OS-0)(b))、部分列上 inner_window(∀t ∈ S_n: D(H_n(t)) < e、特に
@@ -4851,6 +4866,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.71(2026-09-03): R-T3A2 R6(blocking 2)適用 — [R6-01] §8.26
+  route_context-v1 を段階型に分離(chart_context_pre((N1) 出力・(N2) 入力)
+  → bounded_chart_context | vanishing_chart_context((N2) 出力、後者のみ
+  face_approach_witness-v2 を持つ))、R5 の face_slot 版の構成循環を解消、
+  (N1)/(N2) の入出力 context を明記。[R6-02] §8.27 (OS-3) を side = 2 で
+  述べ side = 1 は添字交換で逐語(仮定・結論が交換対称)、record の side
+  field で生存成分 = 3 − side。
 
 - v0.29.70(2026-09-03): R-T3A2 R5(blocking 1)適用 — [R5-01] §8.26
   route_context-v1.chart_context の face_approach_witness-v2 ref を
