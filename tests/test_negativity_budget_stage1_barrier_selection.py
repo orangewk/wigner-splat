@@ -21,6 +21,9 @@ adam_module = import_module(
 runner_module = import_module(
     "experiments.33_negativity_budget.stage1_runner"
 )
+orchestration = import_module(
+    "experiments.33_negativity_budget.stage1_orchestration"
+)
 packet2 = import_module("experiments.33_negativity_budget.packet2")
 selection = import_module(
     "experiments.33_negativity_budget.stage1_barrier_selection"
@@ -42,13 +45,43 @@ def _setup(seed=0, offset=0.0, beta=0.1):
     )
 
 
+def _identity(seed=0, beta=0.1, reshuffle_seed=0):
+    return orchestration.Stage1CellIdentity(
+        orchestration.DATASET_ID, reshuffle_seed, beta, seed
+    )
+
+
+def _cell(seed=0, offset=0.0, beta=0.1, reshuffle_seed=0):
+    return orchestration.Stage1CandidateCell(
+        _identity(seed, beta, reshuffle_seed),
+        _setup(seed, offset, beta),
+    )
+
+
+def _barrier_cells():
+    return tuple(
+        _cell(
+            seed=identity.init_seed,
+            offset=cell_index / 100.0,
+            beta=identity.beta,
+            reshuffle_seed=identity.reshuffle_seed,
+        )
+        for cell_index, identity in enumerate(
+            orchestration.barrier_selection_identities()
+        )
+    )
+
+
 def _run(
     setup,
     weight,
     status=runner_module.Stage1RunStatus.COMPLETED,
     terminal_train_nll=None,
     terminal_eta=runner_module.ETA0,
+    cell_identity=None,
 ):
+    if cell_identity is None:
+        cell_identity = _identity(setup.seed, setup.beta)
     completed = status is runner_module.Stage1RunStatus.COMPLETED
     iteration = runner_module.STAGE1_ITERATIONS if completed else 0
     count = setup.parameterization.parameter_count + 1
@@ -80,6 +113,7 @@ def _run(
     )
     return runner_module.Stage1CandidateRun(
         status=status,
+        cell_identity=cell_identity,
         barrier_weight=weight,
         state=state,
         initial_evaluation=initial_evaluation,
@@ -120,20 +154,16 @@ def test_declared_ladder_stops_at_first_global_pair_in_weight_major_order(
         100_000_000_000.0,
         1_000_000_000_000.0,
     )
-    setups = (_setup(seed=0), _setup(seed=1, offset=0.2))
+    cells = _barrier_cells()
     calls = []
 
-    def fake_run(setup, weight):
-        calls.append((setup, weight))
-        return _run(setup, weight)
+    def fake_run(cell, weight):
+        calls.append((cell, weight))
+        return _run(cell.setup, weight, cell_identity=cell.identity)
 
     def fake_diagnostics(setup, run):
         weight = run.terminal_evaluation.train_nll
-        allowed = (
-            {0.1, 1.0, 10.0, 100.0}
-            if setup.seed == 0
-            else {1.0, 10.0, 1000.0}
-        )
+        allowed = {1.0, 10.0}
         return _diagnostic(weight in allowed)
 
     monkeypatch.setattr(
@@ -143,25 +173,27 @@ def test_declared_ladder_stops_at_first_global_pair_in_weight_major_order(
         selection, "_terminal_grid_diagnostics", fake_diagnostics
     )
 
-    result = selection.run_stage1_barrier_selection(setups)
+    result = selection.run_stage1_barrier_selection(cells)
     expected_weights = (0.0, 0.1, 1.0, 10.0)
     assert calls == [
-        (setup, weight) for weight in expected_weights for setup in setups
+        (cell, weight) for weight in expected_weights for cell in cells
     ]
     assert result.attempted_weights == expected_weights
     assert result.admissible_weights == (1.0, 10.0)
     assert result.status is selection.Stage1BarrierSelectionStatus.SELECTED
     assert result.selected_weight == 1.0
-    assert len(result.assessments) == 8
+    assert len(result.assessments) == 120
 
 
 def test_isolated_admissible_weights_return_no_selection(monkeypatch):
-    setup = _setup()
+    cells = _barrier_cells()
     allowed = {0.1, 10.0, 1000.0}
     monkeypatch.setattr(
         runner_module,
         "run_stage1_candidate",
-        lambda setup, weight: _run(setup, weight),
+        lambda cell, weight: _run(
+            cell.setup, weight, cell_identity=cell.identity
+        ),
     )
     monkeypatch.setattr(
         selection,
@@ -171,7 +203,7 @@ def test_isolated_admissible_weights_return_no_selection(monkeypatch):
         ),
     )
 
-    result = selection.run_stage1_barrier_selection([setup])
+    result = selection.run_stage1_barrier_selection(cells)
     assert result.admissible_weights == (0.1, 10.0, 1000.0)
     assert result.attempted_weights == selection.BARRIER_WEIGHT_CANDIDATES
     assert (
@@ -184,15 +216,20 @@ def test_isolated_admissible_weights_return_no_selection(monkeypatch):
 def test_numerical_stop_is_not_admissible_even_when_grid_is_positive(
     monkeypatch,
 ):
-    setup = _setup()
+    cells = _barrier_cells()
 
-    def fake_run(setup, weight):
+    def fake_run(cell, weight):
         status = (
             runner_module.Stage1RunStatus.NO_FEASIBLE_STEP
             if weight == 0.1
             else runner_module.Stage1RunStatus.COMPLETED
         )
-        return _run(setup, weight, status=status)
+        return _run(
+            cell.setup,
+            weight,
+            status=status,
+            cell_identity=cell.identity,
+        )
 
     monkeypatch.setattr(runner_module, "run_stage1_candidate", fake_run)
     monkeypatch.setattr(
@@ -201,7 +238,7 @@ def test_numerical_stop_is_not_admissible_even_when_grid_is_positive(
         lambda _setup, _run: _diagnostic(True),
     )
 
-    result = selection.run_stage1_barrier_selection([setup])
+    result = selection.run_stage1_barrier_selection(cells)
     assert 0.1 not in result.admissible_weights
     assert result.attempted_weights == (0.0, 0.1, 1.0, 10.0)
     assert result.selected_weight == 1.0
@@ -321,17 +358,19 @@ def test_terminal_grid_path_rejects_coercible_density(
         selection._terminal_grid_diagnostics(setup, run)
 
 
-def test_input_boundary_is_train_setup_only_and_identity_unique():
-    positive = _setup()
-    beta_zero = _setup(beta=0.0)
+def test_input_boundary_is_train_cell_only_and_identity_unique():
+    positive = _cell()
+    beta_zero = _cell(beta=0.0)
     with pytest.raises(ValueError, match="at least one"):
         selection.run_stage1_barrier_selection([])
-    with pytest.raises(TypeError, match="Stage1CandidateSetup"):
+    with pytest.raises(TypeError, match="Stage1CandidateCell"):
         selection.run_stage1_barrier_selection([object()])
     with pytest.raises(ValueError, match="beta > 0"):
         selection.run_stage1_barrier_selection([beta_zero])
-    with pytest.raises(ValueError, match="only once"):
+    with pytest.raises(ValueError, match="cell identity"):
         selection.run_stage1_barrier_selection([positive, positive])
+    with pytest.raises(ValueError, match="declared barrier-selection view"):
+        selection.run_stage1_barrier_selection([positive])
 
 
 def test_result_scope_has_no_test_artifact_or_stage2_decision():
@@ -350,6 +389,8 @@ def test_result_scope_has_no_test_artifact_or_stage2_decision():
         "scientific_verdict",
         "invalid_rate",
     }
+    assert "cell_identity" in assessment_fields
+    assert assessment_fields.isdisjoint({"beta", "seed", "reshuffle_seed"})
     assert assessment_fields.isdisjoint(forbidden)
     assert result_fields.isdisjoint(forbidden)
 
@@ -357,18 +398,20 @@ def test_result_scope_has_no_test_artifact_or_stage2_decision():
 def test_selection_verdict_cannot_be_replaced_independently_of_data(
     monkeypatch,
 ):
-    setup = _setup()
+    cells = _barrier_cells()
     monkeypatch.setattr(
         runner_module,
         "run_stage1_candidate",
-        lambda setup, weight: _run(setup, weight),
+        lambda cell, weight: _run(
+            cell.setup, weight, cell_identity=cell.identity
+        ),
     )
     monkeypatch.setattr(
         selection,
         "_terminal_grid_diagnostics",
         lambda _setup, _run: _diagnostic(True),
     )
-    result = selection.run_stage1_barrier_selection([setup])
+    result = selection.run_stage1_barrier_selection(cells)
     assert result.selected_weight == 0.0
     with pytest.raises(ValueError, match="verdict"):
         replace(result, selected_weight=1.0)
@@ -382,112 +425,167 @@ def test_selection_verdict_cannot_be_replaced_independently_of_data(
             ),
             selected_weight=None,
         )
-    with pytest.raises(ValueError, match="order"):
+    with pytest.raises(ValueError, match="assessment identities"):
         replace(result, assessments=tuple(reversed(result.assessments)))
+    with pytest.raises(ValueError, match="declared cell view"):
+        replace(
+            result,
+            setup_count=1,
+            assessments=(result.assessments[0], result.assessments[30]),
+        )
 
 
 def test_result_rejects_incomplete_or_overrun_assessment_prefix(monkeypatch):
-    setup = _setup()
+    cells = _barrier_cells()
     monkeypatch.setattr(
         runner_module,
         "run_stage1_candidate",
-        lambda setup, weight: _run(setup, weight),
+        lambda cell, weight: _run(
+            cell.setup, weight, cell_identity=cell.identity
+        ),
     )
     monkeypatch.setattr(
         selection,
         "_terminal_grid_diagnostics",
         lambda _setup, _run: _diagnostic(False),
     )
-    no_pair = selection.run_stage1_barrier_selection([setup])
+    no_pair = selection.run_stage1_barrier_selection(cells)
     with pytest.raises(ValueError, match="before a verdict"):
-        replace(no_pair, assessments=no_pair.assessments[:2])
+        replace(
+            no_pair,
+            assessments=no_pair.assessments[: 2 * no_pair.setup_count],
+        )
 
     monkeypatch.setattr(
         selection,
         "_terminal_grid_diagnostics",
         lambda _setup, _run: _diagnostic(True),
     )
-    selected = selection.run_stage1_barrier_selection([setup])
-    extra = replace(
-        selected.assessments[-1],
-        barrier_weight=selection.BARRIER_WEIGHT_CANDIDATES[2],
-        run=_run(setup, selection.BARRIER_WEIGHT_CANDIDATES[2]),
+    selected = selection.run_stage1_barrier_selection(cells)
+    extra_weight = selection.BARRIER_WEIGHT_CANDIDATES[2]
+    extra = tuple(
+        replace(
+            selected.assessments[setup_index],
+            barrier_weight=extra_weight,
+            run=_run(
+                cell.setup,
+                extra_weight,
+                cell_identity=cell.identity,
+            ),
+        )
+        for setup_index, cell in enumerate(cells)
     )
     with pytest.raises(ValueError, match="first stable pair"):
-        replace(selected, assessments=selected.assessments + (extra,))
+        replace(selected, assessments=selected.assessments + extra)
 
 
 def test_assessment_rejects_run_from_a_different_weight(monkeypatch):
-    setup = _setup()
+    cells = _barrier_cells()
     monkeypatch.setattr(
         runner_module,
         "run_stage1_candidate",
-        lambda setup, weight: _run(setup, weight),
+        lambda cell, weight: _run(
+            cell.setup, weight, cell_identity=cell.identity
+        ),
     )
     monkeypatch.setattr(
         selection,
         "_terminal_grid_diagnostics",
         lambda _setup, _run: _diagnostic(True),
     )
-    result = selection.run_stage1_barrier_selection([setup])
+    result = selection.run_stage1_barrier_selection(cells)
 
     with pytest.raises(ValueError, match="differs from assessment"):
         replace(
             result.assessments[0],
-            run=_run(setup, selection.BARRIER_WEIGHT_CANDIDATES[1]),
+            run=_run(
+                cells[0].setup,
+                selection.BARRIER_WEIGHT_CANDIDATES[1],
+                cell_identity=cells[0].identity,
+            ),
+        )
+
+    other_identity = cells[1].identity
+    with pytest.raises(ValueError, match="cell identity differs"):
+        replace(
+            result.assessments[0],
+            run=_run(
+                cells[1].setup,
+                selection.BARRIER_WEIGHT_CANDIDATES[0],
+                cell_identity=other_identity,
+            ),
+        )
+
+    drifted_run = replace(
+        result.assessments[-1].run,
+        cell_identity=cells[-2].identity,
+    )
+    drifted_row = replace(
+        result.assessments[-1],
+        cell_identity=cells[-2].identity,
+        run=drifted_run,
+    )
+    with pytest.raises(ValueError, match="identity differs by weight"):
+        replace(
+            result,
+            assessments=result.assessments[:-1] + (drifted_row,),
         )
 
 
 def test_train_nll_and_eta_do_not_select_the_weight(monkeypatch):
-    setup = _setup()
+    cells = _barrier_cells()
     monkeypatch.setattr(
         selection,
         "_terminal_grid_diagnostics",
         lambda _setup, _run: _diagnostic(True),
     )
 
-    def first_metrics(setup, weight):
+    def first_metrics(cell, weight):
         return _run(
-            setup,
+            cell.setup,
             weight,
             terminal_train_nll=1000.0 - weight,
             terminal_eta=0.6 + weight / 3000.0,
+            cell_identity=cell.identity,
         )
 
     monkeypatch.setattr(
         runner_module, "run_stage1_candidate", first_metrics
     )
-    first = selection.run_stage1_barrier_selection([setup])
+    first = selection.run_stage1_barrier_selection(cells)
 
-    def reversed_metrics(setup, weight):
+    def reversed_metrics(cell, weight):
         return _run(
-            setup,
+            cell.setup,
             weight,
             terminal_train_nll=weight,
             terminal_eta=0.95 - weight / 20000.0,
+            cell_identity=cell.identity,
         )
 
     monkeypatch.setattr(
         runner_module, "run_stage1_candidate", reversed_metrics
     )
-    second = selection.run_stage1_barrier_selection([setup])
+    second = selection.run_stage1_barrier_selection(cells)
     assert first.selected_weight == second.selected_weight == 0.0
 
 
 def test_unexpected_runner_and_diagnostic_exceptions_propagate(monkeypatch):
-    setup = _setup()
+    cells = _barrier_cells()
 
     def runner_bug(*_args):
         raise RuntimeError("runner bug")
 
     monkeypatch.setattr(runner_module, "run_stage1_candidate", runner_bug)
     with pytest.raises(RuntimeError, match="runner bug"):
-        selection.run_stage1_barrier_selection([setup])
+        selection.run_stage1_barrier_selection(cells)
 
     monkeypatch.setattr(
         runner_module,
         "run_stage1_candidate",
-        lambda setup, weight: _run(setup, weight),
+        lambda cell, weight: _run(
+            cell.setup, weight, cell_identity=cell.identity
+        ),
     )
 
     def diagnostic_bug(*_args):
@@ -497,4 +595,4 @@ def test_unexpected_runner_and_diagnostic_exceptions_propagate(monkeypatch):
         selection, "_terminal_grid_diagnostics", diagnostic_bug
     )
     with pytest.raises(RuntimeError, match="diagnostic bug"):
-        selection.run_stage1_barrier_selection([setup])
+        selection.run_stage1_barrier_selection(cells)

@@ -22,6 +22,9 @@ adam_module = import_module(
 runner = import_module(
     "experiments.33_negativity_budget.stage1_runner"
 )
+orchestration = import_module(
+    "experiments.33_negativity_budget.stage1_orchestration"
+)
 
 
 def _train_groups():
@@ -31,6 +34,15 @@ def _train_groups():
 def _setup():
     return stage1_setup_module.prepare_stage1_candidate(
         _train_groups(), beta=0.0, seed=0
+    )
+
+
+def _cell():
+    return orchestration.Stage1CandidateCell(
+        orchestration.Stage1CellIdentity(
+            orchestration.DATASET_ID, 0, 0.0, 0
+        ),
+        _setup(),
     )
 
 
@@ -101,13 +113,15 @@ def test_fixed_runner_starts_exactly_like_exp18_and_completes_100_steps(
             eta_fd_step=eta_fd_step,
         )
 
-    setup = _setup()
+    cell = _cell()
+    setup = cell.setup
     monkeypatch.setattr(objective_module.Stage1Objective, "value", fake_value)
     monkeypatch.setattr(adam_module, "stage1_adam_step", fake_step)
 
-    result = runner.run_stage1_candidate(setup, barrier_weight=0.0)
+    result = runner.run_stage1_candidate(cell, barrier_weight=0.0)
     assert seen == list(range(100))
     assert result.status is runner.Stage1RunStatus.COMPLETED
+    assert result.cell_identity == cell.identity
     assert result.barrier_weight == 0.0
     assert result.state.iteration == 100
     assert result.initial_evaluation.objective == 0.0
@@ -142,7 +156,8 @@ def test_fixed_runner_starts_exactly_like_exp18_and_completes_100_steps(
 def test_declared_failure_keeps_last_committed_state_and_metrics(
     monkeypatch, failure, expected_status
 ):
-    setup = _setup()
+    cell = _cell()
+    setup = cell.setup
 
     def fake_value(_self, _parameters, _eta_logit):
         return _evaluation(0)
@@ -155,8 +170,9 @@ def test_declared_failure_keeps_last_committed_state_and_metrics(
     monkeypatch.setattr(objective_module.Stage1Objective, "value", fake_value)
     monkeypatch.setattr(adam_module, "stage1_adam_step", fake_step)
 
-    result = runner.run_stage1_candidate(setup, barrier_weight=1.0)
+    result = runner.run_stage1_candidate(cell, barrier_weight=1.0)
     assert result.status is expected_status
+    assert result.cell_identity == cell.identity
     assert result.barrier_weight == 1.0
     assert result.state.iteration == 1
     assert result.terminal_evaluation.objective == 1.0
@@ -168,7 +184,8 @@ def test_declared_failure_keeps_last_committed_state_and_metrics(
 
 @pytest.mark.parametrize("failure", [ValueError("bug"), RuntimeError("bug")])
 def test_unexpected_step_failure_is_not_relabelled(monkeypatch, failure):
-    setup = _setup()
+    cell = _cell()
+    setup = cell.setup
     monkeypatch.setattr(
         objective_module.Stage1Objective,
         "value",
@@ -180,11 +197,11 @@ def test_unexpected_step_failure_is_not_relabelled(monkeypatch, failure):
 
     monkeypatch.setattr(adam_module, "stage1_adam_step", fake_step)
     with pytest.raises(type(failure), match="bug"):
-        runner.run_stage1_candidate(setup, barrier_weight=1.0)
+        runner.run_stage1_candidate(cell, barrier_weight=1.0)
 
 
 def test_initial_failure_propagates_before_any_step(monkeypatch):
-    setup = _setup()
+    cell = _cell()
 
     def invalid_initial(*_args):
         raise fixed.NonPositiveDensityError(0, 1, 3)
@@ -197,12 +214,14 @@ def test_initial_failure_propagates_before_any_step(monkeypatch):
     )
     monkeypatch.setattr(adam_module, "stage1_adam_step", unexpected_step)
     with pytest.raises(fixed.NonPositiveDensityError):
-        runner.run_stage1_candidate(setup, barrier_weight=1.0)
+        runner.run_stage1_candidate(cell, barrier_weight=1.0)
 
 
 def test_real_synthetic_candidate_completes_the_fixed_schedule():
-    result = runner.run_stage1_candidate(_setup(), barrier_weight=0.0)
+    cell = _cell()
+    result = runner.run_stage1_candidate(cell, barrier_weight=0.0)
     assert result.status is runner.Stage1RunStatus.COMPLETED
+    assert result.cell_identity == cell.identity
     assert result.barrier_weight == 0.0
     assert result.state.iteration == runner.STAGE1_ITERATIONS
     assert np.isfinite(result.terminal_evaluation.objective)
@@ -211,7 +230,8 @@ def test_real_synthetic_candidate_completes_the_fixed_schedule():
 
 
 def test_result_contract_rejects_inconsistent_completion_and_scope():
-    setup = _setup()
+    cell = _cell()
+    setup = cell.setup
     count = setup.parameterization.parameter_count + 1
     state = adam_module.Stage1AdamState(
         setup.initial_parameters,
@@ -223,6 +243,7 @@ def test_result_contract_rejects_inconsistent_completion_and_scope():
     with pytest.raises(ValueError, match="completed status"):
         runner.Stage1CandidateRun(
             status=runner.Stage1RunStatus.COMPLETED,
+            cell_identity=cell.identity,
             barrier_weight=0.0,
             state=state,
             initial_evaluation=_evaluation(0),
@@ -235,6 +256,7 @@ def test_result_contract_rejects_inconsistent_completion_and_scope():
 
     valid = runner.Stage1CandidateRun(
         status=runner.Stage1RunStatus.NO_FEASIBLE_STEP,
+        cell_identity=cell.identity,
         barrier_weight=2,
         state=state,
         initial_evaluation=_evaluation(0),
@@ -248,8 +270,14 @@ def test_result_contract_rejects_inconsistent_completion_and_scope():
     for invalid in (-1.0, np.nan, np.inf, True, 1.0 + 2.0j, [1.0]):
         with pytest.raises(ValueError):
             replace(valid, barrier_weight=invalid)
+    with pytest.raises(TypeError, match="Stage1CellIdentity"):
+        replace(valid, cell_identity=object())
+
+    with pytest.raises(TypeError, match="Stage1CandidateCell"):
+        runner.run_stage1_candidate(setup, barrier_weight=0.0)
 
     names = {field.name for field in fields(runner.Stage1CandidateRun)}
+    assert "cell_identity" in names
     assert names.isdisjoint(
         {
             "test_nll",
