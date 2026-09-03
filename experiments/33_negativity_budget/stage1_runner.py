@@ -13,12 +13,14 @@ _objective = import_module(
     "experiments.33_negativity_budget.stage1_objective"
 )
 _fixed = import_module("experiments.33_negativity_budget.fixed_beta")
+_orchestration = import_module(
+    "experiments.33_negativity_budget.stage1_orchestration"
+)
 _adam = import_module(
     "experiments.33_negativity_budget.stage1_adam_step"
 )
-Stage1CandidateSetup = import_module(
-    "experiments.33_negativity_budget.stage1_setup"
-).Stage1CandidateSetup
+Stage1CandidateCell = _orchestration.Stage1CandidateCell
+Stage1CellIdentity = _orchestration.Stage1CellIdentity
 Stage1Objective = _objective.Stage1Objective
 Stage1ObjectiveEvaluation = _objective.Stage1ObjectiveEvaluation
 Stage1AdamState = _adam.Stage1AdamState
@@ -68,6 +70,7 @@ def _validate_evaluation(
 @dataclass(frozen=True)
 class Stage1CandidateRun:
     status: Stage1RunStatus
+    cell_identity: Stage1CellIdentity
     barrier_weight: float
     state: Stage1AdamState
     initial_evaluation: Stage1ObjectiveEvaluation
@@ -80,6 +83,8 @@ class Stage1CandidateRun:
     def __post_init__(self) -> None:
         if not isinstance(self.status, Stage1RunStatus):
             raise TypeError("status must be a Stage1RunStatus")
+        if not isinstance(self.cell_identity, Stage1CellIdentity):
+            raise TypeError("cell_identity must be a Stage1CellIdentity")
         barrier_weight = _fixed._as_loss_scalar(
             self.barrier_weight, "barrier_weight"
         )
@@ -153,6 +158,7 @@ class Stage1CandidateRun:
 
 def _run_result(
     status: Stage1RunStatus,
+    cell_identity: Stage1CellIdentity,
     barrier_weight: float,
     state: Stage1AdamState,
     initial_evaluation: Stage1ObjectiveEvaluation,
@@ -164,6 +170,7 @@ def _run_result(
 ) -> Stage1CandidateRun:
     return Stage1CandidateRun(
         status=status,
+        cell_identity=cell_identity,
         barrier_weight=barrier_weight,
         state=state,
         initial_evaluation=initial_evaluation,
@@ -176,10 +183,13 @@ def _run_result(
 
 
 def run_stage1_candidate(
-    setup: Stage1CandidateSetup,
+    cell: Stage1CandidateCell,
     barrier_weight: float,
 ) -> Stage1CandidateRun:
-    """Run one setup for 100 accepted steps or a declared numerical stop."""
+    """Run one cell for 100 accepted steps or a declared numerical stop."""
+    if not isinstance(cell, Stage1CandidateCell):
+        raise TypeError("cell must be a Stage1CandidateCell")
+    setup = cell.setup
     objective = Stage1Objective(setup, barrier_weight)
     gradient_count = setup.parameterization.parameter_count + 1
     eta_logit = float(np.log(ETA0 / (1.0 - ETA0)))
@@ -234,6 +244,7 @@ def run_stage1_candidate(
 
     return _run_result(
         status=status,
+        cell_identity=cell.identity,
         barrier_weight=objective.barrier_weight,
         state=state,
         initial_evaluation=initial_evaluation,

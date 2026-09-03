@@ -4,7 +4,7 @@
 
 Issue: #140
 
-依存: Stage 1 candidate setupとfixed-schedule candidate runner。
+依存: Stage 1 candidate cellとfixed-schedule candidate runner。
 
 本packetはbarrier係数の候補と選択規則を、GKP quadrature値を読む前に固定する。
 一つの係数を全beta・全reshuffleで共有する。beta/seed/reshuffle cellの構築、artifact、
@@ -18,13 +18,15 @@ locationとする。objectiveと単一candidate runは既存protocolを参照し
 | 項目 | 固定値 / 意味 |
 | --- | --- |
 | 候補lambda | `0`と`10^k (k = -1, ..., 12)`（昇順） |
-| 入力 | `beta > 0`のtrain-only `Stage1CandidateSetup`列 |
+| 入力 | orchestration packetが返すcanonical 30-cell列 |
 | schedule | 各setup・各lambdaで既存の100 accepted-step runner |
 | 共有範囲 | 入力された全cellに一つのglobal lambda |
 
 `beta = 0`のexp18一致検算は後続orchestrationの責任であり、係数選択へ混ぜない。
-selectorは同じsetup objectを全lambdaで再利用し、lambdaごとの再初期化やdata差し替えを
-許さない。入力setup objectの重複は拒否する。
+selectorは同じcell/setup objectを全lambdaで再利用し、lambdaごとの再初期化やdata差し替えを
+許さない。入力cell identityとsetup objectの重複、およびcanonical 30-cell集合・順序との差を
+拒否する。実験で使う集合と順序は`stage1_orchestration_protocol.md`を参照し、本protocolで
+再定義しない。
 
 各lambdaについて入力された全setupを入力順に実行してから次のlambdaへ進む。最初の隣接
 global-admissible pairが揃った時点で停止し、それより大きい候補は実行しない。候補範囲を
@@ -65,13 +67,15 @@ train NLLとetaは診断として残すが選択条件に使わない。係数�
 ## 4. result interface
 
 `Stage1BarrierSelection`は実行済みprefixの全assessment、status、selected weightを返す。
-assessment順はlambda昇順、その中でsetup入力順とする。各assessmentはsetupの入力順、beta、
-init seed、lambda、candidate run、grid点数、invalid点数、最小densityを持つ。attempted weights、
-admissibility、global-admissible weightsは保存値でなく保持dataから計算する。
+assessment順はlambda昇順、その中でcell入力順とする。各assessmentはsetupの入力順、cell
+identity（dataset、reshuffle、beta、init seed）、lambda、candidate run、grid点数、invalid点数、
+最小densityを持つ。attempted weights、admissibility、global-admissible weightsは保存値でなく
+保持dataから計算する。
 
-各assessmentは`Stage1CandidateRun`が保持する呼出し時のbarrier weightと自身のlambdaが一致する
-ことをresult境界で検査する。これによりrunと別lambdaの誤結合を拒否する。本packetは
-in-memory selectionまでを扱い、artifactへの変換は後続packetで別に固定する。
+各assessmentはcell identityを保持し、`Stage1CandidateRun`のcell identityおよび呼出し時の
+barrier weightが自身のidentity/lambdaと一致することをresult境界で検査する。これによりrunと
+別cellまたは別lambdaの誤結合を拒否する。本packetはin-memory selectionまでを扱い、artifactへの
+変換は後続packetで別に固定する。
 
 resultはin-memory recordであり、artifact schema、test metric、invalid-rate verdict、Stage 2
 beta点、解釈文を持たない。
@@ -79,7 +83,7 @@ beta点、解釈文を持たない。
 ## 5. gates
 
 1. 候補列が固定15点で、各候補について全setupを実行し、最初のstable pairで停止する。
-2. 同一setup objectを候補間で再利用し、空入力・`beta = 0`・object重複を拒否する。
+2. 同一cell/setup objectを候補間で再利用し、空入力・`beta = 0`・identity/object重複を拒否する。
 3. nonpositiveとnonfinite densityを別々に数え、strict positivityだけをadmissibleにする。
 4. numerical stopはgridが正でもadmissibleにしない。
 5. 全cellに共通する最初の隣接admissible pairの下端だけを選ぶ。

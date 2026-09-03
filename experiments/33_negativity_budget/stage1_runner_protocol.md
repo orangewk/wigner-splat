@@ -4,9 +4,9 @@
 
 Issue: #140
 
-依存: Stage 1 candidate setup、train objective、Adam step。
+依存: Stage 1 candidate cell、train objective、Adam step。
 
-本packetは一つのsetupと一つのbarrier係数を固定scheduleで走らせ、最後にcommit済みの
+本packetは一つのcellと一つのbarrier係数を固定scheduleで走らせ、最後にcommit済みの
 optimizer stateと停止理由を返す。barrier係数の候補・選択規則、beta/seed sweep、artifact
 schema、GKP値、test評価、Stage 1の科学的結果は扱わない。
 
@@ -27,8 +27,8 @@ objectiveが減少しなくてもrunnerは停止しない。feasibility判定と
 
 ## 2. initial boundary
 
-`run_stage1_candidate(setup, barrier_weight)` は `Stage1Objective` を構築し、初期stateの
-value-only objectiveを一度評価してから更新loopへ入る。setup型、barrier係数、初期density、
+`run_stage1_candidate(cell, barrier_weight)` はcellのsetupから `Stage1Objective` を構築し、
+初期stateのvalue-only objectiveを一度評価してから更新loopへ入る。cell型、barrier係数、初期density、
 初期objectiveの不正は実験candidateの結果ではなく呼出し・実装契約の破損なのでstatusへ丸めず
 例外を伝播する。
 
@@ -50,15 +50,16 @@ candidate失敗へ偽装しない。
 
 ## 4. result interface
 
-`Stage1CandidateRun` はstatus、呼出し時のbarrier weight、最後にcommit済みのimmutable Adam
-state、initial/terminal objective evaluation、accepted stepだけのbacktrack集計、accepted stepで
-使った最小eta finite-difference stepを返す。barrier weightは後続処理がrunと係数の対応を検査する
+`Stage1CandidateRun` はstatus、cell identity、呼出し時のbarrier weight、最後にcommit済みの
+immutable Adam state、initial/terminal objective evaluation、accepted stepだけのbacktrack集計、
+accepted stepで使った最小eta finite-difference stepを返す。cell identityの意味は
+`stage1_orchestration_protocol.md`を参照する。barrier weightは後続処理がrunと係数の対応を検査する
 ためのprovenanceであり、real・finite・nonnegativeをresult境界で検査する。完了iteration数は
 stateの `iteration` を唯一の正本とし、別fieldへ複製しない。evaluation scalarはfinite、barrierは
 非負、etaはstateと一致することをresult境界で検査する。
 
-停止したstepの未commit moment、候補parameter、例外messageは返さない。betaとseedは入力setupの
-正本を後続orchestratorが参照し、本resultへ重複記録しない。
+停止したstepの未commit moment、候補parameter、例外messageは返さない。dataset、reshuffle、
+beta、init seedはcell identityを正本とし、runへ個別fieldとして重複記録しない。
 
 ## 5. gates
 
@@ -67,7 +68,7 @@ stateの `iteration` を唯一の正本とし、別fieldへ複製しない。eva
 3. accepted stepのbacktracked step数、総backtrack数、最大値、最小eta FD stepを集計する。
 4. 4種のdeclared numerical failureを区別し、最後にcommit済みのstate/evaluationを保持する。
 5. initial failureと予期しない例外をstatusへ変換せず伝播する。
-6. 呼出し時のbarrier weightを正規化してresultへ保持する。
+6. 呼出しcellのidentityと正規化したbarrier weightをresultへ保持する。
 7. resultへtest metric、barrier selection、sweep、artifact、GKP値が混入しない。
 
 ## 6. 実装前に確認した一次資料

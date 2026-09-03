@@ -12,10 +12,15 @@ import numpy as np
 _setup = import_module(
     "experiments.33_negativity_budget.stage1_setup"
 )
+_orchestration = import_module(
+    "experiments.33_negativity_budget.stage1_orchestration"
+)
 _runner = import_module(
     "experiments.33_negativity_budget.stage1_runner"
 )
 Stage1CandidateSetup = _setup.Stage1CandidateSetup
+Stage1CandidateCell = _orchestration.Stage1CandidateCell
+Stage1CellIdentity = _orchestration.Stage1CellIdentity
 Stage1CandidateRun = _runner.Stage1CandidateRun
 
 
@@ -97,8 +102,7 @@ class GridDiagnostics:
 @dataclass(frozen=True)
 class Stage1BarrierAssessment:
     setup_index: int
-    beta: float
-    seed: int
+    cell_identity: Stage1CellIdentity
     barrier_weight: float
     run: Stage1CandidateRun
     grid: GridDiagnostics
@@ -112,6 +116,8 @@ class Stage1BarrierAssessment:
             raise ValueError("setup_index must be a nonnegative integer")
         if not isinstance(self.run, Stage1CandidateRun):
             raise TypeError("run must be a Stage1CandidateRun")
+        if not isinstance(self.cell_identity, Stage1CellIdentity):
+            raise TypeError("cell_identity must be a Stage1CellIdentity")
         if not isinstance(self.grid, GridDiagnostics):
             raise TypeError("grid must be GridDiagnostics")
         barrier_weight = _finite_real_scalar(
@@ -121,19 +127,20 @@ class Stage1BarrierAssessment:
             raise ValueError("barrier_weight is outside the declared ladder")
         if self.run.barrier_weight != barrier_weight:
             raise ValueError("run barrier_weight differs from assessment")
-        beta = _finite_real_scalar(self.beta, "beta")
-        if beta <= 0.0:
+        if self.run.cell_identity != self.cell_identity:
+            raise ValueError("run cell identity differs from assessment")
+        if self.cell_identity.beta <= 0.0:
             raise ValueError("barrier selection assessments require beta > 0")
-        if (
-            isinstance(self.seed, bool)
-            or not isinstance(self.seed, (int, np.integer))
-            or self.seed < 0
-        ):
-            raise ValueError("seed must be a nonnegative integer")
         object.__setattr__(self, "setup_index", int(self.setup_index))
-        object.__setattr__(self, "beta", beta)
-        object.__setattr__(self, "seed", int(self.seed))
         object.__setattr__(self, "barrier_weight", barrier_weight)
+
+    @property
+    def beta(self) -> float:
+        return self.cell_identity.beta
+
+    @property
+    def seed(self) -> int:
+        return self.cell_identity.init_seed
 
     @property
     def admissible(self) -> bool:
@@ -222,13 +229,13 @@ def _attempted_weights(
     if observed_order != expected_order:
         raise ValueError("assessment order differs from the attempted prefix")
     for setup_index in range(setup_count):
-        identity = {
-            (row.beta, row.seed)
+        identities = {
+            row.cell_identity
             for row in assessments
             if row.setup_index == setup_index
         }
-        if len(identity) != 1:
-            raise ValueError("barrier assessment setup identity differs by weight")
+        if len(identities) != 1:
+            raise ValueError("barrier assessment cell identity differs by weight")
     return attempted
 
 
@@ -276,12 +283,19 @@ class Stage1BarrierSelection:
             or self.setup_count < 1
         ):
             raise ValueError("setup_count must be a positive integer")
+        expected_identities = _orchestration.barrier_selection_identities()
+        if int(self.setup_count) != len(expected_identities):
+            raise ValueError("setup_count differs from the declared cell view")
         assessments = tuple(self.assessments)
         if any(
             not isinstance(row, Stage1BarrierAssessment)
             for row in assessments
         ):
             raise TypeError("assessments must contain Stage1BarrierAssessment")
+        if tuple(
+            row.cell_identity for row in assessments[: int(self.setup_count)]
+        ) != expected_identities:
+            raise ValueError("assessment identities differ from the cell view")
         attempted = _attempted_weights(assessments, int(self.setup_count))
         admissible = _admissible_weights(assessments, int(self.setup_count))
         expected_selected = _selected_weight(admissible)
@@ -325,17 +339,23 @@ class Stage1BarrierSelection:
         return _attempted_weights(self.assessments, self.setup_count)
 
 
-def run_stage1_barrier_selection(setups) -> Stage1BarrierSelection:
+def run_stage1_barrier_selection(cells) -> Stage1BarrierSelection:
     """Run the declared prefix and select one global train-only value."""
-    setups = tuple(setups)
-    if not setups:
-        raise ValueError("barrier selection requires at least one setup")
-    if any(not isinstance(setup, Stage1CandidateSetup) for setup in setups):
-        raise TypeError("setups must contain only Stage1CandidateSetup objects")
-    if any(setup.beta <= 0.0 for setup in setups):
-        raise ValueError("barrier selection accepts only beta > 0 setups")
-    if len({id(setup) for setup in setups}) != len(setups):
+    cells = tuple(cells)
+    if not cells:
+        raise ValueError("barrier selection requires at least one cell")
+    if any(not isinstance(cell, Stage1CandidateCell) for cell in cells):
+        raise TypeError("cells must contain only Stage1CandidateCell objects")
+    if any(cell.identity.beta <= 0.0 for cell in cells):
+        raise ValueError("barrier selection accepts only beta > 0 cells")
+    if len({cell.identity for cell in cells}) != len(cells):
+        raise ValueError("each cell identity may appear only once")
+    if len({id(cell.setup) for cell in cells}) != len(cells):
         raise ValueError("each setup object may appear only once")
+    if tuple(cell.identity for cell in cells) != (
+        _orchestration.barrier_selection_identities()
+    ):
+        raise ValueError("cells differ from the declared barrier-selection view")
 
     assessments = []
     selected = None
@@ -343,18 +363,17 @@ def run_stage1_barrier_selection(setups) -> Stage1BarrierSelection:
     previous_admissible = False
     for barrier_weight in BARRIER_WEIGHT_CANDIDATES:
         weight_assessments = []
-        for setup_index, setup in enumerate(setups):
-            run = _runner.run_stage1_candidate(setup, barrier_weight)
+        for setup_index, cell in enumerate(cells):
+            run = _runner.run_stage1_candidate(cell, barrier_weight)
             if not isinstance(run, Stage1CandidateRun):
                 raise TypeError("candidate runner returned an invalid result")
             weight_assessments.append(
                 Stage1BarrierAssessment(
                     setup_index=setup_index,
-                    beta=setup.beta,
-                    seed=setup.seed,
+                    cell_identity=cell.identity,
                     barrier_weight=barrier_weight,
                     run=run,
-                    grid=_terminal_grid_diagnostics(setup, run),
+                    grid=_terminal_grid_diagnostics(cell.setup, run),
                 )
             )
         assessments.extend(weight_assessments)
@@ -376,5 +395,5 @@ def run_stage1_barrier_selection(setups) -> Stage1BarrierSelection:
         status=status,
         selected_weight=selected,
         assessments=assessments,
-        setup_count=len(setups),
+        setup_count=len(cells),
     )
