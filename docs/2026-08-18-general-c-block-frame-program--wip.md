@@ -185,7 +185,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE(集約 — **consult #22 で 2 分割**、下 2 行) | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。**consult #22(Sol)裁定**: 読みは (a) no-go 検出器であって contradiction lane ではない — β_n → 0 は違反(R_n ŝ_n⁹ → ∞)と**同じ向き**で、L9/L13/L20/L27 を矛盾で吸収しない。countersequence 起源の overflow から detected を生成することは (RC-4) により循環(仮定の言い直し)なので禁止。配置 = T2c 後・T3 前 | open(集約) |
 | GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC | T2c-ov、§8.21 (HA-4)、§8.23 (FL22-1)、§8.29 (RC-4)、§8.33 L9/L13/L20/L27 | **型・source authority・provenance のみ**: source constructor `realized_diagonal((FL22-1) σ₀ = 0 の対角列 ref — 実現族)\| countersequence_lane(L9 \| L13 \| L20 \| L27, selector ref)`、出力 `overflow_resolution-v1 := detected(ps9_evidence, realized_family_ref) \| unresolved_head_overflow(COUNTERSEQUENCE_ORIGIN \| RATE_MISSING \| DENOMINATOR_CONTROL_MISSING \| PROVENANCE_MISSING)`(not_proven は PS-9 の第三 variant にしない — router の unresolved 作業状態)。countersequence_lane は現状 **COUNTERSEQUENCE_ORIGIN で終端** | **accepted(§8.34、luna `7788dca` R-T2COV1 R4、4R)**(見積 2–3R → 実績 4R) |
-| GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | **accepted(§8.35、luna `f1c7c3b` R-T2COV2 R3、3R)— gate 判定 = not_proven**: 比較不等式と Taylor–Cauchy 還元は受理、denominator / rate / limit-realization の 3 evidence とも現行 (FL22-1) record では供給不能。**stop/go 裁定(orange 2026-09-03)= (α)**: fl22_1_record-v1.1(rate 付き対角列)を試す — 設計は Sol consult #23 で固めてから起草(window_mass の障害と σ₀′ := inf liminf β_n/‖f_n‖_W の二択案) |
+| GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | **accepted(§8.35、luna `f1c7c3b` R-T2COV2 R3、3R)— gate 判定 = not_proven**: 比較不等式と Taylor–Cauchy 還元は受理、denominator / rate / limit-realization の 3 evidence とも現行 (FL22-1) record では供給不能。**stop/go 裁定(orange 2026-09-03)= (α)**: fl22_1_record-v1.1(rate 付き対角列)を試す。**Sol consult #23 の判定**: σ₀′ := inf liminf β_n/‖f_n‖_W 案は**採択不可**(window_mass を消したのではなく未制御の s_n/‖f_n‖_W に移しただけ; 負枝に必要な量は β_n/(a_n·min(a_n, h_n)⁹) → 0、a_n := ‖f_n‖_W、h_n := 許容窓幅)。(α) は v1.1 一枚では閉じず **5 packet 15–26R**(①centered-subwindow closure((PS-4) の zf/we9/d10/W_zf 継承、3–5R)②scale-feasibility dichotomy(h_n 込み、3–5R)③realized diagonal + core producer(3–5R)④positive branch consumers の再証明(4–7R)⑤overflow bridge integration(2–4R))。①②が閉じるまで §8.35 の not_proven を維持。**規模の再裁定は orange 待ち** |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
@@ -6899,6 +6899,61 @@ fl22_1_record-v1 からは not_proven、detected / C₂₂ / lane absorption は
 **主張の範囲**: 証明ドラフト・複数 LLM の fixed-SHA 査読+数値診断のみ・
 人間による査読は未実施。
 
+**§8.35 追記(2026-09-03 — consult #23、Sol `sol-consult23-alpha.md`、
+(α) の設計)**: orange の裁定 (α)(rate 付き対角列 fl22_1_record-v1.1)に
+対する Sol の判定(本文は不変):
+- **Q1 σ₀′ 二択案(担当 Claude 提案: σ₀′ := inf liminf β_n/a_n、a_n :=
+  ‖f_n‖_{W_n})は集合論的には sound だが採択不可**: σ₀ > 0 ⟹ σ₀′ ≥ σ₀/C_R
+  だが逆は偽(a_n → 0、β_n = a_n で σ₀′ > 0 かつ β_n → 0)。σ₀′ = 0 だけでは
+  (OB-3) の 2 項(β_n/(s_n⁹a_n) → 0 と s_n/a_n → 0)を同時に消せない
+  (反例 a_k = e^{−k}、β_k/a_k = 1/k)。負枝に本当に必要な量は
+  **β_n/(a_n·min(a_n, h_n)⁹) → 0**(h_n := 窓選択の許容幅; 無制約なら
+  β_n/a_n¹⁰ → 0 相当)で、σ₀′ はこれより弱すぎる。また (FL22-3) の既存
+  consumer(絶対床・head_good・非零極限・ν ≤ 9)は W 相対床では再利用
+  できず、floor_witness / floor_certificate / violation_sequence / T3
+  routing の versioned consumer と証明が必要。
+- **Q2 構成可能性**: centered-subwindow constructor が証明済みなら center_
+  in_source・scale_bound・shrink・jet_rate(s_k = k^{−1/18} で β_k/s_k⁹ ≤
+  C_R k^{−1/2} → 0)は構成可能、**window_mass は構成不能**、かつ s_k/a_k → 0
+  も出ない。denominator_control は admissible class を(固定 ρ・K_χ(c₀)
+  threshold・core 非空・ζ_n の**量的余白** h_n := 2 dist(ζ_n, ℝ ∖
+  W_core,n(ρ)) > 0、s_n ≤ h_n)で限定すれば threshold の同時充足は可能だが、
+  h_n → 0 なら jet rate と競合。制限付き inf は subclass の二択に過ぎず、
+  T3 全体へは coverage theorem(全 relevant lane が subclass に入るか
+  bubble/collar/scale route へ排他的に送られる)が別途必要(c₀ → 0 の
+  deep-flat lane は固定 (χ, c₀) の量化外)。
+- **Q3 隠れた問題**: (1) s は PTN-22 の一様パラメータだが固定 witness の
+  自由パラメータではない — (PS-4) は S を zf/we9/d10 と同一オブジェクトで
+  束縛し、元の zf_witness は |S| = ρ/13; (2) 縮小窓の継承は plausible だが
+  未登録(zf schema・collar 半径・d10 の t₀ = center(S′)・ℓ_ext・Taylor
+  線分条件・we9 再導出・W ∖ collar(S′) の W_zf cover 貼り直しが必要 —
+  identity reuse 不可); (3) threshold の有限交差は問題なし; (4) window
+  contract は再構成物なので checked_same_provenance の再構成が必要;
+  (5) **δ_n > 0 は不要ではない**(finite-n の f_n・g_n の定義に必須、
+  δ_n = 0 は exact-QR exit); (6) a_n > 0・非空 W・vanish flag・raw/reduced
+  identity も record に残す。
+- **Q4 packet 構造と見積**: (α) は v1.1 一枚では閉じない。最低 5 packet:
+  ① centered subwindow closure(3–5R)② scale-feasibility dichotomy(h_n
+  込み、3–5R)③ realized diagonal + core producer(3–5R)④ positive branch
+  consumers の versioned 再証明(4–7R)⑤ overflow bridge integration(2–4R)
+  — 計 **15–26R**。負枝の detector だけなら短縮可だがそれは (FL22-1) の
+  置換ではなく追加 detector。主張禁止: σ₀ と σ₀′ の同値、window_mass の
+  導出、任意 s の既存 (PS-4) 適合、core membership からの source_in_core
+  自動導出、(FL22-3) consumer の無変更再利用、δ_n > 0 の不要性、C₂₂ /
+  PTN-22、countersequence 由来 detected、overflow lane の閉鎖、full-span
+  compactness の代替。
+- **Q5**: σ₀′ > 0 が全 chart で成立しても overflow は消えない(σ₀′ > 0 と
+  β_n → 0 は両立 — a_n → 0 が同時に起きるだけ)。L9 は将来 W 相対床
+  consumer で reroute の可能性、L13/L20/L27 は固定 (χ, c₀) の σ₀′ では
+  覆えない。T2c-ov は vacuous にならない。
+- **裁定**: (α) の優先順位には賛成、現行 σ₀′ 案は採択不可。次に固定すべき
+  は fl22_1_record-v1.1 本体ではなく **(PS-4) の centered-subwindow closure
+  と、許容窓幅 h_n まで含めた scale-feasibility lemma**。それが閉じるまで
+  §8.35 の not_proven を維持。
+- **担当 Claude の読み(orange 裁定待ち)**: (α) の規模が 1–3R から
+  15–26R に変わった。①②(6–10R)が feasibility を決めるので、着手するなら
+  ①②までで再評価するのが安価。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -6938,6 +6993,11 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.129(2026-09-03): **consult #23(Sol)記録** — §8.35 追記(σ₀′ 案は
+  採択不可、負枝に必要な量は β_n/(a_n·min(a_n,h_n)⁹) → 0、(α) は 5 packet
+  15–26R、①centered-subwindow closure と ②scale-feasibility lemma が
+  先)。§4 の T2c-ov-2 行に反映。規模の再裁定は orange 待ち。
 
 - v0.29.128(2026-09-03): stop/go 裁定の記録 — orange は (α) fl22_1_record-
   v1.1(rate 付き対角列)を選択。§4 の T2c-ov-2 行に反映。Sol consult #23
