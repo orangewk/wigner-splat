@@ -185,7 +185,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE(集約 — **consult #22 で 2 分割**、下 2 行) | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。**consult #22(Sol)裁定**: 読みは (a) no-go 検出器であって contradiction lane ではない — β_n → 0 は違反(R_n ŝ_n⁹ → ∞)と**同じ向き**で、L9/L13/L20/L27 を矛盾で吸収しない。countersequence 起源の overflow から detected を生成することは (RC-4) により循環(仮定の言い直し)なので禁止。配置 = T2c 後・T3 前 | open(集約) |
 | GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC | T2c-ov、§8.21 (HA-4)、§8.23 (FL22-1)、§8.29 (RC-4)、§8.33 L9/L13/L20/L27 | **型・source authority・provenance のみ**: source constructor `realized_diagonal((FL22-1) σ₀ = 0 の対角列 ref — 実現族)\| countersequence_lane(L9 \| L13 \| L20 \| L27, selector ref)`、出力 `overflow_resolution-v1 := detected(ps9_evidence, realized_family_ref) \| unresolved_head_overflow(COUNTERSEQUENCE_ORIGIN \| RATE_MISSING \| DENOMINATOR_CONTROL_MISSING \| PROVENANCE_MISSING)`(not_proven は PS-9 の第三 variant にしない — router の unresolved 作業状態)。countersequence_lane は現状 **COUNTERSEQUENCE_ORIGIN で終端** | **accepted(§8.34、luna `7788dca` R-T2COV1 R4、4R)**(見積 2–3R → 実績 4R) |
-| GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | open、見積 4–7R(Sol #22) |
+| GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | **drafted(§8.35、査読待ち R-T2COV2 R1 — 条件付き橋: 比較不等式は証明、rate / limit-realization evidence は現資産で供給不能 → not_proven)**、見積 4–7R(Sol #22) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
@@ -6730,6 +6730,123 @@ identity check)を解消。luna R4 確認: L9/L13/L20/L27 は overflow_detected
 ドラフト・複数 LLM の fixed-SHA 査読+数値診断のみ・人間による査読は
 未実施。
 
+### 8.35 GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE(条件付き橋と stop/go gate — drafted、査読対象 R-T2COV2 R1)
+
+**目的**: consult #22 の第 2 packet(stop/go gate)。§8.34 overflow_input-v1.
+realized_input を入力に、(PS-9) の「exponent 9 で定数が 0 へ落ちる列」
+witness へ至る**比較不等式を証明**し、残る要件を **typed evidence に還元**
+する。その上で「(FL22-1) の対角列(現資産)からその evidence が供給できる
+か」を判定する — 結論は**供給できない**(下記 (OB-5))。本 packet は
+detected を構成せず、C₂₂・lane absorption を主張しない。§8.16/§8.21/§8.23/
+§8.34 本文は不変。
+
+**記法**(§8.23 (FL22-3) の raw 座標): f_n := f_n^{raw}(‖f_n‖_ℱ = 1)、
+𝐁̂_n = 𝐁̃_n/‖𝐁̃_n‖_⊕、**D_n(t) := max_i |B̂_{i,n}(t)|**、δ_n :=
+‖B̃₁+B̃₂‖_ℱ/‖𝐁̃_n‖_⊕ > 0(exact QR は atlas が exit 済み)、恒等式
+**g_n(t) = δ_n |f_n(t)| / D_n(t)**((FL22-3))。窓 (W_n, S_n, s_n, L_{C,n})
+は window_contract((PS-4))、ŝ_n := s_n/L_{C,n} ∈ (0, 1/2]、R_n :=
+‖g_n‖_{W_n}/‖g_n‖_{S_n}。(PS-9) の定数崩壊量は **1/(R_n ŝ_n⁹) =
+‖g_n‖_S/(ŝ_n⁹‖g_n‖_W)**(→ 0 が exponent 9 の no-go 信号)。
+
+**(OB-1) δ の厳密相殺と比較不等式**: D_n > 0 on W_n(下記 (OB-2) の
+core 条件下)のとき、sup/inf の単調性のみから
+  ‖g_n‖_W ≥ δ_n ‖f_n‖_W / sup_W D_n、‖g_n‖_S ≤ δ_n ‖f_n‖_S / inf_S D_n、
+よって
+  **1/(R_n ŝ_n⁹) ≤ (sup_W D_n / inf_S D_n) · ‖f_n‖_S / (ŝ_n⁹ ‖f_n‖_W)**
+— δ_n は t に依らない共通因子として**厳密に相殺**((FL22-3) と同じ)✓。
+(ここまでは f_n・D_n の性質を何も使わない。)
+
+**(OB-2) 分母制御(core 上 — (FL22-2) から供給可能)**: realized_input の
+family は χ 枝・固定 c₀ の admissible pair((FL22-1))なので、eventual
+ρ ≤ r_{S,n} evidence を付ければ admissible_pair_ρ((FL22-2)(a))であり、
+(FL22-2)(c) より **十分先で min_{W_core,n(ρ)} D_n ≥ m_C(χ, c₀, ρ)/2**、
+上界は pointwise **D_n ≤ M_C = C_R**(RKHS)。よって
+  `denominator_control-v1 := (ρ ref, admissible_pair_ρ evidence(eventual
+   ρ ≤ r_{S,n}), **source_in_core** evidence(十分先で S_n ⊂ W_core,n(ρ) —
+   (FL22-4) の core-interior 中心 field + s_n ≤ dist(ζ_n, ∂W_core,n(ρ))),
+   K_D := 2M_C/m_C(χ, c₀, ρ))`
+の下で **sup_W D_n / inf_S D_n ≤ K_D**(sup は W 全体で M_C、inf は S ⊂
+core で m_C/2)✓ — O(1)。source_in_core を欠く pair(bubble / collar 域の
+中心)は本 packet 非主張(T3 の hop 幾何と同じ境界)。
+
+**(OB-3) 分子の Taylor–Cauchy 評価**: 中心整合 evidence
+`center_in_source := |t_{c,n} − ζ_n| ≤ s_n/2`(⟹ ∀t ∈ S_n: |t − ζ_n| ≤ s_n)
+と、固定半径 r > 0(compact 中心域 D̄(t₀, R_col) の r-近傍が compact —
+(HA-3) の局所一様有界 sup_{D̄(ζ_n, r)} |f_n| ≤ C_K‖f_n‖_ℱ = C_K)の下で、
+t ∈ S_n、s_n ≤ r/2 について Taylor 展開 f_n(t) = Σ_{k≤9} f_n^{(k)}(ζ_n)
+(t − ζ_n)^k/k! + R_{10,n}(t):
+  |Σ_{k≤9}| ≤ (max_{k≤9}|f_n^{(k)}(ζ_n)|) Σ_{k≤9} s_n^k/k! ≤ β_n e^{s_n} ≤
+  e β_n(|f^{(k)}(ζ)| ≤ ‖J⁹_ζ f‖ = β_n、s_n ≤ 1)、
+  |R_{10,n}(t)| ≤ C_K (s_n/r)^{10} / (1 − s_n/r) ≤ 2C_K (s_n/r)^{10}
+  (Cauchy 評価: 円 |z − ζ_n| = r 上 |f_n| ≤ C_K)。
+よって **‖f_n‖_S ≤ e β_n + 2C_K (s_n/r)^{10}**、(OB-1)(OB-2) と合わせて
+  **1/(R_n ŝ_n⁹) ≤ K_D L_{C,n}⁹ [e β_n + 2C_K (s_n/r)^{10}] / (s_n⁹ ‖f_n‖_W)**
+  = K_D e L_{C,n}⁹ · β_n/(s_n⁹ ‖f_n‖_W) + 2K_D C_K L_{C,n}⁹ r^{−10} ·
+  s_n/‖f_n‖_W。
+右辺 → 0 の**十分条件**(= 本 packet が要求する typed evidence):
+  `rate_evidence-v1 := (window_mass: liminf_n ‖f_n‖_{W_n} ≥ w > 0 の ref,
+   shrink: s_n → 0 の ref, jet_rate: β_n / s_n⁹ → 0 の ref)`
+(L_{C,n} ≤ 1 なので L⁹ は上界 1 で吸収)。**β_n → 0 だけでは不十分**
+(第 1 項は β_n/s_n⁹、第 2 項は s_n/‖f_n‖_W — s_n が 0 に落ちない family
+では第 2 項が消えず、‖f_n‖_W の下界は ‖f_n‖_ℱ = 1 から出ない: 単位 Fock
+norm の質量が W の外にあり得る)。
+
+**(OB-4) 極限経由の代替経路(限界の明示)**: head_overflow の compact-open
+極限 f_*((HA-3) と同じ論法で β_n → 0 ⟹ J⁹_{ζ_*} f_* = 0)は f_* ≡ 0 か
+ord_{ζ_*} f_* ≥ 10。f_* ≢ 0 かつ (f_*, 𝐁̂_*) が χ 内の**実現 config の
+defect / carrier**であれば、固定 config で s → 0 とする窓族が (PS-9) の
+「exponent > 9 bubble の族 witness」を与える(ord ≥ 10 ⟹ ‖f_*‖_S ≍ s^{ord}、
+‖f_*‖_S/(ŝ⁹‖f_*‖_W) ≍ s^{ord−9} → 0)。これに必要な
+  `limit_realization-v1 := (f_* ≢ 0 の ref, (f_*, 𝐁̂_*) が χ の実現 config
+   の (defect, carrier) 対であることの ref(= 4 原子極限 span 所属 —
+   consult #18 で撤回した full-span compactness の代替), ord_{ζ_*} f_* ≥ 10
+   の ref)`
+は **accepted 資産に存在しない**(§8.20 追記・§8.21 (HA-3) は weak /
+compact-open 極限のみで span 所属を与えない — consult #22 Q1 の第 3 欠落
+項目と同一)。
+
+**(OB-5) gate 判定(現資産)**: (FL22-1) の対角列 record(§8.34 fl22_1_
+record-v1)が供給するのは β_{n_k} < 1/k(rate なし)、各要素の window_
+contract(s_n は pair 固有 — s_n → 0 も β_n/s_n⁹ → 0 も含意しない)、
+weak 極限記録(span 所属なし)のみ。よって
+  - denominator_control-v1: source_in_core を持つ pair については (FL22-2)
+    から**構成可能**((OB-2))。
+  - rate_evidence-v1: **構成不能**(jet_rate・shrink・window_mass のいずれも
+    (FL22-1) は与えない)。
+  - limit_realization-v1: **構成不能**((OB-4))。
+  `overflow_bridge-v1 := bridged(overflow_input-v1.realized_input,
+   denominator_control-v1, rate_evidence-v1 | limit_realization-v1) ↦
+   overflow_detected-v1(§8.34 — ps9_evidence := (OB-3) または (OB-4) の
+   定数崩壊 / bubble witness、realized_family := fl22_1_record-v1)
+   | not_proven(欠落 evidence の tag)`、
+  `overflow_resolution-v1.1 := overflow_resolution-v1 の unresolved_head_
+   overflow の tag union に LIMIT_REALIZATION_MISSING を追加(他不変)`。
+**結論(型の事実)**: 現資産の realized_input は例外なく
+unresolved_head_overflow(RATE_MISSING ∧ LIMIT_REALIZATION_MISSING)に
+落ちる。**T2c-ov-2 は not_proven で終了**(Sol #22 の stop/go 規約)。
+
+**(OB-6) (PS-9) への写像(evidence が供給された場合のみ)**:
+  `overflow_to_nogo-v1 := (overflow_detected-v1, (RC-4) の realized_family
+   evidence := fl22_1_record-v1 の各要素の t3_witness・window_contract・
+   raw/reduced pair ref, 判定量 evidence := (OB-3)/(OB-4) の定数崩壊列,
+   checked_same_cell) → (PS-9) nogo.detected(evidence ref)`
+— (RC-4) の nogo_to_detected-v1 と同形(source が face の nogo ではなく
+overflow である点のみ差)。本 packet では入力が構成不能なので**適用例は
+ない**。
+
+**(OB-7) stop/go の判断材料(担当 Claude の読み — 裁定は orange)**:
+残る obligation は 2 つのうち**いずれか一方**で足りる: (α) rate_evidence
+— (FL22-1) の対角列の**選び方を変える**(β_{n_k} < 1/k ではなく β_{n_k}
+< s_{n_k}⁹/k、かつ s_{n_k} → 0 と window_mass を保証する選択 — σ₀ = 0 の
+定義(inf-liminf)から出るかは未検討・非主張)、(β) limit_realization —
+consult #18 で撤回した full-span compactness の代替(§8.20 追記の「正道」
+= J⁹-relative confluent secant compactification、規模大)。(α) が安価だが
+「σ₀ = 0 ⟹ rate 付き対角列」は別の主張であり、成立しない可能性がある
+(β_n が s_n に比べて遅く 0 に落ちる pair 族)。
+
+**scope(非主張)**: detected の構成、C₂₂、L9/L13/L20/L27 の閉鎖、(α)(β)
+の成立、f_* の span 所属、有効定数、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -6769,6 +6886,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.124(2026-09-03): **§8.35 GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE 起草**
+  (条件付き橋 + stop/go gate)— (OB-1) δ 相殺と比較不等式、(OB-2)
+  denominator_control-v1((FL22-2) から供給可能)、(OB-3) Taylor–Cauchy
+  評価と rate_evidence-v1、(OB-4) limit_realization-v1(現資産に無い)、
+  (OB-5) gate 判定 = not_proven(RATE_MISSING ∧ LIMIT_REALIZATION_MISSING)、
+  (OB-6) overflow_to_nogo-v1、(OB-7) stop/go の判断材料。
 
 - v0.29.123(2026-09-03): **§8.34 GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC 受理**
   (luna fixed-SHA `7788dca` R-T2COV1 R4、4R)— 受理記録・主張の範囲を
