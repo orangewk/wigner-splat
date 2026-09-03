@@ -4350,6 +4350,107 @@ T3a-3 DEEP-FLAT-HEAD(5–8R)/ T3a-4 ROUTE-CLOSE(2–4R)、計 14–24R
 (#19 の 2–4R は撤回)。routing 型・versioned adapter・provenance 排他の
 査読負荷を「短補題」として過小評価しない。
 
+### 8.26 GC-5-T3a-1 PTN22-ROUTE-SPEC(routing 型・決定順・入口 gate — 登録のみ、drafted、査読対象 R-T3A1 R1)
+
+**目的**: consult #20 (iii)(iv) の routing 型を **proof claim なしで登録**
+する(PTN-SPEC 方式)。本 packet は**いかなる不等式・排他性・網羅性の
+成立も主張しない** — 型・決定順・adapter・gate のみ。排他・網羅の証明は
+T3a-4、各 lane の証明は T3a-2/T3a-3/T3b/T3c の義務。
+
+**(RS-1) raw countersequence 型(floor 非依存)**:
+  `ptn22_countersequence-v1 := (θ 列 ref(admissible T3 config 列 — 各
+   要素は t3_witness と window_geometry を持つ。**chart・c₀・vanish_flag・
+   head_outcome のいかなる仮定も置かない**), 窓列 (W_n, S_n, s_n) の ref
+   (window_contract の同一オブジェクト参照), 違反度 record(R_n :=
+   ‖g_n‖_{W_n}/‖g_n‖_{S_n} と正規化違反度 R_n·(s_n/L_{C,n})⁹ → ∞ の
+   evidence), provenance(checked_same_provenance の対象 = 上 3 field))`
+— (PS-7) の一様定数不存在の仮定から T3c が抽出する列の**型**。§8.23 の
+violation_sequence-v1 は固定 c₀・vanish_flag = none・head_good を要求する
+ので routing の**開始型には使えない**: それは (RS-2) の最終 floored lane
+でのみ **adapter** `to_violation_sequence(countersequence, chart ref,
+c₀ 固定 evidence, floor_input-v1, head_good ref)` により構成する。
+
+**(RS-2) 決定順(decision list — 各 node は typed record、排他・網羅は
+T3a-4 の証明義務であり本節は登録のみ)**: 入力 = ptn22_countersequence-v1
+の部分列(各段で部分列を取ってよい — subsequence_transport(§8.25)で
+違反度・provenance を移送)。
+- **(N1) atlas outcome**(§8.17 (AT) — closed-world: lower-rank | exact-QR |
+  chart。**overflow は atlas exit ではない**: chart 後の HEAD9 outcome):
+  - lower-rank → **T3a0 消費**: ptn_lower_face-v2 = proven ⟹ R_n ≤
+    C_r(L/s)⁵ ≤ C_r(L/s)⁹(L/s ≥ 2)で違反度有界 — 矛盾材料
+    `directly_absorbed(T3a0 proven ref)`; trivial_one_component ⟹ g ≡ 1、
+    R_n = 1 — 同じく directly_absorbed; nogo ⟹ (RS-6) の nogo lane。
+  - exact-QR → `retract_exact_qr(qr_global_witness ref)`((PS-6) retract —
+    valid/nogo の外)。
+  - chart → (N2)。
+- **(N2) c₀ 二択(chart 枝、部分列 — c₀ 分岐を one_sided より先に判定)**:
+  c0_witness-v2 の c₀(config_n) について **c₀ → 0** | **c₀ ≥ c* > 0**。
+  - **c₀ → 0** → (N3)。one_sided flag はこの側では metadata(α/β/order_drop
+    と競合する branch にしない)。
+  - **c₀ ≥ c*** → (N5)。
+- **(N3) ratio_branch**(§8.25 face_approach_witness-v2): **vanishing** →
+  (N4); **bounded_below** → order_drop(§8.25 — one_component face)→
+  **終端ではない**: rank-4 pair が one-component face に近づくことを示す
+  のみ ⟹ **(N6) one_sided_route へ接続**。
+- **(N4) face approach**(§8.25 (LF-6)): **alpha_proven** ⟹ R₄ ≤ 3R₃ ≤
+  3C_r(L/s)⁵ — `directly_absorbed(T3a0 alpha ref)`; **beta_routed**
+  (face_deep_flat-v1)⟹ **(N7) fixed geometry?**: no → T3b handoff /
+  yes → (N8) HEAD9 actual defect。
+- **(N5) carrier vanish_flag**(carrier_witness-v1): **one_sided** → (N6);
+  **none** → (N7′) fixed core geometry?: no → T3b handoff / yes → (N8′)
+  HEAD9 outcome: head_good → **T2c floored** → adapter
+  to_violation_sequence → T3c; head_overflow → T2c-ov。
+- **(N6) one_sided_route-v1**(登録 — 証明は T3a-2):
+  `block_dominant(t* ∈ S, side, projective-ratio evidence max(|H(t*)|,
+  1/|H(t*)|) ≥ e, C = 3.2 — (F2²-3)(a) で吸収 → directly_absorbed)|
+  inner_window(side, comparability evidence e^{−1} ≤ |H| ≤ e on S,
+  s_n → 0 / geometry-collapse evidence, center → surviving-zero evidence,
+  (PS-5) inner-chart ref → T3b handoff)`。
+- **(N7)(N7′) fixed_geometry_witness-v1**(macro/micro cut — 登録):
+  `(s_* > 0 with s_n ≥ s_* eventual, ρ_* > 0 with ρ_* ≤ r_{S,n} eventual,
+  core 非空 evidence(W_core,n(ρ_*) ≠ ∅ eventual), 中心 core-interior
+  flag)` — 全 field 充足 = yes、いずれか欠落 = no(T3b handoff record
+  `t3b_handoff-v1 := (失敗 field の列挙, countersequence 部分列 ref)`)。
+  ŝ = s/L_C の下界だけでは物理領域が一点へ縮む場合を除けないため、
+  s_n ≥ s_* は物理 scale で要求する。
+- **(N8) HEAD9 actual defect(deep-flat lane — 登録、証明は T3a-3)**: 実
+  defect を **exact Fock norm で一度だけ正規化** f_n := N_n/‖N_n‖_ℱ
+  (N_n = B̃₁ + B̃₂ — §8.21 (CC-6a) の raw defect と同一 object)し、(HA-2)/
+  (HA-3) の二択を消費: head_good → `deep_flat_floor`(floor_certificate の
+  variant — **T2c の σ₀(χ,c₀)/m_C は c₀ → 0 で使えない(循環)ので新規床、
+  T3a-3 義務**)| head_overflow → T2c-ov。§8.25 (LF-6)(β) の λ_n = 1/ε_n
+  記録は**情報 field に降格**(消費は本 lane の exact 正規化経由。1/ε_n
+  表現を消費する場合は checked_renorm_boundedness 必須 — 本 packet では
+  消費しない)。
+
+**(RS-3) 入口 gate と共通 floor interface**:
+  `floor_certificate-v1 := fixed_chart_floor(floor_witness-v1.floored ref)|
+   deep_flat_floor(T3a-3 の出力 ref)| scale_floor(scale_floor-v1.proven
+   ref — §8.24 (TS-2))`、
+  `t3_gate-v1 := directly_absorbed(proof ref — T3a0 proven / alpha /
+   block_dominant)| remez_ready(floor_certificate-v1, head_good ref,
+   checked_same_provenance)| retract_exact_qr(qr_global_witness ref)|
+   nogo(detected evidence ref)| unresolved(not_proven ref)`。
+「floored × head_good のみ通す」は既存 T2c lane(fixed_chart_floor)では
+正確だが、T3 全体では floor_certificate の 3 variant を通す。
+
+**(RS-4) (PS-9) への写像**: PS-9 は `valid | nogo` のまま(不変更)。
+detected → ptn22_witness-v1.nogo; not_proven → unresolved = **PS-9 object
+未生成の作業状態**(第三 variant にしない — fail-closed 維持); remez_ready
+→ T3c 完了・全 route closure・C₂₂ ref・checked_clear が揃った後のみ
+valid; directly_absorbed は countersequence を除去する証明材料であり
+**単独では valid を生成しない**; exact-QR は valid/nogo の外((PS-6))。
+
+**(RS-5) 排他・網羅の登録(主張しない)**: (N1)–(N8) の各 node の分岐が
+排他かつ網羅であること、および全 lane の終端が {directly_absorbed,
+remez_ready, retract_exact_qr, nogo, unresolved, T3b handoff} のいずれか
+に落ちることは **T3a-4 ROUTE-CLOSE の証明義務**。本 packet は各 node の
+型が well-formed であることのみ。
+
+**scope(非主張)**: 排他性・網羅性(T3a-4)、one_sided 二分岐の証明
+(T3a-2)、deep_flat_floor(T3a-3)、scale_floor(T3b)、Remez 合成と C₂₂
+(T3c)、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -4389,6 +4490,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.58(2026-09-03): **§8.26 GC-5-T3a-1 PTN22-ROUTE-SPEC 起草**(登録
+  のみ)— (RS-1) ptn22_countersequence-v1(floor 非依存)と violation_
+  sequence-v1 への adapter、(RS-2) 決定 list (N1)–(N8)(atlas outcome →
+  c₀ 二択 → ratio_branch / carrier flag → one_sided_route / fixed_geometry
+  / HEAD9 exact-norm lane)、(RS-3) floor_certificate-v1 と t3_gate-v1、
+  (RS-4) PS-9 写像(unresolved は object 未生成状態)、(RS-5) 排他・網羅は
+  T3a-4 義務として登録。
 
 - v0.29.57(2026-09-03): **consult #20(Sol、T3a 骨格裁定)記録**(§8.25
   追記)— one_sided ⇒ c₀→0 吸収補題を CONF 反例で撤回(#19 追記の推論を
