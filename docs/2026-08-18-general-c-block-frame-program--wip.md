@@ -192,7 +192,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 `6557d6b`(§8.26 (N7)(N8)(RS-3)・route_context 段階型・restrict_carrier_witness)、T3a-2 `61a14c1`(§8.27 (OS-3a))、§8.17 atlas_witness-v1(chart label の閉世界)、§8.19 (AD22-0)(AD22-2)(AD22-3)(common_gauge_record・pivot 規約・strong section・sublabel)、§8.21 (HA-1)–(HA-6)、§8.22 (CC-2)(CC-3)(frame・d₀・λ_χ)(CC-6a)(CC-6b)(CC-7)、§8.23 (FL22-2)(a)(b)・(FL22-3)(逐語再利用)、(FL22-4)(one_sided 拡張 = (DF-4) 独立登録) | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor-v1 の証明(選択部分列上・c₀ 非依存 — T2c 床の c₀→0 使用は循環なので新規床)・overflow handoff | **accepted(§8.28、luna `6b7133c` R-T3A3 R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 5–8R → 実績 9R) |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1 `6557d6b`(§8.26 (RS-1)–(RS-5))、T3a0 `ca11257`(§8.25 (LF-4)(LF-6)(LF-7))、T3a-2 `61a14c1`(§8.27 (OS-1)(OS-2))、T3a-3 `6b7133c`(§8.28 (DF-0′)(DF-0″)(DF-6))、§8.21 (HA-2)、§8.22 (CC-7)、§8.16 (PS-9)、§8.15 追記(no-go 判定基準) | 全 node の排他・網羅証明(部分列規約)・t3_gate-v1.1(8 constructor — t3c_handoff 追加)の terminal への落着・absorb_via_t3a0-v1.1 と block_dominant の違反度矛盾導出(exact rank drop のみ、非 exact は LR-EXIT)・nogo → detected 変換 adapter(realized family 必須、不能なら unresolved)・violation_sequence-v2.deep_flat の identity 組立・countersequence 矛盾への統合(条件付き閉包 statement) | **accepted(§8.29、luna `104105e` R-T3A4 R6、6R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 6R。**open: LR-EXIT**(非 exact lower-rank exit の routing — Sol consult #21 で要素粒度案を採択、下 4 packet)) |
 | GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数退化 flag と退化集合 D は全 variant 共通の top-level metadata(atlas_witness-v1.1 で露出した (AT-2) 内部の係数 vector・flag への identity ref — v2 は再構成しない)に保持、極限でのみ退化する chart 列は **boundary chart** — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **accepted(§8.30、luna `62c150f` R-T2ARD R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 9R) |
-| GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | **drafted(§8.31、査読待ち R-T2BIII R1)**、見積 4–7R |
+| GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | **drafted(§8.31、R1 適用済み・査読待ち R-T2BIII R2)**、見積 4–7R |
 | GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | open、見積 3–5R |
 | GC-5-T3a-6 ROUTE-CLOSE-v2 | T3a-5、T3a-4 | lane 表の再証明、LR-EXIT tag の削除(CTX/REF 欠落は fail-closed 維持) | open、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
@@ -5805,7 +5805,7 @@ legacy consumer は frame_input-v2.2 で interior chart に束縛、(v) §8.17
 carrier_witness・HEAD9(T2b-iii)、route_context-v2 と決定 list の更新
 (T3a-5)、lane 表の再証明(T3a-6)、有効定数、人間による査読は未実施。
 
-### 8.31 GC-5-T2b-iii C0-BOUNDARY-CARRIER(carrier_witness-v2 — c₀ 非依存の幾何部分と固定 c₀ の interior 床の分離 — drafted、査読対象 R-T2BIII R1)
+### 8.31 GC-5-T2b-iii C0-BOUNDARY-CARRIER(carrier_witness-v2 — c₀ 非依存の幾何部分と固定 c₀ の interior 床の分離 — drafted、R1 適用済み、査読対象 R-T2BIII R2)
 
 **目的**: Sol consult #21 の第 2 packet。§8.22 (CC-2)–(CC-7) の carrier
 構成のうち **係数下界 c₀ を使わない部分**(成分 frame・strong section・
@@ -5880,27 +5880,75 @@ absent。
 boundary でも逐語)、(CC-6b) carrier frame の raw 引き戻し(strong section
 から — (BC-1))、raw_restatement の検証 flag — いずれも (CC-6) 逐語。
 
-**(BC-6) 出力契約と consumer 表**:
+**(BC-6) 出力契約と consumer 表**(登録 object: carrier_witness-v2、
+to_carrier_v1、geometric_view / carrier_geometric-v1、head_outcome-v1.1):
   `carrier_witness-v2 := (frame_input-v2.3 ref(interior | boundary variant
    を記録), 成分別 frame 記録(m_i・chart 型・strong 収束 ref — (CC-2)),
    **geometric_floor_checked**(λ_χ の下半連続 inf 論証 ref — (BC-2)、c₀
    非依存), **interior_floor := present((CC-3) の K_χ(c₀) inf ref + c₀
    witness ref — interior のみ)| absent(boundary)**,
-   vanish_flag := none(evidence: 両成分の norm 極限が正である検証 ref +
-   atlas outer routing 不在の検証)| one_sided(side ∈ {[1:0], [0:1]}、
-   evidence: 消滅側成分の norm 極限 ref + atlas outer routing との一致
-   検証)— (CC-7) と同一の checked constructor、係数有界性の出所は (BC-3),
+   vanish_flag := none(evidence: 両成分の norm 極限が正である検証 ref)
+   | one_sided_checked(side ∈ {[1:0], [0:1]}、evidence: 消滅側成分の norm
+   極限 ref + atlas outer routing との一致検証 — (CC-7) と同一の checked
+   constructor; **interior variant のみ**構成可能)
+   | **one_sided_unrouted**(side、evidence: 消滅側成分の norm 極限 ref、
+   routing_consistency := pending(obligation ref))[R-T2BIII R1-02]:
+   「atlas outer routing」([1:0]/[0:1] の成分射影 routing — §8.16 追記の
+   設計記録)は §8.17 (AT-*) に typed producer を持たず、(PS-5) の outer/
+   inner は零点近傍の空間 chart で別物。boundary chart にはこの一致検証の
+   供給源がないので、boundary variant の one_sided は一致検証を欠いた
+   **別 constructor** として登録し、(CC-7) の checked one_sided とは型で
+   区別する(to_carrier_v1 で像なし、消費側 T3a-5 が routing_consistency
+   を充足するか obligation として扱う — fail-closed)。none の「atlas
+   outer routing 不在の検証」も boundary では供給源がないため、v2 の none
+   は norm 極限の正値 evidence のみを要求し、interior variant では (CC-7)
+   の none(不在検証込み)へ to_carrier_v1 で写す際に v1 の不在検証 ref を
+   追加要求する(下記)。係数有界性の出所は (BC-3),
    raw_restatement((BC-5) — 検証 flag 込み), degeneracy_metadata-v1 ref,
    checked_same_provenance)`。
-  **adapter `to_carrier_v1`**: interior variant(interior_floor = present)
-  ↦ carrier_witness-v1(identity — frame_input-v2.3.interior = v2.2、
-  floor_checked := interior_floor.present、他 field 同名)。boundary variant
-  は v1 に像なし(v1 consumer = T2c は消費しない — 型で排除)。
-  **consumer 表**: T2c(§8.23 floor_input-v1)— v1 / interior のみ(不変);
-  T3a-2 (OS-3a) / T3a-3 (DF-3)(DF-4) — geometric 部分のみを使う(既に
-  c₀ 非依存で受理済み — 本 packet は producer を与える); T3a-5 route_
-  context-v2 — boundary variant の consumer(登録のみ); HEAD9(§8.21)は
-  (CC-6a) により boundary でも head_outcome-v1 が構成可能(系 — 証明なし)。
+  **adapter `to_carrier_v1`(field 単位の射影 — identity ではなく型変換
+  [R-T2BIII R1-01])**: 入力 = carrier_witness-v2 の interior variant
+  (interior_floor = present)。出力 carrier_witness-v1 の各 field:
+    - frame_input-v2.1 ref := frame_input-v2.3.interior(= v2.2)の atlas 入力
+      atlas_witness-v2.chart(interior) を to_v1_rejudge / to_v1_metadata
+      (§8.30 — interior は両読みで v1.chart へ identity)で v1.chart に
+      置換したもの(他 field は v2.2 = v2.1 と同一 — §8.30 (AE-4) の
+      versioned replacement の逆向き射影);
+    - 成分別 frame 記録 := 同名 field(そのまま);
+    - floor_checked(chart ref, (CC-3) の下半連続 inf 論証 ref) := (chart ref
+      := frame_input の chart label ref, 論証 ref := interior_floor.present
+      の K_χ(c₀) inf ref)— payload を明示;
+    - vanish_flag := none ↦ (CC-7).none(evidence := v2 の正値 evidence +
+      **v1 の不在検証 ref を追加要求** — 無ければ射影不成立)、
+      one_sided_checked ↦ (CC-7).one_sided(同一 payload)、one_sided_unrouted
+      ↦ 射影不成立(像なし);
+    - raw_restatement := 同名 field。
+    **破棄**: geometric_floor_checked・interior_floor の残り field・
+    degeneracy_metadata-v1 ref・variant tag(v1 に対応 field なし —
+    projection で落とす)。boundary variant は像なし(v1 consumer = T2c は
+    消費しない — 型で排除)。
+  **consumer 表 [R-T2BIII R1-03][R1-04]**: T2c(§8.23 floor_input-v1)— v1 /
+  interior のみ(不変); **T3a-2 (OS-3a) / T3a-3 (DF-3)(DF-4) — 受理済み
+  本文は carrier_witness-v1 を直接要求するので、現状の消費域は v1 =
+  interior のみ**(証明が geometric 部分しか使わないことは事実だが、型
+  配管は v1)。boundary での消費には
+    `geometric_view(carrier_witness-v2) → carrier_geometric-v1 := (frame_
+     input-v2.3 ref, 成分別 frame 記録, geometric_floor_checked, strong 収束
+     ref, vanish_flag(v2), raw_restatement)`
+  を本 packet で登録し、T3a-2/T3a-3 の boundary 版消費(field 置換 v1 →
+  carrier_geometric-v1 の versioned re-registration)は **T3a-5 の義務**
+  (本 packet は adapter の定義のみ)。T3a-5 route_context-v2 — boundary
+  variant の consumer(登録のみ)。**HEAD9**: §8.21 (HA-6) は frame_input-
+  v2.1 ref を必須 field とし、boundary の frame_input-v2.3.boundary は
+  v2.1 に像を持たないので、R1 版の「boundary でも head_outcome-v1 が構成
+  可能」は**撤回**。代わりに
+    `head_outcome-v1.1 := (HA-6) の frame_input-v2.1 ref を frame_input-v2.3
+     ref(interior | boundary)に置換したもの(他 field 不変 — versioned
+     replacement)`
+  を登録する: (HA-1)–(HA-3) の証明は (CC-6a) のとおり provenance(frame_
+  input の内容)を使わないので v1.1 でも逐語成立、frame_input ref は
+  provenance field としてのみ働く。consumer(T3a-3 (DF-1)、(N8))の v1.1
+  への置換は T3a-5 の義務。
 
 **scope(非主張)**: boundary chart 上の T2c 型の床(σ₀・m_C の chart 一様
 性 — c₀ 非依存の sequence 形は T3a-3 が既に供給)、route_context-v2 と
@@ -5945,6 +5993,16 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.103(2026-09-03): R-T2BIII R1(blocking 4)適用 — [R1-01] to_carrier_
+  v1 を field 単位の射影として明示(frame_input の atlas 入力の v1 化・
+  floor_checked の payload・破棄 field)。[R1-02] boundary の one_sided を
+  一致検証なしの別 constructor one_sided_unrouted(routing_consistency =
+  pending)に、none も正値 evidence のみに(v1 への射影時に不在検証 ref を
+  追加要求)。[R1-03] T3a-2/T3a-3 の消費域は v1/interior と訂正、boundary
+  用に geometric_view / carrier_geometric-v1 を登録(re-registration は
+  T3a-5 義務)。[R1-04] boundary の HEAD9 主張を撤回し head_outcome-v1.1
+  (frame_input-v2.3 ref)を versioned 登録。
 
 - v0.29.102(2026-09-03): **§8.31 GC-5-T2b-iii C0-BOUNDARY-CARRIER 起草** —
   (BC-0) 入力型、(BC-1) frame_input-v2.3(boundary 拡張 — (AD22-2) は係数
