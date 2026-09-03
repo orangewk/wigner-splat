@@ -194,7 +194,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数退化 flag と退化集合 D は全 variant 共通の top-level metadata(atlas_witness-v1.1 で露出した (AT-2) 内部の係数 vector・flag への identity ref — v2 は再構成しない)に保持、極限でのみ退化する chart 列は **boundary chart** — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **accepted(§8.30、luna `62c150f` R-T2ARD R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 9R) |
 | GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | **accepted(§8.31、luna `b21b0fc` R-T2BIII R3、3R)**(見積 4–7R → 実績 3R) |
 | GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | **accepted(§8.32、luna `d632026` R-T3A5 R6、6R)**(見積 3–5R → 実績 6R) |
-| GC-5-T3a-6 ROUTE-CLOSE-v2 | T3a-5 `d632026`、T3a-4 | lane 表の再証明(§8.32 (N5)-v2 の 3 分岐を lane 化、unresolved_tag-v1.1、terminal は t3_gate-v1.2)、**route_closure-v2 の構成**(remez_ready-v1.2 の全 route closure ref — §8.32 [R5-01][R5-02])、absorb_via_t3a0-v1.2 の (RC-3) 再証明、(RC-5) identity 組立の v2.1 版、LR-EXIT tag の削除(CTX/REF 欠落は fail-closed 維持) | open、見積 2–4R |
+| GC-5-T3a-6 ROUTE-CLOSE-v2 | T3a-5 `d632026`、T3a-4 | lane 表の再証明(§8.32 (N5)-v2 の 3 分岐を lane 化、unresolved_tag-v1.1、terminal は t3_gate-v1.2)、**route_closure-v2 の構成**(remez_ready-v1.2 の全 route closure ref — §8.32 [R5-01][R5-02])、absorb_via_t3a0-v1.2 の (RC-3) 再証明、(RC-5) identity 組立の v2.1 版、LR-EXIT tag の削除(CTX/REF 欠落は fail-closed 維持) | **drafted(§8.33、査読待ち R-T3A6 R1)**、見積 2–4R |
 | **ROUTE-PROD ATLAS-OUTER-ROUTING(open obligation 候補)** | §8.16 追記(設計記録)、§8.17 (AT-*)、§8.22 (CC-7)、§8.27 (OS-0)(b)、§8.31 carrier_witness-v2 | atlas outer routing([1:0]/[0:1] の成分射影 routing)の **typed producer**、または (OS-0)(b) の一致検証を norm 極限による side 決定へ置換する versioned 改訂。producer が無い現状では **interior・boundary 双方の one_sided lane が unresolved(ROUTING-PENDING)** のまま(§8.32 [R-T3A5 R1-02][R2-02]) | **候補(orange 裁定待ち — 登録は §8.32 R2 で追加、着手は未決)** |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2 — T3a-5 以降は **violation_sequence-v2.1**(§8.32 [R-T3A5 R1-03])を読む) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R |
@@ -6238,6 +6238,211 @@ luna R6 確認)— **受理後注記、本文は不変**。
 **主張の範囲**: 証明ドラフト・複数 LLM の fixed-SHA 査読+数値診断のみ・
 人間による査読は未実施。
 
+### 8.33 GC-5-T3a-6 ROUTE-CLOSE-v2(v2 入力の lane 表再証明と route_closure-v2 — drafted、査読対象 R-T3A6 R1)
+
+**目的**: Sol consult #21 の第 4 packet。§8.29 (RC-1)–(RC-7) を §8.32 の
+v2 入力(base_context-v2 / route_context-v2、terminal = t3_gate-v1.2)の
+下で再証明し、`route_closure-v2`(§8.32 [R5-01] で型登録済み — producer
+は本 packet)を構成する。§8.29 本文は不変(versioned 置換)。新しい
+不等式はない。**LR-EXIT の消滅**は主張の一つだが、代わりに 2 つの構造的
+open lane(ROUTING-PENDING / C0-INCONSISTENT)が lane 表に現れる —
+「open lane の総数が減る」ことは主張しない。
+
+**(RC2-0) 入力と terminal**: 入力 = base_context-v2(ptn22_countersequence-
+v1.2 — 各要素は atlas_witness-v2 と checked_qr_consistency-v1.1 を持つ)。
+各 node の段階型 context は route_context-v2(§8.32 (RS2-0))。terminal は
+t3_gate-v1.2 の {directly_absorbed(absorb_via_t3a0-v1.2 | block_dominant),
+nogo, retract_exact_qr, unresolved-v1.1, t3c_handoff-v1.1, t2cov_handoff,
+t3b_handoff}(remez_ready-v1.2 は T3c 後にのみ — lane 表の terminal に
+現れない、§8.29 と同規約)。「網羅」「排他」の意味は §8.29 (RC-0) と同一
+(部分列選択を伴う網羅、同一部分列上の排他)。
+
+**(RC2-1) 各 node の排他・網羅(v2)**:
+- **(N1)-v2**: atlas_witness-v2.exit は closed-world の discriminated union
+  lower_rank_exact | exact_qr | chart(§8.30 exit-v2)— 要素ごとに exactly
+  one、列は鳩の巣(3 値)。exact_qr は checked_qr_consistency-v1.1 (ii′)
+  により countersequence 要素に**型上現れない**(§8.32 [R1-01][R5-01])。
+- **(N1′)(chart の interior / boundary)**: degeneracy_metadata-v1.flag ∈
+  {false, true} の二択(§8.30 — 単一 flag、要素ごとに exactly one)、列は
+  鳩の巣(2 値)で一方が無限回の部分列。**flag は要素ごとの量**なので
+  部分列上で「全要素 interior」または「全要素 boundary」に安定化できる
+  (chart_context_pre-v2 の carrier_witness-v2 variant はこの安定化後の
+  列に対して interior | boundary が定まる — §8.31 frame_input-v2.3)。
+- **(N2)-v2**: §8.29 (N2) の liminf 二択に同文。加えて c0_interior_
+  consistency(§8.32 [R2-04]): interior_floor = present ∧ vanishing_c0 →
+  unresolved-v1.1(C0-INCONSISTENT)— **この組合せは lane 表では L21-v2 に
+  落ちる**(矛盾は主張しない — fail-closed)。よって vanishing_chart_
+  context-v2 は boundary(interior_floor = absent)でのみ構成される。
+  bounded_chart_context-v2 は interior / boundary の両方で構成される。
+- **(N3)/(N4)**: §8.29 と同文 — 入力は face_approach_witness-v2.1(§8.32
+  (RS2-1) — 親 config ref のみ置換、ratio_branch / (α)(β)/ nogo の
+  constructor と証明は逐語)。(LF-6) の適用条件(rank-4・chart 枝・AT-2 非
+  exit)は boundary chart でも満たされる(§8.32 (RS2-1) の確認)。
+- **(N5)-v2**: carrier_witness-v2.vanish_flag は closed-world の none |
+  one_sided_checked | one_sided_unrouted(§8.31)、要素ごと exactly one、
+  部分列で安定(restrict_carrier_witness は v2 でも同文 — §8.32)。
+  one_sided_checked は**現状構成不能**(atlas outer routing の producer
+  不在 — ROUTE-PROD、§8.32 [R2-02][R3-01])— lane は型としては存在し、
+  到達可能性を主張しない。one_sided_unrouted → unresolved-v1.1(ROUTING-
+  PENDING)。none → n5_none_dispatch-v2(§8.32 [R2-03])の 3 分岐: 分岐
+  条件 (bounded_c0 ∧ present | bounded_c0 ∧ absent | order_drop) は (N2)
+  の branch provenance と interior_floor(present | absent — (N1′) で安定化
+  済み)から**決定的**に定まるので排他・網羅は型上成立。
+- **(N6)**: §8.27 (OS-1) 同文(到達は ROUTE-PROD 後)。
+- **(N7)/(N7′)**: §8.29 同文(fixed_geometry_witness-v1 の 4 field 検査は
+  lane に依らない)。
+- **(N8)/(N8′)**: (HA-2) の compact 二択、head_outcome-v1.1 で同文(§8.31
+  — (HA-*) は frame_input-v2.3 の ref 置換のみ)。
+- **順序と段階型**: (N1) → (N1′) → (N2) → {(N3) → (N4) → (N7) → (N8)} |
+  {(N3) bounded_below → (N5)} | {(N2) bounded_c0 → (N5)} → (N6) | (N7′) →
+  (N8′) | (N7) → (N8) — route_context-v2 の段階型で強制(§8.32 (RS2-0))。
+
+**(RC2-2) lane 表 v2(根から terminal まで省略なし)**: §8.29 の番号を
+保持し、v2 で変わる行に「-v2」、新規行は L22 以降。
+  L1-v2. (N1) lower_rank_exact(exact_drop_evidence-v1 — §8.30)→ ptn_lower_
+      face-v2.proven(two_children)かつ **checked_pair_identity-v2** →
+      **directly_absorbed**(absorb_via_t3a0-v1.2、g_identity = exact)。
+      `checked_pair_identity-v2 := (§8.29 (a-exact) の 4 evidence のうち
+       「剪定原子の係数が exact 0」を exact_drop_evidence-v1(step0 の exact
+       merge / prune ledger の値 0 — §8.30 lower_rank_exact の constructor
+       引数)の ref で充足し、two_children 検証・関数同一性 𝐁_n = 𝐁_r・
+       divisor 一致 D_n = D_r の 3 ref は §8.29 と同文で別途要求)` —
+      exact_drop_evidence-v1 は係数 0 の evidence のみを与え、後 3 者を
+      含意しない(fail-closed: 欠落 = L21-v2 REF-MISSING)。
+  L2. (N1) lower_rank_exact → ptn_lower_face-v2.nogo → nogo_to_detected-v1
+      成功 → **nogo**(同文)。
+  L4. (N1) exact_qr → **retract_exact_qr**(v1.2 では (ii′) により空 lane
+      — 非 countersequence 入力の型上の終端、同文)。
+  — interior bounded lane((N1′) interior → (N2) bounded_c0 → (N5)、
+  context = bounded_chart_context-v2(interior)) —
+  L5/L6. (N5) one_sided_checked → (N6) block_dominant → **directly_absorbed**
+      / inner_window → **t3b_handoff**(同文 — 到達は ROUTE-PROD 後)。
+  L7/L8/L9. (N5) none → (N7′) → no: **t3b_handoff** / yes: (N8′) head_good
+      → T2c floored(floor_input-v1 は to_carrier_v1 経由 — §8.32 (N8′))→
+      **t3c_handoff-v1.1**(floor_certificate-v1.1.fixed_chart_floor)/
+      head_overflow → **t2cov_handoff**(head_overflow_candidate-v1.1)。
+  L22. (N5) one_sided_unrouted → **unresolved-v1.1**(ROUTING-PENDING)。
+  — interior vanishing((N1′) interior → (N2) vanishing_c0) —
+  L23. c0_interior_consistency → **unresolved-v1.1**(C0-INCONSISTENT)。
+      §8.29 の L10–L20 は interior では**この行に吸収**される(v1 の chart
+      = interior であり、v1 では vanishing 側が型上生成可能だったが矛盾も
+      証明されていなかった — §8.32 [R2-04] の非主張と整合)。
+  — boundary bounded lane((N1′) boundary → (N2) bounded_c0 → (N5)、
+  context = bounded_chart_context-v2(boundary)) —
+  L24. (N5) one_sided_unrouted → **unresolved-v1.1**(ROUTING-PENDING)。
+      (one_sided_checked は boundary で型上構成不能 — §8.31。)
+  L25. (N5) none → (N7) no → **t3b_handoff**。
+  L26. (N5) none → (N7) yes → (N8) head_good → deep_flat_floor-v1.1
+      (cs_selector = bounded_boundary)→ **t3c_handoff-v1.1**(floor_
+      certificate-v1.1.deep_flat_floor)。
+  L27. (N5) none → (N7) yes → (N8) head_overflow → **t2cov_handoff**。
+  — boundary vanishing lane((N1′) boundary → (N2) vanishing_c0 → (N3)、
+  context = vanishing_chart_context-v2) —
+  L10-v2. (N3) vanishing → (N4) alpha_proven → **directly_absorbed**
+      (absorb_via_t3a0-v1.2 — (RC2-3)(b))。
+  L11. (N3) vanishing → (N4) beta_routed → (N7) no → **t3b_handoff**。
+  L12-v2. … → (N7) yes → (N8) head_good → deep_flat_floor-v1.1 →
+      **t3c_handoff-v1.1**(deep_flat_floor)。
+  L13. … → (N8) head_overflow → **t2cov_handoff**。
+  L14. (N3) vanishing → (N4) nogo → nogo_to_detected-v1 成功 → **nogo**。
+  — boundary order_drop lane((N3) bounded_below → (N5)、context =
+  vanishing_chart_context-v2 + restrict_carrier_witness) —
+  L16/L17. (N5) one_sided_checked → (N6) … (boundary では型上構成不能 —
+      **空 lane**、番号のみ保持)。
+  L28. (N5) one_sided_unrouted → **unresolved-v1.1**(ROUTING-PENDING)。
+  L18/L19-v2/L20. (N5) none → (N7) no: **t3b_handoff** / yes: (N8)
+      head_good → deep_flat_floor-v1.1 → **t3c_handoff-v1.1** / head_
+      overflow → **t2cov_handoff**。
+  L21-v2. **残差 lane**: T-v2 := {上記の通常 terminal} の補集合 =
+      unresolved-v1.1(not_proven-v1)、tag = unresolved_tag-v1.1 のうち
+      **LR-EXIT を除く**: NOGO-CONV-N1 | NOGO-CONV-N4 | CTX-MISSING |
+      REF-MISSING | ROUTING-PENDING(L22/L24/L28 — lane を持つが terminal
+      は unresolved)| C0-INCONSISTENT(L23)。**LR-EXIT の削除の根拠**: v2
+      の lower-rank exit は lower_rank_exact のみで、exact_drop_evidence-
+      v1 を constructor 引数に持つ(§8.30)。§8.29 L1 の (ii)「極限でのみ
+      one-component になる列」は v2 では **boundary chart**(flag = true)
+      として (N1′) → (N2) 以降へ流れ、L23–L28 / L10–L20 のいずれかに落ちる
+      (T-v2 の補集合に「lower_rank で checked_pair_identity なし」は
+      存在しない — checked_pair_identity-v2 の後 3 ref 欠落は REF-MISSING)。
+      ただし unresolved_tag-v1.1 の union から LR-EXIT を**削除はしない**
+      (v1.1 lane 表の tag として残る — 型の後方互換)。v2 lane 表で
+      LR-EXIT が付く record は構成されない、が主張。
+以上で全 lane が t3_gate-v1.2 の 7 terminal に落ちる ✓。(N8)/(N8′) の
+区別: L8/L9 のみ (N8′)、L12/L13/L19/L20/L26/L27 は (N8)。
+
+**(RC2-3) 違反度矛盾の導出(absorb_via_t3a0-v1.2)**: §8.29 (RC-3) の
+(0)(a-exact)(b)(c) を **逐語**で読む。差分は入力 ref の version のみ:
+(a-exact) の checked_pair_identity → checked_pair_identity-v2(上記 —
+係数 0 の evidence 源が exact_drop_evidence-v1 になるだけで、不等式
+R_n ŝ_n⁹ ≤ C_r/16 の導出は同文); (b) の alpha_proven ref は face_approach_
+witness-v2.1 の (α) evidence(親 config ref の version のみ差 — (LF-6) の
+同一 θ 列・同一窓 identity は同文); (c) は §8.27 (OS-2) 同文。**確認
+(主張)**: (RC-3) の導出が読む object は jf9_branch_ref・window_identity-
+v1・g_identity(checked_pair_identity-v2 | alpha_proven)・違反度 selector・
+block_dominant ref であり、atlas_witness-v1 の field と v1 exit tag を読ま
+ない(luna R-T3A5 R6 確認 — §8.32 受理記録)。∎
+
+**(RC2-4) nogo → detected**: nogo_to_detected-v1 は同文(実現族 evidence
+は atlas の version に依らない)。
+
+**(RC2-5) violation_sequence-v2.1.deep_flat の identity 組立**: §8.29
+(RC-5) の 8 field を一対一で、参照先の version のみ置換:
+  1. chart_context ref — (DF-0″) 制限済みの **(vanishing_chart_context-v2
+     | bounded_chart_context-v2(boundary))**。`restrict_deep_flat_refs-v1.1
+     := restrict_deep_flat_refs(§8.28 (DF-0″))の入力 context を上の union
+     に置換(field 単位の制限は同文 — 制限は各 ref の部分列制限であり
+     context の variant に依らない)`。内訳: 1a. θ 列 ref、1b. atlas 列
+     (chart_stabilization-v1 を atlas_witness-v2 列に適用 — (DF-0′) の
+     有限積は chart_label・χ・label 割当・cluster topology・gauge の列で、
+     v2 の追加 field degeneracy_metadata-v1 は安定化対象に**含めない**:
+     flag は (N1′) で既に安定化済み、D は index 集合で有限値なので鳩の巣
+     で安定化して chart_stabilization-v1.1 の追加座標とする)、
+     1c. **carrier_geometric-v1**(§8.31 geometric_view)、1d. **head_
+     outcome-v1.1**(head_good variant)。
+  2. cs_selector — vanishing_c0 | bounded_boundary(stabilized)。
+  3. **deep_flat_floor-v1.1**。
+  4. head_good ref — 1d と同一オブジェクト。
+  5. fixed_geometry_witness-v1 — 同文。
+  6. raw_restatement 検証 ref — 1c の carrier_geometric-v1 が持つ (BC-5)
+     検証 flag(§8.31 — (CC-6) の v2 対応物)。
+  7. 違反度 selector 制限 evidence — 2 の移送 evidence(同文)。
+  8. checked_same_provenance — (DF-0″)-v1.1 の再検証 ref。
+identity check の規約は同文。fixed_chart variant は (RS-3) 同文(interior
+のみ)、scale variant は T3b 出力待ち。∎
+
+**(RC2-6) 条件付き閉包 statement(v2)**: 任意の countersequence(v1.2)は
+L1-v2–L28 のいずれかの terminal に到達する部分列を持つ。
+- directly_absorbed(L1-v2, L10-v2; L5/L16 は ROUTE-PROD 後)— (RC2-3)
+  により当該部分列は存在し得ない。
+- retract_exact_qr(L4)— 空。
+- t3c_handoff-v1.1(L8: fixed_chart_floor; L12-v2, L19-v2, L26: deep_flat_
+  floor-v1.1)— T3c 義務(violation_sequence-v2.1 を読む)。
+- t2cov_handoff(L9, L13, L20, L27)— T2c-ov(head_overflow_candidate-v1.1)。
+- t3b_handoff(L6, L7, L11, L17, L18, L25)— T3b。
+- nogo(L2, L14)。
+- unresolved-v1.1(L21-v2, L22, L23, L24, L28)— 作業状態。**構造的 open
+  lane**: ROUTING-PENDING(L22/L24/L28 — ROUTE-PROD)、C0-INCONSISTENT
+  (L23 — interior_floor の c₀ witness と config-level c₀ の座標同一性の
+  ref 検証が入れば型上空になる候補、現状は非主張)。
+閉包 statement は §8.29 (RC-6) と同形(T3c・T3b・T2c-ov が各 handoff lane
+で矛盾を導き、かつ nogo / unresolved が生じなければ C₂₂ が存在する)。
+本 packet は「条件」の lane 表を v2 で固定するのみ。∎
+
+**(RC2-7) 出力契約**: `route_closure-v2`(§8.32 [R5-01] の型)の各 field
+:= (入力型 ptn22_countersequence-v1.2 の検証 ref, lane 表 (RC2-2)(L1-v2
+–L28、廃番・空 lane 込み)と terminal 割当、L21-v2 の tag 一覧, absorb_via_
+t3a0-v1.2 / t3_gate-v1.2 / window_identity-v1 / checked_pair_identity-v2 の
+定義 ref, node 排他・網羅 evidence (RC2-1), 矛盾導出 ref (RC2-3), nogo_to_
+detected-v1 定義 ref, deep_flat 組立 identity check ref (RC2-5), 条件付き
+閉包 statement (RC2-6) — open lane: t3c_handoff-v1.1(T3c)、t3b_handoff
+(T3b)、t2cov_handoff(T2c-ov)、ROUTING-PENDING(ROUTE-PROD)、C0-
+INCONSISTENT, checked_same_provenance)。remez_ready-v1.2 の「全 route
+closure ref」はこの record を指す(一方向)。
+
+**scope(非主張)**: C₂₂ の存在、T3b・T3c・T2c-ov の本体、ROUTE-PROD、
+c₀ 座標同一性、L5/L6/L16/L17 の到達可能性、有効定数、人間による査読は
+未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -6277,6 +6482,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.113(2026-09-03): **§8.33 GC-5-T3a-6 ROUTE-CLOSE-v2 起草** —
+  (RC2-1) v2 node の排他・網羅((N1′) interior/boundary、c0_interior_
+  consistency、(N5)-v2 の 3 値 flag と n5_none_dispatch-v2)、(RC2-2) lane
+  表 v2(L1-v2 の checked_pair_identity-v2、L22–L28 新設、L23 interior
+  vanishing の吸収、L21-v2 と LR-EXIT 削除の根拠)、(RC2-3) absorb_via_
+  t3a0-v1.2 の逐語導出、(RC2-5) v2.1 identity 組立(restrict_deep_flat_
+  refs-v1.1、chart_stabilization-v1.1)、(RC2-6)(RC2-7) route_closure-v2。
 
 - v0.29.112(2026-09-03): **§8.32 GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC 受理**
   (luna fixed-SHA `d632026` R-T3A5 R6、6R)— 受理記録・主張の範囲を追記、
