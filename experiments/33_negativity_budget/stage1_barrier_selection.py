@@ -19,7 +19,9 @@ Stage1CandidateSetup = _setup.Stage1CandidateSetup
 Stage1CandidateRun = _runner.Stage1CandidateRun
 
 
-BARRIER_WEIGHT_CANDIDATES = (0.0, 0.1, 1.0, 10.0, 100.0, 1000.0)
+BARRIER_WEIGHT_CANDIDATES = (0.0,) + tuple(
+    10.0**exponent for exponent in range(-1, 13)
+)
 
 
 class Stage1BarrierSelectionStatus(str, Enum):
@@ -197,28 +199,48 @@ def _terminal_grid_diagnostics(
     return _summarize_grid_densities(densities())
 
 
-def _admissible_weights(
+def _attempted_weights(
     assessments: tuple[Stage1BarrierAssessment, ...],
     setup_count: int,
 ) -> tuple[float, ...]:
-    expected_indices = set(range(setup_count))
-    admissible = []
-    for weight in BARRIER_WEIGHT_CANDIDATES:
-        rows = [row for row in assessments if row.barrier_weight == weight]
-        if len(rows) != setup_count:
-            raise RuntimeError("barrier assessment matrix is incomplete")
-        if {row.setup_index for row in rows} != expected_indices:
-            raise RuntimeError("barrier assessment setup coverage differs by weight")
-        if all(row.admissible for row in rows):
-            admissible.append(weight)
-    for setup_index in expected_indices:
+    if len(assessments) % setup_count != 0:
+        raise ValueError("assessment count is not a whole-weight prefix")
+    attempted_count = len(assessments) // setup_count
+    if not 2 <= attempted_count <= len(BARRIER_WEIGHT_CANDIDATES):
+        raise ValueError("assessment count is not a valid attempted prefix")
+    attempted = BARRIER_WEIGHT_CANDIDATES[:attempted_count]
+    expected_order = [
+        (setup_index, weight)
+        for weight in attempted
+        for setup_index in range(setup_count)
+    ]
+    observed_order = [
+        (row.setup_index, row.barrier_weight) for row in assessments
+    ]
+    if observed_order != expected_order:
+        raise ValueError("assessment order differs from the attempted prefix")
+    for setup_index in range(setup_count):
         identity = {
             (row.beta, row.seed)
             for row in assessments
             if row.setup_index == setup_index
         }
         if len(identity) != 1:
-            raise RuntimeError("barrier assessment setup identity differs by weight")
+            raise ValueError("barrier assessment setup identity differs by weight")
+    return attempted
+
+
+def _admissible_weights(
+    assessments: tuple[Stage1BarrierAssessment, ...],
+    setup_count: int,
+) -> tuple[float, ...]:
+    attempted = _attempted_weights(assessments, setup_count)
+    admissible = []
+    for weight_index, weight in enumerate(attempted):
+        start = weight_index * setup_count
+        rows = assessments[start : start + setup_count]
+        if all(row.admissible for row in rows):
+            admissible.append(weight)
     return tuple(admissible)
 
 
@@ -258,21 +280,19 @@ class Stage1BarrierSelection:
             for row in assessments
         ):
             raise TypeError("assessments must contain Stage1BarrierAssessment")
-        expected_count = int(self.setup_count) * len(BARRIER_WEIGHT_CANDIDATES)
-        if len(assessments) != expected_count:
-            raise ValueError("assessment count differs from the declared matrix")
-        expected_order = [
-            (setup_index, weight)
-            for setup_index in range(int(self.setup_count))
-            for weight in BARRIER_WEIGHT_CANDIDATES
-        ]
-        observed_order = [
-            (row.setup_index, row.barrier_weight) for row in assessments
-        ]
-        if observed_order != expected_order:
-            raise ValueError("assessment order differs from the declared matrix")
+        attempted = _attempted_weights(assessments, int(self.setup_count))
         admissible = _admissible_weights(assessments, int(self.setup_count))
         expected_selected = _selected_weight(admissible)
+        if expected_selected is None:
+            if attempted != BARRIER_WEIGHT_CANDIDATES:
+                raise ValueError("assessment prefix stopped before a verdict")
+        else:
+            selected_index = BARRIER_WEIGHT_CANDIDATES.index(expected_selected)
+            expected_prefix = BARRIER_WEIGHT_CANDIDATES[: selected_index + 2]
+            if attempted != expected_prefix:
+                raise ValueError(
+                    "assessment prefix did not stop at the first stable pair"
+                )
         expected_status = (
             Stage1BarrierSelectionStatus.SELECTED
             if expected_selected is not None
@@ -298,9 +318,13 @@ class Stage1BarrierSelection:
     def admissible_weights(self) -> tuple[float, ...]:
         return _admissible_weights(self.assessments, self.setup_count)
 
+    @property
+    def attempted_weights(self) -> tuple[float, ...]:
+        return _attempted_weights(self.assessments, self.setup_count)
+
 
 def run_stage1_barrier_selection(setups) -> Stage1BarrierSelection:
-    """Run every declared weight and select one global train-only value."""
+    """Run the declared prefix and select one global train-only value."""
     setups = tuple(setups)
     if not setups:
         raise ValueError("barrier selection requires at least one setup")
@@ -312,12 +336,16 @@ def run_stage1_barrier_selection(setups) -> Stage1BarrierSelection:
         raise ValueError("each setup object may appear only once")
 
     assessments = []
-    for setup_index, setup in enumerate(setups):
-        for barrier_weight in BARRIER_WEIGHT_CANDIDATES:
+    selected = None
+    previous_weight = None
+    previous_admissible = False
+    for barrier_weight in BARRIER_WEIGHT_CANDIDATES:
+        weight_assessments = []
+        for setup_index, setup in enumerate(setups):
             run = _runner.run_stage1_candidate(setup, barrier_weight)
             if not isinstance(run, Stage1CandidateRun):
                 raise TypeError("candidate runner returned an invalid result")
-            assessments.append(
+            weight_assessments.append(
                 Stage1BarrierAssessment(
                     setup_index=setup_index,
                     beta=setup.beta,
@@ -327,9 +355,16 @@ def run_stage1_barrier_selection(setups) -> Stage1BarrierSelection:
                     grid=_terminal_grid_diagnostics(setup, run),
                 )
             )
+        assessments.extend(weight_assessments)
+        current_admissible = all(
+            assessment.admissible for assessment in weight_assessments
+        )
+        if previous_admissible and current_admissible:
+            selected = previous_weight
+            break
+        previous_weight = barrier_weight
+        previous_admissible = current_admissible
     assessments = tuple(assessments)
-    admissible = _admissible_weights(assessments, len(setups))
-    selected = _selected_weight(admissible)
     status = (
         Stage1BarrierSelectionStatus.SELECTED
         if selected is not None

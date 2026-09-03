@@ -21,6 +21,7 @@ adam_module = import_module(
 runner_module = import_module(
     "experiments.33_negativity_budget.stage1_runner"
 )
+packet2 = import_module("experiments.33_negativity_budget.packet2")
 selection = import_module(
     "experiments.33_negativity_budget.stage1_barrier_selection"
 )
@@ -98,7 +99,7 @@ def _diagnostic(admissible):
     )
 
 
-def test_declared_ladder_runs_every_cell_and_selects_first_global_pair(
+def test_declared_ladder_stops_at_first_global_pair_in_weight_major_order(
     monkeypatch,
 ):
     assert selection.BARRIER_WEIGHT_CANDIDATES == (
@@ -107,7 +108,16 @@ def test_declared_ladder_runs_every_cell_and_selects_first_global_pair(
         1.0,
         10.0,
         100.0,
-        1000.0,
+        1_000.0,
+        10_000.0,
+        100_000.0,
+        1_000_000.0,
+        10_000_000.0,
+        100_000_000.0,
+        1_000_000_000.0,
+        10_000_000_000.0,
+        100_000_000_000.0,
+        1_000_000_000_000.0,
     )
     setups = (_setup(seed=0), _setup(seed=1, offset=0.2))
     calls = []
@@ -133,15 +143,15 @@ def test_declared_ladder_runs_every_cell_and_selects_first_global_pair(
     )
 
     result = selection.run_stage1_barrier_selection(setups)
-    assert len(calls) == len(setups) * len(selection.BARRIER_WEIGHT_CANDIDATES)
-    for setup in setups:
-        assert [weight for seen, weight in calls if seen is setup] == list(
-            selection.BARRIER_WEIGHT_CANDIDATES
-        )
+    expected_weights = (0.0, 0.1, 1.0, 10.0)
+    assert calls == [
+        (setup, weight) for weight in expected_weights for setup in setups
+    ]
+    assert result.attempted_weights == expected_weights
     assert result.admissible_weights == (1.0, 10.0)
     assert result.status is selection.Stage1BarrierSelectionStatus.SELECTED
     assert result.selected_weight == 1.0
-    assert len(result.assessments) == 12
+    assert len(result.assessments) == 8
 
 
 def test_isolated_admissible_weights_return_no_selection(monkeypatch):
@@ -162,6 +172,7 @@ def test_isolated_admissible_weights_return_no_selection(monkeypatch):
 
     result = selection.run_stage1_barrier_selection([setup])
     assert result.admissible_weights == (0.1, 10.0, 1000.0)
+    assert result.attempted_weights == selection.BARRIER_WEIGHT_CANDIDATES
     assert (
         result.status
         is selection.Stage1BarrierSelectionStatus.NO_STABLE_ADMISSIBLE_PAIR
@@ -177,7 +188,7 @@ def test_numerical_stop_is_not_admissible_even_when_grid_is_positive(
     def fake_run(setup, weight):
         status = (
             runner_module.Stage1RunStatus.NO_FEASIBLE_STEP
-            if weight == 1.0
+            if weight == 0.1
             else runner_module.Stage1RunStatus.COMPLETED
         )
         return _run(setup, weight, status=status)
@@ -190,8 +201,9 @@ def test_numerical_stop_is_not_admissible_even_when_grid_is_positive(
     )
 
     result = selection.run_stage1_barrier_selection([setup])
-    assert 1.0 not in result.admissible_weights
-    assert result.selected_weight == 0.0
+    assert 0.1 not in result.admissible_weights
+    assert result.attempted_weights == (0.0, 0.1, 1.0, 10.0)
+    assert result.selected_weight == 1.0
 
 
 def test_grid_diagnostics_count_strict_and_nonfinite_failures_separately():
@@ -251,6 +263,32 @@ def test_terminal_grid_diagnostic_rejects_wrong_pdf_shape(monkeypatch):
     )
     with pytest.raises(ValueError, match="invalid shape"):
         selection._terminal_grid_diagnostics(setup, run)
+
+
+def test_terminal_grid_diagnostic_uses_real_fixed_beta_model():
+    setup = _setup()
+    run = _run(setup, 0.1)
+
+    model = setup.parameterization.unpack(run.state.parameters)
+    assert isinstance(model, packet2.FixedBetaDifferenceModel)
+    grid = selection._terminal_grid_diagnostics(setup, run)
+    expected = selection._summarize_grid_densities(
+        model.pdf(X, theta, run.terminal_evaluation.eta)
+        for theta, X in setup.grid_groups
+    )
+
+    assert grid == expected
+    assert grid.point_count == sum(len(X) for _theta, X in setup.grid_groups)
+    assert grid.strictly_positive
+    assert (
+        packet2._dense_grid_barrier_value(
+            setup.parameterization,
+            run.state.parameters,
+            setup.grid_groups,
+            run.terminal_evaluation.eta,
+        )
+        == 0.0
+    )
 
 
 @pytest.mark.parametrize(
@@ -345,6 +383,37 @@ def test_selection_verdict_cannot_be_replaced_independently_of_data(
         )
     with pytest.raises(ValueError, match="order"):
         replace(result, assessments=tuple(reversed(result.assessments)))
+
+
+def test_result_rejects_incomplete_or_overrun_assessment_prefix(monkeypatch):
+    setup = _setup()
+    monkeypatch.setattr(
+        runner_module,
+        "run_stage1_candidate",
+        lambda setup, weight: _run(setup, weight),
+    )
+    monkeypatch.setattr(
+        selection,
+        "_terminal_grid_diagnostics",
+        lambda _setup, _run: _diagnostic(False),
+    )
+    no_pair = selection.run_stage1_barrier_selection([setup])
+    with pytest.raises(ValueError, match="before a verdict"):
+        replace(no_pair, assessments=no_pair.assessments[:2])
+
+    monkeypatch.setattr(
+        selection,
+        "_terminal_grid_diagnostics",
+        lambda _setup, _run: _diagnostic(True),
+    )
+    selected = selection.run_stage1_barrier_selection([setup])
+    extra = replace(
+        selected.assessments[-1],
+        barrier_weight=selection.BARRIER_WEIGHT_CANDIDATES[2],
+        run=_run(setup, selection.BARRIER_WEIGHT_CANDIDATES[2]),
+    )
+    with pytest.raises(ValueError, match="first stable pair"):
+        replace(selected, assessments=selected.assessments + (extra,))
 
 
 def test_train_nll_and_eta_do_not_select_the_weight(monkeypatch):

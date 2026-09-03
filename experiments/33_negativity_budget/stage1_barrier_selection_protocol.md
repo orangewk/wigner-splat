@@ -17,7 +17,7 @@ locationとする。objectiveと単一candidate runは既存protocolを参照し
 
 | 項目 | 固定値 / 意味 |
 | --- | --- |
-| 候補lambda | `0, 0.1, 1, 10, 100, 1000`（昇順、全点を実行） |
+| 候補lambda | `0`と`10^k (k = -1, ..., 12)`（昇順） |
 | 入力 | `beta > 0`のtrain-only `Stage1CandidateSetup`列 |
 | schedule | 各setup・各lambdaで既存の100 accepted-step runner |
 | 共有範囲 | 入力された全cellに一つのglobal lambda |
@@ -26,8 +26,10 @@ locationとする。objectiveと単一candidate runは既存protocolを参照し
 selectorは同じsetup objectを全lambdaで再利用し、lambdaごとの再初期化やdata差し替えを
 許さない。入力setup objectの重複は拒否する。
 
-候補範囲をデータ閲覧後に拡張しない。選択不能ならtestを読まず、新しいreviewed protocolを
-発行する。
+各lambdaについて入力された全setupを入力順に実行してから次のlambdaへ進む。最初の隣接
+global-admissible pairが揃った時点で停止し、それより大きい候補は実行しない。候補範囲を
+データ閲覧後に拡張しない。`10^12`までに選択不能ならtestを読まず、新しいreviewed
+protocolを発行する。
 
 ## 2. terminal grid diagnostic
 
@@ -54,7 +56,7 @@ nonpositive点とnonfinite点がともに0であること。lambda全体のadmis
 一桁強い係数、下端`0`では最初の正のcontrolに相当する。
 
 例: `1`と`10`が最初のadmissible pairなら選択値は`1`。単独でadmissibleな候補や、最後の
-`1000`だけがadmissibleな場合は選ばない。該当pairがなければstatus
+`10^12`だけがadmissibleな場合は選ばない。該当pairがなければstatus
 `no_stable_admissible_pair`、selected weightは`None`とし、test評価前に停止する。
 
 train NLLとetaは診断として残すが選択条件に使わない。係数をfitの良さへ合わせず、completion
@@ -62,21 +64,27 @@ train NLLとetaは診断として残すが選択条件に使わない。係数�
 
 ## 4. result interface
 
-`Stage1BarrierSelection`は全assessment、status、selected weightを返す。各assessmentはsetupの
-入力順、beta、init seed、lambda、candidate run、grid点数、invalid点数、最小densityを持つ。
-admissibilityとglobal-admissible weightsは保存boolでなく保持dataから計算する。
+`Stage1BarrierSelection`は実行済みprefixの全assessment、status、selected weightを返す。
+assessment順はlambda昇順、その中でsetup入力順とする。各assessmentはsetupの入力順、beta、
+init seed、lambda、candidate run、grid点数、invalid点数、最小densityを持つ。attempted weights、
+admissibility、global-admissible weightsは保存値でなく保持dataから計算する。
+
+現行`Stage1CandidateRun`はbarrier weightを保持しないため、外部から直接組み立てたassessmentの
+runとlambdaの結び付きを型だけでは証明できない。本packetで正当なresultは
+`run_stage1_barrier_selection`が生成したものに限る。runner interfaceへこの結び付きを追加する
+別packetが固定SHA reviewを通るまで、assessmentをartifactへ渡さない。
 
 resultはin-memory recordであり、artifact schema、test metric、invalid-rate verdict、Stage 2
 beta点、解釈文を持たない。
 
 ## 5. gates
 
-1. 候補列が固定6点で、全setupに対して全点を実行する。
+1. 候補列が固定15点で、各候補について全setupを実行し、最初のstable pairで停止する。
 2. 同一setup objectを候補間で再利用し、空入力・`beta = 0`・object重複を拒否する。
 3. nonpositiveとnonfinite densityを別々に数え、strict positivityだけをadmissibleにする。
 4. numerical stopはgridが正でもadmissibleにしない。
 5. 全cellに共通する最初の隣接admissible pairの下端だけを選ぶ。
-6. 孤立点またはpairなしではselected weightを返さない。
+6. 孤立点または`10^12`までpairなしではselected weightを返さない。
 7. resultへtest data、artifact、Stage 2選択、科学的verdictが混入しない。
 
 ## 6. implementation choice
