@@ -188,7 +188,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
-| GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | open(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
+| GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **drafted(§8.27、査読待ち R-T3A2 R1)**(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor interface(T2c 床の c₀→0 使用は循環 — 新規床)・overflow handoff | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
@@ -4589,6 +4589,103 @@ t2cov_handoff, t3b_handoff} のいずれかに落ちることは **T3a-4 ROUTE-C
 (T3a-2)、deep_flat_floor(T3a-3)、scale_floor(T3b)、Remez 合成と C₂₂
 (T3c)、人間による査読は未実施。
 
+### 8.27 GC-5-T3a-2 ONE-SIDED-INNER(one_sided routing の証明 — drafted、査読対象 R-T3A2 R1)
+
+**目的**: consult #20 (i) の one_sided 独立 routing(§8.26 (N6)
+one_sided_route-v1)を証明する。**主張は 2 つ**: (OS-2) block_dominant の
+吸収(定数 3.2)と (OS-3) inner_window の局在補題(窓の縮小と中心の
+生存成分零点への収束)。他は型接続(OS-0/OS-4/OS-5)。
+
+**(OS-0) one_sided の到達性と (N3) order_drop からの接続**:
+- (a) 到達性の注記(主張ではなく整合確認): consult #20 反例 — CONF_i(d₀)
+  の合流成分 C₂ = c(e^{q_a} − e^{q_b}) は Newton frame {e^{q_a},
+  (e^{q_b} − e^{q_a})/t} の係数 (0, −ct) を持ち ‖C₂‖_ℱ ≍ |c|t → 0 —
+  固定 K_χ(c₀) 内で vanish_flag = one_sided は到達可能で、(CC-4)(CC-7) が
+  この variant を明示的に許容することと整合。よって one_sided は c₀ 境界
+  から独立した routing である。
+- (b) order_drop 接続の型充足: (N3) bounded_below ⟹ (§8.25) child 2 の
+  全係数 → 0。原子の ℱ-norm は箱上で両側有界((B3-3))なので
+  ‖B̂_{2,n}‖_ℱ ≤ Σ_{a ∈ child 2}|ĉ_a|‖e^{q̂_a}‖_ℱ ≤ C_atom·Σ|ĉ_a| → 0 —
+  消滅側成分の norm 極限 evidence が構成でき、(CC-7) の one_sided
+  constructor の第 2 field「atlas outer routing との一致検証」は
+  chart_context の atlas witness で検査する(**不一致なら constructor
+  不成立 ⟹ not_proven-v1 → unresolved** — fail-closed。一致の証明は本
+  packet の主張外)。
+
+**(OS-1) S 上の二分法(各 n で exact・total)**: H_n := B̂_{1,n}/B̂_{2,n} は
+(F2²-2) により ℂP¹ 値の連続関数(B₂ のみの零点で ∞、B₁ のみの零点で 0、
+共通零点で projective jet 値 [a_k : b_k])。各 n について
+  **block_dominant**: ∃t* ∈ S_n: max(|H_n(t*)|, 1/|H_n(t*)|) ≥ e(H = 0, ∞
+  は max = ∞ ≥ e でこちら)/ **inner_window**: ∀t ∈ S_n: e^{−1} ≤ |H_n(t)|
+  ≤ e
+のちょうど一方(補集合関係 — 第 2 は第 1 の否定そのもの)。countersequence
+の部分列は鳩の巣により一方が全 n で成立する部分列を持つ(cs_selector-v1
+で選択、違反度・provenance を移送)。
+
+**(OS-2) block_dominant の吸収**: (F2²-3)(a) 逐語 — t* で g_n(t*) =
+|1 + H|/max(1, |H|) ≥ 1 − 1/e ≥ 0.63(WLOG |H(t*)| ≥ e、対称性 G(w) =
+G(1/w))、天井 g ≤ 2 より **‖g_n‖_{W_n} ≤ 2 ≤ 3.2‖g_n‖_{S_n}**、すなわち
+R_n ≤ 3.2。countersequence の正規化違反度 R_n(s_n/L_{C,n})⁹ → ∞ と
+(s_n/L_{C,n})⁹ ≤ 2⁻⁹ から R_n → ∞ — **矛盾**。よって block_dominant の
+部分列は countersequence に含まれ得ない: 終端 `directly_absorbed
+(block_dominant(t*, side, evidence, C = 3.2))`(この矛盾導出は 1 行なので
+本 packet で閉じ、T3a-4 は集約のみ)。∎
+
+**(OS-3a) 補題(成分の raw strong 極限 — Gram 床なし)**: chart 枝の
+config 列で、各成分 i の frame を (CC-2) のとおり取る(単一原子 /
+分離対 / (B3-4a) Newton frame — 引き戻しは (CC-6b))。係数単位球上の
+原子係数 ĉ に対し frame 係数 b_i は**常に有界**: 単一原子 b = ĉ_a、分離対
+b = (ĉ_a, ĉ_b)、Newton 対 b = (ĉ_a + ĉ_b, ĉ_b t)(|t| ≤ t₀)— いずれも
+|b| ≤ 2。frame は部分列で ℱ-strong 収束((CC-2)/(B3-4a))し、b_n → b_*
+(有界列の部分列)なので **B̂_{i,n} = Σ_ℓ b_{ℓ,n} w_{ℓ,n} → Σ b_{ℓ,*}w_{ℓ,*}
+=: B̂_{i,*} strong** ✓ — **Gram 床(c₀)は不要**(Gram 床は極限 frame の
+独立性・一様可逆性に要るもので、strong 極限の存在には有界係数と frame
+の strong 収束で足りる)。よって vanishing_c0 側(order_drop 経由)でも
+適用可能。norm は strong 収束で保存: ‖B̂_{i,*}‖ = lim ‖B̂_{i,n}‖。∎
+
+**(OS-3) inner_window 局在補題**: 仮定: chart 枝、carrier_witness-v1 の
+vanish_flag = one_sided(side = 2 — ‖B̂_{2,n}‖_ℱ → 0、‖B̂_{1,n}‖_ℱ → 1 —
+raw 正規化 ‖𝐁̂_n‖_⊕ = 1 と U_n のユニタリ性により raw/gauge の norm は
+一致)、部分列上 inner_window(∀t ∈ S_n: e^{−1} ≤ |H_n(t)| ≤ e)、窓
+S_n ⊂ W_n ⊂ W̄(chart の compact 域 — §8.23 (FL22-2) と同じ)。
+**結論**: (i) **s_n → 0**; (ii) 任意の t_n ∈ S_n(特に中心 t_{c,n})は
+部分列で t_* ∈ W̄ に収束し、**B̂_{1,*}(t_*) = 0**(t_* は生存成分の raw
+strong 極限の零点); (iii) S_n ⊂ B(t_*, s_n + |t_{c,n} − t_*|) → {t_*}
+(窓は生存成分の零点へ縮む)。
+**証明**: (OS-3a) で部分列上 B̂_{1,n} → B̂_{1,*} strong、‖B̂_{1,*}‖ = 1
+(≢ 0)。RKHS 評価(sup_{W̄}|f| ≤ C_R‖f‖_ℱ)より W̄ 上 B̂_{2,n} → 0 一様、
+B̂_{1,n} → B̂_{1,*} 一様。inner_window より S_n 上 |B̂_{1,n}| ≤ e|B̂_{2,n}|
+≤ e C_R‖B̂_{2,n}‖ → 0 **一様**。(i): s_n ≥ s_* > 0 の部分列があれば
+S_n → S_*(Hausdorff、compact)で |S_*| ≥ s_*; t ∈ S_*° に対し t_n ∈ S_n、
+t_n → t を取ると |B̂_{1,*}(t)| ≤ |B̂_{1,*}(t) − B̂_{1,n}(t_n)| + |B̂_{1,n}(t_n)|
+→ 0(一様収束 + 連続性)⟹ B̂_{1,*} ≡ 0 on S_* ⟹ 一致定理で ≡ 0 ⟹
+‖B̂_{1,*}‖ = 0 ≠ 1 — 矛盾。(ii): t_n ∈ W̄ compact → t_*、|B̂_{1,*}(t_*)| =
+lim |B̂_{1,n}(t_n)| = 0 ✓。(iii) は (i)(ii) から。∎
+**注記**: 「one_sided なら g → 1 で自明」は偽(consult #20)— inner_window
+では両成分が S_n 上で同程度に小さく、g は projective inner 領域の値を取る。
+これは (PS-5) の inner chart(t_* での rescaling)の対象 = **T3b** の
+zero/bubble rescaling 入力。
+
+**(OS-4) T3b handoff の構成**: inner_window 枝で
+  `t3b_handoff-v1(失敗 field := {s_n → 0 — fixed_geometry_witness-v1 の
+   s_n ≥ s_* が構成不能}, countersequence 部分列 ref)` を §8.26 (N7) の
+  規約どおり構成し、追加 evidence として `inner_window_record-v1 :=
+  (side, comparability evidence(e^{−1} ≤ |H_n| ≤ e on S_n の検証 ref),
+  s_n → 0 evidence((OS-3)(i)), 中心収束 t_{c,n} → t_* と B̂_{1,*}(t_*) = 0
+  の evidence((OS-3)(ii)、strong 極限 ref((OS-3a))), (PS-5) inner chart
+  ref(t_* での outer/inner 2 枚 — 極限 pair は (B̂_{1,*}, 0) の退化型で
+  ある旨の flag), cs_selector-v1, checked_same_provenance)` を付す。
+
+**(OS-5) 出力契約**: §8.26 (N6) の one_sided_route-v1 を実現:
+  `block_dominant(t*, side, evidence, C = 3.2, directly_absorbed 記録
+  ((OS-2)))| inner_window(inner_window_record-v1, t3b_handoff-v1)`
++ (OS-0)(b) の `one_sided_evidence(norm 極限 ref, atlas 一致検証 ref |
+not_proven-v1)`。fail-closed(field 欠落 = constructor 不成立)。
+
+**scope(非主張)**: T3b の inner 解析(t_* 周りの rescaling と床)、
+(OS-0)(b) の atlas 一致の証明、c₀ → 0 側 one_sided metadata の消費、
+有効値、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -4628,6 +4725,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.65(2026-09-03): **§8.27 GC-5-T3a-2 ONE-SIDED-INNER 起草** — (OS-0)
+  到達性注記と order_drop → one_sided evidence(atlas 一致検証は
+  fail-closed)、(OS-1) S 上の exact 二分法、(OS-2) block_dominant の吸収
+  ((F2²-3)(a) + 正規化違反度 → ∞ との 1 行矛盾)、(OS-3a) Gram 床なしの
+  成分 raw strong 極限補題(frame 係数の有界性)、(OS-3) inner_window
+  局在補題(s_n → 0、中心 → 生存成分の零点、一致定理)、(OS-4)
+  inner_window_record-v1 と t3b_handoff、(OS-5) 出力契約。
 
 - v0.29.64(2026-09-03): **GC-5-T3a-1 PTN22-ROUTE-SPEC accepted**(R-T3A1
   R6、受理 SHA `6557d6b`、全 6 ラウンド — 全て型配管: route_context /
