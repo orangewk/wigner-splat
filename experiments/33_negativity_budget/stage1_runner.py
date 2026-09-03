@@ -12,6 +12,7 @@ import numpy as np
 _objective = import_module(
     "experiments.33_negativity_budget.stage1_objective"
 )
+_fixed = import_module("experiments.33_negativity_budget.fixed_beta")
 _adam = import_module(
     "experiments.33_negativity_budget.stage1_adam_step"
 )
@@ -67,6 +68,7 @@ def _validate_evaluation(
 @dataclass(frozen=True)
 class Stage1CandidateRun:
     status: Stage1RunStatus
+    barrier_weight: float
     state: Stage1AdamState
     initial_evaluation: Stage1ObjectiveEvaluation
     terminal_evaluation: Stage1ObjectiveEvaluation
@@ -78,6 +80,11 @@ class Stage1CandidateRun:
     def __post_init__(self) -> None:
         if not isinstance(self.status, Stage1RunStatus):
             raise TypeError("status must be a Stage1RunStatus")
+        barrier_weight = _fixed._as_loss_scalar(
+            self.barrier_weight, "barrier_weight"
+        )
+        if barrier_weight < 0.0:
+            raise ValueError("barrier_weight must be nonnegative")
         if not isinstance(self.state, Stage1AdamState):
             raise TypeError("state must be a Stage1AdamState")
         if not isinstance(self.initial_evaluation, Stage1ObjectiveEvaluation):
@@ -137,6 +144,7 @@ class Stage1CandidateRun:
             if not np.isfinite(min_eta_fd_step) or min_eta_fd_step <= 0.0:
                 raise ValueError("min_eta_fd_step must be finite and positive")
 
+        object.__setattr__(self, "barrier_weight", barrier_weight)
         object.__setattr__(self, "backtracked_steps", backtracked_steps)
         object.__setattr__(self, "total_backtracks", total_backtracks)
         object.__setattr__(self, "max_backtracks_used", max_backtracks_used)
@@ -145,6 +153,7 @@ class Stage1CandidateRun:
 
 def _run_result(
     status: Stage1RunStatus,
+    barrier_weight: float,
     state: Stage1AdamState,
     initial_evaluation: Stage1ObjectiveEvaluation,
     terminal_evaluation: Stage1ObjectiveEvaluation,
@@ -155,6 +164,7 @@ def _run_result(
 ) -> Stage1CandidateRun:
     return Stage1CandidateRun(
         status=status,
+        barrier_weight=barrier_weight,
         state=state,
         initial_evaluation=initial_evaluation,
         terminal_evaluation=terminal_evaluation,
@@ -224,6 +234,7 @@ def run_stage1_candidate(
 
     return _run_result(
         status=status,
+        barrier_weight=objective.barrier_weight,
         state=state,
         initial_evaluation=initial_evaluation,
         terminal_evaluation=terminal_evaluation,

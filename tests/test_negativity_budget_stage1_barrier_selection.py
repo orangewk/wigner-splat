@@ -80,6 +80,7 @@ def _run(
     )
     return runner_module.Stage1CandidateRun(
         status=status,
+        barrier_weight=weight,
         state=state,
         initial_evaluation=initial_evaluation,
         terminal_evaluation=terminal_evaluation,
@@ -414,6 +415,27 @@ def test_result_rejects_incomplete_or_overrun_assessment_prefix(monkeypatch):
     )
     with pytest.raises(ValueError, match="first stable pair"):
         replace(selected, assessments=selected.assessments + (extra,))
+
+
+def test_assessment_rejects_run_from_a_different_weight(monkeypatch):
+    setup = _setup()
+    monkeypatch.setattr(
+        runner_module,
+        "run_stage1_candidate",
+        lambda setup, weight: _run(setup, weight),
+    )
+    monkeypatch.setattr(
+        selection,
+        "_terminal_grid_diagnostics",
+        lambda _setup, _run: _diagnostic(True),
+    )
+    result = selection.run_stage1_barrier_selection([setup])
+
+    with pytest.raises(ValueError, match="differs from assessment"):
+        replace(
+            result.assessments[0],
+            run=_run(setup, selection.BARRIER_WEIGHT_CANDIDATES[1]),
+        )
 
 
 def test_train_nll_and_eta_do_not_select_the_weight(monkeypatch):

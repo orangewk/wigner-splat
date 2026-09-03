@@ -50,14 +50,15 @@ candidate失敗へ偽装しない。
 
 ## 4. result interface
 
-`Stage1CandidateRun` はstatus、最後にcommit済みのimmutable Adam state、initial/terminal
-objective evaluation、accepted stepだけのbacktrack集計、accepted stepで使った最小eta
-finite-difference stepを返す。完了iteration数はstateの `iteration` を唯一の正本とし、別fieldへ
-複製しない。evaluation scalarはfinite、barrierは非負、etaはstateと一致することをresult境界で
-検査する。
+`Stage1CandidateRun` はstatus、呼出し時のbarrier weight、最後にcommit済みのimmutable Adam
+state、initial/terminal objective evaluation、accepted stepだけのbacktrack集計、accepted stepで
+使った最小eta finite-difference stepを返す。barrier weightは後続処理がrunと係数の対応を検査する
+ためのprovenanceであり、real・finite・nonnegativeをresult境界で検査する。完了iteration数は
+stateの `iteration` を唯一の正本とし、別fieldへ複製しない。evaluation scalarはfinite、barrierは
+非負、etaはstateと一致することをresult境界で検査する。
 
-停止したstepの未commit moment、候補parameter、例外messageは返さない。barrier weight、beta、
-seedは入力setup/objective側の正本を後続orchestratorが参照し、本resultへ重複記録しない。
+停止したstepの未commit moment、候補parameter、例外messageは返さない。betaとseedは入力setupの
+正本を後続orchestratorが参照し、本resultへ重複記録しない。
 
 ## 5. gates
 
@@ -66,7 +67,8 @@ seedは入力setup/objective側の正本を後続orchestratorが参照し、本r
 3. accepted stepのbacktracked step数、総backtrack数、最大値、最小eta FD stepを集計する。
 4. 4種のdeclared numerical failureを区別し、最後にcommit済みのstate/evaluationを保持する。
 5. initial failureと予期しない例外をstatusへ変換せず伝播する。
-6. resultへtest metric、barrier selection、sweep、artifact、GKP値が混入しない。
+6. 呼出し時のbarrier weightを正規化してresultへ保持する。
+7. resultへtest metric、barrier selection、sweep、artifact、GKP値が混入しない。
 
 ## 6. 実装前に確認した一次資料
 

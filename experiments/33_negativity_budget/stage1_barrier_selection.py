@@ -119,6 +119,8 @@ class Stage1BarrierAssessment:
         )
         if barrier_weight not in BARRIER_WEIGHT_CANDIDATES:
             raise ValueError("barrier_weight is outside the declared ladder")
+        if self.run.barrier_weight != barrier_weight:
+            raise ValueError("run barrier_weight differs from assessment")
         beta = _finite_real_scalar(self.beta, "beta")
         if beta <= 0.0:
             raise ValueError("barrier selection assessments require beta > 0")
