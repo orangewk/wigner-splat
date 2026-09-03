@@ -193,7 +193,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1 `6557d6b`(§8.26 (RS-1)–(RS-5))、T3a0 `ca11257`(§8.25 (LF-4)(LF-6)(LF-7))、T3a-2 `61a14c1`(§8.27 (OS-1)(OS-2))、T3a-3 `6b7133c`(§8.28 (DF-0′)(DF-0″)(DF-6))、§8.21 (HA-2)、§8.22 (CC-7)、§8.16 (PS-9)、§8.15 追記(no-go 判定基準) | 全 node の排他・網羅証明(部分列規約)・t3_gate-v1.1(8 constructor — t3c_handoff 追加)の terminal への落着・absorb_via_t3a0-v1.1 と block_dominant の違反度矛盾導出(exact rank drop のみ、非 exact は LR-EXIT)・nogo → detected 変換 adapter(realized family 必須、不能なら unresolved)・violation_sequence-v2.deep_flat の identity 組立・countersequence 矛盾への統合(条件付き閉包 statement) | **accepted(§8.29、luna `104105e` R-T3A4 R6、6R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 6R。**open: LR-EXIT**(非 exact lower-rank exit の routing — Sol consult #21 で要素粒度案を採択、下 4 packet)) |
 | GC-5-T2a-rd ATLAS-EXACT-EXIT | T2a `08c2d0e`(§8.17 (AT-2)(AT-4))、T3a-4 `104105e`(LR-EXIT 観察)、consult #21 | **atlas_witness-v2**(versioned): lower_rank exit を**要素ごとの exact rank drop**(step0 の exact merge/prune 後の Σm_i ≤ 3 または child 恒等零 — 極限退化を含まない)に限定し、係数退化 flag と退化集合 D は全 variant 共通の top-level metadata(atlas_witness-v1.1 で露出した (AT-2) 内部の係数 vector・flag への identity ref — v2 は再構成しない)に保持、極限でのみ退化する chart 列は **boundary chart** — §8.17 の安定化列 exit 読みを silently 上書きせず v2 で明示 | **accepted(§8.30、luna `62c150f` R-T2ARD R9、9R)**(A.5a blocking obligation — T3 集約経由。見積 2–4R → 実績 9R) |
 | GC-5-T2b-iii C0-BOUNDARY-CARRIER | T2a-rd、T2b-0/i/ii、§8.22 (CC-3)(CC-6)、§8.27 (OS-3a) | **carrier_witness-v2**: 共通 c₀ を前提にしない geometric 部分(frame・strong section・Gram 床 λ_χ — (OS-3a) の c₀ 非依存 reading を producer 化)と、固定 c₀ を使う interior floor 部分の分離。(CC-3) の「chart 枝 ⇒ liminf|c_a| > 0」を「stabilized interior-chart context ⇒ …」へ限定する versioned 注記 | **accepted(§8.31、luna `b21b0fc` R-T2BIII R3、3R)**(見積 4–7R → 実績 3R) |
-| GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | **drafted(§8.32、R1–R2 適用済み・査読待ち R-T3A5 R3)**、見積 3–5R |
+| GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC | T2a-rd、T2b-iii、T3a0/T3a-2/T3a-3 | **route_context-v2**: chart_context_pre は config-level c₀(config_n) > 0 の列のみ要求(sequence-level 下界なし)、(N2) 後にのみ bounded(共通 c* > 0)/ vanishing(c₀ → 0)context を構成。既存 synthetic_face・(LF-6)・one_sided・deep_flat への adapter | **drafted(§8.32、R1–R3 適用済み・査読待ち R-T3A5 R4)**、見積 3–5R |
 | GC-5-T3a-6 ROUTE-CLOSE-v2 | T3a-5、T3a-4 | lane 表の再証明(§8.32 (N5)-v2 の 3 分岐を lane 化、unresolved_tag-v1.1)、LR-EXIT tag の削除(CTX/REF 欠落は fail-closed 維持) | open、見積 2–4R |
 | **ROUTE-PROD ATLAS-OUTER-ROUTING(open obligation 候補)** | §8.16 追記(設計記録)、§8.17 (AT-*)、§8.22 (CC-7)、§8.27 (OS-0)(b)、§8.31 carrier_witness-v2 | atlas outer routing([1:0]/[0:1] の成分射影 routing)の **typed producer**、または (OS-0)(b) の一致検証を norm 極限による side 決定へ置換する versioned 改訂。producer が無い現状では **interior・boundary 双方の one_sided lane が unresolved(ROUTING-PENDING)** のまま(§8.32 [R-T3A5 R1-02][R2-02]) | **候補(orange 裁定待ち — 登録は §8.32 R2 で追加、着手は未決)** |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
@@ -5974,7 +5974,7 @@ versioned 置換(T3a-2/T3a-3/T2c-ov/(N8))は T3a-5 の義務。証明ドラフ�
 性 — c₀ 非依存の sequence 形は T3a-3 が既に供給)、route_context-v2 と
 決定 list(T3a-5)、lane 表(T3a-6)、有効定数、人間による査読は未実施。
 
-### 8.32 GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC(route_context-v2 と決定 list の v2 入力 — drafted、R1–R2 適用済み、査読対象 R-T3A5 R3)
+### 8.32 GC-5-T3a-5 C0-BOUNDARY-ROUTE-SPEC(route_context-v2 と決定 list の v2 入力 — drafted、R1–R3 適用済み、査読対象 R-T3A5 R4)
 
 **目的**: Sol consult #21 の第 3 packet。§8.26 の決定 list (RS-2) と
 route_context-v1(段階型)を、§8.30 atlas_witness-v2 / §8.31 carrier_
@@ -6012,7 +6012,10 @@ T3a-3 の deep_flat_floor)への **consumer 置換 adapter** を登録する。
 - (N2)-v2: c0_dichotomy-v1 は不変(config-level c₀ の liminf 二分)。出力:
   `bounded_chart_context-v2 := chart_context_pre-v2 + bounded_c0 ref`、
   `vanishing_chart_context-v2 := chart_context_pre-v2 + vanishing_c0 ref +
-  face_approach_witness-v2 ref`。**interior / boundary と bounded /
+  **face_approach_witness-v2.1** ref((RS2-1) で登録 — 親 config ref を
+  atlas_witness-v2.chart(interior | boundary)に置換した版。(N3)/(N4) と
+  出力契約が読む版と同一にし、v2 → v2.1 の adapter は置かない [R-T3A5
+  R3-02])`。**interior / boundary と bounded /
   vanishing は独立な 2 軸**(boundary chart で c₀(config) が bounded に
   なり得る — (AT-2) 係数 vector の原子成分退化と class-level c₀ は別量;
   interior で vanishing は **fail-closed で routing しない** [R-T3A5 R1-04]
@@ -6057,12 +6060,18 @@ T3a-3 の deep_flat_floor)への **consumer 置換 adapter** を登録する。
   止まる。**interior にも及ぶ [R2-02]**: §8.31 の one_sided_checked は
   「atlas outer routing との一致検証 ref」を必須 field とし、その producer
   は §8.17 (AT-*) に存在しない(§8.31 本文の記録どおり)。よって現状は
-  interior 要素でも one_sided_checked を構成できず、消滅側 norm 極限のみを
-  持つ interior 要素は carrier_witness-v2 の vanish_flag field が構成不能
-  → chart_context_pre-v2 不成立 → L21 unresolved(tag CTX-MISSING、副 tag
-  ROUTING-PENDING)。**one_sided_route-v1.1 は ROUTE-PROD 充足後にのみ到達
-  可能な lane** であり、本 packet はその到達を主張しない(§8.27 scope の
-  「(OS-0)(b) の atlas 一致の証明は未実施」と同じ穴)。
+  interior 要素でも one_sided_checked を構成できない。**経路の訂正
+  [R3-01]**(R2 版の「carrier_witness-v2 構成不能 → CTX-MISSING」は誤り):
+  §8.31 の one_sided_unrouted は boundary 限定ではない(限定は one_sided_
+  checked の interior のみ)ので、消滅側 norm 極限のみを持つ interior 要素
+  は **carrier_witness-v2.one_sided_unrouted を構成できる**。その先は
+  (N2)-v2 が先に判定する: interior_floor = present ∧ vanishing_c0 →
+  C0-INCONSISTENT(c0_interior_consistency)、interior_floor = present ∧
+  bounded_c0 → (N5) の one_sided_unrouted → unresolved(ROUTING-PENDING)。
+  boundary(interior_floor = absent)は bounded / vanishing のどちらでも
+  (N5) で ROUTING-PENDING。**one_sided_route-v1.1 は ROUTE-PROD 充足後に
+  のみ到達可能な lane** であり、本 packet はその到達を主張しない(§8.27
+  scope の「(OS-0)(b) の atlas 一致の証明は未実施」と同じ穴)。
   **tag の登録 [R2-01]**: §8.29 L21 の unresolved_tag は閉 union なので
   versioned に拡張する:
     `unresolved_tag-v1.1 := unresolved_tag(§8.29: LR-EXIT | NOGO-CONV-N1 |
@@ -6188,10 +6197,17 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 
 ## 11. 版履歴
 
+- v0.29.109(2026-09-03): R-T3A5 R3(blocking 2)適用 — [R3-01] interior の
+  one_sided 欠落経路を訂正(one_sided_unrouted は interior でも構成可能 →
+  (N2) present ∧ vanishing は C0-INCONSISTENT、present ∧ bounded は (N5) で
+  ROUTING-PENDING; CTX-MISSING 経路の記述を撤回)。[R3-02] vanishing_chart_
+  context-v2 の face_approach_witness ref を v2.1 に統一(adapter なし)。
+
 - v0.29.108(2026-09-03): R-T3A5 R2(blocking 5)適用 — [R2-01] unresolved_
   tag-v1.1(ROUTING-PENDING / C0-INCONSISTENT を versioned 追加)。[R2-02]
   ROUTE-PROD の欠落が interior にも及ぶことを明記(one_sided_checked 構成
-  不能 → CTX-MISSING、one_sided_route-v1.1 は ROUTE-PROD 充足後のみ)。
+  不能 → CTX-MISSING〔経路は誤り — v0.29.109 [R3-01] で訂正〕、one_sided_
+  route-v1.1 は ROUTE-PROD 充足後のみ)。
   [R2-03] n5_none_dispatch-v2(bounded ∧ boundary → deep-flat lane の型付き
   経路)。[R2-04] c0_interior_consistency を矛盾証明なしの fail-closed
   routing に降格(座標同一性の主張を撤回)。[R2-05] §4 の T3c 行を
