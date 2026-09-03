@@ -69,10 +69,9 @@ assessment順はlambda昇順、その中でsetup入力順とする。各assessme
 init seed、lambda、candidate run、grid点数、invalid点数、最小densityを持つ。attempted weights、
 admissibility、global-admissible weightsは保存値でなく保持dataから計算する。
 
-現行`Stage1CandidateRun`はbarrier weightを保持しないため、外部から直接組み立てたassessmentの
-runとlambdaの結び付きを型だけでは証明できない。本packetで正当なresultは
-`run_stage1_barrier_selection`が生成したものに限る。runner interfaceへこの結び付きを追加する
-別packetが固定SHA reviewを通るまで、assessmentをartifactへ渡さない。
+各assessmentは`Stage1CandidateRun`が保持する呼出し時のbarrier weightと自身のlambdaが一致する
+ことをresult境界で検査する。これによりrunと別lambdaの誤結合を拒否する。本packetは
+in-memory selectionまでを扱い、artifactへの変換は後続packetで別に固定する。
 
 resultはin-memory recordであり、artifact schema、test metric、invalid-rate verdict、Stage 2
 beta点、解釈文を持たない。

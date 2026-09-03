@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import fields
+from dataclasses import fields, replace
 from importlib import import_module
 
 import numpy as np
@@ -108,6 +108,7 @@ def test_fixed_runner_starts_exactly_like_exp18_and_completes_100_steps(
     result = runner.run_stage1_candidate(setup, barrier_weight=0.0)
     assert seen == list(range(100))
     assert result.status is runner.Stage1RunStatus.COMPLETED
+    assert result.barrier_weight == 0.0
     assert result.state.iteration == 100
     assert result.initial_evaluation.objective == 0.0
     assert result.terminal_evaluation.objective == 100.0
@@ -156,6 +157,7 @@ def test_declared_failure_keeps_last_committed_state_and_metrics(
 
     result = runner.run_stage1_candidate(setup, barrier_weight=1.0)
     assert result.status is expected_status
+    assert result.barrier_weight == 1.0
     assert result.state.iteration == 1
     assert result.terminal_evaluation.objective == 1.0
     assert result.backtracked_steps == 1
@@ -201,6 +203,7 @@ def test_initial_failure_propagates_before_any_step(monkeypatch):
 def test_real_synthetic_candidate_completes_the_fixed_schedule():
     result = runner.run_stage1_candidate(_setup(), barrier_weight=0.0)
     assert result.status is runner.Stage1RunStatus.COMPLETED
+    assert result.barrier_weight == 0.0
     assert result.state.iteration == runner.STAGE1_ITERATIONS
     assert np.isfinite(result.terminal_evaluation.objective)
     assert np.isfinite(result.terminal_evaluation.train_nll)
@@ -220,6 +223,7 @@ def test_result_contract_rejects_inconsistent_completion_and_scope():
     with pytest.raises(ValueError, match="completed status"):
         runner.Stage1CandidateRun(
             status=runner.Stage1RunStatus.COMPLETED,
+            barrier_weight=0.0,
             state=state,
             initial_evaluation=_evaluation(0),
             terminal_evaluation=_evaluation(0),
@@ -228,6 +232,22 @@ def test_result_contract_rejects_inconsistent_completion_and_scope():
             max_backtracks_used=0,
             min_eta_fd_step=None,
         )
+
+    valid = runner.Stage1CandidateRun(
+        status=runner.Stage1RunStatus.NO_FEASIBLE_STEP,
+        barrier_weight=2,
+        state=state,
+        initial_evaluation=_evaluation(0),
+        terminal_evaluation=_evaluation(0),
+        backtracked_steps=0,
+        total_backtracks=0,
+        max_backtracks_used=0,
+        min_eta_fd_step=None,
+    )
+    assert valid.barrier_weight == 2.0
+    for invalid in (-1.0, np.nan, np.inf, True, 1.0 + 2.0j, [1.0]):
+        with pytest.raises(ValueError):
+            replace(valid, barrier_weight=invalid)
 
     names = {field.name for field in fields(runner.Stage1CandidateRun)}
     assert names.isdisjoint(
