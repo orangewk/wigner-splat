@@ -188,7 +188,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
-| GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **drafted(§8.27、査読待ち R-T3A2 R1)**(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
+| GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **drafted(§8.27、R1 適用済み・査読待ち R-T3A2 R2)**(A.5a blocking obligation — T3 集約経由)、見積 4–7R |
 | GC-5-T3a-3 DEEP-FLAT-HEAD | T3a-1 | macro/micro cut(固定 geometry witness)・exact-norm HEAD9 adapter・deep_flat_floor interface(T2c 床の c₀→0 使用は循環 — 新規床)・overflow handoff | open(A.5a blocking obligation — T3 集約経由)、見積 5–8R |
 | GC-5-T3a-4 ROUTE-CLOSE | T3a-1/2/3 | 全 branch の排他・網羅証明と countersequence 矛盾への統合 | open(A.5a blocking obligation — T3 集約経由)、見積 2–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R |
@@ -686,7 +686,12 @@ r_i = 基準二次位相。branch 判別(ν_i = Re w_i の三分岐)は cell wit
 
 **(F2²-2) 対称正規化と g の定義([GC4A1-01] 対応)**: B₂ ≢ 0 より H := B₁/B₂ は
 **ℂP¹ 値の有理型関数**として区間全体で well-defined(B₂ のみの零点では H = ∞、
-共通零点では正則化商の値 — 有理型関数として除去可能)。
+共通零点では正則化商の値 — 有理型関数として除去可能)〔[R-T3A2 R1-02]
+reviewer 指示による annotation(in-place、前例 [R-T2BII R1-02][R-T2C R7-01]
+[R-T3A0 R7-01]): 連続延長されるのは **ℂP¹ 写像 [B₁ : B₂]** であって
+スカラー商 B₁/B₂ ではない(例: B₁ = t、B₂ = t² では商 1/t は極を持つが
+[t : t²] = [1 : t] は連続)。G は ℂP¹ 上連続なので g = G([B₁ : B₂]) は
+well-defined — 以後の H は ℂP¹ 値として読む〕。
   G(w) := |1 + w| / max(1, |w|)  は **ℂP¹ 上の連続関数**(G(∞) := 1 — |w| → ∞ で
   |1+w|/|w| → 1)であり、**g := G(H(t)) と定義する**。
 B₁, B₂ が同時に零でない点では F = B₂(1+H)、U_H = log|B₂| + log max(|H|,1) より
@@ -702,7 +707,10 @@ g ≡ 0 — 各 ord・先頭係数比 λ の場合は g(t₀) = G(λ)、次数�
   WLOG |H(t*)| ≥ e(対称性)で g(t*) = |1+H|/|H| ≥ 1 − 1/e ≥ 0.63。天井より
   **‖g‖_{I_k} ≤ 2 ≤ 3.2 ‖g‖_{J_k}** ✓(QR5 (a) の 2|2 版 — singleton 不要のため
   §3.2 移植すら不要の初等閉鎖)。
-- **(b) 比較可能・非深相殺**: (a) 否(J_k 全体で e^{−1} ≤ |H| ≤ e)かつ σ ≥ 1/10:
+- **(b) 比較可能・非深相殺**: (a) 否(J_k 全体で e^{−1} ≤ |H| ≤ e〔[R-T3A2
+  R1-01] 境界規約 annotation: D := max(|H|, 1/|H|) として (a) は D ≥ e、
+  (a) 否は **D < e**(本文の「≤ e」は < e と読む — 排他化。D = e は (a) 側
+  で評価 0.63 は成立)〕)かつ σ ≥ 1/10:
   t* = argmax|1+H| で g(t*) ≥ σ/e ≥ 1/(10e) ⇒ **‖g‖_{I_k} ≤ 2 ≤ 20e·‖g‖_{J_k}** ✓。
 - **(c-ii) 中間深度**: (a) 否かつ c₁ρ⁹ ≤ σ < 1/10: 同様に ‖g‖_{J_k} ≥ σ/e ≥ c₁ρ⁹/e ⇒
   **‖g‖_{I_k} ≤ (2e/c₁)·ρ⁻⁹·‖g‖_{J_k}** ✓。**c₁ の menu 規約([GC4A1-02] 対応)**:
@@ -4309,7 +4317,8 @@ one_sided は到達可能**。(CC-4)(CC-7) が one_sided を明示的に許す�
 CC-7 の受理結果ではない(#19 の記録は不変、本追記で annotation)。
 one_sided は独立 routing `one_sided_route-v1 := block_dominant(t* ∈ S で
 max(|H|, 1/|H|) ≥ e — 3.2 で吸収)| inner_window(S 全域で e^{−1} ≤ |H| ≤ e
-— 消える成分が compact-open に 0、生存成分も S_n 上 0 に近づくので一致
+〔annotation [R-T3A2 R1-01]: 正本規約は D < e — §8.27 (OS-1)〕— 消える
+成分が compact-open に 0、生存成分も S_n 上 0 に近づくので一致
 定理より窓が縮み中心は生存成分の零点へ — T3b の zero/bubble rescaling へ
 送付)`。却下: 「one_sided なら g → 1」(生存成分の零点へ窓が縮む場合を
 落とす)、全 one_sided を c₀→0 へ送る(raw 係数と成分 norm の混同)。
@@ -4446,7 +4455,8 @@ cs_selector-v1 により部分列を取ってよい — 違反度・provenance �
 - **(N6) one_sided_route-v1**(登録 — 証明は T3a-2):
   `block_dominant(t* ∈ S, side, projective-ratio evidence max(|H(t*)|,
   1/|H(t*)|) ≥ e, C = 3.2 — (F2²-3)(a) で吸収 → directly_absorbed)|
-  inner_window(side, comparability evidence e^{−1} ≤ |H| ≤ e on S,
+  inner_window(side, comparability evidence e^{−1} ≤ |H| ≤ e on S〔[R-T3A2
+  R1-01] annotation: 境界規約は D := max(|H|, 1/|H|) < e — §8.27 (OS-1)〕,
   s_n → 0 / geometry-collapse evidence, center → surviving-zero evidence,
   (PS-5) inner-chart ref → T3b handoff)`。
 - **(N7)(N7′) fixed_geometry_witness-v1**(macro/micro cut — 登録):
@@ -4589,7 +4599,7 @@ t2cov_handoff, t3b_handoff} のいずれかに落ちることは **T3a-4 ROUTE-C
 (T3a-2)、deep_flat_floor(T3a-3)、scale_floor(T3b)、Remez 合成と C₂₂
 (T3c)、人間による査読は未実施。
 
-### 8.27 GC-5-T3a-2 ONE-SIDED-INNER(one_sided routing の証明 — drafted、査読対象 R-T3A2 R1)
+### 8.27 GC-5-T3a-2 ONE-SIDED-INNER(one_sided routing の証明 — drafted、R1 適用済み、査読対象 R-T3A2 R2)
 
 **目的**: consult #20 (i) の one_sided 独立 routing(§8.26 (N6)
 one_sided_route-v1)を証明する。**主張は 2 つ**: (OS-2) block_dominant の
@@ -4612,15 +4622,28 @@ one_sided_route-v1)を証明する。**主張は 2 つ**: (OS-2) block_dominant 
   不成立 ⟹ not_proven-v1 → unresolved** — fail-closed。一致の証明は本
   packet の主張外)。
 
-**(OS-1) S 上の二分法(各 n で exact・total)**: H_n := B̂_{1,n}/B̂_{2,n} は
-(F2²-2) により ℂP¹ 値の連続関数(B₂ のみの零点で ∞、B₁ のみの零点で 0、
-共通零点で projective jet 値 [a_k : b_k])。各 n について
-  **block_dominant**: ∃t* ∈ S_n: max(|H_n(t*)|, 1/|H_n(t*)|) ≥ e(H = 0, ∞
-  は max = ∞ ≥ e でこちら)/ **inner_window**: ∀t ∈ S_n: e^{−1} ≤ |H_n(t)|
-  ≤ e
-のちょうど一方(補集合関係 — 第 2 は第 1 の否定そのもの)。countersequence
-の部分列は鳩の巣により一方が全 n で成立する部分列を持つ(cs_selector-v1
-で選択、違反度・provenance を移送)。
+**(OS-1) S 上の二分法(各 n で exact・排他・total)[R-T3A2 R1-01][R1-02]
+[R1-03]**:
+- **ℂP¹ 値と支配度 D**: H_n := [B̂_{1,n} : B̂_{2,n}] は (F2²-2)(+ annotation)
+  により ℂP¹ 値の連続写像(B₂ のみの零点で [1 : 0] = ∞、B₁ のみの零点で
+  [0 : 1] = 0、共通零点で projective jet 値 [a_k : b_k] — 両者 0 は除外)。
+  **D([a : b]) := max(|a|/|b|, |b|/|a|) ∈ [1, ∞]**(a = 0 または b = 0 の
+  ちょうど一方なら ∞ — H = 0, ∞ と jet 値を同一の定義で扱う)。D は ℂP¹
+  上 [1, ∞] 値で連続。
+- **窓の規約**: S_n は window_contract (PS-4) の**閉区間** [t_c − s/2,
+  t_c + s/2] を用いる。zf_witness (A.3a) の半開 S = [a_S, b_S) は同一区間の
+  半開版で closure が一致(同一オブジェクト参照 — 右端点 t_c + s/2 の
+  zero-free 検証は (ZF-3) の保証域 S + collar(S, r_S) が両端に張り出す
+  ので閉包点も保証域内 ✓)。F2 の窓との対応: (F2²-3) の J_k = source 窓 =
+  S_n、I_k = target 窓 = W_n(window_contract の S ⊂ W)。
+- **二分法**: 各 n について
+    **block_dominant**: ∃t* ∈ S_n: D(H_n(t*)) ≥ e /
+    **inner_window**: ∀t ∈ S_n: D(H_n(t)) < e
+  — **厳密な補集合**(D = e は block 側 — (F2²-3)(a) の評価 g ≥ 1 − 1/e は
+  D ≥ e で成立)。countersequence の部分列は鳩の巣により一方が全 n で
+  成立する部分列を持つ(cs_selector-v1 で選択、違反度・provenance を移送)。
+  inner_window は特に S_n 上 e^{−1} < |H_n| < e、すなわち |B̂_{1,n}| < e|B̂_{2,n}|
+  かつ |B̂_{2,n}| < e|B̂_{1,n}|(閉区間全体で)。
 
 **(OS-2) block_dominant の吸収**: (F2²-3)(a) 逐語 — t* で g_n(t*) =
 |1 + H|/max(1, |H|) ≥ 1 − 1/e ≥ 0.63(WLOG |H(t*)| ≥ e、対称性 G(w) =
@@ -4631,31 +4654,46 @@ R_n ≤ 3.2。countersequence の正規化違反度 R_n(s_n/L_{C,n})⁹ → ∞ 
 (block_dominant(t*, side, evidence, C = 3.2))`(この矛盾導出は 1 行なので
 本 packet で閉じ、T3a-4 は集約のみ)。∎
 
-**(OS-3a) 補題(成分の raw strong 極限 — Gram 床なし)**: chart 枝の
-config 列で、各成分 i の frame を (CC-2) のとおり取る(単一原子 /
-分離対 / (B3-4a) Newton frame — 引き戻しは (CC-6b))。係数単位球上の
-原子係数 ĉ に対し frame 係数 b_i は**常に有界**: 単一原子 b = ĉ_a、分離対
-b = (ĉ_a, ĉ_b)、Newton 対 b = (ĉ_a + ĉ_b, ĉ_b t)(|t| ≤ t₀)— いずれも
-|b| ≤ 2。frame は部分列で ℱ-strong 収束((CC-2)/(B3-4a))し、b_n → b_*
-(有界列の部分列)なので **B̂_{i,n} = Σ_ℓ b_{ℓ,n} w_{ℓ,n} → Σ b_{ℓ,*}w_{ℓ,*}
-=: B̂_{i,*} strong** ✓ — **Gram 床(c₀)は不要**(Gram 床は極限 frame の
-独立性・一様可逆性に要るもので、strong 極限の存在には有界係数と frame
-の strong 収束で足りる)。よって vanishing_c0 側(order_drop 経由)でも
-適用可能。norm は strong 収束で保存: ‖B̂_{i,*}‖ = lim ‖B̂_{i,n}‖。∎
+**(OS-3a) 補題(正規化 pair の成分 raw strong 極限 — c₀ 非依存)
+[R-T3A2 R1-04]**: **正規化の明示**: ρ_n := ‖𝐁̃_n‖_⊕、B̂_{i,n} := B̃_{i,n}/ρ_n
+(§8.23 の raw 正規化)、gauge 側は C_{i,n} = U_n B̂_{i,n}((CC-2) の
+C_n = ρ_n^{−1}U_n𝐁̃_n と同一 — U_n ユニタリで ‖C_{i,n}‖ = ‖B̂_{i,n}‖)。係数
+単位球上の原子係数 ĉ は**正規化前**の量であり、B̂ の frame 係数は ĉ/ρ_n
+型で ρ_n → 0 なら非有界になり得る — よって「係数球上で有界」からは
+何も出ない(R1 の指摘どおり)。正しい有界性は **成分ごとの Gram 床**から
+出る: (CC-2)/(CC-3) の成分 frame(単一原子 / SEP_i(d₀) の分離対 /
+CONF_i(d₀) の (B3-4a) Newton frame)の Gram 行列 G_i は **frame の幾何
+(chart 型座標)のみの関数で係数に依存しない**ので、(CC-3) の
+inf_{K_χ(c₀)} λ_min G_⊕ は係数因子 {|c_a| ≥ c₀} に依らず chart 型因子
+上の inf に等しい — **λ_χ := inf λ_min G_i > 0 は c₀ 非依存の chart 定数**
+((CC-3) の受理済み主張の依存関係の読み直し — 新主張ではない)。gauge
+側で C_{i,n} = Σ_ℓ b_{ℓ,n} v_{ℓ,n}(v = (CC-2) frame)と書くと
+  **λ_χ ‖b_n‖² ≤ b_n^* G_{i,n} b_n = ‖C_{i,n}‖² ≤ ‖𝐂_n‖²_⊕ = 1**
+⟹ **‖b_n‖ ≤ λ_χ^{−1/2}(有界)**。frame は部分列で ℱ-strong 収束
+((CC-2)/(B3-4a))、b_n → b_*(有界列の部分列)、raw 引き戻し (CC-6b) の
+w^{raw}_{ℓ,n} = U_n^{−1}v_{ℓ,n} は strong section で raw strong 収束し
+Gram は unitary 不変なので、**B̂_{i,n} = Σ_ℓ b_{ℓ,n} w^{raw}_{ℓ,n} →
+Σ b_{ℓ,*}w^{raw}_{ℓ,*} =: B̂_{i,*} raw strong** ✓。norm は strong 収束で
+保存: ‖B̂_{i,*}‖ = lim ‖B̂_{i,n}‖。**c₀ の役割**: (CC-3) の c₀ は係数退化面
+(rank drop)を chart 族から除く閉族パラメタであって Gram 床の定数では
+ない — 本補題は chart 枝(support rank 一定・frame が定義される)であれば
+bounded_c0 / vanishing_c0(order_drop 経由)の両 lane で適用可能。∎
 
 **(OS-3) inner_window 局在補題**: 仮定: chart 枝、carrier_witness-v1 の
 vanish_flag = one_sided(side = 2 — ‖B̂_{2,n}‖_ℱ → 0、‖B̂_{1,n}‖_ℱ → 1 —
 raw 正規化 ‖𝐁̂_n‖_⊕ = 1 と U_n のユニタリ性により raw/gauge の norm は
-一致)、部分列上 inner_window(∀t ∈ S_n: e^{−1} ≤ |H_n(t)| ≤ e)、窓
-S_n ⊂ W_n ⊂ W̄(chart の compact 域 — §8.23 (FL22-2) と同じ)。
+一致 — (OS-3a))、部分列上 inner_window(∀t ∈ S_n: D(H_n(t)) < e、特に
+|B̂_{1,n}| < e|B̂_{2,n}| on S_n)、窓 S_n は (OS-1) の**閉区間**で
+S_n ⊂ W_n ⊂ W̄(chart の compact 域 — §8.23 (FL22-2) と同じ; S_n は
+compact なので Hausdorff 極限もそのまま compact 区間)。
 **結論**: (i) **s_n → 0**; (ii) 任意の t_n ∈ S_n(特に中心 t_{c,n})は
 部分列で t_* ∈ W̄ に収束し、**B̂_{1,*}(t_*) = 0**(t_* は生存成分の raw
 strong 極限の零点); (iii) S_n ⊂ B(t_*, s_n + |t_{c,n} − t_*|) → {t_*}
 (窓は生存成分の零点へ縮む)。
 **証明**: (OS-3a) で部分列上 B̂_{1,n} → B̂_{1,*} strong、‖B̂_{1,*}‖ = 1
 (≢ 0)。RKHS 評価(sup_{W̄}|f| ≤ C_R‖f‖_ℱ)より W̄ 上 B̂_{2,n} → 0 一様、
-B̂_{1,n} → B̂_{1,*} 一様。inner_window より S_n 上 |B̂_{1,n}| ≤ e|B̂_{2,n}|
-≤ e C_R‖B̂_{2,n}‖ → 0 **一様**。(i): s_n ≥ s_* > 0 の部分列があれば
+B̂_{1,n} → B̂_{1,*} 一様。inner_window より S_n 上 |B̂_{1,n}| < e|B̂_{2,n}|
+≤ e C_R‖B̂_{2,n}‖ → 0 **一様**(閉区間 S_n 全体で)。(i): s_n ≥ s_* > 0 の部分列があれば
 S_n → S_*(Hausdorff、compact)で |S_*| ≥ s_*; t ∈ S_*° に対し t_n ∈ S_n、
 t_n → t を取ると |B̂_{1,*}(t)| ≤ |B̂_{1,*}(t) − B̂_{1,n}(t_n)| + |B̂_{1,n}(t_n)|
 → 0(一様収束 + 連続性)⟹ B̂_{1,*} ≡ 0 on S_* ⟹ 一致定理で ≡ 0 ⟹
@@ -4725,6 +4763,18 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.66(2026-09-03): R-T3A2 R1(blocking 4)適用 — [R1-01] 境界規約を
+  D := max(|H|, 1/|H|) で block_dominant: D ≥ e / inner_window: D < e に
+  排他化し、§8.3 (F2²-3)(b)・§8.26 (N6)・consult #20 記録に reviewer 指示の
+  audit-marked annotation で同期。[R1-02] §8.3 (F2²-2) に「延長は ℂP¹ 写像
+  [B₁:B₂] でありスカラー商ではない」の annotation、(OS-1) で D を ℂP¹ 上
+  [1, ∞] 値で定義し H = 0, ∞ と jet 値を統一。[R1-03] S_n を window_
+  contract の閉区間に固定し、zf_witness の半開区間との closure 同一・
+  右端点の (ZF-3) collar 保証・F2 の I_k/J_k 対応を明記。[R1-04] (OS-3a) を
+  正規化明示(ρ_n、C_n = U_nB̂_n)の上で「成分 Gram 床 λ_χ は frame 幾何
+  のみに依存し c₀ 非依存 ⟹ 正規化後 frame 係数は λ_χ^{−1/2} で有界 ⟹
+  raw strong 極限」に書き直し(係数球有界性からの導出を撤回)。
 
 - v0.29.65(2026-09-03): **§8.27 GC-5-T3a-2 ONE-SIDED-INNER 起草** — (OS-0)
   到達性注記と order_drop → one_sided evidence(atlas 一致検証は
