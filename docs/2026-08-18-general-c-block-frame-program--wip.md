@@ -189,6 +189,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-α1 SOURCE-WINDOW-CLOSURE(consult #23 ①、旧名 SUBWINDOW-CLOSURE) | §8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.16 (PS-4)、§8.17 (AT-3)、§8.27 [R-T3A2 R2-02] | **(PS-4) の source 窓 S(閉、契約ごとのパラメータ)と zf 窓 S_zf(半開 ρ/13)の区別を正しく読み、同一 zf/d10/we9 witness の下で source 窓を S′ = [c′ − s′/2, c′ + s′/2] ⊂ S_zf(flag = contained)に取り直す constructor** を登録(出力は (PS-4) v1 の instance — versioned 型なし)。R1 版(zf 窓の部分窓を source 窓に昇格)は撤回。**副産物(型の事実)**: S′ ⊂ S_zf ⊂ collar かつ W_core ⊂ W_reg = W ∖ (collar ∪ …) ⟹ S′ ∩ W_core = ∅ — §8.35 (OB-2) の source_in_core は (PS-4)-valid な source 窓では構成不能、分母制御は collar 上の床(③の義務)に置き換える必要 | **drafted(§8.36、R-A1 R2 差し戻し blocking 3 — (PS-4) の source 窓/zf 窓の関係が受理済み本文で未定義、(PS-4)-v1.1 の先行が必要)**、見積 3–5R(Sol #23)→ Sol #24: v1.1 受理後 1–2R |
 | GC-5-α2 SCALE-FEASIBILITY(consult #23 ②) | α1、§8.23 (FL22-1)(FL22-2)、§8.35 | 許容窓幅 h_n(zf 窓 S 内・core 内の ζ_n の量的余白)込みの二択: β_n/(a_n·min(a_n, h_n)⁹) → 0 型の量の inf-liminf 二分と、負枝の rate 付き対角列 | open(α1 受理後 — Sol #24: 「与えられた中心・余白・mass・分母制御の下で scale を選べる条件」の条件付き lemma に再定義。中心族の確保は含まない)、見積 3–5R(Sol #23/#24)。**§9 CENTRE-PROBE(2026-10-23)**: 純指数 model の compact box に overflow instance なし(inf β ≈ 6e-7 > 0、角由来)— α の前提(実現 overflow 列)に instance が無い。継続可否は orange 裁定 |
 | **(PS-4)-v1.1 WINDOW-ANCHOR-SPEC(候補 — Sol #24 Q3)** | §8.16 (PS-4)、§8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.24 window_contract_r、§8.27 [R-T3A2 R2-02]、consult #19 追記 (iv) | source 窓 S / zf_scope(A := closure(S_zf)、C_zf := {dist(z, A) ≤ r_S})/ jet_anchor(we9/d10 が同一 zf witness を参照する証拠、t₀・λ・ℓ_ext は anchor 側)を分離し、flag の意味を固定(identical = S = A の区間幾何一致、contained = S ⊊ A、disjoint-forbidden = 部分重複も含め有効 instance を生成しない)。v1 instance の無条件埋め込みは不可 — (AE-4) 型の読み依存・証拠依存 adapter。consumer 対応表(ZF-3/D10/WE9 は数学維持+anchor 結合、AT-3/FL22-2 の collar 参照先は S_zf 固定、PS-7/PS-9 は identical instance のみ to_v1 経由・contained への C₂₂ 自動適用禁止、§8.34/§8.35 overflow は v1 専用(再型付け義務の登録のみ)、α は v1.1 上で再起草、window_contract_r は再型付け、RS-1 は既存 countersequence の窓を差し替えない)。α と独立に consult #19 追記 (iv) の中心不一致 obligation の前提整備 | **受理(§8.37、R-PS4V11 R4 ACCEPT、fixed SHA `ee547d7`、4R、blocking 計 5 件)**(orange GO 2026-10-22、見積 3–5R(Sol #24)どおり) |
+| **GC-5-SIGMA0 HEAD-FLOOR(candidate — consult #25、§8.38)** | §8.20 追記(ℱ_γ compact embedding)、§8.21 (HA-1)(HA-2)、§8.22 (CC-5)(CC-6a)、§3.1 (W_c-4)、§8.23 (FL22-1)、§8.33 L9/L13/L20/L27、§9 CENTRE-PROBE | per-chart jet 床 **σ₀ > 0**(原子箱と中心域に依存、c₀ 非依存)で head_overflow 枝を型で空にする。経路 ④: L = T₄⁸T₃⁴T₂²T₁ の一括消去 → 三角一階系の放射線評価 → ℱ_γ 有界 → compact embedding で強 compactness → 正規直交基底の Wronskian e^{Σq}P_n(deg ≤ C(r,2))の極限保存 → (W_c-4) で ord ≤ D_W(r) ≤ 9 → σ₀ > 0。packet P0–P7(上表) | open(**orange GO 待ち**)、見積 P1–P4 6–11R、接続込み 14–25R(Sol #25) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
@@ -7311,6 +7312,105 @@ flag との区別、checked_same_zf identity 不成立 → 像なし。**主張�
 証明ドラフト・複数 LLM の fixed-SHA 査読+数値診断のみ・人間による査読は
 未実施。
 
+### 8.38 GC-5-SIGMA0 HEAD-FLOOR(per-chart jet 床 σ₀ > 0 で head_overflow 枝を空にする — **consult #25 設計記録、packet 未起草**)
+
+**consult #25(Sol gpt-6.1-sol high、2026-10-23、read-only、HEAD `2700bef`)の
+記録** — 設計判断であって fixed-SHA 受理の代替ではない。問いは §9 CENTRE-
+PROBE の結果を材料に「compact chart box で head_overflow 枝を空にする最安
+の厳密経路」。Sol の裁定(要点、原文は C:/tmp/rf-review/sol-consult25-sigma0.md):
+
+- **Q1(読みの確認)**: §8.21 (HA-1) の β_n は窓再スケールなしの Fock 正規化
+  jet、中心域は閉円板、原子箱は §8.22 (CC-5) の K_{δ_ℱ²/2, C_B}(変換後の
+  実箱)。同一座標・同一正規化の**全実 defect** について固定箱上で β ≥ σ > 0
+  が証明されれば head_overflow は構成不能で、§8.33 の L9/L13/L20/L27 は空に
+  なる。ただし欲しい床は**原子箱と中心域に依存し、係数下界 c₀ に依存しない**
+  もの(固定 c₀ ごとの床では c₀ → 0 lane を消せない)。**修正点**: overflow
+  専用の scaled-jet 問題は入力列が消えるので不要になるが、weighted 二窓比が
+  0 へ行かないことは β の床だけから (OB-3) 経由では出ない((OB-3) は比の
+  **上界**)— 分母・source 位置・中心接続を含む T3b/T3c は残る。「overflow
+  lane を空にする」は正しく、「それだけで Remez まで閉じる」は誤り。
+  CENTRE-PROBE の有限探索から「全閉 box の inf が正」「角で達成」までは確定
+  しない — 候補値と診断。
+- **Q2(経路)**: 推奨は **④ 非最小 15 階 ODE + 極限 Wronskian**。u_j = e^{q_j}、
+  T_j := D − q_j′ とすると **L = T₄⁸ T₃⁴ T₂² T₁** が 4 原子すべてを消す(右から
+  適用; T₁ 後の残原子の prefactor 次数 ≤ 1、T₂² 後 ≤ 3、T₃⁴ 後 ≤ 7、T₄⁸ で
+  消去 — 原子間距離や Wronskian で**割らない**)。15 個の一次因子を三角形の
+  一階系に書くと、箱 |A_j| ≤ a < 1、|B_j| ≤ b 上で解ベクトル Y は各放射線上
+  ‖Y(re^{iθ})‖ ≤ ‖Y(0)‖ exp(ar²/2 + (b+1)r)、Y(0) は f^{(0)}(0)…f^{(14)}(0) の
+  箱上有界係数による線形結合 ⟹ a < γ < 1 で ‖f‖_{ℱ_γ} ≤ C_{a,b,γ} ‖f‖_ℱ
+  ⟹ §8.20 追記の compact embedding で**単位原子和族の強 compactness**。
+  次に span の次元を部分列で r ≤ 4 に固定し Fock 正規直交基底 w_{1,n}…w_{r,n}
+  を取ると、§3.1 と同じ計算で Wr(w_{1,n},…,w_{r,n}) = e^{Σ q_{j,n}} P_n(z)、
+  deg P_n ≤ C(r,2); 強収束で導関数も局所一様収束するので次数上界は極限に
+  残り、極限基底の独立性から極限 Wronskian ≢ 0 ⟹ §3.1 (W_c-4) の valuation
+  identity で ord_ζ f_* ≤ D_W(r) ≤ 9 ⟹ 単位球の強閉包は compact で零関数を
+  含まず、compact 中心域との積上で J⁹ は連続・非消滅 ⟹ **σ₀ > 0**。**必要
+  なのは極限 Wronskian の制御であり、極限 span の全分類ではない**。他路線:
+  ① weighted compactness + 衝突型分類(分類と次数予算の確定が余分)、② full
+  J⁹-relative compactification(正当だが重い)、③ 最小 Wronskian ODE 正規化
+  (§8.20 の pivot 交代が残る)。**訂正**: 2(m−1) は直線接近の予算であって
+  一般の衝突予算ではない — ω³ = 1、u_{j,ε} = exp(ω^j ε z − ω^{2j} ε² z²/2) で
+  Σ ω^j u_{j,ε} = (3/20) ε⁵ z⁵ + O(ε⁸)(三重衝突で次数 5; §8.19 直前の「deg ≤ 4
+  撤回、≤ 5」と一致)。④ から得る安全な単一 cluster 予算は m = 1,2,3,4 で
+  **0, 2, 5, 9**(sharp は非主張)。(3,1) は次数 5 と 0 で扱え §8.23 末尾の消去法
+  で ord ≤ 7。§8.7 (6-iii) の regular 分類は QR 横断線形化の分類なので一般
+  secant 境界へは転用不可。heat relation と pivot 交代は直線差分商による
+  分類には実質的障害だが ④ は両者を避ける。probe は直線衝突の挙動を支持
+  するが曲線接近の網羅性は検証していない。
+- **Q3(受理済みの扱い)**: 撤回ではなく「別定理によりその入力が存在しなく
+  なった」という変更。§8.21 の二択は正しいまま(対象族で head_good を保証
+  する強化補題を追加)、§8.23 (FL22-1) は正枝確定(新しい床と既存 inf-liminf
+  量の関係を明示)、§8.33 は L9/L13/L20/L27 を空性証明付きで更新(番号保持)、
+  §8.34–8.35・T2c-ov は条件付き橋と not_proven 記録を保持し対象範囲では
+  入力なしとして critical path から外す、§8.36 α は overflow 生成目的の後続
+  作業が不要化、§8.37 v1.1 は維持(正枝の source/anchor 区別にも必要)。
+  C0-COORD・ROUTE-PROD は独立に残る(carrier 側の係数同一性と one-sided
+  routing は分子の床では解決しない)。T3b の縮小 scale・T3c の source/anchor
+  接続も残る。
+- **Q4(定数・因子)**: 固定箱で正なら極小でも C₂₂ の存在と両立(T3b の閾値・
+  Taylor 半径は厳しく、T3c の比較定数は大きくなるが指数 9 は増えない)。
+  ただし縮小・再正規化で箱が拡大し続ける場合は「各箱で正」と「列全体で
+  一つの正定数」を区別する。P_i・V_i: §8.3 (F2²-1) の元の pair との exact
+  identity が重要で、T2c の消費対象 f^raw = (B̃₁ + B̃₂)/‖B̃₁ + B̃₂‖_ℱ(§8.22
+  (CC-6a)、共通多項式を除いた defect)は**自動的には純 Gaussian 4 原子 span に
+  入らない**。候補の追加補題: 有界次数多項式で割った entire 商について正規化
+  後の compactness と零位数上界を継承する補題(多項式を係数球面で正規化し
+  零点を避けた円周で商を評価して Gaussian の二次成長率を保つ)— 独立 packet。
+  **probe への訂正**: (a) β_min² = λ_min(JᴴJ, G) — A4 は平方根を取っている;
+  (b) **A4/A5 の Gram は列係数を使う jet 行列に対して共役の向きが逆**(行に
+  Fock 係数を並べた C なら G = C̄ Cᵀ); 角候補 1 点の 60 桁再計算は 6.0257e-7
+  → 修正後 6.0661e-7。小ささは残るが**最小位置と全探索結果は再検証が必要**。
+- **Q5(最大リスク)**: 純 4 原子 span に証明した床を reduced pair や一般 unit
+  付き関数へ無条件適用すること。unit の局所有界性だけでは不十分(例: 小さい
+  collar 上で V₁ = 1、V₂ = 1 + εz¹⁰ は非零有界だが差は 10 重零 — 実 F2 族の
+  反例ではなく「unit の上下界だけでは必要な構造を表現できない」例)。最初に
+  確認すべきは実 β の numerator が「純原子和」か「その多項式商」かという
+  exact provenance。
+
+**packet 案(Sol、review-cadence.md 準拠、round 見積は成功保証ではない)**:
+| packet | 主張・契約 | 見積 |
+|---|---|---|
+| P0 | 実 defect の入力契約: 原子和 / 多項式商、座標、固定箱、中心域の同一性(provenance 監査) | 2–3R |
+| P1 | T₄⁸T₃⁴T₂²T₁ の一括消去補題 | 1–2R |
+| P2 | 単位原子和族の一様 ℱ_γ 有界性と compactness | 2–4R |
+| P3 | 強極限 span の Wronskian 次数上界の保存 | 2–3R |
+| P4 | 純原子族の全 compact 中心域での J⁹ 床 | 1–2R |
+| P5 | (必要なら)有界次数多項式商への継承補題 | 3–5R |
+| P6 | 実 β への床の接続(c₀ → 0 lane を含む量化の確認) | 1–2R |
+| P7 | overflow lane 空性を消費する route 表・依存台帳の更新 | 2–4R |
+純原子の数学 P1–P4 は 6–11R、実 programme への接続込みで 14–25R。P0 で
+対象族が確定しない間は P5 以降の成功を見積に織り込まない。推奨順序
+P0 → P1–P6 → P7 → C0-COORD → ROUTE-PROD → T3b → T3c(C0-COORD・ROUTE-PROD は
+独立に進める価値あり; T3b 6–10R / T3c 4–7R の見積はこの床では短縮しない)。
+Sol は設計の提案者なので後続の解析 packet には独立 review が必要(Sol が
+行ったのは消去の有理数検算、具体例の Wronskian 次数検算、角候補 1 点の
+60 桁 Gram 比較まで)。**未検証**: P0 の全 producer→consumer provenance 監査、
+多項式商継承補題の完全証明、P1–P4 の fixed-SHA 独立査読、probe の修正後
+再実行・Fock 切断誤差の保証・全域最適性、T3b/T3c の証明、C₂₂ の存在・
+有効値。
+
+**本節の状態**: 設計記録のみ。packet の起草は orange の GO 待ち。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -7333,7 +7433,7 @@ flag との区別、checked_same_zf identity 不成立 → 像なし。**主張�
 | COND9-PROBE | A.5a COND9 の線形 one-hop conditioning が成立しない(比 ‖g‖_W/‖g‖_S が (L/s)⁹ 予算を破る) | 2\|2 near-QR 族(pairing 摂動 + p 二次)で R(s) := sup_W g / sup_S g を random 3000+ + Nelder-Mead adversarial、s 対数列 5 点 + confluent 許容変種 | **結果**(`cond9_probe.py`): adversarial max R は s = 10⁻¹→10⁻³ で 2.9×10² → 1.6×10³(**slope ≈ 1 ≪ 9**)、confluent 許容でも ~10³ vs 予算 10¹⁸⁺ — **no-go 信号なし**(consult #14 の黄赤リスクへの経験的反証材料。Nelder-Mead は ord-9 同調方向を見つけにくく sharp 指数の証明代替ではない。診断) |
 | BORD22-PROBE | BORD-22/PTN-22 の未検査機構(consult #15 指摘: gcd-jump inner bubble・exact QR tangent・support drop×scale collapse・rate mismatch・adversarial 共退化)に no-go 信号(指数 > 9 / 定数→0)がある | R(s) := sup_W g/sup_S g を 5 族で測定(bubble 配置 3 変種・QR tangent δ 5 桁・support drop・rate mismatch ladder・Nelder-Mead 60 起点 × s 5 点) | **結果**(`bord22_probe.py`): ① bubble を W∖S に置いた**無条件版は R ≈ 0.25/ε で非有界**(反例族 — 素の二窓不等式は偽、zf/stratum 条件が型必須である設計裏付け。§8.16 (PS-4) が消費)② 同族 ZF collar 条件付きは plateau(~10、ε 5 桁で有界)③ QR tangent slope ≈ 1.0(δ 5 桁で安定)④ support drop / rate mismatch slope ≤ 0.42 ⑤ adversarial slope ≈ 0.90 ≪ 9・max R ≈ 2.8×10³ vs 予算 10²⁷ — **条件付き族に no-go 信号なし**。診断であり証明の代替ではない |
 | BORD22-FLOOR-PROBE | consult #16 の no-go 監視点 — **床そのもの**(carrier m_C / defect jet 床 / Gram 最小固有値)が退化列で 0 へ落ちる(weighted ratio の横ばいに隠れる定数崩壊) | fixture 5 種(consult #16 指定): PROJECTIVE-FLOOR(QR 接近 ε 4 桁 × random 40)/ QR×BUBBLE(δ = ε^a、零点距離 = ε^b 独立)/ DOUBLE-BUBBLE(S 内 + W∖S の 2 bubble 異 scale)/ CARRIER-SWITCH(支配交代 + 相殺 + support drop 同時)/ TWO-LEVEL-SVD(s₁ = s₀²、s₂ = e^{−1/s₀}、L²(S) Gram — Fock の代理)。norm は複素箱 sup の代理 | **結果**(`bord22_floor_probe.py`): ① defect jet 床・carrier 床は QR 接近で **slope ≈ 0(崩壊なし)** ② QR×BUBBLE の m_C は bubble routing 後 plateau または緩多項式減衰(slope ≤ 0.5)③ DOUBLE-BUBBLE の条件付き R ≤ 7 ④ CARRIER-SWITCH: support drop 自体のコストは有界(< ×2)、m_C は周波数広がり λ に指数依存 = **chart 箱定数の非大域一様性**(設計整合 — chart 内固定)⑤ raw-atom Gram は数値零まで崩壊 = **想定どおり**(T2b が raw atom でなく divided-difference/SVD frame を使う設計根拠)— **床の no-go 信号なし**。診断であり証明の代替ではない |
-| CENTRE-PROBE | α(consult #23/#24)の前提 — 「compact chart box 内に head_overflow(β_n → 0)を実現する 2\|2 列が存在し、その jet 中心が collar / core のどちらかに住む」(§8.21 (HA-2) の負枝、§8.35 rate_evidence の対象) | 純指数 atom φ = e^{Az²/2+Bz}(§8.21 (HA-5) 規約; (F2²-1) の P_i・V_i 因子は省略 — model の限界)の 4 原子 span V と中心 ζ に対し β_min(V, ζ) := min_{f∈V, ‖f‖_ℱ=1} ‖J⁹_ζ f‖₂ を一般化固有値 λ_min(JᴴJ, G) で exact に計算(Fock 切断 N = 400 / mp 500、self-check 1e-16)。box |A| ≤ 0.8、|B| ≤ 1.5、|ζ| ≤ 1。Stage A1 乱択 400 config × ζ 最小化 / A2 衝突 sweep(ε = 1e-1…1e-4)/ **A4 衝突を差分商基底と極限 span((d·∇)^j φ = (dA z²/2 + dB z)^j φ — heat relation 込み)で well-conditioned に再計算**(5 pattern × 6 config の ε-continuity、極限 span の box 走査 n = 60–120、A-only(次数 6)/ B-only(次数 3)方向、全パラメータ Nelder–Mead)/ A5 mpmath 60 桁で角の最小値と中心→角の経路 | **結果**(`C:/tmp/probe-centre/` — repo 外・非追跡; scripts + JSON + summary、索引 README-centre-probe.md): (i) **衝突は overflow を作らない** — 全 pattern で β_min(ε) → β_min(0) > 0 に滑らかに収束(quad 極限の最小 3.9e-3、他は 1e-2〜1e0; A2 が報告した「0.0」は Gram 条件数 ≥ 1e12 での eigh 負固有値 clip の artefact); (ii) 閉 box 上の inf は**角 |A| = 0.8、|B| = 1.5、|ζ| = 1 で 6.0e-7**(double 5.8e-7 → mp 6.03e-7、Gram cond 7e3)、中心→角の経路で 1.0 → 0.40(s = 0.6)→ 3.5e-3(0.8)→ 1.0e-4(0.9)→ 6.0e-7(1.0)と指数的に減少、|B| 単独縮小 s = 0.5 で 1.7e-3、|A| 単独で 2.2e-2 に回復、ζ 単独では 1e-5〜6e-7 で不変 ⇒ **小ささは box の角(Fock 質量の中心域からの離脱)由来で、衝突由来ではない**; (iii) よって compact chart box の純指数 model では **σ₀ := inf β > 0(head_overflow 枝は空)**。Stage B(overflow 列の中心位置測定)は対象 instance が無く不要。**診断であって証明ではない** — §8.21 (HA-2) の二択・§8.35 の not_proven 判定は不変。**含意(設計判断は orange)**: α(rate 付き対角列)が追う「実現 overflow 列」は model box に instance が無い; head_overflow を型で閉じる本命は §8.20 の「正道」(J⁹-relative confluent secant compactification — 極限 span が有界次数の多項式 × Gaussian に収まることを probe が裏付け) |
+| CENTRE-PROBE | α(consult #23/#24)の前提 — 「compact chart box 内に head_overflow(β_n → 0)を実現する 2\|2 列が存在し、その jet 中心が collar / core のどちらかに住む」(§8.21 (HA-2) の負枝、§8.35 rate_evidence の対象) | 純指数 atom φ = e^{Az²/2+Bz}(§8.21 (HA-5) 規約; (F2²-1) の P_i・V_i 因子は省略 — model の限界)の 4 原子 span V と中心 ζ に対し β_min(V, ζ) := min_{f∈V, ‖f‖_ℱ=1} ‖J⁹_ζ f‖₂ を一般化固有値 λ_min(JᴴJ, G) で exact に計算(Fock 切断 N = 400 / mp 500、self-check 1e-16)。box |A| ≤ 0.8、|B| ≤ 1.5、|ζ| ≤ 1。Stage A1 乱択 400 config × ζ 最小化 / A2 衝突 sweep(ε = 1e-1…1e-4)/ **A4 衝突を差分商基底と極限 span((d·∇)^j φ = (dA z²/2 + dB z)^j φ — heat relation 込み)で well-conditioned に再計算**(5 pattern × 6 config の ε-continuity、極限 span の box 走査 n = 60–120、A-only(次数 6)/ B-only(次数 3)方向、全パラメータ Nelder–Mead)/ A5 mpmath 60 桁で角の最小値と中心→角の経路 | **結果**(`C:/tmp/probe-centre/` — repo 外・非追跡; scripts + JSON + summary、索引 README-centre-probe.md): (i) **衝突は overflow を作らない** — 全 pattern で β_min(ε) → β_min(0) > 0 に滑らかに収束(quad 極限の最小 3.9e-3、他は 1e-2〜1e0; A2 が報告した「0.0」は Gram 条件数 ≥ 1e12 での eigh 負固有値 clip の artefact); (ii) 閉 box 上の inf は**角 |A| = 0.8、|B| = 1.5、|ζ| = 1 で 6.0e-7**(double 5.8e-7 → mp 6.03e-7、Gram cond 7e3)、中心→角の経路で 1.0 → 0.40(s = 0.6)→ 3.5e-3(0.8)→ 1.0e-4(0.9)→ 6.0e-7(1.0)と指数的に減少、|B| 単独縮小 s = 0.5 で 1.7e-3、|A| 単独で 2.2e-2 に回復、ζ 単独では 1e-5〜6e-7 で不変 ⇒ **小ささは box の角(Fock 質量の中心域からの離脱)由来で、衝突由来ではない**; (iii) よって compact chart box の純指数 model では **σ₀ := inf β > 0(head_overflow 枝は空)**。Stage B(overflow 列の中心位置測定)は対象 instance が無く不要。**診断であって証明ではない** — §8.21 (HA-2) の二択・§8.35 の not_proven 判定は不変。**含意(設計判断は orange)**: α(rate 付き対角列)が追う「実現 overflow 列」は model box に instance が無い; head_overflow を型で閉じる本命は §8.20 の「正道」(J⁹-relative confluent secant compactification — 極限 span が有界次数の多項式 × Gaussian に収まることを probe が裏付け)。**Sol #25 の訂正(2026-10-23)**: (a) 2(m−1) は直線接近の予算で一般衝突予算ではない(三重衝突で次数 5 の例、安全予算 0/2/5/9); (b) **A4/A5 の Gram は共役の向きが逆**(正しくは G = C̄ Cᵀ) — 角候補 1 点の 60 桁再計算 6.0257e-7 → 6.0661e-7、小ささは残るが最小位置・全探索は**修正後に再実行**(進行中、結果は本行を追記で更新); (c) 有限探索から「閉 box の inf が正」「角で達成」は確定しない(候補値・診断) |
 | GRADED-BUDGET-DOUBLE | bi-RF cost Λ₁+Λ₂ の provenance/root 二重計上 | ledger 監査 | open(A.0/GC-11 入力) |
 
 **実測ベンチマーク候補(pointer)**: 公開 homodyne/quadrature データの調査は
@@ -7351,6 +7451,13 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.140(2026-10-23): **§8.38 GC-5-SIGMA0 HEAD-FLOOR(consult #25 設計
+  記録)**を追加 — Sol の経路 ④(15 階因数分解 ODE → ℱ_γ compactness → 極限
+  Wronskian)、受理済み packet の扱い(撤回ではなく入力消滅)、packet 案 P0–P7
+  と見積、probe への訂正 2 件、最大リスク(純原子床の reduced defect への無条件
+  適用)。§4 に SIGMA0 候補行(orange GO 待ち)、§9 CENTRE-PROBE 行に Sol の
+  訂正と再実行中の注記。
 
 - v0.29.139(2026-10-23): §9 に CENTRE-PROBE 行を追加(orange GO 2026-10-22
   の中心位置 probe — Stage A/A4/A5 の結果: compact box の純指数 model に
