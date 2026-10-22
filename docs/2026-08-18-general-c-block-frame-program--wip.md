@@ -188,7 +188,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | **accepted(§8.35、luna `f1c7c3b` R-T2COV2 R3、3R)— gate 判定 = not_proven**: 比較不等式と Taylor–Cauchy 還元は受理、denominator / rate / limit-realization の 3 evidence とも現行 (FL22-1) record では供給不能。**stop/go 裁定(orange 2026-09-03)= (α)**: fl22_1_record-v1.1(rate 付き対角列)を試す。**Sol consult #23 の判定**: σ₀′ := inf liminf β_n/‖f_n‖_W 案は**採択不可**(window_mass を消したのではなく未制御の s_n/‖f_n‖_W に移しただけ; 負枝に必要な量は β_n/(a_n·min(a_n, h_n)⁹) → 0、a_n := ‖f_n‖_W、h_n := 許容窓幅)。(α) は v1.1 一枚では閉じず **5 packet 15–26R**(①centered-subwindow closure((PS-4) の zf/we9/d10/W_zf 継承、3–5R)②scale-feasibility dichotomy(h_n 込み、3–5R)③realized diagonal + core producer(3–5R)④positive branch consumers の再証明(4–7R)⑤overflow bridge integration(2–4R))。①②が閉じるまで §8.35 の not_proven を維持。**規模の再裁定(orange 2026-09-03)= ①②まで着手して再評価**(③–⑤の GO は①②受理後に改めて)。**Sol #24(2026-10-16)**: ①には (PS-4)-v1.1 の spec packet の先行が必要。α 全体には「小さい jet を持つ実現列が許容 source 中心と十分な余白を持つ」という中心選択の数学的不足(consult #19 追記 (iv) の既知 obligation)が別に残り、4 packet(9–16R)を通しても閉じない — not_proven 維持、次の一手は orange 裁定 |
 | GC-5-α1 SOURCE-WINDOW-CLOSURE(consult #23 ①、旧名 SUBWINDOW-CLOSURE) | §8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.16 (PS-4)、§8.17 (AT-3)、§8.27 [R-T3A2 R2-02] | **(PS-4) の source 窓 S(閉、契約ごとのパラメータ)と zf 窓 S_zf(半開 ρ/13)の区別を正しく読み、同一 zf/d10/we9 witness の下で source 窓を S′ = [c′ − s′/2, c′ + s′/2] ⊂ S_zf(flag = contained)に取り直す constructor** を登録(出力は (PS-4) v1 の instance — versioned 型なし)。R1 版(zf 窓の部分窓を source 窓に昇格)は撤回。**副産物(型の事実)**: S′ ⊂ S_zf ⊂ collar かつ W_core ⊂ W_reg = W ∖ (collar ∪ …) ⟹ S′ ∩ W_core = ∅ — §8.35 (OB-2) の source_in_core は (PS-4)-valid な source 窓では構成不能、分母制御は collar 上の床(③の義務)に置き換える必要 | **drafted(§8.36、R-A1 R2 差し戻し blocking 3 — (PS-4) の source 窓/zf 窓の関係が受理済み本文で未定義、(PS-4)-v1.1 の先行が必要)**、見積 3–5R(Sol #23)→ Sol #24: v1.1 受理後 1–2R |
 | GC-5-α2 SCALE-FEASIBILITY(consult #23 ②) | α1、§8.23 (FL22-1)(FL22-2)、§8.35 | 許容窓幅 h_n(zf 窓 S 内・core 内の ζ_n の量的余白)込みの二択: β_n/(a_n·min(a_n, h_n)⁹) → 0 型の量の inf-liminf 二分と、負枝の rate 付き対角列 | open(α1 受理後 — Sol #24: 「与えられた中心・余白・mass・分母制御の下で scale を選べる条件」の条件付き lemma に再定義。中心族の確保は含まない)、見積 3–5R(Sol #23/#24) |
-| **(PS-4)-v1.1 WINDOW-ANCHOR-SPEC(候補 — Sol #24 Q3)** | §8.16 (PS-4)、§8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.24 window_contract_r、§8.27 [R-T3A2 R2-02]、consult #19 追記 (iv) | source 窓 S / zf_scope(A := closure(S_zf)、C_zf := {dist(z, A) ≤ r_S})/ jet_anchor(we9/d10 が同一 zf witness を参照する証拠、t₀・λ・ℓ_ext は anchor 側)を分離し、flag の意味を固定(identical = S = A の区間幾何一致、contained = S ⊊ A、disjoint-forbidden = 部分重複も含め有効 instance を生成しない)。v1 instance の無条件埋め込みは不可 — (AE-4) 型の読み依存・証拠依存 adapter。consumer 対応表(ZF-3/D10/WE9 は数学維持+anchor 結合、AT-3/FL22-2 の collar 参照先は S_zf 固定、PS-7/PS-9・α・overflow は v1.1 定義域で再型付け・C₂₂ 自動適用禁止、window_contract_r は再型付け、RS-1 は既存 countersequence の窓を差し替えない)。α と独立に consult #19 追記 (iv) の中心不一致 obligation の前提整備 | **候補(orange 裁定待ち)**、見積 3–5R(Sol #24) |
+| **(PS-4)-v1.1 WINDOW-ANCHOR-SPEC(候補 — Sol #24 Q3)** | §8.16 (PS-4)、§8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.24 window_contract_r、§8.27 [R-T3A2 R2-02]、consult #19 追記 (iv) | source 窓 S / zf_scope(A := closure(S_zf)、C_zf := {dist(z, A) ≤ r_S})/ jet_anchor(we9/d10 が同一 zf witness を参照する証拠、t₀・λ・ℓ_ext は anchor 側)を分離し、flag の意味を固定(identical = S = A の区間幾何一致、contained = S ⊊ A、disjoint-forbidden = 部分重複も含め有効 instance を生成しない)。v1 instance の無条件埋め込みは不可 — (AE-4) 型の読み依存・証拠依存 adapter。consumer 対応表(ZF-3/D10/WE9 は数学維持+anchor 結合、AT-3/FL22-2 の collar 参照先は S_zf 固定、PS-7/PS-9・α・overflow は v1.1 定義域で再型付け・C₂₂ 自動適用禁止、window_contract_r は再型付け、RS-1 は既存 countersequence の窓を差し替えない)。α と独立に consult #19 追記 (iv) の中心不一致 obligation の前提整備 | **drafted(§8.37、査読待ち R-PS4V11 R1)**(orange GO 2026-10-22)、見積 3–5R(Sol #24) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
@@ -7126,6 +7126,128 @@ rate、§8.35 (OB-2)(OB-3) の改訂、L9/L13/L20/L27 の閉鎖、人間によ�
   凍結が筋。§8.36 の R2 修正は v1.1 受理後に行う(blocking 1・2 は v1.1
   なしでは直せない — 部分修正はしない)。
 
+### 8.37 GC-5-PS4-v1.1 WINDOW-ANCHOR-SPEC((PS-4) の source 窓と zf anchor の分離 — drafted、査読対象 R-PS4V11 R1)
+
+**目的**: consult #24 Q3 の spec packet(orange GO 2026-10-22)。§8.16 (PS-4)
+window_contract は zf 保証域を「S と collar(S, r_S)」と**契約の source 窓
+と同じ文字 S** で書き、we9/d10 を「source 窓 S の同一オブジェクト参照」と
+し、関係 flag {identical, contained, disjoint-forbidden} の意味を定義して
+いない。一方 §8.5 (ZF-3) の窓 S_zf は半開・長さ ρ/13 の別 object であり
+(§8.27 [R-T3A2 R2-02])、受理済み consumer は s を自由パラメータとして
+扱う。本 packet は **versioned な仕様選択**(読み A — consult #24 Q1)と
+して、source 窓・zf anchor・両者の関係を**別 field に分離した
+window_contract-v1.1** を登録し、v1 からの読み依存 adapter と consumer
+対応表を与える。**不等式は主張しない**(帰結 (WA-5) は定義からの直接の
+帰結)。§8.5/§8.12/§8.13/§8.16/§8.17/§8.23/§8.24/§8.27 本文は不変。
+
+**(WA-0) 読みの確定(仕様選択であって v1 の解釈確定ではない)**:
+v1 の文面は「S = zf 窓」(識別読み)とも「S ⊂ zf 窓」(包含読み)とも読め、
+受理済み本文内に両方の痕跡がある(識別: (PS-4) の文字 S、§8.24 の同一
+object 参照列挙; 包含: §8.27 の別 object 規約、§8.23 consult #19 追記 (iv)
+「S は collar 内にあり」)。v1.1 は**包含読みを型で固定**し、識別読みは
+包含の特別な場合(S = closure(S_zf))として吸収する。v1 instance が
+どちらの読みで生成されたかは **instance ごとの evidence** で判定する
+((WA-6) — 全 instance の無条件埋め込みは主張しない)。
+
+**(WA-1) zf anchor**:
+  `zf_anchor-v1 := (zf_witness ref(§8.5 (ZF-3): S_zf = [a_S, b_S) 半開、
+   b_S − a_S = ρ/13、r_S ∈ (0, min(ρ/26, h_V)]、zeros_P̃₁ / zeros_P̃₂、
+   invariants (i)(ii)(iii)),
+   A := [a_S, b_S](S_zf の閉包 — 区間として exact),
+   C_zf := {z ∈ ℂ : dist(z, A) ≤ r_S}(dist(z, S_zf) = dist(z, A) なので
+   §8.5 (ZF-2) の「複素 collar」と同一集合 — 名称と集合の明示のみ、(ZF-3)
+   の窓は変更しない),
+   d10_witness-v1 ref(§8.12 — t₀ = center(S_zf)、ℓ_ext = min(r_S/2, 1/λ)、
+   M₁、M₁₀、R̂(θ)、適用域 = 実軸上 t₀ 中心線分 ⊂ S_zf),
+   we9_witness-v1 ref(§8.13),
+   **checked_same_zf**: d10_witness-v1.zf_witness ref ≡ we9_witness-v1.
+   d10_witness-v1.zf_witness ref ≡ 上の zf_witness ref(同一 object の
+   identity check — 不成立 = 構成不能),
+   λ(§8.6 (N-0) global λ)・ℓ_ext の整合 field(d10 と同一 object))`。
+**anchor の保証域(型の事実、(ZF-3) の言い換え)**: C_zf 上で P̃₁P̃₂V₁V₂ ≠ 0
+— z′ ∈ C_zf に対し A compact より ∃w ∈ A: |z′ − w| ≤ r_S、よって
+dist(Re z′, S_zf) ≤ |Re z′ − w| ≤ r_S ≤ ρ/26 < ρ/13 なので z′ は (i) の
+零点ではなく、(ii) は C_zf = collar そのもの。∎
+
+**(WA-2) source 窓**:
+  `source_window-v1 := (t_c ∈ ℝ, s > 0, S := [t_c − s/2, t_c + s/2](閉区間),
+   checked_in_W: S ⊂ W の**直接検証**(端点比較 — J_k ⊂ W 等の間接条件で
+   代替しない [luna R-A1 R2 non-blocking]),
+   checked_scale: s ≤ L_C/2 の直接検証)`。
+
+**(WA-3) 関係 constructor(flag の意味の固定)**:
+  `window_relation-v1 :=
+     identical(evidence: t_c − s/2 = a_S ∧ t_c + s/2 = b_S — **区間幾何と
+       しての一致 S = A**; 閉区間 S と半開 S_zf の object identity ではない)
+   | contained(evidence: a_S ≤ t_c − s/2 ∧ t_c + s/2 ≤ b_S ∧ (t_c − s/2 >
+       a_S ∨ t_c + s/2 < b_S) — **S ⊊ A**、方向は source ⊂ anchor に固定)`
+— **disjoint-forbidden は constructor を持たない**: S ⊄ A となる任意の
+(S, anchor)(部分重複・外側配置・逆包含 A ⊊ S を含む)は v1.1 contract を
+構成できない(fail-closed)。v1 の flag 名との対応: identical ↦ identical、
+contained ↦ contained(方向固定)、disjoint-forbidden ↦ 構成不能。
+
+**(WA-4) window_contract-v1.1 と保証域の導出**:
+  `window_contract-v1.1 := (W(cell 窓、|W| = L_C ≤ 1), source_window-v1,
+   zf_anchor-v1, window_relation-v1,
+   wzf_cover ref(§8.17 (AT-3) — W_reg := W ∖ (C_zf ∪ ⋃_{c ∈ C_atlas} U_c ∪
+   Σ): **collar := C_zf は anchor の量で source 窓に依らない**),
+   checked_same_provenance(zf_anchor・wzf_cover・source が同一 cell・同一
+   raw pair・同一 divisor_record))`。
+**保証域(型の事実)**: identical / contained のいずれでも S ⊂ A なので、
+collar(S, r_S) := {z : dist(z, S) ≤ r_S} ⊂ C_zf(dist の集合単調性)。よって
+v1 の「zf 保証域は S と collar(S, r_S)」は (WA-1) の C_zf 上の保証から
+**導かれる**(v1 では文字の同一視で済ませていた箇所の明示)。**d10/we9 の
+内容は anchor の量**(t₀ = center(S_zf)、Taylor 線分 ⊂ S_zf、ℓ_ext)で
+source 窓 S に依らない — 本 packet は **S 中心での d10/we9 を主張しない**
+(親の証明の保存のみ; ℓ_ext と s/2 の比較を要する consumer は別 adapter
+— 非主張)。(PS-4) v1 の λ・ℓ_ext 整合 field は anchor に移る(同一 object)。
+
+**(WA-5) 帰結 — source 窓と core の排反(定義からの直接の帰結 [consult #24
+Q4])**: 任意の v1.1 contract、任意の n・ρ > 0 について、§8.17 の W_reg,n は
+閉集合 C_zf,n を除くので t ∈ W_reg,n ⟹ dist(t, A_n) > r_{S,n}; §8.23
+(FL22-2)(a) の W_core,n(ρ) = closure{t ∈ W_reg,n : …} は ambient closure
+だが dist(·, A_n) は連続なので t ∈ W_core,n(ρ) ⟹ dist(t, A_n) ≥ r_{S,n};
+一方 x ∈ S_n ⊂ A_n ⟹ dist(x, A_n) = 0。よって
+  **S_n ∩ W_core,n(ρ) = ∅ かつ dist(S_n, W_core,n(ρ)) ≥ r_{S,n}**
+(core が空でも成立)。n 一様の正距離には inf_n r_{S,n} > 0 が別途必要
+(非主張)。§8.36 (SW-2) の R2 blocking 3 はこの論法で置換する(§8.36 の
+改稿は v1.1 受理後)。∎
+
+**(WA-6) v1 → v1.1 adapter(読み依存・証拠依存 — §8.30 (AE-4) 型)**:
+  `to_v1_1(v1 instance, relation evidence) :=
+     v1.S と closure(v1.zf_witness.S) の区間比較が一致 → window_contract-
+       v1.1 with relation = identical
+   | v1.S ⊊ closure(v1.zf_witness.S) の evidence → … relation = contained
+   | いずれの evidence も構成できない(v1.S ⊄ closure(v1.zf_witness.S))
+       → **像なし**(当該 instance は読み B の instance として v1 のまま
+       残り、v1.1 を要求する consumer は消費不能 — fail-closed)`。
+anchor 側: v1 の we9/d10 参照から zf_anchor-v1 を構成するには
+checked_same_zf が必要(v1 は同一 object 参照を要求しているので evidence
+は v1 instance の field から取れる — 欠落なら構成不能)。**主張しない
+こと**: 全 v1 instance が像を持つこと; accepted packet 内の既存 instance
+(§8.26 (RS-1) の countersequence 窓、§8.24 window_contract_r の親)の読み
+の確定 — それらは v1.1 を流す場合にのみ、その時点で evidence 付きで変換
+する(既存 countersequence の窓は差し替えない)。
+
+**(WA-7) consumer 対応表(consult #24 Q3 を型で固定)**:
+| consumer | v1.1 での扱い |
+|---|---|
+| §8.5 (ZF-3)、§8.12 D10、§8.13 WE9 | producer の数学は不変。zf_anchor-v1.checked_same_zf で anchor 結合を明示 |
+| §8.17 (AT-3) wzf_cover / W_reg、§8.23 (FL22-2) W_core | collar の参照先を C_zf(anchor)に固定。source 窓の変更で再計算しない(S 非依存 — (WA-4)) |
+| §8.16 (PS-7)/(PS-9) | 量化は v1 のまま。v1.1 instance への PTN-22 の適用は identical の場合に to_v1(S と A の同一視を戻す射影)経由でのみ; **contained instance への C₂₂ の適用は非主張**(量化域の拡張は (PS-7) 側の versioned 改訂 — 本 packet 外) |
+| §8.24 window_contract_r(T3a0) | 継承群に zf_anchor / source / relation を対応させる window_contract_r-v1.1 は **T3a0 側の versioned 再型付け義務として登録のみ**(本 packet は構成も再証明もしない) |
+| §8.26 (RS-1)、§8.29 absorb identity adapter、provenance 束 | 既存 countersequence の窓は差し替えない。v1.1 を流す場合のみ参照型を更新(非主張) |
+| §8.25 (LF-0)、§8.27 (OS-1) 等の幾何のみの論証 | (W, S, s, L_C) の projection 後は同じ field・同じ論証(窓長非依存) — 置換不要 |
+| §8.35 (OB-2) 分母制御、T3c の床接続 | collar 用 consumer は**新設**(collar 床補題 — 非主張、consult #24 Q2) |
+| §8.36 α-1(source 取り直し constructor) | window_contract-v1.1 上で再起草(別 packet、1–2R) |
+
+**(WA-8) 出力契約**: zf_anchor-v1、source_window-v1、window_relation-v1、
+window_contract-v1.1、to_v1_1、(WA-5)。
+
+**scope(非主張)**: C₂₂ / PTN-22、collar 床 m_zf、S 中心での d10/we9、
+全 v1 instance の埋め込み、(PS-7) 量化域の拡張、window_contract_r-v1.1 の
+構成、α の対角列・中心選択、有効定数、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -7165,6 +7287,15 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.134(2026-10-22): **§8.37 GC-5-PS4-v1.1 WINDOW-ANCHOR-SPEC 起草**
+  (orange GO)— (WA-0) 読みの確定(包含読みを versioned 仕様選択として)、
+  (WA-1) zf_anchor-v1(A、C_zf、checked_same_zf)、(WA-2) source_window-v1、
+  (WA-3) window_relation-v1(flag の意味固定、disjoint-forbidden は
+  constructor なし)、(WA-4) window_contract-v1.1 と保証域の導出、(WA-5)
+  source 窓と core の排反(正半径)、(WA-6) to_v1_1(読み依存 adapter、像なし
+  の場合あり)、(WA-7) consumer 対応表、(WA-8) 出力契約。§4 の候補行を
+  drafted に。
 
 - v0.29.133(2026-10-22): **R-A1 R2 差し戻し(blocking 3)と consult #24
   (Sol)の記録** — §8.36 追記(読み A は versioned 仕様選択、中心不一致は
