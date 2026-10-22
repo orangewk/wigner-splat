@@ -185,9 +185,10 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持) |
 | GC-5-T2c-ov OVERFLOW-PS9-BRIDGE(集約 — **consult #22 で 2 分割**、下 2 行) | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。**consult #22(Sol)裁定**: 読みは (a) no-go 検出器であって contradiction lane ではない — β_n → 0 は違反(R_n ŝ_n⁹ → ∞)と**同じ向き**で、L9/L13/L20/L27 を矛盾で吸収しない。countersequence 起源の overflow から detected を生成することは (RC-4) により循環(仮定の言い直し)なので禁止。配置 = T2c 後・T3 前 | open(集約) |
 | GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC | T2c-ov、§8.21 (HA-4)、§8.23 (FL22-1)、§8.29 (RC-4)、§8.33 L9/L13/L20/L27 | **型・source authority・provenance のみ**: source constructor `realized_diagonal((FL22-1) σ₀ = 0 の対角列 ref — 実現族)\| countersequence_lane(L9 \| L13 \| L20 \| L27, selector ref)`、出力 `overflow_resolution-v1 := detected(ps9_evidence, realized_family_ref) \| unresolved_head_overflow(COUNTERSEQUENCE_ORIGIN \| RATE_MISSING \| DENOMINATOR_CONTROL_MISSING \| PROVENANCE_MISSING)`(not_proven は PS-9 の第三 variant にしない — router の unresolved 作業状態)。countersequence_lane は現状 **COUNTERSEQUENCE_ORIGIN で終端** | **accepted(§8.34、luna `7788dca` R-T2COV1 R4、4R)**(見積 2–3R → 実績 4R) |
-| GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | **accepted(§8.35、luna `f1c7c3b` R-T2COV2 R3、3R)— gate 判定 = not_proven**: 比較不等式と Taylor–Cauchy 還元は受理、denominator / rate / limit-realization の 3 evidence とも現行 (FL22-1) record では供給不能。**stop/go 裁定(orange 2026-09-03)= (α)**: fl22_1_record-v1.1(rate 付き対角列)を試す。**Sol consult #23 の判定**: σ₀′ := inf liminf β_n/‖f_n‖_W 案は**採択不可**(window_mass を消したのではなく未制御の s_n/‖f_n‖_W に移しただけ; 負枝に必要な量は β_n/(a_n·min(a_n, h_n)⁹) → 0、a_n := ‖f_n‖_W、h_n := 許容窓幅)。(α) は v1.1 一枚では閉じず **5 packet 15–26R**(①centered-subwindow closure((PS-4) の zf/we9/d10/W_zf 継承、3–5R)②scale-feasibility dichotomy(h_n 込み、3–5R)③realized diagonal + core producer(3–5R)④positive branch consumers の再証明(4–7R)⑤overflow bridge integration(2–4R))。①②が閉じるまで §8.35 の not_proven を維持。**規模の再裁定(orange 2026-09-03)= ①②まで着手して再評価**(③–⑤の GO は①②受理後に改めて) |
-| GC-5-α1 SOURCE-WINDOW-CLOSURE(consult #23 ①、旧名 SUBWINDOW-CLOSURE) | §8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.16 (PS-4)、§8.17 (AT-3)、§8.27 [R-T3A2 R2-02] | **(PS-4) の source 窓 S(閉、契約ごとのパラメータ)と zf 窓 S_zf(半開 ρ/13)の区別を正しく読み、同一 zf/d10/we9 witness の下で source 窓を S′ = [c′ − s′/2, c′ + s′/2] ⊂ S_zf(flag = contained)に取り直す constructor** を登録(出力は (PS-4) v1 の instance — versioned 型なし)。R1 版(zf 窓の部分窓を source 窓に昇格)は撤回。**副産物(型の事実)**: S′ ⊂ S_zf ⊂ collar かつ W_core ⊂ W_reg = W ∖ (collar ∪ …) ⟹ S′ ∩ W_core = ∅ — §8.35 (OB-2) の source_in_core は (PS-4)-valid な source 窓では構成不能、分母制御は collar 上の床(③の義務)に置き換える必要 | **drafted(§8.36、R1 適用済み(全面改稿)・査読待ち R-A1 R2)**、見積 3–5R(Sol #23) |
-| GC-5-α2 SCALE-FEASIBILITY(consult #23 ②) | α1、§8.23 (FL22-1)(FL22-2)、§8.35 | 許容窓幅 h_n(zf 窓 S 内・core 内の ζ_n の量的余白)込みの二択: β_n/(a_n·min(a_n, h_n)⁹) → 0 型の量の inf-liminf 二分と、負枝の rate 付き対角列 | open(α1 受理後)、見積 3–5R(Sol #23) |
+| GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | **accepted(§8.35、luna `f1c7c3b` R-T2COV2 R3、3R)— gate 判定 = not_proven**: 比較不等式と Taylor–Cauchy 還元は受理、denominator / rate / limit-realization の 3 evidence とも現行 (FL22-1) record では供給不能。**stop/go 裁定(orange 2026-09-03)= (α)**: fl22_1_record-v1.1(rate 付き対角列)を試す。**Sol consult #23 の判定**: σ₀′ := inf liminf β_n/‖f_n‖_W 案は**採択不可**(window_mass を消したのではなく未制御の s_n/‖f_n‖_W に移しただけ; 負枝に必要な量は β_n/(a_n·min(a_n, h_n)⁹) → 0、a_n := ‖f_n‖_W、h_n := 許容窓幅)。(α) は v1.1 一枚では閉じず **5 packet 15–26R**(①centered-subwindow closure((PS-4) の zf/we9/d10/W_zf 継承、3–5R)②scale-feasibility dichotomy(h_n 込み、3–5R)③realized diagonal + core producer(3–5R)④positive branch consumers の再証明(4–7R)⑤overflow bridge integration(2–4R))。①②が閉じるまで §8.35 の not_proven を維持。**規模の再裁定(orange 2026-09-03)= ①②まで着手して再評価**(③–⑤の GO は①②受理後に改めて)。**Sol #24(2026-10-16)**: ①には (PS-4)-v1.1 の spec packet の先行が必要。α 全体には「小さい jet を持つ実現列が許容 source 中心と十分な余白を持つ」という中心選択の数学的不足(consult #19 追記 (iv) の既知 obligation)が別に残り、4 packet(9–16R)を通しても閉じない — not_proven 維持、次の一手は orange 裁定 |
+| GC-5-α1 SOURCE-WINDOW-CLOSURE(consult #23 ①、旧名 SUBWINDOW-CLOSURE) | §8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.16 (PS-4)、§8.17 (AT-3)、§8.27 [R-T3A2 R2-02] | **(PS-4) の source 窓 S(閉、契約ごとのパラメータ)と zf 窓 S_zf(半開 ρ/13)の区別を正しく読み、同一 zf/d10/we9 witness の下で source 窓を S′ = [c′ − s′/2, c′ + s′/2] ⊂ S_zf(flag = contained)に取り直す constructor** を登録(出力は (PS-4) v1 の instance — versioned 型なし)。R1 版(zf 窓の部分窓を source 窓に昇格)は撤回。**副産物(型の事実)**: S′ ⊂ S_zf ⊂ collar かつ W_core ⊂ W_reg = W ∖ (collar ∪ …) ⟹ S′ ∩ W_core = ∅ — §8.35 (OB-2) の source_in_core は (PS-4)-valid な source 窓では構成不能、分母制御は collar 上の床(③の義務)に置き換える必要 | **drafted(§8.36、R-A1 R2 差し戻し blocking 3 — (PS-4) の source 窓/zf 窓の関係が受理済み本文で未定義、(PS-4)-v1.1 の先行が必要)**、見積 3–5R(Sol #23)→ Sol #24: v1.1 受理後 1–2R |
+| GC-5-α2 SCALE-FEASIBILITY(consult #23 ②) | α1、§8.23 (FL22-1)(FL22-2)、§8.35 | 許容窓幅 h_n(zf 窓 S 内・core 内の ζ_n の量的余白)込みの二択: β_n/(a_n·min(a_n, h_n)⁹) → 0 型の量の inf-liminf 二分と、負枝の rate 付き対角列 | open(α1 受理後 — Sol #24: 「与えられた中心・余白・mass・分母制御の下で scale を選べる条件」の条件付き lemma に再定義。中心族の確保は含まない)、見積 3–5R(Sol #23/#24) |
+| **(PS-4)-v1.1 WINDOW-ANCHOR-SPEC(候補 — Sol #24 Q3)** | §8.16 (PS-4)、§8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.24 window_contract_r、§8.27 [R-T3A2 R2-02]、consult #19 追記 (iv) | source 窓 S / zf_scope(A := closure(S_zf)、C_zf := {dist(z, A) ≤ r_S})/ jet_anchor(we9/d10 が同一 zf witness を参照する証拠、t₀・λ・ℓ_ext は anchor 側)を分離し、flag の意味を固定(identical = S = A の区間幾何一致、contained = S ⊊ A、disjoint-forbidden = 部分重複も含め有効 instance を生成しない)。v1 instance の無条件埋め込みは不可 — (AE-4) 型の読み依存・証拠依存 adapter。consumer 対応表(ZF-3/D10/WE9 は数学維持+anchor 結合、AT-3/FL22-2 の collar 参照先は S_zf 固定、PS-7/PS-9・α・overflow は v1.1 定義域で再型付け・C₂₂ 自動適用禁止、window_contract_r は再型付け、RS-1 は既存 countersequence の窓を差し替えない)。α と独立に consult #19 追記 (iv) の中心不一致 obligation の前提整備 | **候補(orange 裁定待ち)**、見積 3–5R(Sol #24) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
@@ -7058,6 +7059,73 @@ jet rate の競合(consult #23 Q2)は ② の主題。
 rate、§8.35 (OB-2)(OB-3) の改訂、L9/L13/L20/L27 の閉鎖、人間による査読は
 未実施。
 
+**§8.36 追記(2026-10-22 — R-A1 R2 差し戻しと consult #24、Sol
+`sol-consult24-ps4-window.md`、本文は不変)**:
+- **R-A1 R2**(luna、SHA `4749d78`、REQUEST_CHANGES、blocking 3): (1) (SW-0)
+  は既存 (PS-4) の読みとして未成立 — (PS-4) は zf_scope の保証域を S と
+  書き、we9/d10 も「source 窓 S の同一 object 参照」、relation flag の意味は
+  未定義; §8.27 の「別 object」から包含は導けない。(2) (SW-1) の出力は
+  (PS-4) v1 instance でない — S を変えつつ zf/we9/d10/λ/ℓ_ext を同一参照
+  するのは §8.16/§8.24 の同一 object 要件に反する。(3) W_core ⊂ W_reg は
+  (FL22-2)(a) の ambient closure では未証明(正の collar 半径で救える)。
+  non-blocking: S_zf ⊂ J_k ⊂ W は §8.5 からは確認できない(自動条件に
+  しない)。**2 回とも (PS-4) の文面に阻まれた** = source 窓と zf 窓の関係
+  が受理済み interface で未定義、という診断。
+- **consult #24(Sol)の裁定 = REVISE**:
+  - Q1: 読み A(S ⊊ closure(S_zf)、flag = contained)を推奨するが「v1 の
+    唯一の読み」とは確定できず、**versioned な仕様選択**として (PS-4)-v1.1
+    で採用する。B(S を W 内で自由)は固定 witness の下で窓を取り直せる
+    ことを意味せず、source 上の保証の独立供給が要る。**担当 Claude 注**:
+    §8.23 の consult #19 追記 (iv)(3805–3808 行)は「S は collar 内にあり
+    自然な source 中心は通常 W_core 外」と記しており、読み A が受理済み
+    設計の意図と整合する。
+  - Q2: core 中心 vs source 窓の不一致は**実在**。T2c の矛盾ではなく二窓
+    比較への接続不足で、consult #19 追記 (iv) の**既知 obligation**(jet 用
+    中心 ζ_S と projective 用中心 ζ_P を分ける schema、または中心移送
+    補題)。正枝 T3c は二中心 schema か定量的移送、負枝 α は (OB-3) の
+    中心整合が必要で、中心を collar へ変えても小さい jet が保存される
+    とは限らない。collar 床の補題は「r_{S,n} ≥ r_* > 0 eventual」と固定
+    (χ, c₀) の raw carrier strong compactness を仮定すれば (FL22-2)(c) の
+    移動円板 Hurwitz で成立見込み — head_good を要求しない carrier 入力
+    契約が必要、閉 collar の境界までの床は非主張。
+  - Q3: (PS-4)-v1.1 の設計 = source / zf_scope / jet_anchor の分離と flag
+    の意味固定(§4 候補行に転記)。親 d10 の再利用は「親の Taylor 証明の
+    保存」であって新中心の d10 ではない。**v1 instance の無条件埋め込み
+    (全部 identical)は不可** — (AE-4) 型の読み依存・証拠依存 adapter が
+    必要(近い前例は atlas_witness-v2、frame_input-v2 → v2.1 ではない)。
+  - Q4: **正半径論法を確認**: t ∈ W_reg,n ⟹ dist(t, S_zf,n) > r_{S,n}、
+    closure で ≥ r_{S,n}; x ∈ S_n ⊂ closure(S_zf,n) ⟹ dist = 0; よって
+    S_n ∩ W_core,n(ρ) = ∅ かつ dist(S_n, W_core,n(ρ)) ≥ r_{S,n}(各 n・各
+    ρ > 0; n 一様の正距離には inf_n r_{S,n} > 0 が別途必要)。R2 blocking 3
+    の修正法として採用(v1.1 後の §8.36 改稿で適用)。
+  - Q5: α の対角列に必要な evidence(実中心 ζ_n ∈ (a_{S,n}, b_{S,n}) かつ
+    compact 中心域所属、余白 h_n > 0、t_c = ζ_n、s_n ≤ h_n、s_n ≤ r/2
+    eventual、s_n → 0、β_n/s_n⁹ → 0、window mass、collar 床、provenance)。
+    **(FL22-1) はこの制限付き対角列を保証しない**: σ_col := inf_{𝒜_col}
+    liminf β_n ≥ σ₀ なので σ₀ = 0 ⟹ σ_col = 0 は出ない; β → 0 から余白と
+    両立する rate も出ない(数列モデル a_n = 1、β_n = h_n = 1/n で
+    β_n/s_n⁹ ≥ n⁸ — 実 Gaussian 族の反例ではない); overflow 中心の core /
+    collar 所属は未証明で、core にあれば同中心の A 型 source は作れず、
+    (ZF-2) の鳩の巣は指定中心 ζ_n を含む窓を選べない。
+  - Q6: 順序 = (PS-4)-v1.1 spec(3–5R)→ α-1 constructor(1–2R)→
+    scale-feasibility 条件付き(3–5R)→ collar 床(2–4R)= 9–16R。ただし
+    「元の overflow がその仮定を満たす」は含まれず、中心選択 / coverage
+    packet が別途必要で成功見積は置けない。主張禁止: v1 の唯一の読み、
+    全 v1 instance の無条件埋め込み、σ₀ = 0 ⟹ σ_col = 0、β → 0 からの
+    rate、Fock norm 1 からの window mass、各 n の正半径からの一様 collar
+    床、core jet の collar 中心への無条件移送、C₂₂ / PTN-22 / detected /
+    overflow lane 閉鎖。Sol は設計関与者なので後続 packet の独立 PASS には
+    なれない(docs/review-cadence.md)。
+  - **最終判定**: (PS-4) の source/anchor 混同は修復可能な仕様欠落。
+    overflow bridge にはそれと別に「小さい jet を持つ実現列が許容 source
+    中心と十分な余白を持つ」という実質的な数学的不足があり、配線修正では
+    閉じない(α が不可能と証明されたわけでもない)。not_proven 維持。
+- **担当 Claude の読み(orange 裁定待ち)**: (PS-4)-v1.1 は α と独立に
+  価値がある(受理済み interface の欠落で、consult #19 (iv) の obligation
+  も同じ場所)。②③④と中心選択 packet は、中心族の確保に見込みが立つまで
+  凍結が筋。§8.36 の R2 修正は v1.1 受理後に行う(blocking 1・2 は v1.1
+  なしでは直せない — 部分修正はしない)。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -7097,6 +7165,15 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.133(2026-10-22): **R-A1 R2 差し戻し(blocking 3)と consult #24
+  (Sol)の記録** — §8.36 追記(読み A は versioned 仕様選択、中心不一致は
+  consult #19 追記 (iv) の既知 obligation、正半径論法、(FL22-1) は制限付き
+  対角列を保証しない、9–16R でも overflow 被覆は含まれない、not_proven
+  維持)。§4: α1 行を R2 差し戻しに、T2c-ov-2 行に Sol #24 を追記、α2 行を
+  条件付き lemma に再定義、(PS-4)-v1.1 WINDOW-ANCHOR-SPEC 候補行を追加。
+  本文は不変。査読記録は Temp 掃除(2026-09-18)で消失後 transcript から
+  回収し C:/tmp/rf-review/ へ移設(doc の受理記録が正本)。
 
 - v0.29.132(2026-09-11): R-A1 R1(blocking 5)適用 — §8.36 を **全面改稿**
   (旧 SUBWINDOW-CLOSURE → SOURCE-WINDOW-CLOSURE): [R1-01] (PS-4) の source
