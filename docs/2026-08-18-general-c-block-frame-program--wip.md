@@ -189,7 +189,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-α1 SOURCE-WINDOW-CLOSURE(consult #23 ①、旧名 SUBWINDOW-CLOSURE) | §8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.16 (PS-4)、§8.17 (AT-3)、§8.27 [R-T3A2 R2-02] | **(PS-4) の source 窓 S(閉、契約ごとのパラメータ)と zf 窓 S_zf(半開 ρ/13)の区別を正しく読み、同一 zf/d10/we9 witness の下で source 窓を S′ = [c′ − s′/2, c′ + s′/2] ⊂ S_zf(flag = contained)に取り直す constructor** を登録(出力は (PS-4) v1 の instance — versioned 型なし)。R1 版(zf 窓の部分窓を source 窓に昇格)は撤回。**副産物(型の事実)**: S′ ⊂ S_zf ⊂ collar かつ W_core ⊂ W_reg = W ∖ (collar ∪ …) ⟹ S′ ∩ W_core = ∅ — §8.35 (OB-2) の source_in_core は (PS-4)-valid な source 窓では構成不能、分母制御は collar 上の床(③の義務)に置き換える必要 | **drafted(§8.36、R-A1 R2 差し戻し blocking 3 — (PS-4) の source 窓/zf 窓の関係が受理済み本文で未定義、(PS-4)-v1.1 の先行が必要)**、見積 3–5R(Sol #23)→ Sol #24: v1.1 受理後 1–2R |
 | GC-5-α2 SCALE-FEASIBILITY(consult #23 ②) | α1、§8.23 (FL22-1)(FL22-2)、§8.35 | 許容窓幅 h_n(zf 窓 S 内・core 内の ζ_n の量的余白)込みの二択: β_n/(a_n·min(a_n, h_n)⁹) → 0 型の量の inf-liminf 二分と、負枝の rate 付き対角列 | open(α1 受理後 — Sol #24: 「与えられた中心・余白・mass・分母制御の下で scale を選べる条件」の条件付き lemma に再定義。中心族の確保は含まない)、見積 3–5R(Sol #23/#24)。**§9 CENTRE-PROBE(2026-10-23)**: 純指数 model の compact box に overflow instance なし(inf β ≈ 6e-7 > 0、角由来)— α の前提(実現 overflow 列)に instance が無い。継続可否は orange 裁定 |
 | **(PS-4)-v1.1 WINDOW-ANCHOR-SPEC(候補 — Sol #24 Q3)** | §8.16 (PS-4)、§8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.24 window_contract_r、§8.27 [R-T3A2 R2-02]、consult #19 追記 (iv) | source 窓 S / zf_scope(A := closure(S_zf)、C_zf := {dist(z, A) ≤ r_S})/ jet_anchor(we9/d10 が同一 zf witness を参照する証拠、t₀・λ・ℓ_ext は anchor 側)を分離し、flag の意味を固定(identical = S = A の区間幾何一致、contained = S ⊊ A、disjoint-forbidden = 部分重複も含め有効 instance を生成しない)。v1 instance の無条件埋め込みは不可 — (AE-4) 型の読み依存・証拠依存 adapter。consumer 対応表(ZF-3/D10/WE9 は数学維持+anchor 結合、AT-3/FL22-2 の collar 参照先は S_zf 固定、PS-7/PS-9 は identical instance のみ to_v1 経由・contained への C₂₂ 自動適用禁止、§8.34/§8.35 overflow は v1 専用(再型付け義務の登録のみ)、α は v1.1 上で再起草、window_contract_r は再型付け、RS-1 は既存 countersequence の窓を差し替えない)。α と独立に consult #19 追記 (iv) の中心不一致 obligation の前提整備 | **受理(§8.37、R-PS4V11 R4 ACCEPT、fixed SHA `ee547d7`、4R、blocking 計 5 件)**(orange GO 2026-10-22、見積 3–5R(Sol #24)どおり) |
-| **GC-5-SIGMA0 HEAD-FLOOR(candidate — consult #25、§8.38)** | §8.20 追記(ℱ_γ compact embedding)、§8.21 (HA-1)(HA-2)、§8.22 (CC-5)(CC-6a)、§3.1 (W_c-4)、§8.23 (FL22-1)、§8.33 L9/L13/L20/L27、§9 CENTRE-PROBE | per-chart jet 床 **σ₀ > 0**(原子箱と中心域に依存、c₀ 非依存)で head_overflow 枝を型で空にする。経路 ④: L = T₄⁸T₃⁴T₂²T₁ の一括消去 → 三角一階系の放射線評価 → ℱ_γ 有界 → compact embedding で強 compactness → 正規直交基底の Wronskian e^{Σq}P_n(deg ≤ C(r,2))の極限保存 → (W_c-4) で ord ≤ D_W(r) ≤ 9 → σ₀ > 0。packet P0–P7(上表) | open(**orange GO 待ち**)、見積 P1–P4 6–11R、接続込み 14–25R(Sol #25) |
+| **GC-5-SIGMA0 HEAD-FLOOR(candidate — consult #25、§8.38)** | §8.20 追記(ℱ_γ compact embedding)、§8.21 (HA-1)(HA-2)、§8.22 (CC-5)(CC-6a)、§3.1 (W_c-4)、§8.23 (FL22-1)、§8.33 L9/L13/L20/L27、§9 CENTRE-PROBE | per-chart jet 床 **σ₀ > 0**(原子箱と中心域に依存、c₀ 非依存)で head_overflow 枝を型で空にする。経路 ④: L = T₄⁸T₃⁴T₂²T₁ の一括消去 → 三角一階系の放射線評価 → ℱ_γ 有界 → compact embedding で強 compactness → 正規直交基底の Wronskian e^{Σq}P_n(deg ≤ C(r,2))の極限保存 → (W_c-4) で ord ≤ D_W(r) ≤ 9 → σ₀ > 0。packet P0–P7(上表) | orange GO(2026-10-23: P0 → P1–P4、P0 後に再評価)。**P0 drafted(§8.39、査読待ち R-P0 R1)** — 判定: 入力族は多項式商族 sigma0_family = {F/D}(純 4 原子和は d_common = 0 層)、P5 は必要に確定。見積 P1–P4 6–11R、接続込み 14–25R(Sol #25) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
@@ -7409,7 +7409,104 @@ Sol は設計の提案者なので後続の解析 packet には独立 review が
 再実行・Fock 切断誤差の保証・全域最適性、T3b/T3c の証明、C₂₂ の存在・
 有効値。
 
-**本節の状態**: 設計記録のみ。packet の起草は orange の GO 待ち。
+**本節の状態**: 設計記録。orange GO(2026-10-23): P0 → P1–P4 まで、P0 後に
+再評価。P0 は §8.39。
+
+### 8.39 GC-5-SIGMA0-P0 INPUT-CONTRACT(実 defect の provenance 監査と σ₀ 定理の入力契約 — drafted、査読対象 R-P0 R1)
+
+**目的**: consult #25 P0。σ₀ 定理(§8.38 経路 ④)の**入力対象を受理済み本文
+から exact に確定**する — 「純 4 原子 Gaussian 和」か「その多項式商」か、
+座標、固定箱、中心域、そして (HA-2)・floor_input・§8.35 が同一 object を
+消費していることの identity chain。**型と provenance の記録のみ**: 不等式・
+compactness・σ₀ > 0 は主張しない。受理済み本文(§8.3、§8.16、§8.21、§8.22、
+§8.23、§8.28、§8.31、§8.35、§8.37、§8.10 (B3-1))は不変。
+
+**(IC-0) 対象 object(受理済み定義の連結)**:
+- §8.3 設定: F = B₁ + B₂、B_i は §8.2 の held cell cover 上の 2 つの pair
+  block(GC-2 SPLIT4 の 2|2 pairing — 各 B_i は **2 原子の Gaussian 和**、
+  zero-pruning 済み B_i ≢ 0)。よって **F は raw 4 原子和 F = Σ_{j=1}^{4} c_j
+  e^{q_j}**(q_j = (A_j/2)t² + B_j t — §8.21 (HA-5) 規約)。
+- §8.3 (F2²-1): cell 上で B_i = P_i(t)·V_i(t)·e^{r_i(t)}(F2 補題、K2p1 §2 —
+  P_i は定数(D1/D2)または真正 deg ≤ 2 多項式(D3)で「P_i の零点 = B_i の
+  零点」、V_i は cell 上の unit(|V_i| ∈ [0.84, 1.16] または [0.27, 3.5])、
+  r_i 基準二次位相)。**本 packet はこれを cell 内での零点一致として読む**
+  (P_i の零点はすべて cell 内の B_i の零点 — F2 の局所因数分解)。
+- §8.3 (F2²-4): D := gcd(P₁, P₂)(モニック、deg D =: d_common ∈ {0, 1, 2}、
+  cell 局所、非自明は D3–D3 cell のみ)、P_i = D·P̃_i(互いに素)、
+  **F = D·F̃**、F̃ := P̃₁V₁e^{r₁} + P̃₂V₂e^{r₂}。
+- §8.16 (PS-1): raw pair 𝐁 = (B₁, B₂)(未約分)と reduced pair 𝐁̃ = (B̃₁, B̃₂)、
+  B̃_i = P̃_iV_ie^{r_i} = B_i/D の 2 層。
+- §8.22 (CC-6a): **T2c が消費する defect は raw 版 f_n^{raw} := (B̃₁ + B̃₂)/
+  ‖B̃₁ + B̃₂‖_ℱ**、raw 中心 ζ_n ∈ D̄(t₀, R_col)。gauge 後版との pointwise
+  同一視はしない。
+よって **f_n^{raw} = F̃_n/‖F̃_n‖_ℱ = (F_n/D_n)/‖F_n/D_n‖_ℱ**。F̃_n は entire
+(D_n | P_{i,n} かつ V_ie^{r_i} は cell 上非零なので F_n/D_n は cell 上正則、
+D_n の零点は cell 内 ⟹ 全平面で正則)で ℱ に属し(F_n ∈ ℱ、多項式での割り算は
+成長位数を上げない — 型の事実、評価は非主張)、‖f_n^{raw}‖_ℱ = 1。
+
+**(IC-1) 判定 — 入力族は多項式商族**:
+  `sigma0_family := { F/D : F = Σ_{j≤4} c_j e^{q_j}(raw 4 原子和、(IC-3) の
+   閉 chart 箱)、D モニック・deg D ≤ 2・D | F の意味で F/D entire・D の零点は
+   cell 内 }`
+— **純 4 原子和はその d_common = 0 層(reduced = raw)**。d_common ∈ {1, 2} の層
+(D3–D3 cell、§8.16 (PS-2) stratum_record の d₀ = ord_{t₀} D ≥ 1 を含む)は
+受理済み本文に実在する(A.2a の予算 N = 9 − d₀ がそれを消費)ので、**σ₀ 定理
+は sigma0_family 上で述べなければ T2c の消費 object を覆わない**。consult #25
+の「P5(多項式商への継承補題)は必要なら」は**必要**に確定する(P0 の帰結 —
+設計判断は orange、§8.38 の packet 表は不変)。
+
+**(IC-2) 座標**: raw 座標(gauge unitary U_n は defect に適用しない — (CC-6a)
+/(CC-6) の「空間座標の対応写像は定義しない」規約)。Fock 変数と窓変数は
+同一の t(原子 e^{q_j(t)} は t の entire 関数、ℱ-norm と J⁹_ζ は t 平面上;
+§8.16 (PS-4) の chart 座標 y = λ(t − t₀) は Remez 側の座標で、ℱ-norm・jet
+には使わない — §8.21 (HA-1) の β_n は窓再スケールなし、consult #25 Q1 と
+一致)。
+
+**(IC-3) 固定箱**: 各原子の (A_j, B_j) は §8.10 (B3-1) の Fock 入力条件
+**|A_j| ≤ 1 − δ_ℱ、|B_j| ≤ R_ℱ**(δ_ℱ > 0、R_ℱ は chart 定数 — FR の compact
+class K_{δ,R})を満たす(§8.22 (CC-5) が「raw 標準箱 … (B3-1)/§8.9 追記の
+standing 束縛」として参照する同一条件)。§8.28 (DF-0′) chart_stabilization-v1
+により countersequence の部分列上で chart(よって δ_ℱ, R_ℱ)は固定; chart は
+有限個(有限積)なので **per-chart の床は列一様の床を与える**(有限 min —
+型の注記、値は非主張)。変換後箱 K_{δ_ℱ²/2, C_B}((CC-5))は gauge 後 frame の
+箱であり、本 contract の対象(raw defect)には使わない。D の係数: モニック・
+零点が cell 内 ⟹ 係数は cell 直径で有界(compact — 型の注記)。
+
+**(IC-4) 中心域**: ζ_n ∈ D̄(t₀, R_col)(§8.21 (HA-1); (CC-6a) の raw 中心)。
+t₀ は v1 では window_geometry の t₀、v1.1 では zf_anchor-v1 の center(A)
+(§8.37 (WA-7) HA-1 行 — d10 の t₀ と同一 object); R_col は chart 定数。閉円板
+で compact。
+
+**(IC-5) identity chain(同一 object の消費)**:
+| consumer | f_n^{raw} への参照経路 |
+|---|---|
+| §8.21 (HA-1)(HA-2) head_outcome-v1 | (CC-6a) の系(raw 版で (HA-1)–(HA-3) 逐語成立)— T2c はこの raw 版のみ消費 |
+| §8.23 floor_input-v1 / (FL22-1) | carrier_witness-v1.raw_restatement(検証 flag「T2c の全消費は raw 座標」)+ head_outcome-v1 ref + checked_same_provenance(同一 chart・同一 raw pair 列・同一 ζ 列・同一部分列) |
+| §8.31 head_outcome-v1.1 / head_overflow_candidate-v1.1 | frame_input-v2.3(interior \| boundary)の raw pair 由来 — 同一 constructor |
+| §8.35 (OB-1)–(OB-3) の numerator ‖f_n‖_S、β_n | common_fields.raw pair / reduced pair ref((PS-1) の 2 層)+ 同一 ζ 列 |
+**σ₀ 定理の入力型(登録のみ)**:
+  `sigma0_input-v1 := (frame_input-v2.3 ref(raw 4 原子の (A_j, B_j) と chart
+   箱 ref — (IC-3)), divisor_record ref(§8.3 (F2²-4) — D、d_common), raw
+   defect 定義 ref((CC-6a)), centre_domain ref(zf_anchor-v1.center(A) |
+   window_geometry.t₀、R_col), checked_same_provenance(上表の全 consumer と
+   同一 chart・同一 raw pair 列・同一 ζ 列))`
+出力側の consumer(P6/P7 の義務、非主張): head_good の強化 witness
+(good_witness-v1.1 に ε := σ₀(chart) を列一様に供給)。
+
+**(IC-6) 多項式商構造が P1–P5 に課す義務(列挙のみ — 証明は各 packet)**:
+(a) 零位数の継承: ord_ζ(F/D) = ord_ζ F − ord_ζ D ≤ ord_ζ F(D | F の意味で)—
+P3/P4 の零位数上界は F 側で示せば F̃ 側に移る; (b) 0 での jet の制御: F = D·F̃
+の Leibniz 展開により F^{(k)}(0)(k ≤ 14)は F̃^{(k′)}(0)(k′ ≤ k)の有界係数
+(D の係数 — (IC-3))による線形結合 ⟹ P2 の三角一階系評価の初期値 Y(0) は
+F̃ の 0-jet で制御できる; (c) 商の成長評価: D の零点(≤ 2 個)を避ける円周
+(半径 ∈ [1, 2]、距離 ≥ 1/4)上の最大値原理で |F̃| を |F| から評価し Gaussian
+の二次成長率を保つ; (d) 正規化: ‖F̃‖_ℱ = 1 の下で (b)(c) を閉じる。
+いずれも**本 packet の主張ではない**(P5 の内容候補 — consult #25 Q4 の
+sketch と同じ)。
+
+**(IC-7) 出力契約**: sigma0_family、sigma0_input-v1、(IC-5) 表、(IC-6) 義務
+一覧。**scope(非主張)**: σ₀ > 0、compactness、ODE 補題、(IC-6) の各評価、
+有効定数、P_i・V_i の構造を使う議論、人間による査読は未実施。
 
 ## 9. 早期検証実験台帳
 
@@ -7451,6 +7548,14 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.141(2026-10-23): **§8.39 GC-5-SIGMA0-P0 INPUT-CONTRACT 起草**(orange
+  GO)— (IC-0) 対象 object の連結(§8.3 F = B₁ + B₂ は raw 4 原子和、(F2²-4)
+  F = D·F̃、(PS-1) 2 層、(CC-6a) raw defect)、(IC-1) 判定 = 多項式商族(純原子和
+  は d_common = 0 層、P5 必要)、(IC-2) raw 座標・Fock 変数 = 窓変数、(IC-3)
+  (B3-1) 閉 chart 箱 + (DF-0′) chart 固定、(IC-4) 中心域、(IC-5) identity chain
+  と sigma0_input-v1、(IC-6) P1–P5 への義務列挙、(IC-7) 出力契約。§4 SIGMA0
+  行を drafted に。
 
 - v0.29.140(2026-10-23): **§8.38 GC-5-SIGMA0 HEAD-FLOOR(consult #25 設計
   記録)**を追加 — Sol の経路 ④(15 階因数分解 ODE → ℱ_γ compactness → 極限
