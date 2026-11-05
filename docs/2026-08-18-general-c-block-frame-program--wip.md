@@ -182,14 +182,14 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T2b-0 GAUGE-SCALE-ADAPTER | GC-5-T2a(accepted `08c2d0e`)、FR §8.4 gauge section、§8.9 追記 | **atlas_witness-v1 → frame_input-v2 の前処理補題** — common_gauge_record-v1(pivot leaf・同一 U_n の pair 両成分適用・scalar 吸収表・全 4 原子の K_{δ_ℱ,R_ℱ} 所属 evidence・strong section evidence)+ **node_scale_bridge**(d_parabolic / t_increment の型分離 — d²/2 ≤ t ≤ (√5/2)d、統一しない)+ **TR3(root_far \| root_collapse) versioned sublabel**(T2a 非改変の下流拡張) | **accepted(§8.19、R-T2B0 R3 PASS、fixed SHA `7103b2e` — 箱前提の供給は §8.22 (CC-5) で解消(frame_input-v2.1)[R-T2BII R1-05])** |
 | GC-5-T2b-i HEAD9-ACTUAL(旧 HEAD9-FRAME は §8.20 で撤回)| T2b-0(accepted `7103b2e`)、(B3-4) RKHS 規約 | **実 defect 限定の moving-center 二択**(consult #18 — full-span V_n 単位球の strong compactness は PTN-22 が消費しない過剰目標として非目標化): β_n := ‖J⁹_{ζ_n}f_n‖ の **head_good(weak/compact-open 極限 f_* ≠ 0・ord_{ζ_*} ≤ 9)\| head_overflow(typed candidate — PS-9 detected は生成しない、橋は T2c-ov)** | **accepted(§8.21、R-T2BIA R1 PASS、fixed SHA `e5de2f6`)** |
 | GC-5-T2b-ii CARRIER-CHART(旧 CHART-FRAME を consult #18 で再定義 — defect 側 chart 消費表の義務は削除(defect は weak 化))| T2b-i(accepted `e5de2f6`)、T2b-0(accepted `7103b2e`)、§8.10 (B3-4a)/(B3-3)/(B3-4)、FR §8.4 | **carrier 側の完結**: 成分別 1/2 原子 strong frame(分離原子・(B3-4a))、⊕ block 対角 Gram の一様床(閉 compact chart constructor 上の下半連続 inf)、**箱供給補題**((CC-5) Möbius margin — T2b-0 の箱前提 obligation を standard box + frame_input-v2.1 で解消 [R-T2BII R1-05])、**raw 再主張系**(gauge の pointwise 移送禁止 — EW-B) | **accepted(§8.22、R-T2BII R3 PASS、fixed SHA `ccb1b6d`)** |
-| GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持)。**注記(SIGMA0 P7、§8.46 (RU-3))**: (FL22-1) の pair ごとの床は無条件(§8.45)、chart 水準 σ₀(χ, c₀) > 0 は (U_chart) 付き — L8 fixed_chart_floor が chart 定数を消費するため **open item**: (a) admissible pair の centre_uniform 拡張 / (b) fixed_chart_floor の sequence 形への再型付け(orange 裁定、Sol #26 候補) |
-| GC-5-T2c-ov OVERFLOW-PS9-BRIDGE(集約 — **consult #22 で 2 分割**、下 2 行) | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。**consult #22(Sol)裁定**: 読みは (a) no-go 検出器であって contradiction lane ではない — β_n → 0 は違反(R_n ŝ_n⁹ → ∞)と**同じ向き**で、L9/L13/L20/L27 を矛盾で吸収しない。countersequence 起源の overflow から detected を生成することは (RC-4) により循環(仮定の言い直し)なので禁止。配置 = T2c 後・T3 前 | **入力なし — critical path 外(SIGMA0 P7、§8.46)**: countersequence_lane(L9/L13/L20/L27)は無条件に空((RU-1))、realized_diagonal は候補の型(単一 compact 中心域)を満たす instance なし((RU-3)(i)); 条件付き橋と not_proven 記録は保持 |
+| GC-5-T2c BORD22-FLOOR | T2b 完結(T2b-0 `7103b2e` / T2b-i `e5de2f6` / T2b-ii `ccb1b6d`)| moving-center **projective order ν_ζ = ord(f_*) − min_i ord(B̂_{i,*}) ≤ 9(defect-order 形 — 和の極限は経由しない)**(主張値は予算 9 — D_W*(4) = 8 の sharp 化は別 packet、consult #16)+ 量的連鎖((χ, c₀) ごと — defect: **eventual** ‖J⁹f_n‖ ≥ σ₀(χ,c₀)/2 ≥ (σ₀(χ,c₀)/(2C_R))sup、carrier: 十分先の n で min_{W_core,n(ρ)} max_i\|B̂_i\| ≥ m_C(χ,c₀,ρ)/2 — eventual、上界 M_C = C_R は全 n pointwise)+ 対偶(eventual 形)。ここで BORD-22 を accepted 化。**+ 3+1 mixed-span valuation lemma**(consult #17)。**消費は head_good 枝のみ・floor_input-v1 経由で vanish_flag = none 限定・ρ ≤ r_{S,n} eventual evidence 必須**(head_overflow は T2c-ov へ — 循環なし、consult #18 / R-T2C R7)| **accepted(§8.23、R-T2C R8 受理 SHA `15b272e`、8R)** — **BORD-22(T2 chain)完成**(A.5a blocking obligation は T3 PTN-22 受理まで維持)。**注記(SIGMA0 P7、§8.46 (RU-3))**: (FL22-1) の pair ごとの床は無条件(§8.45)、chart 水準 σ₀(χ, c₀) > 0 は (U_chart) 付き — L8 fixed_chart_floor(分子)と (FL22-2)(c)(分母)が chart 定数を消費するため **open item**: (a) admissible pair の centre_uniform 拡張 / (b) sequence 形への再型付け(Sol #26 は (b) + CENTRE-COVER 監査を推奨 — §8.47; orange 裁定) |
+| GC-5-T2c-ov OVERFLOW-PS9-BRIDGE(集約 — **consult #22 で 2 分割**、下 2 行) | T2c、§8.16 (PS-9) | **head_overflow_candidate → PS-9 detected の変換**(実 raw defect の window/carrier/denominator を結合し、同一 raw data で ‖g‖_S/((s/L)⁹‖g‖_W) → 0 またはその既証明同値量を示す)。**返り値は detected \| not_proven** — 橋が閉じない場合は `unresolved_head_overflow` で止め、detected を生成しない(consult #18)。**consult #22(Sol)裁定**: 読みは (a) no-go 検出器であって contradiction lane ではない — β_n → 0 は違反(R_n ŝ_n⁹ → ∞)と**同じ向き**で、L9/L13/L20/L27 を矛盾で吸収しない。countersequence 起源の overflow から detected を生成することは (RC-4) により循環(仮定の言い直し)なので禁止。配置 = T2c 後・T3 前 | **入力なし — critical path 外(SIGMA0 P7、§8.46)**: countersequence_lane(L9/L13/L20/L27)は型付き入力(compact 中心域を持つ 1 本の列)について空((RU-1); 全 countersequence の producer coverage は §8.47 CENTRE-COVER)、realized_diagonal は候補の型(単一 compact 中心域)を満たす instance なし((RU-3)(i)); 条件付き橋と not_proven 記録は保持 |
 | GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC | T2c-ov、§8.21 (HA-4)、§8.23 (FL22-1)、§8.29 (RC-4)、§8.33 L9/L13/L20/L27 | **型・source authority・provenance のみ**: source constructor `realized_diagonal((FL22-1) σ₀ = 0 の対角列 ref — 実現族)\| countersequence_lane(L9 \| L13 \| L20 \| L27, selector ref)`、出力 `overflow_resolution-v1 := detected(ps9_evidence, realized_family_ref) \| unresolved_head_overflow(COUNTERSEQUENCE_ORIGIN \| RATE_MISSING \| DENOMINATOR_CONTROL_MISSING \| PROVENANCE_MISSING)`(not_proven は PS-9 の第三 variant にしない — router の unresolved 作業状態)。countersequence_lane は現状 **COUNTERSEQUENCE_ORIGIN で終端** | **accepted(§8.34、luna `7788dca` R-T2COV1 R4、4R)**(見積 2–3R → 実績 4R)。**注記(SIGMA0 P7)**: 2 系統とも入力なし — §8.46 (RU-1)(RU-3) |
 | GC-5-T2c-ov-2 OVERFLOW-RATIO-BRIDGE | T2c-ov-1 | D_n(t) := max_i \|B̂_{i,n}(t)\| に対し δ の exact 相殺と ‖g_n‖_S/(ŝ_n⁹‖g_n‖_W) ≤ (sup_W D_n / inf_S D_n)·‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) を証明し、sup_W D_n / inf_S D_n = O(1) と ‖f_n‖_S/(ŝ_n⁹‖f_n‖_W) → 0(≈ β_n = o(ŝ_n⁹‖f_n‖_W) の scaled-jet 制御 + Taylor 剰余の相対評価)を realized family 上で示す。**stop/go gate**: R1–R2 で rate / denominator 制御が供給不能と判明したら not_proven で終了し closure 工程を止めて再設計(Sol #22: 全 closure の**単一最高リスク** — consult #18 で撤回した full-span compactness の代替数学が未存在の可能性) | **accepted(§8.35、luna `f1c7c3b` R-T2COV2 R3、3R)— gate 判定 = not_proven**: 比較不等式と Taylor–Cauchy 還元は受理、denominator / rate / limit-realization の 3 evidence とも現行 (FL22-1) record では供給不能。**stop/go 裁定(orange 2026-09-03)= (α)**: fl22_1_record-v1.1(rate 付き対角列)を試す。**Sol consult #23 の判定**: σ₀′ := inf liminf β_n/‖f_n‖_W 案は**採択不可**(window_mass を消したのではなく未制御の s_n/‖f_n‖_W に移しただけ; 負枝に必要な量は β_n/(a_n·min(a_n, h_n)⁹) → 0、a_n := ‖f_n‖_W、h_n := 許容窓幅)。(α) は v1.1 一枚では閉じず **5 packet 15–26R**(①centered-subwindow closure((PS-4) の zf/we9/d10/W_zf 継承、3–5R)②scale-feasibility dichotomy(h_n 込み、3–5R)③realized diagonal + core producer(3–5R)④positive branch consumers の再証明(4–7R)⑤overflow bridge integration(2–4R))。①②が閉じるまで §8.35 の not_proven を維持。**規模の再裁定(orange 2026-09-03)= ①②まで着手して再評価**(③–⑤の GO は①②受理後に改めて)。**Sol #24(2026-10-16)**: ①には (PS-4)-v1.1 の spec packet の先行が必要。α 全体には「小さい jet を持つ実現列が許容 source 中心と十分な余白を持つ」という中心選択の数学的不足(consult #19 追記 (iv) の既知 obligation)が別に残り、4 packet(9–16R)を通しても閉じない — not_proven 維持、次の一手は orange 裁定。**注記(SIGMA0 P7)**: realized_input は居住せず、not_proven 記録は空虚な条件付き橋として保持 — §8.46 (RU-3) |
 | GC-5-α1 SOURCE-WINDOW-CLOSURE(consult #23 ①、旧名 SUBWINDOW-CLOSURE) | §8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.16 (PS-4)、§8.17 (AT-3)、§8.27 [R-T3A2 R2-02] | **(PS-4) の source 窓 S(閉、契約ごとのパラメータ)と zf 窓 S_zf(半開 ρ/13)の区別を正しく読み、同一 zf/d10/we9 witness の下で source 窓を S′ = [c′ − s′/2, c′ + s′/2] ⊂ S_zf(flag = contained)に取り直す constructor** を登録(出力は (PS-4) v1 の instance — versioned 型なし)。R1 版(zf 窓の部分窓を source 窓に昇格)は撤回。**副産物(型の事実)**: S′ ⊂ S_zf ⊂ collar かつ W_core ⊂ W_reg = W ∖ (collar ∪ …) ⟹ S′ ∩ W_core = ∅ — §8.35 (OB-2) の source_in_core は (PS-4)-valid な source 窓では構成不能、分母制御は collar 上の床(③の義務)に置き換える必要 | **drafted(§8.36、R-A1 R2 差し戻し blocking 3 — (PS-4) の source 窓/zf 窓の関係が受理済み本文で未定義、(PS-4)-v1.1 の先行が必要)**、見積 3–5R(Sol #23)→ Sol #24: v1.1 受理後 1–2R。**注記(SIGMA0 P7、§8.46 (RU-5))**: overflow 生成目的は対象を失った(countersequence 側は無条件、realized 側は橋の仮定下); 撤回・凍結継続は orange 判断 |
 | GC-5-α2 SCALE-FEASIBILITY(consult #23 ②) | α1、§8.23 (FL22-1)(FL22-2)、§8.35 | 許容窓幅 h_n(zf 窓 S 内・core 内の ζ_n の量的余白)込みの二択: β_n/(a_n·min(a_n, h_n)⁹) → 0 型の量の inf-liminf 二分と、負枝の rate 付き対角列 | open(α1 受理後 — Sol #24: 「与えられた中心・余白・mass・分母制御の下で scale を選べる条件」の条件付き lemma に再定義。中心族の確保は含まない)、見積 3–5R(Sol #23/#24)。**§9 CENTRE-PROBE(2026-10-23)**: 純指数 model の compact box に overflow instance なし(inf β ≈ 6e-7 > 0、角由来)— α の前提(実現 overflow 列)に instance が無い。継続可否は orange 裁定。**注記(SIGMA0 P7)**: 同上 — 対象の実現 overflow 列が無い(§8.46 (RU-1)(RU-3)) |
 | **(PS-4)-v1.1 WINDOW-ANCHOR-SPEC(候補 — Sol #24 Q3)** | §8.16 (PS-4)、§8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.24 window_contract_r、§8.27 [R-T3A2 R2-02]、consult #19 追記 (iv) | source 窓 S / zf_scope(A := closure(S_zf)、C_zf := {dist(z, A) ≤ r_S})/ jet_anchor(we9/d10 が同一 zf witness を参照する証拠、t₀・λ・ℓ_ext は anchor 側)を分離し、flag の意味を固定(identical = S = A の区間幾何一致、contained = S ⊊ A、disjoint-forbidden = 部分重複も含め有効 instance を生成しない)。v1 instance の無条件埋め込みは不可 — (AE-4) 型の読み依存・証拠依存 adapter。consumer 対応表(ZF-3/D10/WE9 は数学維持+anchor 結合、AT-3/FL22-2 の collar 参照先は S_zf 固定、PS-7/PS-9 は identical instance のみ to_v1 経由・contained への C₂₂ 自動適用禁止、§8.34/§8.35 overflow は v1 専用(再型付け義務の登録のみ)、α は v1.1 上で再起草、window_contract_r は再型付け、RS-1 は既存 countersequence の窓を差し替えない)。α と独立に consult #19 追記 (iv) の中心不一致 obligation の前提整備 | **受理(§8.37、R-PS4V11 R4 ACCEPT、fixed SHA `ee547d7`、4R、blocking 計 5 件)**(orange GO 2026-10-22、見積 3–5R(Sol #24)どおり) |
-| **GC-5-SIGMA0 HEAD-FLOOR(candidate — consult #25、§8.38)** | §8.20 追記(ℱ_γ compact embedding)、§8.21 (HA-1)(HA-2)、§8.22 (CC-5)(CC-6a)、§3.1 (W_c-4)、§8.23 (FL22-1)、§8.33 L9/L13/L20/L27、§9 CENTRE-PROBE | per-chart jet 床 **σ₀ > 0**(原子箱と中心域に依存、c₀ 非依存)で head_overflow 枝を型で空にする。経路 ④: L = T₄⁸T₃⁴T₂²T₁ の一括消去 → 三角一階系の放射線評価 → ℱ_γ 有界 → compact embedding で強 compactness → 正規直交基底の Wronskian e^{Σq}P_n(deg ≤ C(r,2))の極限保存 → (W_c-4) で ord ≤ D_W(r) ≤ 9 → σ₀ > 0。packet P0–P7(上表) | orange GO(2026-10-23: P0 → P1–P4、P0 後に再評価)。**P0 受理(§8.39、R-P0 R4 ACCEPT、fixed SHA `f1252ea`、4R、blocking 計 4 件)** — 判定: 入力族は多項式商族 sigma0_family = {F/D}(D は係数球面で正規化、零点位置の制限なし、枝別因子 P_i の共通因子; 純 4 原子和は D = 定数の層)、P5 は必要に確定。**P0 後の再評価: orange 裁定 (a)(2026-11-05)— P1–P4 を純原子族(sigma0_family の D = 定数層)で固め、P5 で商族 sigma0_family へ持ち上げる**(推奨根拠は §8.40 (AN-5) を参照; 正規化のずれ ‖F‖_ℱ = 1 / ‖F̃‖_ℱ = 1 は (IC-6)(d) として既に義務化)。**P1 受理(§8.40、R-P1 R3 ACCEPT、fixed SHA `d6b5284`)**。**P2 受理(§8.41、R-P2 R2 ACCEPT、fixed SHA `b1540e0`、同一 SHA で 2R)**。**P3 受理(§8.42、R-P3 R1 ACCEPT、fixed SHA `801767b`、1R)**。**P4 受理(§8.43、R-P4 R2 ACCEPT、fixed SHA `51ee349`、2R)**。**P1–P4(純原子層 = sigma0_family の D = 定数層)完了 — orange GO 範囲(P0 → P1–P4)の終端。実績 8R(P1 3 + P2 2 + P3 1 + P4 2、見積 6–11R 内; blocking 計 4 件のうち数学的 1 件 (AN-5)、定義整合 1 件 (JF-2)、手続き 2 件)。P5(商族 sigma0_family への継承)は orange GO(2026-11-05)— **P5 受理(§8.44、R-P5 R2 ACCEPT、fixed SHA `b0f1fee`、2R、blocking 計 1 件)**; **P6・P7 は orange GO(2026-11-05「先へ進んで」)— P6 受理(§8.45、R-P6 R2 ACCEPT、fixed SHA `78c9e70`、2R)**; **P7 drafted(§8.46 ROUTE-UPDATE、査読待ち R-P7 R1)**。** 見積 P1–P4 6–11R、接続込み 14–25R(Sol #25) |
+| **GC-5-SIGMA0 HEAD-FLOOR(candidate — consult #25、§8.38)** | §8.20 追記(ℱ_γ compact embedding)、§8.21 (HA-1)(HA-2)、§8.22 (CC-5)(CC-6a)、§3.1 (W_c-4)、§8.23 (FL22-1)、§8.33 L9/L13/L20/L27、§9 CENTRE-PROBE | per-chart jet 床 **σ₀ > 0**(原子箱と中心域に依存、c₀ 非依存)で head_overflow 枝を型で空にする。経路 ④: L = T₄⁸T₃⁴T₂²T₁ の一括消去 → 三角一階系の放射線評価 → ℱ_γ 有界 → compact embedding で強 compactness → 正規直交基底の Wronskian e^{Σq}P_n(deg ≤ C(r,2))の極限保存 → (W_c-4) で ord ≤ D_W(r) ≤ 9 → σ₀ > 0。packet P0–P7(上表) | orange GO(2026-10-23: P0 → P1–P4、P0 後に再評価)。**P0 受理(§8.39、R-P0 R4 ACCEPT、fixed SHA `f1252ea`、4R、blocking 計 4 件)** — 判定: 入力族は多項式商族 sigma0_family = {F/D}(D は係数球面で正規化、零点位置の制限なし、枝別因子 P_i の共通因子; 純 4 原子和は D = 定数の層)、P5 は必要に確定。**P0 後の再評価: orange 裁定 (a)(2026-11-05)— P1–P4 を純原子族(sigma0_family の D = 定数層)で固め、P5 で商族 sigma0_family へ持ち上げる**(推奨根拠は §8.40 (AN-5) を参照; 正規化のずれ ‖F‖_ℱ = 1 / ‖F̃‖_ℱ = 1 は (IC-6)(d) として既に義務化)。**P1 受理(§8.40、R-P1 R3 ACCEPT、fixed SHA `d6b5284`)**。**P2 受理(§8.41、R-P2 R2 ACCEPT、fixed SHA `b1540e0`、同一 SHA で 2R)**。**P3 受理(§8.42、R-P3 R1 ACCEPT、fixed SHA `801767b`、1R)**。**P4 受理(§8.43、R-P4 R2 ACCEPT、fixed SHA `51ee349`、2R)**。**P1–P4(純原子層 = sigma0_family の D = 定数層)完了 — orange GO 範囲(P0 → P1–P4)の終端。実績 8R(P1 3 + P2 2 + P3 1 + P4 2、見積 6–11R 内; blocking 計 4 件のうち数学的 1 件 (AN-5)、定義整合 1 件 (JF-2)、手続き 2 件)。P5(商族 sigma0_family への継承)は orange GO(2026-11-05)— **P5 受理(§8.44、R-P5 R2 ACCEPT、fixed SHA `b0f1fee`、2R、blocking 計 1 件)**; **P6・P7 は orange GO(2026-11-05「先へ進んで」)— P6 受理(§8.45、R-P6 R2 ACCEPT、fixed SHA `78c9e70`、2R)**; **P7 drafted(§8.46 ROUTE-UPDATE、R1 blocking 3 適用済み・査読待ち R-P7 R2)**。; **consult #26(Sol、2026-11-05、§8.47)**: (U_chart)/L8 は (b) sequence 形再型付け + CENTRE-COVER 監査を推奨((a) を供給する受理済み節は無い)、中心位置一様の絶対床は不可能(一原子例)、§8.46 の「無条件」は型付き入力限定 — 次の GO 候補 P7-SCOPE / CENTRE-COVER / L8-SEQUENCE-FLOOR(orange 裁定)。** 見積 P1–P4 6–11R、接続込み 14–25R(Sol #25) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
@@ -3818,14 +3818,11 @@ v2、または scale-neutral hop の中心移送補題が必要(単一中心の�
 statement と T3b の scale-covariant floor statement の 2 本だけを正確に
 起こす**(→ §8.24)。総見積 14–24R(計画値 16–20R)。
 
-**注記(2026-11-05 — SIGMA0 P7、本文は不変)**: (FL22-1) の各 admissible pair に
-ついて liminf_n β_n^{raw} ≥ σ₀^𝒢(a, b, t₀, R_col) > 0 が無条件に成立する(§8.45
-(FB-3)(i); t₀ はその pair の中心)。chart 水準の σ₀(χ, c₀) > 0(σ₀ = 0 枝の空性)は
-中心の一様有界性 (U_chart) の下でのみ出る((FB-3)(ii); §8.46 (RU-3)(ii) の
-pre-existing gap)。σ₀ = 0 枝の対角列は候補の型(単一 compact 中心域)を満たす
-限り構成不能(§8.46 (RU-3)(i))。σ₀^𝒢 と本節の chart 床 σ₀(χ, c₀)/2 は別の量で
-同一視しない。(FL22-2)–(FL22-5) は不変; L8 fixed_chart_floor が chart 定数を消費
-する点の閉じ方(2 案)は §8.46 (RU-3)(iii)。
+**注記(2026-11-05 — SIGMA0 P7、本文は不変)**: (FL22-1) の各 admissible pair は
+liminf_n β_n^{raw} ≥ σ₀^𝒢(a, b, t₀, R_col) > 0(無条件 — §8.45 (FB-3)(i)、t₀ はその
+pair の中心)。chart 水準の σ₀(χ, c₀) > 0 は (U_chart) 付き((FB-3)(ii); §8.46
+(RU-3)(ii))、対角列は候補の型を満たす限り構成不能(§8.46 (RU-3)(i))。σ₀^𝒢 と本節
+の σ₀(χ, c₀)/2 は別の量(§8.45 (FB-1))。(U_chart) の open item は §8.46 (RU-3)(iii)。
 
 ### 8.24 GC-5-T3 statement 登録(consult #19 着工指示 — TS-1/TS-2、登録のみ・証明非主張。**accepted、R-T3S R7 受理 SHA `dfc572b`**)
 
@@ -5181,9 +5178,8 @@ bridge を消費する下流 packet(現時点でなし)が現れた時点で ver
 
 **注記(2026-11-05 — SIGMA0 P7、本文は不変)**: (DF-1) の二択は §8.45 (FB-1)(FB-4)
 により常に head_good(c₀ witness・K_χ(c₀) 所属・vanish_flag を使わない床)、(DF-2)
-の σ_df = ε は σ_df ≥ σ₀^𝒢(a, b, t₀, R_col) を満たす。本節冒頭の「chart 一様性は
-主張しない」は分子側(jet 床)については §8.45 で列一様・c₀ 非依存の床が供給
-された; carrier 側(m_df、core 非空性、帯域 routing)は不変。§8.46 (RU-1)。
+の σ_df = ε は σ_df ≥ σ₀^𝒢(a, b, t₀, R_col) を満たす(固定した中心域について —
+§8.45 (FB-6)(i))。§8.46 (RU-1)。
 
 ### 8.29 GC-5-T3a-4 ROUTE-CLOSE(決定 list の閉包 — **accepted、luna fixed-SHA `104105e` R-T3A4 R6、6R**)
 
@@ -7004,8 +7000,7 @@ core-interior 中心も両立しない。gate 判定 not_proven は不変だが�
 realized_input は居住しない(§8.46 (RU-3)(i) — (OB-3)(OB-4) 自身が単一 compact
 中心域を仮定し、その下で対角列は β ≥ σ₀^𝒢(a, b, 0, T_diag + R_col) > 0)。(OB-5) の
 not_proven 判定と 3 つの欠落 evidence の記録は**空虚な条件付き橋**として保持し、
-critical path から外す(§8.38 Q3)。(OB-1)–(OB-3) の不等式は不変; Remez/T3b/T3c は
-(OB-3) が上界であるため本床では閉じない(§8.38 Q1)。
+critical path から外す(§8.46 (RU-3)(ii))。
 
 ### 8.36 GC-5-α1 SOURCE-WINDOW-CLOSURE((PS-4) source 窓の取り直し constructor — drafted、R1 適用済み(全面改稿)、査読対象 R-A1 R2)
 
@@ -7168,11 +7163,11 @@ rate、§8.35 (OB-2)(OB-3) の改訂、L9/L13/L20/L27 の閉鎖、人間によ�
   凍結が筋。§8.36 の R2 修正は v1.1 受理後に行う(blocking 1・2 は v1.1
   なしでは直せない — 部分修正はしない)。
 
-**注記(2026-11-05 — SIGMA0 P7、本文は不変)**: α(①–④)の目的「rate 付き実現
-overflow 列(fl22_1_record-v1.1)の構成」は、countersequence 側では §8.46 (RU-1) に
-より無条件に、realized_diagonal 側では橋の仮定(単一 compact 中心域)の下で
-(RU-3)(i) により対象を失う。本節 (SW-2) の (PS-4) source 窓 / zf 窓の読みは §8.37
-v1.1 が吸収済み。R-A1 R2 の差し戻し状態は据え置き — 撤回・凍結継続の判断は orange。
+**注記(2026-11-05 — SIGMA0 P7、本文は不変; 本節は drafted)**: α(①–④)の目的
+「rate 付き実現 overflow 列(fl22_1_record-v1.1)の構成」は、countersequence 側では
+§8.46 (RU-1)(型付き入力について)、realized_diagonal 側では橋の仮定(単一 compact
+中心域)の下で (RU-3)(i) により対象を失う。R-A1 R2 の差し戻し状態は据え置き —
+撤回・凍結継続の判断は orange(§8.46 (RU-6))。
 
 ### 8.37 GC-5-PS4-v1.1 WINDOW-ANCHOR-SPEC((PS-4) の source 窓と zf anchor の分離 — **accepted、R-PS4V11 R4 ACCEPT、fixed SHA `ee547d7`**)
 
@@ -8396,15 +8391,16 @@ P7; b0f1fee..HEAD で受理済み本文不変、tests 31 passed)。**R2 non-bloc
 性格**: 型と接続の記録 + 証明ドラフト(複数 LLM の fixed-SHA 査読のみ・人間による
 査読は未実施)。
 
-### 8.46 GC-5-SIGMA0-P7 ROUTE-UPDATE(overflow lane 空性の消費 — 注記・versioned adapter・台帳更新 — drafted、査読対象 R-P7 R1)
+### 8.46 GC-5-SIGMA0-P7 ROUTE-UPDATE(overflow lane 空性の消費 — 注記・versioned adapter・台帳更新 — drafted、査読対象 R-P7 R2)
 
 **目的**: consult #25 経路 ④ の第 7 packet(§8.38 表 P7、§8.38 Q3 の対応表、
 orange GO 2026-11-05「先へ進んで」)。P6(§8.45、受理 `78c9e70`)の
 beta_floor_link-v1 を受理済みの route 表・依存台帳に消費させる。数学的主張は
 2 つだけ — **(A)** countersequence lane L9/L13/L20/L27 の空性(無条件)、**(B)**
 realized_diagonal が型を満たす head_overflow_candidate を与えないこと(橋の型の
-仮定 = 単一 compact 中心域の下)— で、残りは受理済み節への日付つき注記(本文
-不変)、versioned adapter の登録、§4 台帳の更新。**非主張**: C₂₂ の存在、T3b/T3c/
+仮定 = 単一 compact 中心域の下)— で、残りは既存節への日付つき注記(本文不変;
+§8.21/§8.23/§8.28/§8.33/§8.34/§8.35 は accepted、§8.36 は drafted — [R-P7 R1-02])、
+versioned adapter の登録、§4 台帳の更新。**非主張**: C₂₂ の存在、T3b/T3c/
 C0-COORD/ROUTE-PROD、(FL22-1) の chart 水準の正値性(条件 (U_chart) 付きのまま)、
 L8 の再型付けの実施、α の撤回、有効定数。§8.21–§8.45 の本文は不変。
 
@@ -8439,6 +8435,12 @@ vanish_flag を使わない)。∎
 は保持 — 空 lane の番号保持は §8.33 L15/L16/L17 の前例)。§8.34 (OV-1) の
 countersequence_lane constructor は入力を持たず、`unresolved_head_overflow
 (COUNTERSEQUENCE_ORIGIN)` は生成されない。
+**scope の注意(consult #26 Q4 — §8.47)**: lane_emptiness-v1 は route_context-v2.1 の
+**型付き入力**(1 本の列、§8.21 (HA-1) の compact 中心域)について述べる。中心が
+逃げる違反列が §8.26 (RS-1) から context / head をそもそも構成できるかは別問題で、
+構成できなければ L21-v2 の CTX-MISSING / REF-MISSING に残る(§8.33 (RC2-2))。本
+packet は元の全 countersequence に対する producer coverage を主張しない(CENTRE-
+COVER の義務 — §8.47)。「無条件」は型付き入力の条件を維持した意味である。
 
 **(RU-2) §8.33 (RC2-6) の読み(本文不変)**: (RC2-6) の閉包 statement は「T3c・
 T3b・T2c-ov が各 handoff lane で矛盾を導き、かつ nogo / unresolved が生じなければ
@@ -8470,17 +8472,25 @@ D̄(0, T_diag + R_col) 内なので、§8.44 (QI-6) の inf の単調性より �
 に停止し、床も候補も出ない。原因は (FL22-1) の量化が pair 間の中心域の一様性を
 課していないこと(luna R-P6 R1-01)。chart 水準の正値性 **σ₀(χ, c₀) > 0 は (U_chart)
 条件付きのまま**(§8.45 (FB-3)(ii))。
-(iii) **(U_chart) が効く場所 = L8**: §8.26 certificate_adapter により floor_witness-
-v1.floored は「chart 一様(admissible pair 全体の inf)」で、fixed_chart_floor は
-restrict_to_selector でそれを選択部分列上に落とす制限 adapter。一方、消費側(§8.23
-の列-矛盾 schema、T3c)が必要とするのは「選択部分列上の eventual 床のみ」(同節)
-で、head_floor_certificate-v1 はまさに列ごとの床(全 n)を与える。したがって
-**閉じ方は 2 通り(設計判断 — orange、Sol #26 候補)**: (a) admissible pair の
-versioned 拡張(centre_uniform evidence: sup|t₀| ≤ T)で (FL22-1) の chart 定数を
-回復する; (b) fixed_chart_floor の入力を sequence 形(head_floor_certificate-v1 |
-floor_witness-v1.floored の制限)に再型付けする(deep_flat_floor が既に sequence 形
-であることと整合、countersequence は 1 本の列なので十分)。本 packet はどちらも
-実施しない(§4 T2c 行に open item として登録)。
+(iii) **(U_chart) が効く場所 — L8(分子)と (FL22-2)(c)(分母)**: §8.26
+certificate_adapter により floor_witness-v1.floored は「chart 一様(admissible pair
+全体の inf)」で、fixed_chart_floor は restrict_to_selector でそれを選択部分列上に
+落とす制限 adapter。一方、消費側(§8.23 の列-矛盾 schema、T3c)が必要とするのは
+「選択部分列上の eventual 床のみ」(同節)で、head_floor_certificate-v1 はまさに
+列ごとの床(全 n)を与える。**分母側も同じ位置量化を含む**(consult #26 Q5(3)、
+§8.47): §8.23 (FL22-2)(c) の carrier 床 m_C も全 pair の inf を対角化して t_m → t_*
+(W̄ compact)としており、pair を横断する対角列の点の有界性は型から出ない(M_C =
+C_R の依存域も同様)。したがって **閉じ方は 2 通り(設計判断 — orange; Sol #26 は
+(b) + CENTRE-COVER を推奨)**: (a) admissible pair の versioned 拡張(centre_uniform
+evidence: sup|t₀| ≤ T)で (FL22-1)(FL22-2) の chart 定数を回復する — ただし (U_chart)
+を供給する受理済み節は無い(§8.47 Q1); (b) fixed_chart_floor の入力を sequence 形に
+再型付けする: 分子 = head_floor_certificate-v1(全 n 床)、分母・上界 M_C・ν・
+geometry・raw/provenance の field は §8.26 fixed_chart_floor の既存 field を §8.28
+(DF-3)(DF-4) の列形式で保持(head_floor_certificate-v1 単体は代替にならない — luna
+R-P7 R1 non-blocking、§8.47 Q1)、violation_sequence.fixed_chart・handoff・route
+closure の参照まで versioned に接続(deep_flat_floor が既に sequence 形であることと
+整合、countersequence は 1 本の列なので十分)。本 packet はどちらも実施しない
+(§4 T2c 行に open item として登録)。
 
 **(RU-4) versioned adapter(定義のみ)**:
   `head_outcome_adapter-v1.2 : (IC-5) 入力(f_n^{raw} 列、ζ_n 列 ⊂ D̄(t₀, R_col)、
@@ -8492,8 +8502,10 @@ ref := head_floor_certificate-v1、ε 下界 ref := liminf β_n ≥ σ₀^𝒢; 
 head_outcome-v1.1 の消費者((N8)/(N8′)、§8.23 floor_input-v1 の head_outcome ref、
 §8.28 (DF-1))は v1.2 を読んでよい(v1 / v1.1 は保持)。
 
-**(RU-5) 受理済み節への注記(append-only、各節末尾、本文は不変)**: 本 commit
-で次の 7 節の末尾に「注記(2026-11-05 — SIGMA0 P7、本文は不変)」を追加する —
+**(RU-5) 既存節への注記(append-only、各節末尾、本文は不変; §8.21/§8.23/§8.28/
+§8.33/§8.34/§8.35 は accepted、§8.36 は drafted・R-A1 R2 差し戻し中 [R-P7 R1-02])**:
+本 commit で次の 7 節の末尾に「注記(2026-11-05 — SIGMA0 P7、本文は不変)」を追加
+する(各 6 行以内、P6/P7 の項目への参照のみ [R-P7 R1-01][R1-03])—
 §8.21(二択は (IC-5) 入力で常に head_good、ε ≥ σ₀^𝒢、candidate 構成不能 —
 (RU-1)(RU-4))、§8.23((FL22-1) の pair ごとの床は無条件、chart 水準は (U_chart)
 付き、σ₀^𝒢 と σ₀(χ, c₀)/2 は別の量、L8 の open item — (RU-3))、§8.28((DF-1) は
@@ -8501,9 +8513,9 @@ head_good、σ_df ≥ σ₀^𝒢 — (RU-1))、§8.33(L9/L13/L20/L27 空 lane、
 到達不能、(RC2-6) の T2c-ov 条件は空虚に充足 — (RU-1)(RU-2))、§8.34
 (countersequence_lane 入力なし、realized_diagonal は型を満たす candidate なし —
 (RU-1)(RU-3))、§8.35(overflow_bridge-v1 の入力は居住せず、not_proven 記録は
-空虚な条件付き橋として保持、critical path 外 — (RU-3))、§8.36(α の overflow
-生成目的は対象を失った; (PS-4) 読みの副産物は §8.37 が吸収; 撤回は orange 判断)。
-各注記は本節の項目番号を参照するのみで新しい主張を含まない。
+空虚な条件付き橋として保持、critical path 外 — (RU-3))、§8.36(drafted — α の
+overflow 生成目的は対象を失った; 撤回は orange 判断)。各注記は §8.45/§8.46 の項目
+番号を参照するのみで新しい主張を含まない。
 
 **(RU-6) §4 台帳の更新(本 commit)**: SIGMA0 行(P7 drafted)、T2c-ov 集約行
 (open(集約)→ 入力なし — critical path 外、(A)/(B) の区別)、T2c-ov-1 / T2c-ov-2 行
@@ -8513,18 +8525,115 @@ head_good、σ_df ≥ σ₀^𝒢 — (RU-1))、§8.33(L9/L13/L20/L27 空 lane、
 
 **(RU-7) C₂₂ への残課題(非主張 — §8.38 Q3 と同じ)**: T3b(scale-covariant floor)、
 T3c(source/anchor 接続)、C0-COORD、ROUTE-PROD、unresolved lane L22/L23/L24/L28、
-(U_chart) / L8 の閉じ方の裁定。**overflow lane の退役は C₂₂ の証明ではない。**
+(U_chart) の閉じ方(L8 分子・(FL22-2)(c) 分母)と中心 coverage(CENTRE-COVER)の裁定 —
+§8.47。**overflow lane の退役は C₂₂ の証明ではない。**
 
 **(RU-8) 検算**: 新規計算なし。
 
 **(RU-9) 出力契約**:
   `route_update-v1 := (lane_emptiness-v1 (RU-1), route_closure-v2.1 (RU-2),
    realized_diagonal の判定 (RU-3): 型を満たす candidate なし(橋の仮定 = 単一
-   compact 中心域の下)・chart 水準は (U_chart) 付き・L8 の open item と 2 案,
+   compact 中心域の下)・chart 水準は (U_chart) 付き・(U_chart) の open item(L8 と
+   (FL22-2)(c))と 2 案, scope の注意 (RU-1): 型付き入力限定・producer coverage は
+   非主張,
    head_outcome_adapter-v1.2 (RU-4), 注記 7 件の一覧 (RU-5), §4 更新 (RU-6),
    残課題 (RU-7))`
 **scope(非主張)**: C₂₂、T3b/T3c/C0-COORD/ROUTE-PROD、(U_chart) の成立、L8 の
 再型付けの実施、α の撤回、有効定数、人間による査読は未実施。
+
+### 8.47 GC-5-SIGMA0 CONSULT-26 CENTRE-COVERAGE((U_chart)/L8 の閉じ方と中心 coverage — consult #26 設計記録、packet 未起草)
+
+**consult #26(Sol gpt-6.1-sol high、2026-11-05、read-only、HEAD `c442162` = P7 起草版・
+査読中)の記録** — 設計判断であって fixed-SHA 受理の代替ではない。問いは §8.46
+(RU-3)(iii) の (U_chart)/L8 の閉じ方 2 案、(RU-3)(ii) の残るケースの実在性、残課題の
+順序と見積、最大リスク、§8.44–8.46 の過大表現の有無。原文は
+C:/tmp/rf-review/sol-consult26-uchart.md(repo 外)。
+
+- **Q1(閉じ方)**: 推奨は **(b)**(fixed_chart_floor の sequence 形への再型付け)。
+  確認した consumer(§8.26 (RS-3) certificate_adapter の selected_sequence 統一、§8.29
+  (RC-5)(RC-6)、§8.33 (RC2-2) L8・(RC2-5)(RC2-6)、§8.23 (FL22-3)–(FL22-5)、T3c の
+  schema 義務)は数学的には**選択した 1 本の列に沿った床**で足りる — (FL22-5) の
+  対偶・chain 消費にも全 admissible pair 共通の σ₀ は必須ではなく、任意の違反列の
+  部分列で R_{n_k}(s_{n_k}/L_{C,n_k})⁹ ≤ B_seq < ∞ が eventual に出れば違反度の発散と
+  矛盾する(B_seq は列依存でよい)。条件 2 つ: **任意の違反列を処理できること**
+  (compact 中心域を持つ列だけを対象に全配置の C₂₂ を結論しない)、§4 の C₂₂ =
+  max_{finite routes}[…] に列依存定数をそのまま代入しない(列矛盾で各 route の一様
+  有界性を得るか、一様定数の存在を直接導く)。**head_floor_certificate-v1 単体は
+  fixed_chart_floor 全体の代替ではない**(供給は分子の床のみ — carrier 床・上界・ν・
+  geometry・raw/provenance field は引き続き必要)。(b) の最小形: 分子 = §8.45 (FB-5)
+  の全 n 床、分母 = §8.28 (DF-3) の列形式の証明を interior L8 にも適用、ν と identity
+  = (DF-4) と既存 selector/provenance 規則、floor_certificate だけでなく violation_
+  sequence.fixed_chart・handoff・route closure の参照まで versioned に接続(deep-flat
+  の証明が c₀ → 0 を使わないこと — §8.28 (DF-3a)、§8.32 (RS2-1) — と整合)。**(a)** は
+  条件付きで sound だが安くない: 元の χ の全 pair に (U_chart) を供給する節は無い
+  (§8.2 (BRF-2) RECENTER は cell の held 化で絶対位置の上限ではない、(BRF-4) の
+  radial cutoff T は χ のみに依存しない、§8.16 (PS-4) の |W| ≤ 1 は直径制約、§8.37
+  (WA-7) の t₀ = center(A) は固定だが全 anchor の位置を有界化しない、§8.22 (CC-3)
+  の compact chart 因子に窓の絶対位置は無い、§8.39 (IC-2) の β は raw Fock 座標)。
+  χ, T を固定して pair 全体に同じ T を課すなら成立するが制限族の定理で、各 pair
+  固有の T では (U_chart) にならず、全 T の無限被覆から元の C₂₂ は回復しない。
+- **Q2(残るケースの実在)**: **絶対 jet 床の中心位置についての一様化は一般に
+  不可能** — 例: 固定箱内の純原子 f(z) = (1 − α²)^{1/4} e^{−αz²/2}(0 < α < 1、
+  ‖f‖_ℱ = 1、f ∈ 𝒢)は実数 T → ∞ で ‖J⁹_T f‖ → 0(各導関数は多項式 × 減衰
+  Gaussian)。constructor の表記問題ではない。ただし一原子例を real programme の
+  完全な admissible 2|2 witness としては未検証で、(FL22-1) の σ₀ が実際に 0 になる
+  とは断定しない — 正確には「accepted geometry はその可能性を排除していない」。
+  C₂₂ との関係: §8.16 (PS-1) の g は共通の非零解析因子に不変なので、絶対 Fock
+  正規化後の jet が遠方で小さいことと weighted 二窓比の破綻は別 — **σ₀ = 0 だけ
+  から C₂₂ 不存在は出ない**; 原因が共通 envelope の減衰なら、絶対床に課した一様性
+  は証明手段として強すぎる可能性; ただし中心逃避する違反列を処理できない限り、
+  元の量化域に対する C₂₂ は未証明。「型を満たす candidate が無いから未処理の配置
+  も無い」と読むのは誤り。
+- **Q3(順序)**: 中心 coverage の点検 → (b) → C0-COORD(3–5R)→ ROUTE-PROD(3–4R)
+  → T3b(6–10R 維持)→ T3c(4–7R 維持)。C0-COORD / ROUTE-PROD の内容は新しい
+  分子床では解消しない。T3b の head_to_sigma は簡単になる(分子の σ₀/2 eventual
+  半減は不要 — β_n ≥ σ₀^𝒢 が全 n)が、carrier 床の eventual 半減・rescale 後 jet の
+  scale 重みと正規化の接続・source と core の分離(§8.37 (WA-5))は残る。T3c の
+  分子側は source 中心列が 1 つの compact 域に収まるなら (QI-6) を直接適用できて
+  簡単になる(core → source の jet 床の輸送が薄れる)。既知 4 項目計 16–26R、(b)・
+  P7 残レビュー・中心 coverage 点検込みで 20–35R; 中心逃避に新しい解析補題が要る
+  ならこの枠に収まらない。
+- **Q4(最大リスク)**: 「型付き列の空性」を「元の全違反列の排除」に昇格させる
+  こと。§8.46 (RU-1) は compact 中心域を持つ (N8)/(N8′) 入力について sound だが、
+  §8.26 (RS-1) の開始型は全窓を共通 compact 域に収める field を列挙していない。
+  中心が逃げる違反列から head/context を構成できなければ、それは overflow lane
+  ではなく **L21-v2 の CTX-MISSING / REF-MISSING に残り得る**(§8.33 (RC2-2))。
+  有限 chart label の安定化は非有界な位置パラメータを安定化しない。L8 修復後に
+  C₂₂ を早まって宣言する危険。
+- **Q5(§8.44–8.46 の限定)**: (1) §8.44 (QI-1)–(QI-6) は読んだ限り整合(P1–P4 の
+  独立再証明ではない)。(2) §8.45 (FB-1)–(FB-3) の区別は適切; (FB-4) の「chart 一様性
+  の留保は分子側では解消」は**固定した中心域について**と明記すべき((FB-6)(i) と
+  合わせれば読める)。(3) §8.46 (RU-3)(iii) の「(U_chart) が効く場所 = L8」は**狭
+  すぎる**: §8.23 **(FL22-2)(c)** も全 pair の inf を対角化した後 t_m → t_*(W̄ compact)
+  としており、各 pair の W が compact でも別 pair を横断する対角列の点が有界とは
+  限らない; M_C = C_R の依存域も同じ点検が必要 — 同じ位置量化の問題が carrier 側
+  にもある((b) では分母も列形式へ落とすのが安全)。(4) §8.46 (RU-1)–(RU-3) の
+  空性は型付き入力について支持; 「無条件」はその入力型の compact 中心域条件を
+  維持した意味で、元の全 countersequence に対する producer coverage の証明まで
+  済んだ意味にはできない。
+
+**packet 案(Sol、見積は独立レビューの往復数・成功保証ではない)**:
+| packet | 内容 | 見積 |
+|---|---|---|
+| P7-SCOPE | 型付き lane 空性と全 countersequence coverage の境界を明記して P7 を完了 | 1–3R |
+| CENTRE-COVER | RS-1 → context/head の中心域 producer を監査し、中心逃避の行先を確定 | 1–2R |
+| L8-SEQUENCE-FLOOR | (b): 分子の全 n 床 + DF-3/DF-4 の列形式を interior に接続、consumer 型を更新 | 2–4R |
+| C0-COORD | 係数変換記録と canonical object の一致、L23 排除 | 3–5R |
+| ROUTE-PROD | norm による side 決定、L22/L24/L28 の接続 | 3–4R |
+| T3b-FLOOR / HOP | carrier floor と scale-neutral cover を主張単位で分割 | 計 6–10R |
+| T3c-SOURCE / CLOSE | source 接続後、全 lane の矛盾と C₂₂ 存在を統合 | 計 4–7R |
+CENTRE-COVER で不足が確定した場合は中心正規化または逃避列処理の解析 packet を
+別途設計(元の量化域を狭めるだけの修復は採らない)。**未検証(Sol)**: 中心逃避・
+σ₀ = 0 を実現する全 field 付きの real 2|2 admissible witness、P1–P4 の完全な独立
+再査読・数値診断の再実行・切断誤差、T3b/T3c の成立、C₂₂ の存在・有効値、外部
+論文との照合、テスト実行。
+
+**本節の状態**: 設計記録。担当 Claude の読み(裁定は orange): Sol の Q4/Q5(4) は
+§8.46 の「無条件」を型付き入力(compact 中心域を持つ列)に限定して読む注記を
+要求しており、P7 の受理記録または P7-SCOPE で明記する。Q2 の一原子例は手計算で
+確認(‖e^{−αz²/2}‖²_ℱ = Σ_m C(2m, m)(α²/4)^m = (1 − α²)^{−1/2})。(b) + CENTRE-COVER は
+3–6R で α 路線より安い。次の GO 候補: P7-SCOPE(P7 受理記録への注記で代替可)→
+CENTRE-COVER → L8-SEQUENCE-FLOOR。
 
 ## 9. 早期検証実験台帳
 
@@ -8566,6 +8675,17 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.167(2026-11-05): **§8.47 consult #26 設計記録を追加**((U_chart)/L8 の閉じ方 =
+  (b) 推奨、中心位置一様の絶対床の不可能性(一原子例)、最大リスク = 型付き列の空性の
+  全違反列への昇格、(FL22-2)(c) の carrier 側にも同じ位置量化、packet 案 P7-SCOPE /
+  CENTRE-COVER / L8-SEQUENCE-FLOOR …)。§4 SIGMA0 行に pointer を追加。
+
+- v0.29.166(2026-11-05): **§8.46 に luna R-P7 R1 を適用**(blocking 3: §8.23 注記を 6 行
+  以内に短縮、(RU-5) の「受理済み節」を「既存節」に直し §8.36 を drafted と明記、§8.23/
+  §8.35 注記から P6/P7 参照を超える記述を除去)。あわせて consult #26(§8.47)の限定を
+  反映: (RU-1) に scope の注意(型付き入力限定・producer coverage 非主張)、(RU-3)(iii) に
+  分母側 (FL22-2)(c) と (b) の field 構成、(RU-7)(RU-9)・§8.28/§8.36 注記・§4 行を整合。
 
 - v0.29.165(2026-11-05): **§8.46 GC-5-SIGMA0-P7 ROUTE-UPDATE を起草**(drafted、
   査読対象 R-P7 R1)— lane_emptiness-v1 (RU-1)、(RC2-6) の読みと route_closure-v2.1
