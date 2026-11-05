@@ -7954,7 +7954,7 @@ route 表・依存台帳の更新)。**scope(非主張)**: σ₀ の有効値・
 
 **目的**: consult #25 経路 ④ の第 5 packet(§8.38 Q4 の「候補の追加補題」、
 §8.39 (IC-6) の義務、orange GO 2026-11-05)。P1–P4(§8.40–§8.43、P4 受理
-`__P4SHA__`)が純原子層(sigma0_family の D = 定数層)で示した J⁹ 床を、**entire
+`51ee349`)が純原子層(sigma0_family の D = 定数層)で示した J⁹ 床を、**entire
 商の上位族 𝒢 ⊇ sigma0_family** へ持ち上げる: 閉 chart 箱 Π・係数球面 S⁵・
 compact 中心域 D̄ の上で、単位 entire 商 G = F/D の J⁹ 下界 σ₀^𝒢 > 0 が存在し、
 chart 定数 (a, b, t₀, R_col) のみに依存する(係数下界 c₀ 非依存、D の零点位置
