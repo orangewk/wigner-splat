@@ -8697,20 +8697,27 @@ lane 表・注記・route_closure の書き換え(別 packet)、boundary ∧ bou
   (極限は {n_j} に沿って存在 — degeneracy_metadata-v1)、flag = (D ≠ ∅)。本 packet は
   (AT-2) の内部定義(代表選択・正規化 norm)を再定義しない(§8.30 [R8-02] の扱いを
   維持)。
-- **common gauge 群**: G_c := ℂ^× × G、G = 位相・R・D・S が生成する unitary 群(FR 文書の
-  affine metaplectic 群)。λV ∈ G_c の作用で係数は c_a ↦ λ s^V(ξ_a) c_a。共通 scalar λ は
-  全成分に等しく掛かり、下の 𝒩 で落ちる(§8.19「g は共通 scalar gauge 不変」と同じ理由)。
+- **common gauge 群**: G_c := ℂ^× × G、G = 位相・R・D・S が生成する unitary 群(affine
+  metaplectic 群 — `docs/2026-08-02-gaussian-border-rank-closure--wip.md` §1.5)。λV ∈ G_c の
+  作用で係数は c_a ↦ λ s^V(ξ_a) c_a。共通 scalar λ は全成分に等しく掛かり、その modulus は
+  下の 𝒩 で落ち、位相は共通の単位 modulus 因子として残る(成分の絶対値には影響しない —
+  §8.19「g は共通 scalar gauge 不変」と同じ理由)。
 - **記法**: 非零 v ∈ ℂ⁴ に対し **𝒩(v) := v/‖v‖₂**。非零 scalar 列 r = (r_a) に
   diag(r)v := (r_a v_a)_a。**𝒩(diag(r)𝒩(v)) = 𝒩(diag(r)v)**(共通正 scalar 1/‖v‖₂ が
-  落ちるだけ — 正規化と diagonal 変換の可換性)。(AT-2) の単位球の norm が ℓ² でない
+  落ちるだけ — 正規化と diagonal 変換の可換性)。𝒩(λw) = (λ/|λ|)𝒩(w) なので、以下の
+  𝒩 を含む等式は**共通の単位 modulus 因子を除いて**(射影的に)読む — 本 packet の全主張は
+  成分の絶対値 |·_a| と min_a|·_a| のみを使い、位相には依存しない。(AT-2) の単位球の
+  norm が ℓ² でない
   可能性に備え、**ĉ^{AT}_n := 𝒩(c^{AT}_n)**(ℓ² 再正規化 — 方向は同じ、ℂ⁴ 上の norm
   同値により成分の消滅 ĉ^{AT}_{a,n_j} → 0 ⟺ c^{AT}_{a,n_j} → 0 で、D は不変)。
 
 **(C0-1) canonical object と可換な変換記録(型)**:
-  `canonical_coef-v1 := (terminal_ledger-v1 ref(c̄_n — (C0-0)), common_gauge_record-v1.1
-   ref(s_n、ξ′_n), **c̃_n := diag(s_n) c̄_n**(scalar absorption 後 — §8.24 の c̃ と同一の
-   演算定義), **ĉ̃_n := 𝒩(c̃_n)**, 添字規約 = 原子 label, 座標 = 変換後原子
-   e^{q(ξ′_{a,n})}(unnormalized)の係数, 正規化 = ℓ²)`
+  `canonical_coef-v1 := (列 {θ_n} ref(**列単位の object** — 各 n の値は下の producer で
+   定まる), 各 n の producer := (step0_record ref, terminal_ledger-v1 ref(c̄_n — (C0-0);
+   §8.30 (AE-0) の射影), common_gauge_record-v1.1 ref(s_n、ξ′_n)), **c̃_n := diag(s_n) c̄_n**
+   (scalar absorption 後 — §8.24 の c̃ と同一の演算定義), **ĉ̃_n := 𝒩(c̃_n)**(列 (ĉ̃_n)_n を
+   1 つの object として登録), 添字規約 = 原子 label, 座標 = 変換後原子 e^{q(ξ′_{a,n})}
+   (unnormalized)の係数, 正規化 = ℓ²(位相は共通単位因子を除いて — (C0-0) 記法))`
   — **「ĉ 座標」の単一 authoring location**。§8.24 c0_witness-v1 の ĉ := c̃/‖c̃‖₂ と
   c₀(config) := min_k|ĉ_k|、§8.25 c0_witness-v2 の ĉ_{k_min} / ĉ_mate、§8.22 (CC-3) の
   係数単位球 {|c_a| ≥ c₀ ∀a} 上の c は、すべてこの object を指す(§8.24 は同じ演算定義を
@@ -8729,12 +8736,13 @@ lane 表・注記・route_closure の書き換え(別 packet)、boundary ∧ bou
   は**この読みを (AT-2) の定義として主張しない**(供給は atlas 側の記録に依る — producer
   coverage は非主張)。
   `coef_transform_record-v1 := (canonical_coef-v1 ref, at_representative-v1 ref, **r_n :=
-   (s_{a,n}/s^{AT}_{a,n})_a**(非零), checked_commute: **ĉ̃_n = 𝒩(diag(r_n) ĉ^{AT}_n) かつ
-   ĉ^{AT}_n = 𝒩(diag(r_n^{−1}) ĉ̃_n)**)`
+   (s_{a,n}/s^{AT}_{a,n})_a**(非零), checked_commute: **ĉ̃_n = λ_n 𝒩(diag(r_n) ĉ^{AT}_n) かつ
+   ĉ^{AT}_n = λ_n^{−1} 𝒩(diag(r_n^{−1}) ĉ̃_n)、|λ_n| = 1**(共通単位因子 — λ_n = |μ_n|/μ_n、
+   μ_n := checked_at の比例定数))`
   — 可換図式: c̄_n から出る 2 本の矢(diag(s_n) → 𝒩 と diag(s^{AT}_n) → 𝒩)が diag(r_n) →
   𝒩 で結ばれる。checked_commute は (C0-0) の可換性から演算定義上の恒等式(ĉ̃_n =
-  𝒩(diag(s_n)c̄_n) = 𝒩(diag(r_n) diag(s^{AT}_n) c̄_n) = 𝒩(diag(r_n) ĉ^{AT}_n))で、検証は
-  演算定義の照合。3 つの vector(ĉ^{AT}_n、c̃_n、ĉ̃_n)は**等しくない**(一般に ĉ^{AT}_n ≠
+  𝒩(diag(s_n)c̄_n) = 𝒩(diag(r_n) diag(s^{AT}_n) c̄_n) = λ_n 𝒩(diag(r_n) ĉ^{AT}_n) — 最後の
+  等号は 𝒩(diag(s^{AT}_n) c̄_n) = λ_n ĉ^{AT}_n、λ_n = |μ_n|/μ_n)で、検証は演算定義の照合。3 つの vector(ĉ^{AT}_n、c̃_n、ĉ̃_n)は**等しくない**(一般に ĉ^{AT}_n ≠
   ĉ̃_n)。主張するのは可換図式と r_n の一様評価 (C0-2) だけである。
 
 **(C0-2) absorption scalar の二側一様評価(compact chart)**: coef_transform_record-v1 に
@@ -8756,15 +8764,16 @@ exp(b²/(1 − a)) = N_max(a, b)²。(C0-0) の N ≥ 1 と併せ、ξ^{AT}_{a,n
 **(C0-3) 非退化の対応**:
 (i) **成分ごとの二側不等式**: unit vector v と κ_− ≤ |r_a| ≤ κ_+ に対し u := 𝒩(diag(r)v)
 は ‖diag(r)v‖₂ ≤ κ_+ より |u_a| = |r_a||v_a|/‖diag(r)v‖₂ ≥ κ_−|v_a|/κ_+ = κ|v_a|; r^{−1} の
-帯は [1/κ_+, 1/κ_−] で比は同じ κ なので |v_a| ≥ κ|u_a|。checked_commute に適用して全 n, a で
+帯は [1/κ_+, 1/κ_−] で比は同じ κ なので |v_a| ≥ κ|u_a|。checked_commute に適用して(単位
+因子 λ_n は絶対値に影響しない)全 n, a で
   **κ|ĉ^{AT}_{a,n}| ≤ |ĉ̃_{a,n}| ≤ κ^{−1}|ĉ^{AT}_{a,n}|**、特に
   **κ·min_a|ĉ^{AT}_{a,n}| ≤ c₀(config_n) = min_a|ĉ̃_{a,n}| ≤ κ^{−1}·min_a|ĉ^{AT}_{a,n}|**。
 (ii) **D の一致**: {n_j} に沿って |ĉ̃_{a,n_j}| → 0 ⟺ ĉ^{AT}_{a,n_j} → 0 ⟺ a ∈ D。よって
 **interior(flag = false)⟺ liminf_j min_a|ĉ̃_{a,n_j}| > 0**、**boundary(flag = true)⟹
-c₀(config_{n_j}) → 0**。後者から「boundary ∧ bounded_c0 も identity record 付きの入力では
-構成不能(L24–L27)」が従うが、**本 packet はこれを主張しない**(§8.32「独立な 2 軸」は
-identity record を持たない型についての記述であり、その読みと L24–L27 の改訂は別 packet —
-scope)。ĉ̃_{n_j} 自身の収束は使わない(絶対値と liminf のみ)。
+c₀(config_{n_j}) → 0**。後者は、同じ議論が boundary ∧ bounded_c0 lane(L24–L27)の居住性
+にも関わることを示唆する — **観察であって本 packet の主張ではない**(導出・登録・§8.32
+「独立な 2 軸」の読みの改訂は別 packet — scope; §8.32 の記述は identity record を持たない
+型についてのもの)。ĉ̃_{n_j} 自身の収束は使わない(絶対値と liminf のみ)。
 (iii) **(CC-3) witness の canonical 座標版(producer)**: interior のとき lim_j ĉ^{AT}_{a,n_j}
 =: ℓ̂_a ≠ 0(全 a)、**m := min_a|ℓ̂_a| > 0**、有理下界 m_ℚ ∈ ℚ(0 < m_ℚ ≤ m)を取る。∃J:
 j ≥ J ⟹ min_a|ĉ^{AT}_{a,n_j}| ≥ m_ℚ/2 ⟹ (i) より **c₀(config_{n_j}) ≥ κ m_ℚ/2**。
@@ -8781,9 +8790,9 @@ j ≥ J ⟹ min_a|ĉ^{AT}_{a,n_j}| ≥ m_ℚ/2 ⟹ (i) より **c₀(config_{n_j
 
 **(C0-4) identity ref と versioned 型**(各節本文は不変 — versioned 置換、前例
 frame_input-v2 → v2.1 [R-T2BII R1-02]):
-- `c0_witness-v2.1 := c0_witness-v2(§8.25)+ (canonical_ref := canonical_coef-v1 ref,
-  checked_canonical: c₀(config_n) = min_a|ĉ̃_{a,n}| かつ k_min・ĉ_mate が同じ ĉ̃_n から
-  読まれていることの照合 ref)` — constructor は v2 と同一入力(terminal_ledger / step0・
+- `c0_witness-v2.1 := c0_witness-v2(§8.25)+ (canonical_ref := (canonical_coef-v1 の列
+  object ref, 添字 n), checked_canonical: c₀(config_n) = min_a|ĉ̃_{a,n}| かつ k_min・ĉ_mate が
+  同じ ĉ̃_n から読まれていることの照合 ref)` — constructor は v2 と同一入力(terminal_ledger / step0・
   scalar_absorption_table・transformed_atom_table・AT-2 判定)+ canonical_coef-v1。他 field
   不変。interior / boundary の両方で構成可能。
 - `interior_floor-v1.1 := present(K_χ(c₀) inf ref(§8.22 (CC-3) — 値は §8.31 (BC-2) の
@@ -8796,8 +8805,9 @@ frame_input-v2 → v2.1 [R-T2BII R1-02]):
   interior_floor-v1.1 に置換したもの(他 field 不変)`。to_carrier_v1(§8.31)は v2.1 にも
   同文で適用(floor_checked の論証 ref := interior_floor-v1.1.present の K_χ(c₀) inf ref、
   §8.23 floor_input-v1 の c₀ witness の payload := (r_seq, J))。
-- `checked_canonical_identity := (列の各要素の c0_witness-v2.1.canonical_ref と
-  c0_seq_witness-v1.canonical_ref(interior)が**同一 object** であることの ref 同一性,
+- `checked_canonical_identity := (列の全要素の c0_witness-v2.1.canonical_ref が**同一の列
+  object**(canonical_coef-v1)を指すことの ref 同一性(interior / boundary 共通), interior
+  では加えて c0_seq_witness-v1.canonical_ref がその同じ列 object を指すことの ref 同一性,
   追加 ref 分の checked_same_provenance)` — 不成立 = constructor 不成立。
 - `chart_context_pre-v2.2 := chart_context_pre-v2(base は v2.1 — §8.33 (RC2-0))の
   c0_witness-v2 列 ref を c0_witness-v2.1 列に、carrier_witness-v2 ref を carrier_witness-
@@ -8815,7 +8825,11 @@ frame_input-v2 → v2.1 [R-T2BII R1-02]):
    cs_selector-v1 の添字集合 {n_k} ⊆ {n_j}(c0_seq_witness-v1 の (AT) index ref との包含
    検証 — §8.33 (N1′) の checked_same_metadata は object の同一性のみを検証し添字の包含は
    検証しないので別 field; 不成立 = constructor 不成立))`
-  — §8.32 (N2)-v2 の c0_interior_consistency の v2.2 入力版。4 組合せのうち **present ∧
+  — §8.32 (N2)-v2 の c0_interior_consistency の v2.2 入力版。checked_index_refinement は
+  常に充足可能: (N2) の selector は自由選択なので(§8.26 (RS-2)「各段で cs_selector-v1 に
+  より部分列を取ってよい」)、{n_j} 上に制限した列へ liminf の二択を適用すれば {n_k} ⊆ {n_j}
+  が取れ、lane 表の網羅性(部分列選択を伴う網羅 — §8.29 (RC-0))は保たれる。本 field は
+  selector の取り方の記録であって新しい制約ではない。4 組合せのうち **present ∧
   vanishing_c0 は構成不能**:
 *証明*: present の c0_seq_witness-v1 は j ≥ J で min_a|ĉ̃_{a,n_j}| ≥ r_seq > 0。vanishing_c0
 の evidence は {n_k} 上で c₀(config_{n_k}) → 0、ここで c₀(config_{n_k}) = min_a|ĉ̃_{a,n_k}|
