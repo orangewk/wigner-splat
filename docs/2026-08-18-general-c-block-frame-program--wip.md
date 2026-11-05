@@ -190,7 +190,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-α2 SCALE-FEASIBILITY(consult #23 ②) | α1、§8.23 (FL22-1)(FL22-2)、§8.35 | 許容窓幅 h_n(zf 窓 S 内・core 内の ζ_n の量的余白)込みの二択: β_n/(a_n·min(a_n, h_n)⁹) → 0 型の量の inf-liminf 二分と、負枝の rate 付き対角列 | open(α1 受理後 — Sol #24: 「与えられた中心・余白・mass・分母制御の下で scale を選べる条件」の条件付き lemma に再定義。中心族の確保は含まない)、見積 3–5R(Sol #23/#24)。**§9 CENTRE-PROBE(2026-10-23)**: 純指数 model の compact box に overflow instance なし(inf β ≈ 6e-7 > 0、角由来)— α の前提(実現 overflow 列)に instance が無い。継続可否は orange 裁定。**注記(SIGMA0 P7)**: 同上 — 対象の実現 overflow 列が無い(§8.46 (RU-1)(RU-3)) |
 | **(PS-4)-v1.1 WINDOW-ANCHOR-SPEC(候補 — Sol #24 Q3)** | §8.16 (PS-4)、§8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.24 window_contract_r、§8.27 [R-T3A2 R2-02]、consult #19 追記 (iv) | source 窓 S / zf_scope(A := closure(S_zf)、C_zf := {dist(z, A) ≤ r_S})/ jet_anchor(we9/d10 が同一 zf witness を参照する証拠、t₀・λ・ℓ_ext は anchor 側)を分離し、flag の意味を固定(identical = S = A の区間幾何一致、contained = S ⊊ A、disjoint-forbidden = 部分重複も含め有効 instance を生成しない)。v1 instance の無条件埋め込みは不可 — (AE-4) 型の読み依存・証拠依存 adapter。consumer 対応表(ZF-3/D10/WE9 は数学維持+anchor 結合、AT-3/FL22-2 の collar 参照先は S_zf 固定、PS-7/PS-9 は identical instance のみ to_v1 経由・contained への C₂₂ 自動適用禁止、§8.34/§8.35 overflow は v1 専用(再型付け義務の登録のみ)、α は v1.1 上で再起草、window_contract_r は再型付け、RS-1 は既存 countersequence の窓を差し替えない)。α と独立に consult #19 追記 (iv) の中心不一致 obligation の前提整備 | **受理(§8.37、R-PS4V11 R4 ACCEPT、fixed SHA `ee547d7`、4R、blocking 計 5 件)**(orange GO 2026-10-22、見積 3–5R(Sol #24)どおり) |
 | **GC-5-SIGMA0 HEAD-FLOOR(candidate — consult #25、§8.38)** | §8.20 追記(ℱ_γ compact embedding)、§8.21 (HA-1)(HA-2)、§8.22 (CC-5)(CC-6a)、§3.1 (W_c-4)、§8.23 (FL22-1)、§8.33 L9/L13/L20/L27、§9 CENTRE-PROBE | per-chart jet 床 **σ₀ > 0**(原子箱と中心域に依存、c₀ 非依存)で head_overflow 枝を型で空にする。経路 ④: L = T₄⁸T₃⁴T₂²T₁ の一括消去 → 三角一階系の放射線評価 → ℱ_γ 有界 → compact embedding で強 compactness → 正規直交基底の Wronskian e^{Σq}P_n(deg ≤ C(r,2))の極限保存 → (W_c-4) で ord ≤ D_W(r) ≤ 9 → σ₀ > 0。packet P0–P7(上表) | orange GO(2026-10-23: P0 → P1–P4、P0 後に再評価)。**P0 受理(§8.39、R-P0 R4 ACCEPT、fixed SHA `f1252ea`、4R、blocking 計 4 件)** — 判定: 入力族は多項式商族 sigma0_family = {F/D}(D は係数球面で正規化、零点位置の制限なし、枝別因子 P_i の共通因子; 純 4 原子和は D = 定数の層)、P5 は必要に確定。**P0 後の再評価: orange 裁定 (a)(2026-11-05)— P1–P4 を純原子族(sigma0_family の D = 定数層)で固め、P5 で商族 sigma0_family へ持ち上げる**(推奨根拠は §8.40 (AN-5) を参照; 正規化のずれ ‖F‖_ℱ = 1 / ‖F̃‖_ℱ = 1 は (IC-6)(d) として既に義務化)。**P1 受理(§8.40、R-P1 R3 ACCEPT、fixed SHA `d6b5284`)**。**P2 受理(§8.41、R-P2 R2 ACCEPT、fixed SHA `b1540e0`、同一 SHA で 2R)**。**P3 受理(§8.42、R-P3 R1 ACCEPT、fixed SHA `801767b`、1R)**。**P4 受理(§8.43、R-P4 R2 ACCEPT、fixed SHA `51ee349`、2R)**。**P1–P4(純原子層 = sigma0_family の D = 定数層)完了 — orange GO 範囲(P0 → P1–P4)の終端。実績 8R(P1 3 + P2 2 + P3 1 + P4 2、見積 6–11R 内; blocking 計 4 件のうち数学的 1 件 (AN-5)、定義整合 1 件 (JF-2)、手続き 2 件)。P5(商族 sigma0_family への継承)は orange GO(2026-11-05)— **P5 受理(§8.44、R-P5 R2 ACCEPT、fixed SHA `b0f1fee`、2R、blocking 計 1 件)**; **P6・P7 は orange GO(2026-11-05「先へ進んで」)— P6 受理(§8.45、R-P6 R2 ACCEPT、fixed SHA `78c9e70`、2R)**; **P7 drafted(§8.46 ROUTE-UPDATE、R1 blocking 3 適用済み・査読待ち R-P7 R2)**。; **consult #26(Sol、2026-11-05、§8.47)**: (U_chart)/L8 は (b) sequence 形再型付け + CENTRE-COVER 監査を推奨((a) を供給する受理済み節は無い)、中心位置一様の絶対床は不可能(一原子例)、§8.46 の「無条件」は型付き入力限定 — 次の GO 候補 P7-SCOPE / CENTRE-COVER / L8-SEQUENCE-FLOOR(orange 裁定)。** 見積 P1–P4 6–11R、接続込み 14–25R(Sol #25) |
-| GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
+| GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | **drafted(§8.48、査読待ち R-C0 R1)**、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
@@ -8635,6 +8635,238 @@ CENTRE-COVER で不足が確定した場合は中心正規化または逃避列�
 3–6R で α 路線より安い。次の GO 候補: P7-SCOPE(P7 受理記録への注記で代替可)→
 CENTRE-COVER → L8-SEQUENCE-FLOOR。
 
+### 8.48 GC-5-C0-COORD C0-COORDINATE-IDENTITY(係数座標の可換な変換記録と canonical ĉ̃ object — L23 の型上空性 — drafted、査読対象 R-C0 R1)
+
+**目的**: §4 C0-COORD 行の実装(Sol consult #22 Q5「今やる — 等式ではなく可換な
+変換記録」= §8.33 追記、§8.47 Q3「C0-COORD の内容は新しい分子床では解消しない」、
+orange 2026-11-05 の並列 session 許可)。§8.32 (N2)-v2 [R-T3A5 R2-04] は「(CC-3) の
+sequence-level 下界と c₀(config_n) → 0 の両立不能」を、(CC-3) の係数球上の c_a・
+§8.19 scalar absorption 後の c̃・§8.30 (AT-2) coef_vector の座標同一性が identity ref
+による検証を持たないとして撤回し、当該組合せを L23(C0-INCONSISTENT)で fail-closed に
+止めた(§8.33 (RC2-2)(RC2-6))。本 packet は 3 つの係数 vector の**等式ではなく可換な
+変換記録**を型化し((C0-1))、compact chart 上で absorption scalar が上下一様に離れる
+ことを原子 norm 公式から示し((C0-2))、(AT-2) の interior / boundary と canonical 係数
+ĉ̃ の非退化を対応付けて (CC-3) の c₀ witness に座標を明示した producer を与え
+((C0-3))、(CC-3) 側の witness と c0_witness-v2 が**同一の canonical object** を identity
+ref で参照する versioned 型を登録し((C0-4))、その入力では interior_floor.present ∧
+vanishing_c0 が構成不能 — **L23 が型上空** — であることを示す((C0-5))。数学的主張は
+(C0-5) の 1 つ、(C0-2)(C0-3) はその初等補題(新しい解析はない)。**非主張**: §8.33
+lane 表・注記・route_closure の書き換え(別 packet)、boundary ∧ bounded_c0 lane
+(L24–L27)の空性と §8.32「独立な 2 軸」の読みの改訂((C0-3)(ii) に観察として記録 —
+別 packet 候補)、C₂₂、SIGMA0 系(§8.45–§8.47)との接続、ROUTE-PROD、(AT-2) 内部定義
+(代表選択・正規化)の再定義、at_representative-v1 の producer coverage、有効定数の
+最適性。受理済み本文は不変。
+
+**(C0-0) 入力・記号・対象域**:
+- **対象列**: route_context-v2.1(§8.33 (RC2-0))の chart 枝 — 各要素が
+  atlas_witness-v2.chart(label, boundary_record-v1)(§8.30 (AE-1))を持つ config 列
+  {θ_n}、interior / boundary の両 variant。**(AT) index** {n_j} :=
+  degeneracy_metadata-v1.index((AT) 対角安定化部分列 — sequence-level の単一 object、
+  §8.33 (N1′)・base_context-v2.1.checked_same_metadata)。
+- **類 = 原子**: chart 枝では §8.30 (AE-0) の lower_rank_exact が偽 — child 恒等零で
+  なく Σm_i = 4、すなわち各 child の 2 原子が active 類として生き残る。child 内原子数
+  ≤ 2 なので within-child merge は無く、terminal_ledger-v1 の各 active 類は 1 原子で、
+  exact 合算値はその原子の元係数(γ_{a,a₀} = 0)。以後、係数 vector の添字を原子
+  label a ∈ {11, 12, 21, 22} で統一し、**c̄_n := (c̄_{a,n})_a**(terminal_ledger-v1 の
+  active entry の exact 値 — exact 0 は prune → lower_rank_exact へ exit するので chart
+  枝では全成分非零)。boundary chart も各要素 rank 4(§8.31 (BC-0) — 極限退化であって
+  exact 退化ではない)。§8.30 [R8-01] の「merged class では合算値から逆算できない」は
+  chart 枝では merge が無いので生じない。
+- **原子規約**: §8.21 (HA-5) — q(ξ; z) = (A/2)z² + Bz、ξ = (A, B)、定数項なし(定数は
+  係数側)、Fock 可容 |A| < 1。**N(ξ) := ‖e^{q(ξ;·)}‖_ℱ**。閉形(norm 公式 —
+  `docs/2026-08-02-gaussian-border-rank-closure--wip.md` §1、2026-08-02 査読で検算済み):
+  **N(ξ)² = (1 − |A|²)^{−1/2} exp[(|B|² + Re(A B̄²))/(1 − |A|²)]**、同所の下界
+  |B|² + Re(AB̄²) ≥ (1 − |A|)|B|² ≥ 0 より **N(ξ) ≥ 1**。
+- **箱**: Π(a, b) := {ξ : |A| ≤ a, |B| ≤ b}(閉、0 < a < 1)。raw 原子は Π(1 − δ_ℱ, R_ℱ)
+  (§8.9 追記 / §8.10 (B3-1) の standing 束縛 — §8.22 (CC-5) standard_box_premise で
+  record 生成時に検証)。T2b-0 変換後原子は **Π(a′, b′)、a′ := 1 − δ_ℱ²/2、b′ := C_B =
+  R_ℱ/Δ + 2R_ℱ/√Δ(Δ := δ_ℱ(2 − δ_ℱ))**(§8.22 (CC-5) — 変換後 4 原子は K_{δ_ℱ²/2, C_B}
+  に属す; §8.31 (BC-1) により boundary variant も同一 constructor)。
+- **T2b-0 gauge と吸収 scalar**(§8.19 (AD22-2)): U_n は FR 文書 §8.4 の gauge(pivot を
+  真空へ移す affine metaplectic 変換、位相固定)で、その変換則と位相固定 section は
+  `docs/2026-08-02-gaussian-border-rank-closure--wip.md` §9.1 (G8-b)(G8-e)(R-G8 R2
+  ACCEPTED、fixed SHA `dc76258`)。(G8-b)「U ∈ {R(φ), D(β), S(ζ)} は正規化原子を位相を
+  除いて正規化原子へ移す: U Φ̂(ξ) = (位相)·Φ̂(U·ξ)」を生成元の積へ帰納的に適用すると、
+  任意の gauge 群元 V と ξ について **V e^{q(ξ)} = s^V(ξ) e^{q(V·ξ)}、|s^V(ξ)| =
+  N(ξ)/N(V·ξ)**(e^{q(ξ)} = N(ξ)Φ̂(ξ) を代入するだけ)。T2b-0 の **s_{a,n} :=
+  s^{U_n}(ξ_{a,n})**(scalar_absorption_table の entry)、**ξ′_{a,n} := U_n·ξ_{a,n}**
+  (transformed_atom_table の entry)— いずれも common_gauge_record-v1.1 の exact field。
+- **(AT-2) coef_vector**: c^{AT}_n := atlas_witness-v1.1.coef_vector(§8.30 (AE-1) —
+  (AT-2) 第 1 項目「係数 vector (c_a): common gauge quotient 後単位球に正規化」の内部
+  object への identity ref、添字 = 原子 label)。**D := {a : lim_j c^{AT}_{a,n_j} = 0}**
+  (極限は {n_j} に沿って存在 — degeneracy_metadata-v1)、flag = (D ≠ ∅)。本 packet は
+  (AT-2) の内部定義(代表選択・正規化 norm)を再定義しない(§8.30 [R8-02] の扱いを
+  維持)。
+- **common gauge 群**: G_c := ℂ^× × G、G = 位相・R・D・S が生成する unitary 群(FR 文書の
+  affine metaplectic 群)。λV ∈ G_c の作用で係数は c_a ↦ λ s^V(ξ_a) c_a。共通 scalar λ は
+  全成分に等しく掛かり、下の 𝒩 で落ちる(§8.19「g は共通 scalar gauge 不変」と同じ理由)。
+- **記法**: 非零 v ∈ ℂ⁴ に対し **𝒩(v) := v/‖v‖₂**。非零 scalar 列 r = (r_a) に
+  diag(r)v := (r_a v_a)_a。**𝒩(diag(r)𝒩(v)) = 𝒩(diag(r)v)**(共通正 scalar 1/‖v‖₂ が
+  落ちるだけ — 正規化と diagonal 変換の可換性)。(AT-2) の単位球の norm が ℓ² でない
+  可能性に備え、**ĉ^{AT}_n := 𝒩(c^{AT}_n)**(ℓ² 再正規化 — 方向は同じ、ℂ⁴ 上の norm
+  同値により成分の消滅 ĉ^{AT}_{a,n_j} → 0 ⟺ c^{AT}_{a,n_j} → 0 で、D は不変)。
+
+**(C0-1) canonical object と可換な変換記録(型)**:
+  `canonical_coef-v1 := (terminal_ledger-v1 ref(c̄_n — (C0-0)), common_gauge_record-v1.1
+   ref(s_n、ξ′_n), **c̃_n := diag(s_n) c̄_n**(scalar absorption 後 — §8.24 の c̃ と同一の
+   演算定義), **ĉ̃_n := 𝒩(c̃_n)**, 添字規約 = 原子 label, 座標 = 変換後原子
+   e^{q(ξ′_{a,n})}(unnormalized)の係数, 正規化 = ℓ²)`
+  — **「ĉ 座標」の単一 authoring location**。§8.24 c0_witness-v1 の ĉ := c̃/‖c̃‖₂ と
+  c₀(config) := min_k|ĉ_k|、§8.25 c0_witness-v2 の ĉ_{k_min} / ĉ_mate、§8.22 (CC-3) の
+  係数単位球 {|c_a| ≥ c₀ ∀a} 上の c は、すべてこの object を指す(§8.24 は同じ演算定義を
+  文で述べ、(CC-3) は同じ球上の量を述べている — 本文不変、以後 identity ref で参照する)。
+  interior / boundary の両 variant で構成可能(入力は ledger と gauge record のみ)。
+  `at_representative-v1 := (V_n ∈ G の ref((AT-2) が係数 vector を読む common gauge 代表の
+   unitary 部 — identity を含む; 共通 scalar 部は記録不要), 原子ごとの scalar 表
+   s^{AT}_{a,n} := s^{V_n}(ξ_{a,n})(exact 値 ref), 代表原子パラメタ表 ξ^{AT}_{a,n} :=
+   V_n·ξ_{a,n}, **box evidence**: 閉箱定数 (a^{AT}, b^{AT}) と ξ^{AT}_{a,n} ∈ Π(a^{AT},
+   b^{AT})(全 a, n)の検証 ref, checked_at: **c^{AT}_n ∝ diag(s^{AT}_n) c̄_n**
+   (atlas_witness-v1.1.coef_vector の値との比例の照合 ref — 比例定数は共通 scalar と
+   (AT-2) の正規化))`
+  — (C0-3)(iii) の**必須入力**(fail-closed: 供給されなければ c0_seq_witness-v1 は構成
+  不能)。(AT-2) の代表が raw config 自身(V_n = id)なら s^{AT} ≡ 1、ξ^{AT} = ξ、
+  (a^{AT}, b^{AT}) = (1 − δ_ℱ, R_ℱ) で standard_box_premise から自動構成できるが、本 packet
+  は**この読みを (AT-2) の定義として主張しない**(供給は atlas 側の記録に依る — producer
+  coverage は非主張)。
+  `coef_transform_record-v1 := (canonical_coef-v1 ref, at_representative-v1 ref, **r_n :=
+   (s_{a,n}/s^{AT}_{a,n})_a**(非零), checked_commute: **ĉ̃_n = 𝒩(diag(r_n) ĉ^{AT}_n) かつ
+   ĉ^{AT}_n = 𝒩(diag(r_n^{−1}) ĉ̃_n)**)`
+  — 可換図式: c̄_n から出る 2 本の矢(diag(s_n) → 𝒩 と diag(s^{AT}_n) → 𝒩)が diag(r_n) →
+  𝒩 で結ばれる。checked_commute は (C0-0) の可換性から演算定義上の恒等式(ĉ̃_n =
+  𝒩(diag(s_n)c̄_n) = 𝒩(diag(r_n) diag(s^{AT}_n) c̄_n) = 𝒩(diag(r_n) ĉ^{AT}_n))で、検証は
+  演算定義の照合。3 つの vector(ĉ^{AT}_n、c̃_n、ĉ̃_n)は**等しくない**(一般に ĉ^{AT}_n ≠
+  ĉ̃_n)。主張するのは可換図式と r_n の一様評価 (C0-2) だけである。
+
+**(C0-2) absorption scalar の二側一様評価(compact chart)**: coef_transform_record-v1 に
+対し、全 a, n で
+  **κ_− := 1/N_max(a′, b′) ≤ |r_{a,n}| ≤ N_max(a^{AT}, b^{AT}) =: κ_+**、
+  **N_max(a, b) := (1 − a²)^{−1/4} exp(b²/(2(1 − a)))**。
+*証明*: (C0-0) より |s_{a,n}| = N(ξ_{a,n})/N(ξ′_{a,n})、|s^{AT}_{a,n}| = N(ξ_{a,n})/
+N(ξ^{AT}_{a,n})。よって **|r_{a,n}| = N(ξ^{AT}_{a,n})/N(ξ′_{a,n})** — raw 原子の N(ξ_{a,n})
+は相殺し、raw 箱は使わない。閉形で Re(AB̄²) ≤ |A||B|² より |B|² + Re(AB̄²) ≤ (1 + |A|)|B|²、
+ゆえに ξ ∈ Π(a, b) で N(ξ)² ≤ (1 − a²)^{−1/2} exp((1 + a)b²/(1 − a²)) = (1 − a²)^{−1/2}
+exp(b²/(1 − a)) = N_max(a, b)²。(C0-0) の N ≥ 1 と併せ、ξ^{AT}_{a,n} ∈ Π(a^{AT}, b^{AT})
+(at_representative-v1 の box evidence)、ξ′_{a,n} ∈ Π(a′, b′)((CC-5))から
+1/N_max(a′, b′) ≤ |r_{a,n}| ≤ N_max(a^{AT}, b^{AT})。∎
+  **κ := κ_−/κ_+ = 1/(N_max(a′, b′)·N_max(a^{AT}, b^{AT})) ∈ (0, 1]** — chart 定数(δ_ℱ、R_ℱ、
+  a^{AT}、b^{AT} の明示式; 最適性は非主張。(C0-6)(2) で N_max が箱の角で到達されることを
+  確認)。(CC-3) の chart 型(SEP / CONF / 単原子)の因子は評価に入らない(scalar は原子
+  ごとの箱のみで決まる)。
+
+**(C0-3) 非退化の対応**:
+(i) **成分ごとの二側不等式**: unit vector v と κ_− ≤ |r_a| ≤ κ_+ に対し u := 𝒩(diag(r)v)
+は ‖diag(r)v‖₂ ≤ κ_+ より |u_a| = |r_a||v_a|/‖diag(r)v‖₂ ≥ κ_−|v_a|/κ_+ = κ|v_a|; r^{−1} の
+帯は [1/κ_+, 1/κ_−] で比は同じ κ なので |v_a| ≥ κ|u_a|。checked_commute に適用して全 n, a で
+  **κ|ĉ^{AT}_{a,n}| ≤ |ĉ̃_{a,n}| ≤ κ^{−1}|ĉ^{AT}_{a,n}|**、特に
+  **κ·min_a|ĉ^{AT}_{a,n}| ≤ c₀(config_n) = min_a|ĉ̃_{a,n}| ≤ κ^{−1}·min_a|ĉ^{AT}_{a,n}|**。
+(ii) **D の一致**: {n_j} に沿って |ĉ̃_{a,n_j}| → 0 ⟺ ĉ^{AT}_{a,n_j} → 0 ⟺ a ∈ D。よって
+**interior(flag = false)⟺ liminf_j min_a|ĉ̃_{a,n_j}| > 0**、**boundary(flag = true)⟹
+c₀(config_{n_j}) → 0**。後者から「boundary ∧ bounded_c0 も identity record 付きの入力では
+構成不能(L24–L27)」が従うが、**本 packet はこれを主張しない**(§8.32「独立な 2 軸」は
+identity record を持たない型についての記述であり、その読みと L24–L27 の改訂は別 packet —
+scope)。ĉ̃_{n_j} 自身の収束は使わない(絶対値と liminf のみ)。
+(iii) **(CC-3) witness の canonical 座標版(producer)**: interior のとき lim_j ĉ^{AT}_{a,n_j}
+=: ℓ̂_a ≠ 0(全 a)、**m := min_a|ℓ̂_a| > 0**、有理下界 m_ℚ ∈ ℚ(0 < m_ℚ ≤ m)を取る。∃J:
+j ≥ J ⟹ min_a|ĉ^{AT}_{a,n_j}| ≥ m_ℚ/2 ⟹ (i) より **c₀(config_{n_j}) ≥ κ m_ℚ/2**。
+  `c0_seq_witness-v1 := (canonical_coef-v1 ref, (AT) index {n_j} ref(degeneracy_metadata-v1.
+   index), coef_transform_record-v1 ref, flag = false の ref, m_ℚ と J の evidence(極限成分
+   の非零性 — degeneracy_metadata-v1 の D = ∅ と同じ極限), **r_seq ∈ ℚ_{>0}(r_seq ≤
+   κ m_ℚ/2)**, 主張: j ≥ J ⟹ min_a|ĉ̃_{a,n_j}| ≥ r_seq)`
+  — §8.22 (CC-3) の「atlas chart 枝(係数退化 flag = false)の部分列は正規化係数の極限が
+  非零なので liminf|c_a| > 0 — c₀ witness(有理下界 ref)…当該列は十分先で K_χ(c₀) に
+  入る」の**座標を明示した版**(c₀ := r_seq、列は j ≥ J で K_χ(r_seq) に入る)。(CC-3)
+  本文は flag((AT-2) 座標)から係数球(ĉ̃ 座標)の下界を導いており、その橋が本項の κ
+  である。boundary では構成不能(§8.30 boundary_record の c₀ witness = absent、§8.31
+  (BC-4) と整合)。
+
+**(C0-4) identity ref と versioned 型**(各節本文は不変 — versioned 置換、前例
+frame_input-v2 → v2.1 [R-T2BII R1-02]):
+- `c0_witness-v2.1 := c0_witness-v2(§8.25)+ (canonical_ref := canonical_coef-v1 ref,
+  checked_canonical: c₀(config_n) = min_a|ĉ̃_{a,n}| かつ k_min・ĉ_mate が同じ ĉ̃_n から
+  読まれていることの照合 ref)` — constructor は v2 と同一入力(terminal_ledger / step0・
+  scalar_absorption_table・transformed_atom_table・AT-2 判定)+ canonical_coef-v1。他 field
+  不変。interior / boundary の両方で構成可能。
+- `interior_floor-v1.1 := present(K_χ(c₀) inf ref(§8.22 (CC-3) — 値は §8.31 (BC-2) の
+  λ_χ), c0_seq_witness-v1)(interior variant のみ)| absent(boundary variant のみ)` —
+  §8.31 (BC-6) の interior_floor の「c₀ witness ref」を canonical 座標の typed witness に
+  置換したもの。interior で c0_seq_witness-v1 が構成できない(at_representative-v1 が供給
+  されない)場合は interior_floor-v1.1 自体が構成不能 = 下の v2.1 は構成不能で、当該列は
+  v2 の型に留まる(fail-closed; §8.31 の「absent ⟺ boundary」は保存)。
+- `carrier_witness-v2.1 := carrier_witness-v2(§8.31 (BC-6))の interior_floor を
+  interior_floor-v1.1 に置換したもの(他 field 不変)`。to_carrier_v1(§8.31)は v2.1 にも
+  同文で適用(floor_checked の論証 ref := interior_floor-v1.1.present の K_χ(c₀) inf ref、
+  §8.23 floor_input-v1 の c₀ witness の payload := (r_seq, J))。
+- `checked_canonical_identity := (列の各要素の c0_witness-v2.1.canonical_ref と
+  c0_seq_witness-v1.canonical_ref(interior)が**同一 object** であることの ref 同一性,
+  追加 ref 分の checked_same_provenance)` — 不成立 = constructor 不成立。
+- `chart_context_pre-v2.2 := chart_context_pre-v2(base は v2.1 — §8.33 (RC2-0))の
+  c0_witness-v2 列 ref を c0_witness-v2.1 列に、carrier_witness-v2 ref を carrier_witness-
+  v2.1 に置換し、checked_canonical_identity を追加したもの(他 field 不変)`。bounded /
+  vanishing の v2.2 版は pre-v2.2 に (N2) の出力を加えたもの(§8.32 (RS2-0) 同文)。
+- **単一 authoring location**: ĉ 座標の値の定義は canonical_coef-v1 のみ。§8.24「座標の
+  同一性は定義で固定」の文は本 object への参照として読み、以後の packet は値を再定義せず
+  ref で参照する(§8.22 / §8.24 / §8.25 / §8.31 / §8.32 の本文は不変)。これが §8.32
+  [R2-04] の撤回理由(identity ref の欠如)を解消する。
+
+**(C0-5) 帰結 — L23 の型上空性**:
+  `c0_interior_consistency-v1.1 := (carrier_witness-v2.1.interior_floor-v1.1 ∈ {present,
+   absent}, (N2) の c0_dichotomy-v1 判定 ∈ {bounded_c0, vanishing_c0}(selector 込み),
+   checked_canonical_identity ref, **checked_index_refinement**: (N2) の判定が用いる
+   cs_selector-v1 の添字集合 {n_k} ⊆ {n_j}(c0_seq_witness-v1 の (AT) index ref との包含
+   検証 — §8.33 (N1′) の checked_same_metadata は object の同一性のみを検証し添字の包含は
+   検証しないので別 field; 不成立 = constructor 不成立))`
+  — §8.32 (N2)-v2 の c0_interior_consistency の v2.2 入力版。4 組合せのうち **present ∧
+  vanishing_c0 は構成不能**:
+*証明*: present の c0_seq_witness-v1 は j ≥ J で min_a|ĉ̃_{a,n_j}| ≥ r_seq > 0。vanishing_c0
+の evidence は {n_k} 上で c₀(config_{n_k}) → 0、ここで c₀(config_{n_k}) = min_a|ĉ̃_{a,n_k}|
+(checked_canonical — 同一 object)。checked_index_refinement より各 n_k はある n_{j(k)} で、
+k → ∞ で j(k) → ∞ だから十分大きい k で j(k) ≥ J、よって c₀(config_{n_k}) ≥ r_seq — 極限 0
+と矛盾。∎
+  他の 3 組合せ(present ∧ bounded_c0、absent ∧ bounded_c0、absent ∧ vanishing_c0)は
+  §8.32 と同じく通過(bounded_c0 側に c* と r_seq の照合は要求しない — §8.32 の規約を
+  維持)。
+  帰結: **chart_context_pre-v2.2 入力からは (N2) が unresolved-v1.1(C0-INCONSISTENT) を
+  生成できない** — §8.33 (RC2-2) の **L23 は型上空**(番号・terminal 定義・§8.33 本文は
+  保持; 空 lane の番号保持は L15/L16/L17 の前例)。identity record を持たない入力
+  (chart_context_pre-v2、c0_witness-v2、carrier_witness-v2)は従来どおり L23 で fail-closed
+  に止まる(§8.32 (N2)-v2 の constructor は不変)。
+  `c0_lane_emptiness-v1 := (lanes := {L23}, node := (N2)-v2, reason := c0_interior_
+   consistency-v1.1 の present ∧ vanishing_c0 が (C0-5) で構成不能, scope :=
+   chart_context_pre-v2.2 入力(checked_canonical_identity・checked_index_refinement 付き)
+   の interior variant, proof := 本 (C0-5) + (C0-3)(iii) + (C0-2))`
+  (§8.46 (RU-1) の lane_emptiness-v1 と同形だが独立に定義 — SIGMA0 系に依存しない)。
+  lane 表の v2.2 再証明・route_closure の versioned 更新・§8.33 注記・§4 の L23 関連記述の
+  更新は別 packet(T3a-5 登録 → T3a-6 再証明の前例)。unresolved_tag-v1.1 の union から
+  C0-INCONSISTENT は削除しない(v2 lane 表の tag として残る — §8.33 L21-v2 の LR-EXIT 前例)。
+
+**(C0-6) 検算**(repo 外 `C:\tmp\wigner-splat-c0coord-20261105\check_c0.py`、mpmath 40 桁、
+2026-11-05 実行): (1) norm 公式 N(ξ)² の閉形と 2 次元数値求積の比較 — |A| ≤ 0.85、
+|B| ≤ 1.2 のランダム 12 点で最悪相対誤差 1.1e-19; (2) 箱 Π(0.8, 1.0) のランダム 5000 点 +
+角 (A, B) = (0.8, 1.0) で 1.0080 ≤ N ≤ 15.7275 = N_max(0.8, 1.0)(上界は角で到達 — N_max
+は sharp); (3) ランダム unit vector v ∈ ℂ⁴ と帯 [0.3, 2.5] 内の r(位相ランダム)20000 組
+で min_a|𝒩(diag(r)v)_a| ≥ κ·min_a|v_a| と逆向きの違反 0、比の最小値 1.000(κ は到達
+される)、可換性 𝒩(diag(r)𝒩(v)) = 𝒩(diag(r)v) を assert; (4) Bargmann–Fock の Weyl
+作用素 W_β f(z) = e^{β̄z − |β|²/2} f(z − β) の e^{q(ξ)} への明示作用 W_β e^{q(A,B)} =
+s e^{q(A, B + β̄ − Aβ)}、s = exp(−|β|²/2 + Aβ²/2 − Bβ)について |s|·N(ξ′) = N(ξ) をランダム
+2000 組で最悪相対誤差 5.3e-40(|s^V(ξ)| = N(ξ)/N(V·ξ) の displacement 部分の独立検算 —
+squeeze 部分は (G8-b) の受理済み主張に依る)。数値は chart 定数 δ_ℱ、R_ℱ の値を使わない
+(型と不等式の spot check のみ)。
+
+**(C0-7) 出力契約**:
+  `c0_coordinate_identity-v1 := (記号と対象域 (C0-0), canonical_coef-v1 / at_representative-
+   v1 / coef_transform_record-v1 (C0-1), 二側評価 κ_±・κ の明示式 (C0-2), 非退化対応 (i)(ii)
+   と c0_seq_witness-v1 (C0-3), c0_witness-v2.1 / interior_floor-v1.1 / carrier_witness-v2.1 /
+   checked_canonical_identity / chart_context_pre-v2.2 (C0-4), c0_interior_consistency-v1.1 /
+   c0_lane_emptiness-v1 (C0-5), 検算 (C0-6))`
+consumer: lane 表の v2.2 再証明と §8.33 注記・route_closure の versioned 更新(別 packet)、
+§8.23 floor_input-v1 の c₀ witness(to_carrier_v1 経由 — 参照の付け替えのみ)。**scope
+(非主張)**: §8.33 lane 表・注記・route_closure の書き換え、L24–L27(boundary ∧
+bounded_c0)の空性と §8.32「独立な 2 軸」の読みの改訂、C₂₂、SIGMA0 系(§8.45–§8.47)との
+接続、ROUTE-PROD(L22/L24/L28)、(AT-2) 内部定義の再定義、at_representative-v1 の producer
+coverage(atlas 側に代表の記録が無ければ fail-closed)、既存 route_context が (N2) の
+selector を (AT) index に制限することの保証(checked_index_refinement で担保し、既存型には
+主張しない)、有効定数の最適性、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -8675,6 +8907,16 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.C0-1(2026-11-06; 版番号は統合時に振り直す placeholder): **§8.48 GC-5-C0-COORD
+  C0-COORDINATE-IDENTITY を起草**(drafted、査読対象 R-C0 R1)— 記号と対象域(類 = 原子、
+  norm 公式、箱、吸収 scalar)(C0-0)、canonical_coef-v1 / at_representative-v1 /
+  coef_transform_record-v1 の可換な変換記録 (C0-1)、absorption scalar の二側一様評価
+  κ_± と κ の明示式 (C0-2)、非退化の対応と c0_seq_witness-v1((CC-3) witness の canonical
+  座標版)(C0-3)、c0_witness-v2.1 / interior_floor-v1.1 / carrier_witness-v2.1 /
+  checked_canonical_identity / chart_context_pre-v2.2 (C0-4)、c0_interior_consistency-v1.1
+  と c0_lane_emptiness-v1(L23 の型上空性)(C0-5)、検算 (C0-6)、出力契約 (C0-7)。§4
+  C0-COORD 行を drafted に。受理済み本文は不変。
 
 - v0.29.167(2026-11-05): **§8.47 consult #26 設計記録を追加**((U_chart)/L8 の閉じ方 =
   (b) 推奨、中心位置一様の絶対床の不可能性(一原子例)、最大リスク = 型付き列の空性の
