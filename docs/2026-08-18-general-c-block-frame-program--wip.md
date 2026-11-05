@@ -189,7 +189,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-α1 SOURCE-WINDOW-CLOSURE(consult #23 ①、旧名 SUBWINDOW-CLOSURE) | §8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.16 (PS-4)、§8.17 (AT-3)、§8.27 [R-T3A2 R2-02] | **(PS-4) の source 窓 S(閉、契約ごとのパラメータ)と zf 窓 S_zf(半開 ρ/13)の区別を正しく読み、同一 zf/d10/we9 witness の下で source 窓を S′ = [c′ − s′/2, c′ + s′/2] ⊂ S_zf(flag = contained)に取り直す constructor** を登録(出力は (PS-4) v1 の instance — versioned 型なし)。R1 版(zf 窓の部分窓を source 窓に昇格)は撤回。**副産物(型の事実)**: S′ ⊂ S_zf ⊂ collar かつ W_core ⊂ W_reg = W ∖ (collar ∪ …) ⟹ S′ ∩ W_core = ∅ — §8.35 (OB-2) の source_in_core は (PS-4)-valid な source 窓では構成不能、分母制御は collar 上の床(③の義務)に置き換える必要 | **drafted(§8.36、R-A1 R2 差し戻し blocking 3 — (PS-4) の source 窓/zf 窓の関係が受理済み本文で未定義、(PS-4)-v1.1 の先行が必要)**、見積 3–5R(Sol #23)→ Sol #24: v1.1 受理後 1–2R |
 | GC-5-α2 SCALE-FEASIBILITY(consult #23 ②) | α1、§8.23 (FL22-1)(FL22-2)、§8.35 | 許容窓幅 h_n(zf 窓 S 内・core 内の ζ_n の量的余白)込みの二択: β_n/(a_n·min(a_n, h_n)⁹) → 0 型の量の inf-liminf 二分と、負枝の rate 付き対角列 | open(α1 受理後 — Sol #24: 「与えられた中心・余白・mass・分母制御の下で scale を選べる条件」の条件付き lemma に再定義。中心族の確保は含まない)、見積 3–5R(Sol #23/#24)。**§9 CENTRE-PROBE(2026-10-23)**: 純指数 model の compact box に overflow instance なし(inf β ≈ 6e-7 > 0、角由来)— α の前提(実現 overflow 列)に instance が無い。継続可否は orange 裁定 |
 | **(PS-4)-v1.1 WINDOW-ANCHOR-SPEC(候補 — Sol #24 Q3)** | §8.16 (PS-4)、§8.5 (ZF-3)、§8.12 d10、§8.13 we9、§8.24 window_contract_r、§8.27 [R-T3A2 R2-02]、consult #19 追記 (iv) | source 窓 S / zf_scope(A := closure(S_zf)、C_zf := {dist(z, A) ≤ r_S})/ jet_anchor(we9/d10 が同一 zf witness を参照する証拠、t₀・λ・ℓ_ext は anchor 側)を分離し、flag の意味を固定(identical = S = A の区間幾何一致、contained = S ⊊ A、disjoint-forbidden = 部分重複も含め有効 instance を生成しない)。v1 instance の無条件埋め込みは不可 — (AE-4) 型の読み依存・証拠依存 adapter。consumer 対応表(ZF-3/D10/WE9 は数学維持+anchor 結合、AT-3/FL22-2 の collar 参照先は S_zf 固定、PS-7/PS-9 は identical instance のみ to_v1 経由・contained への C₂₂ 自動適用禁止、§8.34/§8.35 overflow は v1 専用(再型付け義務の登録のみ)、α は v1.1 上で再起草、window_contract_r は再型付け、RS-1 は既存 countersequence の窓を差し替えない)。α と独立に consult #19 追記 (iv) の中心不一致 obligation の前提整備 | **受理(§8.37、R-PS4V11 R4 ACCEPT、fixed SHA `ee547d7`、4R、blocking 計 5 件)**(orange GO 2026-10-22、見積 3–5R(Sol #24)どおり) |
-| **GC-5-SIGMA0 HEAD-FLOOR(candidate — consult #25、§8.38)** | §8.20 追記(ℱ_γ compact embedding)、§8.21 (HA-1)(HA-2)、§8.22 (CC-5)(CC-6a)、§3.1 (W_c-4)、§8.23 (FL22-1)、§8.33 L9/L13/L20/L27、§9 CENTRE-PROBE | per-chart jet 床 **σ₀ > 0**(原子箱と中心域に依存、c₀ 非依存)で head_overflow 枝を型で空にする。経路 ④: L = T₄⁸T₃⁴T₂²T₁ の一括消去 → 三角一階系の放射線評価 → ℱ_γ 有界 → compact embedding で強 compactness → 正規直交基底の Wronskian e^{Σq}P_n(deg ≤ C(r,2))の極限保存 → (W_c-4) で ord ≤ D_W(r) ≤ 9 → σ₀ > 0。packet P0–P7(上表) | orange GO(2026-10-23: P0 → P1–P4、P0 後に再評価)。**P0 受理(§8.39、R-P0 R4 ACCEPT、fixed SHA `f1252ea`、4R、blocking 計 4 件)** — 判定: 入力族は多項式商族 sigma0_family = {F/D}(D は係数球面で正規化、零点位置の制限なし、枝別因子 P_i の共通因子; 純 4 原子和は D = 定数の層)、P5 は必要に確定。**P0 後の再評価: orange 裁定 (a)(2026-11-05)— P1–P4 を純原子族(sigma0_family の D = 定数層)で固め、P5 で商族 sigma0_family へ持ち上げる**(推奨根拠は §8.40 (AN-5) を参照; 正規化のずれ ‖F‖_ℱ = 1 / ‖F̃‖_ℱ = 1 は (IC-6)(d) として既に義務化)。**P1 受理(§8.40、R-P1 R3 ACCEPT、fixed SHA `d6b5284`)**。**P2 受理(§8.41、R-P2 R2 ACCEPT、fixed SHA `b1540e0`、同一 SHA で 2R)**。見積 P1–P4 6–11R、接続込み 14–25R(Sol #25) |
+| **GC-5-SIGMA0 HEAD-FLOOR(candidate — consult #25、§8.38)** | §8.20 追記(ℱ_γ compact embedding)、§8.21 (HA-1)(HA-2)、§8.22 (CC-5)(CC-6a)、§3.1 (W_c-4)、§8.23 (FL22-1)、§8.33 L9/L13/L20/L27、§9 CENTRE-PROBE | per-chart jet 床 **σ₀ > 0**(原子箱と中心域に依存、c₀ 非依存)で head_overflow 枝を型で空にする。経路 ④: L = T₄⁸T₃⁴T₂²T₁ の一括消去 → 三角一階系の放射線評価 → ℱ_γ 有界 → compact embedding で強 compactness → 正規直交基底の Wronskian e^{Σq}P_n(deg ≤ C(r,2))の極限保存 → (W_c-4) で ord ≤ D_W(r) ≤ 9 → σ₀ > 0。packet P0–P7(上表) | orange GO(2026-10-23: P0 → P1–P4、P0 後に再評価)。**P0 受理(§8.39、R-P0 R4 ACCEPT、fixed SHA `f1252ea`、4R、blocking 計 4 件)** — 判定: 入力族は多項式商族 sigma0_family = {F/D}(D は係数球面で正規化、零点位置の制限なし、枝別因子 P_i の共通因子; 純 4 原子和は D = 定数の層)、P5 は必要に確定。**P0 後の再評価: orange 裁定 (a)(2026-11-05)— P1–P4 を純原子族(sigma0_family の D = 定数層)で固め、P5 で商族 sigma0_family へ持ち上げる**(推奨根拠は §8.40 (AN-5) を参照; 正規化のずれ ‖F‖_ℱ = 1 / ‖F̃‖_ℱ = 1 は (IC-6)(d) として既に義務化)。**P1 受理(§8.40、R-P1 R3 ACCEPT、fixed SHA `d6b5284`)**。**P2 受理(§8.41、R-P2 R2 ACCEPT、fixed SHA `b1540e0`、同一 SHA で 2R)**。**P3 drafted(§8.42、査読待ち R-P3 R1)**。見積 P1–P4 6–11R、接続込み 14–25R(Sol #25) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | open(orange 裁定待ち)、見積 3–5R(Sol #22) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持) |
@@ -7785,6 +7785,94 @@ J⁹ 床 — (RC-4) と P3)、P5(商族への継承 — (RC-1)(RC-2) の定数�
 性格**: 証明ドラフト(複数 LLM の fixed-SHA 査読 + 数値/記号検算のみ・人間による
 査読は未実施)。
 
+### 8.42 GC-5-SIGMA0-P3 WRONSKIAN-LIMIT(強極限 span の Wronskian 次数上界の保存と任意中心 ord ≤ D_W(r) ≤ 9 — **drafted、査読対象 R-P3 R1**)
+
+**目的**: consult #25 経路 ④ の第 3 packet。P2(§8.41、受理 `b1540e0`)の強
+compactness を消費し、単位 4 原子和の列の強極限 f_* が **極限 span V_*(次元
+r ≤ 4)の元で、その Wronskian が e^{Q_*}P_*、deg P_* ≤ C(r,2) の形を保つ**こと
+を示す。系として **任意中心 ζ ∈ ℂ で ord_ζ f_* ≤ D_W(r) := r(r+1)/2 − 1 ≤ 9**。
+σ₀ の床そのもの(compact 中心域での inf > 0)は P4。**非主張**: σ₀ > 0 とその
+一様性、商族への継承、極限 span の分類(confluent 型の特定)、sharp 性(D_W*(4)
+= 8 の sharp 化は別 packet — §4 T2c 行、consult #16)。受理済み本文は不変。
+
+**(WL-0) 設定**: P1/P2 の記号。π_n ∈ Π、V_n := V_{π_n} = span{u_{1,n}, …, u_{4,n}}、
+r_n := dim V_n ∈ {1, 2, 3, 4}。u_{j,n} = u_{k,n} ⟺ q_{j,n} = q_{k,n}(q に定数項なし)
+なので、V_n は相異なる原子の添字集合 J_n ⊂ {1, …, 4}(|J_n| = r_n)で張られ、
+それらは線形独立(§3.1 (W_c-3)(i): 相異なる q_j の指数は独立 — 差 q_j − q_k は
+非定数)。部分列で **r_n ≡ r、J_n ≡ J** を固定する(有限個の値)。
+w_{1,n}, …, w_{r,n} を V_n の ℱ-正規直交基底とする(Gram–Schmidt)。
+
+**(WL-1) 原子 Wronskian の形**: 相異なる r 個の原子 u_j(j ∈ J)について
+  **Wr(u_j : j ∈ J)(t) = e^{Q(t)}·P̃(t)**、Q := Σ_{j∈J} q_j(2 次多項式)、P̃ ∈ ℂ[t]、
+  **deg P̃ ≤ C(r,2)**、P̃ ≢ 0。
+*証明*: ∂^k u_j = p_{k,j}·u_j、p_{0,j} = 1、p_{k+1,j} = p_{k,j}′ + ℓ_j·p_{k,j}、deg p_{k,j} ≤ k
+(ℓ_j は 1 次; 帰納)。行列 (∂^k u_j)_{0≤k<r, j∈J} の列 j から u_j を括り出すと
+Wr = e^{Q}·det(p_{k,j})_{k,j}、行 k の成分は次数 ≤ k なので det の次数 ≤ Σ_{k<r} k
+= C(r,2)。P̃ ≢ 0 は独立性と (W_c-3)(ii)(entire 独立 ⟹ Wr ≢ 0)。∎(§3.1
+(W_c-3) の V_c と同じ計算。)
+正規直交基底では w_{i,n} = Σ_{j∈J} b_{ij,n}·u_{j,n}(B_n := (b_{ij,n}) 可逆)なので
+  **W_n := Wr(w_{1,n}, …, w_{r,n}) = det(B_n)·e^{Q_n}·P̃_n =: e^{Q_n}·P_n**、
+  deg P_n ≤ C(r,2)、P_n ≢ 0。
+
+**(WL-2) 強極限と Wronskian の収束**: w_{i,n} ∈ V_n ⊂ ker L_{π_n}((AN-4))、
+‖w_{i,n}‖_ℱ = 1 なので §8.41 (RC-4) の系を i = 1, …, r に順に適用し、部分列で
+**w_{i,n} → w_{i,*}(ℱ norm)、π_n → π_* ∈ Π**。内積の連続性より (w_{i,*})_i は
+正規直交、よって線形独立; **V_* := span{w_{1,*}, …, w_{r,*}} は r 次元**で、(RC-5)
+より **V_* ⊂ ker L_{π_*}**。(RC-0) の κ_i(ρ) 評価により全階導関数が |t| ≤ ρ 上
+一様収束するので、determinant の連続性から
+  **W_n → W_* := Wr(w_{1,*}, …, w_{r,*})**(局所一様)、かつ **W_* ≢ 0**((W_c-3)(ii))。
+
+**(WL-3) 次数上界の保存**: Q_n = Σ_{j∈J} q_{j,n} の係数は有界(|Σ_j A_j/2| ≤ 2a、
+|Σ_j B_j| ≤ 4b)なので部分列で Q_n → Q_*(係数収束 ⟹ 局所一様、e^{−Q_n} → e^{−Q_*}
+局所一様)。P_n = W_n·e^{−Q_n} → g := W_*·e^{−Q_*} 局所一様。d := C(r,2) とすると
+deg P_n ≤ d より P_n^{(d+1)} ≡ 0; 正則関数の局所一様収束は導関数の局所一様
+収束を含む(Cauchy の積分公式)ので g^{(d+1)} ≡ 0、すなわち **g =: P_* は次数
+≤ C(r,2) の多項式**。W_* ≢ 0 より P_* ≢ 0。したがって
+  **W_* = e^{Q_*}·P_*、deg P_* ≤ C(r,2)、P_* ≢ 0**。 … (WL-3)
+(§8.38 Q2 の「次数上界は極限に残る」。極限 span V_* の分類 — 原子の一致・
+confluent 型 — は不要で、使うのは Wronskian の形だけ。)
+
+**(WL-4) 任意中心の valuation 上界**: ζ ∈ ℂ、f ∈ V_*∖{0} について
+  **ord_ζ f ≤ ord_ζ W_* + (r − 1) ≤ deg P_* + (r − 1) ≤ C(r,2) + r − 1 = D_W(r)**、
+  D_W(r) := r(r+1)/2 − 1、特に r ≤ 4 で **ord_ζ f ≤ 9**。
+*証明*: ζ 中心の adapted basis(§3.1 (W_c-4) の計算を中心 ζ に平行移動): V_* の
+基底の Taylor 係数行列(ζ 中心)を次数昇順に行簡約して、先頭次数が相異なる
+基底 g_i = c_i(t − ζ)^{v_i} + O((t − ζ)^{v_i+1})、c_i ≠ 0、0 ≤ v_1 < ⋯ < v_r を得る
+(profile は基底の取り方に依らない)。任意の f = Σ_i b_i g_i ≠ 0 は ord_ζ f =
+min{v_i : b_i ≠ 0} ≤ v_r(先頭次数が相異なので相殺しない)。(W_c-4) と同じ
+falling-factorial Vandermonde で **ord_ζ W_* = Σ_i v_i − C(r,2)**(基底変換は
+非零定数倍)。v_i ≥ i − 1(狭義増加な非負整数)より Σ_{i<r} v_i ≥ C(r−1,2)、
+  v_r = Σ_i v_i − Σ_{i<r} v_i ≤ ord_ζ W_* + C(r,2) − C(r−1,2) = ord_ζ W_* + (r − 1)。
+ord_ζ W_* = ord_ζ P_* ≤ deg P_*(e^{Q_*} は零なし)と (WL-3) で結論。∎
+(r = 4: C(4,2) + 3 = 9 = D_W(4); §3.1 (W_c-5) の c(c+1)/2 − 1 と一致。)
+
+**(WL-5) 単位原子和の極限は V_* に入る**: F_n ∈ V_n、‖F_n‖_ℱ = 1、F_n → f_*
+(ℱ norm、(RC-4) の系)とする。F_n = Σ_i β_{i,n}·w_{i,n}、Σ_i |β_{i,n}|² = 1。部分列で
+β_n → β_*(|β_*| = 1)、Σ_i β_{i,n}w_{i,n} → Σ_i β_{i,*}w_{i,*} ∈ V_*(norm 収束の
+線形性と ‖w_{i,n}‖ = 1)、極限の一意性より **f_* = Σ_i β_{i,*}·w_{i,*} ∈ V_*∖{0}**。
+よって (WL-4) より **ord_ζ f_* ≤ D_W(r) ≤ 9(全 ζ ∈ ℂ)**。
+これが P4(compact 中心域の J⁹ 床)が消費する命題。(RC-6) の ord ≤ 14 を 9 に
+下げるのは (WL-3) の次数保存であり、ker L_{π_*} 全体(15 次元)ではなく **V_*
+(≤ 4 次元、原子 span の極限)** に限って成り立つ。
+
+**(WL-6) 検算(診断 — 証明の根拠ではない)**: `C:/tmp/wigner-splat-sigma0p1-
+20261105/check_p3.py`(sympy exact 有理数; repo 外・非追跡、出力 `check_p3.out`):
+箱の例(a = 9/10、b = 3/2)の乱択配置(r = 2, 3, 4)と衝突配置(2 対近接 ε = 10⁻³、
+同 A・B 等間隔 cluster、同 B・A 等間隔 cluster、三重 cluster + 1、A = 0 の
+coherent cluster)について、(WL-1) の Wr/e^{Q} が多項式で deg ≤ C(r,2) かつ ≢ 0、
+ζ ∈ {0, 1/3, −1/2 + i/4} での profile と恒等式 ord_ζ Wr = Σ v_i − C(r,2)、
+v_r ≤ D_W(r) を確認(例: 同 B・A cluster の ζ = 0 で profile (0, 2, 4, 6)、
+ord₀ Wr = 6 = 12 − 6)。有限点の spot check。
+
+**(WL-7) 出力契約**:
+  `wronskian_limit-v1 := (極限 span V_* の構成 (WL-2): 正規直交基底の強極限、
+   r ≤ 4、V_* ⊂ ker L_{π_*}, 極限 Wronskian の形 (WL-3): W_* = e^{Q_*}P_*、
+   deg P_* ≤ C(r,2)、P_* ≢ 0, 任意中心 valuation 上界 (WL-4): ord_ζ f ≤ D_W(r)
+   ≤ 9(f ∈ V_*∖{0}), 単位原子和の極限の所属 (WL-5))`
+consumer: P4(全 compact 中心域の J⁹ 床 — (WL-5) と (RC-4) を消費)。**scope
+(非主張)**: σ₀ > 0 とその一様性、商族への継承、極限 span の分類、sharp 性
+(D_W*(4) = 8)、有効定数、P_i・V_i の構造を使う議論、人間による査読は未実施。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -7825,6 +7913,12 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.154(2026-11-05): **§8.42 GC-5-SIGMA0-P3 WRONSKIAN-LIMIT を起草**(drafted、
+  査読対象 R-P3 R1)— 原子 Wronskian の形 (WL-1)、強極限と Wronskian の収束 (WL-2)、
+  次数上界の保存 (WL-3)、任意中心 valuation 上界 ord ≤ D_W(r) ≤ 9 (WL-4)、単位原子和の
+  極限の所属 (WL-5)、診断 (WL-6)、出力契約 wronskian_limit-v1 (WL-7)。§4 SIGMA0 行を P3
+  drafted に。
 
 - v0.29.153(2026-11-05): **§8.41 GC-5-SIGMA0-P2 RADIAL-COMPACT 受理**(R-P2 R2 ACCEPT、fixed SHA `b1540e0`)
   — 受理記録を §8.41 末尾に追加、§4 SIGMA0 行を更新。
