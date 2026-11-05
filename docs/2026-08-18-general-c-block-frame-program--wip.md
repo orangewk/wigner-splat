@@ -193,6 +193,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | **accepted(§8.48、R-C0 R2 ACCEPT、fixed SHA `6300dcb`)**(見積 3–5R(Sol #22)→ 実績 2R) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持)。**注記(2026-11-06)**: §8.25 (LF-2) from_standard_box_premise と (LF-0)「T₀ 撤廃」は luna 座標裁定で versioned 訂正対象(§8.47 追記 2; 訂正 packet 案 = §8.49 (C27-3)(C27-5) T3a0-BOX-CORRECTION 2–3R、orange 裁定) |
+| GC-5-CONV-NOTE CONVENTION-NOTE(consult #27 訂正列 ①、§8.49 (C27-5)) | §8.9 追記、§8.10 (B3-1)、§8.22 (CC-5)、§8.39 (IC-3)、K2 §3 設定、§8.47 追記 2(luna 裁定 Q1/Q4(a)) | standing 束縛の座標規約を**絶対 Fock 変数**に確定(orange 裁定 B、Sol α)、受理済み 12 箇所の読み表(1 行 1 主張)、B_j^{(t₀)} = B_j + A_j t₀ の正本、型 box_coordinate-v1 / centred_coefficient-v1(登録のみ)。不等式・撤回なし(撤回は T3a0-BOX-CORRECTION / P6-CENTRE-RESCOPE) | **drafted(§8.50、査読対象 R-CONV R1、見積 1–2R)** |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
@@ -2165,6 +2166,11 @@ pattern chart 上の **TN-3 型不等式そのもの**であり、GC-5-T1 は K 
 **scope(非主張)**: c ≥ 4 の border ord 上界(GC-9 の confluent 昇格義務は
 別)、有効定数(存在のみ)、TN-3 本体(GC-5-T1)、人間による査読は未実施。
 
+**注記(2026-11-06 — CONVENTION-NOTE、本文は不変)**: (B3-1) の standing 束縛(Fock 入力条件)の
+座標規約は §8.50 (CN-1) で絶対 Fock 変数に確定した。閉 chart 箱と z_c の包含 ⊆ D̄(t₀, R_col) の読み
+(窓中心座標の係数の箱としての仮定)は §8.50 (CN-3) の表の行 (B3-1)(B3-3)(i)/(T1-1) を参照。本節の
+補題本体は不変。
+
 ### 8.11 GC-5-T1 TN-3(比較補題本体 — **accepted、R-TN3 R2 PASS、fixed SHA `906bd1a`**)
 
 **目的**: §8.9 (2c) の比較補題 TN-3(§4 GC-5 受理条件の blocking downstream
@@ -3574,6 +3580,10 @@ vanish_flag = none に限定** — one_sided variant の routing は T3 の明�
 **scope(非主張)**: 分母床 m_C の値と一様性・jet-to-window 定量鎖・
 projective order(T2c)、overflow bridge(T2c-ov)、有効定数、人間による
 査読は未実施。
+
+**注記(2026-11-06 — CONVENTION-NOTE、本文は不変)**: (CC-5) standard_box_premise の検証規則が読む
+|A_j| ≤ 1 − δ_ℱ、|B_j| ≤ R_ℱ は record の絶対係数(§8.50 (CN-1))。変換後箱 K_{δ_ℱ²/2, C_B} は pivot
+相対の別 object(§8.50 (CN-3) の行 (CC-5))。
 
 ### 8.23 GC-5-T2c BORD22-FLOOR(chart 床・量的連鎖・projective order — **accepted、R-T2C R8 受理 SHA `15b272e`**)
 
@@ -7591,6 +7601,10 @@ R2 `c2ecbfd` REQUEST_CHANGES(blocking 1: F2 の全平面分解と §8.3 の枝�
 passed を確認)。**主張の性格**: 型と provenance の記録(証明ドラフト・複数
 LLM の fixed-SHA 査読のみ・人間による査読は未実施)。
 
+**注記(2026-11-06 — CONVENTION-NOTE、本文は不変)**: (IC-2)(IC-3)(IC-4) の座標・箱・中心域は
+§8.50 (CN-1) の絶対規約と整合(§8.50 (CN-3) の行 (IC-2)–(IC-4) と (JF-0)/(QI-0)/(QI-6))。床の中心
+t₀ への依存は §8.47 / §8.49 の open item のまま。
+
 ### 8.40 GC-5-SIGMA0-P1 ANNIHILATOR(4 原子一括消去作用素 L と三角一階系 — **accepted、R-P1 R3 ACCEPT、fixed SHA `d6b5284`**)
 
 **目的**: consult #25 経路 ④(§8.38 Q2)の第 1 packet。orange 裁定 (a)(§4
@@ -9158,6 +9172,71 @@ packet 4 本は受理済み主張の撤回を含むので orange GO を要する
 案、1–2R)は本節の CENTRE-COVER(2–3R、v2.2 基底、head 前の evidence 構成)に置き換える。**主張の
 性格**: 設計記録のみ(複数 LLM の相談・fixed-SHA 裁定; 人間による査読は未実施)。
 
+### 8.50 GC-5-CONV-NOTE CONVENTION-NOTE(standing 束縛の座標規約 — 絶対 Fock 変数での確定と受理済み各所の読み表 — drafted、査読対象 R-CONV R1)
+
+**目的**: §8.47 追記 2 の luna 裁定(Q1: 座標規約は本文で未確定、Q4(a): versioned 注記が必要)、
+orange 裁定(2026-11-06、B = 絶対)、Sol consult #27 Q1(α = 絶対、§8.49 (C27-1))を受け、standing
+束縛の座標規約を**一か所で確定**し、受理済み各所がどの座標で読まれるかを 1 行 1 主張の表にする。
+§8.49 (C27-5) の訂正列 ①。**本 packet は不等式を主張せず、受理済み主張を撤回しない** — 撤回・
+再スコープは T3a0-BOX-CORRECTION / P6-CENTRE-RESCOPE / P7-CONSUMER-CORRECTION(後続 packet)の
+義務であり、本節はそれらが参照する規約と式の authoring location を与える。
+
+**(CN-1) 規約**: standing 束縛 **|A_j| ≤ 1 − δ_ℱ、|B_j| ≤ R_ℱ**(§8.9 追記、§8.10 (B3-1) Fock 入力
+条件、§8.22 (CC-5) standard_box_premise、§8.39 (IC-3))の (A_j, B_j) は、**絶対 Fock 変数 t**
+(§8.39 (IC-2): Fock 変数 = 窓変数、ℱ-norm と jet は t 平面上)における原子 e^{q_j(t)}、
+q_j(t) = ½A_j t² + B_j t + γ_j の係数であり、configuration record の性質(窓の選択に先立つ —
+(CC-5) の検証は record 生成時)。これは K2 文書 §3 設定の K_{δ,R} = {|A| ≤ 1−δ} × {|B| ≤ R}
+(定義の authoring location、絶対変数 z)と FR 文書の継承(L:1299–1301)に一致する。§8.10 (B3-1) の
+「定数 gauge(§8.6 規約)」は γ_j の係数への吸収(定数 gauge の商)のみを輸入し、§8.6 (N-0)(0a) の
+中心化 x := t − t₀ は standing 束縛の一部ではない(表 (CN-3) の行 §8.6)。
+
+**(CN-2) 窓中心座標の係数(正本の式)**: 窓中心 t₀(§8.12 d10 の t₀ = center(S) ∈ ℝ、§8.37
+zf_anchor-v1.center(A))に対し u := t − t₀ と置くと、恒等式
+  **q_j(t₀ + u) = ½A_j u² + (B_j + A_j t₀) u + (½A_j t₀² + B_j t₀ + γ_j)**
+により **B_j^{(t₀)} := B_j + A_j t₀**(A_j は不変、定数項は係数へ吸収)。standing 束縛の下で
+|B_j^{(t₀)}| ≤ R_ℱ + (1 − δ_ℱ)|t₀|(三角不等式のみ)であり、**|B_j^{(t₀)}| ≤ R_ℱ は standing 束縛の
+帰結ではない**(A_j ≠ 0 なら |t₀| > (R_ℱ − |B_j|)/|A_j| で不成立; A_j = 0 なら恒に成立)。§8.25
+(LF-0) の「t₀ 中心の線形係数」B_j^{(t₀)} はこの量。本式が B_j^{(t₀)} の唯一の authoring location で
+あり、他節は参照する。(Weyl 平行移動による正規化は線形係数を B_j − (1 − A_j)s に動かし箱を
+保たない — §8.49 (C27-1) の導出; 本 packet は使わない。)
+
+**(CN-3) 受理済み各所の読み(1 行 1 主張 — 状態列は「整合」か「訂正 packet」のいずれか)**:
+| 節・項 | 量 | 座標 | 状態 |
+|---|---|---|---|
+| K2 文書 §3 設定(L:102–107) | 原子 e^{½Az²+Bz}、K_{δ,R} = {\|A\| ≤ 1−δ} × {\|B\| ≤ R}、評価点 z₀ = Te^{iθ}(T ≥ 3、非有界) | 絶対変数 z | authoring location — 整合 |
+| FR 文書 L:1299–1301 | K_{δ,R} の継承(定義の authoring location は K2 §設定) | 絶対 | 整合 |
+| §8.6 (N-0)(0a)–(0c) | 中心化 x := t − t₀ 後の位相 q_j(x) = A_j x²/2 + B_j x + γ_j、anchor 差の λ 正規化座標 | 窓中心座標(同節の B_j は本節 (CN-2) の B_j^{(t₀)}) | JF9-NORM chart 構成の exact 前処理 — standing 束縛の座標ではない; 本文不変 |
+| §8.9 (2c)(iii)・§8.9 追記(2026-08-19) | 閉 chart 箱の定数 \|A\| ≤ 1−δ_ℱ、\|B\| ≤ R_ℱ の指定; chart 制約 class 位相箱 ⊆ D̄(t₀, R_col) | chart 箱 = §8.6 の K(窓中心座標の係数の箱) | 追記は未指定だった数値の指定であり座標の同一視ではない — 絶対 standing 束縛からは帰結せず**仮定として供給**(box_fit); 本文不変 |
+| §8.10 (B3-1)(B3-3)(i) | K = 係数球面 × 閉 chart 箱 × 定数 gauge(§8.6 規約); z_c : K → 閉 chart 箱 ⊆ D̄(t₀, R_col); RKHS 定数 C_R(中心 ∈ D̄(t₀, R_out) で一様、box 定数) | 補題本体は箱内係数の関数族についての主張で座標の名に依らない; 包含は class 位相 B と評価域が同じ平面にある読み | 絶対読みでは D̄(0, R_ℱ) ⊆ D̄(t₀, R_col) ⇔ \|t₀\| + R_ℱ ≤ R_col(窓中心が chart 定数の範囲内); 窓 t₀ への適用は中心化箱の仮定(box_fit)付き — **luna R1 で裁定を求める読み**; C_R は固定 compact 域でのみ一様(絶対座標の遠方 t₀ では位置依存 — §8.47 追記 1 (5)) |
+| §8.11 (T1-1) TN-3 | 同じ K・z_c、sup は D̄(t₀, R_out) | (B3-1) と同一 | 同上(系) |
+| §8.21 (HA-5) | 係数規約 q(A, B; z) = (A/2)z² + Bz、Fock 可容 \|A\| < 1 | 変数 z = Fock 変数 t((IC-2)) | 整合 |
+| §8.22 (CC-5) | standard_box_premise の検証規則(record 生成時、各原子の \|A_j\| ≤ 1−δ_ℱ、\|B_j\| ≤ R_ℱ); 変換後箱 K_{δ_ℱ²/2, C_B} | 絶対(record の性質、窓の選択に先立つ); 変換後箱は pivot 相対(Weyl で B_pivot → 0)の別 object | 整合 — standing 束縛の authoring consumer |
+| §8.39 (IC-2)(IC-3)(IC-4) | Fock 変数 = 窓変数 = t(chart 座標 y = λ(t − t₀) は Remez 側のみ); 固定箱; ζ_n ∈ D̄(t₀, R_col)、t₀ = 窓位置 | 絶対 | 整合 |
+| §8.43 (JF-0)・§8.44 (QI-0)(QI-2)(QI-6) | ρ₀ = \|t₀\| + R_col、成長評価 exp(a\|t\|²/2 + (b+1)\|t\|)、σ₀^𝒢(a, b, t₀, R_col) | 絶対 | 整合; 床の \|t₀\| 依存は open item(§8.47 追記 1、§8.49 (C27-2)) |
+| §8.25 (LF-0)(LF-2) | B_j^{(t₀)} の箱 \|B_j^{(t₀)}\| ≤ R_ℱ、box_fit の from_standard_box_premise 継承、「T₀ を撤廃」 | 窓中心座標 | 継承は絶対読みで不成立(luna Q2、§8.47 追記 2)→ **T3a0-BOX-CORRECTION**(訂正 packet、本 packet では不変) |
+| §8.45 (FB-0)–(FB-3)(i)・P6 受理記録 | 列ごとの (t₀, R_col)、「1 本の列に沿っては中心域は固定」 | 絶対 | 列単位の中心 evidence への再スコープ → **P6-CENTRE-RESCOPE**(訂正 packet、本 packet では不変) |
+
+**(CN-4) 型(登録のみ — consumer の置換はしない)**:
+  `box_coordinate-v1 := absolute_fock`(chart 定数 (a, b) = (1 − δ_ℱ, R_ℱ) が束縛する係数の座標
+  tag; §8.45 (FB-5) head_floor_certificate-v1 の chart ref や §8.22 (CC-5) standard_box_premise が
+  参照する standing 束縛の座標を明示する field — 既存 consumer の定義本文は不変)、
+  `centred_coefficient-v1 := (t₀ ref(d10_witness-v1.t₀ | zf_anchor-v1.center(A)), 要素ごとの
+  (A_j, B_j) ref(record の絶対係数), B_j^{(t₀)} = B_j + A_j t₀ の計算 ref((CN-2)),
+  checked_same_provenance)`((CN-2) の instance — T3a0-BOX-CORRECTION の explicit constructor が
+  消費する予定、本 packet は定義のみ)。
+
+**(CN-5) 非主張**: 不等式・床・C₂₂; §8.25 (LF-2) 継承 constructor の訂正と「T₀ 撤廃」の限定
+(T3a0-BOX-CORRECTION); §8.45 の再スコープ(P6-CENTRE-RESCOPE); §8.46 の P6 参照の接続
+(P7-CONSUMER-CORRECTION); (PS-7) の量化域の変更(行わない); 中心逃避列の扱い(§8.49 FAR-WINDOW);
+表 (CN-3) の (B3-1) 行の読みの正否(luna R1 の裁定事項); 人間による査読。
+
+**(CN-6) 注記(append-only、各 ≤ 6 行、pointer のみ)**: §8.10 末尾、§8.22 末尾、§8.39 末尾の 3 か所
+(luna 裁定 Q4(a) が挙げた (B3-1)/(CC-5)/(IC-3) の節)。§8.25・§8.45 の注記は各訂正 packet が付ける。
+§4 に GC-5-CONV-NOTE 行(drafted)、§11 に版履歴。受理済み本文・受理記録は不変。
+
+**主張の性格**: 規約の確定と読み表(証明ドラフト・不等式なし; 複数 LLM の fixed-SHA 査読のみ・
+人間による査読は未実施)。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -9198,6 +9277,11 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.177(2026-11-06): **§8.50 GC-5-CONV-NOTE CONVENTION-NOTE を起草**(drafted、査読対象
+  R-CONV R1)— standing 束縛の座標規約を絶対 Fock 変数に確定 (CN-1)、B_j^{(t₀)} = B_j + A_j t₀ の
+  正本 (CN-2)、受理済み 12 箇所の読み表 (CN-3)、型 2 件の登録のみ (CN-4)、非主張 (CN-5)、§8.10 /
+  §8.22 / §8.39 末尾に pointer 注記 (CN-6)。§4 に GC-5-CONV-NOTE 行。受理済み本文・受理記録は不変。
 
 - v0.29.176(2026-11-06): **§8.49 consult #27 設計記録を追加**(座標規約 α = 絶対、絶対床は有界
   中心列に有効・比形床も遠方で中心一様でない(一原子例、手計算で確認)、T3a0/P6/P7 の訂正は
