@@ -193,7 +193,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | **accepted(§8.48、R-C0 R2 ACCEPT、fixed SHA `6300dcb`)**(見積 3–5R(Sol #22)→ 実績 2R) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持)。**注記(2026-11-06)**: §8.25 (LF-2) from_standard_box_premise と (LF-0)「T₀ 撤廃」は luna 座標裁定で versioned 訂正対象(§8.47 追記 2; 訂正 packet 案 = §8.49 (C27-3)(C27-5) T3a0-BOX-CORRECTION 2–3R、orange 裁定) |
-| GC-5-CONV-NOTE CONVENTION-NOTE(consult #27 訂正列 ①、§8.49 (C27-5)) | §8.9 追記、§8.10 (B3-1)、§8.22 (CC-5)、§8.39 (IC-3)、K2 §3 設定、§8.47 追記 2(luna 裁定 Q1/Q4(a)) | standing 束縛の座標規約を**絶対 Fock 変数**に確定(orange 裁定 B、Sol α)、受理済み 12 箇所の読み表(1 行 1 主張)、B_j^{(t₀)} = B_j + A_j t₀ の正本、型 box_coordinate-v1 / centred_coefficient-v1(登録のみ)。不等式・撤回なし(撤回は T3a0-BOX-CORRECTION / P6-CENTRE-RESCOPE) | **drafted(§8.50、R1 blocking 2 適用済み・査読待ち R-CONV R2、見積 1–2R)** |
+| GC-5-CONV-NOTE CONVENTION-NOTE(consult #27 訂正列 ①、§8.49 (C27-5)) | §8.9 追記、§8.10 (B3-1)、§8.22 (CC-5)、§8.39 (IC-3)、K2 §3 設定、§8.47 追記 2(luna 裁定 Q1/Q4(a)) | standing 束縛の座標規約を**絶対 Fock 変数**に確定(orange 裁定 B、Sol α)、受理済み 12 箇所の読み表(1 行 1 主張)、B_j^{(t₀)} = B_j + A_j t₀ の正本、型 box_coordinate-v1 / centred_coefficient-v1(登録のみ)。不等式・撤回なし(撤回は T3a0-BOX-CORRECTION / P6-CENTRE-RESCOPE) | **accepted(§8.50、R-CONV R2 ACCEPT、fixed SHA `43e4846`、2R、blocking 計 2 件 = (CN-2) の閾値の例示誤り 1・注記の再記述 1)— 座標規約 = 絶対 Fock 変数で確定、B_j^{(t₀)} = B_j + A_j t₀ の正本、読み表 12 行** |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
@@ -9168,7 +9168,7 @@ packet 4 本は受理済み主張の撤回を含むので orange GO を要する
 案、1–2R)は本節の CENTRE-COVER(2–3R、v2.2 基底、head 前の evidence 構成)に置き換える。**主張の
 性格**: 設計記録のみ(複数 LLM の相談・fixed-SHA 裁定; 人間による査読は未実施)。
 
-### 8.50 GC-5-CONV-NOTE CONVENTION-NOTE(standing 束縛の座標規約 — 絶対 Fock 変数での確定と受理済み各所の読み表 — drafted、査読対象 R-CONV R2)
+### 8.50 GC-5-CONV-NOTE CONVENTION-NOTE(standing 束縛の座標規約 — 絶対 Fock 変数での確定と受理済み各所の読み表 — **accepted、R-CONV R2 ACCEPT、fixed SHA `43e4846`**)
 
 **目的**: §8.47 追記 2 の luna 裁定(Q1: 座標規約は本文で未確定、Q4(a): versioned 注記が必要)、
 orange 裁定(2026-11-06、B = 絶対)、Sol consult #27 Q1(α = 絶対、§8.49 (C27-1))を受け、standing
@@ -9235,6 +9235,22 @@ t₀ = 3/2 では |B_j + A_j t₀| = 1/4 ≤ R_ℱ = 1 [R-CONV R1-01])。§8.25
 **主張の性格**: 規約の確定と読み表(証明ドラフト・不等式なし; 複数 LLM の fixed-SHA 査読のみ・
 人間による査読は未実施)。
 
+**受理記録(R-CONV、luna gpt-6-luna xhigh、fixed-SHA、read-only)**: R1 `f4bfd68`
+REQUEST_CHANGES(blocking 2: (CN-2) の不成立閾値 |t₀| > (R_ℱ − |B_j|)/|A_j| は誤り — 反例
+|A_j| = 1/2、B_j = −1/2、t₀ = 3/2 で |B_j + A_j t₀| = 1/4 ≤ R_ℱ = 1; §8.10/§8.22/§8.39 の注記が
+(CN-1)/(CN-3) の内容を本文外で再記述 — 適用 `43e4846`: 十分条件 |A_j||t₀| > R_ℱ + |B_j| に訂正し
+反例を記録、注記 3 件を §8.50 への pointer のみ(各 2 行)に縮約 [R1-01][R1-02]; non-blocking:
+(CN-1) は K2 L:102–109・FR L:1299–1301 と整合し §8.39 (IC-2)(IC-3)・§8.22 (CC-5)・§8.21 (HA-5) と
+矛盾しない、(CN-2) の展開式は正しい、§8.10/§8.11 は係数箱で定義された関数族への主張で実関数を
+t₀ 中心に書き換えて適用するなら box_fit が要る、§8.9 の class 位相包含は明示された chart 制約で
+位相箱が全円板 D̄(0, R_ℱ) なら包含と |t₀| + R_ℱ ≤ R_col は同値、C_R は固定 compact 域でのみ一様、
+§8.9 追記を「未指定の数値定数の指定で座標の同一視ではない」と読むのは妥当、型 2 件は登録のみ、
+review-cadence 上は撤回ではなく影響表を伴う規約注記、84 行の追加のみ、31 passed)→ **R2
+`43e4846` ACCEPT**(blocking 0; luna の確認: (CN-2) の十分条件から |B_j + A_j t₀| > R_ℱ が従い
+A_j = 0 では standing 条件がそのまま保たれる、反例の記載どおり、注記 3 件は各 2 行の §8.50 参照
+のみ、`git diff 8de1f2d HEAD -- docs/` は 88 行追加・削除 0 で差分は §4 行・3 注記・§8.50・版履歴
+に限られ受理済み行の変更なし、31 passed)。blocking 計 2 件(数学 0、記述 1、手続き 1)。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -9275,6 +9291,9 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.179(2026-11-06): **§8.50 GC-5-CONV-NOTE CONVENTION-NOTE 受理**(R-CONV R2 ACCEPT、fixed SHA
+  `43e4846`)— 受理記録を §8.50 末尾に追加、§4 行を accepted に。standing 束縛の座標規約は絶対 Fock 変数で確定。
 
 - v0.29.178(2026-11-06): **§8.50 に luna R-CONV R1 を適用**(blocking 2: (CN-2) の不成立閾値
   (R_ℱ − |B_j|)/|A_j| は誤り(反例 |A_j| = 1/2、B_j = −1/2、t₀ = 3/2)— 十分条件 |A_j||t₀| > R_ℱ + |B_j| に
