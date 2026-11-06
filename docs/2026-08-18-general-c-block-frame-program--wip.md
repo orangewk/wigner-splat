@@ -194,7 +194,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
 | GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持)。**注記(2026-11-06)**: §8.25 (LF-2) from_standard_box_premise と (LF-0)「T₀ 撤廃」は luna 座標裁定で versioned 訂正対象(§8.47 追記 2)— **訂正の正本は §8.52 T3a0-BOX-CORRECTION(drafted、R-T3A0BOX R1): (LF-2) from_standard_box_premise 撤回、(LF-0) T₀ 撤廃は box_fit 付き要素限定、型は box_fit-v1.1 / lower_face_input-v2.1 / ptn_lower_face-v2.1 / absorb_via_t3a0-v1.3; 受理状態は維持** |
 | GC-5-CONV-NOTE CONVENTION-NOTE(consult #27 訂正列 ①、§8.49 (C27-5)) | §8.9 追記、§8.10 (B3-1)、§8.22 (CC-5)、§8.39 (IC-3)、K2 §3 設定、§8.47 追記 2(luna 裁定 Q1/Q4(a)) | standing 束縛の座標規約を**絶対 Fock 変数**に確定(orange 裁定 B、Sol α)、受理済み 12 箇所の読み表(1 行 1 主張)、B_j^{(t₀)} = B_j + A_j t₀ の正本、型 box_coordinate-v1 / centred_coefficient-v1(登録のみ)。不等式・撤回なし(撤回は T3a0-BOX-CORRECTION / P6-CENTRE-RESCOPE) | **accepted(§8.50、R-CONV R2 ACCEPT、fixed SHA `43e4846`、2R、blocking 計 2 件 = (CN-2) の閾値の例示誤り 1・注記の再記述 1)— 座標規約 = 絶対 Fock 変数で確定、B_j^{(t₀)} = B_j + A_j t₀ の正本、読み表 12 行** |
-| GC-5-T3A0-BOX T3a0-BOX-CORRECTION(consult #27 訂正列 ②、§8.49 (C27-3)(C27-5)) | §8.50 (CN-1)(CN-2)(CN-4)、§8.25 (LF-0)(LF-2)(LF-4)、§8.33 L1-v2 / (RC2-0) absorb_via_t3a0-v1.2、§8.47 追記 2(luna 裁定 Q2/Q4(d)) | 受理済み T3a0 の部分撤回: (LF-2) from_standard_box_premise は box_fit の evidence を構成しない(撤回)、(LF-0)「T₀ 撤廃」は box_fit 付き要素限定; versioned 型 box_fit-v1.1(explicit のみ)/ face_hypotheses-v1.1 / lower_face_input-v2.1 / ptn_lower_face-v2.1 / face_approach_witness-v2.2 / absorb_via_t3a0-v1.3(L1-v2.1 / L10-v2.1); box_fit 不成立要素は L21-v2 REF-MISSING(型の事実; 遠方窓の coverage 修復ではない)。不等式なし | **drafted(§8.52、査読対象 R-T3A0BOX R1、見積 2–3R)** |
+| GC-5-T3A0-BOX T3a0-BOX-CORRECTION(consult #27 訂正列 ②、§8.49 (C27-3)(C27-5)) | §8.50 (CN-1)(CN-2)(CN-4)、§8.25 (LF-0)(LF-2)(LF-4)、§8.33 L1-v2 / (RC2-0) absorb_via_t3a0-v1.2、§8.47 追記 2(luna 裁定 Q2/Q4(d)) | 受理済み T3a0 の部分撤回: (LF-2) from_standard_box_premise は box_fit の evidence を構成しない(撤回)、(LF-0)「T₀ 撤廃」は box_fit 付き要素限定; versioned 型 box_fit-v1.1(explicit のみ)/ face_hypotheses-v1.1 / lower_face_input-v2.1 / ptn_lower_face-v2.1 / face_approach_witness-v2.2 / absorb_via_t3a0-v1.3(L1-v2.1 / L10-v2.1)/ t3_gate-v1.4 / route_closure-v2.2; box_fit 不成立要素は L21-v2 REF-MISSING(型の事実; 遠方窓の coverage 修復ではない)。不等式なし | **drafted(§8.52、R1 blocking 1 適用済み・査読待ち R-T3A0BOX R2、見積 2–3R)** |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
@@ -6585,7 +6585,8 @@ t2cov_handoff は到達不能。(RC2-6) の閉包 statement は不変で、T2c-o
 充足、T3c・T3b・nogo・unresolved の条件は不変 — route_closure-v2.1(§8.46 (RU-2))。
 
 **注記(2026-11-06 — T3a0-BOX-CORRECTION、本文は不変)**: L1-v2 / L10-v2 の directly_absorbed が読む adapter は
-absorb_via_t3a0-v1.3、(N3)/(N4) が読む face_approach_witness は v2.2 — §8.52 (BX-2)(BX-3)。
+absorb_via_t3a0-v1.3、その terminal は t3_gate-v1.4、closure は route_closure-v2.2、(N3)/(N4) が読む
+face_approach_witness は v2.2 — §8.52 (BX-2)(BX-3)。
 
 ### 8.34 GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC(overflow の source authority と型 — **accepted、luna fixed-SHA `7788dca` R-T2COV1 R4、4R**)
 
@@ -9374,7 +9375,7 @@ Sol ではなく第三者(Astra または luna)による照合が望ましい。
 (node の排他 / 放射線評価)がある — 参照は節番号付きで行う(本節の (RC-1) は §8.41)。**主張の性格**:
 設計記録のみ(複数 LLM の相談・数値の補助確認; 人間による査読は未実施)。
 
-### 8.52 GC-5-T3A0-BOX T3a0-BOX-CORRECTION(§8.25 (LF-2) 継承 constructor の撤回と (LF-0)「T₀ 撤廃」の限定 — 受理済み主張の versioned 訂正、drafted、査読対象 R-T3A0BOX R1)
+### 8.52 GC-5-T3A0-BOX T3a0-BOX-CORRECTION(§8.25 (LF-2) 継承 constructor の撤回と (LF-0)「T₀ 撤廃」の限定 — 受理済み主張の versioned 訂正、drafted、査読対象 R-T3A0BOX R2)
 
 **目的**: luna 座標裁定 Q2/Q4(d)(§8.47 追記 2)と Sol consult #27 Q3(§8.49 (C27-3))が求める受理済み
 T3a0(§8.25、fixed SHA `ca11257`)の訂正。review-cadence の「主張の撤回と台帳の書き換え」に当たるので
@@ -9420,13 +9421,20 @@ K_face 所属の**直接**検証 ref — box_fit と独立の evidence)。
    L1-v2((N1) lower_rank_exact)と L10-v2((N3) vanishing → (N4) alpha_proven、(RC2-3)(b))は以後
    absorb_via_t3a0-v1.3 を読む(**L1-v2.1 / L10-v2.1** — lane 番号・terminal 定義は不変、adapter の版のみ;
    (RC2-3) の矛盾導出は入力 ref の version 以外同文)。
+  `t3_gate-v1.4 := t3_gate-v1.3(§8.34 (OV-4) — unresolved を unresolved-v1.2 にした版)の directly_absorbed の
+   入力型を (absorb_via_t3a0-v1.3 | block_dominant ref) に置換したもの(他の terminal constructor — nogo・
+   retract_exact_qr・unresolved-v1.2・t3c_handoff-v1.1・t2cov_handoff・t3b_handoff — 不変)`;
+  `route_closure-v2.2 := route_closure-v2.1(§8.46 (RU-2))の terminal gate を t3_gate-v1.4 としたもの(lane 表・
+   terminal 割当・L21-v2 の tag 一覧・lane_emptiness-v1 ref は不変)`。L1-v2.1 / L10-v2.1 の directly_absorbed は
+   t3_gate-v1.4 に落ち、他 lane の terminal は v1.3 と同一 constructor なので v1.4 でも同じ(§8.34 t2cov_discharge-v1
+   が参照する t2cov_handoff record も不変)[R-T3A0BOX R1-01]。
   window_identity-v1(§8.29 (RC-3)(0))が参照する rescale_record は不変なので置換しない。consumer の
   列挙は本 packet 起草時の grep(lower_face_input-v2 / ptn_lower_face-v2 / absorb_via_t3a0-v1.2 / box_fit /
   face_hypotheses)による — 漏れがあれば R1 で指摘を受けて追加する。
 
 **(BX-3) 帰結(型の事実 — 不等式なし)**: box_fit-v1.1 を構成できない要素(中心化係数が箱外)は
 lower_face_input-v2.1 を構成できず、ptn_lower_face-v2.1.proven の ref を持てないので、(N1) lower_rank_exact
-から L1-v2.1 の directly_absorbed には入らず **§8.33 L21-v2 unresolved(REF-MISSING — node (N1) の必須
+から L1-v2.1 の directly_absorbed(t3_gate-v1.4)には入らず **§8.33 L21-v2 unresolved(REF-MISSING — node (N1) の必須
 ref 欠落)** に落ちる(fail-closed)。これは §8.47 追記 2 Q3(ii) の CTX-MISSING(head 前の context 不成立)
 とは別経路(lower-rank exit 側)の同種の残余。中心が有界な列でも box_fit は自動では成立しない
 (§8.49 (C27-3) — 中心有界 evidence sup|t₀| ≤ T_seq から従うのは半径 R_ℱ + (1 − δ_ℱ)T_seq の拡大箱で
@@ -9485,6 +9493,12 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.182(2026-11-07): **§8.52 に luna R-T3A0BOX R1 を適用**(blocking 1: lane L1-v2.1 / L10-v2.1 の
+  directly_absorbed が読む absorb_via_t3a0-v1.3 を受ける terminal 型が無かった — t3_gate-v1.4(v1.3 の
+  directly_absorbed 入力型を v1.3 adapter に)と route_closure-v2.2(terminal gate を v1.4 に)を登録
+  [R1-01]; non-blocking: 撤回範囲・維持項目・box_fit-v1.1 の十分性(luna の独立検算: A = 0.4、δ = 0.5、
+  B = 0、R = 1、t₀ = 3 で B^{(t₀)} = 1.2)・REF-MISSING/CTX-MISSING の区別・差分範囲・31 passed を確認)。
 
 - v0.29.181(2026-11-06): **§8.52 GC-5-T3A0-BOX T3a0-BOX-CORRECTION を起草**(drafted、査読対象
   R-T3A0BOX R1)— §8.25 (LF-2) from_standard_box_premise の撤回と (LF-0)「T₀ 撤廃」の box_fit 付き
