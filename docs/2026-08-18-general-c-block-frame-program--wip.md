@@ -198,7 +198,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-P6-RESCOPE P6-CENTRE-RESCOPE(consult #27 訂正列 ③、§8.49 (C27-3)(C27-5)) | §8.45 (FB-0)–(FB-8)、§8.44 (QI-6)、§8.21 (HA-1)(HA-2)、§8.23 (FL22-1)、§8.39 (IC-4)、§8.50 (CN-1)、§8.47 追記 1・追記 2(luna 裁定 Q3/Q4(b)(d)) | 受理済み P6 の現行利用範囲の限定: 列共通床 β_n ≥ σ₀^𝒢 と head_good の確定は centre_bound_evidence-v1 付きの列(index 集合 N′ 上)に限る; 所属 (FB-1)・条件 (U) 付きの (FB-3)(ii)・c₀ 非依存は維持; versioned 型 centre_bound_evidence-v1(common_disc \| bounded_centres、producer 非主張)/ head_floor_certificate-v1.1 / good_witness-v1.3 / head_outcome-v1.3 / beta_floor_link-v1.1。新しい不等式なし | **accepted(§8.54、R-P6RESCOPE R1 ACCEPT、fixed SHA `603567b`、1R、blocking 0; 訂正列 ③ 完了)** |
 | GC-5-P7-CONSUMER P7-CONSUMER-CORRECTION(consult #27 訂正列 ④、§8.49 (C27-3)(C27-5)) | §8.46 (RU-0)–(RU-9)、§8.54 (PR-1)(PR-2)(PR-3)、§8.52 (BX-2)(BX-4)、§8.21 (HA-1)(HA-4)、§8.33 (RC2-2)(RC2-6) | 受理済み P7 の P6 参照を列単位の中心 evidence 付きの現行契約へ接続: lane L9/L13/L20/L27 の空性と (RU-3)(i) は型付き入力・型付き候補について維持、「(U_seq) は型から自動」は型の前提の意味に限定; versioned 型 lane_emptiness-v1.1 / head_outcome_adapter-v1.3 / route_closure-v2.3 / remez_ready-v1.4 / t3_gate-v1.5 / route_update-v1.1。新しい不等式なし | **accepted(§8.55、R-P7CONS R1 ACCEPT、fixed SHA `79a55ef`、1R、blocking 0; 訂正列 ④ 完了 — 訂正列 ①–④ は全て受理)** |
 | GC-4A-UNITSTEP UNITSTEP-NOGO(§8.53 (C29-1)(C29-5)、orange 裁定 2026-11-10) | §8.2 (BRF-1)–(BRF-5)・§8.2.5、§8.3 (F2²-2)–(F2²-4)、§8.1 (1)(3)、§6.3、§7.1、FR §10.3、§8.4 (EX-4)、§8.6 (N-0)(N-6)、§8.7 (v-a)、§8.15 追記 | 4 原子族 (d, e₀, h) の初等補題: J_k 上 g ≤ max(¾d, 4e₀)、I_k 内の点で g = 2 ⇒ 比 ≥ 2/max(¾d, 4e₀) → ∞(cost は有界)。帰結: §8.2・§8.3 の class 上で (c-i) を「定数 × ρ^{−γ} × 有界 cost」の weighted 単位 step に完成させることはできない(族の cell は signature [4]); q_band 座標の訂正((N-0) の λ: 𝔉_A は不成立・𝔉_B は有界); 完全 typed な (PS-7) は未判定。受理済み主張の撤回なし | **drafted(§8.56、R-UNITSTEP R1 査読待ち)** |
-| GC-7-EW4 EW4-RAW(§8.51 (C28-2)(D)、§8.53 (C29-3) ⑦、orange 裁定 2026-11-10) | §8.40 (AN-0)(AN-1)、§8.41 (RC-0)(RC-1)(iii)、§8.50 (CN-1)(CN-4)、FR §10.2 (E-w)・§10.8 補題 EW、§7.2 | raw ≤ 4 原子和の norm 参照の大域包絡 \|F(t)\| ≤ K_R(a, b)·C_J·‖F‖_ℱ·exp(a\|t\|²/2 + (b + 1)\|t\|)(受理済み (AN-1)・(RC-1)(iii) の系 — 新しい解析なし)、(E-w) 形(C_w = K_R(1 − δ, R)·C_J、C_lin = R + 1、m₀ 不要)、入力と出力の型 ew4_input-v1 / ew4_envelope-v1(producer 非主張)。c = 4 の (E-w) は非主張(frame 側の供給は FR4-S1 — open) | **drafted(§8.57、R-EW4RAW R1 査読待ち)** |
+| GC-7-EW4 EW4-RAW(§8.51 (C28-2)(D)、§8.53 (C29-3) ⑦、orange 裁定 2026-11-10) | §8.40 (AN-0)(AN-1)、§8.41 (RC-0)(RC-1)(iii)、§8.50 (CN-1)(CN-4)、FR §10.2 (E-w)・§10.8 補題 EW、§7.2 | ew4_raw-v1(§8.57 (EW-8)): 受理済み §8.40・§8.41 の系 (EW-1)、(E-w) 形との対応 (EW-2)、入力と出力の型 (EW-3)(producer 非主張)。c = 4 の (E-w) は非主張 | **drafted(§8.57、R-EW4RAW R1 適用、R2 査読待ち)** |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
@@ -213,7 +213,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2 — T3a-5 以降は **violation_sequence-v2.1**(§8.32 [R-T3A5 R1-03])を読む) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R(Sol #22 再見積 4–7R)。**注記(2026-11-06)**: 窓位置一様の C₂₂ は未証明で、bubble 族の反証候補あり — §8.51 (C28-2)(C28-3); FW-WITNESS-AUDIT 照合済み(2026-11-10、§8.51 追記 2 — 判定は (PS-3) pairing margin の定義に依存し未確定; statement の形の裁定待ち; consult #29 = §8.53 — q_band 判定の訂正と出口候補の設計記録、packet 未起草) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open(**注記 2026-11-10**: frame 側の依存の監査は §8.53 追記 FRAME-DEP-AUDIT) |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
-| GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open(**注記 2026-11-10**: (E-w) の形の norm 参照の評価は §8.57 EW4-RAW — drafted; frame 側の入力は未供給、経路の裁定は §8.53) |
+| GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open(**注記 2026-11-10**: (E-w) の形の norm 参照の評価は §8.57 EW4-RAW — drafted(R2 査読待ち); frame 側の入力は未供給、経路の裁定は §8.53) |
 | GC-8 IND | GC-7 | 一般帰納の離散指標と定数 budget(leaf weight・support・valuation/flag の well-foundedness) | open |
 | GC-9 CONFL | GC-8 | 全 rate-tree face の confluent injectivity、multi-scale exact factorization、tail | open |
 | GC-10 PBK-IND | GC-4A/B/8/9 | (w_L, w_R) に関する prepared binary kernel 帰納 | open |
@@ -10265,7 +10265,7 @@ consumer: §8.53 の経路の裁定、TREE-RADIAL-DOMAIN(未起草 — (PS-3) �
 行、§11。受理済み本文・受理記録は不変。**主張の性格**: 初等的な補題 1 件とその帰結(証明ドラフト)+ 計算の記録(複数 LLM の fixed-SHA
 査読のみ・人間による査読は未実施)。
 
-### 8.57 GC-7-EW4 EW4-RAW(raw ≤ 4 原子和の Fock norm 参照の大域包絡 — §8.40・§8.41 の元の箱への適用と (E-w) 形への対応、**drafted、R-EW4RAW R1 査読待ち**)
+### 8.57 GC-7-EW4 EW4-RAW(raw ≤ 4 原子和の Fock norm 参照の大域包絡 — §8.40・§8.41 の元の箱への適用と (E-w) 形への対応、**drafted、R-EW4RAW R1 適用、R2 査読待ち**)
 
 **目的**: §8.51 (C28-2)(D)・§8.53 (C29-3) ⑦ が指す「PBK 層を経ない (E-w) への出口」の解析核を、消費できる文として登録する(orange 裁定
 2026-11-10「EW4 を先に確かめる」(a) — §8.53 追記)。主張は系 (EW-1) の 1 件で、受理済みの §8.40 (AN-1)・§8.41 (RC-1)(iii) を入力 class の箱で
@@ -10275,7 +10275,8 @@ consumer: §8.53 の経路の裁定、TREE-RADIAL-DOMAIN(未起草 — (PS-3) �
 **(EW-0) 記号**: ℱ は §8.41 (RC-0) の Fock 空間(‖f‖²_ℱ = Σ_k |f_k|² k!)。0 ≤ a < 1、b ≥ 0 に対し、原子 u(t) = e^{(A/2)t² + Bt} のパラメータの
 閉箱 **Π_{a,b} := {(A_j, B_j)_{j≤4} : |A_j| ≤ a, |B_j| ≤ b}**(絶対 Fock 変数 — §8.50 (CN-1))。§8.40・§8.41 は (a, b) = (1 − δ_ℱ, R_ℱ) と書いて
 述べられているが、両節の定義と証明は a, b の値に依らない((AN-1) は箱を使わない; (AN-2)(AN-3) の箱上有界性は箱の compact 性だけ; (RC-1)(i) は
-|λ_m(t)| ≤ a|t| + b だけ)ので、任意の (a, b) について成り立つ文として読む。定数は §8.41 (RC-0) の **C_J = (Σ_{i=0}^{14} i!)^{1/2}**(絶対定数)と
+|λ_m(t)| ≤ a|t| + b だけ)ので、任意の (a, b) について成り立つ文として読む。a < 1 は (RC-1)(i)(ii) の微分不等式には使われない; 本節が
+a < 1 を仮定するのは、各原子が ℱ に属し(§8.21 (HA-5) の可容性 |A| < 1)‖F‖_ℱ が有限になるためである [R-EW4RAW R1 注]。定数は §8.41 (RC-0) の **C_J = (Σ_{i=0}^{14} i!)^{1/2}**(絶対定数)と
 **K_R(a, b) := sup_{π ∈ Π_{a,b}} ‖R_π‖_op**(箱だけで決まる有限値、K_R ≥ 1)。
 
 **(EW-1) 系(§8.40 (AN-1) + §8.41 (RC-1)(iii))**: 0 ≤ a < 1、b ≥ 0、1 ≤ r ≤ 4、|A_j| ≤ a、|B_j| ≤ b(j ≤ r; 一致を許す)、c_j ∈ ℂ 任意とし、
@@ -10290,12 +10291,13 @@ L_π F = 0 を与えるので F ∈ ker L_π、π ∈ Π_{a,b}。§8.41 (RC-1)(i
 (a, b) = (1 − δ, R) と取ると、‖F‖_ℱ ≤ 1 を満たす (EW-1) の F は、全 z ∈ ℂ で
   **|F(z)| ≤ C_w·exp((1 − δ/2)|z|²/2 + C_lin|z|)、 C_w := K_R(1 − δ, R)·C_J、 C_lin := R + 1**
 を満たす((1 − δ) ≤ (1 − δ/2))。C_w・C_lin は (δ, R) だけで決まり、FR §10.2 (E-w) が定数に禁じる依存(m、ℓ、z、θ、SVD / Newton 係数)を
-持たない。閾値 m₀ も要らない(各 F について成立する評価であって、列についての漸近評価ではない)。箱が (1 − δ_ℱ, R_ℱ) で与えられる場合は
+持たない。閾値 m₀ も要らない(各 F について成立する評価であって、列についての漸近評価ではない)。frame vector の列が (EW-3) の入力条件を
+満たすのが m ≥ m₀ からである場合、その m₀ は frame 側の閾値として残る(c = 3 では補題 EW の m₀)[R-EW4RAW R1 注]。箱が (1 − δ_ℱ, R_ℱ) で与えられる場合は
 δ_ℱ ≥ δ/2 のとき同じ形になる(C_lin = R_ℱ + 1; δ_ℱ と δ の関係は受理済み本文では宣言されていない — (EW-6))。
 
 **(EW-3) 適用に要る入力(型 — 定義のみ、producer は非主張)**:
   `ew4_input-v1 := (F ref(entire 関数), atoms ref((A_j, B_j)_{j≤r}、r ≤ 4、絶対 Fock 変数 — box_coordinate-v1 = absolute_fock、§8.50 (CN-4)),
-   exact_span ref(F = Σ_{j≤r} c_j u_j が恒等式として成立することの ref — 係数 c_j の値は field に持たない), box ref((a, b) と、全 j で
+   exact_span ref(F = Σ_{j≤r} c_j u_j が恒等式として成立することの ref — 係数 c_j の値は field に持たない), box ref((a, b)(0 ≤ a < 1、b ≥ 0)と、全 j で
    |A_j| ≤ a・|B_j| ≤ b の verified flag), norm ref(‖F‖_ℱ ≤ N の verified flag と N の値), checked_same_provenance)`
   `ew4_envelope-v1 := (ew4_input-v1 ref, 定数 ref(K_R(a, b)・C_J — §8.41 (RC-0)), 不等式: |F(t)| ≤ K_R(a, b)·C_J·N·exp(a|t|²/2 + (b + 1)|t|)
    (全 t ∈ ℂ)— (EW-1))`
@@ -10313,8 +10315,8 @@ C_lin = R + 1 — 補題 EW の定数とは別の値)。c = 4 で同じ入力を
 | 入力に要る構造 | tree、held cell、radial signature、zero-free 窓、各種 witness | 原子の箱と exact span、Fock norm |
 | 定数の依存 | route ごとの κ̄・γ・cost、C₂₂(存在は未証明) | K_R(a, b)·C_J(箱だけ) |
 | 閾値 m₀ | 要る(m_BRF ほか) | 要らない |
-| 得られる指数 | (BRF-5) の終点 (1 − δ/4)T²/2(組立後) | a\|t\|²/2 + (b + 1)\|t\| = (1 − δ)\|t\|²/2 + (R + 1)\|t\| |
-| §8.56 の族 𝔉_A・𝔉_B | 単位 step の比が発散(§8.56 (UN-2)) | 適用できる(原子は箱内、係数は任意)— 診断 (EW-7) |
+| 指数 | (BRF-5) の予算の終点 (1 − δ/4)T²/2(GC-7 の組立が成立した場合の値 — GC-7 は open)[R-EW4RAW R1 注] | a\|t\|²/2 + (b + 1)\|t\|((a, b) = (1 − δ, R) なら (1 − δ)\|t\|²/2 + (R + 1)\|t\|) |
+| §8.56 (UN-1) の族 | 単位 step の比が発散(§8.56 (UN-2)) | d + h ≤ b なら適用できる(原子は A_j = 0、\|B_j\| ≤ d + h; 係数は任意)[R-EW4RAW R1 注] — 診断 (EW-7) |
 | 与えないもの | — | 二窓比較 (PTN-22)・C₂₂、(E-d)、child certificate、frame の構成・Gram 床・norm 収束 |
 
 **(EW-5) 一般の c についての注意(非主張)**: §8.40・§8.41 は 4 原子について書かれている。r ≤ 4 は係数 0 の補充で (EW-1) に含まれるが、
@@ -10379,11 +10381,16 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 
 ## 11. 版履歴
 
+- v0.29.197(2026-11-10): §8.57 に luna R-EW4RAW R1(REQUEST_CHANGES、blocking 1、fixed SHA `598af7c`)を適用: §4 の EW4-RAW 行と §11 の
+  v0.29.196 の項が不等式と定数を再掲していた — 状態と参照のみに縮約(式の正本は §8.57 (EW-1)(EW-2))[R1-01]。non-blocking の反映: (EW-0) に
+  a < 1 の役割、(EW-2) に frame 側の閾値の注、(EW-3) の box ref に範囲、(EW-4) の指数行を条件付きの記載に・族の行に箱の条件。数学所見は
+  全項目整合(luna が (RC-1) を再導出、3 配置の独立計算と反例探索)。同じ形の箇所として、§11 の v0.29.194 の項(FRAME-DEP-AUDIT の
+  所見の要約)も参照のみに縮約した。R2 へ。
+
 - v0.29.196(2026-11-10): **§8.57 GC-7-EW4 EW4-RAW を起草**(§8.51 (C28-2)(D)、§8.53 (C29-3) ⑦、orange 裁定 2026-11-10「EW4 を先に
-  確かめる」(a)): 受理済み §8.40 (AN-1)・§8.41 (RC-1)(iii) の系として、箱 Π_{a,b} 内の raw ≤ 4 原子和 F に
-  |F(t)| ≤ K_R(a, b)·C_J·‖F‖_ℱ·exp(a|t|²/2 + (b + 1)|t|)(全 t ∈ ℂ)を登録(新しい解析なし; 右辺は F の Fock norm だけを参照)。(E-w) 形
-  (C_w = K_R(1 − δ, R)·C_J、C_lin = R + 1、m₀ 不要)、入力と出力の型 ew4_input-v1 / ew4_envelope-v1(producer 非主張)、鎖との比較表、
-  c = 3 の補題 EW との整合の確認。c = 4 の (E-w)・frame 側の供給・(PTN-22)・(E-d) は非主張。§4 に行を追加し GC-7 行に参照。R-EW4RAW R1 へ。
+  確かめる」(a)): 受理済み §8.40 (AN-1)・§8.41 (RC-1)(iii) の系 (EW-1)、(E-w) 形との対応 (EW-2)、入力と出力の型 (EW-3)(producer 非主張)、
+  鎖との比較表 (EW-4)、c = 3 の補題 EW との整合の確認を登録(式と定数の正本は §8.57; 新しい解析なし)。c = 4 の (E-w)・frame 側の供給・
+  (PTN-22)・(E-d) は非主張。§4 に行を追加し GC-7 行に参照。R-EW4RAW R1 へ。
 
 - v0.29.195(2026-11-10): **§8.56 GC-4A-UNITSTEP UNITSTEP-NOGO を起草**(§8.53 (C29-1)(C29-5)、orange 裁定 2026-11-10): 4 原子族
   B₁ = 1 − e^{hy}、B₂ = −e^{dy}(1 − e^{h(y − e₀)}) の初等補題(y < 0 で g ≤ max(d|y|, e₀/|y|)、(0, e₀) 内の点で g = 2)と、§8.2・§8.3 の設定との
@@ -10391,11 +10398,8 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
   ことはできない; 族の cell の signature は [4] で、dispatch の読みは決めない)、q_band 座標の計算の記録((N-0) の λ では 𝔉_A が不成立・𝔉_B は
   有界 — §8.51 追記 2 (i) の訂正; 完全 typed な (PS-7) は未判定)。受理済み主張の撤回なし。§4 A.5c 行に参照、§4 に行を追加。R-UNITSTEP R1 へ。
 
-- v0.29.194(2026-11-10): §8.53 に追記 FRAME-DEP-AUDIT(luna gpt-6-luna xhigh、read-only、HEAD `f517b3a`; orange 裁定 ①(b))を記録:
-  c = 3 の frame 構成・Gram・tail・norm 収束は kernel 機構を消費せず、消費するのは envelope 層((E-w))だけ(luna: 各項は本文で確認、結論は推論);
-  c = 4 の frame vector が「standing 箱内の ≤ 4 原子の exact 結合・norm 1」であるとする受理済みの文は無く、将来の frame packet が明記すべき性質 4 件;
-  (C29-3) ⑦ の後も kernel 層の結果が要るかは FR4-S1・GC-6–GC-9 について本文から判定不能; 外部 target として (E-d)・単位 step・(PTN-22) を要求する
-  consumer の記載は無い; δ_ℱ と δ の関係は未宣言; 一般の c の消去作用素は本文に無い。§4 FR4-S1 行は参照のみ追記。
+- v0.29.194(2026-11-10): §8.53 に追記 FRAME-DEP-AUDIT(luna gpt-6-luna xhigh、read-only、HEAD `f517b3a`; orange 裁定 ①(b))を記録(frame 層と
+  consumer が kernel 層の何に依存するかの、本文の記載の照合 — 内容は同追記 (FA-1)–(FA-6))。§4 FR4-S1 行は参照のみ追記。
 
 - v0.29.193(2026-11-10): §8.53 に orange 裁定(AskUserQuestion)を追記: 経路は「EW4 を先に確かめる」(EW4-RAW の査読 packet と
   frame 側の依存の read-only 監査; §1 の route 決定記録の改訂は結果を見てから — 未決; kernel 側と中心 coverage は凍結継続)、単位 step の
