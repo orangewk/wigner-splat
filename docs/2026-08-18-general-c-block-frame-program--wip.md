@@ -198,7 +198,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-P6-RESCOPE P6-CENTRE-RESCOPE(consult #27 訂正列 ③、§8.49 (C27-3)(C27-5)) | §8.45 (FB-0)–(FB-8)、§8.44 (QI-6)、§8.21 (HA-1)(HA-2)、§8.23 (FL22-1)、§8.39 (IC-4)、§8.50 (CN-1)、§8.47 追記 1・追記 2(luna 裁定 Q3/Q4(b)(d)) | 受理済み P6 の現行利用範囲の限定: 列共通床 β_n ≥ σ₀^𝒢 と head_good の確定は centre_bound_evidence-v1 付きの列(index 集合 N′ 上)に限る; 所属 (FB-1)・条件 (U) 付きの (FB-3)(ii)・c₀ 非依存は維持; versioned 型 centre_bound_evidence-v1(common_disc \| bounded_centres、producer 非主張)/ head_floor_certificate-v1.1 / good_witness-v1.3 / head_outcome-v1.3 / beta_floor_link-v1.1。新しい不等式なし | **accepted(§8.54、R-P6RESCOPE R1 ACCEPT、fixed SHA `603567b`、1R、blocking 0; 訂正列 ③ 完了)** |
 | GC-5-P7-CONSUMER P7-CONSUMER-CORRECTION(consult #27 訂正列 ④、§8.49 (C27-3)(C27-5)) | §8.46 (RU-0)–(RU-9)、§8.54 (PR-1)(PR-2)(PR-3)、§8.52 (BX-2)(BX-4)、§8.21 (HA-1)(HA-4)、§8.33 (RC2-2)(RC2-6) | 受理済み P7 の P6 参照を列単位の中心 evidence 付きの現行契約へ接続: lane L9/L13/L20/L27 の空性と (RU-3)(i) は型付き入力・型付き候補について維持、「(U_seq) は型から自動」は型の前提の意味に限定; versioned 型 lane_emptiness-v1.1 / head_outcome_adapter-v1.3 / route_closure-v2.3 / remez_ready-v1.4 / t3_gate-v1.5 / route_update-v1.1。新しい不等式なし | **accepted(§8.55、R-P7CONS R1 ACCEPT、fixed SHA `79a55ef`、1R、blocking 0; 訂正列 ④ 完了 — 訂正列 ①–④ は全て受理)** |
 | GC-4A-UNITSTEP UNITSTEP-NOGO(§8.53 (C29-1)(C29-5)、orange 裁定 2026-11-10) | §8.2 (BRF-1)–(BRF-5)・§8.2.5、§8.3 (F2²-2)–(F2²-4)、§8.1 (1)(3)(5)、§6.3、§7.1、FR §10.3、§8.4 (EX-4)、§8.6 (N-0)(N-6)、§8.7 (v-a)、§8.15 追記 | unitstep_nogo-v1(§8.56 (UN-9)): 4 原子族の補題 (UN-2)、§8.2・§8.3 の設定との照合表 (UN-3)、帰結 (UN-4)、signature と dispatch の注意 (UN-5)、q_band 座標の計算の記録 (UN-6)。受理済み主張の撤回なし | **drafted(§8.56、R-UNITSTEP R1 適用、R2 査読待ち)** |
-| GC-7-EW4 EW4-RAW(§8.51 (C28-2)(D)、§8.53 (C29-3) ⑦、orange 裁定 2026-11-10) | §8.40 (AN-0)(AN-1)、§8.41 (RC-0)(RC-1)(iii)、§8.50 (CN-1)(CN-4)、FR §10.2 (E-w)・§10.8 補題 EW、§7.2 | ew4_raw-v1(§8.57 (EW-8)): 受理済み §8.40・§8.41 の系 (EW-1)、(E-w) 形との対応 (EW-2)、入力と出力の型 (EW-3)(producer 非主張)。c = 4 の (E-w) は非主張 | **drafted(§8.57、R-EW4RAW R1 適用、R2 査読待ち)** |
+| GC-7-EW4 EW4-RAW(§8.51 (C28-2)(D)、§8.53 (C29-3) ⑦、orange 裁定 2026-11-10) | §8.40 (AN-0)(AN-1)、§8.41 (RC-0)(RC-1)(iii)、§8.50 (CN-1)(CN-4)、FR §10.2 (E-w)・§10.8 補題 EW、§7.2 | ew4_raw-v1(§8.57 (EW-8)): 受理済み §8.40・§8.41 の系 (EW-1)、(E-w) 形との対応 (EW-2)、入力と出力の型 (EW-3)(producer 非主張)。c = 4 の (E-w) は非主張 | **accepted(§8.57、R-EW4RAW R2 ACCEPT、fixed SHA `83c1850`、2R、blocking 計 1 件 = 記述)** |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
@@ -213,7 +213,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2 — T3a-5 以降は **violation_sequence-v2.1**(§8.32 [R-T3A5 R1-03])を読む) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R(Sol #22 再見積 4–7R)。**注記(2026-11-06)**: 窓位置一様の C₂₂ は未証明で、bubble 族の反証候補あり — §8.51 (C28-2)(C28-3); FW-WITNESS-AUDIT 照合済み(2026-11-10、§8.51 追記 2 — 判定は (PS-3) pairing margin の定義に依存し未確定; statement の形の裁定待ち; consult #29 = §8.53 — q_band 判定の訂正と出口候補の設計記録、packet 未起草) |
 | GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open(**注記 2026-11-10**: frame 側の依存の監査は §8.53 追記 FRAME-DEP-AUDIT) |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
-| GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open(**注記 2026-11-10**: (E-w) の形の norm 参照の評価は §8.57 EW4-RAW — drafted(R2 査読待ち); frame 側の入力は未供給、経路の裁定は §8.53) |
+| GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open(**注記 2026-11-10**: (E-w) の形の norm 参照の評価は §8.57 EW4-RAW — accepted `83c1850`; frame 側の入力は未供給、経路の裁定は §8.53) |
 | GC-8 IND | GC-7 | 一般帰納の離散指標と定数 budget(leaf weight・support・valuation/flag の well-foundedness) | open |
 | GC-9 CONFL | GC-8 | 全 rate-tree face の confluent injectivity、multi-scale exact factorization、tail | open |
 | GC-10 PBK-IND | GC-4A/B/8/9 | (w_L, w_R) に関する prepared binary kernel 帰納 | open |
@@ -10273,7 +10273,7 @@ consumer: §8.53 の経路の裁定、TREE-RADIAL-DOMAIN(未起草 — (PS-3) �
 行、§11。受理済み本文・受理記録は不変。**主張の性格**: 初等的な補題 1 件とその帰結(証明ドラフト)+ 計算の記録(複数 LLM の fixed-SHA
 査読のみ・人間による査読は未実施)。
 
-### 8.57 GC-7-EW4 EW4-RAW(raw ≤ 4 原子和の Fock norm 参照の大域包絡 — §8.40・§8.41 の元の箱への適用と (E-w) 形への対応、**drafted、R-EW4RAW R1 適用、R2 査読待ち**)
+### 8.57 GC-7-EW4 EW4-RAW(raw ≤ 4 原子和の Fock norm 参照の大域包絡 — §8.40・§8.41 の元の箱への適用と (E-w) 形への対応、**accepted、R-EW4RAW R2 ACCEPT、fixed SHA `83c1850`**)
 
 **目的**: §8.51 (C28-2)(D)・§8.53 (C29-3) ⑦ が指す「PBK 層を経ない (E-w) への出口」の解析核を、消費できる文として登録する(orange 裁定
 2026-11-10「EW4 を先に確かめる」(a) — §8.53 追記)。主張は系 (EW-1) の 1 件で、受理済みの §8.40 (AN-1)・§8.41 (RC-1)(iii) を入力 class の箱で
@@ -10348,6 +10348,20 @@ consumer: §8.53 の経路の裁定; EW4-FRAME-BRIDGE(未起草・未 GO — fra
 (状態と参照のみ)、§11。受理済み本文・受理記録は不変。**主張の性格**: 受理済みの評価の系 1 件と型の登録(新しい解析なし; 複数 LLM の
 fixed-SHA 査読のみ・人間による査読は未実施)。
 
+**受理記録(R-EW4RAW、luna gpt-6-luna xhigh、fixed-SHA、read-only)**: R1 `598af7c` REQUEST_CHANGES(blocking 1 — 記述: §4 の行と §11 の
+起草の項が (EW-1) の不等式と定数を再掲 [R1-01]; 数学所見は全項目整合 — luna は §8.40 (AN-0)–(AN-3)・§8.41 (RC-0)(RC-1)(i)–(iii) を行ごとに確認し、
+a, b への依存が箱の上界と compact 性だけであること、(RC-1) の再導出(三角系の作用素 norm の評価、放射線方向の微分不等式、原点の jet による
+初期値の評価)、係数 0 の補充、K_R(a, b) の有限性と K_R ≥ 1 を確認; a < 1 は微分不等式には使われず、原子の ℱ 所属のために効く; (EW-2) は
+FR §10.2 (E-w) の形を満たし定数は (δ, R) のみ; c = 3 の補題 EW の冒頭の記載は正確で、(EW-2) は補題 EW と矛盾せず、二次の指数係数は target より
+強く、線形係数は補題 EW より小さく、前係数の大小は比較できない; 独立計算: 箱 (½, 1) の 3 配置(2 原子・4 原子・近接原子と大係数の相殺)で比の
+格子上の最大は 0.35 / 0.51 / 0.045、反例は得られず; (EW-7) の 2 値と C_J を再計算で確認)→ 適用 `4e3b744` → **R2 `83c1850` ACCEPT**(blocking 0;
+[R1-01] 解消 — §4 の行と v0.29.196 の項は状態と参照のみ; §8.57 の外にある同型の式(受理済みの正本 §8.41 (RC-1)、§8.44 の適用、§8.51 (C28-2)(D)・
+追記 EW4-CHECK、§8.53 (C29-3) ⑦・追記)は、出典と帰属が明示された当時の consult / 監査の記録と受理済みの利用であり、本 packet の受理に変更は不要;
+non-blocking の反映は正確で (EW-1)(EW-2) の数学的内容を変えない; §8.56 (UN-1) の原子は任意の 0 ≤ a < 1 と b ≥ d + h の箱に入る; `598af7c` からの
+docs/ 差分は §8.56・§8.57、対応する §4 の行と pointer 注記、版履歴に限られ、受理済み本文・受理記録は不変; 31 passed)。blocking 計 1 件(数学 0、
+記述 1)、2R(見積 1–2R 内)。luna の未確認: repo 外の診断 script の再実行、K_R(a, b) の数値; frame 側の入力の供給と経路の選択は本 packet の対象外。
+原文は repo 外(`E:/tmp/wigner-splat-rf-review-20261110/luna-ew4raw-r1.md`、`luna-ew4raw-r2.md`)。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -10388,6 +10402,10 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.199(2026-11-10): **§8.57 GC-7-EW4 EW4-RAW を受理として記録**(luna R-EW4RAW R2 ACCEPT、fixed SHA `83c1850`、2R、blocking 計 1 件 =
+  記述; R1 で luna は §8.41 (RC-1) を再導出し、独立計算と反例探索を行った)。見出しと §4 行を accepted に。c = 4 の (E-w) は非主張のまま(frame 側の
+  入力は未供給 — GC-5 FR4-S1 は open)。経路の裁定は orange(§8.53)。
 
 - v0.29.198(2026-11-10): §8.56 に luna R-UNITSTEP R1(REQUEST_CHANGES、blocking 2、fixed SHA `598af7c`)を適用: (UN-3) の照合表が §8.2 を
   網羅していなかった(signature の行を (BRF-3) と表記、(BRF-3) の graded 勘定・(BRF-4) の ray-wide ledger・§8.2.5 の ray_ledger_ref / recenter_witness が
