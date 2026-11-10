@@ -9374,6 +9374,34 @@ Sol ではなく第三者(Astra または luna)による照合が望ましい。
 (node の排他 / 放射線評価)がある — 参照は節番号付きで行う(本節の (RC-1) は §8.41)。**主張の性格**:
 設計記録のみ(複数 LLM の相談・数値の補助確認; 人間による査読は未実施)。
 
+**追記(2026-11-07 — EW4-CHECK、luna 照合 1 走行、本文は不変)**: (C28-2)(D) の成否の照合(orange GO 2026-11-07「luna に成否を
+照合させる」; SIGMA0 を設計した Sol は使わない)。luna = gpt-6-luna、reasoning xhigh、read-only、fixed SHA `bb4a15f`、
+2026-11-07 08:55–09:07; 原文 `C:/tmp/rf-review/luna-ew4check.md`、prompt `luna-ew4check-prompt.txt`(同 folder、repo 外)。
+採用判断を含まない照合であり、以下「確認」は luna の本文照合、「推論」は luna の推論、〔担当 Claude〕は本 session の注。
+- **Q1 (RC-1)(iii) の raw 4 原子和への適用 — 確認**: §8.40 (AN-0)(AN-1) は重複を許す 4 原子和に LF = 0(4 個未満は係数 0 の
+  項で埋める)、§8.41 (RC-0)(RC-1)(iii) は全 t ∈ ℂ・全 π ∈ Π・全 f ∈ ker L_π で成立 — ‖F‖_ℱ = 1 なら各 chart で
+  |F(t)| ≤ K_R C_J exp((1 − δ_ℱ)|t|²/2 + (R_ℱ + 1)|t|)。複数 chart を一組の定数にまとめる部分(K_R の有限 max)は推論。
+- **Q2 (E-w) の要件と適合 — interface は確認、c = 4 frame consumer への到達は条件付きの推論で受理済み本文からは確定しない**:
+  FR 文書 §10.2 (E-w) は全 m ≥ m₀・frame index ℓ・全 z で |(U_m⁻¹ v_{ℓ,m})(z)| ≤ C_w exp((1 − δ/2)|z|²/2 + C_lin|z|)(定数は
+  m, ℓ, z, θ に非依存)。(D) がこれを満たすには各 chart で δ_ℱ ≥ δ/2、C_lin ≥ R_ℱ + 1、C_w ≥ K_R C_J が要る(有限 chart 全体
+  なら min_χ δ_{ℱ,χ} ≥ δ/2 と有限 max)。使い方は frame vector ごとの大域的な出口評価を一度 — cell ごとに繰り返すなら
+  §8.2 (BRF-3)–(BRF-5) の費用合成が別途要る。要確認点: (E-w) の指数 (1 − δ/2) と (BRF-5) の終点 (1 − δ/4) の δ の対応。
+- **Q3 (D) が置き換えない保証 — 確認済み scope からの推論**: (E-d) の多項式形(FR §10.2: (E-w) は一般に (E-d) を含意
+  しない)、c = 4 frame の構成・Gram 床・N1/N2/N4(§4 GC-5 FR4-S1 / GC-6 / GC-7 は open)、(PTN-22) と (PS-9) の valid | nogo
+  (別保証として残る; T3a0・T3a・T3b・T3c は同じ保証鎖)。(RC-1) は商 F/D にそのままは適用できない(§8.44 (QI-1)(QI-2) の
+  受理済み主張は J⁹ 床の継承であって global な envelope ではない)。
+- **Q4 再スコープ箇所と (C28-2)(D) の一行導出の穴(6 件)**: (1) 指数の対応 δ_ℱ ≥ δ/2 が chart ごとに示されていない; (2) frame
+  object への接続 — F = U_m⁻¹ v_{ℓ,m} が元の箱の raw 和で norm 1 であることは、c = 4 frame/Gram packet が open なので受理済み
+  本文から確定しない; (3) unitarity だけでは点評価は移らない(FR §10.8 は EW-B で original 座標の原子を別途供給している);
+  (4) 商族の envelope は別の導出が要る; (5) 費用の適用単位(一度の大域出口か cell ごとか); (6) (PTN-22) との分離((D) は
+  二窓比・分母床・(PS-9) を証明しない)。採用時に書き直しが要るのは解析的定理ではなく consumer と経路の記載: §4 GC-0 と
+  §5 consumer audit、§8.2 (BRF-3)–(BRF-5)、§4 GC-7 / GC-5-T3、FR §10.8(c = 3 の結果 — c = 4 の根拠として一般化しない);
+  P1–P7 の受理済み主張は覆らない。
+- **luna の未検証**: P1–P7 の証明・数値診断・bubble 族の typed field の再実行や独立再証明、テスト。
+〔担当 Claude〕の読み(裁定は orange): (D) の解析核((RC-1)(iii) による raw 和の envelope)は使えるが、出口として成立するかは
+c = 4 の frame consumer(GC-5 FR4-S1 / GC-6 / GC-7 — open)が何を要求するかで決まる。「C₂₂ を経ずに (E-w) へ」は frame 側の
+接続(穴 (2)(3))が書けた時点で初めて主張できる — EW4-DIRECT の packet 化は、その接続の statement を先に登録する形になる。
+
 ### 8.52 GC-5-T3A0-BOX T3a0-BOX-CORRECTION(§8.25 (LF-2) 継承 constructor の撤回と (LF-0)「T₀ 撤廃」・(LF-6) (α) の限定 — 受理済み主張の versioned 訂正、**accepted、R-T3A0BOX R3 ACCEPT、fixed SHA `9534c93`**)
 
 **目的**: luna 座標裁定 Q2/Q4(d)(§8.47 追記 2)と Sol consult #27 Q3(§8.49 (C27-3))が求める受理済み
@@ -9598,6 +9626,11 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.185(2026-11-10): **§8.51 に EW4-CHECK(luna 照合 1 走行、2026-11-07、fixed SHA `bb4a15f`)を追記**: (C28-2)(D) の
+  解析核(§8.41 (RC-1)(iii) による箱内 raw ≤ 4 原子和の envelope)は本文確認済み; c = 4 frame consumer(GC-5 FR4-S1 / GC-6 /
+  GC-7 — open)への到達は受理済み本文からは確定せず、一行導出の穴 6 件(指数の対応・frame object への接続・unitarity と
+  点評価・商族・費用の適用単位・(PTN-22) との分離)を記録。設計記録のみ(本文不変、何も証明していない)。
 
 - v0.29.184(2026-11-10): **§8.52 GC-5-T3A0-BOX T3a0-BOX-CORRECTION を受理として記録**(luna R-T3A0BOX R3 ACCEPT、
   fixed SHA `9534c93`、3R、blocking 計 2 件 = 型の接続 [R1-01][R2-01]; luna は (BX-1) の数値を独立に再計算して整合を確認し、
