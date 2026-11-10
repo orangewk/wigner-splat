@@ -211,7 +211,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | **ROUTE-PROD ATLAS-OUTER-ROUTING(open obligation 候補)** | §8.16 追記(設計記録)、§8.17 (AT-*)、§8.22 (CC-7)、§8.27 (OS-0)(b)、§8.31 carrier_witness-v2 | atlas outer routing([1:0]/[0:1] の成分射影 routing)の **typed producer**、または (OS-0)(b) の一致検証を norm 極限による side 決定へ置換する versioned 改訂。producer が無い現状では **interior・boundary 双方の one_sided lane が unresolved(ROUTING-PENDING)** のまま(§8.32 [R-T3A5 R1-02][R2-02]) | **候補(orange 裁定待ち — 登録は §8.32 R2 で追加、着手は未決)**。**Sol #22 推奨 = (ii)**(one_sided_norm_checked-v1(side, vanishing_norm_ref, surviving_norm_ref) の versioned constructor — (OS-1)–(OS-3) は norm 極限しか使わず、§8.16 の outer chart は零点近傍の空間 chart で別概念なので (i) は二種の outer を人工結合する危険; vacuous 化・deep-flat との二重計上なし、既存 decision order と selector provenance は維持)、見積 3–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R(Sol #22 再見積 6–10R — 従来見積はやや楽観)|
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2 — T3a-5 以降は **violation_sequence-v2.1**(§8.32 [R-T3A5 R1-03])を読む) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R(Sol #22 再見積 4–7R)。**注記(2026-11-06)**: 窓位置一様の C₂₂ は未証明で、bubble 族の反証候補あり — §8.51 (C28-2)(C28-3); FW-WITNESS-AUDIT 照合済み(2026-11-10、§8.51 追記 2 — 判定は (PS-3) pairing margin の定義に依存し未確定; statement の形の裁定待ち; consult #29 = §8.53 — q_band 判定の訂正と出口候補の設計記録; packet は §8.56 UNITSTEP-NOGO(accepted `2ec9a0e`)・§8.57 EW4-RAW(accepted `83c1850`)) |
-| GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open(**注記 2026-11-10**: frame 側の依存の監査は §8.53 追記 FRAME-DEP-AUDIT) |
+| GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open(**注記 2026-11-10**: frame 側の依存の監査は §8.53 追記 FRAME-DEP-AUDIT; SVD frame の要否は consult #30 で確認中 — §8.53 追記(orange 裁定 2)) |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open(**注記 2026-11-10**: (E-w) の形の norm 参照の評価は §8.57 EW4-RAW — accepted `83c1850`; frame 側の入力は未供給、経路の裁定は §8.53) |
 | GC-8 IND | GC-7 | 一般帰納の離散指標と定数 budget(leaf weight・support・valuation/flag の well-foundedness) | open |
@@ -9911,6 +9911,16 @@ norm 収束は使っていない。(b) c = 4 で同じ分業が成り立てば�
 記録(§1、D3 §4.3.7)は PBK 層を明記しているので、⑦ を本線にする場合は両方の改訂が要る(未決 — orange の裁定事項)。**主張の性格**: 監査の
 記録のみ(本文の依存関係の読み; 何も証明していない)。
 
+**追記(2026-11-10 — orange 裁定 2、AskUserQuestion; §8.56・§8.57 の受理後)**: 裁定 ① の確認 2 件(§8.57 accepted、追記 FRAME-DEP-AUDIT)と
+② (§8.56 accepted)は完了。〔担当 Claude の仮説(未査読 — 攻撃対象として相談に出す; 何も主張しない)〕閉包文書 §4.3.6 の補題 N の target は
+「部分列と exact 結合枠が存在して (N1)–(N4) が成り立つ」という存在命題である。単一の衝突 cluster では、枠を V_m の任意の正規直交基底に取ると、
+(N1) は §8.41 (RC-4)(RC-5)(核の単位球の合併の相対 compact 性と極限の核所属)から、(N2) は Gram が単位行列であることから、(N3′)(N4) は
+§8.57 (EW-1)(EW-2) から従う可能性がある。成り立てば、(E-w) と補題 N(c = 4)には、PBK 層に加えて c = 4 の SVD frame(GC-5 FR4-S1)も要らない。
+未確認: 下流(L2a′・L2b / L3・定理 T・系 C1)が (N1)–(N4) 以外の枠の性質を使うか、次数上界 D_W(c) の供給、複数 cluster の組立、一般の c。
+**裁定**: ① **次の一手 = 「Astra に近道を確認」** — gpt-6-astra 1 走行(xhigh、read-only)で、上の仮説の成否と壊れる箇所、下流の依存、G1′ と
+系 C1 までの最短の packet 列を相談する(consult #30)。あわせて luna 1 走行で下流の本文監査を行う。§1 の route 決定記録の改訂は、その結果を
+見て 1 回で行う(未決)。② branch を origin へ push。
+
 ### 8.54 GC-5-P6-RESCOPE P6-CENTRE-RESCOPE(§8.45 の列共通床・head_good 確定を列単位の中心 evidence 付きに限定 — 受理済み主張の versioned 訂正、**accepted、R-P6RESCOPE R1 ACCEPT、fixed SHA `603567b`**)
 
 **目的**: luna 座標裁定 Q3(i)(iii)・Q4(b)(d)(§8.47 追記 2)と Sol consult #27 Q3(§8.49 (C27-3)「P6 訂正の最小範囲」)が求める受理済み
@@ -10417,6 +10427,10 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.202(2026-11-10): §8.53 に orange 裁定 2(AskUserQuestion)と、相談に出す担当 Claude の仮説(未査読)を追記: 次の一手は
+  「Astra に近道を確認」(consult #30、read-only; あわせて luna の下流の本文監査 1 走行)、route 決定記録の改訂は結果を見て 1 回で(未決)、
+  branch を push。§4 FR4-S1 行は状態と参照のみ追記。
 
 - v0.29.201(2026-11-10): **§8.56 GC-4A-UNITSTEP UNITSTEP-NOGO を受理として記録**(luna R-UNITSTEP R3 ACCEPT、fixed SHA `2ec9a0e`、3R、
   blocking 計 3 件 = 照合表の網羅 1・記述 2、補題への指摘なし)。見出しと §4 行を accepted に; §4 の GC-4A.5c・T3c・SIGMA0 行は状態と参照のみ同期。
