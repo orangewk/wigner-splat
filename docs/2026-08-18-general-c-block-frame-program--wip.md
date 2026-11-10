@@ -9824,6 +9824,17 @@ atom-envelope kernel の全 ray 一様証明、最適位相定数、一般 c・(
 (d) 訂正 ③④ は継続、CENTRE-COVER-1/2・L8-SEQUENCE-FLOOR (b) は statement の形が決まるまで保留(orange 裁定 2026-11-10、
 AskUserQuestion)。**主張の性格**: 設計記録のみ(複数 LLM の相談・数値の補助確認; 人間による査読は未実施)。
 
+**追記(2026-11-10 — §1 の go/no-go 規則との関係、担当 Claude の注; 裁定は orange)**: §1 の規則(第二次・fail-closed 継続)は、
+A.4–A.6・B 本体・C 本体のいずれかが blocking counterexample を受けた場合に第一次と同じ撤退規則(「本 route への投資を停止し、
+K_c 本体(closure §4.3.5)へ戻る」)が発動すると定め、§8.15 追記(consult #15)は「exponent 9 でも定数が 0 へ落ちる列が出れば PBK22 の
+明確な no-go 信号」と明文化している。(C29-1) の単位 step の発散はこの信号に当たる — 対象は、§2 の PBK 層が返すとしている「node
+envelope U_H = max(log|A|, log|B|) に対する composite unit-step kernel」の 2|2 instance の形(A.5 の完成対象)であり、完全 typed な
+(PS-9) detected の構成ではない((C29-1) 未判定の項)。これを規則の発動と扱うか、kernel の形の再設計((C29-3) ①–⑥)または PBK 層を
+経ない出口((C29-3) ⑦)を §1 の route 決定記録の改訂として採るかは、route を決定した orange の裁定事項で、本節は何も決定しない。
+参考(本文の確認): §5 GC-0 の audit 帰結 1 は外部 target を (E-w) 形と定め、(E-d) は PBK / Frame 層の内部 certificate 語彙として
+いる; FR 文書 §10.8 補題 EW は c = 3 で F := U_m⁻¹v_{ℓ,m} が original parameters(∈ K_{δ,R})の ≤ 3 原子 exact 結合・‖F‖_ℱ = 1 である
+ことを frame の性質(同文書 §3: exact span・norm・Gram 保存)から得ている — c = 4 の frame 構成は GC-5 FR4-S1(open)で、同じ性質は未供給。
+
 ### 8.54 GC-5-P6-RESCOPE P6-CENTRE-RESCOPE(§8.45 の列共通床・head_good 確定を列単位の中心 evidence 付きに限定 — 受理済み主張の versioned 訂正、**accepted、R-P6RESCOPE R1 ACCEPT、fixed SHA `603567b`**)
 
 **目的**: luna 座標裁定 Q3(i)(iii)・Q4(b)(d)(§8.47 追記 2)と Sol consult #27 Q3(§8.49 (C27-3)「P6 訂正の最小範囲」)が求める受理済み
@@ -9986,6 +9997,10 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.190(2026-11-10): §8.53 に追記(担当 Claude の注、設計記録): consult #29 の単位 step の no-go と、§1 の go/no-go 規則
+  (第二次)・§8.15 追記の no-go 判定基準との関係、および §5 GC-0 audit と FR §10.8 補題 EW の該当箇所への参照。何も決定しない
+  (route の裁定は orange)。本文・受理記録は不変。
 
 - v0.29.189(2026-11-10): **§8.54 GC-5-P6-RESCOPE P6-CENTRE-RESCOPE を受理として記録**(luna R-P6RESCOPE R1 ACCEPT、fixed SHA `603567b`、
   1R、blocking 0; luna は bounded_centres の導出域の三角不等式を独立に確認し、(QI-1) の R ≥ 1 が中心円板の半径制限でないことを
