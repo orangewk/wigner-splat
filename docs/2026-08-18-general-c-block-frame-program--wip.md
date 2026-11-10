@@ -192,9 +192,9 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | **GC-5-SIGMA0 HEAD-FLOOR(candidate — consult #25、§8.38)** | §8.20 追記(ℱ_γ compact embedding)、§8.21 (HA-1)(HA-2)、§8.22 (CC-5)(CC-6a)、§3.1 (W_c-4)、§8.23 (FL22-1)、§8.33 L9/L13/L20/L27、§9 CENTRE-PROBE | per-chart jet 床 **σ₀ > 0**(原子箱と中心域に依存、c₀ 非依存)で head_overflow 枝を型で空にする。経路 ④: L = T₄⁸T₃⁴T₂²T₁ の一括消去 → 三角一階系の放射線評価 → ℱ_γ 有界 → compact embedding で強 compactness → 正規直交基底の Wronskian e^{Σq}P_n(deg ≤ C(r,2))の極限保存 → (W_c-4) で ord ≤ D_W(r) ≤ 9 → σ₀ > 0。packet P0–P7(上表) | orange GO(2026-10-23: P0 → P1–P4、P0 後に再評価)。**P0 受理(§8.39、R-P0 R4 ACCEPT、fixed SHA `f1252ea`、4R、blocking 計 4 件)** — 判定: 入力族は多項式商族 sigma0_family = {F/D}(D は係数球面で正規化、零点位置の制限なし、枝別因子 P_i の共通因子; 純 4 原子和は D = 定数の層)、P5 は必要に確定。**P0 後の再評価: orange 裁定 (a)(2026-11-05)— P1–P4 を純原子族(sigma0_family の D = 定数層)で固め、P5 で商族 sigma0_family へ持ち上げる**(推奨根拠は §8.40 (AN-5) を参照; 正規化のずれ ‖F‖_ℱ = 1 / ‖F̃‖_ℱ = 1 は (IC-6)(d) として既に義務化)。**P1 受理(§8.40、R-P1 R3 ACCEPT、fixed SHA `d6b5284`)**。**P2 受理(§8.41、R-P2 R2 ACCEPT、fixed SHA `b1540e0`、同一 SHA で 2R)**。**P3 受理(§8.42、R-P3 R1 ACCEPT、fixed SHA `801767b`、1R)**。**P4 受理(§8.43、R-P4 R2 ACCEPT、fixed SHA `51ee349`、2R)**。**P1–P4(純原子層 = sigma0_family の D = 定数層)完了 — orange GO 範囲(P0 → P1–P4)の終端。実績 8R(P1 3 + P2 2 + P3 1 + P4 2、見積 6–11R 内; blocking 計 4 件のうち数学的 1 件 (AN-5)、定義整合 1 件 (JF-2)、手続き 2 件)。P5(商族 sigma0_family への継承)は orange GO(2026-11-05)— **P5 受理(§8.44、R-P5 R2 ACCEPT、fixed SHA `b0f1fee`、2R、blocking 計 1 件)**; **P6・P7 は orange GO(2026-11-05「先へ進んで」)— P6 受理(§8.45、R-P6 R2 ACCEPT、fixed SHA `78c9e70`、2R)**; **P7 受理(§8.46、R-P7 R3 ACCEPT、fixed SHA `6590fe1`、3R、blocking 計 6 件 = すべて手続き)— overflow lane L9/L13/L20/L27 は型付き入力について空、realized_diagonal は型付き候補なし(橋の仮定下)、(U_chart)/L8・(FL22-2)(c) は open item。SIGMA0 P0–P7 完了 — 「先へ進んで」の GO 範囲の終端。並列 session(orange 許可 2026-11-05): CENTRE-COVER 監査(read-only)と C0-COORD 起草(別 branch)を実施中; ROUTE-PROD / T3b / T3c / (U_chart) の閉じ方は orange 裁定・新たな GO 待ち**。; **consult #26(Sol、2026-11-05)→ §8.47 設計記録 + **CENTRE-COVER 監査追記(2026-11-06)**(次の GO 候補は同節)**; **座標規約: luna 裁定 = 本文で未確定(§8.47 追記 2)→ orange 裁定 B(絶対)、Sol #27 送付、CENTRE-COVER-1 は Sol 回答まで保留 → **consult #27(Sol、2026-11-06、§8.49)**: 規約 α(= B)、絶対床は有界中心列に有効・逃避列は未解決(FAR-WINDOW 候補、§8.49 (C27-4))、訂正 packet 4 本(CONVENTION-NOTE / T3a0-BOX-CORRECTION / P6-CENTRE-RESCOPE / P7-CONSUMER-CORRECTION)→ CENTRE-COVER(v2.2 基底、§8.47 追記 1 の CENTRE-COVER-1 案を置換)→ L8(b) の順、暫定 23–38R(FAR-WINDOW 込み 29–50R); 本線の現状 = 有界中心列についての結果; 次の GO は orange**; **consult #28(Astra、2026-11-06、§8.51)**: 遠方窓で支配交代・完全相殺・高速振動が起こる、bubble 族で違反度が発散(typed 反例かは未照合 → FW-WITNESS-AUDIT 2–3R)、(E-w) への別出口 EW4-DIRECT 候補(1–2R + 2–3R)— packet 選択は orange**。** 見積 P1–P4 6–11R、接続込み 14–25R(Sol #25) |
 | GC-5-C0-COORD C0-COORDINATE-IDENTITY(候補 — Sol #22 は「今やる」推奨) | §8.22 (CC-3)、§8.19 scalar absorption、§8.24 c0_witness-v1、§8.30 (AT-2) coef_vector、§8.33 L23 | 3 つの係数 vector の**等式ではなく可換な変換記録** c^{AT}_n →(diagonal nonzero absorption)→ c̃_n →(ℓ²-normalization)→ ĉ̃_n を型化し、compact chart 上で absorption scalar が上下一様に離れることを示して AT-2 interior と ĉ̃ の非退化を対応付け、(CC-3) と c0_witness-v2 が**同一の canonical ĉ̃ object** を参照するようにする ⟹ interior_floor.present(c₀^{seq} > 0) ⟹ c₀(config_n) ≥ c₀^{seq} eventually ⟹ L23 が型上空。単一 authoring location と identity ref の整備込み | **accepted(§8.48、R-C0 R2 ACCEPT、fixed SHA `6300dcb`)**(見積 3–5R(Sol #22)→ 実績 2R) |
 | GC-5-T3 PTN-22 | GC-5-T2c | **projective/weighted 二窓比較** ‖g‖_W ≤ C₂₂(L_C/s)⁹‖g‖_S(interval-scale Remez + denominator floor の合成 — statement 登録 = §8.16 (PS-7)、出力 = (PS-9) valid \| nogo)。**consult #19(Sol)で 3+1 分割**: T3a0 → T3a → T3b → T3c(下 4 行)— 本行は集約。**指数 9 は全経路一回払い**(hop ごと Remez は (L/s)^{9N} を生むため禁止 — Sol 裁定) | open(集約 — **A.5a blocking obligation**、受理まで A.5a/A.5b/A.5c/A.6 open) |
-| GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持)。**注記(2026-11-06)**: §8.25 (LF-2) from_standard_box_premise と (LF-0)「T₀ 撤廃」は luna 座標裁定で versioned 訂正対象(§8.47 追記 2)— **訂正の正本は §8.52 T3a0-BOX-CORRECTION(drafted、R-T3A0BOX R1): (LF-2) from_standard_box_premise 撤回、(LF-0) T₀ 撤廃は box_fit 付き要素限定、型は box_fit-v1.1 / lower_face_input-v2.1 / ptn_lower_face-v2.1 / absorb_via_t3a0-v1.3; 受理状態は維持** |
+| GC-5-T3a0 PTN-LOWER-FACE | (AT-2) exit 行および chart 枝の非 exit config(synthetic_face の親 — GC-5-T2a)、BORD-3 `87863cc`/TN-3 `906bd1a`、**GC-5-T2b-ii (CC-3) の c₀ witness 構成・GC-5-T2c の c₀ 固定量化規約**(face_approach の c₀ evidence 消費 [R-T3S R3-04])(GC-5-T3 行は親 = 包含であって依存ではない [R-T3S R1-05]) | support rank ≤ 3 の **projective 二窓比較 base**(well-founded support-rank induction の底 — window_contract 継承・projective denominator・rank-4 近傍の摂動安定性。statement = §8.24 (TS-1) — **登録 accepted `dfc572b`(R-T3S 7R)**。**c₀→0 循環切断の要**: atlas lower-rank exit ⇒ 解決済みとしない — consult #19) | **accepted(§8.25、R-T3A0 R8 受理 SHA `ca11257`、8R — 見積 3–5R 超過: R3〜R7 は synthetic face の型全域化)**(A.5a blocking obligation は T3 集約の受理まで維持)。**注記(2026-11-06)**: §8.25 (LF-2) from_standard_box_premise と (LF-0)「T₀ 撤廃」は luna 座標裁定で versioned 訂正対象(§8.47 追記 2)— **訂正の正本は §8.52 T3a0-BOX-CORRECTION(撤回・限定の範囲、型の一覧、査読状態は GC-5-T3A0-BOX 行と §8.52); 受理状態は維持** |
 | GC-5-CONV-NOTE CONVENTION-NOTE(consult #27 訂正列 ①、§8.49 (C27-5)) | §8.9 追記、§8.10 (B3-1)、§8.22 (CC-5)、§8.39 (IC-3)、K2 §3 設定、§8.47 追記 2(luna 裁定 Q1/Q4(a)) | standing 束縛の座標規約を**絶対 Fock 変数**に確定(orange 裁定 B、Sol α)、受理済み 12 箇所の読み表(1 行 1 主張)、B_j^{(t₀)} = B_j + A_j t₀ の正本、型 box_coordinate-v1 / centred_coefficient-v1(登録のみ)。不等式・撤回なし(撤回は T3a0-BOX-CORRECTION / P6-CENTRE-RESCOPE) | **accepted(§8.50、R-CONV R2 ACCEPT、fixed SHA `43e4846`、2R、blocking 計 2 件 = (CN-2) の閾値の例示誤り 1・注記の再記述 1)— 座標規約 = 絶対 Fock 変数で確定、B_j^{(t₀)} = B_j + A_j t₀ の正本、読み表 12 行** |
-| GC-5-T3A0-BOX T3a0-BOX-CORRECTION(consult #27 訂正列 ②、§8.49 (C27-3)(C27-5)) | §8.50 (CN-1)(CN-2)(CN-4)、§8.25 (LF-0)(LF-2)(LF-4)、§8.33 L1-v2 / (RC2-0) absorb_via_t3a0-v1.2、§8.47 追記 2(luna 裁定 Q2/Q4(d)) | 受理済み T3a0 の部分撤回: (LF-2) from_standard_box_premise は box_fit の evidence を構成しない(撤回)、(LF-0)「T₀ 撤廃」は box_fit 付き要素限定; versioned 型 box_fit-v1.1(explicit のみ)/ face_hypotheses-v1.1 / lower_face_input-v2.1 / ptn_lower_face-v2.1 / face_approach_witness-v2.2 / absorb_via_t3a0-v1.3(L1-v2.1 / L10-v2.1)/ t3_gate-v1.4 / route_closure-v2.2; box_fit 不成立要素は L21-v2 REF-MISSING(型の事実; 遠方窓の coverage 修復ではない)。不等式なし | **drafted(§8.52、R1 blocking 1 適用済み・査読待ち R-T3A0BOX R2、見積 2–3R)** |
+| GC-5-T3A0-BOX T3a0-BOX-CORRECTION(consult #27 訂正列 ②、§8.49 (C27-3)(C27-5)) | §8.50 (CN-1)(CN-2)(CN-4)、§8.25 (LF-0)(LF-1)(LF-2)(LF-4)(LF-6)、§8.32 [R5-01][R5-02](RS2-1)、§8.33 (RC2-2)(RC2-3)(RC2-7)、§8.34 (OV-4)、§8.46 (RU-2)、§8.48 (C0-0)(C0-1)、§8.47 追記 2(luna 裁定 Q2/Q4(d)) | 受理済み T3a0 の部分撤回: (LF-2) from_standard_box_premise は box_fit の evidence を構成しない(撤回)、(LF-0)「T₀ 撤廃」は box_fit 付き要素限定、(LF-6) (α) の現行利用は approach_ratio_bound-v1 付き要素限定(反例は §8.52 (BX-1)); versioned 型 box_fit-v1.1(explicit のみ)/ face_hypotheses-v1.1 / lower_face_input-v2.1 / ptn_lower_face-v2.1 / approach_ratio_bound-v1 / face_approach_witness-v2.2 / absorb_via_t3a0-v1.3 / lane 表 v2.1(L1-v2.1 / L10-v2.1 / L21-v2.1)/ remez_ready-v1.3 / t3_gate-v1.4 / route_closure-v2.2; evidence 不成立要素は L21-v2.1(REF-MISSING / CTX-MISSING)(型の事実; 遠方窓の coverage 修復ではない)。不等式なし | **drafted(§8.52、R2 blocking 1 適用済み + (LF-6) 項を追加・査読待ち R-T3A0BOX R3、見積 2–3R は超過見込み)** |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
@@ -4415,8 +4415,8 @@ T3a-3 DEEP-FLAT-HEAD(5–8R)/ T3a-4 ROUTE-CLOSE(2–4R)、計 14–24R
 査読負荷を「短補題」として過小評価しない。
 
 **注記(2026-11-06 — T3a0-BOX-CORRECTION、本文は不変)**: (LF-2) box_fit の構成子 from_standard_box_premise
-は撤回、(LF-0) 末尾の「窓の位置 t₀ の一様 bound は不要(T₀ を撤廃)」は box_fit 付き要素についての主張に
-限定 — 現行正本は §8.52 (BX-1)(BX-2)。
+は撤回、(LF-0) 末尾の「窓の位置 t₀ の一様 bound は不要(T₀ を撤廃)」と (LF-6) (α) の現行利用は evidence 付き
+要素に限定 — 現行正本は §8.52 (BX-1)(BX-2)。
 
 ### 8.26 GC-5-T3a-1 PTN22-ROUTE-SPEC(routing 型・決定順・入口 gate — 登録のみ、**accepted、R-T3A1 R6 受理 SHA `6557d6b`**)
 
@@ -6584,9 +6584,8 @@ head_overflow 出口は §8.45 (FB-1)(FB-2) により全 context で構成不能
 t2cov_handoff は到達不能。(RC2-6) の閉包 statement は不変で、T2c-ov の条件は空虚に
 充足、T3c・T3b・nogo・unresolved の条件は不変 — route_closure-v2.1(§8.46 (RU-2))。
 
-**注記(2026-11-06 — T3a0-BOX-CORRECTION、本文は不変)**: L1-v2 / L10-v2 の directly_absorbed が読む adapter は
-absorb_via_t3a0-v1.3、その terminal は t3_gate-v1.4、closure は route_closure-v2.2、(N3)/(N4) が読む
-face_approach_witness は v2.2 — §8.52 (BX-2)(BX-3)。
+**注記(2026-11-06 — T3a0-BOX-CORRECTION、本文は不変)**: lane 表(L1 / L10 / L21 の行)・directly_absorbed の adapter・terminal gate・
+closure・remez_ready・face_approach_witness の現行版は §8.52 (BX-2)(BX-3) が正本。
 
 ### 8.34 GC-5-T2c-ov-1 OVERFLOW-SOURCE-SPEC(overflow の source authority と型 — **accepted、luna fixed-SHA `7788dca` R-T2COV1 R4、4R**)
 
@@ -9375,14 +9374,16 @@ Sol ではなく第三者(Astra または luna)による照合が望ましい。
 (node の排他 / 放射線評価)がある — 参照は節番号付きで行う(本節の (RC-1) は §8.41)。**主張の性格**:
 設計記録のみ(複数 LLM の相談・数値の補助確認; 人間による査読は未実施)。
 
-### 8.52 GC-5-T3A0-BOX T3a0-BOX-CORRECTION(§8.25 (LF-2) 継承 constructor の撤回と (LF-0)「T₀ 撤廃」の限定 — 受理済み主張の versioned 訂正、drafted、査読対象 R-T3A0BOX R2)
+### 8.52 GC-5-T3A0-BOX T3a0-BOX-CORRECTION(§8.25 (LF-2) 継承 constructor の撤回と (LF-0)「T₀ 撤廃」・(LF-6) (α) の限定 — 受理済み主張の versioned 訂正、drafted、査読対象 R-T3A0BOX R3)
 
 **目的**: luna 座標裁定 Q2/Q4(d)(§8.47 追記 2)と Sol consult #27 Q3(§8.49 (C27-3))が求める受理済み
 T3a0(§8.25、fixed SHA `ca11257`)の訂正。review-cadence の「主張の撤回と台帳の書き換え」に当たるので
 fixed-SHA review packet とする(§8.49 (C27-5) 訂正列 ②)。§8.25 の本文・受理記録は不変(歴史的記録);
 本節が撤回範囲と versioned 型の**現行正本**。座標規約と中心化係数の式は §8.50 (CN-1)(CN-2) を参照する。
+(BX-1) の (LF-6) の項は luna 裁定・Sol 相談には無く、R2 適用時に担当 Claude が追加した(反例つき、R3 の
+査読対象)。
 
-**(BX-1) 撤回する主張と維持する主張(範囲を正確に)**:
+**(BX-1) 撤回・限定する主張と維持する主張(範囲を正確に)**:
 *撤回*: §8.25 (LF-2) box_fit の構成子 **`from_standard_box_premise(親 chart 中心 = t₀ の evidence …)`** —
 親 config の common_gauge_record-v1.1.standard_box_premise(§8.22 (CC-5): record の**絶対**係数
 |A_j| ≤ 1 − δ_ℱ、|B_j| ≤ R_ℱ)の部分集合継承だけで「face の raw 原子が t₀ 中心座標で raw 箱に入る」
@@ -9392,11 +9393,42 @@ R_ℱ + |B_j| なら不成立)。**この constructor は box_fit の evidence �
 [luna 裁定 Q2、§8.47 追記 2]。併せて (LF-0) 末尾の「**窓の位置 t₀ の一様 bound は不要(T₀ を撤廃)**」
 [R-T3A0 R2-02] を、**t₀ 中心 raw 箱(box_fit)を持つ要素についての主張**に限定する — standing class の
 全 configuration・全窓位置についての主張としては撤回(§11 v0.29.50 の [R2-02] 記録は歴史として不変)。
+*限定((LF-6) の (α) の現行利用 — R2 適用時に担当 Claude が追加した項目、R3 査読対象)*: (LF-6) の評価
+|η_n| ≤ r_n e^{2C_box} =: η̄_n(Ŵ 上、η_n = (ε_n/ĉ_n)e^{q̂′ − q̂})は、本文では (i) (LF-1) の C_box(t₀ 中心
+rescaled 箱の原子に対する Ŵ 上の両側評価)を mate の原子 q̂ と落とす k_min 類の原子 q̂′ の双方に適用し、
+(ii) 係数 ε_n = ĉ_{k_min,n}、ĉ_n = ĉ_{mate,n} を (LF-0) の中心正規化表示 child 2 = ĉ_n e^{q̂} + ε_n e^{q̂′}
+(q̂(0) = q̂′(0) = 0)の係数として使って得ている。一方 §8.48 (C0-1) は c0_witness-v2 の ĉ_{k_min}・ĉ_{mate} を
+canonical_coef-v1 の成分(config 単位の係数 — 窓に依らない)と同定した。§8.50 (CN-1) の下では: (i) q̂′ は
+2+1 face(drop_set = {k_min})の原子ではないので face の box_fit は覆わず、§8.25 の型のどの field もその箱
+evidence を持たない; (ii) raw 原子は絶対変数 t の原子なので、窓の上での 2 項の振幅比は config 単位の係数比に
+|e^{q_{k_min}(t) − q_{mate}(t)}|(窓中心では (CN-2) の定数項の差)と §8.48 (C0-2) の有界因子を掛けたもので、
+前者は窓位置について有界でない。関数として η_n(t) = (c̄_{k_min} e^{q(ξ_{k_min}; t)})/(c̄_{mate} e^{q(ξ_{mate}; t)})
+(§8.48 (C0-0) の c̄・ξ — (LF-6) の B₂⁽⁴⁾ = B₂⁽³⁾(1 + η_n) と同じ関数)であり、|η_n| ≤ η̄_n は自動ではない。
+**反例**(repo 外 `E:/tmp/wigner-splat-rf-review-20261110/check_lf6_alpha.py`、mpmath 30 桁): δ_ℱ = 1/2、R_ℱ = 1、
+全原子 A = 0; child 2 = mate (B, c̄) = (0, 1) + k_min (1/50, 10⁻³); child 1 = −(K/2)e^{i(t − t_s)/2} −
+(K/2)e^{0.501 i(t − t_s)}、K := 1 + 10⁻³e^{t_s/50}; W = [499.5, 500.5](t₀ = 500、L_C = 1)、S = t_s + [−1/8, 1/8]、
+t_s = 499.75。全原子が絶対箱内かつ t₀ 中心箱内(A = 0)、子内 scale 0.02・0.001 ≪ 子間 0.5、両 pair は held
+(sup_W|η̃_i| = 0.01、0.0005 ≤ 1/8)、r_n = 10⁻³(絶対原子の係数比 — canonical 座標では §8.48 (C0-2) の窓に
+依らない有界因子だけ変わり、ε を小さく・窓を遠くに取り直せば同じ現象が出る: sup_W|η_n|/η̄_n ∝ e^{t₀/50})、
+(α) の分類条件は成立(ε′_n = 0.0246 ≤ ‖g₃‖_Ŝ/2 = 0.478)。しかし sup_W|η_n| = 22.2 ≈ 7.2·10³ η̄_n、
+sup_W|g₄ − g₃| = 0.956 > ε′_n、**R₄ = 5.93 > 3R₃ = 3.01**(source 幅を 1/8、1/32、1/128 にすると R₄ = 11.9、
+47.4、190、R₃ = 1.00 のまま; 同じ config でも窓を t₀ = 0 に置けば sup_W|η_n| = 1.01·10⁻³ ≤ η̄_n = 3.08·10⁻³)。
+SPLIT4 の gap・pairing margin など他の typed field は未照合。よって **|g₄ − g₃| ≤ ε′_n と (α) の R₄ ≤ 3R₃
+(alpha_proven の内容)は、W 上の評価 sup|η_n| ≤ η̄_n そのものの evidence を持つ要素についての主張に限定**する
+(その evidence の下で (LF-6) の導出は逐語で成立; (i) の箱だけでは足りない — 上の例は両原子とも t₀ 中心箱内 —
+ので、箱ではなく評価そのものを evidence にする)。限定しないもの: ratio_branch の二択、(α)/(β) の分類条件
+(数 ε′_n := 8 r_n e^{2C_box} と ‖g₃‖_Ŝ/2 の比較)、(β) の routing record face_deep_flat-v1、order_drop の
+routing — いずれも |η_n| ≤ η̄_n を不等式として消費しない(ε′_n・η̄_n・g₃・R₃・R₄ は §8.25 の外では §8.26 (N4) の
+adapter 記述と §8.29 (RC-3)(0)(b) = alpha_proven の消費にしか現れず、face_deep_flat-v1 の consumer は §8.26 の
+(N4) → (N7) の routing のみ — grep)。なお「c₀(config) が小さければ窓の上でも当該原子の項が小さい」という
+読みは遠方窓では成立しない(上の例)— (β)・order_drop 以降の lane がこの読みに依るかどうかは本 packet では
+扱わない((BX-4))。
 *維持*: (LF-0) の dilation 恒等式 Â_j = A_j L_C²、B̂_j = B_j^{(t₀)} L_C と、t₀ 中心箱の下での
 |Â_j| ≤ (1 − δ_ℱ)L_C² ≤ 1 − δ_ℱ、|B̂_j| ≤ R_ℱ L_C ≤ R_ℱ(**条件付き計算** — 条件 = box_fit); (LF-0′) の
 K_face 上の比較補題(TN-3 の系、箱内係数の関数族への主張); (LF-2) の `explicit` 構成子; (LF-4) の証明
 ((H3) box_fit を**仮定**として使う — 仮定の内容は不変なので証明は不変); rescale_record(exact 計算と
-K_face 所属の**直接**検証 ref — box_fit と独立の evidence)。
+K_face 所属の**直接**検証 ref — box_fit と独立の evidence); (LF-6) の導出(G の chordal Lipschitz 評価と、
+|η_n| ≤ η̄_n の下での (α) R₄ ≤ 3R₃ — 証明は不変、前提の供給が上の限定); (LF-5)・(LF-7) の契約の形(版は (BX-2))。
 
 **(BX-2) versioned 型(定義 + consumer の versioned 置換)**:
   `box_fit-v1.1 := explicit(centred_coefficient-v1 ref(§8.50 (CN-4) — 要素ごとの B_j^{(t₀)} = B_j + A_j t₀
@@ -9408,49 +9440,98 @@ K_face 所属の**直接**検証 ref — box_fit と独立の evidence)。
    不変 — (LF-4) が使う仮定の内容は同じ)`。
   `lower_face_input-v2.1 := lower_face_input-v2 の box_fit field を box_fit-v1.1 に、face_hypotheses-v1 を
    face_hypotheses-v1.1 に置換したもの(他 field — origin・rank_r_config-v2・window_contract_r-v2・
-   face_approach_witness-v2・rescale_record — 不変)`。
+   rescale_record — 不変; face_approach_witness field は下記 v2.2 を指す)`。
   `ptn_lower_face-v2.1 := ptn_lower_face-v2 の proven variant の C_r 存在 ref が参照する入力を
-   lower_face_input-v2.1 としたもの(出力の 3 field・trivial_one_component・nogo は不変)`。
-  `face_approach_witness-v2.2 := face_approach_witness-v2.1(§8.33 (RC2-0))の order_drop variant が持つ
-   「one_component face の lower_face_input-v2 ref」を lower_face_input-v2.1 に置換したもの(他 field —
-   θ 列・face 列・provenance・c0_seq_ref・ratio_branch・subsequence_transport・alpha_proven / beta_routed /
-   nogo — 不変)`; (N3)/(N4)・vanishing_chart_context-v2・route_context-v2.1 は v2.2 を読む(参照の付け替え
-   のみ、各節の定義本文は不変 — 前例 §8.46 (RU-4))。
-  `absorb_via_t3a0-v1.3 := absorb_via_t3a0-v1.2(§8.33 (RC2-0))の ptn_lower_face-v2 ref を v2.1 に置換した
-   もの(identity_adapter・違反度矛盾の T3a-4 義務は不変)`; §8.33 で directly_absorbed を終端とする lane
-   L1-v2((N1) lower_rank_exact)と L10-v2((N3) vanishing → (N4) alpha_proven、(RC2-3)(b))は以後
-   absorb_via_t3a0-v1.3 を読む(**L1-v2.1 / L10-v2.1** — lane 番号・terminal 定義は不変、adapter の版のみ;
-   (RC2-3) の矛盾導出は入力 ref の version 以外同文)。
-  `t3_gate-v1.4 := t3_gate-v1.3(§8.34 (OV-4) — unresolved を unresolved-v1.2 にした版)の directly_absorbed の
-   入力型を (absorb_via_t3a0-v1.3 | block_dominant ref) に置換したもの(他の terminal constructor — nogo・
-   retract_exact_qr・unresolved-v1.2・t3c_handoff-v1.1・t2cov_handoff・t3b_handoff — 不変)`;
-  `route_closure-v2.2 := route_closure-v2.1(§8.46 (RU-2))の terminal gate を t3_gate-v1.4 としたもの(lane 表・
-   terminal 割当・L21-v2 の tag 一覧・lane_emptiness-v1 ref は不変)`。L1-v2.1 / L10-v2.1 の directly_absorbed は
-   t3_gate-v1.4 に落ち、他 lane の terminal は v1.3 と同一 constructor なので v1.4 でも同じ(§8.34 t2cov_discharge-v1
-   が参照する t2cov_handoff record も不変)[R-T3A0BOX R1-01]。
-  window_identity-v1(§8.29 (RC-3)(0))が参照する rescale_record は不変なので置換しない。consumer の
-  列挙は本 packet 起草時の grep(lower_face_input-v2 / ptn_lower_face-v2 / absorb_via_t3a0-v1.2 / box_fit /
-  face_hypotheses)による — 漏れがあれば R1 で指摘を受けて追加する。
+   lower_face_input-v2.1 とし、face_approach 記録を face_approach_witness-v2.2 の比較記録の型で読むもの
+   (ν_r = 5 記録・trivial_one_component・nogo は不変)`。
+  `approach_ratio_bound-v1 := explicit(η_n ref: η_n(t) := (c̄_{k_min} e^{q(ξ_{k_min}; t)})/(c̄_{mate} e^{q(ξ_{mate}; t)})
+   — 親 θ_n の terminal_ledger-v1 の exact 係数と raw 原子(§8.48 (C0-0) の c̄・ξ、絶対 Fock 変数 t)から作る
+   関数, 検証値: sup_{t ∈ W}|η_n(t)| ≤ η̄_n := r_n e^{2C_box} の verified flag(r_n は (LF-6) の r_n、W は
+   window_contract の同一オブジェクト; |η_n(t)| = |c̄_{k_min}/c̄_{mate}| exp Re(q(ξ_{k_min}; t) − q(ξ_{mate}; t)) の
+   閉区間上の sup は端点と指数の実部の停留点での値の最大 — exact 計算 ref), checked_same_provenance)` —
+   (LF-6) が使う評価そのものの evidence((BX-1) 限定)。**構成子は explicit のみ**。
+  `face_approach_witness-v2.2 := face_approach_witness-v2.1(定義 §8.32 (RS2-1))の比較記録を次の 2 点で
+   置換したもの: (i) order_drop variant が持つ「one_component face の lower_face_input-v2 ref」を
+   lower_face_input-v2.1 に; (ii) alpha_proven variant に approach_ratio_bound-v1 ref を必須 field として追加
+   (欠落 = alpha_proven 不成立 — fail-closed)。beta_routed・nogo と他 field(θ 列・face 列・provenance・
+   c0_seq_ref・ratio_branch・subsequence_transport)は不変`。lower_face_input-v2.1 の face_approach_witness
+   field、vanishing_chart_context-v2(§8.48 (C0-4) の v2.2 版を含む)、(N3)/(N4)、route_context-v2.1、
+   window_identity-v1 の g_identity.compared が持つ alpha_proven ref は v2.2 を読む(参照の付け替えのみ、
+   各節の定義本文は不変 — 前例 §8.46 (RU-4))。
+  `absorb_via_t3a0-v1.3 := absorb_via_t3a0-v1.2(定義 §8.32 [R5-01]、消費 §8.33 (RC2-0)(RC2-2)(RC2-3))の
+   ptn_lower_face-v2 ref を v2.1 に置換したもの(identity_adapter・違反度矛盾の T3a-4 義務は不変)`。
+  **lane 表 v2.1**(§8.33 (RC2-2) の表の読み替え — 下表に無い行は同文、廃番・空 lane 込み; 行名を変えるのは
+  terminal の adapter が変わる L1 / L10 と残差 L21 のみ [R-T3A0BOX R2-01]):
 
-**(BX-3) 帰結(型の事実 — 不等式なし)**: box_fit-v1.1 を構成できない要素(中心化係数が箱外)は
+| 行 | §8.33 (RC2-2) の文面 | lane 表 v2.1 での読み | 行名 |
+|---|---|---|---|
+| L1 | (N1) lower_rank_exact → ptn_lower_face-v2.proven(two_children)かつ checked_pair_identity-v2 → directly_absorbed(absorb_via_t3a0-v1.2、g_identity = exact) | ptn_lower_face-v2.1.proven、absorb_via_t3a0-v1.3(他は同文) | **L1-v2.1** |
+| L2 | (N1) lower_rank_exact → ptn_lower_face-v2.nogo → nogo_to_detected-v1 成功 → nogo | ptn_lower_face-v2.1.nogo(variant は不変) | L2(保持) |
+| L10 | (N3) vanishing → (N4) alpha_proven → directly_absorbed(absorb_via_t3a0-v1.2 — (RC2-3)(b)) | alpha_proven は face_approach_witness-v2.2 のもの(approach_ratio_bound-v1 ref 付き)、absorb_via_t3a0-v1.3 | **L10-v2.1** |
+| L11–L14、L16–L20、L28 | (N3) を通る行(context = vanishing_chart_context-v2) | context が読む face_approach_witness が v2.2(行の文面は同文) | 保持 |
+| L21 | T-v2 ∪ U-v2 のいずれの constructor も構成できない = unresolved(tag 4 種) | T-v2 を T-v2.1(T-v2 の L1-v2 → L1-v2.1、L10-v2 → L10-v2.1、他の行は本表の読み)に置換; U-v2 と tag 一覧(NOGO-CONV-N1・NOGO-CONV-N4・CTX-MISSING・REF-MISSING)は不変 | **L21-v2.1** |
+
+  lane 番号と各行の terminal constructor の種類は不変。(RC2-3) の矛盾導出は入力 ref の version
+  (absorb_via_t3a0-v1.3・ptn_lower_face-v2.1・face_approach_witness-v2.2)以外同文 — (b) の |η_n| ≤ η̄_n は
+  alpha_proven が持つ approach_ratio_bound-v1 が供給し、以降は (LF-6) 本文どおり。(RC2-6) の閉包 statement は
+  行名以外同文 — 網羅は残差 lane の定義によるので、L1 / L10 に入れなくなった要素は L21-v2.1 が受ける((BX-3))。
+  `remez_ready-v1.3 := remez_ready-v1.2(§8.32 [R5-02])の「全 route closure ref」を route_closure-v2.2(下記)に
+   置換したもの(t3c_handoff-v1.1 record ref・T3c 完了 ref・C₂₂ ref・checked_clear evidence と §8.26 (RS-3) の
+   4 field 規約は不変 — T3c 完了 ref が供給されるまで構成不能なのも同じ)`;
+  `t3_gate-v1.4 := t3_gate-v1.3(§8.34 (OV-4) — unresolved を unresolved-v1.2 にした版)の directly_absorbed の
+   入力型を (absorb_via_t3a0-v1.3 | block_dominant ref) に、remez_ready を remez_ready-v1.3 に置換したもの(他の
+   terminal constructor — nogo・retract_exact_qr・unresolved-v1.2・t3c_handoff-v1.1・t2cov_handoff・t3b_handoff —
+   不変)` [R-T3A0BOX R1-01];
+  `route_closure-v2.2 := route_closure-v2.1(§8.46 (RU-2) — §8.33 (RC2-7) の field + lane_emptiness-v1 ref)の
+   次の 4 field を置換したもの [R-T3A0BOX R2-01]: (i) lane 表と terminal 割当 := 上の lane 表 v2.1(L1-v2.1–L28);
+   (ii) 定義 ref := absorb_via_t3a0-v1.3 / t3_gate-v1.4 / window_identity-v1 / checked_pair_identity-v2((RC2-7) の
+   「absorb_via_t3a0-v1.2 / t3_gate-v1.2 / …」の置換); (iii) 矛盾導出 ref := (RC2-3) を上の version で読んだもの;
+   (iv) 条件付き閉包 statement := (RC2-6) を lane 表 v2.1 の行名で読んだもの。他の field — 入力型
+   base_context-v2.1 の検証 ref・残差 lane の tag 一覧・node 排他・網羅 evidence (RC2-1)・nogo_to_detected-v1
+   定義 ref・deep_flat 組立 identity check ref (RC2-5)・lane_emptiness-v1 ref・checked_same_provenance — は不変`。
+  L1-v2.1 / L10-v2.1 の directly_absorbed は t3_gate-v1.4 に落ち、他の行の terminal は v1.3 と同一 constructor
+  なので v1.4 でも同じ(§8.34 t2cov_discharge-v1 が参照する t2cov_handoff record も不変)。型の鎖は
+  box_fit-v1.1 → face_hypotheses-v1.1 → lower_face_input-v2.1 → ptn_lower_face-v2.1 → absorb_via_t3a0-v1.3
+  (および approach_ratio_bound-v1 → face_approach_witness-v2.2)→ lane 表 v2.1 → t3_gate-v1.4 →
+  route_closure-v2.2 → remez_ready-v1.3 とつながる。**付け替えない consumer**(本 packet の対象外 — (BX-4)):
+  §8.46 (RU-9) route_update-v1 が持つ route_closure-v2.1 ref と (RU-1) の t3_gate-v1.2 言及。
+  window_identity-v1(§8.29 (RC-3)(0))が参照する rescale_record は不変なので置換しない。consumer の
+  列挙は grep(lower_face_input-v2 / ptn_lower_face-v2 / face_approach_witness / absorb_via_t3a0 / box_fit /
+  face_hypotheses / t3_gate / route_closure / remez_ready / L1-v2 / L10-v2 / T-v2 / alpha_proven)による。
+
+**(BX-3) 帰結(型の事実 — 不等式なし)**: (a) box_fit-v1.1 を構成できない要素(中心化係数が箱外)は
 lower_face_input-v2.1 を構成できず、ptn_lower_face-v2.1.proven の ref を持てないので、(N1) lower_rank_exact
-から L1-v2.1 の directly_absorbed(t3_gate-v1.4)には入らず **§8.33 L21-v2 unresolved(REF-MISSING — node (N1) の必須
-ref 欠落)** に落ちる(fail-closed)。これは §8.47 追記 2 Q3(ii) の CTX-MISSING(head 前の context 不成立)
-とは別経路(lower-rank exit 側)の同種の残余。中心が有界な列でも box_fit は自動では成立しない
+から L1-v2.1 の directly_absorbed(t3_gate-v1.4)には入らず **残差 lane L21-v2.1 の unresolved(REF-MISSING —
+node (N1) の必須 ref 欠落; §8.33 L1 行の「構成不能なら REF-MISSING」と同じ規約)** に落ちる(fail-closed)。
+(b) (N2) vanishing_c0 の要素で face_approach_witness-v2.2 を構成できないもの — (α) の分類条件が成立するのに
+approach_ratio_bound-v1 を持てない(W 上の sup|η_n| が η̄_n を超える)、または比較記録が order_drop で
+one_component face の lower_face_input-v2.1(その box_fit-v1.1)を持てない — は、witness を field に持つ
+vanishing_chart_context-v2(§8.32)を構成できず、**L21-v2.1 の unresolved(CTX-MISSING — 段階型 context
+不成立)** に落ちる(L10-v2.1 にも (N3) を通る他の行にも入らない)。order_drop 側は保守的な選択である:
+(LF-5) の one_component 契約は箱を使わないが、box_fit は全 face の lower_face_input で必須 field((LF-2))
+なのでそのまま必須とし、not_needed 型の緩和は登録しない((BX-4))。(a)(b) は §8.47 追記 2 Q3(ii) の
+CTX-MISSING(head 前の context 不成立 — 中心 evidence 側)とは原因が別(箱・振幅比の evidence 側)の同種の残余。
+中心が有界な列でも box_fit は自動では成立しない
 (§8.49 (C27-3) — 中心有界 evidence sup|t₀| ≤ T_seq から従うのは半径 R_ℱ + (1 − δ_ℱ)T_seq の拡大箱で
 あり、K_face の定数が T_seq 依存になる; 本 packet はこの拡大箱経路を採らず登録もしない)。**注意**: §8.51
 (C28-2) の bubble 族は全原子 A_j = 0 なので box_fit は任意の窓で自動成立する — 本訂正は constructor の
 健全性の穴を閉じるものであり、遠方窓(中心逃避)の coverage を修復するものではない。
 
-**(BX-4) 非主張**: 不等式・床・有効定数; L1-v2.1 の空性・非空性と countersequence の coverage; (LF-4)
-の再証明(不要); P6 側の再スコープ(P6-CENTRE-RESCOPE); §8.46 の P6 参照(P7-CONSUMER-CORRECTION);
-box_fit を満たさない要素の数学的扱い(§8.49 FAR-WINDOW); 人間による査読。
+**(BX-4) 非主張**: 不等式・床・有効定数; L1-v2.1 / L10-v2.1 の空性・非空性と countersequence の coverage; (LF-4)
+の再証明(不要); (LF-6) の (α) を窓局所の振幅比で述べ直した補題と、(N2)/(N3) の c₀(config)・r_n を窓局所の量に
+置き換える routing の再設計(候補 — 本 packet は evidence の要求で fail-closed にするだけ); (β)・order_drop
+以降の行(L11–L14、L16–L20、L28)が「c₀(config) → 0 ⟹ 窓の上で小さい」に依るかどうかの監査; one_component
+face の box_fit の not_needed 化; P6 側の再スコープ(P6-CENTRE-RESCOPE); §8.46 の P6 参照と、route_update-v1
+(§8.46 (RU-9))が持つ route_closure-v2.1 ref・(RU-1) の t3_gate-v1.2 言及の付け替え(P7-CONSUMER-CORRECTION);
+§8.48 (C0-5) が別 packet とした context v2.2 入力での lane 表の再証明; box_fit を満たさない要素の数学的扱い
+(§8.49・§8.51 FAR-WINDOW); 人間による査読。
 
 **(BX-5) 注記・台帳(append-only)**: §8.25 末尾(3 行、pointer)、§8.33 末尾(2 行、pointer)。§4 T3a0 行の
 注記を本節への pointer に更新(受理状態は維持 — 撤回範囲は本節が正本)、§4 に GC-5-T3A0-BOX 行、§11。
-受理済み本文・受理記録(§8.25 の R-T3A0 記録、§11 v0.29.50/56)は不変。
+受理済み本文・受理記録(§8.25 の R-T3A0 記録、§11 v0.29.50/56)は不変。§8.50 (CN-3) の読み表は (LF-6) の行を
+持たない — その読みは本節 (BX-1) が与える(§8.50 本文は不変)。
 
-**主張の性格**: 受理済み主張の部分撤回 + versioned 型の登録(証明なし; 複数 LLM の fixed-SHA 査読のみ・
+**主張の性格**: 受理済み主張の部分撤回・現行利用の限定(反例 1 件、repo 外の数値確認つき)+ versioned 型の登録(証明なし; 複数 LLM の fixed-SHA 査読のみ・
 人間による査読は未実施)。
 
 ## 9. 早期検証実験台帳
@@ -9493,6 +9574,18 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.183(2026-11-10): **§8.52 に luna R-T3A0BOX R2 を適用**(blocking 1: route_closure-v2.2 が terminal gate
+  だけを v1.4 にし、lane 表と adapter 定義 ref は absorb_via_t3a0-v1.2 のままだった — lane 表 v2.1(L1-v2.1 /
+  L10-v2.1 / L21-v2.1 の読み替え表)と、定義 ref・矛盾導出 ref・閉包 statement の field 置換を route_closure-v2.2 に
+  明記し、remez_ready-v1.3(全 route closure ref を v2.2 に)を登録して t3_gate-v1.4 に組み込み [R2-01])。
+  **担当 Claude の追加(R3 査読対象)**: (LF-6) の |η_n| ≤ r_n e^{2C_box} は config 単位の係数比 r_n(§8.48 (C0-1))を
+  窓局所の振幅比として使っており、絶対座標の規約(§8.50)では遠方窓で不成立(反例: 全原子 A = 0・両 pair held・
+  (α) の分類条件成立で R₄ = 5.93 > 3R₃ = 3.01、repo 外 check_lf6_alpha.py)— (α) の現行利用を
+  approach_ratio_bound-v1(W 上の sup|η_n| ≤ η̄_n の explicit evidence)付き要素に限定し、
+  face_approach_witness-v2.2 の alpha_proven の必須 field に追加 (BX-1)(BX-2); (BX-3) を (a) REF-MISSING /
+  (b) CTX-MISSING に分けて記述; (BX-2) の定義箇所 pointer を訂正(absorb_via_t3a0-v1.2 = §8.32 [R5-01]、
+  face_approach_witness-v2.1 = §8.32 (RS2-1)); §8.25 / §8.33 注記と §4 行を追随。受理済み本文・受理記録は不変。
 
 - v0.29.182(2026-11-07): **§8.52 に luna R-T3A0BOX R1 を適用**(blocking 1: lane L1-v2.1 / L10-v2.1 の
   directly_absorbed が読む absorb_via_t3a0-v1.3 を受ける terminal 型が無かった — t3_gate-v1.4(v1.3 の
