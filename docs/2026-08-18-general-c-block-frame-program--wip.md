@@ -209,7 +209,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | **ROUTE-PROD ATLAS-OUTER-ROUTING(open obligation 候補)** | §8.16 追記(設計記録)、§8.17 (AT-*)、§8.22 (CC-7)、§8.27 (OS-0)(b)、§8.31 carrier_witness-v2 | atlas outer routing([1:0]/[0:1] の成分射影 routing)の **typed producer**、または (OS-0)(b) の一致検証を norm 極限による side 決定へ置換する versioned 改訂。producer が無い現状では **interior・boundary 双方の one_sided lane が unresolved(ROUTING-PENDING)** のまま(§8.32 [R-T3A5 R1-02][R2-02]) | **候補(orange 裁定待ち — 登録は §8.32 R2 で追加、着手は未決)**。**Sol #22 推奨 = (ii)**(one_sided_norm_checked-v1(side, vanishing_norm_ref, surviving_norm_ref) の versioned constructor — (OS-1)–(OS-3) は norm 極限しか使わず、§8.16 の outer chart は零点近傍の空間 chart で別概念なので (i) は二種の outer を人工結合する危険; vacuous 化・deep-flat との二重計上なし、既存 decision order と selector provenance は維持)、見積 3–4R |
 | GC-5-T3b PTN22-SCALE-HOP | T3a | **scale-covariant 床**: s_n→0 で固定 ρ が消える主縮小 regime(consult #19 の最危険点 1 位)— ρ_n ≍ s_n の core/bubble 分解・rescaled inner chart の carrier floor(s_n 非依存)・bounded-overlap で scale-neutral な有限被覆。statement = §8.24 (TS-2) — **登録 accepted `dfc572b`(R-T3S 7R)** | open(statement 登録済み・証明未着手 — A.5a blocking obligation — T3 集約経由)、見積 5–8R(Sol #22 再見積 6–10R — 従来見積はやや楽観)|
 | GC-5-T3c PTN22-REMEZ-CLOSE | T3b、T3a-1(§8.26 violation_sequence-v2 — T3a-5 以降は **violation_sequence-v2.1**(§8.32 [R-T3A5 R1-03])を読む) | **violation_sequence-v2(fixed_chart \| deep_flat \| scale — §8.26 (RS-3))の各 variant で列-矛盾 schema を実行**(deep_flat / scale の adapter 義務込み)・δ 相殺・**interval-scale Remez 一回払い**(ν ≤ 9 は最終不等式でのみ使用)・C₂₂ = max_{finite routes}[C_geom·(2M_C/m̄_C)·C_Rem]・(PS-9) 出力 | open(A.5a blocking obligation — T3 集約経由)、見積 3–5R(Sol #22 再見積 4–7R)。**注記(2026-11-06)**: 窓位置一様の C₂₂ は未証明で、bubble 族の反証候補あり — §8.51 (C28-2)(C28-3); FW-WITNESS-AUDIT 照合済み(2026-11-10、§8.51 追記 2 — 判定は (PS-3) pairing margin の定義に依存し未確定; statement の形の裁定待ち; consult #29 = §8.53 — q_band 判定の訂正と出口候補の設計記録、packet 未起草) |
-| GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open |
+| GC-5 FR4-S1 | GC-1/2 | c=4 全 topology の exact J^{D_W(4)}-SVD frame、compact floor、tail、Gram、**TN-3(§8.9 比較補題)— GC-5-T1 で解消済み(`906bd1a`)** | open(**注記 2026-11-10**: frame 側の依存の監査は §8.53 追記 FRAME-DEP-AUDIT) |
 | GC-6 ROUTE4 | GC-4A/B/5 | 全 unit interval がちょうど一つの resolved root route を持つ closed-world coverage | open |
 | GC-7 ENV4/N4 | GC-6 | root-only assembly、T² budget、c=4 補題 N。**c=4 pathfinder 完結点** | open |
 | GC-8 IND | GC-7 | 一般帰納の離散指標と定数 budget(leaf weight・support・valuation/flag の well-foundedness) | open |
@@ -9861,6 +9861,54 @@ envelope U_H = max(log|A|, log|B|) に対する composite unit-step kernel」の
 ② **単位 step の no-go は、λ の訂正込みで査読 packet にする**(UNITSTEP-NOGO)。③ branch を origin へ push(`f517b3a` まで)。
 (C29-5) の packet 列のうち TREE-RADIAL-DOMAIN・EW4-FRAME-BRIDGE・EW4-CONSUMER と任意 packet は未 GO。
 
+**追記(2026-11-10 — FRAME-DEP-AUDIT: frame 側の依存の read-only 監査、luna gpt-6-luna xhigh、HEAD `f517b3a`; orange 裁定 ①(b))**: 目的は、
+(C29-3) ⑦ の出口を採る場合に frame 層と consumer が kernel 層の何に依存するかを、本文の記載として確定すること(経路の優劣は問わない;
+依頼文は期待する答えを述べていない)。luna は各項を「確認済み(本文に明記)/ 推論 / 本文から判定不能」に分けて回答した。以下はその記録で、
+D2 = FR 文書、D3 = 閉包文書、行番号は HEAD `f517b3a` のもの; 〔照合〕は担当 Claude が当該行を読んで一致を確認した項目(それ以外は luna の記載)。
+- **(FA-1) c = 3 の frame 構成は kernel 機構を消費しない**(各項は確認済み、結論は推論): FR-S1′(plain triple)の head floor は補題 W・
+  compactness・exact factorization、tail は一様級数評価、norm limit・Gram・exact span は SVD と head–tail 直交性; FR-S1″(nested 2+1)は
+  static W′ と finite-m ν-chart(D2 §8.5 acceptance ledger L:299–303〔照合〕)。同節は FR1–FR4 をここで与え、「基点から離れた (E-d) envelope、
+  FR5、FR6、FR7 は出ない」とする(D2 L:292–293〔照合〕)。kernel 機構(K2・QR5・RF・S4 step・W1–W4・C0・M1・COV)を消費するのは S4b(routing)と
+  S4a((E-w))である(D2 §10.1 の packet 表 L:519–524〔照合〕、補題 EW の証明 L:1553–1563〔照合〕)。補題 N の (N1)(N2) は FR-S1′/S1″ と FR4 が、
+  (N3′) は FR6 = 補題 EW が供給し(D3 N-P5、L:1063–1069〔照合〕)、(N4) の定数非依存は補題 EW の定数の記載による(D2 L:1565–1567〔照合〕)。
+  frame 構成の外の例外: D3 N-P3(c = 2 の衝突 pair 枠)は W2 を (N2) の jet 二分法と (N3′) の包絡に使う(D3 L:879〔照合〕)。
+- **(FA-2) 補題 EW の bridge(c = 3、確認済み)**: F := U_m⁻¹v_{ℓ,m} は ‖F‖_ℱ = 1(正規化と unitarity)で、U_m⁻¹ が gauged atom を original atom の
+  非零 scalar 倍へ戻すので、original parameters(∈ K_{δ,R})の ≤ 3 原子の exact 結合である(D2 L:219、L:1541–1544〔照合〕)。補題 EW-B が
+  供給するのは original 座標の衝突 scale s̃_m と閾値 m₀ で(L:1513–1535〔照合〕)、gauged frame 経由の移送を採らない理由は、unitarity が norm を
+  保存しても pointwise growth を保存しないこと(L:1537–1539〔照合〕)。K_{δ,R} を絶対 Fock 変数の箱と読むのは §8.50 (CN-1)(CN-3) の対応による
+  (D2 単独にはその名称が無い — 推論)。
+- **(FA-3) c = 4 の frame(確認済み + 推論)**: c = 4 の frame vector が original 座標で「standing 箱内の ≤ 4 原子の exact 結合で、Fock norm が 1
+  または一様有界」であるとする受理済みの文は HEAD に無い(GC-5 FR4-S1 は open — §4 L:212〔照合〕)。§8.41 (RC-1)(iii) を F に適用して (E-w) 形を
+  得るために、将来の frame packet が明記すべき性質(推論; 括弧内は c = 3 での出所): ① original 座標での ≤ 4 原子の exact 表現(gauge と frame の
+  構成)、② その原子の係数が絶対 Fock 変数の standing 箱に入ること(入力条件が gauge 前の parameters に保たれること)、③ ‖F‖_ℱ = 1、または全 m・ℓ に
+  共通の上界 M(正規化と unitarity; M の場合は定数に M が掛かる)、④ 指数と定数の対応 δ_ℱ ≥ δ/2・C_lin ≥ R_ℱ + 1・C_w ≥ M·K_R·C_J の宣言
+  (c = 3 に類例なし — FR は δ を直接使う)。ker L_π への所属は ①② から従う(§8.40 (AN-4))。
+- **(FA-4) ⑦ を採った後も kernel 層の結果が要るか(1 行 1 対象)**:
+
+| 対象 | 現行本文の依存(確認済み) | ⑦ の後も kernel 層の結果が要るか |
+|---|---|---|
+| GC-5 FR4-S1(frame 構成) | 依存欄は GC-1/2; PBK・二窓比較の記載なし(§4 L:212〔照合〕) | 本文から判定不能 |
+| GC-6 ROUTE4 | GC-4A/B/5(L:213〔照合〕) | 本文から判定不能(直接の (N3′) が route coverage を置き換えるかは未記載) |
+| GC-7 ENV4/N4 | GC-6; root-only assembly・T² budget(L:214〔照合〕) | 本文から判定不能(費用鎖を省けるか、consumer の再定義が要るかは未決) |
+| GC-8 IND・GC-9 CONFL | GC-7・GC-8(L:215–216〔照合〕) | 本文から判定不能 |
+| GC-10 PBK-IND・GC-11・GC-12 | GC-4A/B/8/9 ほか(L:217–219〔照合〕) | 一般 c の PBK 帰納を維持するなら要る(推論); c = 4 の (N3′) を直接出すことはこの行を消さない |
+| D3 §4.3.6 補題 N(c ≤ 3)・NC program・L2a′ / L2b / L3・T / C1(c ≤ 3 の部分) | FR の black box 引用と N-P3 の W2 | c = 4 の PBK chain を使わない(確認済み) |
+| D3 §4.3.7 一般 c の router | 「一般 FR 主軸 + PBK 層」、GC-4 で go/no-go(L:1097–1099〔照合〕) | 現行 route は PBK を消費する; ⑦ へ切り替える場合の改訂は未記載 |
+
+  外部 target: §5 GC-0 は (N3′) を (E-w) 形と定め、(E-d) を枠内部(再帰の子 certificate)の語彙とする(L:231–238〔照合〕)。受理済みの consumer が
+  (E-d)・単位 step の不等式・(PTN-22) を外部 target として要求する記載は見つからない(luna の探索範囲で確認済み)。
+- **(FA-5) 指数(確認済み / 判定不能)**: δ_ℱ と δ は別の記号で、両者の関係(δ_ℱ ≥ δ/2 など)を宣言する受理済み本文は無い(§8.51 追記 EW4-CHECK は
+  条件として記すのみ)。(BRF-5) の終点 1 − δ/4 は基礎指数 1 − δ/2 に kernel 費用を加えた budget の終点で、(E-w) の 1 − δ/2 と同じ指数ではない。
+- **(FA-6) 一般の c(判定不能)**: §8.40・§8.41 は 4 原子・15 階に限って書かれ、一般の原子数に対する消去作用素・放射線評価・定数は本文に無い。
+- **luna の未確認**: 参照先(補題 W / W′、QR5、RF、COV、K2Q)の原証明と受理台帳、計算・テスト、他の文書; 数式の正しさの再検算。依頼文の背景
+  (B1)–(B4) は本文と一致(luna)。回答の原文は repo 外(`E:/tmp/wigner-splat-rf-review-20261110/luna-frameaudit.md`)。
+
+〔担当 Claude の読み(裁定は orange)〕: (a) c = 3 では、kernel 機構を使うのは envelope 層((E-w)・(N3′)(N4))だけで、frame の構成・Gram・tail・
+norm 収束は使っていない。(b) c = 4 で同じ分業が成り立てば、(E-w) に要るのは FR4-S1 と (FA-3) ①–④ の供給になる — ただしこれは c = 3 からの類推で
+あり、FR4-S1 が kernel 層の結果なしに閉じるかは (FA-4) のとおり本文から判定できない。(c) 一般の c には (FA-6) の一般化が別に要る。(d) route 決定
+記録(§1、D3 §4.3.7)は PBK 層を明記しているので、⑦ を本線にする場合は両方の改訂が要る(未決 — orange の裁定事項)。**主張の性格**: 監査の
+記録のみ(本文の依存関係の読み; 何も証明していない)。
+
 ### 8.54 GC-5-P6-RESCOPE P6-CENTRE-RESCOPE(§8.45 の列共通床・head_good 確定を列単位の中心 evidence 付きに限定 — 受理済み主張の versioned 訂正、**accepted、R-P6RESCOPE R1 ACCEPT、fixed SHA `603567b`**)
 
 **目的**: luna 座標裁定 Q3(i)(iii)・Q4(b)(d)(§8.47 追記 2)と Sol consult #27 Q3(§8.49 (C27-3)「P6 訂正の最小範囲」)が求める受理済み
@@ -10138,6 +10186,12 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.194(2026-11-10): §8.53 に追記 FRAME-DEP-AUDIT(luna gpt-6-luna xhigh、read-only、HEAD `f517b3a`; orange 裁定 ①(b))を記録:
+  c = 3 の frame 構成・Gram・tail・norm 収束は kernel 機構を消費せず、消費するのは envelope 層((E-w))だけ(luna: 各項は本文で確認、結論は推論);
+  c = 4 の frame vector が「standing 箱内の ≤ 4 原子の exact 結合・norm 1」であるとする受理済みの文は無く、将来の frame packet が明記すべき性質 4 件;
+  (C29-3) ⑦ の後も kernel 層の結果が要るかは FR4-S1・GC-6–GC-9 について本文から判定不能; 外部 target として (E-d)・単位 step・(PTN-22) を要求する
+  consumer の記載は無い; δ_ℱ と δ の関係は未宣言; 一般の c の消去作用素は本文に無い。§4 FR4-S1 行は参照のみ追記。
 
 - v0.29.193(2026-11-10): §8.53 に orange 裁定(AskUserQuestion)を追記: 経路は「EW4 を先に確かめる」(EW4-RAW の査読 packet と
   frame 側の依存の read-only 監査; §1 の route 決定記録の改訂は結果を見てから — 未決; kernel 側と中心 coverage は凍結継続)、単位 step の
