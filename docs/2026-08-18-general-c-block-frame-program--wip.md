@@ -169,7 +169,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-4A.5a1 PBK22-PTN-SPEC | consult #15、GC-2、GC-3(D-PBK-22)、GC-4C.0、A.2a/A.2b/A.3a/A.3b/A.4/A.5a0 | BORD-22/PTN-22 の **interface 型固定(proof claim なし)** — raw projective pair・stratum record・t3 witness・window contract(zf 条件必須 — §9 BORD22-PROBE F1b が裏付け)・projective common-zero 拡張・exact QR exit・(PTN-22) statement 登録・ptn22_witness-v1 | **accepted(§8.16、R-GC4A5A1 R4 PASS、fixed SHA `5d7400a`)** |
 | GC-4A.5a PBK22-COND9 | **BORD-22/PTN-22(blocking obligation — consult #15)**、A.2a/A.2b/A.2c/A.3a/A.3b/A.4/A.5a0 | projective one-hop conditioning — **定理 draft は R1 で撤回**。再設計: PTN-SPEC(interface — A.5a1、§8.16 accepted `5d7400a`)+ BORD-22(GC-5-T2)+ PTN-22(GC-5-T3)。COND9 は PTN-22 からの reduction packet に降格。**A.5a は PTN-22 受理まで open** | **withdrawn → 再設計中(§8.15 追記)** |
 | GC-4A.5b PBK22-RESTART | A.5a/A.3a | g-small ⇒ 実 root/pole 排除 ⇒ zf_witness 再選択(ZF-2 再実行)⇒ fresh principal branch。cell 境界 handoff | open |
-| GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open(**注記 2026-11-10**: 点ごとの block envelope で重み付けた単位 step の形に no-go 信号 — §8.51 追記 2、§8.53 (C29-1); statement の形の裁定待ち) |
+| GC-4A.5c PBK22-CHAIN | A.5a/A.5b | 閾値二分岐(σ ≥ τρ⁹/D_ch → (c-ii) 型 / σ < → chain)、初回のみ ρ⁻⁹、D_ch = C_init·B^{N_hop+1} ledger、深平坦 kernel 完成(QR5 P3 ledger 移植) | open(**注記 2026-11-10**: 点ごとの block envelope で重み付けた単位 step の形に no-go 信号 — §8.51 追記 2、§8.53 (C29-1); 反例族の補題は §8.56 UNITSTEP-NOGO — drafted; statement の形の裁定待ち) |
 | GC-4A.6 PBK22-ASM | A.5(:= 集約 {A.5a0, A.5a, A.5b, A.5c} — 本行で正式定義。§8.3/§8.4/§8.12 等の accepted 本文中の「A.5」参照はこの集約を指す)| 全場合合成・最終 γ・cost spec・GCRouteSpec 昇格・fail-closed tests | open |
 | GC-4B.0 ADAPT31 | GC-3、c=3 FR、A.2b atlas | triple divisor adapter の feasibility(chart 付き Weierstrass certificate — 接触次数 ≤ 5 だけでは足りず collar 内総零点数/valency が必要。**供給源 2 系統(prepared tree triple / radial 混成 3 原子和)の両方を scope に含む** — GC-4C.0 (3) 表。失敗は 3|1 の重大 no-go 信号)。**go/no-go 最小集合** | **accepted(§8.9、R-GC4B0 R8 PASS、fixed SHA `eee39bf`。受理時は TN-3 条件付き go — TN-3 は GC-5-T1(`906bd1a`)で解消し、条件解除 = feasibility go)** |
 | GC-4B PBK-31 | B.0、GC-4A 系 | `3|1` kernel 本体。c=3 child certificate を消費し、旧 U_F/SVD 係数へ戻らない | open |
@@ -197,6 +197,7 @@ V ≢ 0 を L0 非依存の場合分けで示しており、本補題の (W_c-3)
 | GC-5-T3A0-BOX T3a0-BOX-CORRECTION(consult #27 訂正列 ②、§8.49 (C27-3)(C27-5)) | §8.50 (CN-1)(CN-2)(CN-4)、§8.25 (LF-0)(LF-1)(LF-2)(LF-4)(LF-6)、§8.32 [R5-01][R5-02](RS2-1)、§8.33 (RC2-2)(RC2-3)(RC2-7)、§8.34 (OV-4)、§8.46 (RU-2)、§8.48 (C0-0)(C0-1)、§8.47 追記 2(luna 裁定 Q2/Q4(d)) | 受理済み T3a0 の部分撤回: (LF-2) from_standard_box_premise は box_fit の evidence を構成しない(撤回)、(LF-0)「T₀ 撤廃」は box_fit 付き要素限定、(LF-6) (α) の現行利用は approach_ratio_bound-v1 付き要素限定(根拠と数値例は §8.52 (BX-1)・受理記録); versioned 型 box_fit-v1.1(explicit のみ)/ face_hypotheses-v1.1 / lower_face_input-v2.1 / ptn_lower_face-v2.1 / approach_ratio_bound-v1 / face_approach_witness-v2.2 / absorb_via_t3a0-v1.3 / lane 表 v2.1(L1-v2.1 / L10-v2.1 / L21-v2.1)/ remez_ready-v1.3 / t3_gate-v1.4 / route_closure-v2.2; evidence 不成立要素は L21-v2.1(REF-MISSING / CTX-MISSING)(型の事実; 遠方窓の coverage 修復ではない)。不等式なし | **accepted(§8.52、R-T3A0BOX R3 ACCEPT、fixed SHA `9534c93`、3R、blocking 計 2 件 = 型の接続; 訂正列 ② 完了)** |
 | GC-5-P6-RESCOPE P6-CENTRE-RESCOPE(consult #27 訂正列 ③、§8.49 (C27-3)(C27-5)) | §8.45 (FB-0)–(FB-8)、§8.44 (QI-6)、§8.21 (HA-1)(HA-2)、§8.23 (FL22-1)、§8.39 (IC-4)、§8.50 (CN-1)、§8.47 追記 1・追記 2(luna 裁定 Q3/Q4(b)(d)) | 受理済み P6 の現行利用範囲の限定: 列共通床 β_n ≥ σ₀^𝒢 と head_good の確定は centre_bound_evidence-v1 付きの列(index 集合 N′ 上)に限る; 所属 (FB-1)・条件 (U) 付きの (FB-3)(ii)・c₀ 非依存は維持; versioned 型 centre_bound_evidence-v1(common_disc \| bounded_centres、producer 非主張)/ head_floor_certificate-v1.1 / good_witness-v1.3 / head_outcome-v1.3 / beta_floor_link-v1.1。新しい不等式なし | **accepted(§8.54、R-P6RESCOPE R1 ACCEPT、fixed SHA `603567b`、1R、blocking 0; 訂正列 ③ 完了)** |
 | GC-5-P7-CONSUMER P7-CONSUMER-CORRECTION(consult #27 訂正列 ④、§8.49 (C27-3)(C27-5)) | §8.46 (RU-0)–(RU-9)、§8.54 (PR-1)(PR-2)(PR-3)、§8.52 (BX-2)(BX-4)、§8.21 (HA-1)(HA-4)、§8.33 (RC2-2)(RC2-6) | 受理済み P7 の P6 参照を列単位の中心 evidence 付きの現行契約へ接続: lane L9/L13/L20/L27 の空性と (RU-3)(i) は型付き入力・型付き候補について維持、「(U_seq) は型から自動」は型の前提の意味に限定; versioned 型 lane_emptiness-v1.1 / head_outcome_adapter-v1.3 / route_closure-v2.3 / remez_ready-v1.4 / t3_gate-v1.5 / route_update-v1.1。新しい不等式なし | **accepted(§8.55、R-P7CONS R1 ACCEPT、fixed SHA `79a55ef`、1R、blocking 0; 訂正列 ④ 完了 — 訂正列 ①–④ は全て受理)** |
+| GC-4A-UNITSTEP UNITSTEP-NOGO(§8.53 (C29-1)(C29-5)、orange 裁定 2026-11-10) | §8.2 (BRF-1)–(BRF-5)・§8.2.5、§8.3 (F2²-2)–(F2²-4)、§8.1 (1)(3)、§6.3、§7.1、FR §10.3、§8.4 (EX-4)、§8.6 (N-0)(N-6)、§8.7 (v-a)、§8.15 追記 | 4 原子族 (d, e₀, h) の初等補題: J_k 上 g ≤ max(¾d, 4e₀)、I_k 内の点で g = 2 ⇒ 比 ≥ 2/max(¾d, 4e₀) → ∞(cost は有界)。帰結: §8.2・§8.3 の class 上で (c-i) を「定数 × ρ^{−γ} × 有界 cost」の weighted 単位 step に完成させることはできない(族の cell は signature [4]); q_band 座標の訂正((N-0) の λ: 𝔉_A は不成立・𝔉_B は有界); 完全 typed な (PS-7) は未判定。受理済み主張の撤回なし | **drafted(§8.56、R-UNITSTEP R1 査読待ち)** |
 | GC-5-T3a PTN22-ROUTE(集約) | T3a0 `ca11257`、**T3a-1 / T3a-2 / T3a-3 / T3a-4(下 4 行 — 集約の受理は全子行の受理を要する blocking dependency)** | 境界 routing 完備化。**consult #20(Sol)で 4 分割**(下 4 行)。consult #19 の「one_sided ⇒ c₀→0 吸収補題」は**撤回**(CONF chart の反例: C₂ = c(e^{q_a} − e^{q_b}) は \|c\| ≥ c₀ でも ‖C₂‖_ℱ ≍ \|c\|t → 0 — CC-3/CC-7 の欠陥ではなく #19 下流推論の誤り)。one_sided は独立 routing(block_dominant \| inner_window → T3b)、deep-flat は HEAD9 exact norm 正規化を消費、violation_sequence-v1 の前に floor 非依存の ptn22_countersequence-v1 を置く | open(集約 — A.5a blocking obligation — T3 集約経由)、見積 14–24R(#19 の 2–4R は撤回) |
 | GC-5-T3a-1 PTN22-ROUTE-SPEC | T3a0 `ca11257`、§8.17 atlas_witness-v1(T2a `08c2d0e`)、§8.21 head_outcome-v1(T2b-i `e5de2f6`)、§8.22 carrier_witness-v1(T2b-ii `ccb1b6d`)、§8.23 消費契約(T2c `15b272e`)、§8.24/§8.25 v2 型群 | raw countersequence 型・決定順(排他・網羅は T3a-4 の証明義務)・t3_gate-v1・floor_certificate・既存型への adapter — **登録のみ**(PTN-SPEC 方式) | **accepted(§8.26、R-T3A1 R6 受理 SHA `6557d6b`、6R)**(A.5a blocking obligation は T3 集約の受理まで維持) |
 | GC-5-T3a-2 ONE-SIDED-INNER | T3a-1 `6557d6b`、§8.22 (CC-2)(CC-4)(CC-7)、§8.3 (F2²-2)(F2²-3)、§8.10 (B3-4a) | 固定 c₀ での one_sided 反例の反映・block_dominant 証明(3.2)・inner_window の localization(窓中心 → 生存成分の零点)・T3b handoff | **accepted(§8.27、luna `61a14c1` R-T3A2 R8、8R)**(A.5a blocking obligation — T3 集約経由。見積 4–7R → 実績 8R) |
@@ -10146,6 +10147,123 @@ docs/ 差分は対象文書のみ(127 行追加・1 行置換 = 新節、6 か�
 `E:/tmp/wigner-splat-rf-review-20261110/luna-p7cons-r1.md`)。**§8.49 (C27-5) の訂正列 ①–④ はこれで全て受理**(① §8.50、② §8.52、
 ③ §8.54、④ 本節)。
 
+### 8.56 GC-4A-UNITSTEP UNITSTEP-NOGO(2|2 node の点ごとの node envelope による weighted 単位 step の反例族と、その族の q_band 座標の訂正 — **drafted、R-UNITSTEP R1 査読待ち**)
+
+**目的**: §8.53 (C29-1)(C29-5) が設計記録として持つ「単位 step の発散」と「§8.51 追記 2 (i) の q_band 判定の訂正」を、査読対象の主張として
+登録する(orange 裁定 2026-11-10、AskUserQuestion「査読 packet にする」— §8.53 追記)。新しい数学的主張は補題 (UN-2) の 1 件(初等、証明つき)で、
+(UN-4) はその帰結、(UN-6) は同じ族についての計算の記録である。**本 packet は受理済みの主張を何も撤回しない**(§8.2・§8.3 が閉じていない
+枝 (c-i) の完成形についての no-go であり、(F2²-3) の (a)(b)(c-ii) とは矛盾しない — (UN-7))。経路の選択は本 packet の対象外(§8.53)。
+
+**(UN-0) 記号**: §8.3 (F2²-2) の H := B₁/B₂(ℂP¹ 値)、G(w) := |1 + w|/max(1, |w|)、g := G(H) = e^{−U_H}|F|(F = B₁ + B₂、
+U_H = max(log|B₁|, log|B₂|))、(F2²-3) の σ := sup_{J_k}|1 + H|。区間は FR 文書 §10.3 S4b-β の I_k = [a_k, a_k + 1]、
+J_k = I_k ∩ I_{k+1} = [a_k, a_k + ρ]、ρ := ε_chain ∈ (0, ½](I_k の左端側、長さ ρ)。e は自然対数の底; 族の零点間隔のパラメータは e₀ と書く
+(§8.51・§8.53 が e と書いた量)。
+
+**(UN-1) 族**: パラメータ d, e₀, h > 0、h < d、e₀ ≤ ¼。実 ray(θ = 0、z = t)上の単位 cell I_k = [a_k, a_k + 1] を一つ取り、
+t_b := a_k + ¾、y := t − t_b(I_k は y ∈ [−¾, ¼]、J_k は y ∈ [−¾, −¾ + ρ] ⊂ [−¾, −¼])と置く。
+  **B₁(t) := 1 − e^{hy}、 B₂(t) := −e^{dy}(1 − e^{h(y − e₀)})、 F := B₁ + B₂ = Σ_{j≤4} c_j e^{B_j t}**、
+  (A_j, B_j) = (0, 0), (0, h), (0, d), (0, d + h)、 c = (1, −e^{−h t_b}, −e^{−d t_b}, e^{−(d+h) t_b − h e₀})
+(原子 1, 2 が B₁、原子 3, 4 が B₂)。列としては (d_m, e₀,m, h_m) → 0 かつ h_m/d_m → 0 を取る。具体例: T = 3、k = 1、I_1 = [2, 3]、t_b = 11/4。
+記録済みの 2 つの instance: **𝔉_A**: (d, e₀, h) = (d, d³, d³)(§8.51 追記 2 の「修理版」)、**𝔉_B**: (d, e₀, h) = (ε², ε, ε⁴)(§8.51 (C28-2) の
+parametrization)。
+
+**(UN-2) 補題(初等)**: (UN-1) の任意のパラメータについて次が成り立つ。
+(i) y < 0 で **g(y) ≤ max(d|y|, e₀/|y|)**。
+(ii) ある y* ∈ (0, e₀) で **g(y*) = 2**。
+(iii) ρ ∈ (0, ½] に対し **‖g‖_{∞,J_k} ≤ max(¾d, 4e₀)**、‖g‖_{∞,I_k} = 2、したがって **‖g‖_{∞,I_k}/‖g‖_{∞,J_k} ≥ 2/max(¾d, 4e₀)**。
+(iv) J_k 上で max(|H|, 1/|H|) ≤ max(1 + 4e₀, e^{3d/4})(d < 4/3 なら e 未満)、かつ **σ ≤ e^{3d/4}·max(¾d, 4e₀)**。
+*証明*. (i) u := −y > 0 と置く。B₁ = 1 − e^{−hu} ∈ (0, 1)、B₂ = −e^{−du}(1 − e^{−h(u+e₀)}) < 0。Q := −B₂/B₁ とすると
+  Q = e^{−du}·(1 − e^{−h(u+e₀)})/(1 − e^{−hu}) = e^{−du}(1 + ϑ)、 ϑ := (1 − e^{−h e₀})/(e^{hu} − 1)、
+1 − e^{−h e₀} ≤ h e₀ と e^{hu} − 1 ≥ hu より 0 < ϑ ≤ e₀/u。H = −1/Q なので g = |1 − 1/Q|/max(1, 1/Q) = |Q − 1|/max(Q, 1)。
+Q ≤ 1 のとき g = 1 − Q ≤ 1 − e^{−du} ≤ du(ϑ > 0 より Q ≥ e^{−du})。Q > 1 のとき g = 1 − 1/Q = 1 − e^{du}/(1 + ϑ) ≤ ϑ/(1 + ϑ) < ϑ ≤ e₀/u
+(e^{du} ≥ 1)。(ii) 0 < y < e₀ では B₁ = 1 − e^{hy} < 0、B₂ = −e^{dy}(1 − e^{−h(e₀−y)}) < 0(同符号)。φ(y) := |B₁(y)| − |B₂(y)| は連続で
+φ(0) = −(1 − e^{−h e₀}) < 0、φ(e₀) = e^{h e₀} − 1 > 0 なので、φ(y*) = 0 となる y* ∈ (0, e₀) がある。そこで |B₁| = |B₂| > 0 かつ同符号だから
+H(y*) = 1、g(y*) = G(1) = 2。(iii) J_k 上 u = |y| ∈ [¼, ¾] なので (i) より g ≤ max(¾d, 4e₀)。t* := t_b + y* ∈ (t_b, t_b + e₀) ⊂ I_k(e₀ ≤ ¼)で
+g = 2、天井 G ≤ 2((F2²-2))より ‖g‖_{∞,I_k} = 2。(iv) J_k 上 e^{−3d/4} ≤ e^{−du} ≤ Q ≤ 1 + ϑ ≤ 1 + 4e₀ なので max(|H|, 1/|H|) = max(Q, 1/Q) ≤
+max(1 + 4e₀, e^{3d/4})、e₀ ≤ ¼ より 1 + 4e₀ ≤ 2 < e。|1 + H| = |Q − 1|/Q = g·max(1, 1/Q) ≤ max(¾d, 4e₀)·e^{3d/4}。∎
+(sharp な値: 𝔉_A で ‖g‖_{∞,J_k} ∼ ¾d・比 ∼ 8/(3d)、𝔉_B で ρ = ½ のとき ‖g‖_{∞,J_k} ∼ 4ε・比 ∼ 1/(2ε) — (UN-8)。)
+
+**(UN-3) §8.2・§8.3 の設定との照合(1 行 1 前提 — 列 (d_m, e₀,m, h_m) → 0、h_m/d_m → 0 に沿って)**:
+| 前提(出所) | 族での値 | 充足 |
+|---|---|---|
+| 入力規約(§6 冒頭): 共通 gauge 後、constant-gauge quotient 済み、有限 m で原子は相異 | (A_j, B_j) は 0 < h < d で相異、係数 c_j ≠ 0 | 成立 |
+| 衝突列、全体 scale s_m → 0(§6.3、§8.2 入力仮定) | s_m = d + h(d_w の最大) | 成立 |
+| SPLIT4 の木が T3(§6.1、§6.3 (i)(ii)) | 正規化距離 r₁₂ = r₃₄ = h/(d + h) → 0、pair 間は (d − h)/(d + h)、d/(d + h)、1 → 1 ⇒ 類 {1, 2}・{3, 4}、各類は pair node | 成立(相異 children 間の正規化距離の極限は 1) |
+| child_collision_witness(§8.2 設定、§8.2.5) | s_i = h、\|ΔB_i\| = h ≤ s_i、ΔA_i = 0 | 成立 |
+| standing 束縛(§8.50 (CN-1)) | A_j = 0、\|B_j\| ≤ d + h | 成立(d + h ≤ R_ℱ) |
+| (BRF-1)(BRF-2) held 化 | η_i′ ≡ h ⇒ Λ_{1,k} = Λ_{2,k} = h; h ≤ 1/16 で h_k = 1(細分なし); RECENTER 後 sup\|η̃_i\| = h/2 < ⅛ | 成立 |
+| (BRF-3) signature 分割(§8.1 (1)(5)) | 全原子で x_j = Im q_j′ ≡ 0 ⇒ ordering・閾値の event なし、signature は I_k 上一定で [4] | cell = I_k 全体((UN-5)) |
+| (BRF-5) の閾値 m_BRF | max_i s_i² = h² → 0 | eventual に成立 |
+| §8.3 設定: zero-pruning(B_i ≢ 0) | B₁, B₂ ≢ 0 | 成立 |
+| D-PBK-22 の required keys(§7.1): active_children_nonzero / certificate_ref(C_i)(pair)/ nonconstant(q_{C₁} − q_{C₂})/ collision-scale witness / η_dw witness / 補題 G window witness | 非零 / pair variant(§7.2)/ 代表指数の差 −dt は非定数 / (\|ΔA\| = 0 ≤ s_m²、\|ΔB\| ≤ s_m)/ 上の T3 の行 / 補題 G は任意の点配置に閾値を与える(§6.3 (iii)) | 成立(certificate の定数値は使わない; 各 certificate の前提の個別照合は (UN-7)) |
+| (F2²-3) (c-i) 深平坦: (a) 否 かつ σ < c₁ρ⁹ | (UN-2)(iv) | e^{3d/4}max(¾d, 4e₀) < c₁ρ⁹ となる m 以降で成立 |
+| (F2²-4) divisor | I_k 上の実零点は B₁ が y = 0、B₂ が y = e₀(相異)⇒ 共通因子なし、D = 1 | 成立 |
+
+**(UN-4) 帰結(no-go)**: 族に沿って、bi-graded template の費用(§8.2.5: log C_step,k ≤ C_BRF(1 + Λ_{1,k} + Λ_{2,k}))は Λ_{i,k} = h_m → 0 で
+有界、ρ は m に依らない定数である。一方 (UN-2)(iii) の比は 2/max(¾d_m, 4e₀,m) → ∞。したがって:
+(α) **§8.2・§8.3 の設定(T3 の衝突列 + 両 pair が held の cell)で定まる class の上では、(c-i) 深平坦枝を
+  ‖g‖_{∞,I_k} ≤ C·ρ^{−γ}·exp(Ψ(Λ_{1,k}, Λ_{2,k}))·‖g‖_{∞,J_k}(C・γ は m に依らない有限定数、Ψ は原点近傍で有界な関数)
+  の形に完成させることはできない**(FR §10.3 (S4-step-w) の形 + §8.2.5 の bi-graded cost はこの形の特別な場合; ρ が固定なので指数 γ を 9 より
+  大きくしても変わらない)。
+(β) **route record の水準**: 族の各 cell は、GCRouteRecord(§8.6 (N-1) 以降の -v2 / -v3 / -v4 の witness 群)を生成できないか(その cell は
+  PBK-22-w では unresolved)、生成できて (α) の不等式が偽であるかのどちらかである。どちらの場合も、「mode = weighted、
+  U_H = max(log|B₁|, log|B₂|)、有限の γ、族に沿って有界な cost」という形の PBK-22-w の GCRouteSpec 行は、族の cell を被覆しない。
+これは §8.15 追記の no-go 判定基準「exponent 9 でも定数が 0 へ落ちる列」の実例である(§1 の規則との関係と経路の裁定は §8.53 追記 — 本 packet は
+決定しない)。
+
+**(UN-5) radial signature と dispatch(読みを決めない)**: 族の cell の signature は [4](全原子の周波数勾配が一致 — pair 間に cut が無い)。
+§8.1 (3) の dispatch 表を表のとおりに読めば、[4] の行き先は GC-4C 本体(held endpoint、内部構造 {2, 2} は witness)であり、族は GC-4A の
+入力ではない; §8.2・§8.3 の設定(T3 node + held cell)だけで読めば GC-4A の入力である(§8.51 追記 2 の R-sig / R-held、§8.53 (C29-2))。
+(UN-4) はどちらの読みでも同じ内容を持つ: **族の cell では、route の名前に依らず、2 つの child (B₁, B₂) の点ごとの node envelope で重み付けた
+単位 step は成立しない**。pair 間に cut(§8.1 の M₀)を持つ cell については、族は例を与えず、本 packet は何も述べない。
+
+**(UN-6) 族の q_band 座標(計算の記録 — §8.51 追記 2 (i) の訂正)**: §8.6 (N-0) の λ は Φ_p = B₁ + e^p B₂ の shifted 四位相
+(§8.4 (EX-4))について取る((N-0)(0b) の「r = 0 ⇒ Φ_p ≡ 0」、(0c) の「Φ_p の非零共通因子 quotient」)。族では、中心 y₀ < 0 に対し
+u = Log(−H) = log(1 − e^{hy}) − dy − log(1 − e^{h(y−e₀)})、p = T₂u、shifted 位相の (A, B) は (0, 0)、(0, h)、(2p₂, d + p₁)、(2p₂, d + h + p₁)。
+主要項は **p₁ ≈ −d − e₀/y₀²、p₂ ≈ e₀/y₀³(< 0)、λ ≈ (2e₀/|y₀|³)^{1/2}、α₁ ≈ −(d + e₀/y₀²)(|y₀|³/(2e₀))^{1/2}、α₂ ≈ −½、α₀ → 0**
+(u′(y) = −ψ(y) − d + ψ(y − e₀)、ψ(z) := h/(e^{−hz} − 1) ≈ 1/|z|(z < 0、h|z| → 0)による主要項の計算; 誤差評価は与えない — 数値は (UN-8))。
+したがって:
+- **𝔉_A**(e₀ = d³): α₁ ≈ −|y₀|^{3/2}/(2d)^{1/2} → −∞。どの固定 R_Q に対しても十分小さい d で q_band_witness-v3 の flag |α_k| ≤ R_Q/2
+  (§8.7 (v-a))が成立せず、GCRouteRecord-v3 は生成禁止(§8.6 (N-6)(6a))。A.2c の主張域(v3 record が生成し得る配置)と (PS-4) の
+  window_geometry の外にある。
+- **𝔉_B**(d = ε²、e₀ = ε): α₁ ≈ −(ε/|y₀|)^{1/2}/√2·(1 + ε y₀²) → 0、α₂ → −½、α₀ → 0 で有界。flag は R_Q ≥ 1 なら十分小さい ε で成立する
+  (R_Q は global 宣言定数で、値は本文で未指定)。
+- §8.51 追記 2 (i) の「元族は α₁ ∝ ε⁻¹、α₂ ∝ ε⁻³ で不成立」「修理版は |α_k| ≤ 1.04」は、λ に元の原子間距離 d + h を使った値であり、(N-0) の λ では
+  逆になる(修理版 𝔉_A が不成立、元族 𝔉_B は有界)。中心 y₀ ∈ [−¾, −¼] の範囲で結論は変わらない(|y₀|^{3/2}・|y₀|^{−1/2} は有界な因子)。
+- **未判定**: 𝔉_B の他の typed field(JF₉ flag、d10 / we9、zf_witness、(PS-4) の窓契約と W_zf 被覆 witness、deep_vanishing_witness ほか)。
+  したがって、𝔉_B が (PS-7)・(PS-9) detected の完全 typed な実例かどうか、完全 typed な (PS-7) が真かどうかは、本 packet では決まらない。
+
+**(UN-7) 否定しないもの・非主張**: (BRF-1)–(BRF-5)(held 化と ledger — 族でも成立)、(F2²-1)–(F2²-5)((a)(b)(c-ii) の閉じた評価 — 族は m が
+大きいとき (c-i) に入るので、これらとは矛盾しない)、A.2–A.4 の局所定理(JF₉・D10・WE₉ — 主張域は typed record)、§8.17–§8.55 の受理済み主張、
+(E-w)、閉包定理。pair 間に cut を持つ cell の単位 step; node envelope を取り替えた形(§8.53 (C29-3) ①–⑥)と PBK 層を経ない出口(同 ⑦)の
+成否; (UN-5) の読みの選択と (PS-3)「pairing margin」の定義; (UN-3) の certificate_ref の各 source の前提の個別照合; (UN-6) の主要項の
+誤差評価; 経路の裁定; 人間による査読。
+
+**(UN-8) 検算(repo 外、診断 — 補題の証明の代替ではない)**: `E:/tmp/wigner-splat-unitstep-20261110/unitstep_nogo_check.py` / `.out`
+(mpmath 70 桁; 出力の真偽値はその行の数値から計算; script は e₀ を e と書く)。(i) は y ∈ [−¾, 0) の 4001 点で g − max(d|y|, e₀/|y|) ≤ 0、(ii) は二分法の y* で
+|g(y*) − 2| < 10⁻⁶⁰(y*/e₀ ≈ 0.5)、(iii)(iv) は J_k の 2001 点で成立(小さくないパラメータ (d, e₀, h) = (0.3, 0.2, 0.1)、(1, ¼, ½)、
+(0.05, ¼, 0.01) を含む)。
+| instance | パラメータ | ‖g‖_{∞,J_k}(ρ = ½) | 比 2/‖g‖_{∞,J_k} | 下界 2/max(¾d, 4e₀) | α₁(y₀ = −½) | α₁(y₀ = −25/52) | α₂ |
+|---|---|---:|---:|---:|---:|---:|---:|
+| 𝔉_A | d = 1e-2 | 0.00747062181 | 267.715332 | 266.667 | −2.501 | −2.358189 | −0.5 |
+| 𝔉_A | d = 1e-4 | 7.49971862e-5 | 26667.6672 | 26666.7 | −25.0 | −23.57165 | −0.5 |
+| 𝔉_A | d = 1e-6 | 7.49999719e-7 | 2666667.67 | 2666667 | −250.0 | −235.7165 | −0.5 |
+| 𝔉_B | ε = 1e-2 | 0.0384374997 | 52.0325208 | 50 | −0.09976 | −0.1016936 | −0.5 |
+| 𝔉_B | ε = 1e-3 | 0.00398381474 | 502.031377 | 500 | −0.03161 | −0.03223974 | −0.5 |
+| 𝔉_B | ε = 1e-5 | 3.99983751e-5 | 50002.0313 | 50000 | −0.003162 | −0.003224894 | −0.5 |
+(𝔉_A は ρ = ⅛ でも同じ値; 𝔉_B の ρ = ⅛ は比 127.5 / 1252.5 / 125002.5。λ に d + h を使うと、y₀ = −25/52 で 𝔉_A は (α₁, α₂) = (−1.0003, −0.090) /
+(−1.0, −9.0e-4) / (−1.0, −9.0e-6)、𝔉_B は (−424.8, −8.7e6) / (−4318, −9.0e9) / (−4.3e5, −9.0e15) — §8.51 追記 2 (i) が記録した傾向。主要項の式との
+相対差は 𝔉_A で 2e-6 以下、𝔉_B で 6e-3 以下(ε とともに減少)。)
+
+**(UN-9) 出力契約**:
+  `unitstep_nogo-v1 := (族 (UN-1)(パラメータ (d, e₀, h)、instance 𝔉_A・𝔉_B), 補題 (UN-2)(i)–(iv), 設定との照合表 (UN-3),
+   帰結 (UN-4)(α)(β): §8.2・§8.3 の class 上で (c-i) を「定数 × ρ^{−γ} × 族に沿って有界な cost」の weighted 単位 step に完成させることは
+   できない, signature [4] と dispatch の注意 (UN-5), q_band 座標の記録 (UN-6): 𝔉_A は q_band-v3 を eventual に破る・𝔉_B は有界・
+   完全 typed な (PS-7) は未判定, 非主張 (UN-7))`
+consumer: §8.53 の経路の裁定、TREE-RADIAL-DOMAIN(未起草 — (PS-3) の定義域の interface)。§4 の A.5c 行に状態と参照を追記、§4 に本 packet の
+行、§11。受理済み本文・受理記録は不変。**主張の性格**: 初等的な補題 1 件とその帰結(証明ドラフト)+ 計算の記録(複数 LLM の fixed-SHA
+査読のみ・人間による査読は未実施)。
+
 ## 9. 早期検証実験台帳
 
 | 実験 | 潰す仮説 | 判定量 | state |
@@ -10186,6 +10304,12 @@ PR #179 の brief(`docs/2026-08-19-public-homodyne-data-brief--recorded.md` —
 | R4 | 一般 W 不成立(valuation 爆発) | 低 | GC-1 の上界証明は次数勘定で閉じる見込み(§3)。数値は 3c−4 to 支持 |
 
 ## 11. 版履歴
+
+- v0.29.195(2026-11-10): **§8.56 GC-4A-UNITSTEP UNITSTEP-NOGO を起草**(§8.53 (C29-1)(C29-5)、orange 裁定 2026-11-10): 4 原子族
+  B₁ = 1 − e^{hy}、B₂ = −e^{dy}(1 − e^{h(y − e₀)}) の初等補題(y < 0 で g ≤ max(d|y|, e₀/|y|)、(0, e₀) 内の点で g = 2)と、§8.2・§8.3 の設定との
+  照合表(1 行 1 前提)、帰結(§8.2・§8.3 の class 上で (c-i) を「定数 × ρ^{−γ} × 族に沿って有界な cost」の weighted 単位 step に完成させる
+  ことはできない; 族の cell の signature は [4] で、dispatch の読みは決めない)、q_band 座標の計算の記録((N-0) の λ では 𝔉_A が不成立・𝔉_B は
+  有界 — §8.51 追記 2 (i) の訂正; 完全 typed な (PS-7) は未判定)。受理済み主張の撤回なし。§4 A.5c 行に参照、§4 に行を追加。R-UNITSTEP R1 へ。
 
 - v0.29.194(2026-11-10): §8.53 に追記 FRAME-DEP-AUDIT(luna gpt-6-luna xhigh、read-only、HEAD `f517b3a`; orange 裁定 ①(b))を記録:
   c = 3 の frame 構成・Gram・tail・norm 収束は kernel 機構を消費せず、消費するのは envelope 層((E-w))だけ(luna: 各項は本文で確認、結論は推論);
